@@ -1,5 +1,5 @@
 ﻿diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
-index 80c3634..924760d 100644
+index 80c3634..4f36c9d 100644
 --- a/src/kernel/xam/xam_input.cpp
 +++ b/src/kernel/xam/xam_input.cpp
 @@ -21,6 +21,19 @@
@@ -22,7 +22,7 @@ index 80c3634..924760d 100644
  namespace rex {
  namespace kernel {
  namespace xam {
-@@ -92,6 +105,120 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+@@ -92,6 +105,151 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
  }
  
  // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputgetstate(v=vs.85).aspx
@@ -31,6 +31,7 @@ index 80c3634..924760d 100644
 +struct ScriptStep {
 +  uint32_t at_ms;
 +  uint16_t buttons;
++  uint16_t virtual_key;
 +  int16_t lx;
 +  int16_t ly;
 +  uint32_t user;
@@ -45,27 +46,27 @@ index 80c3634..924760d 100644
 +
 +constexpr int16_t kStick = 30000;
 +
-+bool AxisFromName(const std::string& n, int16_t& lx, int16_t& ly) {
-+  if (n == "LSUP") { ly = kStick; return true; }
-+  if (n == "LSDOWN") { ly = -kStick; return true; }
-+  if (n == "LSLEFT") { lx = -kStick; return true; }
-+  if (n == "LSRIGHT") { lx = kStick; return true; }
++bool AxisFromName(const std::string& n, uint16_t& virtual_key, int16_t& lx, int16_t& ly) {
++  if (n == "LSUP") { virtual_key = 0x5820; ly = kStick; return true; }
++  if (n == "LSDOWN") { virtual_key = 0x5821; ly = -kStick; return true; }
++  if (n == "LSLEFT") { virtual_key = 0x5823; lx = -kStick; return true; }
++  if (n == "LSRIGHT") { virtual_key = 0x5822; lx = kStick; return true; }
 +  return false;
 +}
 +
-+uint16_t ButtonFromName(const std::string& n) {
-+  if (n == "A") return 0x1000;
-+  if (n == "B") return 0x2000;
-+  if (n == "X") return 0x4000;
-+  if (n == "Y") return 0x8000;
-+  if (n == "START") return 0x0010;
-+  if (n == "BACK") return 0x0020;
-+  if (n == "UP") return 0x0001;
-+  if (n == "DOWN") return 0x0002;
-+  if (n == "LEFT") return 0x0004;
-+  if (n == "RIGHT") return 0x0008;
-+  if (n == "LB") return 0x0100;
-+  if (n == "RB") return 0x0200;
++uint16_t ButtonFromName(const std::string& n, uint16_t& virtual_key) {
++  if (n == "A") { virtual_key = 0x5800; return 0x1000; }
++  if (n == "B") { virtual_key = 0x5801; return 0x2000; }
++  if (n == "X") { virtual_key = 0x5802; return 0x4000; }
++  if (n == "Y") { virtual_key = 0x5803; return 0x8000; }
++  if (n == "START") { virtual_key = 0x5814; return 0x0010; }
++  if (n == "BACK") { virtual_key = 0x5815; return 0x0020; }
++  if (n == "UP") { virtual_key = 0x5810; return 0x0001; }
++  if (n == "DOWN") { virtual_key = 0x5811; return 0x0002; }
++  if (n == "LEFT") { virtual_key = 0x5812; return 0x0004; }
++  if (n == "RIGHT") { virtual_key = 0x5813; return 0x0008; }
++  if (n == "LB") { virtual_key = 0x5805; return 0x0100; }
++  if (n == "RB") { virtual_key = 0x5804; return 0x0200; }
 +  return 0;
 +}
 +
@@ -90,9 +91,10 @@ index 80c3634..924760d 100644
 +            name = name.substr(0, at_sign);
 +          }
 +          int16_t lx = 0, ly = 0;
-+          uint16_t b = ButtonFromName(name);
-+          if (b || AxisFromName(name, lx, ly)) {
-+            out.push_back({at, b, lx, ly, user});
++          uint16_t virtual_key = 0;
++          uint16_t b = ButtonFromName(name, virtual_key);
++          if (b || AxisFromName(name, virtual_key, lx, ly)) {
++            out.push_back({at, b, virtual_key, lx, ly, user});
 +          }
 +        } catch (...) {
 +        }
@@ -138,12 +140,41 @@ index 80c3634..924760d 100644
 +  return st;
 +}
 +
++bool ScriptedKeystrokeFor(uint32_t user, ppc_ptr_t<X_INPUT_KEYSTROKE> keystroke) {
++  const auto& steps = ParsedScript();
++  if (steps.empty()) return false;
++  static const auto t0 = std::chrono::steady_clock::now();
++  const uint32_t ms = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                                std::chrono::steady_clock::now() - t0)
++                                                .count());
++  static std::vector<bool> emitted;
++  if (emitted.size() != steps.size()) {
++    emitted.assign(steps.size(), false);
++  }
++  for (size_t i = 0; i < steps.size(); ++i) {
++    const auto& s2 = steps[i];
++    if (emitted[i] || s2.user != user || !s2.virtual_key || ms < s2.at_ms) {
++      continue;
++    }
++    emitted[i] = true;
++    keystroke->virtual_key = s2.virtual_key;
++    keystroke->unicode = 0;
++    keystroke->flags = rex::input::X_INPUT_KEYSTROKE_KEYDOWN;
++    keystroke->user_index = static_cast<uint8_t>(user);
++    keystroke->hid_code = 0;
++    REXKRNL_INFO("[input-script] keystroke t={}ms user={} vk={:#06x}", ms, user,
++                 s2.virtual_key);
++    return true;
++  }
++  return false;
++}
++
 +}  // namespace
 +
  u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> input_state) {
    // Games call this with a NULL state ptr, probably as a query.
    static int call_count = 0;
-@@ -112,7 +239,18 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
+@@ -112,7 +270,21 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
    }
  
    auto* is = input_system();
@@ -152,6 +183,9 @@ index 80c3634..924760d 100644
 +  if (input_state) {
 +    const ScriptedState sc = ScriptedFor(actual_user_index);
 +    if (sc.active) {
++      static uint32_t script_packet[4] = {1, 1, 1, 1};
++      const uint32_t slot = actual_user_index < 4 ? actual_user_index : 0;
++      input_state->packet_number = ++script_packet[slot];
 +      input_state->gamepad.buttons =
 +          static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
 +      if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
@@ -163,3 +197,26 @@ index 80c3634..924760d 100644
  }
  
  // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputsetstate(v=vs.85).aspx
+@@ -153,6 +325,10 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
+     actual_user_index = 0;
+   }
+ 
++  if (ScriptedKeystrokeFor(actual_user_index, keystroke)) {
++    return X_ERROR_SUCCESS;
++  }
++
+   auto* is = input_system();
+   return is->GetKeystroke(actual_user_index, flags, keystroke);
+ }
+@@ -175,6 +351,11 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
+     user_index = 0;
+   }
+ 
++  if (ScriptedKeystrokeFor(user_index, keystroke)) {
++    *user_index_ptr = user_index;
++    return X_ERROR_SUCCESS;
++  }
++
+   auto* is = input_system();
+   auto result = is->GetKeystroke(user_index, flags, keystroke);
+   if (XSUCCEEDED(result)) {

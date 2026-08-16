@@ -5,28 +5,36 @@ using the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 ## Status
 
-2026-08-15 update: the Release build now reaches the Halo 3 Mythic menus and
-can enter first-person gameplay on Zanzibar in a window. Use the offline
-multiplayer surfaces for testing; Xbox LIVE is intentionally out of scope, while
-split screen, system link, Custom Games, Forge, and Theater are in scope.
+2026-08-16 update: the Release build now reaches the Halo 3 Mythic menus with
+the 3D menu background visible and can enter first-person gameplay on Zanzibar
+in a window. Use the offline multiplayer surfaces for testing; Xbox LIVE is
+intentionally out of scope, while split screen, system link, Custom Games,
+Forge, and Theater are in scope.
 
 Known current issues:
 
-- Main-menu 3D background rendering is still broken/washed out.
+- The D3D12 host render-target path still washes out the main-menu 3D
+  background. Halo 3 MP now defaults to the D3D12 ROV path; use
+  `--render_target_path_d3d12=rtv` only to reproduce the broken path.
 - GPU logs still report memexport shader translation failures:
   `ShaderTranslator::GatherAluInstructionInformation: Couldn't extract memexport stream constant index`.
+  These no longer block the menu background or the Zanzibar gameplay path.
 - The prior Zanzibar-load fatal at guest `0x8263D938` is fixed by declaring that
   virtual-call thunk in `halo3mp_manifest.toml`.
 
-Known-good windowed gameplay smoke test:
+Windowed automated input helper:
 
 ```bash
 .\run_windowed.ps1 -SmokeTest
 ```
 
-The delayed script assumes the main menu selection starts on Theater, moves up
-twice to Custom Games, enters the lobby path, and starts the default Zanzibar
-session.
+The delayed script injects controller input through the local Rexglue input
+patch. It is useful for repeatable probes, but it is not currently a reliable
+Custom Games proof because the main-menu highlight is landing on Theater and
+scripted navigation does not move the top-level menu yet. Theater is not a
+current validation target because it requires recorded films. For gameplay
+validation, manually choose Custom Games until the top-level menu navigation
+state is understood and scripted again.
 
 For a normal interactive windowed run:
 
@@ -63,9 +71,11 @@ cmake --preset win-amd64-release && cmake --build --preset win-amd64-release
 halo3mp.exe --game_data_root=<extracted-disc> --gpu_plugin=xenos
 ```
 
-`--gpu_plugin=xenos` is required. `game_data_root` must be a **directory** of
-extracted disc files (`HostPathDevice` mounted as `game:` / `d:`). Rerun
-`tools/genstubs.py` after any `rexglue codegen`.
+`--gpu_plugin=xenos` is required. The Halo 3 MP app defaults D3D12 to
+`render_target_path_d3d12=rov` because the host render-target path washes out
+the main-menu 3D scene. `game_data_root` must be a **directory** of extracted
+disc files (`HostPathDevice` mounted as `game:` / `d:`). Rerun `tools/genstubs.py`
+after any `rexglue codegen`.
 
 ## Fixes carried here
 

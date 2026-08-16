@@ -22,6 +22,7 @@ $args = @(
     "--no-fullscreen",
     "--window_width", "1280",
     "--window_height", "720",
+    "--render_target_path_d3d12=rov",
     "--gpu_allow_invalid_fetch_constants=true"
 )
 
