@@ -1,28 +1,76 @@
-﻿diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
-index 80c3634..4f36c9d 100644
+diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
+index 80c3634..7ee8e2a 100644
 --- a/src/kernel/xam/xam_input.cpp
 +++ b/src/kernel/xam/xam_input.cpp
-@@ -21,6 +21,19 @@
+@@ -21,6 +21,34 @@
  
  #pragma GCC diagnostic ignored "-Wunused-parameter"
  
 +#include <chrono>
++#include <cstring>
 +#include <string>
 +#include <vector>
 +
 +#include <rex/cvar.h>
 +
++#if defined(_WIN32)
++#ifndef WIN32_LEAN_AND_MEAN
++#define WIN32_LEAN_AND_MEAN
++#endif
++#ifndef NOMINMAX
++#define NOMINMAX
++#endif
++#include <windows.h>
++#endif
++
 +// REXGLUE_INPUT_SCRIPT
 +REXCVAR_DEFINE_STRING(input_script, "", "Input",
-+                      "Scripted controller input: ms:BUTTON,ms:BUTTON,...");
++                      "Scripted controller input: ms:BUTTON[+hold_ms],ms:BUTTON[+hold_ms],...");
 +REXCVAR_DEFINE_UINT32(input_script_hold, 220, "Input",
 +                      "How long each scripted press is held, in ms");
++REXCVAR_DEFINE_BOOL(keyboard_controller, true, "Input",
++                    "Expose keyboard input as user 0's gamepad");
++REXCVAR_DEFINE_BOOL(keyboard_controller_log, true, "Input",
++                    "Log keyboard controller button transitions for script replay");
 +
 +
  namespace rex {
  namespace kernel {
  namespace xam {
-@@ -92,6 +105,151 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+@@ -38,6 +66,10 @@ rex::input::InputSystem* input_system() {
+   return static_cast<rex::input::InputSystem*>(REX_KERNEL_STATE()->emulator()->input_system());
+ }
+ 
++namespace {
++bool FillSyntheticCapabilities(uint32_t user, ppc_ptr_t<X_INPUT_CAPABILITIES> caps);
++}  // namespace
++
+ void XamResetInactivity_entry() {
+   // Do we need to do anything?
+ }
+@@ -66,7 +98,11 @@ u32 XamInputGetCapabilities_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_C
+   }
+ 
+   auto* is = input_system();
+-  return is->GetCapabilities(actual_user_index, flags, caps);
++  auto result = is->GetCapabilities(actual_user_index, flags, caps);
++  if (result != X_ERROR_SUCCESS && FillSyntheticCapabilities(actual_user_index, caps)) {
++    return X_ERROR_SUCCESS;
++  }
++  return result;
+ }
+ 
+ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+@@ -88,10 +124,305 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+ 
+   (void)unk;  // Unused in this implementation
+   auto* is = input_system();
+-  return is->GetCapabilities(actual_user_index, flags, caps);
++  auto result = is->GetCapabilities(actual_user_index, flags, caps);
++  if (result != X_ERROR_SUCCESS && FillSyntheticCapabilities(actual_user_index, caps)) {
++    return X_ERROR_SUCCESS;
++  }
++  return result;
  }
  
  // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputgetstate(v=vs.85).aspx
@@ -30,6 +78,7 @@ index 80c3634..4f36c9d 100644
 +
 +struct ScriptStep {
 +  uint32_t at_ms;
++  uint32_t hold_ms;
 +  uint16_t buttons;
 +  uint16_t virtual_key;
 +  int16_t lx;
@@ -45,6 +94,11 @@ index 80c3634..4f36c9d 100644
 +};
 +
 +constexpr int16_t kStick = 30000;
++
++uint32_t ScriptedStateKey(const ScriptedState& st) {
++  return st.buttons ^ (static_cast<uint16_t>(st.lx) << 4) ^
++         (static_cast<uint16_t>(st.ly) << 8);
++}
 +
 +bool AxisFromName(const std::string& n, uint16_t& virtual_key, int16_t& lx, int16_t& ly) {
 +  if (n == "LSUP") { virtual_key = 0x5820; ly = kStick; return true; }
@@ -92,9 +146,15 @@ index 80c3634..4f36c9d 100644
 +          }
 +          int16_t lx = 0, ly = 0;
 +          uint16_t virtual_key = 0;
++          uint32_t hold_ms = 0;
++          size_t plus = name.find('+');
++          if (plus != std::string::npos) {
++            hold_ms = static_cast<uint32_t>(std::stoul(name.substr(plus + 1)));
++            name = name.substr(0, plus);
++          }
 +          uint16_t b = ButtonFromName(name, virtual_key);
 +          if (b || AxisFromName(name, virtual_key, lx, ly)) {
-+            out.push_back({at, b, virtual_key, lx, ly, user});
++            out.push_back({at, hold_ms, b, virtual_key, lx, ly, user});
 +          }
 +        } catch (...) {
 +        }
@@ -110,6 +170,15 @@ index 80c3634..4f36c9d 100644
 +  return steps;
 +}
 +
++bool HasScriptFor(uint32_t user) {
++  for (const auto& step : ParsedScript()) {
++    if (step.user == user) {
++      return true;
++    }
++  }
++  return false;
++}
++
 +ScriptedState ScriptedFor(uint32_t user) {
 +  ScriptedState st{0, 0, 0, false};
 +  const auto& steps = ParsedScript();
@@ -118,9 +187,10 @@ index 80c3634..4f36c9d 100644
 +  const uint32_t ms = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
 +                                                std::chrono::steady_clock::now() - t0)
 +                                                .count());
-+  const uint32_t hold = static_cast<uint32_t>(REXCVAR_GET(input_script_hold));
++  const uint32_t default_hold = static_cast<uint32_t>(REXCVAR_GET(input_script_hold));
 +  for (const auto& s2 : steps) {
 +    if (s2.user != user) continue;
++    const uint32_t hold = s2.hold_ms ? s2.hold_ms : default_hold;
 +    if (ms >= s2.at_ms && ms < s2.at_ms + hold) {
 +      st.buttons |= s2.buttons;
 +      if (s2.lx) st.lx = s2.lx;
@@ -130,8 +200,7 @@ index 80c3634..4f36c9d 100644
 +  }
 +  static uint32_t last_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
 +  const uint32_t slot = user < 4 ? user : 0;
-+  const uint32_t key = (user << 24) ^ st.buttons ^ (static_cast<uint16_t>(st.lx) << 4) ^
-+                       (static_cast<uint16_t>(st.ly) << 8);
++  const uint32_t key = (user << 24) ^ ScriptedStateKey(st);
 +  if (key != last_key[slot]) {
 +    REXKRNL_INFO("[input-script] t={}ms user={} buttons={:#06x} lx={} ly={}", ms, user, st.buttons,
 +                 st.lx, st.ly);
@@ -169,35 +238,183 @@ index 80c3634..4f36c9d 100644
 +  return false;
 +}
 +
++struct NamedButton {
++  const char* name;
++  uint16_t bit;
++};
++
++constexpr NamedButton kLoggedButtons[] = {
++    {"UP", 0x0001},    {"DOWN", 0x0002}, {"LEFT", 0x0004}, {"RIGHT", 0x0008},
++    {"START", 0x0010}, {"BACK", 0x0020}, {"LB", 0x0100},   {"RB", 0x0200},
++    {"A", 0x1000},     {"B", 0x2000},    {"X", 0x4000},    {"Y", 0x8000},
++};
++
++#if defined(_WIN32)
++bool KeyDown(int virtual_key) {
++  return (GetAsyncKeyState(virtual_key) & 0x8000) != 0;
++}
++#endif
++
++void AddKeyboardButton(ScriptedState& st, bool pressed, uint16_t button) {
++  if (pressed) {
++    st.buttons |= button;
++    st.active = true;
++  }
++}
++
++void AddKeyboardStick(ScriptedState& st, bool negative, bool positive, int16_t& axis) {
++  if (negative == positive) {
++    return;
++  }
++  axis = negative ? -kStick : kStick;
++  st.active = true;
++}
++
++ScriptedState KeyboardControllerFor(uint32_t user) {
++  ScriptedState st{0, 0, 0, false};
++  if (!REXCVAR_GET(keyboard_controller) || user != 0) {
++    return st;
++  }
++#if defined(_WIN32)
++  AddKeyboardButton(st, KeyDown(VK_UP), 0x0001);
++  AddKeyboardButton(st, KeyDown(VK_DOWN), 0x0002);
++  AddKeyboardButton(st, KeyDown(VK_LEFT), 0x0004);
++  AddKeyboardButton(st, KeyDown(VK_RIGHT), 0x0008);
++  AddKeyboardButton(st, KeyDown(VK_RETURN) || KeyDown(VK_SPACE), 0x1000);
++  AddKeyboardButton(st, KeyDown(VK_ESCAPE) || KeyDown(VK_BACK), 0x2000);
++  AddKeyboardButton(st, KeyDown('X'), 0x4000);
++  AddKeyboardButton(st, KeyDown('Y'), 0x8000);
++  AddKeyboardButton(st, KeyDown('P'), 0x0010);
++  AddKeyboardButton(st, KeyDown('O'), 0x0020);
++  AddKeyboardButton(st, KeyDown('Q'), 0x0100);
++  AddKeyboardButton(st, KeyDown('E'), 0x0200);
++  AddKeyboardStick(st, KeyDown('A'), KeyDown('D'), st.lx);
++  AddKeyboardStick(st, KeyDown('S'), KeyDown('W'), st.ly);
++#endif
++  return st;
++}
++
++void LogKeyboardTransitions(const ScriptedState& keyboard) {
++  if (!REXCVAR_GET(keyboard_controller_log)) {
++    return;
++  }
++  static uint16_t last_buttons = 0;
++  static int16_t last_lx = 0;
++  static int16_t last_ly = 0;
++  static const auto t0 = std::chrono::steady_clock::now();
++  const uint32_t ms = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                                std::chrono::steady_clock::now() - t0)
++                                                .count());
++  const uint16_t changed = static_cast<uint16_t>(last_buttons ^ keyboard.buttons);
++  for (const auto& button : kLoggedButtons) {
++    if (!(changed & button.bit)) {
++      continue;
++    }
++    REXKRNL_INFO("[keyboard-controller] t={}ms {} {}", ms,
++                 (keyboard.buttons & button.bit) ? "down" : "up", button.name);
++  }
++  if (keyboard.lx != last_lx) {
++    REXKRNL_INFO("[keyboard-controller] t={}ms LX {}", ms, keyboard.lx);
++  }
++  if (keyboard.ly != last_ly) {
++    REXKRNL_INFO("[keyboard-controller] t={}ms LY {}", ms, keyboard.ly);
++  }
++  last_buttons = keyboard.buttons;
++  last_lx = keyboard.lx;
++  last_ly = keyboard.ly;
++}
++
++bool HasSyntheticInput(uint32_t user) {
++  return HasScriptFor(user) || (REXCVAR_GET(keyboard_controller) && user == 0);
++}
++
++ScriptedState MergedSyntheticFor(uint32_t user) {
++  ScriptedState merged{0, 0, 0, false};
++  if (HasScriptFor(user)) {
++    const ScriptedState script = ScriptedFor(user);
++    merged.buttons |= script.buttons;
++    if (script.lx) merged.lx = script.lx;
++    if (script.ly) merged.ly = script.ly;
++    merged.active |= script.active;
++  }
++  const ScriptedState keyboard = KeyboardControllerFor(user);
++  LogKeyboardTransitions(keyboard);
++  merged.buttons |= keyboard.buttons;
++  if (keyboard.lx) merged.lx = keyboard.lx;
++  if (keyboard.ly) merged.ly = keyboard.ly;
++  merged.active |= keyboard.active;
++  return merged;
++}
++
++bool FillSyntheticCapabilities(uint32_t user, ppc_ptr_t<X_INPUT_CAPABILITIES> caps) {
++  if (!HasSyntheticInput(user) || user != 0 || !caps) {
++    return false;
++  }
++  std::memset(caps, 0, sizeof(X_INPUT_CAPABILITIES));
++  caps->type = rex::input::XINPUT_DEVTYPE_GAMEPAD;
++  caps->sub_type = 0x01;
++  caps->gamepad.buttons = 0xF3FF;
++  caps->gamepad.left_trigger = 0xFF;
++  caps->gamepad.right_trigger = 0xFF;
++  caps->gamepad.thumb_lx = INT16_MAX;
++  caps->gamepad.thumb_ly = INT16_MAX;
++  caps->gamepad.thumb_rx = INT16_MAX;
++  caps->gamepad.thumb_ry = INT16_MAX;
++  return true;
++}
++
 +}  // namespace
 +
  u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> input_state) {
    // Games call this with a NULL state ptr, probably as a query.
    static int call_count = 0;
-@@ -112,7 +270,21 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
+@@ -112,7 +443,44 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
    }
  
    auto* is = input_system();
 -  return is->GetState(actual_user_index, input_state);
 +  auto result = is->GetState(actual_user_index, input_state);
-+  if (input_state) {
-+    const ScriptedState sc = ScriptedFor(actual_user_index);
-+    if (sc.active) {
-+      static uint32_t script_packet[4] = {1, 1, 1, 1};
-+      const uint32_t slot = actual_user_index < 4 ? actual_user_index : 0;
-+      input_state->packet_number = ++script_packet[slot];
-+      input_state->gamepad.buttons =
-+          static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
-+      if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
-+      if (sc.ly) input_state->gamepad.thumb_ly = sc.ly;
-+      result = X_ERROR_SUCCESS;
++  if (input_state && HasSyntheticInput(actual_user_index)) {
++    if (result != X_ERROR_SUCCESS) {
++      std::memset(input_state, 0, sizeof(X_INPUT_STATE));
 +    }
++    const ScriptedState sc = MergedSyntheticFor(actual_user_index);
++
++    input_state->gamepad.buttons =
++        static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
++    if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
++    if (sc.ly) input_state->gamepad.thumb_ly = sc.ly;
++
++    static uint32_t script_packet[4] = {1, 1, 1, 1};
++    static uint32_t last_state_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
++    const uint32_t slot = actual_user_index < 4 ? actual_user_index : 0;
++    const ScriptedState merged{
++        static_cast<uint16_t>(input_state->gamepad.buttons),
++        static_cast<int16_t>(input_state->gamepad.thumb_lx),
++        static_cast<int16_t>(input_state->gamepad.thumb_ly),
++        sc.active,
++    };
++    const uint32_t state_key = ScriptedStateKey(merged);
++    if (state_key != last_state_key[slot]) {
++      if (last_state_key[slot] != 0xFFFFFFFF) {
++        ++script_packet[slot];
++      }
++      last_state_key[slot] = state_key;
++      REXKRNL_INFO(
++          "[input-script] returned result={:#010x} packet={} buttons={:#06x} lx={} ly={}",
++          static_cast<uint32_t>(result), script_packet[slot],
++          static_cast<uint16_t>(input_state->gamepad.buttons),
++          static_cast<int16_t>(input_state->gamepad.thumb_lx),
++          static_cast<int16_t>(input_state->gamepad.thumb_ly));
++    }
++    input_state->packet_number = script_packet[slot];
++    result = X_ERROR_SUCCESS;
 +  }
 +  return result;
  }
  
  // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputsetstate(v=vs.85).aspx
-@@ -153,6 +325,10 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
+@@ -153,6 +521,10 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
      actual_user_index = 0;
    }
  
@@ -208,7 +425,7 @@ index 80c3634..4f36c9d 100644
    auto* is = input_system();
    return is->GetKeystroke(actual_user_index, flags, keystroke);
  }
-@@ -175,6 +351,11 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
+@@ -175,6 +547,11 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
      user_index = 0;
    }
  

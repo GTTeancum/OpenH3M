@@ -1,0 +1,34 @@
+diff --git a/include/rex/ui/presenter.h b/include/rex/ui/presenter.h
+index afb4a30..62e4ae7 100644
+--- a/include/rex/ui/presenter.h
++++ b/include/rex/ui/presenter.h
+@@ -362,6 +362,9 @@ class Presenter {
+   // multiple at the same time, and it should acquire the latest guest output
+   // image via ConsumeGuestOutput.
+   virtual bool CaptureGuestOutput(RawImage& image_out) = 0;
++  uint64_t guest_output_frame_count() const {
++    return guest_output_frame_count_.load(std::memory_order_relaxed);
++  }
+   const GuestOutputPaintConfig& GetGuestOutputPaintConfigFromUIThread() const {
+     return guest_output_paint_config_;
+   }
+@@ -976,6 +979,7 @@ class Presenter {
+   // Accessible only by refreshing, whether the last refresh contained an image
+   // rather than being blank.
+   bool guest_output_active_last_refresh_ = false;
++  std::atomic<uint64_t> guest_output_frame_count_{0};
+ 
+   // Ordered by the Z order, and then by the time of addition.
+   // Note: All the iteration logic involving this Z ordering must be the same as
+diff --git a/src/ui/presenter.cpp b/src/ui/presenter.cpp
+index 7360ed9..287e0e1 100644
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -566,6 +566,7 @@ bool Presenter::RefreshGuestOutput(
+       // output either though because the failure may be something transient.
+       return false;
+     }
++    guest_output_frame_count_.fetch_add(1, std::memory_order_relaxed);
+     guest_output_active_last_refresh_ = true;
+   } else {
+     // Request presenting a blank image if there was a true image previously,

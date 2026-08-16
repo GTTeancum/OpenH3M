@@ -7,9 +7,11 @@ using the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 2026-08-16 update: the Release build now reaches the Halo 3 Mythic menus with
 the 3D menu background visible and can enter first-person gameplay on Zanzibar
-in a window. Use the offline multiplayer surfaces for testing; Xbox LIVE is
-intentionally out of scope, while split screen, system link, Custom Games,
-Forge, and Theater are in scope.
+in a window. The repeatable proof path uses a recorded keyboard-controller
+route replayed as `input_script`, including the pause before the final `A`
+press while the map/cache state settles. Use the offline multiplayer surfaces
+for testing; Xbox LIVE is intentionally out of scope, while split screen,
+system link, Custom Games, Forge, and Theater are in scope.
 
 Known current issues:
 
@@ -21,6 +23,8 @@ Known current issues:
   These no longer block the menu background or the Zanzibar gameplay path.
 - The prior Zanzibar-load fatal at guest `0x8263D938` is fixed by declaring that
   virtual-call thunk in `halo3mp_manifest.toml`.
+- Forge and split-screen are not yet validated by automation. Theater is in
+  scope, but it is not a useful proof target until games can be recorded.
 
 Windowed automated input helper:
 
@@ -28,19 +32,29 @@ Windowed automated input helper:
 .\run_windowed.ps1 -SmokeTest
 ```
 
-The delayed script injects controller input through the local Rexglue input
-patch. It is useful for repeatable probes, but it is not currently a reliable
-Custom Games proof because the main-menu highlight is landing on Theater and
-scripted navigation does not move the top-level menu yet. Theater is not a
-current validation target because it requires recorded films. For gameplay
-validation, manually choose Custom Games until the top-level menu navigation
-state is understood and scripted again.
+`-SmokeTest` replays the recorded Custom Games/Zanzibar route and writes an
+internal guest-output BMP to `out/build/win-amd64-release/halo3mp_smoke_zanzibar.bmp`
+after the final delayed `A` press. This capture is taken from the Rexglue
+presenter output, not from the foreground desktop or window.
 
 For a normal interactive windowed run:
 
 ```bash
 .\run_windowed.ps1
 ```
+
+Normal runs expose keyboard controls as user 0's controller and log transitions
+so routes can be recreated:
+
+- Arrow keys: D-pad
+- WASD: left stick
+- Enter/Space: A
+- Esc/Backspace: B
+- X/Y: X/Y
+- P/O: Start/Back
+- Q/E: LB/RB
+
+The window title shows host-measured guest-output FPS, outside the in-game HUD.
 
 Historical note from the earlier handoff follows.
 
