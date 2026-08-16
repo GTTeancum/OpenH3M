@@ -1,0 +1,22 @@
+# Game/disc data and local SDK checkout.
+*.iso
+work/
+
+# ReXGlue project build products and generated code.
+halo3mp/out/
+halo3mp/cache/
+halo3mp/generated/
+
+# Local diagnostics and temporary helper output.
+halo3mp/halo3mp_fault.txt
+halo3mp/tools/_dis.bin
+*.log
+
+# Python/tool cache files.
+__pycache__/
+*.py[cod]
+
+# Editor and ad-hoc backup files.
+*.bak
+.vs/
+.vscode/

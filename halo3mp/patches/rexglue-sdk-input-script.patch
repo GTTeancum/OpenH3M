@@ -1,0 +1,165 @@
+﻿diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
+index 80c3634..924760d 100644
+--- a/src/kernel/xam/xam_input.cpp
++++ b/src/kernel/xam/xam_input.cpp
+@@ -21,6 +21,19 @@
+ 
+ #pragma GCC diagnostic ignored "-Wunused-parameter"
+ 
++#include <chrono>
++#include <string>
++#include <vector>
++
++#include <rex/cvar.h>
++
++// REXGLUE_INPUT_SCRIPT
++REXCVAR_DEFINE_STRING(input_script, "", "Input",
++                      "Scripted controller input: ms:BUTTON,ms:BUTTON,...");
++REXCVAR_DEFINE_UINT32(input_script_hold, 220, "Input",
++                      "How long each scripted press is held, in ms");
++
++
+ namespace rex {
+ namespace kernel {
+ namespace xam {
+@@ -92,6 +105,120 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+ }
+ 
+ // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputgetstate(v=vs.85).aspx
++namespace {
++
++struct ScriptStep {
++  uint32_t at_ms;
++  uint16_t buttons;
++  int16_t lx;
++  int16_t ly;
++  uint32_t user;
++};
++
++struct ScriptedState {
++  uint16_t buttons;
++  int16_t lx;
++  int16_t ly;
++  bool active;
++};
++
++constexpr int16_t kStick = 30000;
++
++bool AxisFromName(const std::string& n, int16_t& lx, int16_t& ly) {
++  if (n == "LSUP") { ly = kStick; return true; }
++  if (n == "LSDOWN") { ly = -kStick; return true; }
++  if (n == "LSLEFT") { lx = -kStick; return true; }
++  if (n == "LSRIGHT") { lx = kStick; return true; }
++  return false;
++}
++
++uint16_t ButtonFromName(const std::string& n) {
++  if (n == "A") return 0x1000;
++  if (n == "B") return 0x2000;
++  if (n == "X") return 0x4000;
++  if (n == "Y") return 0x8000;
++  if (n == "START") return 0x0010;
++  if (n == "BACK") return 0x0020;
++  if (n == "UP") return 0x0001;
++  if (n == "DOWN") return 0x0002;
++  if (n == "LEFT") return 0x0004;
++  if (n == "RIGHT") return 0x0008;
++  if (n == "LB") return 0x0100;
++  if (n == "RB") return 0x0200;
++  return 0;
++}
++
++const std::vector<ScriptStep>& ParsedScript() {
++  static std::vector<ScriptStep> steps = [] {
++    std::vector<ScriptStep> out;
++    std::string spec = REXCVAR_GET(input_script);
++    size_t pos = 0;
++    while (pos < spec.size()) {
++      size_t comma = spec.find(',', pos);
++      std::string tok =
++          spec.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos);
++      size_t colon = tok.find(':');
++      if (colon != std::string::npos) {
++        try {
++          uint32_t at = static_cast<uint32_t>(std::stoul(tok.substr(0, colon)));
++          std::string name = tok.substr(colon + 1);
++          uint32_t user = 0;
++          size_t at_sign = name.find('@');
++          if (at_sign != std::string::npos) {
++            user = static_cast<uint32_t>(std::stoul(name.substr(at_sign + 1)));
++            name = name.substr(0, at_sign);
++          }
++          int16_t lx = 0, ly = 0;
++          uint16_t b = ButtonFromName(name);
++          if (b || AxisFromName(name, lx, ly)) {
++            out.push_back({at, b, lx, ly, user});
++          }
++        } catch (...) {
++        }
++      }
++      if (comma == std::string::npos) break;
++      pos = comma + 1;
++    }
++    if (!out.empty()) {
++      REXKRNL_INFO("[input-script] {} step(s) armed", out.size());
++    }
++    return out;
++  }();
++  return steps;
++}
++
++ScriptedState ScriptedFor(uint32_t user) {
++  ScriptedState st{0, 0, 0, false};
++  const auto& steps = ParsedScript();
++  if (steps.empty()) return st;
++  static const auto t0 = std::chrono::steady_clock::now();
++  const uint32_t ms = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                                std::chrono::steady_clock::now() - t0)
++                                                .count());
++  const uint32_t hold = static_cast<uint32_t>(REXCVAR_GET(input_script_hold));
++  for (const auto& s2 : steps) {
++    if (s2.user != user) continue;
++    if (ms >= s2.at_ms && ms < s2.at_ms + hold) {
++      st.buttons |= s2.buttons;
++      if (s2.lx) st.lx = s2.lx;
++      if (s2.ly) st.ly = s2.ly;
++      st.active = true;
++    }
++  }
++  static uint32_t last_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
++  const uint32_t slot = user < 4 ? user : 0;
++  const uint32_t key = (user << 24) ^ st.buttons ^ (static_cast<uint16_t>(st.lx) << 4) ^
++                       (static_cast<uint16_t>(st.ly) << 8);
++  if (key != last_key[slot]) {
++    REXKRNL_INFO("[input-script] t={}ms user={} buttons={:#06x} lx={} ly={}", ms, user, st.buttons,
++                 st.lx, st.ly);
++    last_key[slot] = key;
++  }
++  return st;
++}
++
++}  // namespace
++
+ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> input_state) {
+   // Games call this with a NULL state ptr, probably as a query.
+   static int call_count = 0;
+@@ -112,7 +239,18 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
+   }
+ 
+   auto* is = input_system();
+-  return is->GetState(actual_user_index, input_state);
++  auto result = is->GetState(actual_user_index, input_state);
++  if (input_state) {
++    const ScriptedState sc = ScriptedFor(actual_user_index);
++    if (sc.active) {
++      input_state->gamepad.buttons =
++          static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
++      if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
++      if (sc.ly) input_state->gamepad.thumb_ly = sc.ly;
++      result = X_ERROR_SUCCESS;
++    }
++  }
++  return result;
+ }
+ 
+ // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputsetstate(v=vs.85).aspx
