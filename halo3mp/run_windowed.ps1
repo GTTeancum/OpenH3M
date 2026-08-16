@@ -1,6 +1,8 @@
 param(
     [switch]$SmokeTest,
-    [switch]$SplitScreenStress
+    [switch]$SplitScreenStress,
+    [switch]$NoCapture,
+    [string[]]$ExtraArgs = @()
 )
 
 $ErrorActionPreference = "Stop"
@@ -131,10 +133,17 @@ if ($SplitScreenStress) {
         "--keyboard_controller_log=false",
         "--xam_local_user_count=4",
         "--halo3mp_log_fps=true",
-        "--input_script=$($script -join ',')",
-        "--halo3mp_capture_guest_output_after_ms=98000",
-        "--halo3mp_capture_guest_output_path=$capturePath"
+        "--input_script=$($script -join ',')"
     )
+
+    if (-not $NoCapture) {
+        $args += @(
+            "--halo3mp_capture_guest_output_after_ms=98000",
+            "--halo3mp_capture_guest_output_path=$capturePath"
+        )
+    }
 }
+
+$args += $ExtraArgs
 
 Start-Process -FilePath $exe -ArgumentList $args -WorkingDirectory (Split-Path -Parent $exe)

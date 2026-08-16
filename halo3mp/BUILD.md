@@ -29,9 +29,11 @@ Known current issues:
   expose scripted synthetic input for users 0-3, including sticks and triggers,
   so it can stress movement and firing without requiring four physical
   controllers. `-SplitScreenStress` reaches a real 2x2 split-screen gameplay
-  capture on Last Resort, but the four-view run currently drops to roughly
-  3-4 FPS after the match starts. Theater is in scope, but it is not a useful
-  proof target until games can be recorded.
+  capture on Last Resort. A hot-path fiber trace was the main steady-FPS
+  bottleneck in four-player runs; after making that trace opt-in, the
+  capture-enabled stress route recovers to the 30 FPS cap after map/cache
+  startup. Theater is in scope, but it is not a useful proof target until games
+  can be recorded.
 
 Windowed automated input helper:
 
@@ -54,6 +56,19 @@ starts the default Slayer match on Last Resort, then drives all four users with
 left-stick, right-stick, and right-trigger input. It writes
 `out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.bmp` from the
 internal guest-output presenter and logs host-measured guest-output FPS samples.
+Use `-NoCapture` to run the same route without the one-shot BMP capture, and
+`-ExtraArgs` to append cvars for A/B profiling runs, for example:
+
+```bash
+.\run_windowed.ps1 -SplitScreenStress -NoCapture -ExtraArgs '--occlusion_query_enable=false'
+```
+
+The detailed Halo job-system fiber trace is opt-in via
+`--halo3mp_fiber_trace=true`. It is intentionally disabled by default because
+the prior trace emitted over 11k `[fiber]` lines during one four-player capture
+run and held the route at roughly 3-4 FPS during the bad window. The default
+summary (`--halo3mp_fiber_summary_interval=1000`) keeps enough counters to
+confirm that the override is active without flooding the log.
 
 For a normal interactive windowed run:
 

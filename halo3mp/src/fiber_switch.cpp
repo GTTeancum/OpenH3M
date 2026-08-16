@@ -21,6 +21,7 @@
 // PPCContext copy); the guest buffer is only read when a context is resumed for
 // the first time, because the game initialises it when creating a fiber.
 
+#include <rex/cvar.h>
 #include <rex/hook.h>
 #include <rex/logging.h>
 #include <rex/ppc/func.h>
@@ -33,6 +34,11 @@
 #include <cstring>
 #include <mutex>
 #include <unordered_map>
+
+REXCVAR_DEFINE_BOOL(halo3mp_fiber_trace, false, "Halo3MP/Fiber",
+                    "Log every Halo 3 job-system fiber transition");
+REXCVAR_DEFINE_UINT32(halo3mp_fiber_summary_interval, 1000, "Halo3MP/Fiber",
+                      "Log one Halo 3 fiber summary every N switches; 0 disables summaries");
 
 extern "C" void __imp__KeSetCurrentStackPointers(PPCContext& __restrict ctx, uint8_t* base);
 extern "C" void __imp__sub_825B8320(PPCContext& __restrict ctx, uint8_t* base);
@@ -95,9 +101,28 @@ struct GuestFiber {
 
 std::mutex g_mutex;
 std::unordered_map<uint32_t, GuestFiber*> g_fibers;
+std::atomic<uint64_t> g_switches{0};
+std::atomic<uint64_t> g_restarts{0};
+std::atomic<uint64_t> g_created{0};
+std::atomic<uint64_t> g_entries{0};
+std::atomic<uint64_t> g_fallbacks{0};
 
 thread_local GuestFiber* t_current = nullptr;
 thread_local GuestFiber* t_root = nullptr;
+
+bool FiberTraceEnabled() { return REXCVAR_GET(halo3mp_fiber_trace); }
+
+void LogFiberSummaryIfNeeded(uint64_t switches) {
+  const uint32_t interval = REXCVAR_GET(halo3mp_fiber_summary_interval);
+  if (!interval || (switches % interval) != 0) {
+    return;
+  }
+  REXLOG_INFO("[fiber] summary switches={} entries={} created={} restarts={} fallbacks={}",
+              switches, g_entries.load(std::memory_order_relaxed),
+              g_created.load(std::memory_order_relaxed),
+              g_restarts.load(std::memory_order_relaxed),
+              g_fallbacks.load(std::memory_order_relaxed));
+}
 
 GuestFiber* FiberFor(uint32_t ctx_addr) {
   std::lock_guard<std::mutex> lock(g_mutex);
@@ -192,8 +217,14 @@ void CALLBACK GuestFiberEntry(void* param) {
   LoadInitialContext(ctx, base, self->ctx_addr);
   const uint32_t entry = static_cast<uint32_t>(ctx.lr);
 
-  REXLOG_INFO("[fiber] start ctx {:#010x} pc {:#010x} sp {:#010x} r31={:#010x} r30={:#010x} r14={:#010x} cr={:#x}", self->ctx_addr, entry, ctx.r1.u32, ctx.r31.u32, ctx.r30.u32,
-              ctx.r14.u32, ctx.cr0.raw());
+  ++g_entries;
+  if (FiberTraceEnabled()) {
+    REXLOG_INFO(
+        "[fiber] start ctx {:#010x} pc {:#010x} sp {:#010x} r31={:#010x} r30={:#010x} "
+        "r14={:#010x} cr={:#x}",
+        self->ctx_addr, entry, ctx.r1.u32, ctx.r31.u32, ctx.r30.u32, ctx.r14.u32,
+        ctx.cr0.raw());
+  }
 
   if (auto* fn = rex::runtime::ResolveIndirectFunction(entry)) {
     fn(ctx, base);
@@ -218,6 +249,7 @@ REX_HOOK_RAW(sub_825B8320) {
   const uint32_t new_addr = ctx.r3.u32;
 
   if (!PlausibleGuestPtr(r13) || !PlausibleGuestPtr(new_addr)) {
+    ++g_fallbacks;
     REXLOG_WARN("[fiber] implausible switch (r13={:#010x} r3={:#010x}); using recompiled path", r13,
                 new_addr);
     __imp__sub_825B8320(ctx, base);
@@ -226,16 +258,22 @@ REX_HOOK_RAW(sub_825B8320) {
 
   const uint32_t thread_ptr = Load32(base, r13 + kPcrCurrentThread);
   if (!PlausibleGuestPtr(thread_ptr)) {
+    ++g_fallbacks;
     REXLOG_WARN("[fiber] bad KTHREAD {:#010x}; using recompiled path", thread_ptr);
     __imp__sub_825B8320(ctx, base);
     return;
   }
 
   const uint32_t cur_addr = Load32(base, thread_ptr + kThreadContextPtr);
-  REXLOG_INFO("[fiber] switch {:#010x} -> {:#010x} (thread {:#010x})", cur_addr, new_addr,
-              thread_ptr);
+  const uint64_t switch_count = ++g_switches;
+  if (FiberTraceEnabled()) {
+    REXLOG_INFO("[fiber] switch {:#010x} -> {:#010x} (thread {:#010x})", cur_addr, new_addr,
+                thread_ptr);
+  }
+  LogFiberSummaryIfNeeded(switch_count);
 
   if (!PlausibleGuestPtr(cur_addr)) {
+    ++g_fallbacks;
     REXLOG_WARN("[fiber] bad current context {:#010x}; using recompiled path", cur_addr);
     __imp__sub_825B8320(ctx, base);
     return;
@@ -259,7 +297,9 @@ REX_HOOK_RAW(sub_825B8320) {
     rf->base = base;
     t_root = rf;
     t_current = rf;
-    REXLOG_INFO("[fiber] adopted thread stack as root fiber for context {:#010x}", cur_addr);
+    if (FiberTraceEnabled()) {
+      REXLOG_INFO("[fiber] adopted thread stack as root fiber for context {:#010x}", cur_addr);
+    }
   }
 
   GuestFiber* self = t_current ? t_current : FiberFor(cur_addr);
@@ -279,8 +319,11 @@ REX_HOOK_RAW(sub_825B8320) {
   if (target->host_fiber && !target->is_root && target->has_suspended_lr) {
     const uint32_t buf_lr = Load32(base, new_addr + kOffLr);
     if (buf_lr != target->suspended_lr) {
-      REXLOG_INFO("[fiber] ctx {:#010x} re-dispatched (lr {:#010x} -> {:#010x}); restarting",
-                  new_addr, target->suspended_lr, buf_lr);
+      ++g_restarts;
+      if (FiberTraceEnabled()) {
+        REXLOG_INFO("[fiber] ctx {:#010x} re-dispatched (lr {:#010x} -> {:#010x}); restarting",
+                    new_addr, target->suspended_lr, buf_lr);
+      }
       DeleteFiber(target->host_fiber);
       target->host_fiber = nullptr;
       target->has_suspended_lr = false;
@@ -295,7 +338,10 @@ REX_HOOK_RAW(sub_825B8320) {
       REXLOG_ERROR("[fiber] CreateFiber failed for context {:#010x}", new_addr);
       return;
     }
-    REXLOG_INFO("[fiber] created host fiber for context {:#010x}", new_addr);
+    ++g_created;
+    if (FiberTraceEnabled()) {
+      REXLOG_INFO("[fiber] created host fiber for context {:#010x}", new_addr);
+    }
   }
 
   t_current = target;
