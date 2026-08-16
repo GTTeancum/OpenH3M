@@ -1,5 +1,5 @@
 diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
-index 80c3634..7ee8e2a 100644
+index 80c3634..5f91631 100644
 --- a/src/kernel/xam/xam_input.cpp
 +++ b/src/kernel/xam/xam_input.cpp
 @@ -21,6 +21,34 @@
@@ -61,7 +61,7 @@ index 80c3634..7ee8e2a 100644
  }
  
  u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
-@@ -88,10 +124,305 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+@@ -88,10 +124,355 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
  
    (void)unk;  // Unused in this implementation
    auto* is = input_system();
@@ -83,6 +83,10 @@ index 80c3634..7ee8e2a 100644
 +  uint16_t virtual_key;
 +  int16_t lx;
 +  int16_t ly;
++  int16_t rx;
++  int16_t ry;
++  uint8_t lt;
++  uint8_t rt;
 +  uint32_t user;
 +};
 +
@@ -90,21 +94,35 @@ index 80c3634..7ee8e2a 100644
 +  uint16_t buttons;
 +  int16_t lx;
 +  int16_t ly;
++  int16_t rx;
++  int16_t ry;
++  uint8_t lt;
++  uint8_t rt;
 +  bool active;
 +};
 +
 +constexpr int16_t kStick = 30000;
 +
 +uint32_t ScriptedStateKey(const ScriptedState& st) {
-+  return st.buttons ^ (static_cast<uint16_t>(st.lx) << 4) ^
-+         (static_cast<uint16_t>(st.ly) << 8);
++  return static_cast<uint32_t>(st.buttons) ^ (static_cast<uint32_t>(static_cast<uint16_t>(st.lx)) << 4) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.ly)) << 8) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.rx)) << 12) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.ry)) << 16) ^
++         (static_cast<uint32_t>(st.lt) << 20) ^ (static_cast<uint32_t>(st.rt) << 28);
 +}
 +
-+bool AxisFromName(const std::string& n, uint16_t& virtual_key, int16_t& lx, int16_t& ly) {
++bool AnalogFromName(const std::string& n, uint16_t& virtual_key, int16_t& lx, int16_t& ly,
++                    int16_t& rx, int16_t& ry, uint8_t& lt, uint8_t& rt) {
 +  if (n == "LSUP") { virtual_key = 0x5820; ly = kStick; return true; }
 +  if (n == "LSDOWN") { virtual_key = 0x5821; ly = -kStick; return true; }
 +  if (n == "LSLEFT") { virtual_key = 0x5823; lx = -kStick; return true; }
 +  if (n == "LSRIGHT") { virtual_key = 0x5822; lx = kStick; return true; }
++  if (n == "RSUP") { ry = kStick; return true; }
++  if (n == "RSDOWN") { ry = -kStick; return true; }
++  if (n == "RSLEFT") { rx = -kStick; return true; }
++  if (n == "RSRIGHT") { rx = kStick; return true; }
++  if (n == "LT") { lt = 0xFF; return true; }
++  if (n == "RT") { rt = 0xFF; return true; }
 +  return false;
 +}
 +
@@ -139,22 +157,29 @@ index 80c3634..7ee8e2a 100644
 +          uint32_t at = static_cast<uint32_t>(std::stoul(tok.substr(0, colon)));
 +          std::string name = tok.substr(colon + 1);
 +          uint32_t user = 0;
++          uint32_t hold_ms = 0;
 +          size_t at_sign = name.find('@');
 +          if (at_sign != std::string::npos) {
-+            user = static_cast<uint32_t>(std::stoul(name.substr(at_sign + 1)));
++            std::string user_spec = name.substr(at_sign + 1);
++            size_t user_end = user_spec.find('+');
++            if (user_end != std::string::npos) {
++              hold_ms = static_cast<uint32_t>(std::stoul(user_spec.substr(user_end + 1)));
++              user_spec = user_spec.substr(0, user_end);
++            }
++            user = static_cast<uint32_t>(std::stoul(user_spec));
 +            name = name.substr(0, at_sign);
 +          }
-+          int16_t lx = 0, ly = 0;
++          int16_t lx = 0, ly = 0, rx = 0, ry = 0;
++          uint8_t lt = 0, rt = 0;
 +          uint16_t virtual_key = 0;
-+          uint32_t hold_ms = 0;
 +          size_t plus = name.find('+');
 +          if (plus != std::string::npos) {
 +            hold_ms = static_cast<uint32_t>(std::stoul(name.substr(plus + 1)));
 +            name = name.substr(0, plus);
 +          }
 +          uint16_t b = ButtonFromName(name, virtual_key);
-+          if (b || AxisFromName(name, virtual_key, lx, ly)) {
-+            out.push_back({at, hold_ms, b, virtual_key, lx, ly, user});
++          if (b || AnalogFromName(name, virtual_key, lx, ly, rx, ry, lt, rt)) {
++            out.push_back({at, hold_ms, b, virtual_key, lx, ly, rx, ry, lt, rt, user});
 +          }
 +        } catch (...) {
 +        }
@@ -180,7 +205,7 @@ index 80c3634..7ee8e2a 100644
 +}
 +
 +ScriptedState ScriptedFor(uint32_t user) {
-+  ScriptedState st{0, 0, 0, false};
++  ScriptedState st{0, 0, 0, 0, 0, 0, 0, false};
 +  const auto& steps = ParsedScript();
 +  if (steps.empty()) return st;
 +  static const auto t0 = std::chrono::steady_clock::now();
@@ -195,6 +220,10 @@ index 80c3634..7ee8e2a 100644
 +      st.buttons |= s2.buttons;
 +      if (s2.lx) st.lx = s2.lx;
 +      if (s2.ly) st.ly = s2.ly;
++      if (s2.rx) st.rx = s2.rx;
++      if (s2.ry) st.ry = s2.ry;
++      if (s2.lt) st.lt = s2.lt;
++      if (s2.rt) st.rt = s2.rt;
 +      st.active = true;
 +    }
 +  }
@@ -202,8 +231,8 @@ index 80c3634..7ee8e2a 100644
 +  const uint32_t slot = user < 4 ? user : 0;
 +  const uint32_t key = (user << 24) ^ ScriptedStateKey(st);
 +  if (key != last_key[slot]) {
-+    REXKRNL_INFO("[input-script] t={}ms user={} buttons={:#06x} lx={} ly={}", ms, user, st.buttons,
-+                 st.lx, st.ly);
++    REXKRNL_INFO("[input-script] t={}ms user={} buttons={:#06x} lx={} ly={} rx={} ry={} lt={} rt={}",
++                 ms, user, st.buttons, st.lx, st.ly, st.rx, st.ry, st.lt, st.rt);
 +    last_key[slot] = key;
 +  }
 +  return st;
@@ -233,6 +262,19 @@ index 80c3634..7ee8e2a 100644
 +    keystroke->hid_code = 0;
 +    REXKRNL_INFO("[input-script] keystroke t={}ms user={} vk={:#06x}", ms, user,
 +                 s2.virtual_key);
++    return true;
++  }
++  return false;
++}
++
++bool ScriptedKeystrokeAny(ppc_ptr_t<X_INPUT_KEYSTROKE> keystroke, uint32_t* out_user = nullptr) {
++  for (uint32_t user = 0; user < 4; ++user) {
++    if (!ScriptedKeystrokeFor(user, keystroke)) {
++      continue;
++    }
++    if (out_user) {
++      *out_user = user;
++    }
 +    return true;
 +  }
 +  return false;
@@ -271,7 +313,7 @@ index 80c3634..7ee8e2a 100644
 +}
 +
 +ScriptedState KeyboardControllerFor(uint32_t user) {
-+  ScriptedState st{0, 0, 0, false};
++  ScriptedState st{0, 0, 0, 0, 0, 0, 0, false};
 +  if (!REXCVAR_GET(keyboard_controller) || user != 0) {
 +    return st;
 +  }
@@ -329,12 +371,16 @@ index 80c3634..7ee8e2a 100644
 +}
 +
 +ScriptedState MergedSyntheticFor(uint32_t user) {
-+  ScriptedState merged{0, 0, 0, false};
++  ScriptedState merged{0, 0, 0, 0, 0, 0, 0, false};
 +  if (HasScriptFor(user)) {
 +    const ScriptedState script = ScriptedFor(user);
 +    merged.buttons |= script.buttons;
 +    if (script.lx) merged.lx = script.lx;
 +    if (script.ly) merged.ly = script.ly;
++    if (script.rx) merged.rx = script.rx;
++    if (script.ry) merged.ry = script.ry;
++    if (script.lt) merged.lt = script.lt;
++    if (script.rt) merged.rt = script.rt;
 +    merged.active |= script.active;
 +  }
 +  const ScriptedState keyboard = KeyboardControllerFor(user);
@@ -342,12 +388,16 @@ index 80c3634..7ee8e2a 100644
 +  merged.buttons |= keyboard.buttons;
 +  if (keyboard.lx) merged.lx = keyboard.lx;
 +  if (keyboard.ly) merged.ly = keyboard.ly;
++  if (keyboard.rx) merged.rx = keyboard.rx;
++  if (keyboard.ry) merged.ry = keyboard.ry;
++  if (keyboard.lt) merged.lt = keyboard.lt;
++  if (keyboard.rt) merged.rt = keyboard.rt;
 +  merged.active |= keyboard.active;
 +  return merged;
 +}
 +
 +bool FillSyntheticCapabilities(uint32_t user, ppc_ptr_t<X_INPUT_CAPABILITIES> caps) {
-+  if (!HasSyntheticInput(user) || user != 0 || !caps) {
++  if (!HasSyntheticInput(user) || user >= 4 || !caps) {
 +    return false;
 +  }
 +  std::memset(caps, 0, sizeof(X_INPUT_CAPABILITIES));
@@ -368,12 +418,15 @@ index 80c3634..7ee8e2a 100644
  u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> input_state) {
    // Games call this with a NULL state ptr, probably as a query.
    static int call_count = 0;
-@@ -112,7 +443,44 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
+@@ -112,7 +493,59 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
    }
  
    auto* is = input_system();
 -  return is->GetState(actual_user_index, input_state);
 +  auto result = is->GetState(actual_user_index, input_state);
++  if (HasSyntheticInput(actual_user_index) && !input_state) {
++    return X_ERROR_SUCCESS;
++  }
 +  if (input_state && HasSyntheticInput(actual_user_index)) {
 +    if (result != X_ERROR_SUCCESS) {
 +      std::memset(input_state, 0, sizeof(X_INPUT_STATE));
@@ -382,8 +435,12 @@ index 80c3634..7ee8e2a 100644
 +
 +    input_state->gamepad.buttons =
 +        static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
++    if (sc.lt) input_state->gamepad.left_trigger = sc.lt;
++    if (sc.rt) input_state->gamepad.right_trigger = sc.rt;
 +    if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
 +    if (sc.ly) input_state->gamepad.thumb_ly = sc.ly;
++    if (sc.rx) input_state->gamepad.thumb_rx = sc.rx;
++    if (sc.ry) input_state->gamepad.thumb_ry = sc.ry;
 +
 +    static uint32_t script_packet[4] = {1, 1, 1, 1};
 +    static uint32_t last_state_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
@@ -392,6 +449,10 @@ index 80c3634..7ee8e2a 100644
 +        static_cast<uint16_t>(input_state->gamepad.buttons),
 +        static_cast<int16_t>(input_state->gamepad.thumb_lx),
 +        static_cast<int16_t>(input_state->gamepad.thumb_ly),
++        static_cast<int16_t>(input_state->gamepad.thumb_rx),
++        static_cast<int16_t>(input_state->gamepad.thumb_ry),
++        static_cast<uint8_t>(input_state->gamepad.left_trigger),
++        static_cast<uint8_t>(input_state->gamepad.right_trigger),
 +        sc.active,
 +    };
 +    const uint32_t state_key = ScriptedStateKey(merged);
@@ -401,11 +462,15 @@ index 80c3634..7ee8e2a 100644
 +      }
 +      last_state_key[slot] = state_key;
 +      REXKRNL_INFO(
-+          "[input-script] returned result={:#010x} packet={} buttons={:#06x} lx={} ly={}",
++          "[input-script] returned result={:#010x} packet={} buttons={:#06x} lx={} ly={} rx={} ry={} lt={} rt={}",
 +          static_cast<uint32_t>(result), script_packet[slot],
 +          static_cast<uint16_t>(input_state->gamepad.buttons),
 +          static_cast<int16_t>(input_state->gamepad.thumb_lx),
-+          static_cast<int16_t>(input_state->gamepad.thumb_ly));
++          static_cast<int16_t>(input_state->gamepad.thumb_ly),
++          static_cast<int16_t>(input_state->gamepad.thumb_rx),
++          static_cast<int16_t>(input_state->gamepad.thumb_ry),
++          static_cast<uint8_t>(input_state->gamepad.left_trigger),
++          static_cast<uint8_t>(input_state->gamepad.right_trigger));
 +    }
 +    input_state->packet_number = script_packet[slot];
 +    result = X_ERROR_SUCCESS;
@@ -414,23 +479,41 @@ index 80c3634..7ee8e2a 100644
  }
  
  // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputsetstate(v=vs.85).aspx
-@@ -153,6 +521,10 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
+@@ -147,12 +580,18 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
+     return X_ERROR_DEVICE_NOT_CONNECTED;
+   }
+ 
++  const bool any_user = ((user_index & 0xFF) == 0xFF) || (flags & XINPUT_FLAG_ANY_USER);
+   uint32_t actual_user_index = user_index;
+-  if ((actual_user_index & 0xFF) == 0xFF || (flags & XINPUT_FLAG_ANY_USER)) {
++  if (any_user) {
+     // Always pin user to 0.
      actual_user_index = 0;
    }
  
-+  if (ScriptedKeystrokeFor(actual_user_index, keystroke)) {
++  if (any_user ? ScriptedKeystrokeAny(keystroke)
++               : ScriptedKeystrokeFor(actual_user_index, keystroke)) {
 +    return X_ERROR_SUCCESS;
 +  }
 +
    auto* is = input_system();
    return is->GetKeystroke(actual_user_index, flags, keystroke);
  }
-@@ -175,6 +547,11 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
+@@ -170,11 +609,19 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
+   }
+ 
+   uint32_t user_index = *user_index_ptr;
+-  if ((user_index & 0xFF) == 0xFF || (flags & XINPUT_FLAG_ANY_USER)) {
++  const bool any_user = ((user_index & 0xFF) == 0xFF) || (flags & XINPUT_FLAG_ANY_USER);
++  if (any_user) {
+     // Always pin user to 0.
      user_index = 0;
    }
  
-+  if (ScriptedKeystrokeFor(user_index, keystroke)) {
-+    *user_index_ptr = user_index;
++  uint32_t scripted_user = user_index;
++  if (any_user ? ScriptedKeystrokeAny(keystroke, &scripted_user)
++               : ScriptedKeystrokeFor(user_index, keystroke)) {
++    *user_index_ptr = scripted_user;
 +    return X_ERROR_SUCCESS;
 +  }
 +

@@ -7,11 +7,13 @@ using the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 2026-08-16 update: the Release build now reaches the Halo 3 Mythic menus with
 the 3D menu background visible and can enter first-person gameplay on Zanzibar
-in a window. The repeatable proof path uses a recorded keyboard-controller
-route replayed as `input_script`, including the pause before the final `A`
-press while the map/cache state settles. Use the offline multiplayer surfaces
-for testing; Xbox LIVE is intentionally out of scope, while split screen,
-system link, Custom Games, Forge, and Theater are in scope.
+in a window. The repeatable Custom Games proof path uses a recorded
+keyboard-controller route replayed as `input_script`, including the pause before
+the final `A` press while the map/cache state settles. A clean manual route also
+reaches Forge gameplay on Zanzibar, and D-pad Up toggles Forge build/monitor
+mode. Use the offline multiplayer surfaces for testing; Xbox LIVE is
+intentionally out of scope, while split screen, system link, Custom Games,
+Forge, and Theater are in scope.
 
 Known current issues:
 
@@ -23,8 +25,13 @@ Known current issues:
   These no longer block the menu background or the Zanzibar gameplay path.
 - The prior Zanzibar-load fatal at guest `0x8263D938` is fixed by declaring that
   virtual-call thunk in `halo3mp_manifest.toml`.
-- Forge and split-screen are not yet validated by automation. Theater is in
-  scope, but it is not a useful proof target until games can be recorded.
+- Four-player split-screen is the current validation target. The helper can now
+  expose scripted synthetic input for users 0-3, including sticks and triggers,
+  so it can stress movement and firing without requiring four physical
+  controllers. `-SplitScreenStress` reaches a real 2x2 split-screen gameplay
+  capture on Last Resort, but the four-view run currently drops to roughly
+  3-4 FPS after the match starts. Theater is in scope, but it is not a useful
+  proof target until games can be recorded.
 
 Windowed automated input helper:
 
@@ -36,6 +43,17 @@ Windowed automated input helper:
 internal guest-output BMP to `out/build/win-amd64-release/halo3mp_smoke_zanzibar.bmp`
 after the final delayed `A` press. This capture is taken from the Rexglue
 presenter output, not from the foreground desktop or window.
+
+```bash
+.\run_windowed.ps1 -SplitScreenStress
+```
+
+`-SplitScreenStress` enables four offline local users with
+`--xam_local_user_count=4`, enters the Custom Games lobby from the main menu,
+starts the default Slayer match on Last Resort, then drives all four users with
+left-stick, right-stick, and right-trigger input. It writes
+`out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.bmp` from the
+internal guest-output presenter and logs host-measured guest-output FPS samples.
 
 For a normal interactive windowed run:
 

@@ -41,6 +41,8 @@ REXCVAR_DEFINE_BOOL(halo3mp_title_fps, true, "Halo3MP",
                     "Show guest output FPS in the host window title bar");
 REXCVAR_DEFINE_UINT32(halo3mp_title_fps_interval_ms, 1000, "Halo3MP",
                       "Host title-bar FPS update interval in milliseconds");
+REXCVAR_DEFINE_BOOL(halo3mp_log_fps, false, "Halo3MP",
+                    "Log host-measured guest output FPS at the title-bar FPS interval");
 REXCVAR_DEFINE_UINT32(halo3mp_capture_guest_output_after_ms, 0, "Halo3MP",
                       "Capture the internal guest output after this many milliseconds; 0 disables");
 REXCVAR_DEFINE_STRING(halo3mp_capture_guest_output_path, "", "Halo3MP",
@@ -238,12 +240,17 @@ class Halo3mpApp : public rex::ReXApp {
         const uint64_t frame_count = app_presenter->guest_output_frame_count();
         const double elapsed =
             std::chrono::duration<double>(now - last_time).count();
-        const double fps = elapsed > 0.0 ? double(frame_count - last_frame_count) / elapsed : 0.0;
+        const uint64_t frame_delta = frame_count - last_frame_count;
+        const double fps = elapsed > 0.0 ? double(frame_delta) / elapsed : 0.0;
         last_time = now;
         last_frame_count = frame_count;
 
         std::ostringstream title;
         title << title_prefix << " | " << std::fixed << std::setprecision(1) << fps << " FPS";
+        if (REXCVAR_GET(halo3mp_log_fps)) {
+          REXLOG_INFO("Halo3MP guest-output FPS {:.1f} ({} frames / {:.3f}s)", fps,
+                      frame_delta, elapsed);
+        }
         app_context().CallInUIThread([app_window, title = title.str()]() {
           ApplyHostWindowTitle(app_window, title);
         });
