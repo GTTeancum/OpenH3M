@@ -5,21 +5,28 @@ using the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 ## Status
 
-2026-08-16 update: the Release build now reaches the Halo 3 Mythic menus with
-the 3D menu background visible and can enter first-person gameplay on Zanzibar
-in a window. The repeatable Custom Games proof path uses a recorded
-keyboard-controller route replayed as `input_script`, including the pause before
-the final `A` press while the map/cache state settles. A clean manual route also
-reaches Forge gameplay on Zanzibar, and D-pad Up toggles Forge build/monitor
-mode. Use the offline multiplayer surfaces for testing; Xbox LIVE is
-intentionally out of scope, while split screen, system link, Custom Games,
-Forge, and Theater are in scope.
+2026-08-16 update: the Release build reaches the Halo 3 Mythic menus with the
+3D menu background visible and can enter first-person Custom Games gameplay on
+Last Resort/Zanzibar in a window. The repeatable Custom Games proof path uses a
+recorded keyboard-controller route replayed as `input_script`, including the
+pause before the final `A` press while the map/cache state settles. The
+split-screen stress route is now a direct, screenshot-gated Custom Games path:
+no menu clamping, no foreground keyboard input, and no foreground/window
+capture. A clean manual route also reaches Forge gameplay on Zanzibar, and D-pad
+Up toggles Forge build/monitor mode. Use the offline multiplayer surfaces for
+testing; Xbox LIVE is intentionally out of scope, while split screen, system
+link, Custom Games, Forge, and Theater are in scope.
 
 Known current issues:
 
-- The D3D12 host render-target path still washes out the main-menu 3D
-  background. Halo 3 MP now defaults to the D3D12 ROV path; use
-  `--render_target_path_d3d12=rtv` only to reproduce the broken path.
+- The D3D12 host render-target path is the performance default. Halo 3 MP uses
+  `render_target_path_d3d12=rtv` with `gamma_render_target_as_unorm16=false`;
+  the newer 16-bit gamma host representation washes the 3D output to white.
+  Accurate ROV remains available as a command-line override but is much slower
+  on integrated GPUs.
+- Generic memexport CPU readback is disabled for Halo 3 MP. The GPU writes are
+  preserved, while avoiding synchronous GPU/CPU readback stalls. It can be
+  restored for diagnostics with `--readback_memexport=true`.
 - GPU logs still report memexport shader translation failures:
   `ShaderTranslator::GatherAluInstructionInformation: Couldn't extract memexport stream constant index`.
   These no longer block the menu background or the Zanzibar gameplay path.
@@ -28,12 +35,22 @@ Known current issues:
 - Four-player split-screen is the current validation target. The helper can now
   expose scripted synthetic input for users 0-3, including sticks and triggers,
   so it can stress movement and firing without requiring four physical
-  controllers. `-SplitScreenStress` reaches a real 2x2 split-screen gameplay
-  capture on Last Resort. A hot-path fiber trace was the main steady-FPS
-  bottleneck in four-player runs; after making that trace opt-in, the
-  capture-enabled stress route recovers to the 30 FPS cap after map/cache
-  startup. Theater is in scope, but it is not a useful proof target until games
-  can be recorded.
+  controllers. `-SplitScreenStress` is the long-run stress target for real 2x2
+  split-screen gameplay on Last Resort/Zanzibar.
+- The current four-player bottleneck is not the route, screenshots, or basic
+  viewport creation. Valid `halo3mp_132.log` evidence reaches Custom Games
+  gameplay, activates users 0-3, sees synthetic input from all four users, and
+  does not crash, but averages only 7.48 FPS after the expected user mask reaches
+  `0xf` with a 9.69 FPS tail. The matching XAM summary shows 843856 XamUser
+  calls in that phase, dominated by `get_signin_state=836596`. The activate-only
+  proof (`halo3mp_131.log`) reaches gameplay, exposes four local users without
+  P2-P4 input, and still falls to 3.69 FPS after `0xf`; that isolates the cliff
+  to local-user/sign-in exposure rather than movement or firing spam.
+- Treat Theater Lobby runs as invalid for Custom Games/FPS proof. Validate smoke
+  logs with `tools/analyze_smoke_log.ps1`, which requires a gameplay map load
+  plus an autosave temp before FPS samples are accepted and now reports XamUser
+  call summaries by FPS phase. Theater is in scope, but it is not a useful proof
+  target until games can be recorded.
 
 Windowed automated input helper:
 
@@ -41,10 +58,28 @@ Windowed automated input helper:
 .\run_windowed.ps1 -SmokeTest
 ```
 
-`-SmokeTest` replays the recorded Custom Games/Zanzibar route and writes an
-internal guest-output BMP to `out/build/win-amd64-release/halo3mp_smoke_zanzibar.bmp`
-after the final delayed `A` press. This capture is taken from the Rexglue
-presenter output, not from the foreground desktop or window.
+`-SmokeTest` replays the recorded Custom Games/Zanzibar route and logs
+host-measured guest-output FPS. By default it does not write captures. Add
+`-Capture` only when a visual checkpoint is needed; the one-shot image is a PNG
+written from the Rexglue presenter output, not from the foreground desktop or
+window.
+
+```bash
+powershell -ExecutionPolicy Bypass -File .\tools\analyze_smoke_log.ps1
+```
+
+The analyzer reads the newest log by default and fails the run if it cannot
+prove that the route reached gameplay. In particular, menu-only or Theater
+Lobby runs must not be used as gameplay FPS evidence.
+
+```bash
+.\run_windowed.ps1 -OnePlayerStress
+```
+
+`-OnePlayerStress` starts the default Custom Games match on Last
+Resort/Zanzibar, then drives user 0 with left-stick, right-stick, and
+right-trigger input. It is log-only by default; add `-Capture` to write
+`out/build/win-amd64-release/halo3mp_smoke_oneplayer_stress.png`.
 
 ```bash
 .\run_windowed.ps1 -SplitScreenStress
@@ -52,15 +87,18 @@ presenter output, not from the foreground desktop or window.
 
 `-SplitScreenStress` enables four offline local users with
 `--xam_local_user_count=4`, enters the Custom Games lobby from the main menu,
-starts the default Slayer match on Last Resort, then drives all four users with
-left-stick, right-stick, and right-trigger input. It writes
-`out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.bmp` from the
-internal guest-output presenter and logs host-measured guest-output FPS samples.
-Use `-NoCapture` to run the same route without the one-shot BMP capture, and
-`-ExtraArgs` to append cvars for A/B profiling runs, for example:
+starts the default Slayer match on Last Resort/Zanzibar, pulses virtual `START`
+on users 1-3 after gameplay has loaded so they can join in progress, then drives
+all four users with left-stick, right-stick, and right-trigger input. It is
+log-only by default and emits one-second XamUser summaries for bottleneck
+analysis.
+Add `-Capture` to write
+`out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.png` from the
+internal guest-output presenter. Use `-ExtraArgs` to append cvars for A/B
+profiling runs, for example:
 
 ```bash
-.\run_windowed.ps1 -SplitScreenStress -NoCapture -ExtraArgs '--occlusion_query_enable=false'
+.\run_windowed.ps1 -SplitScreenStress -ExtraArgs '--occlusion_query_enable=false'
 ```
 
 The detailed Halo job-system fiber trace is opt-in via
@@ -118,11 +156,21 @@ cmake --preset win-amd64-release && cmake --build --preset win-amd64-release
 halo3mp.exe --game_data_root=<extracted-disc> --gpu_plugin=xenos
 ```
 
-`--gpu_plugin=xenos` is required. The Halo 3 MP app defaults D3D12 to
-`render_target_path_d3d12=rov` because the host render-target path washes out
-the main-menu 3D scene. `game_data_root` must be a **directory** of extracted
-disc files (`HostPathDevice` mounted as `game:` / `d:`). Rerun `tools/genstubs.py`
-after any `rexglue codegen`.
+`--gpu_plugin=xenos` is required. The Halo 3 MP app defaults D3D12 to the faster
+`render_target_path_d3d12=rtv` path and disables 16-bit gamma render-target host
+storage to preserve correct menu and world rendering. A validated four-player
+Zanzibar stress run averaged 29.0 FPS over its 60-sample tail on a Radeon 780M,
+with a 17.8 FPS transient minimum after all four users became active. The D3D12
+plugin also caches identical index-buffer bindings within each command list. In
+adjacent profiled four-player runs, the cache skipped 19.6% of indexed bindings
+and improved the post-activation average from 26.70 to 28.38 FPS. A subsequent
+profiler-off confirmation averaged 28.77 FPS with a 23.8 FPS minimum, valid
+102-second and 130-second gameplay captures, and no fatal errors. Menus and the
+pre-split-screen gameplay interval were near 30 FPS. This is not a locked 30 FPS
+result, and brief loading or gameplay dips still occur.
+`game_data_root` must be a **directory** of extracted disc files
+(`HostPathDevice` mounted as `game:` / `d:`). Rerun `tools/genstubs.py` after any
+`rexglue codegen`.
 
 ## Fixes carried here
 

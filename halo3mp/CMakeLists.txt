@@ -14,6 +14,7 @@ include(generated/rexglue.cmake)
 set(HALO3MP_SOURCES
     src/main.cpp
     src/fiber_switch.cpp
+    src/local_user_hotpath.cpp
 )
 
 if(WIN32)
@@ -23,6 +24,10 @@ else()
 endif()
 
 rexglue_setup_target(halo3mp GPU_PLUGINS xenos)
+
+if(WIN32)
+    target_link_libraries(halo3mp PRIVATE windowscodecs ole32)
+endif()
 
 # Cross-module (guest->guest) import thunks.
 # ReXGlue v0.10 does not resolve guest DLL -> guest DLL function imports, so the

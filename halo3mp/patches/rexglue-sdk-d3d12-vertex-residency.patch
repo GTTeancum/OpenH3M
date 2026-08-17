@@ -1,0 +1,23 @@
+diff --git a/src/graphics/d3d12/command_processor.cpp b/src/graphics/d3d12/command_processor.cpp
+index 19874a5..a414ec7 100644
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -2478,15 +2478,14 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+   // Ensure vertex buffers are resident.
+   const Shader::ConstantRegisterMap& constant_map_vertex = vertex_shader->constant_register_map();
+   for (uint32_t i = 0; i < rex::countof(constant_map_vertex.vertex_fetch_bitmap); ++i) {
+-    uint32_t vfetch_bits_remaining = constant_map_vertex.vertex_fetch_bitmap[i];
++    uint32_t vfetch_bits_remaining =
++        constant_map_vertex.vertex_fetch_bitmap[i] &
++        ~uint32_t(vertex_buffers_in_sync_[i >> 1] >> ((i & 1) * 32));
+     uint32_t j;
+     while (rex::bit_scan_forward(vfetch_bits_remaining, &j)) {
+       vfetch_bits_remaining &= ~(uint32_t(1) << j);
+       uint32_t vfetch_index = i * 32 + j;
+       uint64_t vfetch_bit = uint64_t(1) << (vfetch_index & 63);
+-      if (vertex_buffers_in_sync_[vfetch_index >> 6] & vfetch_bit) {
+-        continue;
+-      }
+       xenos::xe_gpu_vertex_fetch_t vfetch_constant = regs.GetVertexFetch(vfetch_index);
+       switch (vfetch_constant.type) {
+         case xenos::FetchConstantType::kVertex:

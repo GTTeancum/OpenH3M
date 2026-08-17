@@ -1,7 +1,24 @@
 param(
     [switch]$SmokeTest,
+    [switch]$OnePlayerStress,
     [switch]$SplitScreenStress,
+    [switch]$Capture,
     [switch]$NoCapture,
+    [switch]$TraceXamUser,
+    [switch]$CleanSmokeUserData,
+    [int]$CaptureAfterMs = 0,
+    [ValidateRange(640, 8192)]
+    [int]$VideoModeWidth = 1280,
+    [ValidateRange(480, 8192)]
+    [int]$VideoModeHeight = 720,
+    [ValidateRange(-1, 5)]
+    [int]$AnisotropicOverride = 3,
+    [ValidateRange(1, 4)]
+    [int]$SplitPlayers = 4,
+    [switch]$NoJoinStarts,
+    [switch]$FastLocalUserState,
+    [switch]$FastLocalUserStateCompare,
+    [string]$LaunchRouteOverride = "",
     [string[]]$ExtraArgs = @()
 )
 
@@ -19,9 +36,14 @@ if (-not (Test-Path -LiteralPath $gameDataRoot)) {
     throw "Missing game data root: $gameDataRoot"
 }
 
-if ($SmokeTest -and $SplitScreenStress) {
-    throw "Choose either -SmokeTest or -SplitScreenStress, not both."
+if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress) | Where-Object { $_ }).Count -gt 1) {
+    throw "Choose only one of -SmokeTest, -OnePlayerStress, or -SplitScreenStress."
 }
+
+$freshCustomGamesRoute = @(
+    "46000:A+250",
+    "63000:A+250"
+)
 
 $zanzibarSmokeRoute = @(
     "30596:UP+146",
@@ -65,41 +87,101 @@ $zanzibarSmokeRoute = @(
 )
 
 $customGamesRoute = @(
-    "33000:DOWN+120",
-    "35000:A+160",
-    "47000:A+220"
+    "45000:DOWN+220",
+    "46000:A+250",
+    "68000:A+250"
+)
+
+$splitCustomGamesRoute = @(
+    "45000:DOWN+220",
+    "46000:A+250",
+    "68000:A+250"
+)
+
+function Clear-SmokeUserDataRoot {
+    param([string]$Path)
+
+    $buildRoot = (Resolve-Path -LiteralPath (Split-Path -Parent $exe)).Path
+    if (Test-Path -LiteralPath $Path) {
+        $resolved = (Resolve-Path -LiteralPath $Path).Path
+        if (-not $resolved.StartsWith($buildRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Refusing to clean smoke user data outside build root: $resolved"
+        }
+        Remove-Item -LiteralPath $resolved -Recurse -Force
+    }
+    New-Item -ItemType Directory -Path $Path -Force | Out-Null
+}
+
+$splitScreenJoinInGameRoute = @(
+    "95000:START+260@1",
+    "95200:START+260@2",
+    "95400:START+260@3"
 )
 
 $splitScreenStressRoute = @(
-    "78000:LSUP+4500@0",
-    "78000:RT+4500@0",
-    "78000:RSRIGHT+1500@0",
-    "78200:LSRIGHT+4500@1",
-    "78200:RT+4500@1",
-    "78200:RSLEFT+1500@1",
-    "78400:LSDOWN+4500@2",
-    "78400:RT+4500@2",
-    "78400:RSUP+1500@2",
-    "78600:LSLEFT+4500@3",
-    "78600:RT+4500@3",
-    "78600:RSDOWN+1500@3",
-    "84000:LSRIGHT+4500@0",
-    "84000:RT+4500@0",
-    "84200:LSDOWN+4500@1",
-    "84200:RT+4500@1",
-    "84400:LSLEFT+4500@2",
-    "84400:RT+4500@2",
-    "84600:LSUP+4500@3",
-    "84600:RT+4500@3",
-    "90000:LSLEFT+4500@0",
-    "90000:RT+4500@0",
-    "90200:LSUP+4500@1",
-    "90200:RT+4500@1",
-    "90400:LSRIGHT+4500@2",
-    "90400:RT+4500@2",
-    "90600:LSDOWN+4500@3",
-    "90600:RT+4500@3"
+    "121000:LSUP+4500@0",
+    "121000:RT+4500@0",
+    "121000:RSRIGHT+1500@0",
+    "121200:LSRIGHT+4500@1",
+    "121200:RT+4500@1",
+    "121200:RSLEFT+1500@1",
+    "121400:LSDOWN+4500@2",
+    "121400:RT+4500@2",
+    "121400:RSUP+1500@2",
+    "121600:LSLEFT+4500@3",
+    "121600:RT+4500@3",
+    "121600:RSDOWN+1500@3",
+    "127000:LSRIGHT+4500@0",
+    "127000:RT+4500@0",
+    "127200:LSDOWN+4500@1",
+    "127200:RT+4500@1",
+    "127400:LSLEFT+4500@2",
+    "127400:RT+4500@2",
+    "127600:LSUP+4500@3",
+    "127600:RT+4500@3",
+    "133000:LSLEFT+4500@0",
+    "133000:RT+4500@0",
+    "133200:LSUP+4500@1",
+    "133200:RT+4500@1",
+    "133400:LSRIGHT+4500@2",
+    "133400:RT+4500@2",
+    "133600:LSDOWN+4500@3",
+    "133600:RT+4500@3"
 )
+
+$onePlayerStressRoute = @(
+    "97000:LSUP+4500@0",
+    "97000:RT+4500@0",
+    "97000:RSRIGHT+1500@0",
+    "103000:LSRIGHT+4500@0",
+    "103000:RT+4500@0",
+    "109000:LSLEFT+4500@0",
+    "109000:RT+4500@0"
+)
+
+function Select-RouteForPlayers {
+    param(
+        [string[]]$Route,
+        [int]$PlayerCount
+    )
+
+    @($Route | Where-Object {
+        if ($_ -match "@([0-3])(?:\\+\\d+)?$") {
+            return ([int]$Matches[1]) -lt $PlayerCount
+        }
+        return $true
+    })
+}
+
+function Get-LaunchRoute {
+    param([string[]]$DefaultRoute)
+
+    if (-not [string]::IsNullOrWhiteSpace($LaunchRouteOverride)) {
+        return @($LaunchRouteOverride -split "," | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    }
+
+    return $DefaultRoute
+}
 
 $args = @(
     "--game_data_root", $gameDataRoot,
@@ -107,41 +189,126 @@ $args = @(
     "--no-fullscreen",
     "--window_width", "1280",
     "--window_height", "720",
-    "--render_target_path_d3d12=rov",
+    "--video_mode_width", "$VideoModeWidth",
+    "--video_mode_height", "$VideoModeHeight",
+    "--anisotropic_override=$AnisotropicOverride",
+    "--render_target_path_d3d12=rtv",
+    "--gamma_render_target_as_unorm16=false",
+    "--readback_memexport=false",
     "--gpu_allow_invalid_fetch_constants=true",
     "--halo3mp_title_fps=true",
     "--keyboard_controller=true",
     "--keyboard_controller_log=true"
 )
 
-if ($SmokeTest) {
-    $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_zanzibar.bmp"
-    $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
-        "--input_script=$($zanzibarSmokeRoute -join ',')",
-        "--halo3mp_capture_guest_output_after_ms=152000",
-        "--halo3mp_capture_guest_output_path=$capturePath"
-    )
+if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress)) {
+    $smokeUserDataRoot = Join-Path (Split-Path -Parent $exe) "smoke_user_data"
+    Clear-SmokeUserDataRoot -Path $smokeUserDataRoot
+    $args += @("--user_data_root=$smokeUserDataRoot")
 }
 
-if ($SplitScreenStress) {
-    $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_splitscreen_stress.bmp"
-    $script = $customGamesRoute + $splitScreenStressRoute
+if ($SmokeTest) {
+    $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_zanzibar.png"
+    $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 152000 }
     $args += @(
         "--keyboard_controller=false",
         "--keyboard_controller_log=false",
-        "--xam_local_user_count=4",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=true",
+        "--input_script_keystrokes_until_ms=65000",
+        "--xgi_session_log=true",
         "--halo3mp_log_fps=true",
-        "--input_script=$($script -join ',')"
+        "--halo3mp_smoke_route=custom-games-zanzibar-smoke",
+        "--halo3mp_smoke_expected_state=custom_games_gameplay_zanzibar",
+        "--halo3mp_smoke_players=1",
+        "--input_script=$($zanzibarSmokeRoute -join ',')"
     )
 
-    if (-not $NoCapture) {
+    if ($Capture -and -not $NoCapture) {
         $args += @(
-            "--halo3mp_capture_guest_output_after_ms=98000",
+            "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",
             "--halo3mp_capture_guest_output_path=$capturePath"
         )
     }
+}
+
+if ($OnePlayerStress) {
+    $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_oneplayer_stress.png"
+    $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 111000 }
+    $captureTimesMs = if ($CaptureAfterMs -gt 0) { @("$CaptureAfterMs") } else { @("44000", "55000", "70000", "84000", "111000") }
+    $launchRoute = Get-LaunchRoute -DefaultRoute $(if ($CleanSmokeUserData) { $freshCustomGamesRoute } else { $customGamesRoute })
+    $script = $launchRoute + $onePlayerStressRoute
+    $args += @(
+        "--keyboard_controller=false",
+        "--keyboard_controller_log=false",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=true",
+        "--input_script_keystrokes_until_ms=65000",
+        "--xgi_session_log=true",
+        "--halo3mp_log_fps=true",
+        "--halo3mp_smoke_route=one-player-stress",
+        "--halo3mp_smoke_expected_state=custom_games_gameplay_zanzibar_one_player_moving_firing",
+        "--halo3mp_smoke_players=1",
+        "--input_script=$($script -join ',')"
+    )
+
+    if ($Capture -and -not $NoCapture) {
+        $args += @(
+            "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",
+            "--halo3mp_capture_guest_output_times_ms=$($captureTimesMs -join ',')",
+            "--halo3mp_capture_guest_output_path=$capturePath"
+        )
+    }
+}
+
+if ($SplitScreenStress) {
+    $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_splitscreen_stress.png"
+    $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 130000 }
+    $captureTimesMs = if ($CaptureAfterMs -gt 0) { @("$CaptureAfterMs") } else { @("44000", "55000", "70000", "84000", "102000", "130000") }
+    $routeName = "{0}-player-splitscreen-stress" -f $SplitPlayers
+    $launchRoute = Get-LaunchRoute -DefaultRoute $(if ($CleanSmokeUserData) { $freshCustomGamesRoute } else { $splitCustomGamesRoute })
+    $joinRoute = if ($NoJoinStarts) { @() } else {
+        Select-RouteForPlayers -Route $splitScreenJoinInGameRoute -PlayerCount $SplitPlayers
+    }
+    $script = $launchRoute +
+        $joinRoute +
+        (Select-RouteForPlayers -Route $splitScreenStressRoute -PlayerCount $SplitPlayers)
+    $activationMs = @("0", "90000", "90200", "90400") | Select-Object -First $SplitPlayers
+    $args += @(
+        "--keyboard_controller=false",
+        "--keyboard_controller_log=false",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=true",
+        "--input_script_keystrokes_until_ms=65000",
+        "--xam_local_user_count=$SplitPlayers",
+        "--xam_local_user_activation_ms=$($activationMs -join ',')",
+        "--xgi_session_log=true",
+        "--halo3mp_log_fps=true",
+        "--halo3mp_smoke_route=$routeName",
+        "--halo3mp_smoke_expected_state=custom_games_gameplay_zanzibar_$($SplitPlayers)_players_moving_firing",
+        "--halo3mp_smoke_players=$SplitPlayers",
+        "--input_script=$($script -join ',')"
+    )
+
+    if ($Capture -and -not $NoCapture) {
+        $args += @(
+            "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",
+            "--halo3mp_capture_guest_output_times_ms=$($captureTimesMs -join ',')",
+            "--halo3mp_capture_guest_output_path=$capturePath"
+        )
+    }
+}
+
+if ($TraceXamUser) {
+    $args += @("--xam_user_summary_interval_ms=1000")
+}
+
+if ($FastLocalUserState) {
+    $args += @("--halo3mp_fast_local_user_state=true")
+}
+
+if ($FastLocalUserStateCompare) {
+    $args += @("--halo3mp_fast_local_user_state_compare=true")
 }
 
 $args += $ExtraArgs

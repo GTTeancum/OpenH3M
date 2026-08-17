@@ -1,0 +1,54 @@
+diff --git a/include/rex/graphics/d3d12/command_processor.h b/include/rex/graphics/d3d12/command_processor.h
+index 96d362b..50c60d8 100644
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -757,6 +757,8 @@ class D3D12CommandProcessor : public CommandProcessor {
+ 
+   // Current primitive topology.
+   D3D_PRIMITIVE_TOPOLOGY primitive_topology_;
++  D3D12_INDEX_BUFFER_VIEW current_index_buffer_view_{};
++  bool current_index_buffer_view_valid_ = false;
+ 
+   // Temporary storage for memexport stream constants used in the draw.
+   std::vector<draw_util::MemExportRange> memexport_ranges_;
+diff --git a/src/graphics/d3d12/command_processor.cpp b/src/graphics/d3d12/command_processor.cpp
+index 19874a5..68b577a 100644
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -47,6 +47,10 @@ REXCVAR_DEFINE_BOOL(d3d12_submit_on_primary_buffer_end, true, "GPU/D3D12",
+                     "Submit command list when PM4 primary buffer ends")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+ 
++REXCVAR_DEFINE_BOOL(d3d12_cache_index_buffer, true, "GPU/D3D12",
++                    "Skip redundant index buffer bindings within a command list")
++    .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
+ namespace rex::graphics::d3d12 {
+ 
+ // Generated with `xb buildshaders`.
+@@ -2678,7 +2682,16 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+         assert_unhandled_case(primitive_processing_result.index_buffer_type);
+         return false;
+     }
+-    deferred_command_list_.D3DIASetIndexBuffer(&index_buffer_view);
++    bool index_buffer_binding_matches =
++        current_index_buffer_view_valid_ &&
++        current_index_buffer_view_.BufferLocation == index_buffer_view.BufferLocation &&
++        current_index_buffer_view_.SizeInBytes == index_buffer_view.SizeInBytes &&
++        current_index_buffer_view_.Format == index_buffer_view.Format;
++    if (!REXCVAR_GET(d3d12_cache_index_buffer) || !index_buffer_binding_matches) {
++      deferred_command_list_.D3DIASetIndexBuffer(&index_buffer_view);
++      current_index_buffer_view_ = index_buffer_view;
++      current_index_buffer_view_valid_ = true;
++    }
+     if (memexport_used) {
+       shared_memory_->UseForWriting();
+     } else {
+@@ -3321,6 +3335,7 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+       sampler_bindful_heap_current_ = nullptr;
+     }
+     primitive_topology_ = D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
++    current_index_buffer_view_valid_ = false;
+ 
+     render_target_cache_->BeginSubmission();
+ 

@@ -1,0 +1,13 @@
+diff --git a/src/graphics/command_processor.cpp b/src/graphics/command_processor.cpp
+index a744375..651b8a6 100644
+--- a/src/graphics/command_processor.cpp
++++ b/src/graphics/command_processor.cpp
+@@ -59,7 +59,7 @@ REXCVAR_DEFINE_BOOL(readback_resolve_half_pixel_offset, false, "GPU",
+                     "scaled block during resolve readback downscale")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+ 
+-REXCVAR_DEFINE_BOOL(readback_memexport, true, "GPU",
++REXCVAR_DEFINE_BOOL(readback_memexport, false, "GPU",
+                     "Enable CPU readback of shader memexport writes for guest memory "
+                     "coherency (can reduce correctness issues, but may add GPU/CPU sync cost)")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
