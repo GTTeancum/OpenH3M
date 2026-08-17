@@ -89,8 +89,8 @@ on users 1-3 after gameplay has loaded so they can join in progress, then drives
 all four users with left-stick, right-stick, and right-trigger input. It is
 log-only by default and emits one-second XamUser summaries for bottleneck
 analysis.
-Automated launches run the game at Below Normal CPU priority so long smoke tests
-remain background-friendly while the desktop is in use.
+Automated launches keep the game at Normal CPU priority and hide the game window.
+The earlier request for Below Normal priority applied to the Codex app, not OpenH3M.
 Add `-Capture` to write
 `out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.png` from the
 internal guest-output presenter. Use `-ExtraArgs` to append cvars for A/B

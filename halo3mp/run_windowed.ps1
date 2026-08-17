@@ -313,5 +313,15 @@ if ($FastLocalUserStateCompare) {
 
 $args += $ExtraArgs
 
-$process = Start-Process -FilePath $exe -ArgumentList $args -WorkingDirectory (Split-Path -Parent $exe) -PassThru
-$process.PriorityClass = "BelowNormal"
+$startProcessArgs = @{
+    FilePath = $exe
+    ArgumentList = $args
+    WorkingDirectory = (Split-Path -Parent $exe)
+    PassThru = $true
+}
+if ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress) {
+    $startProcessArgs.WindowStyle = "Hidden"
+}
+
+$process = Start-Process @startProcessArgs
+$process.PriorityClass = "Normal"
