@@ -39,6 +39,8 @@
 #include <rex/ui/window.h>
 #include <rex/ui/windowed_app_context.h>
 
+#include "system_link.h"
+
 REXCVAR_DEFINE_BOOL(halo3mp_title_fps, true, "Halo3MP",
                     "Show guest output FPS in the host window title bar");
 REXCVAR_DEFINE_UINT32(halo3mp_title_fps_interval_ms, 1000, "Halo3MP",
@@ -115,6 +117,12 @@ class Halo3mpApp : public rex::ReXApp {
     if (rex::cvar::GetFlagSource("gpu_allow_invalid_fetch_constants") ==
         rex::cvar::Source::kDefault) {
       rex::cvar::SetFlagByName("gpu_allow_invalid_fetch_constants", "true");
+    }
+  }
+
+  void OnPostSetup() override {
+    if (!open_h3m::system_link::Install(runtime())) {
+      REXLOG_ERROR("OpenH3M System Link hooks were not fully installed");
     }
   }
 
