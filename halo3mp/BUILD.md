@@ -139,6 +139,16 @@ bounded socket metadata to
 payloads are neither logged nor persisted. Add `-Capture` only for an internal
 guest-output PNG checkpoint. The probe does not use foreground keyboard input.
 
+After the probe exits, summarize and validate its bounded diagnostics with:
+
+```bash
+.\tools\analyze_system_link_probe.ps1 -RequireConsoleDatagram
+```
+
+Exit code 2 means the OpenH3M host was ready but no console datagram reached its
+owned UDP socket. The report lists only source address/port, packet counts, and
+transport state.
+
 Historical note from the earlier handoff follows.
 
 Boots through the render path and runs the game's job scheduler. **Does not
