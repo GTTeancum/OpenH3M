@@ -42,7 +42,6 @@ $screenshotFiles = @(
 
 $requiredFiles = @(
     (Join-Path $buildRoot "halo3mp.exe"),
-    (Join-Path $repoRoot "OpenH3M.cmd"),
     (Join-Path $repoRoot "README.md"),
     (Join-Path $repoRoot "docs\release-game-folder.txt")
 ) + @($runtimeFiles | ForEach-Object { Join-Path $buildRoot $_ }) +
@@ -71,7 +70,6 @@ Copy-Item -LiteralPath (Join-Path $buildRoot "halo3mp.exe") -Destination (Join-P
 foreach ($file in $runtimeFiles) {
     Copy-Item -LiteralPath (Join-Path $buildRoot $file) -Destination $stagingRoot
 }
-Copy-Item -LiteralPath (Join-Path $repoRoot "OpenH3M.cmd") -Destination $stagingRoot
 Copy-Item -LiteralPath (Join-Path $repoRoot "README.md") -Destination $stagingRoot
 Copy-Item -LiteralPath (Join-Path $repoRoot "docs\release-game-folder.txt") -Destination (Join-Path $gameFolder "PUT_DISC_FILES_HERE.txt")
 foreach ($file in $screenshotFiles) {

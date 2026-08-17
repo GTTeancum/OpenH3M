@@ -28,6 +28,7 @@
 #endif
 
 #include <rex/cvar.h>
+#include <rex/filesystem.h>
 #include <rex/logging/macros.h>
 #include <rex/rex_app.h>
 #include <rex/runtime.h>
@@ -63,11 +64,28 @@ class Halo3mpApp : public rex::ReXApp {
 
   static std::unique_ptr<rex::ui::WindowedApp> Create(
       rex::ui::WindowedAppContext& ctx) {
+    SetDefaultFlag("fullscreen", "false");
+    SetDefaultFlag("window_width", "1280");
+    SetDefaultFlag("window_height", "720");
+    SetDefaultFlag("video_mode_width", "1280");
+    SetDefaultFlag("video_mode_height", "720");
+    SetDefaultFlag("anisotropic_override", "3");
+    SetDefaultFlag("keyboard_controller", "true");
+    SetDefaultFlag("keyboard_controller_log", "false");
     return std::unique_ptr<Halo3mpApp>(new Halo3mpApp(ctx, "OpenH3M",
         PPCImageConfig));
   }
 
+  void OnConfigurePaths(rex::PathConfig& paths) override {
+    if (paths.game_data_root.empty()) {
+      paths.game_data_root = rex::filesystem::GetExecutableFolder() / "game";
+    }
+  }
+
   void OnPreSetup(rex::RuntimeConfig& config) override {
+    if (config.gpu_plugin.empty()) {
+      config.gpu_plugin = "xenos";
+    }
     if (!config.graphics && !config.gpu_plugin.empty()) {
       config.graphics = rex::system::LoadGpuPlugin(config.gpu_plugin);
     }
@@ -122,6 +140,12 @@ class Halo3mpApp : public rex::ReXApp {
   }
 
  private:
+  static void SetDefaultFlag(std::string_view name, std::string_view value) {
+    if (rex::cvar::GetFlagSource(name) == rex::cvar::Source::kDefault) {
+      rex::cvar::SetFlagByName(name, value);
+    }
+  }
+
 #if defined(_WIN32)
   static bool SavePng(const std::filesystem::path& path, const rex::ui::RawImage& image) {
     if (!image.width || !image.height || image.stride < size_t(image.width) * 4 ||

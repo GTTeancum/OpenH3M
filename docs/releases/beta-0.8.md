@@ -14,7 +14,7 @@ The first binary release of Open Halo 3 Mythic brings the Halo 3 Mythic multipla
 
 ## Setup
 
-Extract the archive, place your legally extracted Halo 3: ODST Multiplayer Disc (Disc 2) files in the included `game` folder, then run `OpenH3M.cmd`. The directory must contain `game\default.xex` and `game\maps\`.
+Extract the archive, place your legally extracted Halo 3: ODST Multiplayer Disc (Disc 2) files in the included `game` folder, then run `OpenH3M.exe`. The directory must contain `game\default.xex` and `game\maps\`. No launcher script or command-line arguments are required.
 
 Game data is not included. See the repository README for complete instructions and controls.
 

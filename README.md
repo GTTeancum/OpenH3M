@@ -39,9 +39,9 @@ The game targets its original 30 FPS cap. The current build displays measured FP
 2. Create a folder named `game` beside `OpenH3M.exe`.
 3. Extract the disc's filesystem into `game` with an Xbox/XDVDFS extraction tool, preserving its directory structure.
 4. Confirm that `game\default.xex` and `game\maps\` exist.
-5. Run `OpenH3M.cmd`.
+5. Run `OpenH3M.exe`.
 
-The launcher starts the game windowed at 1280x720 with the validated Direct3D 12 settings and below-normal CPU priority. Additional command-line arguments can be appended to the launcher invocation.
+OpenH3M automatically uses the adjacent `game` folder and starts windowed at 1280x720 with the validated Direct3D 12 settings. No launcher script or command-line arguments are required.
 
 ## Controls
 
