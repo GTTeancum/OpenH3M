@@ -63,7 +63,7 @@ class Halo3mpApp : public rex::ReXApp {
 
   static std::unique_ptr<rex::ui::WindowedApp> Create(
       rex::ui::WindowedAppContext& ctx) {
-    return std::unique_ptr<Halo3mpApp>(new Halo3mpApp(ctx, "halo3mp",
+    return std::unique_ptr<Halo3mpApp>(new Halo3mpApp(ctx, "OpenH3M",
         PPCImageConfig));
   }
 
