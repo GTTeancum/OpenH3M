@@ -2,6 +2,7 @@ param(
     [switch]$SmokeTest,
     [switch]$OnePlayerStress,
     [switch]$SplitScreenStress,
+    [switch]$SystemLinkProbe,
     [switch]$Capture,
     [switch]$NoCapture,
     [switch]$TraceXamUser,
@@ -18,6 +19,8 @@ param(
     [switch]$NoJoinStarts,
     [switch]$FastLocalUserState,
     [switch]$FastLocalUserStateCompare,
+    [ValidateRange(30, 900)]
+    [int]$SystemLinkProbeDurationSec = 180,
     [string]$LaunchRouteOverride = "",
     [string[]]$ExtraArgs = @()
 )
@@ -36,8 +39,8 @@ if (-not (Test-Path -LiteralPath $gameDataRoot)) {
     throw "Missing game data root: $gameDataRoot"
 }
 
-if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress) | Where-Object { $_ }).Count -gt 1) {
-    throw "Choose only one of -SmokeTest, -OnePlayerStress, or -SplitScreenStress."
+if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress, $SystemLinkProbe) | Where-Object { $_ }).Count -gt 1) {
+    throw "Choose only one of -SmokeTest, -OnePlayerStress, -SplitScreenStress, or -SystemLinkProbe."
 }
 
 $freshCustomGamesRoute = @(
@@ -96,6 +99,17 @@ $splitCustomGamesRoute = @(
     "45000:DOWN+220",
     "46000:A+250",
     "68000:A+250"
+)
+
+$systemLinkHostRoute = @(
+    "46000:A+250",
+    "54000:UP+120",
+    "54600:UP+120",
+    "55200:UP+120",
+    "56500:A+250",
+    "59000:UP+150",
+    "60300:A+250",
+    "65000:A+250"
 )
 
 function Clear-SmokeUserDataRoot {
@@ -205,6 +219,41 @@ if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenSt
     $smokeUserDataRoot = Join-Path (Split-Path -Parent $exe) "smoke_user_data"
     Clear-SmokeUserDataRoot -Path $smokeUserDataRoot
     $args += @("--user_data_root=$smokeUserDataRoot")
+}
+
+if ($SystemLinkProbe) {
+    $probeRoot = Join-Path (Split-Path -Parent $exe) "system_link_probe"
+    $probeUserDataRoot = Join-Path $probeRoot "user_data"
+    $probeLogPath = Join-Path $probeRoot "system_link_probe.log"
+    New-Item -ItemType Directory -Path $probeRoot -Force | Out-Null
+    Clear-SmokeUserDataRoot -Path $probeUserDataRoot
+    if (Test-Path -LiteralPath $probeLogPath) {
+        Remove-Item -LiteralPath $probeLogPath -Force
+    }
+    $args += @(
+        "--keyboard_controller=false",
+        "--keyboard_controller_log=false",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=true",
+        "--input_script_keystrokes_until_ms=68000",
+        "--xnet_metadata_log=true",
+        "--xgi_session_log=true",
+        "--halo3mp_smoke_route=system-link-host-probe",
+        "--halo3mp_smoke_expected_state=system_link_host_lobby",
+        "--halo3mp_smoke_players=1",
+        "--user_data_root=$probeUserDataRoot",
+        "--log_file=$probeLogPath",
+        "--input_script=$($systemLinkHostRoute -join ',')"
+    )
+
+    if ($Capture -and -not $NoCapture) {
+        $capturePath = Join-Path $probeRoot "system_link_host.png"
+        $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 69000 }
+        $args += @(
+            "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",
+            "--halo3mp_capture_guest_output_path=$capturePath"
+        )
+    }
 }
 
 if ($SmokeTest) {
@@ -319,9 +368,19 @@ $startProcessArgs = @{
     WorkingDirectory = (Split-Path -Parent $exe)
     PassThru = $true
 }
-if ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress) {
+if ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress -or $SystemLinkProbe) {
     $startProcessArgs.WindowStyle = "Hidden"
 }
 
 $process = Start-Process @startProcessArgs
 $process.PriorityClass = "Normal"
+
+if ($SystemLinkProbe) {
+    if (-not $process.WaitForExit($SystemLinkProbeDurationSec * 1000)) {
+        $null = $process.CloseMainWindow()
+        if (-not $process.WaitForExit(5000)) {
+            Stop-Process -Id $process.Id -Force
+            $process.WaitForExit()
+        }
+    }
+}

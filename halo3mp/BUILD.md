@@ -126,6 +126,19 @@ so routes can be recreated:
 
 The window title shows host-measured guest-output FPS, outside the in-game HUD.
 
+For a bounded real-console System Link discovery probe:
+
+```bash
+.\run_windowed.ps1 -SystemLinkProbe
+```
+
+The probe uses synthetic controller input to open a fresh System Link Custom
+Games host lobby, runs hidden for three minutes, and then exits. It writes only
+bounded socket metadata to
+`out/build/win-amd64-release/system_link_probe/system_link_probe.log`; packet
+payloads are neither logged nor persisted. Add `-Capture` only for an internal
+guest-output PNG checkpoint. The probe does not use foreground keyboard input.
+
 Historical note from the earlier handoff follows.
 
 Boots through the render path and runs the game's job scheduler. **Does not
