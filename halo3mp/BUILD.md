@@ -172,6 +172,17 @@ runtime gain from disabling it: matched post-activation, pre-capture windows
 averaged 23.08 FPS with the default and 23.01 FPS without switches. The default
 remains enabled; the lower cold-cache figures are not representative of the
 warmed 28.77 FPS result above.
+Two later quality-neutral D3D12 experiments were also rejected. Specializing
+pixel shaders for the active gamma render-target mask had the same 29.6 FPS
+median as the legacy branch path and only a noisy 0.30 FPS advantage in a
+matched stable window, while an earlier matched window was 0.94 FPS slower.
+Disabling submission at primary-buffer boundaries removed mid-frame reopens,
+but reduced four-player output to 15.8-20.8 FPS while frame-opening fence waits
+rose to roughly 645 ms per second. The existing shader and submission behavior
+is retained. With 3D engine utilization reaching 100%, low command-processor
+CPU time, and no meaningful benefit from lower output resolution or anisotropy,
+the remaining 1-3 FPS below the 30 FPS cap on the integrated Radeon 780M is a
+hardware/backend ceiling rather than the former XamUser/sign-in bottleneck.
 `game_data_root` must be a **directory** of extracted disc files
 (`HostPathDevice` mounted as `game:` / `d:`). Rerun `tools/genstubs.py` after any
 `rexglue codegen`.
