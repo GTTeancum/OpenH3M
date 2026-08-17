@@ -37,15 +37,12 @@ Known current issues:
   so it can stress movement and firing without requiring four physical
   controllers. `-SplitScreenStress` is the long-run stress target for real 2x2
   split-screen gameplay on Last Resort/Zanzibar.
-- The current four-player bottleneck is not the route, screenshots, or basic
-  viewport creation. Valid `halo3mp_132.log` evidence reaches Custom Games
-  gameplay, activates users 0-3, sees synthetic input from all four users, and
-  does not crash, but averages only 7.48 FPS after the expected user mask reaches
-  `0xf` with a 9.69 FPS tail. The matching XAM summary shows 843856 XamUser
-  calls in that phase, dominated by `get_signin_state=836596`. The activate-only
-  proof (`halo3mp_131.log`) reaches gameplay, exposes four local users without
-  P2-P4 input, and still falls to 3.69 FPS after `0xf`; that isolates the cliff
-  to local-user/sign-in exposure rather than movement or firing spam.
+- The original four-player cliff was caused by local-user/sign-in query churn,
+  not viewport creation or scripted input. `halo3mp_132.log` measured 843856
+  XamUser calls, dominated by 836596 sign-in-state queries, after user mask
+  `0xf`; the local-user fast path removes that churn. Current valid four-player
+  runs are GPU/backend limited near 29 FPS on a Radeon 780M rather than the old
+  3-10 FPS range.
 - Treat Theater Lobby runs as invalid for Custom Games/FPS proof. Validate smoke
   logs with `tools/analyze_smoke_log.ps1`, which requires a gameplay map load
   plus an autosave temp before FPS samples are accepted and now reports XamUser
@@ -92,6 +89,8 @@ on users 1-3 after gameplay has loaded so they can join in progress, then drives
 all four users with left-stick, right-stick, and right-trigger input. It is
 log-only by default and emits one-second XamUser summaries for bottleneck
 analysis.
+Automated launches run the game at Below Normal CPU priority so long smoke tests
+remain background-friendly while the desktop is in use.
 Add `-Capture` to write
 `out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.png` from the
 internal guest-output presenter. Use `-ExtraArgs` to append cvars for A/B
@@ -168,6 +167,11 @@ profiler-off confirmation averaged 28.77 FPS with a 23.8 FPS minimum, valid
 102-second and 130-second gameplay captures, and no fatal errors. Menus and the
 pre-split-screen gameplay interval were near 30 FPS. This is not a locked 30 FPS
 result, and brief loading or gameplay dips still occur.
+An isolated-cache four-player A/B of DXBC switch-based control flow found no
+runtime gain from disabling it: matched post-activation, pre-capture windows
+averaged 23.08 FPS with the default and 23.01 FPS without switches. The default
+remains enabled; the lower cold-cache figures are not representative of the
+warmed 28.77 FPS result above.
 `game_data_root` must be a **directory** of extracted disc files
 (`HostPathDevice` mounted as `game:` / `d:`). Rerun `tools/genstubs.py` after any
 `rexglue codegen`.

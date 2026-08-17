@@ -313,4 +313,5 @@ if ($FastLocalUserStateCompare) {
 
 $args += $ExtraArgs
 
-Start-Process -FilePath $exe -ArgumentList $args -WorkingDirectory (Split-Path -Parent $exe)
+$process = Start-Process -FilePath $exe -ArgumentList $args -WorkingDirectory (Split-Path -Parent $exe) -PassThru
+$process.PriorityClass = "BelowNormal"
