@@ -3,6 +3,8 @@ param(
     [switch]$OnePlayerStress,
     [switch]$SplitScreenStress,
     [switch]$SystemLinkProbe,
+    [ValidateSet("Host", "Find")]
+    [string]$SystemLinkProbeRole = "Host",
     [switch]$Capture,
     [switch]$NoCapture,
     [switch]$TraceXamUser,
@@ -112,6 +114,13 @@ $systemLinkHostRoute = @(
     "59000:UP+150",
     "60300:A+250",
     "65000:A+250"
+)
+
+$systemLinkFindRoute = $systemLinkHostRoute + @(
+    "67500:A+250",
+    "68200:RIGHT+180",
+    "68800:DOWN+180",
+    "69500:A+250"
 )
 
 function Clear-SmokeUserDataRoot {
@@ -279,7 +288,12 @@ if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenSt
 }
 
 if ($SystemLinkProbe) {
-    $probeRoot = Join-Path (Split-Path -Parent $exe) "system_link_probe"
+    $probeName = if ($SystemLinkProbeRole -eq "Find") {
+        "system_link_find_probe"
+    } else {
+        "system_link_probe"
+    }
+    $probeRoot = Join-Path (Split-Path -Parent $exe) $probeName
     $probeUserDataRoot = Join-Path $probeRoot "user_data"
     $probeLogPath = Join-Path $probeRoot "system_link_probe.log"
     New-Item -ItemType Directory -Path $probeRoot -Force | Out-Null
@@ -287,22 +301,35 @@ if ($SystemLinkProbe) {
     if (Test-Path -LiteralPath $probeLogPath) {
         Remove-Item -LiteralPath $probeLogPath -Force
     }
+    $defaultRoute = if ($SystemLinkProbeRole -eq "Find") {
+        $systemLinkFindRoute
+    } else {
+        $systemLinkHostRoute
+    }
+    $launchRoute = Get-LaunchRoute -DefaultRoute $defaultRoute
+    $routeName = if ($SystemLinkProbeRole -eq "Find") { "system-link-find-probe" } else { "system-link-host-probe" }
+    $expectedState = if ($SystemLinkProbeRole -eq "Find") { "system_link_game_browser" } else { "system_link_host_lobby" }
     $args += @(
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=68000",
         "--xnet_metadata_log=true",
         "--xgi_session_log=true",
-        "--halo3mp_smoke_route=system-link-host-probe",
-        "--halo3mp_smoke_expected_state=system_link_host_lobby",
+        "--halo3mp_smoke_route=$routeName",
+        "--halo3mp_smoke_expected_state=$expectedState",
         "--halo3mp_smoke_players=1",
         "--user_data_root=$probeUserDataRoot",
         "--log_file=$probeLogPath",
-        "--input_script=$($systemLinkHostRoute -join ',')"
+        "--input_script=$($launchRoute -join ',')"
     )
 
     if ($Capture -and -not $NoCapture) {
-        $capturePath = Join-Path $probeRoot "system_link_host.png"
+        $captureName = if ($SystemLinkProbeRole -eq "Find") {
+            "system_link_find.png"
+        } else {
+            "system_link_host.png"
+        }
+        $capturePath = Join-Path $probeRoot $captureName
         $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 69000 }
         $args += @(
             "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",

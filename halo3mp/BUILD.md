@@ -140,6 +140,20 @@ payloads are neither logged nor persisted. Add `-Capture` only for an internal
 guest-output PNG checkpoint. The probe keeps its SDL window hidden, never starts
 SDL text input, and disables the keyboard-controller bridge before launch.
 
+Use `-SystemLinkProbeRole Find` to enter the System Link game browser instead.
+That path generates Halo's native broadcast discovery query and records only
+bounded transport metadata; `Host` remains the default.
+
+Run and validate a complete hidden, title-generated local discovery exchange
+with:
+
+```bash
+.\tools\smoke_system_link_exchange.ps1
+```
+
+The smoke starts isolated host and finder instances, writes no captures, and
+then runs `tools/analyze_system_link_exchange.ps1` over their bounded logs.
+
 After the probe exits, summarize and validate its bounded diagnostics with:
 
 ```bash

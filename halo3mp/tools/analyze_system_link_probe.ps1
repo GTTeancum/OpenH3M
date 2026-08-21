@@ -1,6 +1,8 @@
 param(
     [string]$LogPath = "",
     [switch]$RequireConsoleDatagram,
+    [switch]$RequireTitleDatagram,
+    [switch]$RequireGuestDelivery,
     [switch]$AsJson
 )
 
@@ -30,6 +32,9 @@ $fatalLines = New-Object System.Collections.Generic.List[string]
 $sources = New-Object 'System.Collections.Generic.HashSet[string]'
 $loggedDatagrams = 0
 $observedDatagrams = 0
+$titleDatagrams = 0
+$deliveredDatagrams = 0
+$guestReceivedDatagrams = 0
 
 foreach ($line in (Get-Content -LiteralPath $LogPath)) {
     if ($line -match "Halo3MP smoke context route='system-link-host-probe' expected_state='system_link_host_lobby'") {
@@ -54,15 +59,24 @@ foreach ($line in (Get-Content -LiteralPath $LogPath)) {
     if ($line -match "\[xnet\] XNetRegisterKey .* registered=\d+ result=0") {
         $keyRegistered = $true
     }
-    if ($line -match "System Link console datagram bytes=(\d+) address=(0x[0-9a-fA-F]+) port=(\d+) packets=(\d+) payload_log=(true|false)") {
+    if ($line -match "System Link console datagram bytes=(\d+) address=(0x[0-9a-fA-F]+) port=(\d+)(?: delivered=(\d+))? packets=(\d+) payload_log=(true|false)") {
         ++$loggedDatagrams
-        $observedDatagrams = [math]::Max($observedDatagrams, [int64]$Matches[4])
-        $privacySafe = $privacySafe -and ($Matches[5] -eq "false")
+        $observedDatagrams = [math]::Max($observedDatagrams, [int64]$Matches[5])
+        if ($Matches[4]) {
+            $deliveredDatagrams += [int]$Matches[4]
+        }
+        $privacySafe = $privacySafe -and ($Matches[6] -eq "false")
 
         $rawAddress = [Convert]::ToUInt32($Matches[2].Substring(2), 16)
         $addressBytes = [BitConverter]::GetBytes($rawAddress)
         $ipAddress = (New-Object System.Net.IPAddress -ArgumentList (,$addressBytes)).ToString()
         [void]$sources.Add("$($ipAddress):$($Matches[3])")
+    }
+    if ($line -match "System Link title datagram .* packets=(\d+) payload_log=false") {
+        $titleDatagrams = [math]::Max($titleDatagrams, [int64]$Matches[1])
+    }
+    if ($line -match "\[xnet\] recvfrom socket=.* bytes=\d+") {
+        ++$guestReceivedDatagrams
     }
     if ($line -match "payload_log=true") {
         $privacySafe = $false
@@ -104,6 +118,9 @@ $result = [pscustomobject]@{
     ConsoleTrafficObserved = $consoleTrafficObserved
     ObservedDatagrams = $observedDatagrams
     LoggedDatagrams = $loggedDatagrams
+    TitleDatagrams = $titleDatagrams
+    DeliveredDatagrams = $deliveredDatagrams
+    GuestReceivedDatagrams = $guestReceivedDatagrams
     Sources = @($sources | Sort-Object)
     PayloadLoggingDisabled = $privacySafe
     CleanShutdown = $cleanShutdown
@@ -124,5 +141,11 @@ if ($fatalLines.Count -gt 0 -or -not $hostTransportReady) {
     exit 1
 }
 if ($RequireConsoleDatagram -and -not $consoleTrafficObserved) {
+    exit 2
+}
+if ($RequireTitleDatagram -and $titleDatagrams -eq 0) {
+    exit 2
+}
+if ($RequireGuestDelivery -and ($deliveredDatagrams -eq 0 -or $guestReceivedDatagrams -eq 0)) {
     exit 2
 }
