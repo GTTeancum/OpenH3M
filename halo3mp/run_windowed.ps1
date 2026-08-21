@@ -43,6 +43,8 @@ if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress, $SystemLinkProbe) | Whe
     throw "Choose only one of -SmokeTest, -OnePlayerStress, -SplitScreenStress, or -SystemLinkProbe."
 }
 
+$automatedRun = $SmokeTest -or $OnePlayerStress -or $SplitScreenStress -or $SystemLinkProbe
+
 $freshCustomGamesRoute = @(
     "46000:A+250",
     "63000:A+250"
@@ -124,6 +126,50 @@ function Clear-SmokeUserDataRoot {
         Remove-Item -LiteralPath $resolved -Recurse -Force
     }
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
+}
+
+function Close-HiddenProcessWindows {
+    param([int]$ProcessId)
+
+    if (-not ("OpenH3M.NativeWindow" -as [type])) {
+        Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+namespace OpenH3M {
+    public static class NativeWindow {
+        private const uint WmClose = 0x0010;
+        private delegate bool EnumWindowsCallback(IntPtr window, IntPtr parameter);
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumWindows(EnumWindowsCallback callback, IntPtr parameter);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PostMessage(IntPtr window, uint message, IntPtr wParam,
+                                               IntPtr lParam);
+
+        public static int PostCloseToProcess(uint processId) {
+            int count = 0;
+            EnumWindows((window, parameter) => {
+                uint ownerProcessId;
+                GetWindowThreadProcessId(window, out ownerProcessId);
+                if (ownerProcessId == processId && PostMessage(window, WmClose, IntPtr.Zero,
+                                                                IntPtr.Zero)) {
+                    ++count;
+                }
+                return true;
+            }, IntPtr.Zero);
+            return count;
+        }
+    }
+}
+"@
+    }
+
+    return [OpenH3M.NativeWindow]::PostCloseToProcess([uint32]$ProcessId)
 }
 
 $splitScreenJoinInGameRoute = @(
@@ -210,10 +256,21 @@ $args = @(
     "--gamma_render_target_as_unorm16=false",
     "--readback_memexport=false",
     "--gpu_allow_invalid_fetch_constants=true",
-    "--halo3mp_title_fps=true",
-    "--keyboard_controller=true",
-    "--keyboard_controller_log=true"
+    "--halo3mp_title_fps=true"
 )
+
+if ($automatedRun) {
+    $args += @(
+        "--window_start_hidden",
+        "--no-keyboard_controller",
+        "--no-keyboard_controller_log"
+    )
+} else {
+    $args += @(
+        "--keyboard_controller",
+        "--keyboard_controller_log"
+    )
+}
 
 if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress)) {
     $smokeUserDataRoot = Join-Path (Split-Path -Parent $exe) "smoke_user_data"
@@ -231,8 +288,6 @@ if ($SystemLinkProbe) {
         Remove-Item -LiteralPath $probeLogPath -Force
     }
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=68000",
@@ -260,8 +315,6 @@ if ($SmokeTest) {
     $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_zanzibar.png"
     $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 152000 }
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -288,8 +341,6 @@ if ($OnePlayerStress) {
     $launchRoute = Get-LaunchRoute -DefaultRoute $(if ($CleanSmokeUserData) { $freshCustomGamesRoute } else { $customGamesRoute })
     $script = $launchRoute + $onePlayerStressRoute
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -324,8 +375,6 @@ if ($SplitScreenStress) {
         (Select-RouteForPlayers -Route $splitScreenStressRoute -PlayerCount $SplitPlayers)
     $activationMs = @("0", "90000", "90200", "90400") | Select-Object -First $SplitPlayers
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -368,7 +417,7 @@ $startProcessArgs = @{
     WorkingDirectory = (Split-Path -Parent $exe)
     PassThru = $true
 }
-if ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress -or $SystemLinkProbe) {
+if ($automatedRun) {
     $startProcessArgs.WindowStyle = "Hidden"
 }
 
@@ -377,7 +426,10 @@ $process.PriorityClass = "Normal"
 
 if ($SystemLinkProbe) {
     if (-not $process.WaitForExit($SystemLinkProbeDurationSec * 1000)) {
-        $null = $process.CloseMainWindow()
+        $windowsClosed = Close-HiddenProcessWindows -ProcessId $process.Id
+        if ($windowsClosed -eq 0) {
+            $null = $process.CloseMainWindow()
+        }
         if (-not $process.WaitForExit(5000)) {
             Stop-Process -Id $process.Id -Force
             $process.WaitForExit()

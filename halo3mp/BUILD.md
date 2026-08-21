@@ -137,7 +137,8 @@ Games host lobby, runs hidden for three minutes, and then exits. It writes only
 bounded socket metadata to
 `out/build/win-amd64-release/system_link_probe/system_link_probe.log`; packet
 payloads are neither logged nor persisted. Add `-Capture` only for an internal
-guest-output PNG checkpoint. The probe does not use foreground keyboard input.
+guest-output PNG checkpoint. The probe keeps its SDL window hidden, never starts
+SDL text input, and disables the keyboard-controller bridge before launch.
 
 After the probe exits, summarize and validate its bounded diagnostics with:
 

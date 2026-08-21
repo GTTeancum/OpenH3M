@@ -1027,3 +1027,35 @@ index a8ad46a..0419b45 100644
      target_compile_definitions(rexruntime PUBLIC NOMINMAX WIN32_LEAN_AND_MEAN)
  endif()
  
+diff --git a/src/ui/window_sdl.cpp b/src/ui/window_sdl.cpp
+index 1fce7f1..818d563 100644
+--- a/src/ui/window_sdl.cpp
++++ b/src/ui/window_sdl.cpp
+@@ -41,6 +41,9 @@
+ 
+ namespace rex::ui {
+ 
++REXCVAR_DEFINE_BOOL(window_start_hidden, false, "UI",
++                    "Keep the application window hidden and text input disabled at startup");
++
+ namespace {
+ 
+ uint32_t ResolveWindowWidth(uint32_t requested_width) {
+@@ -178,10 +181,14 @@ bool WindowSDL::OpenImpl() {
+                            kCFPreferencesCurrentApplication);
+   CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
+ #endif
+-  // SDL3 requires explicit opt-in for text input events.
+-  SDL_StartTextInput(sdl_window_);
+   ApplyCursorVisibilityNow();
+-  SDL_ShowWindow(sdl_window_);
++  if (REXCVAR_GET(window_start_hidden)) {
++    REXLOG_INFO("Application window started hidden with text input disabled");
++  } else {
++    // SDL3 requires explicit opt-in for text input events.
++    SDL_StartTextInput(sdl_window_);
++    SDL_ShowWindow(sdl_window_);
++  }
+ 
+   // Actualize state for the common Window code. Listener dispatch is handled
+   // by Window::Open after OpenImpl returns; these only record initial state.
