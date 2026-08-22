@@ -1,6 +1,6 @@
 # Open Halo 3 Mythic
 
-**OpenH3M** is a native Windows x64 static recompilation of the Halo 3 Mythic multiplayer disc included with Halo 3: ODST. Beta 0.8 brings the complete 3D menu presentation, Custom Games, local split screen, and Forge to PC through ReXGlue.
+**OpenH3M** is a native Windows x64 static recompilation of the Halo 3 Mythic multiplayer disc included with Halo 3: ODST. Beta 0.8 brings the complete 3D menu presentation, Custom Games, local split screen, and Forge to PC through the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 OpenH3M does not distribute game data. You must supply files extracted from a legally obtained Halo 3: ODST Multiplayer Disc (Disc 2).
 
@@ -69,6 +69,10 @@ cmake --build --preset win-amd64-release -- -j 2
 ```
 
 Run those commands from the `halo3mp` directory.
+
+## Acknowledgments
+
+OpenH3M is powered by the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk). Thank you to the ReXGlue team for building and maintaining the Xbox 360 recompilation toolkit that makes this project possible.
 
 ## Legal
 
