@@ -1,3 +1,16 @@
+diff --git a/include/rex/graphics/d3d12/command_processor.h b/include/rex/graphics/d3d12/command_processor.h
+index 96d362b..50c60d8 100644
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -757,6 +757,8 @@ class D3D12CommandProcessor : public CommandProcessor {
+ 
+   // Current primitive topology.
+   D3D_PRIMITIVE_TOPOLOGY primitive_topology_;
++  D3D12_INDEX_BUFFER_VIEW current_index_buffer_view_{};
++  bool current_index_buffer_view_valid_ = false;
+ 
+   // Temporary storage for memexport stream constants used in the draw.
+   std::vector<draw_util::MemExportRange> memexport_ranges_;
 diff --git a/include/rex/system/xsocket.h b/include/rex/system/xsocket.h
 index a1b4443..d248507 100644
 --- a/include/rex/system/xsocket.h
@@ -32,6 +45,1276 @@ index a1b4443..d248507 100644
    std::queue<uint8_t*> incoming_packets_;
  };
  
+diff --git a/include/rex/ui/presenter.h b/include/rex/ui/presenter.h
+index afb4a30..62e4ae7 100644
+--- a/include/rex/ui/presenter.h
++++ b/include/rex/ui/presenter.h
+@@ -362,6 +362,9 @@ class Presenter {
+   // multiple at the same time, and it should acquire the latest guest output
+   // image via ConsumeGuestOutput.
+   virtual bool CaptureGuestOutput(RawImage& image_out) = 0;
++  uint64_t guest_output_frame_count() const {
++    return guest_output_frame_count_.load(std::memory_order_relaxed);
++  }
+   const GuestOutputPaintConfig& GetGuestOutputPaintConfigFromUIThread() const {
+     return guest_output_paint_config_;
+   }
+@@ -976,6 +979,7 @@ class Presenter {
+   // Accessible only by refreshing, whether the last refresh contained an image
+   // rather than being blank.
+   bool guest_output_active_last_refresh_ = false;
++  std::atomic<uint64_t> guest_output_frame_count_{0};
+ 
+   // Ordered by the Z order, and then by the time of addition.
+   // Note: All the iteration logic involving this Z ordering must be the same as
+diff --git a/src/graphics/command_processor.cpp b/src/graphics/command_processor.cpp
+index a744375..651b8a6 100644
+--- a/src/graphics/command_processor.cpp
++++ b/src/graphics/command_processor.cpp
+@@ -59,7 +59,7 @@ REXCVAR_DEFINE_BOOL(readback_resolve_half_pixel_offset, false, "GPU",
+                     "scaled block during resolve readback downscale")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+ 
+-REXCVAR_DEFINE_BOOL(readback_memexport, true, "GPU",
++REXCVAR_DEFINE_BOOL(readback_memexport, false, "GPU",
+                     "Enable CPU readback of shader memexport writes for guest memory "
+                     "coherency (can reduce correctness issues, but may add GPU/CPU sync cost)")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+diff --git a/src/graphics/d3d12/command_processor.cpp b/src/graphics/d3d12/command_processor.cpp
+index 19874a5..a449410 100644
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -10,6 +10,8 @@
+  */
+ 
+ #include <algorithm>
++#include <atomic>
++#include <chrono>
+ #include <cstdarg>
+ #include <cstring>
+ #include <sstream>
+@@ -47,8 +49,211 @@ REXCVAR_DEFINE_BOOL(d3d12_submit_on_primary_buffer_end, true, "GPU/D3D12",
+                     "Submit command list when PM4 primary buffer ends")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+ 
++REXCVAR_DEFINE_BOOL(d3d12_cache_index_buffer, true, "GPU/D3D12",
++                    "Skip redundant index buffer bindings within a command list")
++    .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
++REXCVAR_DEFINE_BOOL(d3d12_occlusion_query_sync_readback, true, "GPU/D3D12",
++                    "Synchronously read host occlusion query results")
++    .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
++REXCVAR_DEFINE_UINT32(d3d12_perf_summary_interval_ms, 0, "GPU/D3D12",
++                      "Log D3D12 command processor performance summaries every N milliseconds")
++    .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
+ namespace rex::graphics::d3d12 {
+ 
++namespace {
++
++struct D3D12PerfStats {
++  std::atomic<uint64_t> draw_calls{0};
++  std::atomic<uint64_t> draw_ns{0};
++  std::atomic<uint64_t> draw_copy_calls{0};
++  std::atomic<uint64_t> draw_copy_ns{0};
++  std::atomic<uint64_t> draw_emitted{0};
++  std::atomic<uint64_t> indexed_draws{0};
++  std::atomic<uint64_t> index_buffer_bindings{0};
++  std::atomic<uint64_t> index_buffer_binding_skips{0};
++  std::atomic<uint64_t> draw_shader_analysis_ns{0};
++  std::atomic<uint64_t> draw_shader_prepare_ns{0};
++  std::atomic<uint64_t> draw_primitive_ns{0};
++  std::atomic<uint64_t> draw_render_target_ns{0};
++  std::atomic<uint64_t> draw_pipeline_ns{0};
++  std::atomic<uint64_t> draw_texture_ns{0};
++  std::atomic<uint64_t> draw_state_ns{0};
++  std::atomic<uint64_t> draw_bindings_ns{0};
++  std::atomic<uint64_t> draw_residency_ns{0};
++  std::atomic<uint64_t> draw_emit_ns{0};
++  std::atomic<uint64_t> memexport_draws{0};
++  std::atomic<uint64_t> memexport_ranges{0};
++  std::atomic<uint64_t> memexport_mark_ns{0};
++  std::atomic<uint64_t> memexport_range_ns{0};
++  std::atomic<uint64_t> memexport_readback_ns{0};
++  std::atomic<uint64_t> draw_memexport_ns{0};
++  std::atomic<uint64_t> begin_submissions{0};
++  std::atomic<uint64_t> begin_submission_ns{0};
++  std::atomic<uint64_t> begin_open_frame{0};
++  std::atomic<uint64_t> begin_reopen_submission{0};
++  std::atomic<uint64_t> begin_fence_ns{0};
++  std::atomic<uint64_t> begin_reset_ns{0};
++  std::atomic<uint64_t> begin_frame_ns{0};
++  std::atomic<uint64_t> end_submissions{0};
++  std::atomic<uint64_t> end_submission_ns{0};
++  std::atomic<uint64_t> swaps{0};
++  std::atomic<uint64_t> occlusion_begins{0};
++  std::atomic<uint64_t> occlusion_ends{0};
++  std::atomic<uint64_t> occlusion_fallbacks{0};
++  std::atomic<uint64_t> occlusion_sync_readbacks{0};
++  std::atomic<uint64_t> last_summary_ms{0};
++};
++
++D3D12PerfStats g_d3d12_perf;
++
++uint64_t PerfNowMs() {
++  return uint64_t(std::chrono::duration_cast<std::chrono::milliseconds>(
++                      std::chrono::steady_clock::now().time_since_epoch())
++                      .count());
++}
++
++struct PerfTimer {
++  explicit PerfTimer(std::atomic<uint64_t>* target_ns)
++      : target_ns(target_ns), start(std::chrono::steady_clock::now()) {}
++
++  ~PerfTimer() {
++    if (!target_ns) {
++      return;
++    }
++    const auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
++                                std::chrono::steady_clock::now() - start)
++                                .count();
++    target_ns->fetch_add(uint64_t(elapsed_ns), std::memory_order_relaxed);
++  }
++
++  std::atomic<uint64_t>* target_ns;
++  std::chrono::steady_clock::time_point start;
++};
++
++std::atomic<uint64_t>* PerfTarget(std::atomic<uint64_t>& target) {
++  return REXCVAR_GET(d3d12_perf_summary_interval_ms) ? &target : nullptr;
++}
++
++void MaybeLogD3D12PerfSummary() {
++  const uint32_t interval_ms = REXCVAR_GET(d3d12_perf_summary_interval_ms);
++  if (!interval_ms) {
++    return;
++  }
++
++  const uint64_t now_ms = PerfNowMs();
++  uint64_t last_ms = g_d3d12_perf.last_summary_ms.load(std::memory_order_relaxed);
++  if (last_ms && now_ms - last_ms < interval_ms) {
++    return;
++  }
++  if (!g_d3d12_perf.last_summary_ms.compare_exchange_strong(last_ms, now_ms,
++                                                            std::memory_order_relaxed)) {
++    return;
++  }
++
++  const uint64_t draw_calls = g_d3d12_perf.draw_calls.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_ns = g_d3d12_perf.draw_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_copy_calls =
++      g_d3d12_perf.draw_copy_calls.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_copy_ns = g_d3d12_perf.draw_copy_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_emitted = g_d3d12_perf.draw_emitted.exchange(0, std::memory_order_relaxed);
++  const uint64_t indexed_draws =
++      g_d3d12_perf.indexed_draws.exchange(0, std::memory_order_relaxed);
++  const uint64_t index_buffer_bindings =
++      g_d3d12_perf.index_buffer_bindings.exchange(0, std::memory_order_relaxed);
++  const uint64_t index_buffer_binding_skips =
++      g_d3d12_perf.index_buffer_binding_skips.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_shader_analysis_ns =
++      g_d3d12_perf.draw_shader_analysis_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_shader_prepare_ns =
++      g_d3d12_perf.draw_shader_prepare_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_primitive_ns =
++      g_d3d12_perf.draw_primitive_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_render_target_ns =
++      g_d3d12_perf.draw_render_target_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_pipeline_ns =
++      g_d3d12_perf.draw_pipeline_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_texture_ns =
++      g_d3d12_perf.draw_texture_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_state_ns = g_d3d12_perf.draw_state_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_bindings_ns =
++      g_d3d12_perf.draw_bindings_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_residency_ns =
++      g_d3d12_perf.draw_residency_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_emit_ns = g_d3d12_perf.draw_emit_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t memexport_draws =
++      g_d3d12_perf.memexport_draws.exchange(0, std::memory_order_relaxed);
++  const uint64_t memexport_ranges =
++      g_d3d12_perf.memexport_ranges.exchange(0, std::memory_order_relaxed);
++  const uint64_t memexport_mark_ns =
++      g_d3d12_perf.memexport_mark_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t memexport_range_ns =
++      g_d3d12_perf.memexport_range_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t memexport_readback_ns =
++      g_d3d12_perf.memexport_readback_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t draw_memexport_ns =
++      g_d3d12_perf.draw_memexport_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_submissions =
++      g_d3d12_perf.begin_submissions.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_submission_ns =
++      g_d3d12_perf.begin_submission_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_open_frame =
++      g_d3d12_perf.begin_open_frame.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_reopen_submission =
++      g_d3d12_perf.begin_reopen_submission.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_fence_ns =
++      g_d3d12_perf.begin_fence_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_reset_ns =
++      g_d3d12_perf.begin_reset_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t begin_frame_ns =
++      g_d3d12_perf.begin_frame_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t end_submissions =
++      g_d3d12_perf.end_submissions.exchange(0, std::memory_order_relaxed);
++  const uint64_t end_submission_ns =
++      g_d3d12_perf.end_submission_ns.exchange(0, std::memory_order_relaxed);
++  const uint64_t swaps = g_d3d12_perf.swaps.exchange(0, std::memory_order_relaxed);
++  const uint64_t occlusion_begins =
++      g_d3d12_perf.occlusion_begins.exchange(0, std::memory_order_relaxed);
++  const uint64_t occlusion_ends =
++      g_d3d12_perf.occlusion_ends.exchange(0, std::memory_order_relaxed);
++  const uint64_t occlusion_fallbacks =
++      g_d3d12_perf.occlusion_fallbacks.exchange(0, std::memory_order_relaxed);
++  const uint64_t occlusion_sync_readbacks =
++      g_d3d12_perf.occlusion_sync_readbacks.exchange(0, std::memory_order_relaxed);
++
++  REXGPU_INFO(
++      "[d3d12-perf] draws={} emitted={} indexed={} ib_bind={} ib_skip={} copies={} "
++      "draw_ms={:.2f} copy_ms={:.2f} "
++      "shader_analysis_ms={:.2f} shader_prepare_ms={:.2f} primitive_ms={:.2f} "
++      "rt_ms={:.2f} pipeline_ms={:.2f} texture_ms={:.2f} state_ms={:.2f} "
++      "bindings_ms={:.2f} residency_ms={:.2f} emit_ms={:.2f} memexport_ms={:.2f} "
++      "memexport_draws={} memexport_ranges={} mark_ms={:.2f} range_ms={:.2f} "
++      "readback_ms={:.2f} "
++      "begin_sub={} begin_ms={:.2f} "
++      "begin_frame={} reopen={} fence_ms={:.2f} reset_ms={:.2f} frame_ms={:.2f} "
++      "end_sub={} end_ms={:.2f} swaps={} occ_begin={} occ_end={} "
++      "occ_fallback={} occ_sync={}",
++      draw_calls, draw_emitted, indexed_draws, index_buffer_bindings,
++      index_buffer_binding_skips, draw_copy_calls, double(draw_ns) / 1000000.0,
++      double(draw_copy_ns) / 1000000.0, double(draw_shader_analysis_ns) / 1000000.0,
++      double(draw_shader_prepare_ns) / 1000000.0, double(draw_primitive_ns) / 1000000.0,
++      double(draw_render_target_ns) / 1000000.0, double(draw_pipeline_ns) / 1000000.0,
++      double(draw_texture_ns) / 1000000.0, double(draw_state_ns) / 1000000.0,
++      double(draw_bindings_ns) / 1000000.0, double(draw_residency_ns) / 1000000.0,
++      double(draw_emit_ns) / 1000000.0, double(draw_memexport_ns) / 1000000.0,
++      memexport_draws, memexport_ranges, double(memexport_mark_ns) / 1000000.0,
++      double(memexport_range_ns) / 1000000.0, double(memexport_readback_ns) / 1000000.0,
++      begin_submissions,
++      double(begin_submission_ns) / 1000000.0, begin_open_frame, begin_reopen_submission,
++      double(begin_fence_ns) / 1000000.0, double(begin_reset_ns) / 1000000.0,
++      double(begin_frame_ns) / 1000000.0, end_submissions, double(end_submission_ns) / 1000000.0,
++      swaps, occlusion_begins, occlusion_ends, occlusion_fallbacks, occlusion_sync_readbacks);
++}
++
++}  // namespace
++
+ // Generated with `xb buildshaders`.
+ namespace shaders {
+ #include "../shaders/bytecode/d3d12_5_1/apply_gamma_pwl_cs.h"
+@@ -153,6 +358,9 @@ void D3D12CommandProcessor::InitializeShaderStorage(const std::filesystem::path&
+ bool D3D12CommandProcessor::ExecutePacketType3_EVENT_WRITE_ZPD(memory::RingBuffer* reader,
+                                                                uint32_t packet, uint32_t count) {
+   if (!REXCVAR_GET(occlusion_query_enable) || !occlusion_query_resources_available_) {
++    if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++      g_d3d12_perf.occlusion_fallbacks.fetch_add(1, std::memory_order_relaxed);
++    }
+     return CommandProcessor::ExecutePacketType3_EVENT_WRITE_ZPD(reader, packet, count);
+   }
+ 
+@@ -170,6 +378,9 @@ bool D3D12CommandProcessor::ExecutePacketType3_EVENT_WRITE_ZPD(memory::RingBuffe
+   }
+ 
+   auto write_fallback_result = [sample_counts, kQueryFinished]() -> bool {
++    if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++      g_d3d12_perf.occlusion_fallbacks.fetch_add(1, std::memory_order_relaxed);
++    }
+     auto fake_sample_count = REXCVAR_GET(query_occlusion_fake_sample_count);
+     if (fake_sample_count < 0) {
+       return true;
+@@ -1894,6 +2105,9 @@ void D3D12CommandProcessor::OnGammaRampPWLValueWritten() {
+ void D3D12CommandProcessor::IssueSwap(uint32_t frontbuffer_ptr, uint32_t frontbuffer_width,
+                                       uint32_t frontbuffer_height) {
+   SCOPE_profile_cpu_f("gpu");
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.swaps.fetch_add(1, std::memory_order_relaxed);
++  }
+   vertex_buffers_in_sync_[0] = 0;
+   vertex_buffers_in_sync_[1] = 0;
+ 
+@@ -2274,6 +2488,10 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+ #if XE_GPU_FINE_GRAINED_DRAW_SCOPES
+   SCOPE_profile_cpu_f("gpu");
+ #endif  // XE_GPU_FINE_GRAINED_DRAW_SCOPES
++  PerfTimer perf_timer(PerfTarget(g_d3d12_perf.draw_ns));
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.draw_calls.fetch_add(1, std::memory_order_relaxed);
++  }
+ 
+   ID3D12Device* device = GetD3D12Provider().GetDevice();
+   const RegisterFile& regs = *register_file_;
+@@ -2281,47 +2499,58 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+   xenos::EdramMode edram_mode = regs.Get<reg::RB_MODECONTROL>().edram_mode;
+   if (edram_mode == xenos::EdramMode::kCopy) {
+     // Special copy handling.
++    if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++      g_d3d12_perf.draw_copy_calls.fetch_add(1, std::memory_order_relaxed);
++    }
++    PerfTimer copy_timer(PerfTarget(g_d3d12_perf.draw_copy_ns));
+     return IssueCopy();
+   }
+ 
+-  bool surface_pitch_is_zero = regs.Get<reg::RB_SURFACE_INFO>().surface_pitch == 0;
++  D3D12Shader* vertex_shader = nullptr;
++  D3D12Shader* pixel_shader = nullptr;
++  bool memexport_used_vertex = false;
++  bool primitive_polygonal = false;
++  bool is_rasterization_done = false;
++  {
++    PerfTimer shader_analysis_timer(PerfTarget(g_d3d12_perf.draw_shader_analysis_ns));
++    bool surface_pitch_is_zero = regs.Get<reg::RB_SURFACE_INFO>().surface_pitch == 0;
+ 
+-  // Vertex shader analysis.
+-  auto vertex_shader = static_cast<D3D12Shader*>(active_vertex_shader());
+-  if (!vertex_shader) {
+-    // Always need a vertex shader.
+-    return false;
+-  }
+-  pipeline_cache_->AnalyzeShaderUcode(*vertex_shader);
+-  bool memexport_used_vertex = vertex_shader->memexport_eM_written() != 0;
++    // Vertex shader analysis.
++    vertex_shader = static_cast<D3D12Shader*>(active_vertex_shader());
++    if (!vertex_shader) {
++      // Always need a vertex shader.
++      return false;
++    }
++    pipeline_cache_->AnalyzeShaderUcode(*vertex_shader);
++    memexport_used_vertex = vertex_shader->memexport_eM_written() != 0;
+ 
+-  // Pixel shader analysis.
+-  bool primitive_polygonal = draw_util::IsPrimitivePolygonal(regs);
+-  bool is_rasterization_done = draw_util::IsRasterizationPotentiallyDone(regs, primitive_polygonal);
+-  if (surface_pitch_is_zero && is_rasterization_done) {
+-    // Doesn't actually draw.
+-    // Unlikely that zero would even really be legal though.
+-    return true;
+-  }
+-  D3D12Shader* pixel_shader = nullptr;
+-  if (is_rasterization_done) {
+-    // See xenos::EdramMode for explanation why the pixel shader is only used
+-    // when it's kColorDepth here.
+-    if (edram_mode == xenos::EdramMode::kColorDepth) {
+-      pixel_shader = static_cast<D3D12Shader*>(active_pixel_shader());
+-      if (pixel_shader) {
+-        pipeline_cache_->AnalyzeShaderUcode(*pixel_shader);
+-        if (!draw_util::IsPixelShaderNeededWithRasterization(*pixel_shader, regs)) {
+-          pixel_shader = nullptr;
++    // Pixel shader analysis.
++    primitive_polygonal = draw_util::IsPrimitivePolygonal(regs);
++    is_rasterization_done = draw_util::IsRasterizationPotentiallyDone(regs, primitive_polygonal);
++    if (surface_pitch_is_zero && is_rasterization_done) {
++      // Doesn't actually draw.
++      // Unlikely that zero would even really be legal though.
++      return true;
++    }
++    if (is_rasterization_done) {
++      // See xenos::EdramMode for explanation why the pixel shader is only used
++      // when it's kColorDepth here.
++      if (edram_mode == xenos::EdramMode::kColorDepth) {
++        pixel_shader = static_cast<D3D12Shader*>(active_pixel_shader());
++        if (pixel_shader) {
++          pipeline_cache_->AnalyzeShaderUcode(*pixel_shader);
++          if (!draw_util::IsPixelShaderNeededWithRasterization(*pixel_shader, regs)) {
++            pixel_shader = nullptr;
++          }
+         }
+       }
+-    }
+-  } else {
+-    // Disabling pixel shader for this case is also required by the pipeline
+-    // cache.
+-    if (!memexport_used_vertex) {
+-      // This draw has no effect.
+-      return true;
++    } else {
++      // Disabling pixel shader for this case is also required by the pipeline
++      // cache.
++      if (!memexport_used_vertex) {
++        // This draw has no effect.
++        return true;
++      }
+     }
+   }
+   bool memexport_used_pixel = pixel_shader && (pixel_shader->memexport_eM_written() != 0);
+@@ -2333,8 +2562,11 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+ 
+   // Process primitives.
+   PrimitiveProcessor::ProcessingResult primitive_processing_result;
+-  if (!primitive_processor_->Process(primitive_processing_result)) {
+-    return false;
++  {
++    PerfTimer primitive_timer(PerfTarget(g_d3d12_perf.draw_primitive_ns));
++    if (!primitive_processor_->Process(primitive_processing_result)) {
++      return false;
++    }
+   }
+   if (!primitive_processing_result.host_draw_vertex_count) {
+     // Nothing to draw.
+@@ -2345,40 +2577,50 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+ 
+   // Shader modifications.
+   uint32_t ps_param_gen_pos = UINT32_MAX;
+-  uint32_t interpolator_mask =
+-      pixel_shader ? (vertex_shader->writes_interpolators() &
+-                      pixel_shader->GetInterpolatorInputMask(regs.Get<reg::SQ_PROGRAM_CNTL>(),
+-                                                             regs.Get<reg::SQ_CONTEXT_MISC>(),
+-                                                             ps_param_gen_pos))
+-                   : 0;
+-  DxbcShaderTranslator::Modification vertex_shader_modification =
+-      pipeline_cache_->GetCurrentVertexShaderModification(
+-          *vertex_shader, primitive_processing_result.host_vertex_shader_type, interpolator_mask);
+-  DxbcShaderTranslator::Modification pixel_shader_modification =
+-      pixel_shader
+-          ? pipeline_cache_->GetCurrentPixelShaderModification(
+-                *pixel_shader, interpolator_mask, ps_param_gen_pos, normalized_depth_control)
+-          : DxbcShaderTranslator::Modification(0);
++  uint32_t interpolator_mask = 0;
++  DxbcShaderTranslator::Modification vertex_shader_modification(0);
++  DxbcShaderTranslator::Modification pixel_shader_modification(0);
++  {
++    PerfTimer shader_prepare_timer(PerfTarget(g_d3d12_perf.draw_shader_prepare_ns));
++    interpolator_mask = pixel_shader ? (vertex_shader->writes_interpolators() &
++                                        pixel_shader->GetInterpolatorInputMask(
++                                            regs.Get<reg::SQ_PROGRAM_CNTL>(),
++                                            regs.Get<reg::SQ_CONTEXT_MISC>(), ps_param_gen_pos))
++                                     : 0;
++    vertex_shader_modification = pipeline_cache_->GetCurrentVertexShaderModification(
++        *vertex_shader, primitive_processing_result.host_vertex_shader_type, interpolator_mask);
++    pixel_shader_modification = pixel_shader ? pipeline_cache_->GetCurrentPixelShaderModification(
++                                                   *pixel_shader, interpolator_mask,
++                                                   ps_param_gen_pos, normalized_depth_control)
++                                             : DxbcShaderTranslator::Modification(0);
++  }
+ 
+   // Set up the render targets - this may perform dispatches and draws.
+   uint32_t normalized_color_mask =
+       pixel_shader ? draw_util::GetNormalizedColorMask(regs, pixel_shader->writes_color_targets())
+                    : 0;
+-  if (!render_target_cache_->Update(is_rasterization_done, normalized_depth_control,
+-                                    normalized_color_mask, *vertex_shader)) {
+-    return false;
++  {
++    PerfTimer render_target_timer(PerfTarget(g_d3d12_perf.draw_render_target_ns));
++    if (!render_target_cache_->Update(is_rasterization_done, normalized_depth_control,
++                                      normalized_color_mask, *vertex_shader)) {
++      return false;
++    }
+   }
+ 
+   // Create the pipeline (for this, need the actually used render target formats
+   // from the render target cache), translating the shaders - doing this now to
+   // obtain the used textures.
+-  D3D12Shader::D3D12Translation* vertex_shader_translation =
+-      static_cast<D3D12Shader::D3D12Translation*>(
+-          vertex_shader->GetOrCreateTranslation(vertex_shader_modification.value));
+-  D3D12Shader::D3D12Translation* pixel_shader_translation =
+-      pixel_shader ? static_cast<D3D12Shader::D3D12Translation*>(
+-                         pixel_shader->GetOrCreateTranslation(pixel_shader_modification.value))
+-                   : nullptr;
++  D3D12Shader::D3D12Translation* vertex_shader_translation = nullptr;
++  D3D12Shader::D3D12Translation* pixel_shader_translation = nullptr;
++  {
++    PerfTimer shader_prepare_timer(PerfTarget(g_d3d12_perf.draw_shader_prepare_ns));
++    vertex_shader_translation = static_cast<D3D12Shader::D3D12Translation*>(
++        vertex_shader->GetOrCreateTranslation(vertex_shader_modification.value));
++    pixel_shader_translation =
++        pixel_shader ? static_cast<D3D12Shader::D3D12Translation*>(
++                           pixel_shader->GetOrCreateTranslation(pixel_shader_modification.value))
++                     : nullptr;
++  }
+   uint32_t bound_depth_and_color_render_target_bits;
+   uint32_t bound_depth_and_color_render_target_formats[1 + xenos::kMaxColorRenderTargets];
+   bool host_render_targets_used =
+@@ -2392,11 +2634,15 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+   }
+   void* pipeline_handle;
+   ID3D12RootSignature* root_signature;
+-  if (!pipeline_cache_->ConfigurePipeline(
+-          vertex_shader_translation, pixel_shader_translation, primitive_processing_result,
+-          normalized_depth_control, normalized_color_mask, bound_depth_and_color_render_target_bits,
+-          bound_depth_and_color_render_target_formats, &pipeline_handle, &root_signature)) {
+-    return false;
++  {
++    PerfTimer pipeline_timer(PerfTarget(g_d3d12_perf.draw_pipeline_ns));
++    if (!pipeline_cache_->ConfigurePipeline(
++            vertex_shader_translation, pixel_shader_translation, primitive_processing_result,
++            normalized_depth_control, normalized_color_mask,
++            bound_depth_and_color_render_target_bits, bound_depth_and_color_render_target_formats,
++            &pipeline_handle, &root_signature)) {
++      return false;
++    }
+   }
+   if (REXCVAR_GET(async_shader_compilation) &&
+       pipeline_cache_->GetD3D12PipelineByHandle(pipeline_handle) == nullptr) {
+@@ -2407,7 +2653,10 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+   uint32_t used_texture_mask =
+       vertex_shader->GetUsedTextureMaskAfterTranslation() |
+       (pixel_shader != nullptr ? pixel_shader->GetUsedTextureMaskAfterTranslation() : 0);
+-  texture_cache_->RequestTextures(used_texture_mask);
++  {
++    PerfTimer texture_timer(PerfTarget(g_d3d12_perf.draw_texture_ns));
++    texture_cache_->RequestTextures(used_texture_mask);
++  }
+ 
+   // Bind the pipeline after configuring it and doing everything that may bind
+   // other pipelines.
+@@ -2417,311 +2666,349 @@ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint3
+     current_external_pipeline_ = nullptr;
+   }
+ 
+-  // Get dynamic rasterizer state.
+-  uint32_t draw_resolution_scale_x = texture_cache_->draw_resolution_scale_x();
+-  uint32_t draw_resolution_scale_y = texture_cache_->draw_resolution_scale_y();
++  {
++    PerfTimer state_timer(PerfTarget(g_d3d12_perf.draw_state_ns));
++
++    // Get dynamic rasterizer state.
++    uint32_t draw_resolution_scale_x = texture_cache_->draw_resolution_scale_x();
++    uint32_t draw_resolution_scale_y = texture_cache_->draw_resolution_scale_y();
++
++    bool convert_z_to_float24 =
++        host_render_targets_used && render_target_cache_->depth_float24_convert_in_pixel_shader();
++    bool ps_writes_depth = pixel_shader && pixel_shader->writes_depth();
++
++    // Build a cache key from all viewport-affecting state to skip redundant
++    // recalculation when the viewport registers haven't changed between draws.
++    ViewportCacheKey viewport_key;
++    viewport_key.pa_cl_clip_cntl = regs[XE_GPU_REG_PA_CL_CLIP_CNTL];
++    viewport_key.pa_cl_vte_cntl = regs[XE_GPU_REG_PA_CL_VTE_CNTL];
++    viewport_key.pa_su_sc_mode_cntl = regs[XE_GPU_REG_PA_SU_SC_MODE_CNTL];
++    viewport_key.pa_su_vtx_cntl = regs[XE_GPU_REG_PA_SU_VTX_CNTL];
++    viewport_key.pa_sc_window_offset = regs[XE_GPU_REG_PA_SC_WINDOW_OFFSET];
++    viewport_key.normalized_depth_control = normalized_depth_control.value;
++    std::memcpy(viewport_key.vport_regs, &regs[XE_GPU_REG_PA_CL_VPORT_XSCALE],
++                sizeof(viewport_key.vport_regs));
++    viewport_key.flags = (uint32_t(convert_z_to_float24) << 0) |
++                         (uint32_t(host_render_targets_used) << 1) |
++                         (uint32_t(ps_writes_depth) << 2);
++
++    draw_util::ViewportInfo viewport_info;
++    if (viewport_cache_valid_ && viewport_key == previous_viewport_key_) {
++      viewport_info = previous_viewport_info_;
++    } else {
++      draw_util::GetHostViewportInfo(regs, draw_resolution_scale_x, draw_resolution_scale_y, true,
++                                     D3D12_VIEWPORT_BOUNDS_MAX, D3D12_VIEWPORT_BOUNDS_MAX, false,
++                                     normalized_depth_control, convert_z_to_float24,
++                                     host_render_targets_used, ps_writes_depth, viewport_info);
++      previous_viewport_key_ = viewport_key;
++      previous_viewport_info_ = viewport_info;
++      viewport_cache_valid_ = true;
++    }
+ 
+-  bool convert_z_to_float24 =
+-      host_render_targets_used && render_target_cache_->depth_float24_convert_in_pixel_shader();
+-  bool ps_writes_depth = pixel_shader && pixel_shader->writes_depth();
+-
+-  // Build a cache key from all viewport-affecting state to skip redundant
+-  // recalculation when the viewport registers haven't changed between draws.
+-  ViewportCacheKey viewport_key;
+-  viewport_key.pa_cl_clip_cntl = regs[XE_GPU_REG_PA_CL_CLIP_CNTL];
+-  viewport_key.pa_cl_vte_cntl = regs[XE_GPU_REG_PA_CL_VTE_CNTL];
+-  viewport_key.pa_su_sc_mode_cntl = regs[XE_GPU_REG_PA_SU_SC_MODE_CNTL];
+-  viewport_key.pa_su_vtx_cntl = regs[XE_GPU_REG_PA_SU_VTX_CNTL];
+-  viewport_key.pa_sc_window_offset = regs[XE_GPU_REG_PA_SC_WINDOW_OFFSET];
+-  viewport_key.normalized_depth_control = normalized_depth_control.value;
+-  std::memcpy(viewport_key.vport_regs, &regs[XE_GPU_REG_PA_CL_VPORT_XSCALE],
+-              sizeof(viewport_key.vport_regs));
+-  viewport_key.flags = (uint32_t(convert_z_to_float24) << 0) |
+-                       (uint32_t(host_render_targets_used) << 1) | (uint32_t(ps_writes_depth) << 2);
+-
+-  draw_util::ViewportInfo viewport_info;
+-  if (viewport_cache_valid_ && viewport_key == previous_viewport_key_) {
+-    viewport_info = previous_viewport_info_;
+-  } else {
+-    draw_util::GetHostViewportInfo(regs, draw_resolution_scale_x, draw_resolution_scale_y, true,
+-                                   D3D12_VIEWPORT_BOUNDS_MAX, D3D12_VIEWPORT_BOUNDS_MAX, false,
+-                                   normalized_depth_control, convert_z_to_float24,
+-                                   host_render_targets_used, ps_writes_depth, viewport_info);
+-    previous_viewport_key_ = viewport_key;
+-    previous_viewport_info_ = viewport_info;
+-    viewport_cache_valid_ = true;
+-  }
+-
+-  draw_util::Scissor scissor;
+-  draw_util::GetScissor(regs, scissor);
+-  scissor.offset[0] *= draw_resolution_scale_x;
+-  scissor.offset[1] *= draw_resolution_scale_y;
+-  scissor.extent[0] *= draw_resolution_scale_x;
+-  scissor.extent[1] *= draw_resolution_scale_y;
+-
+-  // Update viewport, scissor, blend factor and stencil reference.
+-  UpdateFixedFunctionState(viewport_info, scissor, primitive_polygonal, normalized_depth_control);
+-
+-  // Update system constants before uploading them.
+-  // TODO(Triang3l): With ROV, pass the disabled render target mask for safety.
+-  UpdateSystemConstantValues(memexport_used, primitive_polygonal,
+-                             primitive_processing_result.line_loop_closing_index,
+-                             primitive_processing_result.host_shader_index_endian, viewport_info,
+-                             used_texture_mask, normalized_depth_control, normalized_color_mask);
++    draw_util::Scissor scissor;
++    draw_util::GetScissor(regs, scissor);
++    scissor.offset[0] *= draw_resolution_scale_x;
++    scissor.offset[1] *= draw_resolution_scale_y;
++    scissor.extent[0] *= draw_resolution_scale_x;
++    scissor.extent[1] *= draw_resolution_scale_y;
++
++    // Update viewport, scissor, blend factor and stencil reference.
++    UpdateFixedFunctionState(viewport_info, scissor, primitive_polygonal, normalized_depth_control);
++
++    // Update system constants before uploading them.
++    // TODO(Triang3l): With ROV, pass the disabled render target mask for safety.
++    UpdateSystemConstantValues(memexport_used, primitive_polygonal,
++                               primitive_processing_result.line_loop_closing_index,
++                               primitive_processing_result.host_shader_index_endian, viewport_info,
++                               used_texture_mask, normalized_depth_control, normalized_color_mask);
++  }
+ 
+   // Update constant buffers, descriptors and root parameters.
+-  if (!UpdateBindings(vertex_shader, pixel_shader, root_signature, memexport_used)) {
+-    return false;
++  {
++    PerfTimer bindings_timer(PerfTarget(g_d3d12_perf.draw_bindings_ns));
++    if (!UpdateBindings(vertex_shader, pixel_shader, root_signature, memexport_used)) {
++      return false;
++    }
+   }
+   // Must not call anything that can change the descriptor heap from now on!
+ 
+-  // Ensure vertex buffers are resident.
+-  const Shader::ConstantRegisterMap& constant_map_vertex = vertex_shader->constant_register_map();
+-  for (uint32_t i = 0; i < rex::countof(constant_map_vertex.vertex_fetch_bitmap); ++i) {
+-    uint32_t vfetch_bits_remaining = constant_map_vertex.vertex_fetch_bitmap[i];
+-    uint32_t j;
+-    while (rex::bit_scan_forward(vfetch_bits_remaining, &j)) {
+-      vfetch_bits_remaining &= ~(uint32_t(1) << j);
+-      uint32_t vfetch_index = i * 32 + j;
+-      uint64_t vfetch_bit = uint64_t(1) << (vfetch_index & 63);
+-      if (vertex_buffers_in_sync_[vfetch_index >> 6] & vfetch_bit) {
+-        continue;
+-      }
+-      xenos::xe_gpu_vertex_fetch_t vfetch_constant = regs.GetVertexFetch(vfetch_index);
+-      switch (vfetch_constant.type) {
+-        case xenos::FetchConstantType::kVertex:
+-          break;
+-        case xenos::FetchConstantType::kInvalidVertex:
+-          if (REXCVAR_GET(gpu_allow_invalid_fetch_constants)) {
++  {
++    PerfTimer residency_timer(PerfTarget(g_d3d12_perf.draw_residency_ns));
++
++    // Ensure vertex buffers are resident.
++    const Shader::ConstantRegisterMap& constant_map_vertex = vertex_shader->constant_register_map();
++    for (uint32_t i = 0; i < rex::countof(constant_map_vertex.vertex_fetch_bitmap); ++i) {
++      uint32_t vfetch_bits_remaining =
++          constant_map_vertex.vertex_fetch_bitmap[i] &
++          ~uint32_t(vertex_buffers_in_sync_[i >> 1] >> ((i & 1) * 32));
++      uint32_t j;
++      while (rex::bit_scan_forward(vfetch_bits_remaining, &j)) {
++        vfetch_bits_remaining &= ~(uint32_t(1) << j);
++        uint32_t vfetch_index = i * 32 + j;
++        uint64_t vfetch_bit = uint64_t(1) << (vfetch_index & 63);
++        xenos::xe_gpu_vertex_fetch_t vfetch_constant = regs.GetVertexFetch(vfetch_index);
++        switch (vfetch_constant.type) {
++          case xenos::FetchConstantType::kVertex:
+             break;
+-          }
+-          REXGPU_WARN(
+-              "Vertex fetch constant {} ({:08X} {:08X}) has \"invalid\" type! "
+-              "This is incorrect behavior, but you can try bypassing this by "
+-              "launching Xenia with --gpu_allow_invalid_fetch_constants=true.",
+-              vfetch_index, vfetch_constant.dword_0, vfetch_constant.dword_1);
+-          return false;
+-        default:
+-          REXGPU_WARN("Vertex fetch constant {} ({:08X} {:08X}) is completely invalid!",
+-                      vfetch_index, vfetch_constant.dword_0, vfetch_constant.dword_1);
++          case xenos::FetchConstantType::kInvalidVertex:
++            if (REXCVAR_GET(gpu_allow_invalid_fetch_constants)) {
++              break;
++            }
++            REXGPU_WARN(
++                "Vertex fetch constant {} ({:08X} {:08X}) has \"invalid\" type! "
++                "This is incorrect behavior, but you can try bypassing this by "
++                "launching Xenia with --gpu_allow_invalid_fetch_constants=true.",
++                vfetch_index, vfetch_constant.dword_0, vfetch_constant.dword_1);
++            return false;
++          default:
++            REXGPU_WARN("Vertex fetch constant {} ({:08X} {:08X}) is completely invalid!",
++                        vfetch_index, vfetch_constant.dword_0, vfetch_constant.dword_1);
++            return false;
++        }
++        VertexBufferState& state = vertex_buffer_states_[vfetch_index];
++        if (state.address == vfetch_constant.address && state.size == vfetch_constant.size) {
++          vertex_buffers_in_sync_[vfetch_index >> 6] |= vfetch_bit;
++          continue;
++        }
++        if (!shared_memory_->RequestRange(vfetch_constant.address << 2,
++                                          vfetch_constant.size << 2)) {
++          REXGPU_ERROR(
++              "Failed to request vertex buffer at 0x{:08X} (size {}) in the "
++              "shared memory",
++              vfetch_constant.address << 2, vfetch_constant.size << 2);
+           return false;
+-      }
+-      VertexBufferState& state = vertex_buffer_states_[vfetch_index];
+-      if (state.address == vfetch_constant.address && state.size == vfetch_constant.size) {
++        }
++        state.address = vfetch_constant.address;
++        state.size = vfetch_constant.size;
+         vertex_buffers_in_sync_[vfetch_index >> 6] |= vfetch_bit;
+-        continue;
+       }
+-      if (!shared_memory_->RequestRange(vfetch_constant.address << 2, vfetch_constant.size << 2)) {
+-        REXGPU_ERROR(
+-            "Failed to request vertex buffer at 0x{:08X} (size {}) in the "
+-            "shared memory",
+-            vfetch_constant.address << 2, vfetch_constant.size << 2);
+-        return false;
+-      }
+-      state.address = vfetch_constant.address;
+-      state.size = vfetch_constant.size;
+-      vertex_buffers_in_sync_[vfetch_index >> 6] |= vfetch_bit;
+     }
+-  }
+ 
+-  // Gather memexport ranges and ensure the heaps for them are resident, and
+-  // also load the data surrounding the export and to fill the regions that
+-  // won't be modified by the shaders.
+-  memexport_ranges_.clear();
+-  if (memexport_used_vertex) {
+-    draw_util::AddMemExportRanges(regs, *vertex_shader, memexport_ranges_);
+-  }
+-  if (memexport_used_pixel) {
+-    draw_util::AddMemExportRanges(regs, *pixel_shader, memexport_ranges_);
+-  }
+-  for (const draw_util::MemExportRange& memexport_range : memexport_ranges_) {
+-    if (!shared_memory_->RequestRange(memexport_range.base_address_dwords << 2,
+-                                      memexport_range.size_bytes)) {
+-      REXGPU_ERROR(
+-          "Failed to request memexport stream at 0x{:08X} (size {}) in the "
+-          "shared memory",
+-          memexport_range.base_address_dwords << 2, memexport_range.size_bytes);
+-      return false;
+-    }
+-  }
+-  if (memexport_used && memexport_ranges_.empty()) {
+-    if (!shared_memory_->RequestRange(0, SharedMemory::kBufferSize)) {
+-      REXGPU_ERROR(
+-          "Failed to request full shared memory residency for unresolved "
+-          "memexport destinations");
+-      return false;
++    // Gather memexport ranges and ensure the heaps for them are resident, and
++    // also load the data surrounding the export and to fill the regions that
++    // won't be modified by the shaders.
++    memexport_ranges_.clear();
++    if (memexport_used_vertex) {
++      draw_util::AddMemExportRanges(regs, *vertex_shader, memexport_ranges_);
+     }
+-  }
+-
+-  // Primitive topology.
+-  D3D_PRIMITIVE_TOPOLOGY primitive_topology;
+-  if (primitive_processing_result.IsTessellated()) {
+-    switch (primitive_processing_result.host_primitive_type) {
+-      // TODO(Triang3l): Support all primitive types.
+-      case xenos::PrimitiveType::kTriangleList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST;
+-        break;
+-      case xenos::PrimitiveType::kQuadList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST;
+-        break;
+-      case xenos::PrimitiveType::kTrianglePatch:
+-        primitive_topology =
+-            (regs.Get<reg::VGT_HOS_CNTL>().tess_mode == xenos::TessellationMode::kAdaptive)
+-                ? D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST
+-                : D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
+-        break;
+-      case xenos::PrimitiveType::kQuadPatch:
+-        primitive_topology =
+-            (regs.Get<reg::VGT_HOS_CNTL>().tess_mode == xenos::TessellationMode::kAdaptive)
+-                ? D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST
+-                : D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
+-        break;
+-      default:
+-        REXGPU_ERROR(
+-            "Host tessellated primitive type {} returned by the primitive "
+-            "processor is not supported by the Direct3D 12 command processor",
+-            uint32_t(primitive_processing_result.host_primitive_type));
+-        assert_unhandled_case(primitive_processing_result.host_primitive_type);
+-        return false;
++    if (memexport_used_pixel) {
++      draw_util::AddMemExportRanges(regs, *pixel_shader, memexport_ranges_);
+     }
+-  } else {
+-    switch (primitive_processing_result.host_primitive_type) {
+-      case xenos::PrimitiveType::kPointList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+-        break;
+-      case xenos::PrimitiveType::kLineList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+-        break;
+-      case xenos::PrimitiveType::kLineStrip:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+-        break;
+-      case xenos::PrimitiveType::kTriangleList:
+-      case xenos::PrimitiveType::kRectangleList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+-        break;
+-      case xenos::PrimitiveType::kTriangleStrip:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+-        break;
+-      case xenos::PrimitiveType::kQuadList:
+-        primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ;
+-        break;
+-      default:
++    for (const draw_util::MemExportRange& memexport_range : memexport_ranges_) {
++      if (!shared_memory_->RequestRange(memexport_range.base_address_dwords << 2,
++                                        memexport_range.size_bytes)) {
+         REXGPU_ERROR(
+-            "Host primitive type {} returned by the primitive processor is not "
+-            "supported by the Direct3D 12 command processor",
+-            uint32_t(primitive_processing_result.host_primitive_type));
+-        assert_unhandled_case(primitive_processing_result.host_primitive_type);
++            "Failed to request memexport stream at 0x{:08X} (size {}) in the "
++            "shared memory",
++            memexport_range.base_address_dwords << 2, memexport_range.size_bytes);
+         return false;
++      }
+     }
+   }
+-  SetPrimitiveTopology(primitive_topology);
+-  // Must not call anything that may change the primitive topology from now on!
+ 
+-  // Draw.
+-  if (primitive_processing_result.index_buffer_type ==
+-      PrimitiveProcessor::ProcessedIndexBufferType::kNone) {
+-    if (memexport_used) {
+-      shared_memory_->UseForWriting();
++  {
++    PerfTimer emit_timer(PerfTarget(g_d3d12_perf.draw_emit_ns));
++
++    // Primitive topology.
++    D3D_PRIMITIVE_TOPOLOGY primitive_topology;
++    if (primitive_processing_result.IsTessellated()) {
++      switch (primitive_processing_result.host_primitive_type) {
++        // TODO(Triang3l): Support all primitive types.
++        case xenos::PrimitiveType::kTriangleList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST;
++          break;
++        case xenos::PrimitiveType::kQuadList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST;
++          break;
++        case xenos::PrimitiveType::kTrianglePatch:
++          primitive_topology =
++              (regs.Get<reg::VGT_HOS_CNTL>().tess_mode == xenos::TessellationMode::kAdaptive)
++                  ? D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST
++                  : D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
++          break;
++        case xenos::PrimitiveType::kQuadPatch:
++          primitive_topology =
++              (regs.Get<reg::VGT_HOS_CNTL>().tess_mode == xenos::TessellationMode::kAdaptive)
++                  ? D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST
++                  : D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
++          break;
++        default:
++          REXGPU_ERROR(
++              "Host tessellated primitive type {} returned by the primitive "
++              "processor is not supported by the Direct3D 12 command processor",
++              uint32_t(primitive_processing_result.host_primitive_type));
++          assert_unhandled_case(primitive_processing_result.host_primitive_type);
++          return false;
++      }
+     } else {
+-      shared_memory_->UseForReading();
++      switch (primitive_processing_result.host_primitive_type) {
++        case xenos::PrimitiveType::kPointList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
++          break;
++        case xenos::PrimitiveType::kLineList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
++          break;
++        case xenos::PrimitiveType::kLineStrip:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
++          break;
++        case xenos::PrimitiveType::kTriangleList:
++        case xenos::PrimitiveType::kRectangleList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
++          break;
++        case xenos::PrimitiveType::kTriangleStrip:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
++          break;
++        case xenos::PrimitiveType::kQuadList:
++          primitive_topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ;
++          break;
++        default:
++          REXGPU_ERROR(
++              "Host primitive type {} returned by the primitive processor is not "
++              "supported by the Direct3D 12 command processor",
++              uint32_t(primitive_processing_result.host_primitive_type));
++          assert_unhandled_case(primitive_processing_result.host_primitive_type);
++          return false;
++      }
+     }
+-    SubmitBarriers();
+-    PROFILE_DRAW_CALL();
+-    PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
+-    deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
+-                                            0, 0);
+-  } else {
+-    D3D12_INDEX_BUFFER_VIEW index_buffer_view;
+-    index_buffer_view.SizeInBytes = primitive_processing_result.host_draw_vertex_count;
+-    if (primitive_processing_result.host_index_format == xenos::IndexFormat::kInt16) {
+-      index_buffer_view.SizeInBytes *= sizeof(uint16_t);
+-      index_buffer_view.Format = DXGI_FORMAT_R16_UINT;
++    SetPrimitiveTopology(primitive_topology);
++    // Must not call anything that may change the primitive topology from now on!
++
++    // Draw.
++    if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++      g_d3d12_perf.draw_emitted.fetch_add(1, std::memory_order_relaxed);
++    }
++    if (primitive_processing_result.index_buffer_type ==
++        PrimitiveProcessor::ProcessedIndexBufferType::kNone) {
++      if (memexport_used) {
++        shared_memory_->UseForWriting();
++      } else {
++        shared_memory_->UseForReading();
++      }
++      SubmitBarriers();
++      PROFILE_DRAW_CALL();
++      PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
++      deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
++                                              0, 0);
+     } else {
+-      index_buffer_view.SizeInBytes *= sizeof(uint32_t);
+-      index_buffer_view.Format = DXGI_FORMAT_R32_UINT;
+-    }
+-    ID3D12Resource* scratch_index_buffer = nullptr;
+-    switch (primitive_processing_result.index_buffer_type) {
+-      case PrimitiveProcessor::ProcessedIndexBufferType::kGuestDMA: {
+-        if (memexport_used) {
+-          // If the shared memory is a UAV, it can't be used as an index buffer
+-          // (UAV is a read/write state, index buffer is a read-only state).
+-          // Need to copy the indices to a buffer in the index buffer state.
+-          scratch_index_buffer = RequestScratchGPUBuffer(index_buffer_view.SizeInBytes,
+-                                                         D3D12_RESOURCE_STATE_COPY_DEST);
+-          if (scratch_index_buffer == nullptr) {
+-            return false;
++      D3D12_INDEX_BUFFER_VIEW index_buffer_view;
++      index_buffer_view.SizeInBytes = primitive_processing_result.host_draw_vertex_count;
++      if (primitive_processing_result.host_index_format == xenos::IndexFormat::kInt16) {
++        index_buffer_view.SizeInBytes *= sizeof(uint16_t);
++        index_buffer_view.Format = DXGI_FORMAT_R16_UINT;
++      } else {
++        index_buffer_view.SizeInBytes *= sizeof(uint32_t);
++        index_buffer_view.Format = DXGI_FORMAT_R32_UINT;
++      }
++      ID3D12Resource* scratch_index_buffer = nullptr;
++      switch (primitive_processing_result.index_buffer_type) {
++        case PrimitiveProcessor::ProcessedIndexBufferType::kGuestDMA: {
++          if (memexport_used) {
++            // If the shared memory is a UAV, it can't be used as an index buffer
++            // (UAV is a read/write state, index buffer is a read-only state).
++            // Need to copy the indices to a buffer in the index buffer state.
++            scratch_index_buffer = RequestScratchGPUBuffer(index_buffer_view.SizeInBytes,
++                                                           D3D12_RESOURCE_STATE_COPY_DEST);
++            if (scratch_index_buffer == nullptr) {
++              return false;
++            }
++            shared_memory_->UseAsCopySource();
++            SubmitBarriers();
++            deferred_command_list_.D3DCopyBufferRegion(
++                scratch_index_buffer, 0, shared_memory_->GetBuffer(),
++                primitive_processing_result.guest_index_base, index_buffer_view.SizeInBytes);
++            PushTransitionBarrier(scratch_index_buffer, D3D12_RESOURCE_STATE_COPY_DEST,
++                                  D3D12_RESOURCE_STATE_INDEX_BUFFER);
++            index_buffer_view.BufferLocation = scratch_index_buffer->GetGPUVirtualAddress();
++          } else {
++            index_buffer_view.BufferLocation =
++                shared_memory_->GetGPUAddress() + primitive_processing_result.guest_index_base;
+           }
+-          shared_memory_->UseAsCopySource();
+-          SubmitBarriers();
+-          deferred_command_list_.D3DCopyBufferRegion(
+-              scratch_index_buffer, 0, shared_memory_->GetBuffer(),
+-              primitive_processing_result.guest_index_base, index_buffer_view.SizeInBytes);
+-          PushTransitionBarrier(scratch_index_buffer, D3D12_RESOURCE_STATE_COPY_DEST,
+-                                D3D12_RESOURCE_STATE_INDEX_BUFFER);
+-          index_buffer_view.BufferLocation = scratch_index_buffer->GetGPUVirtualAddress();
+-        } else {
++        } break;
++        case PrimitiveProcessor::ProcessedIndexBufferType::kHostConverted:
+           index_buffer_view.BufferLocation =
+-              shared_memory_->GetGPUAddress() + primitive_processing_result.guest_index_base;
++              primitive_processor_->GetConvertedIndexBufferGpuAddress(
++                  primitive_processing_result.host_index_buffer_handle);
++          break;
++        case PrimitiveProcessor::ProcessedIndexBufferType::kHostBuiltinForAuto:
++        case PrimitiveProcessor::ProcessedIndexBufferType::kHostBuiltinForDMA:
++          index_buffer_view.BufferLocation = primitive_processor_->GetBuiltinIndexBufferGpuAddress(
++              primitive_processing_result.host_index_buffer_handle);
++          break;
++        default:
++          assert_unhandled_case(primitive_processing_result.index_buffer_type);
++          return false;
++      }
++      if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++        g_d3d12_perf.indexed_draws.fetch_add(1, std::memory_order_relaxed);
++      }
++      bool index_buffer_binding_matches =
++          current_index_buffer_view_valid_ &&
++          current_index_buffer_view_.BufferLocation == index_buffer_view.BufferLocation &&
++          current_index_buffer_view_.SizeInBytes == index_buffer_view.SizeInBytes &&
++          current_index_buffer_view_.Format == index_buffer_view.Format;
++      if (!REXCVAR_GET(d3d12_cache_index_buffer) || !index_buffer_binding_matches) {
++        deferred_command_list_.D3DIASetIndexBuffer(&index_buffer_view);
++        current_index_buffer_view_ = index_buffer_view;
++        current_index_buffer_view_valid_ = true;
++        if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++          g_d3d12_perf.index_buffer_bindings.fetch_add(1, std::memory_order_relaxed);
+         }
+-      } break;
+-      case PrimitiveProcessor::ProcessedIndexBufferType::kHostConverted:
+-        index_buffer_view.BufferLocation = primitive_processor_->GetConvertedIndexBufferGpuAddress(
+-            primitive_processing_result.host_index_buffer_handle);
+-        break;
+-      case PrimitiveProcessor::ProcessedIndexBufferType::kHostBuiltinForAuto:
+-      case PrimitiveProcessor::ProcessedIndexBufferType::kHostBuiltinForDMA:
+-        index_buffer_view.BufferLocation = primitive_processor_->GetBuiltinIndexBufferGpuAddress(
+-            primitive_processing_result.host_index_buffer_handle);
+-        break;
+-      default:
+-        assert_unhandled_case(primitive_processing_result.index_buffer_type);
+-        return false;
+-    }
+-    deferred_command_list_.D3DIASetIndexBuffer(&index_buffer_view);
+-    if (memexport_used) {
+-      shared_memory_->UseForWriting();
+-    } else {
+-      shared_memory_->UseForReading();
+-    }
+-    SubmitBarriers();
+-    PROFILE_DRAW_CALL();
+-    PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
+-    deferred_command_list_.D3DDrawIndexedInstanced(
+-        primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
+-    if (scratch_index_buffer != nullptr) {
+-      ReleaseScratchGPUBuffer(scratch_index_buffer, D3D12_RESOURCE_STATE_INDEX_BUFFER);
++      } else if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++        g_d3d12_perf.index_buffer_binding_skips.fetch_add(1, std::memory_order_relaxed);
++      }
++      if (memexport_used) {
++        shared_memory_->UseForWriting();
++      } else {
++        shared_memory_->UseForReading();
++      }
++      SubmitBarriers();
++      PROFILE_DRAW_CALL();
++      PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
++      deferred_command_list_.D3DDrawIndexedInstanced(
++          primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
++      if (scratch_index_buffer != nullptr) {
++        ReleaseScratchGPUBuffer(scratch_index_buffer, D3D12_RESOURCE_STATE_INDEX_BUFFER);
++      }
+     }
+   }
+ 
+   if (memexport_used) {
++    PerfTimer memexport_timer(PerfTarget(g_d3d12_perf.draw_memexport_ns));
++    if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++      g_d3d12_perf.memexport_draws.fetch_add(1, std::memory_order_relaxed);
++      g_d3d12_perf.memexport_ranges.fetch_add(memexport_ranges_.size(),
++                                              std::memory_order_relaxed);
++    }
+     // Make sure this memexporting draw is ordered with other work using shared
+     // memory as a UAV.
+     // TODO(Triang3l): Find some PM4 command that can be used for indication of
+     // when memexports should be awaited?
+-    shared_memory_->MarkUAVWritesCommitNeeded();
++    {
++      PerfTimer mark_timer(PerfTarget(g_d3d12_perf.memexport_mark_ns));
++      shared_memory_->MarkUAVWritesCommitNeeded();
++    }
+     // Invalidate textures in memexported memory and watch for changes.
+-    if (!memexport_ranges_.empty()) {
++    {
++      PerfTimer range_timer(PerfTarget(g_d3d12_perf.memexport_range_ns));
+       for (const draw_util::MemExportRange& memexport_range : memexport_ranges_) {
+         shared_memory_->RangeWrittenByGpu(memexport_range.base_address_dwords << 2,
+                                           memexport_range.size_bytes);
+       }
+-    } else {
+-      // Stream constants can be invalid or dynamic, so exact destinations may
+-      // be unknown. Keep invalidation conservative in this case.
+-      shared_memory_->RangeWrittenByGpu(0, SharedMemory::kBufferSize);
+     }
+-    if (IsReadbackMemexportEnabled(REXCVAR_GET(d3d12_readback_memexport)) &&
+-        !memexport_ranges_.empty()) {
+-      uint32_t memexport_total_size = 0;
+-      for (const draw_util::MemExportRange& memexport_range : memexport_ranges_) {
+-        memexport_total_size += memexport_range.size_bytes;
+-      }
+-      if (memexport_total_size != 0) {
+-        if (REXCVAR_GET(readback_memexport_fast)) {
+-          IssueDraw_MemexportReadbackFastPath(memexport_total_size);
+-        } else {
+-          IssueDraw_MemexportReadbackFullPath(memexport_total_size);
++    {
++      PerfTimer readback_timer(PerfTarget(g_d3d12_perf.memexport_readback_ns));
++      if (IsReadbackMemexportEnabled(REXCVAR_GET(d3d12_readback_memexport)) &&
++          !memexport_ranges_.empty()) {
++        uint32_t memexport_total_size = 0;
++        for (const draw_util::MemExportRange& memexport_range : memexport_ranges_) {
++          memexport_total_size += memexport_range.size_bytes;
++        }
++        if (memexport_total_size != 0) {
++          if (REXCVAR_GET(readback_memexport_fast)) {
++            IssueDraw_MemexportReadbackFastPath(memexport_total_size);
++          } else {
++            IssueDraw_MemexportReadbackFullPath(memexport_total_size);
++          }
+         }
+       }
+     }
+@@ -3251,6 +3538,11 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+ #if XE_GPU_FINE_GRAINED_DRAW_SCOPES
+   SCOPE_profile_cpu_f("gpu");
+ #endif  // XE_GPU_FINE_GRAINED_DRAW_SCOPES
++  PerfTimer perf_timer(PerfTarget(g_d3d12_perf.begin_submission_ns));
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.begin_submissions.fetch_add(1, std::memory_order_relaxed);
++  }
++  MaybeLogD3D12PerfSummary();
+ 
+   if (device_removed_) {
+     return false;
+@@ -3260,6 +3552,13 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+   if (submission_open_ && !is_opening_frame) {
+     return true;
+   }
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    if (is_opening_frame) {
++      g_d3d12_perf.begin_open_frame.fetch_add(1, std::memory_order_relaxed);
++    } else {
++      g_d3d12_perf.begin_reopen_submission.fetch_add(1, std::memory_order_relaxed);
++    }
++  }
+ 
+   // Check if the device is still available.
+   ID3D12Device* device = GetD3D12Provider().GetDevice();
+@@ -3277,8 +3576,11 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+   // Check the fence - needed for all kinds of submissions (to reclaim transient
+   // resources early) and specifically for frames (not to queue too many), and
+   // await the availability of the current frame.
+-  CheckSubmissionFence(is_opening_frame ? closed_frame_submissions_[frame_current_ % kQueueFrames]
+-                                        : 0);
++  {
++    PerfTimer fence_timer(PerfTarget(g_d3d12_perf.begin_fence_ns));
++    CheckSubmissionFence(is_opening_frame ? closed_frame_submissions_[frame_current_ % kQueueFrames]
++                                          : 0);
++  }
+   // TODO(Triang3l): If failed to await (completed submission < awaited frame
+   // submission), do something like dropping the draw command that wanted to
+   // open the frame.
+@@ -3296,6 +3598,7 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+   }
+ 
+   if (!submission_open_) {
++    PerfTimer reset_timer(PerfTarget(g_d3d12_perf.begin_reset_ns));
+     submission_open_ = true;
+ 
+     // Start a new deferred command list - will submit it to the real one in the
+@@ -3321,6 +3624,7 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+       sampler_bindful_heap_current_ = nullptr;
+     }
+     primitive_topology_ = D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
++    current_index_buffer_view_valid_ = false;
+ 
+     render_target_cache_->BeginSubmission();
+ 
+@@ -3330,6 +3634,7 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+   }
+ 
+   if (is_opening_frame) {
++    PerfTimer frame_timer(PerfTarget(g_d3d12_perf.begin_frame_ns));
+     frame_open_ = true;
+ 
+     // Reset bindings that depend on the data stored in the pools.
+@@ -3372,6 +3677,12 @@ bool D3D12CommandProcessor::BeginSubmission(bool is_guest_command) {
+ }
+ 
+ bool D3D12CommandProcessor::EndSubmission(bool is_swap) {
++  PerfTimer perf_timer(PerfTarget(g_d3d12_perf.end_submission_ns));
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.end_submissions.fetch_add(1, std::memory_order_relaxed);
++  }
++  MaybeLogD3D12PerfSummary();
++
+   const ui::d3d12::D3D12Provider& provider = GetD3D12Provider();
+ 
+   // Make sure there is a command allocator to write commands to.
+@@ -4896,6 +5207,9 @@ bool D3D12CommandProcessor::BeginGuestOcclusionQuery(uint32_t sample_count_addre
+   if (!REXCVAR_GET(occlusion_query_enable) || !occlusion_query_resources_available_) {
+     return false;
+   }
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.occlusion_begins.fetch_add(1, std::memory_order_relaxed);
++  }
+   if (active_occlusion_query_.valid) {
+     REXGPU_WARN(
+         "D3D12CommandProcessor: Occlusion query begin issued while another query is active");
+@@ -4925,6 +5239,9 @@ bool D3D12CommandProcessor::EndGuestOcclusionQuery(
+       !active_occlusion_query_.valid || !occlusion_query_heap_ || !occlusion_query_readback_) {
+     return false;
+   }
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.occlusion_ends.fetch_add(1, std::memory_order_relaxed);
++  }
+ 
+   uint32_t host_index = active_occlusion_query_.host_index;
+   active_occlusion_query_ = {};
+@@ -4943,6 +5260,13 @@ bool D3D12CommandProcessor::EndGuestOcclusionQuery(
+     return false;
+   }
+ 
++  if (!REXCVAR_GET(d3d12_occlusion_query_sync_readback)) {
++    return false;
++  }
++  if (REXCVAR_GET(d3d12_perf_summary_interval_ms)) {
++    g_d3d12_perf.occlusion_sync_readbacks.fetch_add(1, std::memory_order_relaxed);
++  }
++
+   uint64_t query_submission = submission_current_ ? submission_current_ - 1 : 0;
+   CheckSubmissionFence(query_submission);
+   if (submission_completed_ < query_submission) {
+diff --git a/src/graphics/pipeline/shader/translator.cpp b/src/graphics/pipeline/shader/translator.cpp
+index e472251..0c8ec10 100644
+--- a/src/graphics/pipeline/shader/translator.cpp
++++ b/src/graphics/pipeline/shader/translator.cpp
+@@ -501,9 +501,19 @@ void Shader::GatherAluInstructionInformation(const AluInstruction& op, uint32_t
+     if (memexport_stream_constant != UINT32_MAX) {
+       memexport_stream_constants_.insert(memexport_stream_constant);
+     } else {
+-      REXGPU_ERROR(
+-          "ShaderTranslator::GatherAluInstructionInformation: Couldn't extract "
+-          "memexport stream constant index");
++      static std::set<uint64_t> logged_failures;
++      uint64_t failure_key = ucode_data_hash() ^ (uint64_t(exec_cf_index) << 32);
++      if (logged_failures.insert(failure_key).second) {
++        string::StringBuffer instr_disasm;
++        instr.Disassemble(&instr_disasm);
++        const uint32_t* raw_op = reinterpret_cast<const uint32_t*>(&op);
++        REXGPU_ERROR(
++            "ShaderTranslator::GatherAluInstructionInformation: Couldn't extract "
++            "memexport stream constant index; shader={} hash=0x{:016X} cf_dword={} "
++            "raw={:08X} {:08X} {:08X} instr={}",
++            type() == xenos::ShaderType::kVertex ? "VS" : "PS", ucode_data_hash(), exec_cf_index,
++            raw_op[0], raw_op[1], raw_op[2], instr_disasm.to_string_view());
++      }
+     }
+   }
+ }
 diff --git a/src/kernel/CMakeLists.txt b/src/kernel/CMakeLists.txt
 index 984b97d..bb4c6ec 100644
 --- a/src/kernel/CMakeLists.txt
@@ -44,8 +1327,727 @@ index 984b97d..bb4c6ec 100644
      xam/xam_notify.cpp
      xam/xam_nui.cpp
      xam/xam_party.cpp
+diff --git a/src/kernel/xam/apps/xgi_app.cpp b/src/kernel/xam/apps/xgi_app.cpp
+index 2b222da..60c3aa9 100644
+--- a/src/kernel/xam/apps/xgi_app.cpp
++++ b/src/kernel/xam/apps/xgi_app.cpp
+@@ -9,6 +9,7 @@
+  * @modified    Tom Clay, 2026 - Adapted for ReXGlue runtime
+  */
+ 
++#include <rex/cvar.h>
+ #include <rex/kernel/xam/apps/xgi_app.h>
+ #include <rex/logging.h>
+ #include <rex/thread.h>
+@@ -21,6 +22,9 @@ using namespace rex::system::xam;
+ namespace apps {
+ using namespace rex::system;
+ 
++REXCVAR_DEFINE_BOOL(xgi_session_log, false, "XGI",
++                    "Log XGI/XSession session messages at info level");
++
+ XgiApp::XgiApp(KernelState* kernel_state) : App(kernel_state, 0xFB) {}
+ 
+ // http://mb.mirage.org/bugzilla/xliveless/main.c
+@@ -108,11 +112,19 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t session_info_ptr = memory::load_and_swap<uint32_t>(buffer + 20);
+       uint32_t nonce_ptr = memory::load_and_swap<uint32_t>(buffer + 24);
+ 
+-      REXKRNL_DEBUG(
+-          "XGISessionCreateImpl({:08X}, {:08X}, {}, {}, {:08X}, {:08X}, "
+-          "{:08X})",
+-          session_ptr, flags, num_slots_public, num_slots_private, user_xuid, session_info_ptr,
+-          nonce_ptr);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO(
++            "[xgi-session] name=XGISessionCreateImpl session={:08X} flags={:08X} "
++            "public_slots={} private_slots={} user_xuid={:08X} session_info={:08X} nonce={:08X}",
++            session_ptr, flags, num_slots_public, num_slots_private, user_xuid, session_info_ptr,
++            nonce_ptr);
++      } else {
++        REXKRNL_DEBUG(
++            "XGISessionCreateImpl({:08X}, {:08X}, {}, {}, {:08X}, {:08X}, "
++            "{:08X})",
++            session_ptr, flags, num_slots_public, num_slots_private, user_xuid, session_info_ptr,
++            nonce_ptr);
++      }
+       return X_E_SUCCESS;
+     }
+     case 0x000B0011: {
+@@ -135,9 +147,17 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t private_slots_array = memory::load_and_swap<uint32_t>(buffer + 16);
+       bool is_local = xuid_array_ptr == 0;
+ 
+-      REXKRNL_DEBUG("{}({:08X}, {}, {}, {:08X}, {:08X})",
+-                    is_local ? "XGISessionJoinLocal" : "XGISessionJoinRemote", session_ptr,
+-                    user_count, xuid_array_ptr, user_index_array, private_slots_array);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO(
++            "[xgi-session] name={} session={:08X} users={} xuid_array={:08X} "
++            "user_index_array={:08X} private_slots_array={:08X}",
++            is_local ? "XGISessionJoinLocal" : "XGISessionJoinRemote", session_ptr, user_count,
++            xuid_array_ptr, user_index_array, private_slots_array);
++      } else {
++        REXKRNL_DEBUG("{}({:08X}, {}, {}, {:08X}, {:08X})",
++                      is_local ? "XGISessionJoinLocal" : "XGISessionJoinRemote", session_ptr,
++                      user_count, xuid_array_ptr, user_index_array, private_slots_array);
++      }
+       return X_E_SUCCESS;
+     }
+     case 0x000B0014: {
+@@ -147,7 +167,12 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t flags = memory::load_and_swap<uint32_t>(buffer + 4);
+       uint64_t session_nonce = memory::load_and_swap<uint64_t>(buffer + 8);
+ 
+-      REXKRNL_DEBUG("XSessionStart({:08X}, {:08X}, {:016X})", obj_ptr, flags, session_nonce);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO("[xgi-session] name=XSessionStart obj={:08X} flags={:08X} nonce={:016X}",
++                     obj_ptr, flags, session_nonce);
++      } else {
++        REXKRNL_DEBUG("XSessionStart({:08X}, {:08X}, {:016X})", obj_ptr, flags, session_nonce);
++      }
+ 
+       return X_STATUS_SUCCESS;
+     }
+@@ -159,7 +184,12 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t flags = memory::load_and_swap<uint32_t>(buffer + 4);
+       uint64_t session_nonce = memory::load_and_swap<uint64_t>(buffer + 8);
+ 
+-      REXKRNL_DEBUG("XSessionEnd({:08X}, {:08X}, {:016X})", obj_ptr, flags, session_nonce);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO("[xgi-session] name=XSessionEnd obj={:08X} flags={:08X} nonce={:016X}",
++                     obj_ptr, flags, session_nonce);
++      } else {
++        REXKRNL_DEBUG("XSessionEnd({:08X}, {:08X}, {:016X})", obj_ptr, flags, session_nonce);
++      }
+ 
+       return X_E_SUCCESS;
+     }
+@@ -176,9 +206,17 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t results_buffer_size = memory::load_and_swap<uint32_t>(buffer + 24);
+       uint32_t search_results_ptr = memory::load_and_swap<uint32_t>(buffer + 28);
+ 
+-      REXKRNL_DEBUG("XSessionSearch({}, {}, {}, {}, {}, {:08X}, {:08X}, {}, {:08X})", proc_index,
+-                    user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
+-                    results_buffer_size, search_results_ptr);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO(
++            "[xgi-session] name=XSessionSearch proc={} user={} results={} props={} contexts={} "
++            "props_ptr={:08X} contexts_ptr={:08X} results_size={} results_ptr={:08X}",
++            proc_index, user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
++            results_buffer_size, search_results_ptr);
++      } else {
++        REXKRNL_DEBUG("XSessionSearch({}, {}, {}, {}, {}, {:08X}, {:08X}, {}, {:08X})",
++                      proc_index, user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
++                      results_buffer_size, search_results_ptr);
++      }
+       return X_E_SUCCESS;
+     }
+     case 0x000B0018: {
+@@ -189,8 +227,15 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       uint32_t maxPublicSlots = memory::load_and_swap<uint32_t>(buffer + 8);
+       uint16_t maxPrivateSlots = memory::load_and_swap<uint16_t>(buffer + 12);
+ 
+-      REXKRNL_DEBUG("XSessionModify({:08X}, {:08X}, {:08X}, {:08X})", obj_ptr, flags,
+-                    maxPublicSlots, maxPrivateSlots);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO(
++            "[xgi-session] name=XSessionModify obj={:08X} flags={:08X} public_slots={:08X} "
++            "private_slots={:08X}",
++            obj_ptr, flags, maxPublicSlots, maxPrivateSlots);
++      } else {
++        REXKRNL_DEBUG("XSessionModify({:08X}, {:08X}, {:08X}, {:08X})", obj_ptr, flags,
++                      maxPublicSlots, maxPrivateSlots);
++      }
+ 
+       return X_E_SUCCESS;
+     }
+@@ -210,9 +255,17 @@ X_HRESULT XgiApp::DispatchMessageSync(uint32_t message, uint32_t buffer_ptr,
+       //
+       uint32_t num_users = memory::load_and_swap<uint32_t>(buffer + 32);
+ 
+-      REXKRNL_DEBUG("XSessionSearchEx({}, {}, {}, {}, {}, {:08X}, {:08X}, {}, {:08X}, {})",
+-                    proc_index, user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
+-                    results_buffer_size, search_results_ptr, num_users);
++      if (REXCVAR_GET(xgi_session_log)) {
++        REXKRNL_INFO(
++            "[xgi-session] name=XSessionSearchEx proc={} user={} results={} props={} contexts={} "
++            "props_ptr={:08X} contexts_ptr={:08X} results_size={} results_ptr={:08X} users={}",
++            proc_index, user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
++            results_buffer_size, search_results_ptr, num_users);
++      } else {
++        REXKRNL_DEBUG("XSessionSearchEx({}, {}, {}, {}, {}, {:08X}, {:08X}, {}, {:08X}, {})",
++                      proc_index, user_index, num_results, num_props, num_ctx, props_ptr, ctx_ptr,
++                      results_buffer_size, search_results_ptr, num_users);
++      }
+ 
+       return X_E_SUCCESS;
+     }
+diff --git a/src/kernel/xam/xam_input.cpp b/src/kernel/xam/xam_input.cpp
+index 80c3634..1804d81 100644
+--- a/src/kernel/xam/xam_input.cpp
++++ b/src/kernel/xam/xam_input.cpp
+@@ -21,6 +21,42 @@
+ 
+ #pragma GCC diagnostic ignored "-Wunused-parameter"
+ 
++#include <chrono>
++#include <cstring>
++#include <string>
++#include <vector>
++
++#include <rex/cvar.h>
++
++#if defined(_WIN32)
++#ifndef WIN32_LEAN_AND_MEAN
++#define WIN32_LEAN_AND_MEAN
++#endif
++#ifndef NOMINMAX
++#define NOMINMAX
++#endif
++#include <windows.h>
++#endif
++
++// REXGLUE_INPUT_SCRIPT
++REXCVAR_DEFINE_STRING(input_script, "", "Input",
++                      "Scripted controller input: ms:BUTTON[+hold_ms],ms:BUTTON[+hold_ms],...");
++REXCVAR_DEFINE_UINT32(input_script_hold, 220, "Input",
++                      "How long each scripted press is held, in ms");
++REXCVAR_DEFINE_BOOL(keyboard_controller, true, "Input",
++                    "Expose keyboard input as user 0's gamepad");
++REXCVAR_DEFINE_BOOL(keyboard_controller_log, true, "Input",
++                    "Log keyboard controller button transitions for script replay");
++REXCVAR_DEFINE_BOOL(input_script_keystrokes, true, "Input",
++                    "Emit scripted XamInputGetKeystroke events for menu/controller button presses");
++REXCVAR_DEFINE_UINT32(input_script_keystrokes_until_ms, 0, "Input",
++                      "If non-zero, stop scripted keystroke events after this script time");
++REXCVAR_DEFINE_BOOL(input_script_button_state, false, "Input",
++                    "Also hold scripted digital buttons in XamInputGetState");
++REXCVAR_DEFINE_BOOL(input_script_analog_keystrokes, false, "Input",
++                    "Emit XamInputGetKeystroke events for scripted stick direction steps");
++
++
+ namespace rex {
+ namespace kernel {
+ namespace xam {
+@@ -38,6 +74,10 @@ rex::input::InputSystem* input_system() {
+   return static_cast<rex::input::InputSystem*>(REX_KERNEL_STATE()->emulator()->input_system());
+ }
+ 
++namespace {
++bool FillSyntheticCapabilities(uint32_t user, ppc_ptr_t<X_INPUT_CAPABILITIES> caps);
++}  // namespace
++
+ void XamResetInactivity_entry() {
+   // Do we need to do anything?
+ }
+@@ -66,7 +106,11 @@ u32 XamInputGetCapabilities_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_C
+   }
+ 
+   auto* is = input_system();
+-  return is->GetCapabilities(actual_user_index, flags, caps);
++  auto result = is->GetCapabilities(actual_user_index, flags, caps);
++  if (result != X_ERROR_SUCCESS && FillSyntheticCapabilities(actual_user_index, caps)) {
++    return X_ERROR_SUCCESS;
++  }
++  return result;
+ }
+ 
+ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+@@ -88,10 +132,388 @@ u32 XamInputGetCapabilitiesEx_entry(u32 unk, u32 user_index, u32 flags,
+ 
+   (void)unk;  // Unused in this implementation
+   auto* is = input_system();
+-  return is->GetCapabilities(actual_user_index, flags, caps);
++  auto result = is->GetCapabilities(actual_user_index, flags, caps);
++  if (result != X_ERROR_SUCCESS && FillSyntheticCapabilities(actual_user_index, caps)) {
++    return X_ERROR_SUCCESS;
++  }
++  return result;
+ }
+ 
+ // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputgetstate(v=vs.85).aspx
++namespace {
++
++struct ScriptStep {
++  uint32_t at_ms;
++  uint32_t hold_ms;
++  uint16_t buttons;
++  uint16_t virtual_key;
++  int16_t lx;
++  int16_t ly;
++  int16_t rx;
++  int16_t ry;
++  uint8_t lt;
++  uint8_t rt;
++  uint32_t user;
++};
++
++struct ScriptedState {
++  uint16_t buttons;
++  int16_t lx;
++  int16_t ly;
++  int16_t rx;
++  int16_t ry;
++  uint8_t lt;
++  uint8_t rt;
++  bool active;
++};
++
++constexpr int16_t kStick = 30000;
++
++bool IsAnalogStep(const ScriptStep& step) {
++  return step.lx || step.ly || step.rx || step.ry || step.lt || step.rt;
++}
++
++uint32_t ScriptedStateKey(const ScriptedState& st) {
++  return static_cast<uint32_t>(st.buttons) ^ (static_cast<uint32_t>(static_cast<uint16_t>(st.lx)) << 4) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.ly)) << 8) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.rx)) << 12) ^
++         (static_cast<uint32_t>(static_cast<uint16_t>(st.ry)) << 16) ^
++         (static_cast<uint32_t>(st.lt) << 20) ^ (static_cast<uint32_t>(st.rt) << 28);
++}
++
++bool AnalogFromName(const std::string& n, uint16_t& virtual_key, int16_t& lx, int16_t& ly,
++                    int16_t& rx, int16_t& ry, uint8_t& lt, uint8_t& rt) {
++  if (n == "LSUP") { virtual_key = 0x5820; ly = kStick; return true; }
++  if (n == "LSDOWN") { virtual_key = 0x5821; ly = -kStick; return true; }
++  if (n == "LSLEFT") { virtual_key = 0x5823; lx = -kStick; return true; }
++  if (n == "LSRIGHT") { virtual_key = 0x5822; lx = kStick; return true; }
++  if (n == "RSUP") { ry = kStick; return true; }
++  if (n == "RSDOWN") { ry = -kStick; return true; }
++  if (n == "RSLEFT") { rx = -kStick; return true; }
++  if (n == "RSRIGHT") { rx = kStick; return true; }
++  if (n == "LT") { lt = 0xFF; return true; }
++  if (n == "RT") { rt = 0xFF; return true; }
++  return false;
++}
++
++uint16_t ButtonFromName(const std::string& n, uint16_t& virtual_key) {
++  if (n == "A") { virtual_key = 0x5800; return 0x1000; }
++  if (n == "B") { virtual_key = 0x5801; return 0x2000; }
++  if (n == "X") { virtual_key = 0x5802; return 0x4000; }
++  if (n == "Y") { virtual_key = 0x5803; return 0x8000; }
++  if (n == "START") { virtual_key = 0x5814; return 0x0010; }
++  if (n == "BACK") { virtual_key = 0x5815; return 0x0020; }
++  if (n == "UP") { virtual_key = 0x5810; return 0x0001; }
++  if (n == "DOWN") { virtual_key = 0x5811; return 0x0002; }
++  if (n == "LEFT") { virtual_key = 0x5812; return 0x0004; }
++  if (n == "RIGHT") { virtual_key = 0x5813; return 0x0008; }
++  if (n == "LB") { virtual_key = 0x5805; return 0x0100; }
++  if (n == "RB") { virtual_key = 0x5804; return 0x0200; }
++  return 0;
++}
++
++const std::vector<ScriptStep>& ParsedScript() {
++  static std::vector<ScriptStep> steps = [] {
++    std::vector<ScriptStep> out;
++    std::string spec = REXCVAR_GET(input_script);
++    size_t pos = 0;
++    while (pos < spec.size()) {
++      size_t comma = spec.find(',', pos);
++      std::string tok =
++          spec.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos);
++      size_t colon = tok.find(':');
++      if (colon != std::string::npos) {
++        try {
++          uint32_t at = static_cast<uint32_t>(std::stoul(tok.substr(0, colon)));
++          std::string name = tok.substr(colon + 1);
++          uint32_t user = 0;
++          uint32_t hold_ms = 0;
++          size_t at_sign = name.find('@');
++          if (at_sign != std::string::npos) {
++            std::string user_spec = name.substr(at_sign + 1);
++            size_t user_end = user_spec.find('+');
++            if (user_end != std::string::npos) {
++              hold_ms = static_cast<uint32_t>(std::stoul(user_spec.substr(user_end + 1)));
++              user_spec = user_spec.substr(0, user_end);
++            }
++            user = static_cast<uint32_t>(std::stoul(user_spec));
++            name = name.substr(0, at_sign);
++          }
++          int16_t lx = 0, ly = 0, rx = 0, ry = 0;
++          uint8_t lt = 0, rt = 0;
++          uint16_t virtual_key = 0;
++          size_t plus = name.find('+');
++          if (plus != std::string::npos) {
++            hold_ms = static_cast<uint32_t>(std::stoul(name.substr(plus + 1)));
++            name = name.substr(0, plus);
++          }
++          uint16_t b = ButtonFromName(name, virtual_key);
++          if (b || AnalogFromName(name, virtual_key, lx, ly, rx, ry, lt, rt)) {
++            out.push_back({at, hold_ms, b, virtual_key, lx, ly, rx, ry, lt, rt, user});
++          }
++        } catch (...) {
++        }
++      }
++      if (comma == std::string::npos) break;
++      pos = comma + 1;
++    }
++    if (!out.empty()) {
++      REXKRNL_INFO("[input-script] {} step(s) armed", out.size());
++    }
++    return out;
++  }();
++  return steps;
++}
++
++bool HasScriptFor(uint32_t user) {
++  for (const auto& step : ParsedScript()) {
++    if (step.user == user) {
++      return true;
++    }
++  }
++  return false;
++}
++
++const std::chrono::steady_clock::time_point& ScriptStartTime() {
++  static const auto t0 = std::chrono::steady_clock::now();
++  return t0;
++}
++
++uint32_t ScriptElapsedMs() {
++  return static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                  std::chrono::steady_clock::now() - ScriptStartTime())
++                                  .count());
++}
++
++bool HasReachedScriptFor(uint32_t user) {
++  const uint32_t ms = ScriptElapsedMs();
++  for (const auto& step : ParsedScript()) {
++    if (step.user == user && ms >= step.at_ms) {
++      return true;
++    }
++  }
++  return false;
++}
++
++ScriptedState ScriptedFor(uint32_t user) {
++  ScriptedState st{0, 0, 0, 0, 0, 0, 0, false};
++  const auto& steps = ParsedScript();
++  if (steps.empty()) return st;
++  const uint32_t ms = ScriptElapsedMs();
++  const uint32_t default_hold = static_cast<uint32_t>(REXCVAR_GET(input_script_hold));
++  for (const auto& s2 : steps) {
++    if (s2.user != user) continue;
++    const uint32_t hold = s2.hold_ms ? s2.hold_ms : default_hold;
++    if (ms >= s2.at_ms && ms < s2.at_ms + hold) {
++      if (REXCVAR_GET(input_script_button_state) || IsAnalogStep(s2)) {
++        st.buttons |= s2.buttons;
++      }
++      if (s2.lx) st.lx = s2.lx;
++      if (s2.ly) st.ly = s2.ly;
++      if (s2.rx) st.rx = s2.rx;
++      if (s2.ry) st.ry = s2.ry;
++      if (s2.lt) st.lt = s2.lt;
++      if (s2.rt) st.rt = s2.rt;
++      st.active = true;
++    }
++  }
++  static uint32_t last_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
++  const uint32_t slot = user < 4 ? user : 0;
++  const uint32_t key = (user << 24) ^ ScriptedStateKey(st);
++  if (key != last_key[slot]) {
++    REXKRNL_INFO("[input-script] t={}ms user={} buttons={:#06x} lx={} ly={} rx={} ry={} lt={} rt={}",
++                 ms, user, st.buttons, st.lx, st.ly, st.rx, st.ry, st.lt, st.rt);
++    last_key[slot] = key;
++  }
++  return st;
++}
++
++bool ScriptedKeystrokeFor(uint32_t user, ppc_ptr_t<X_INPUT_KEYSTROKE> keystroke) {
++  if (!REXCVAR_GET(input_script_keystrokes)) {
++    return false;
++  }
++  const auto& steps = ParsedScript();
++  if (steps.empty()) return false;
++  const uint32_t ms = ScriptElapsedMs();
++  const uint32_t keystrokes_until_ms = REXCVAR_GET(input_script_keystrokes_until_ms);
++  static std::vector<bool> emitted;
++  if (emitted.size() != steps.size()) {
++    emitted.assign(steps.size(), false);
++  }
++  for (size_t i = 0; i < steps.size(); ++i) {
++    const auto& s2 = steps[i];
++    if (emitted[i] || s2.user != user || !s2.virtual_key || ms < s2.at_ms) {
++      continue;
++    }
++    if (IsAnalogStep(s2) && !REXCVAR_GET(input_script_analog_keystrokes)) {
++      emitted[i] = true;
++      continue;
++    }
++    if (keystrokes_until_ms && s2.at_ms > keystrokes_until_ms) {
++      emitted[i] = true;
++      continue;
++    }
++    emitted[i] = true;
++    keystroke->virtual_key = s2.virtual_key;
++    keystroke->unicode = 0;
++    keystroke->flags = rex::input::X_INPUT_KEYSTROKE_KEYDOWN;
++    keystroke->user_index = static_cast<uint8_t>(user);
++    keystroke->hid_code = 0;
++    REXKRNL_INFO("[input-script] keystroke t={}ms user={} vk={:#06x}", ms, user,
++                 s2.virtual_key);
++    return true;
++  }
++  return false;
++}
++
++bool ScriptedKeystrokeAny(ppc_ptr_t<X_INPUT_KEYSTROKE> keystroke, uint32_t* out_user = nullptr) {
++  for (uint32_t user = 0; user < 4; ++user) {
++    if (!ScriptedKeystrokeFor(user, keystroke)) {
++      continue;
++    }
++    if (out_user) {
++      *out_user = user;
++    }
++    return true;
++  }
++  return false;
++}
++
++struct NamedButton {
++  const char* name;
++  uint16_t bit;
++};
++
++constexpr NamedButton kLoggedButtons[] = {
++    {"UP", 0x0001},    {"DOWN", 0x0002}, {"LEFT", 0x0004}, {"RIGHT", 0x0008},
++    {"START", 0x0010}, {"BACK", 0x0020}, {"LB", 0x0100},   {"RB", 0x0200},
++    {"A", 0x1000},     {"B", 0x2000},    {"X", 0x4000},    {"Y", 0x8000},
++};
++
++#if defined(_WIN32)
++bool KeyDown(int virtual_key) {
++  return (GetAsyncKeyState(virtual_key) & 0x8000) != 0;
++}
++#endif
++
++void AddKeyboardButton(ScriptedState& st, bool pressed, uint16_t button) {
++  if (pressed) {
++    st.buttons |= button;
++    st.active = true;
++  }
++}
++
++void AddKeyboardStick(ScriptedState& st, bool negative, bool positive, int16_t& axis) {
++  if (negative == positive) {
++    return;
++  }
++  axis = negative ? -kStick : kStick;
++  st.active = true;
++}
++
++ScriptedState KeyboardControllerFor(uint32_t user) {
++  ScriptedState st{0, 0, 0, 0, 0, 0, 0, false};
++  if (!REXCVAR_GET(keyboard_controller) || user != 0) {
++    return st;
++  }
++#if defined(_WIN32)
++  AddKeyboardButton(st, KeyDown(VK_UP), 0x0001);
++  AddKeyboardButton(st, KeyDown(VK_DOWN), 0x0002);
++  AddKeyboardButton(st, KeyDown(VK_LEFT), 0x0004);
++  AddKeyboardButton(st, KeyDown(VK_RIGHT), 0x0008);
++  AddKeyboardButton(st, KeyDown(VK_RETURN) || KeyDown(VK_SPACE), 0x1000);
++  AddKeyboardButton(st, KeyDown(VK_ESCAPE) || KeyDown(VK_BACK), 0x2000);
++  AddKeyboardButton(st, KeyDown('X'), 0x4000);
++  AddKeyboardButton(st, KeyDown('Y'), 0x8000);
++  AddKeyboardButton(st, KeyDown('P'), 0x0010);
++  AddKeyboardButton(st, KeyDown('O'), 0x0020);
++  AddKeyboardButton(st, KeyDown('Q'), 0x0100);
++  AddKeyboardButton(st, KeyDown('E'), 0x0200);
++  AddKeyboardStick(st, KeyDown('A'), KeyDown('D'), st.lx);
++  AddKeyboardStick(st, KeyDown('S'), KeyDown('W'), st.ly);
++#endif
++  return st;
++}
++
++void LogKeyboardTransitions(const ScriptedState& keyboard) {
++  if (!REXCVAR_GET(keyboard_controller_log)) {
++    return;
++  }
++  static uint16_t last_buttons = 0;
++  static int16_t last_lx = 0;
++  static int16_t last_ly = 0;
++  static const auto t0 = std::chrono::steady_clock::now();
++  const uint32_t ms = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                                std::chrono::steady_clock::now() - t0)
++                                                .count());
++  const uint16_t changed = static_cast<uint16_t>(last_buttons ^ keyboard.buttons);
++  for (const auto& button : kLoggedButtons) {
++    if (!(changed & button.bit)) {
++      continue;
++    }
++    REXKRNL_INFO("[keyboard-controller] t={}ms {} {}", ms,
++                 (keyboard.buttons & button.bit) ? "down" : "up", button.name);
++  }
++  if (keyboard.lx != last_lx) {
++    REXKRNL_INFO("[keyboard-controller] t={}ms LX {}", ms, keyboard.lx);
++  }
++  if (keyboard.ly != last_ly) {
++    REXKRNL_INFO("[keyboard-controller] t={}ms LY {}", ms, keyboard.ly);
++  }
++  last_buttons = keyboard.buttons;
++  last_lx = keyboard.lx;
++  last_ly = keyboard.ly;
++}
++
++bool HasSyntheticInput(uint32_t user) {
++  return HasReachedScriptFor(user) || (REXCVAR_GET(keyboard_controller) && user == 0);
++}
++
++ScriptedState MergedSyntheticFor(uint32_t user) {
++  ScriptedState merged{0, 0, 0, 0, 0, 0, 0, false};
++  if (HasScriptFor(user)) {
++    const ScriptedState script = ScriptedFor(user);
++    merged.buttons |= script.buttons;
++    if (script.lx) merged.lx = script.lx;
++    if (script.ly) merged.ly = script.ly;
++    if (script.rx) merged.rx = script.rx;
++    if (script.ry) merged.ry = script.ry;
++    if (script.lt) merged.lt = script.lt;
++    if (script.rt) merged.rt = script.rt;
++    merged.active |= script.active;
++  }
++  const ScriptedState keyboard = KeyboardControllerFor(user);
++  LogKeyboardTransitions(keyboard);
++  merged.buttons |= keyboard.buttons;
++  if (keyboard.lx) merged.lx = keyboard.lx;
++  if (keyboard.ly) merged.ly = keyboard.ly;
++  if (keyboard.rx) merged.rx = keyboard.rx;
++  if (keyboard.ry) merged.ry = keyboard.ry;
++  if (keyboard.lt) merged.lt = keyboard.lt;
++  if (keyboard.rt) merged.rt = keyboard.rt;
++  merged.active |= keyboard.active;
++  return merged;
++}
++
++bool FillSyntheticCapabilities(uint32_t user, ppc_ptr_t<X_INPUT_CAPABILITIES> caps) {
++  if (!HasSyntheticInput(user) || user >= 4 || !caps) {
++    return false;
++  }
++  std::memset(caps, 0, sizeof(X_INPUT_CAPABILITIES));
++  caps->type = rex::input::XINPUT_DEVTYPE_GAMEPAD;
++  caps->sub_type = 0x01;
++  caps->gamepad.buttons = 0xF3FF;
++  caps->gamepad.left_trigger = 0xFF;
++  caps->gamepad.right_trigger = 0xFF;
++  caps->gamepad.thumb_lx = INT16_MAX;
++  caps->gamepad.thumb_ly = INT16_MAX;
++  caps->gamepad.thumb_rx = INT16_MAX;
++  caps->gamepad.thumb_ry = INT16_MAX;
++  return true;
++}
++
++}  // namespace
++
+ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> input_state) {
+   // Games call this with a NULL state ptr, probably as a query.
+   static int call_count = 0;
+@@ -112,7 +534,59 @@ u32 XamInputGetState_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_STATE> i
+   }
+ 
+   auto* is = input_system();
+-  return is->GetState(actual_user_index, input_state);
++  auto result = is->GetState(actual_user_index, input_state);
++  if (HasSyntheticInput(actual_user_index) && !input_state) {
++    return X_ERROR_SUCCESS;
++  }
++  if (input_state && HasSyntheticInput(actual_user_index)) {
++    if (result != X_ERROR_SUCCESS) {
++      std::memset(input_state, 0, sizeof(X_INPUT_STATE));
++    }
++    const ScriptedState sc = MergedSyntheticFor(actual_user_index);
++
++    input_state->gamepad.buttons =
++        static_cast<uint16_t>(input_state->gamepad.buttons | sc.buttons);
++    if (sc.lt) input_state->gamepad.left_trigger = sc.lt;
++    if (sc.rt) input_state->gamepad.right_trigger = sc.rt;
++    if (sc.lx) input_state->gamepad.thumb_lx = sc.lx;
++    if (sc.ly) input_state->gamepad.thumb_ly = sc.ly;
++    if (sc.rx) input_state->gamepad.thumb_rx = sc.rx;
++    if (sc.ry) input_state->gamepad.thumb_ry = sc.ry;
++    result = X_ERROR_SUCCESS;
++
++    static uint32_t script_packet[4] = {1, 1, 1, 1};
++    static uint32_t last_state_key[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
++    const uint32_t slot = actual_user_index < 4 ? actual_user_index : 0;
++    const ScriptedState merged{
++        static_cast<uint16_t>(input_state->gamepad.buttons),
++        static_cast<int16_t>(input_state->gamepad.thumb_lx),
++        static_cast<int16_t>(input_state->gamepad.thumb_ly),
++        static_cast<int16_t>(input_state->gamepad.thumb_rx),
++        static_cast<int16_t>(input_state->gamepad.thumb_ry),
++        static_cast<uint8_t>(input_state->gamepad.left_trigger),
++        static_cast<uint8_t>(input_state->gamepad.right_trigger),
++        sc.active,
++    };
++    const uint32_t state_key = ScriptedStateKey(merged);
++    if (state_key != last_state_key[slot]) {
++      if (last_state_key[slot] != 0xFFFFFFFF) {
++        ++script_packet[slot];
++      }
++      last_state_key[slot] = state_key;
++      REXKRNL_INFO(
++          "[input-script] returned result={:#010x} packet={} buttons={:#06x} lx={} ly={} rx={} ry={} lt={} rt={}",
++          static_cast<uint32_t>(result), script_packet[slot],
++          static_cast<uint16_t>(input_state->gamepad.buttons),
++          static_cast<int16_t>(input_state->gamepad.thumb_lx),
++          static_cast<int16_t>(input_state->gamepad.thumb_ly),
++          static_cast<int16_t>(input_state->gamepad.thumb_rx),
++          static_cast<int16_t>(input_state->gamepad.thumb_ry),
++          static_cast<uint8_t>(input_state->gamepad.left_trigger),
++          static_cast<uint8_t>(input_state->gamepad.right_trigger));
++    }
++    input_state->packet_number = script_packet[slot];
++  }
++  return result;
+ }
+ 
+ // https://msdn.microsoft.com/en-us/library/windows/desktop/microsoft.directx_sdk.reference.xinputsetstate(v=vs.85).aspx
+@@ -147,12 +621,18 @@ u32 XamInputGetKeystroke_entry(u32 user_index, u32 flags, ppc_ptr_t<X_INPUT_KEYS
+     return X_ERROR_DEVICE_NOT_CONNECTED;
+   }
+ 
++  const bool any_user = ((user_index & 0xFF) == 0xFF) || (flags & XINPUT_FLAG_ANY_USER);
+   uint32_t actual_user_index = user_index;
+-  if ((actual_user_index & 0xFF) == 0xFF || (flags & XINPUT_FLAG_ANY_USER)) {
++  if (any_user) {
+     // Always pin user to 0.
+     actual_user_index = 0;
+   }
+ 
++  if (any_user ? ScriptedKeystrokeAny(keystroke)
++               : ScriptedKeystrokeFor(actual_user_index, keystroke)) {
++    return X_ERROR_SUCCESS;
++  }
++
+   auto* is = input_system();
+   return is->GetKeystroke(actual_user_index, flags, keystroke);
+ }
+@@ -170,11 +650,19 @@ u32 XamInputGetKeystrokeEx_entry(mapped_u32 user_index_ptr, u32 flags,
+   }
+ 
+   uint32_t user_index = *user_index_ptr;
+-  if ((user_index & 0xFF) == 0xFF || (flags & XINPUT_FLAG_ANY_USER)) {
++  const bool any_user = ((user_index & 0xFF) == 0xFF) || (flags & XINPUT_FLAG_ANY_USER);
++  if (any_user) {
+     // Always pin user to 0.
+     user_index = 0;
+   }
+ 
++  uint32_t scripted_user = user_index;
++  if (any_user ? ScriptedKeystrokeAny(keystroke, &scripted_user)
++               : ScriptedKeystrokeFor(user_index, keystroke)) {
++    *user_index_ptr = scripted_user;
++    return X_ERROR_SUCCESS;
++  }
++
+   auto* is = input_system();
+   auto result = is->GetKeystroke(user_index, flags, keystroke);
+   if (XSUCCEEDED(result)) {
 diff --git a/src/kernel/xam/xam_net.cpp b/src/kernel/xam/xam_net.cpp
-index 58e36a4..73a9b14 100644
+index 58e36a4..2d73877 100644
 --- a/src/kernel/xam/xam_net.cpp
 +++ b/src/kernel/xam/xam_net.cpp
 @@ -12,13 +12,21 @@
@@ -92,7 +2094,7 @@ index 58e36a4..73a9b14 100644
  #elif REX_PLATFORM_LINUX || REX_PLATFORM_MAC
  #include <arpa/inet.h>
  #include <netinet/in.h>
-@@ -50,6 +64,94 @@ namespace xam {
+@@ -50,6 +64,95 @@ namespace xam {
  using namespace rex::system;
  using namespace rex::system::xam;
  
@@ -116,6 +2118,7 @@ index 58e36a4..73a9b14 100644
 +std::atomic<uint64_t> xnet_console_packets{0};
 +std::atomic<uint64_t> xnet_console_sent_packets{0};
 +std::atomic<uint64_t> xnet_raw_console_packets{0};
++std::atomic<uint64_t> xnet_raw_console_sent_packets{0};
 +
 +struct HostNetworkIdentity {
 +  bool available = false;
@@ -187,7 +2190,7 @@ index 58e36a4..73a9b14 100644
  // https://github.com/G91/TitanOffLine/blob/1e692d9bb9dfac386d08045ccdadf4ae3227bb5e/xkelib/xam/xamNet.h
  enum {
    XNCALLER_INVALID = 0x0,
-@@ -70,6 +172,405 @@ typedef struct {
+@@ -70,6 +173,536 @@ typedef struct {
    uint8_t abOnline[20];           // Online identification
  } XNADDR;
  
@@ -271,10 +2274,18 @@ index 58e36a4..73a9b14 100644
 +}
 +
 +#if REX_PLATFORM_WIN32
++bool GetTitleLanKey(std::array<uint8_t, 16>* key);
++bool GetTitleVersion(uint32_t* version);
++
 +struct SystemLinkRawTransportState {
 +  std::mutex mutex;
 +  SystemLinkRawTransport transport;
 +  bool attempted = false;
++  bool missing_key_logged = false;
++  bool codec_ready = false;
++  SystemLinkBroadcastKeys broadcast_keys{};
++  uint16_t next_sequence = 1;
++  uint32_t peer_system_version = 0x200A3200;
 +  std::vector<std::array<uint8_t, 6>> reflected_beacons;
 +};
 +
@@ -288,39 +2299,70 @@ index 58e36a4..73a9b14 100644
 +  std::lock_guard<std::mutex> lock(state.mutex);
 +  state.transport.Close();
 +  state.attempted = false;
++  state.missing_key_logged = false;
++  state.codec_ready = false;
++  state.next_sequence = 1;
++  state.peer_system_version = 0x200A3200;
 +  state.reflected_beacons.clear();
 +}
 +
-+void PollSystemLinkRawTransport() {
-+  auto& state = GetSystemLinkRawTransportState();
-+  std::lock_guard<std::mutex> lock(state.mutex);
++bool EnsureSystemLinkRawTransportLocked(SystemLinkRawTransportState& state) {
 +  if (!REXCVAR_GET(xnet_system_link_raw_transport)) {
 +    if (state.transport.is_open()) {
 +      state.transport.Close();
 +    }
 +    state.attempted = false;
++    state.missing_key_logged = false;
++    state.codec_ready = false;
 +    state.reflected_beacons.clear();
-+    return;
++    return false;
 +  }
 +
++  if (!state.codec_ready) {
++    std::array<uint8_t, 16> title_lan_key{};
++    if (!GetTitleLanKey(&title_lan_key)) {
++      if (!state.missing_key_logged) {
++        REXKRNL_WARN("[xnet] Raw System Link transport has no title LAN key");
++        state.missing_key_logged = true;
++      }
++      return false;
++    }
++    state.missing_key_logged = false;
++    state.broadcast_keys = DeriveSystemLinkBroadcastKeys(title_lan_key);
++    BCryptGenRandom(nullptr, reinterpret_cast<PUCHAR>(&state.next_sequence),
++                    sizeof(state.next_sequence), BCRYPT_USE_SYSTEM_PREFERRED_RNG);
++    if (!state.next_sequence) {
++      state.next_sequence = 1;
++    }
++    state.codec_ready = true;
++  }
 +  if (!state.transport.is_open()) {
 +    if (state.attempted) {
-+      return;
++      return false;
 +    }
 +    state.attempted = true;
 +    const auto& identity = GetHostNetworkIdentity();
 +    if (!identity.available) {
 +      REXKRNL_WARN("[xnet] Raw System Link transport has no eligible network adapter");
-+      return;
++      return false;
 +    }
 +    std::string error;
 +    if (!state.transport.Open(identity.ipv4, identity.mac, &error)) {
 +      REXKRNL_WARN("[xnet] Raw System Link transport unavailable: {}", error);
-+      return;
++      return false;
 +    }
 +    REXKRNL_INFO(
 +        "[xnet] Raw System Link transport active filter=xbox-udp-3074 "
-+        "promiscuous=false payload_log=false");
++        "promiscuous=false codec=xsp-broadcast payload_log=false");
++  }
++  return true;
++}
++
++void PollSystemLinkRawTransport() {
++  auto& state = GetSystemLinkRawTransportState();
++  std::lock_guard<std::mutex> lock(state.mutex);
++  if (!EnsureSystemLinkRawTransportLocked(state)) {
++    return;
 +  }
 +
 +  std::vector<SystemLinkRawPacket> packets;
@@ -332,17 +2374,49 @@ index 58e36a4..73a9b14 100644
 +    return;
 +  }
 +  for (const auto& packet : packets) {
-+    const uint64_t count =
-+        xnet_raw_console_packets.fetch_add(1, std::memory_order_relaxed) + 1;
++    const uint64_t count = xnet_raw_console_packets.fetch_add(1, std::memory_order_relaxed) + 1;
++    SystemLinkBroadcastDatagram datagram;
++    const bool authenticated =
++        DecodeSystemLinkBroadcast(packet.payload, state.broadcast_keys, &datagram);
++    uint32_t local_title_version = 0;
++    const bool matching_title =
++        authenticated && datagram.title_id == REX_KERNEL_STATE()->title_id();
++    const bool compatible_title_version = matching_title && GetTitleVersion(&local_title_version) &&
++                                          datagram.title_version == local_title_version;
++    uint32_t delivered = 0;
++    if (compatible_title_version) {
++      state.peer_system_version = datagram.system_version;
++      const auto guest_handles = GetSystemLinkGuestSocketHandles();
++      for (uint32_t handle : guest_handles) {
++        auto guest_socket = REX_KERNEL_OBJECTS()->LookupObject<XSocket>(handle);
++        if (guest_socket && IsSystemLinkGuestSocket(*guest_socket) &&
++            guest_socket->bound_port() == datagram.destination_port &&
++            guest_socket->QueuePacket(1, datagram.source_port, datagram.data.data(),
++                                      datagram.data.size())) {
++          ++delivered;
++        }
++      }
++    }
 +    if (REXCVAR_GET(xnet_metadata_log) && (count <= 16 || count % 256 == 0)) {
-+      if (packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion) {
++      if (authenticated) {
++        REXKRNL_INFO(
++            "[xnet] Raw System Link broadcast-version frame bytes={} "
++            "udp_payload_bytes={} title_datagram_bytes={} source_port={} "
++            "destination_port={} title_id={:#010x} title_version={} "
++            "system_version={:#010x} matching_title={} compatible_version={} "
++            "authenticated=true delivered={} packets={} payload_log=false",
++            packet.frame_size, packet.payload.size(), datagram.data.size(), datagram.source_port,
++            datagram.destination_port, datagram.title_id, datagram.title_version,
++            datagram.system_version, matching_title, compatible_title_version, delivered, count);
++      } else if (packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion) {
 +        const bool matching_title = packet.title_id == REX_KERNEL_STATE()->title_id();
 +        REXKRNL_INFO(
 +            "[xnet] Raw System Link broadcast-version frame bytes={} "
-+            "udp_payload_bytes={} title_id={:#010x} broadcast_version={} "
-+            "matching_title={} authenticated=false packets={} payload_log=false",
-+            packet.frame_size, packet.payload.size(), packet.title_id,
-+            packet.broadcast_version, matching_title, count);
++            "udp_payload_bytes={} title_id={:#010x} title_version={} "
++            "system_version={:#010x} matching_title={} authenticated=false "
++            "packets={} payload_log=false",
++            packet.frame_size, packet.payload.size(), packet.title_id, packet.broadcast_version,
++            packet.system_version, matching_title, count);
 +      } else {
 +        REXKRNL_INFO(
 +            "[xnet] Raw System Link console frame bytes={} udp_payload_bytes={} "
@@ -350,14 +2424,13 @@ index 58e36a4..73a9b14 100644
 +            packet.frame_size, packet.payload.size(), count);
 +      }
 +    }
-+    if (REXCVAR_GET(xnet_system_link_raw_reflect_beacon) &&
++    if (REXCVAR_GET(xnet_system_link_raw_reflect_beacon) && authenticated &&
++        compatible_title_version &&
 +        packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion &&
-+        packet.title_id == REX_KERNEL_STATE()->title_id() &&
 +        std::find(state.reflected_beacons.begin(), state.reflected_beacons.end(),
 +                  packet.source_mac) == state.reflected_beacons.end()) {
 +      std::string send_error;
-+      if (state.transport.SendPayloadTo(packet.source_mac, packet.payload,
-+                                        &send_error)) {
++      if (state.transport.SendPayloadTo(packet.source_mac, packet.payload, &send_error)) {
 +        state.reflected_beacons.push_back(packet.source_mac);
 +        if (REXCVAR_GET(xnet_metadata_log)) {
 +          REXKRNL_INFO(
@@ -366,11 +2439,49 @@ index 58e36a4..73a9b14 100644
 +              packet.payload.size());
 +        }
 +      } else if (REXCVAR_GET(xnet_metadata_log)) {
-+        REXKRNL_WARN("[xnet] Raw System Link beacon reflection failed: {}",
-+                     send_error);
++        REXKRNL_WARN("[xnet] Raw System Link beacon reflection failed: {}", send_error);
 +      }
 +    }
 +  }
++}
++
++bool SendRawSystemLinkBroadcast(uint8_t* data, uint32_t data_length, uint16_t source_port,
++                                uint16_t destination_port) {
++  auto& state = GetSystemLinkRawTransportState();
++  std::lock_guard<std::mutex> lock(state.mutex);
++  if (!EnsureSystemLinkRawTransportLocked(state)) {
++    return false;
++  }
++
++  uint32_t title_version = 0;
++  GetTitleVersion(&title_version);
++  std::vector<uint8_t> payload;
++  if (!EncodeSystemLinkBroadcast(std::span<const uint8_t>(data, data_length), source_port,
++                                 destination_port, REX_KERNEL_STATE()->title_id(), title_version,
++                                 state.peer_system_version, state.next_sequence++,
++                                 state.broadcast_keys, &payload)) {
++    return false;
++  }
++
++  constexpr std::array<uint8_t, 6> broadcast_mac = {
++      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++  };
++  std::string error;
++  const bool sent = state.transport.SendPayloadTo(broadcast_mac, payload, &error);
++  if (REXCVAR_GET(xnet_metadata_log)) {
++    if (sent) {
++      const uint64_t count =
++          xnet_raw_console_sent_packets.fetch_add(1, std::memory_order_relaxed) + 1;
++      REXKRNL_INFO(
++          "[xnet] Raw System Link title broadcast title_datagram_bytes={} "
++          "udp_payload_bytes={} source_port={} destination_port={} "
++          "authenticated=true packets={} payload_log=false",
++          data_length, payload.size(), source_port, destination_port, count);
++    } else {
++      REXKRNL_WARN("[xnet] Raw System Link title broadcast failed: {}", error);
++    }
++  }
++  return sent;
 +}
 +
 +struct SystemLinkTransportSocket {
@@ -474,6 +2585,10 @@ index 58e36a4..73a9b14 100644
 +      }
 +      break;
 +    }
++    if (REXCVAR_GET(xnet_system_link_raw_transport) &&
++        from.sin_addr.s_addr == htonl(1)) {
++      continue;
++    }
 +    uint32_t delivered = 0;
 +    const auto guest_handles = GetSystemLinkGuestSocketHandles();
 +    for (uint32_t handle : guest_handles) {
@@ -513,6 +2628,11 @@ index 58e36a4..73a9b14 100644
 +  const int result = sendto(transport.socket, reinterpret_cast<const char*>(data), data_length,
 +                            flags, reinterpret_cast<const sockaddr*>(&destination),
 +                            sizeof(destination));
++  if (destination.sin_addr.s_addr == htonl(INADDR_BROADCAST) &&
++      REXCVAR_GET(xnet_system_link_raw_transport)) {
++    SendRawSystemLinkBroadcast(data, data_length, guest_socket.bound_port(),
++                               static_cast<uint16_t>(to->sin_port));
++  }
 +  const std::string probe_address = REXCVAR_GET(xnet_system_link_probe_address);
 +  if (result >= 0 && destination.sin_addr.s_addr == htonl(INADDR_BROADCAST) &&
 +      !probe_address.empty()) {
@@ -582,6 +2702,20 @@ index 58e36a4..73a9b14 100644
 +  return true;
 +}
 +
++bool GetTitleVersion(uint32_t* version) {
++  auto module = REX_KERNEL_STATE()->GetExecutableModule();
++  if (!module || !version) {
++    return false;
++  }
++  xex2_opt_execution_info* execution_info = nullptr;
++  if (XFAILED(module->GetOptHeader(XEX_HEADER_EXECUTION_INFO, &execution_info)) ||
++      !execution_info) {
++    return false;
++  }
++  *version = execution_info->version_value;
++  return true;
++}
++
 +bool GetTitleSystemFlags(uint32_t* flags) {
 +  auto module = REX_KERNEL_STATE()->GetExecutableModule();
 +  if (!module) {
@@ -593,7 +2727,7 @@ index 58e36a4..73a9b14 100644
  typedef struct {
    rex::be<int32_t> status;
    rex::be<uint32_t> cina;
-@@ -199,6 +700,23 @@ u32 NetDll_XNetStartup_entry(u32 caller, ppc_ptr_t<XNetStartupParams> params) {
+@@ -199,6 +832,23 @@ u32 NetDll_XNetStartup_entry(u32 caller, ppc_ptr_t<XNetStartupParams> params) {
    }
    */
  
@@ -617,7 +2751,7 @@ index 58e36a4..73a9b14 100644
    return 0;
  }
  
-@@ -210,6 +728,25 @@ u32 NetDll_XNetCleanup_entry(u32 caller, mapped_void params) {
+@@ -210,6 +860,27 @@ u32 NetDll_XNetCleanup_entry(u32 caller, mapped_void params) {
    // TODO: Shut down and delete.
    // delete xnet;
  
@@ -640,10 +2774,12 @@ index 58e36a4..73a9b14 100644
 +  }
 +  xnet_console_packets.store(0, std::memory_order_relaxed);
 +  xnet_console_sent_packets.store(0, std::memory_order_relaxed);
++  xnet_raw_console_packets.store(0, std::memory_order_relaxed);
++  xnet_raw_console_sent_packets.store(0, std::memory_order_relaxed);
    return 0;
  }
  
-@@ -230,11 +767,93 @@ u32 NetDll_XNetGetOpt_entry(u32 one, u32 option_id, mapped_void buffer_ptr,
+@@ -230,11 +901,93 @@ u32 NetDll_XNetGetOpt_entry(u32 one, u32 option_id, mapped_void buffer_ptr,
    }
  }
  
@@ -740,7 +2876,7 @@ index 58e36a4..73a9b14 100644
    return 0;
  }
  
-@@ -245,9 +864,12 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
+@@ -245,9 +998,12 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
    ZeroMemory(&wsaData, sizeof(WSADATA));
    int ret = WSAStartup(version, &wsaData);
  
@@ -754,7 +2890,7 @@ index 58e36a4..73a9b14 100644
      data_ptr->version = wsaData.wVersion;
      data_ptr->version_high = wsaData.wHighVersion;
      std::memcpy(&data_ptr->description, wsaData.szDescription, 0x100);
-@@ -283,6 +905,10 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
+@@ -283,6 +1039,10 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
    }
    */
  
@@ -765,7 +2901,7 @@ index 58e36a4..73a9b14 100644
    return ret;
  }
  
-@@ -300,18 +926,74 @@ u32 NetDll_WSARecvFrom_entry(u32 caller, u32 socket, ppc_ptr_t<XWSABUF> buffers_
+@@ -300,18 +1060,74 @@ u32 NetDll_WSARecvFrom_entry(u32 caller, u32 socket, ppc_ptr_t<XWSABUF> buffers_
                               ppc_ptr_t<XSOCKADDR_IN> from_addr,
                               ppc_ptr_t<XWSAOVERLAPPED> overlapped_ptr,
                               mapped_void completion_routine_ptr) {
@@ -849,7 +2985,7 @@ index 58e36a4..73a9b14 100644
  }
  
  // If the socket is a VDP socket, buffer 0 is the game data length, and buffer 1
-@@ -346,9 +1028,28 @@ u32 NetDll_WSASendTo_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XWSABUF> buf
+@@ -346,9 +1162,28 @@ u32 NetDll_WSASendTo_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XWSABUF> buf
    }
  
    N_XSOCKADDR_IN native_to(to_ptr);
@@ -881,7 +3017,7 @@ index 58e36a4..73a9b14 100644
  
    return 0;
  }
-@@ -436,8 +1137,8 @@ struct XnAddrStatus {
+@@ -436,8 +1271,8 @@ struct XnAddrStatus {
  };
  
  u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
@@ -892,7 +3028,7 @@ index 58e36a4..73a9b14 100644
    addr_ptr->inaOnline.s_addr = 0;
    addr_ptr->wPortOnline = 0;
  
-@@ -452,11 +1153,23 @@ u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
+@@ -452,11 +1287,23 @@ u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
    // https://github.com/facebookarchive/RakNet/blob/master/Source/RakPeer.cpp#L4467
    // "Mac address is a poor solution because you can't have multiple connections
    // from the same system"
@@ -918,7 +3054,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
-@@ -466,34 +1179,182 @@ u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
+@@ -466,34 +1313,182 @@ u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
    return XnAddrStatus::XNET_GET_XNADDR_NONE;
  }
  
@@ -1110,7 +3246,7 @@ index 58e36a4..73a9b14 100644
  }
  
  // https://github.com/ILOVEPIE/Cxbx-Reloaded/blob/master/src/CxbxKrnl/EmuXOnline.h#L39
-@@ -506,7 +1367,16 @@ struct XEthernetStatus {
+@@ -506,7 +1501,16 @@ struct XEthernetStatus {
  };
  
  u32 NetDll_XNetGetEthernetLinkStatus_entry(u32 caller) {
@@ -1128,7 +3264,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll_XNetDnsLookup_entry(u32 caller, mapped_string host, u32 event_handle, mapped_u32 pdns) {
-@@ -592,7 +1462,12 @@ u32 NetDll_socket_entry(u32 caller, u32 af, u32 type, u32 protocol) {
+@@ -592,7 +1596,12 @@ u32 NetDll_socket_entry(u32 caller, u32 af, u32 type, u32 protocol) {
      return -1;
    }
  
@@ -1142,7 +3278,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
-@@ -603,6 +1478,8 @@ u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
+@@ -603,6 +1612,8 @@ u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
      return -1;
    }
  
@@ -1151,7 +3287,7 @@ index 58e36a4..73a9b14 100644
    // TODO: Absolutely delete this object. It is no longer valid after calling
    // closesocket.
    socket->Close();
-@@ -640,7 +1517,13 @@ u32 NetDll_setsockopt_entry(u32 caller, u32 socket_handle, u32 level, u32 optnam
+@@ -640,7 +1651,13 @@ u32 NetDll_setsockopt_entry(u32 caller, u32 socket_handle, u32 level, u32 optnam
    }
  
    X_STATUS status = socket->SetOption(level, optname, optval_ptr, optlen);
@@ -1166,7 +3302,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void arg_ptr) {
-@@ -657,7 +1540,9 @@ u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void
+@@ -657,7 +1674,9 @@ u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void
      return -1;
    }
  
@@ -1177,7 +3313,7 @@ index 58e36a4..73a9b14 100644
    return 0;
  }
  
-@@ -670,12 +1555,23 @@ u32 NetDll_bind_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XSOCKADDR_IN> nam
+@@ -670,12 +1689,23 @@ u32 NetDll_bind_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XSOCKADDR_IN> nam
    }
  
    N_XSOCKADDR_IN native_name(name);
@@ -1202,7 +3338,7 @@ index 58e36a4..73a9b14 100644
    return 0;
  }
  
-@@ -793,11 +1689,32 @@ struct host_set {
+@@ -793,11 +1823,32 @@ struct host_set {
      }
      this->count = new_count;
    }
@@ -1235,7 +3371,7 @@ index 58e36a4..73a9b14 100644
    host_set host_readfds = {};
    fd_set native_readfds = {};
    if (readfds) {
-@@ -825,10 +1742,22 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
+@@ -825,10 +1876,22 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
                                               reinterpret_cast<int32_t*>(&timeout.tv_usec));
      timeout_in = &timeout;
    }
@@ -1259,7 +3395,7 @@ index 58e36a4..73a9b14 100644
      host_readfds.Store(readfds);
    }
    if (writefds) {
-@@ -840,8 +1769,10 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
+@@ -840,8 +1903,10 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
      host_exceptfds.Store(exceptfds);
    }
  
@@ -1272,7 +3408,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 buf_len, u32 flags) {
-@@ -857,6 +1788,13 @@ u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 bu
+@@ -857,6 +1922,13 @@ u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 bu
  
  u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 buf_len,
                            u32 flags, ppc_ptr_t<XSOCKADDR_IN> from_ptr, mapped_u32 fromlen_ptr) {
@@ -1286,7 +3422,7 @@ index 58e36a4..73a9b14 100644
    auto socket = REX_KERNEL_OBJECTS()->LookupObject<XSocket>(socket_handle);
    if (!socket) {
      // WSAENOTSOCK
-@@ -868,7 +1806,7 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
+@@ -868,7 +1940,7 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
    if (from_ptr) {
      native_from = *from_ptr;
    }
@@ -1295,7 +3431,7 @@ index 58e36a4..73a9b14 100644
    int ret =
        socket->RecvFrom(buf_ptr, buf_len, flags, &native_from, fromlen_ptr ? &native_fromlen : 0);
  
-@@ -892,6 +1830,17 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
+@@ -892,6 +1964,17 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
  #endif
    }
  
@@ -1313,7 +3449,7 @@ index 58e36a4..73a9b14 100644
    return ret;
  }
  
-@@ -916,7 +1865,19 @@ u32 NetDll_sendto_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32
+@@ -916,7 +1999,19 @@ u32 NetDll_sendto_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32
    }
  
    N_XSOCKADDR_IN native_to(to_ptr);
@@ -1334,7 +3470,7 @@ index 58e36a4..73a9b14 100644
  }
  
  u32 NetDll___WSAFDIsSet_entry(u32 socket_handle, ppc_ptr_t<x_fd_set> fd_set) {
-@@ -941,6 +1902,9 @@ REX_EXPORT(__imp__NetDll_XNetStartup, rex::kernel::xam::NetDll_XNetStartup_entry
+@@ -941,6 +2036,9 @@ REX_EXPORT(__imp__NetDll_XNetStartup, rex::kernel::xam::NetDll_XNetStartup_entry
  REX_EXPORT(__imp__NetDll_XNetCleanup, rex::kernel::xam::NetDll_XNetCleanup_entry)
  REX_EXPORT(__imp__NetDll_XNetGetOpt, rex::kernel::xam::NetDll_XNetGetOpt_entry)
  REX_EXPORT(__imp__NetDll_XNetRandom, rex::kernel::xam::NetDll_XNetRandom_entry)
@@ -1344,7 +3480,7 @@ index 58e36a4..73a9b14 100644
  REX_EXPORT(__imp__NetDll_WSAStartup, rex::kernel::xam::NetDll_WSAStartup_entry)
  REX_EXPORT(__imp__NetDll_WSACleanup, rex::kernel::xam::NetDll_WSACleanup_entry)
  REX_EXPORT(__imp__NetDll_WSAGetLastError, rex::kernel::xam::NetDll_WSAGetLastError_entry)
-@@ -961,6 +1925,13 @@ REX_EXPORT(__imp__NetDll_XNetXnAddrToInAddr, rex::kernel::xam::NetDll_XNetXnAddr
+@@ -961,6 +2059,13 @@ REX_EXPORT(__imp__NetDll_XNetXnAddrToInAddr, rex::kernel::xam::NetDll_XNetXnAddr
  REX_EXPORT(__imp__NetDll_XNetInAddrToXnAddr, rex::kernel::xam::NetDll_XNetInAddrToXnAddr_entry)
  REX_EXPORT(__imp__NetDll_XNetSetSystemLinkPort,
             rex::kernel::xam::NetDll_XNetSetSystemLinkPort_entry)
@@ -1358,7 +3494,7 @@ index 58e36a4..73a9b14 100644
  REX_EXPORT(__imp__NetDll_XNetGetEthernetLinkStatus,
             rex::kernel::xam::NetDll_XNetGetEthernetLinkStatus_entry)
  REX_EXPORT(__imp__NetDll_XNetDnsLookup, rex::kernel::xam::NetDll_XNetDnsLookup_entry)
-@@ -1030,25 +2001,18 @@ REX_EXPORT_STUB(__imp__NetDll_XHttpSetStatusCallback);
+@@ -1030,25 +2135,18 @@ REX_EXPORT_STUB(__imp__NetDll_XHttpSetStatusCallback);
  REX_EXPORT_STUB(__imp__NetDll_XHttpShutdown);
  REX_EXPORT_STUB(__imp__NetDll_XHttpStartup);
  REX_EXPORT_STUB(__imp__NetDll_XHttpWriteData);
@@ -1384,20 +3520,810 @@ index 58e36a4..73a9b14 100644
  REX_EXPORT_STUB(__imp__NetDll_XmlDownloadContinue);
  REX_EXPORT_STUB(__imp__NetDll_XmlDownloadGetParseTime);
  REX_EXPORT_STUB(__imp__NetDll_XmlDownloadGetReceivedDataSize);
+diff --git a/src/kernel/xam/xam_user.cpp b/src/kernel/xam/xam_user.cpp
+index 8778066..0c78b76 100644
+--- a/src/kernel/xam/xam_user.cpp
++++ b/src/kernel/xam/xam_user.cpp
+@@ -12,7 +12,14 @@
+ // Disable warnings about unused parameters for kernel functions
+ #pragma GCC diagnostic ignored "-Wunused-parameter"
+ 
++#include <algorithm>
++#include <array>
++#include <atomic>
++#include <chrono>
+ #include <cstring>
++#include <limits>
++#include <string>
++#include <vector>
+ 
+ #include <rex/cvar.h>
+ #include <rex/kernel/xam/private.h>
+@@ -29,6 +36,16 @@
+ #include <rex/system/xtypes.h>
+ 
+ REXCVAR_DEFINE_UINT32(user_language, 1, "Kernel", "User's language ID");
++REXCVAR_DEFINE_UINT32(xam_local_user_count, 1, "Kernel",
++                      "Number of local signed-in users to expose, from 1 to 4");
++REXCVAR_DEFINE_STRING(xam_local_user_activation_ms, "", "Kernel",
++                      "Optional comma-separated per-user sign-in activation times in ms");
++REXCVAR_DEFINE_UINT32(xam_user_summary_interval_ms, 0, "Kernel",
++                      "Interval for XamUser call-count summaries in ms, or 0 to disable");
++REXCVAR_DEFINE_UINT32(xam_guest_signin_state, 1, "Kernel",
++                      "Signin state returned for synthetic guest users 1-3");
++REXCVAR_DEFINE_BOOL(xam_broadcast_signin_changed, true, "Kernel",
++                    "Broadcast XN_SYS_SIGNINCHANGED when the synthetic local-user mask changes");
+ 
+ namespace rex {
+ namespace kernel {
+@@ -36,7 +53,368 @@ namespace xam {
+ using namespace rex::system;
+ using namespace rex::system::xam;
+ 
++namespace {
++
++enum class XamUserStat : size_t {
++  GetXuid,
++  GetSigninState,
++  GetSigninInfo,
++  GetName,
++  GetGamerTag,
++  ReadProfileSettings,
++  ReadProfileSettingsEx,
++  WriteProfileSettings,
++  CheckPrivilege,
++  ContentRestrictionGetFlags,
++  ContentRestrictionGetRating,
++  ContentRestrictionCheckAccess,
++  IsOnlineEnabled,
++  GetMembershipTier,
++  GetUserIndexMask,
++  GetRequestedUserIndexMask,
++  IsGuest,
++  AreUsersFriends,
++  ShowSigninUI,
++  CreateAchievementEnumerator,
++  ParseGamerTileKey,
++  ReadTileToTexture,
++  WriteGamerTile,
++  Count,
++};
++
++constexpr size_t kXamUserStatCount = static_cast<size_t>(XamUserStat::Count);
++constexpr std::array<const char*, kXamUserStatCount> kXamUserStatNames = {
++    "get_xuid",
++    "get_signin_state",
++    "get_signin_info",
++    "get_name",
++    "get_gamertag",
++    "read_profile_settings",
++    "read_profile_settings_ex",
++    "write_profile_settings",
++    "check_privilege",
++    "content_restriction_flags",
++    "content_restriction_rating",
++    "content_restriction_access",
++    "is_online_enabled",
++    "get_membership_tier",
++    "get_user_index_mask",
++    "get_requested_user_index_mask",
++    "is_guest",
++    "are_users_friends",
++    "show_signin_ui",
++    "achievement_enumerator",
++    "parse_gamertile_key",
++    "read_tile_to_texture",
++    "write_gamer_tile",
++};
++
++std::array<std::atomic<uint64_t>, kXamUserStatCount>& XamUserStatCounters() {
++  static std::array<std::atomic<uint64_t>, kXamUserStatCount> counters{};
++  return counters;
++}
++
++struct XamUserCallerCounter {
++  std::atomic<uint32_t> lr{0};
++  std::atomic<uint64_t> count{0};
++};
++
++std::array<XamUserCallerCounter, 16>& XamUserGetSigninStateCallerCounters() {
++  static std::array<XamUserCallerCounter, 16> counters{};
++  return counters;
++}
++
++struct LocalUserSnapshot {
++  bool initialized = false;
++  uint32_t active_mask = 1;
++  uint32_t active_count = 1;
++  uint32_t next_activation_ms = std::numeric_limits<uint32_t>::max();
++  std::array<uint32_t, 4> signin_state{};
++  std::array<uint32_t, 4> type{};
++  std::array<uint64_t, 4> xuid{};
++  std::array<std::string, 4> name{};
++};
++
++LocalUserSnapshot& MutableLocalUserSnapshot() {
++  static LocalUserSnapshot snapshot;
++  return snapshot;
++}
++
++uint32_t MaxLocalUserCount() {
++  return std::clamp<uint32_t>(REXCVAR_GET(xam_local_user_count), 1, 4);
++}
++
++const std::chrono::steady_clock::time_point& LocalUserStartTime() {
++  static const auto t0 = std::chrono::steady_clock::now();
++  return t0;
++}
++
++uint32_t LocalUserElapsedMs() {
++  return static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
++                                  std::chrono::steady_clock::now() - LocalUserStartTime())
++                                  .count());
++}
++
++const std::vector<uint32_t>& LocalUserActivationMs() {
++  static std::vector<uint32_t> times = [] {
++    std::vector<uint32_t> out;
++    std::string spec = REXCVAR_GET(xam_local_user_activation_ms);
++    size_t pos = 0;
++    while (pos < spec.size()) {
++      size_t comma = spec.find(',', pos);
++      std::string tok =
++          spec.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos);
++      try {
++        out.push_back(static_cast<uint32_t>(std::stoul(tok)));
++      } catch (...) {
++        out.push_back(0);
++      }
++      if (comma == std::string::npos) {
++        break;
++      }
++      pos = comma + 1;
++    }
++    if (!out.empty()) {
++      REXLOG_INFO("[xam-user] local user activation schedule has {} entrie(s)", out.size());
++    }
++    return out;
++  }();
++  return times;
++}
++
++bool IsLocalUserScheduledActive(uint32_t user_index) {
++  const auto& activation_ms = LocalUserActivationMs();
++  if (activation_ms.empty()) {
++    return true;
++  }
++  if (user_index >= activation_ms.size()) {
++    return user_index == 0;
++  }
++  return LocalUserElapsedMs() >= activation_ms[user_index];
++}
++
++uint32_t NextLocalUserActivationMs(uint32_t elapsed_ms, uint32_t max_count) {
++  const auto& activation_ms = LocalUserActivationMs();
++  uint32_t next_ms = std::numeric_limits<uint32_t>::max();
++  for (uint32_t user = 0; user < max_count && user < activation_ms.size(); ++user) {
++    if (activation_ms[user] > elapsed_ms) {
++      next_ms = std::min(next_ms, activation_ms[user]);
++    }
++  }
++  return next_ms;
++}
++
++void RefreshLocalUserSnapshot() {
++  auto& snapshot = MutableLocalUserSnapshot();
++  if (snapshot.initialized &&
++      snapshot.next_activation_ms == std::numeric_limits<uint32_t>::max()) {
++    return;
++  }
++
++  const uint32_t elapsed_ms = LocalUserElapsedMs();
++  if (snapshot.initialized && elapsed_ms < snapshot.next_activation_ms) {
++    return;
++  }
++
++  const uint32_t max_count = MaxLocalUserCount();
++  const auto& activation_ms = LocalUserActivationMs();
++  uint32_t active_mask = 0;
++  uint32_t active_count = 0;
++  for (uint32_t user = 0; user < max_count; ++user) {
++    bool active = false;
++    if (activation_ms.empty()) {
++      active = true;
++    } else if (user < activation_ms.size()) {
++      active = elapsed_ms >= activation_ms[user];
++    } else {
++      active = user == 0;
++    }
++
++    if (active) {
++      active_mask |= 1u << user;
++      ++active_count;
++    }
++  }
++
++  const auto& user_profile = REX_KERNEL_STATE()->user_profile();
++  const uint32_t profile_signin_state = user_profile->signin_state();
++  const uint64_t profile_xuid = user_profile->xuid();
++  snapshot.signin_state.fill(0);
++  snapshot.type.fill(0);
++  snapshot.xuid.fill(0);
++  for (uint32_t user = 0; user < 4; ++user) {
++    if (!(active_mask & (1u << user))) {
++      continue;
++    }
++    snapshot.signin_state[user] =
++        user == 0 ? profile_signin_state : REXCVAR_GET(xam_guest_signin_state);
++    snapshot.type[user] = user == 0 ? user_profile->type() : 1;
++    snapshot.xuid[user] = profile_xuid + user;
++  }
++  snapshot.name[0] = user_profile->name();
++  for (uint32_t user = 1; user < 4; ++user) {
++    snapshot.name[user] = fmt::format("Guest{}", user + 1);
++  }
++
++  snapshot.active_mask = active_mask ? active_mask : 1;
++  snapshot.active_count = std::max<uint32_t>(active_count, 1);
++  snapshot.next_activation_ms = NextLocalUserActivationMs(elapsed_ms, max_count);
++  snapshot.initialized = true;
++}
++
++const LocalUserSnapshot& LocalUsers() {
++  RefreshLocalUserSnapshot();
++  return MutableLocalUserSnapshot();
++}
++
++uint32_t ActiveLocalUserMask() {
++  return LocalUsers().active_mask;
++}
++
++void MaybeLogXamUserSummary(uint32_t interval_ms) {
++  const uint32_t elapsed_ms = LocalUserElapsedMs();
++  static std::atomic<uint32_t> next_log_ms{interval_ms};
++  uint32_t target_ms = next_log_ms.load(std::memory_order_relaxed);
++  while (elapsed_ms >= target_ms) {
++    if (next_log_ms.compare_exchange_weak(target_ms, target_ms + interval_ms,
++                                          std::memory_order_relaxed)) {
++      auto& counters = XamUserStatCounters();
++      std::string summary;
++      for (size_t i = 0; i < kXamUserStatCount; ++i) {
++        const uint64_t count = counters[i].exchange(0, std::memory_order_relaxed);
++        if (!count) {
++          continue;
++        }
++        if (!summary.empty()) {
++          summary += ' ';
++        }
++        summary += fmt::format("{}={}", kXamUserStatNames[i], count);
++      }
++      for (auto& caller : XamUserGetSigninStateCallerCounters()) {
++        const uint32_t lr = caller.lr.load(std::memory_order_relaxed);
++        if (!lr) {
++          continue;
++        }
++        const uint64_t count = caller.count.exchange(0, std::memory_order_relaxed);
++        if (!count) {
++          continue;
++        }
++        if (!summary.empty()) {
++          summary += ' ';
++        }
++        summary += fmt::format("get_signin_state_lr_{:08X}={}", lr, count);
++      }
++      if (!summary.empty()) {
++        const uint32_t mask = ActiveLocalUserMask();
++        uint32_t active_count = 0;
++        for (uint32_t user = 0; user < 4; ++user) {
++          if (mask & (1u << user)) {
++            ++active_count;
++          }
++        }
++        REXLOG_INFO("[xam-user] summary t={}ms mask={:#x} users={} {}", elapsed_ms, mask,
++                    active_count, summary);
++      }
++      return;
++    }
++  }
++}
++
++uint32_t XamUserSummaryIntervalMs() {
++  static const uint32_t interval_ms = REXCVAR_GET(xam_user_summary_interval_ms);
++  return interval_ms;
++}
++
++void RecordXamUserCall(XamUserStat stat) {
++  const uint32_t interval_ms = XamUserSummaryIntervalMs();
++  if (!interval_ms) {
++    return;
++  }
++  XamUserStatCounters()[static_cast<size_t>(stat)].fetch_add(1, std::memory_order_relaxed);
++  MaybeLogXamUserSummary(interval_ms);
++}
++
++void RecordXamUserGetSigninStateCaller(uint32_t caller_lr) {
++  if (!XamUserSummaryIntervalMs() || !caller_lr) {
++    return;
++  }
++
++  auto& counters = XamUserGetSigninStateCallerCounters();
++  for (auto& caller : counters) {
++    uint32_t lr = caller.lr.load(std::memory_order_relaxed);
++    if (lr == caller_lr) {
++      caller.count.fetch_add(1, std::memory_order_relaxed);
++      return;
++    }
++    if (!lr && caller.lr.compare_exchange_strong(lr, caller_lr, std::memory_order_relaxed)) {
++      caller.count.fetch_add(1, std::memory_order_relaxed);
++      return;
++    }
++  }
++}
++
++void PollLocalUserActivationMask(uint32_t mask) {
++  static uint32_t last_mask = mask;
++  if (mask == last_mask) {
++    return;
++  }
++  REXLOG_INFO("[xam-user] local user active mask changed {:#x} -> {:#x}", last_mask, mask);
++  last_mask = mask;
++  if (REXCVAR_GET(xam_broadcast_signin_changed)) {
++    REX_KERNEL_STATE()->BroadcastNotification(0x0000000A, mask);
++  }
++}
++
++void PollLocalUserActivation() { PollLocalUserActivationMask(ActiveLocalUserMask()); }
++
++uint32_t ConfiguredLocalUserCount() {
++  return LocalUsers().active_count;
++}
++
++uint32_t LocalUserCount() { return ConfiguredLocalUserCount(); }
++
++bool IsLocalUser(uint32_t user_index) {
++  return user_index < 4 && (LocalUsers().active_mask & (1u << user_index));
++}
++
++uint64_t LocalUserXuid(uint32_t user_index) {
++  return user_index < 4 ? LocalUsers().xuid[user_index] : 0;
++}
++
++uint32_t LocalUserType(uint32_t user_index) {
++  return user_index < 4 ? LocalUsers().type[user_index] : 0;
++}
++
++uint32_t LocalUserSigninState(uint32_t user_index) {
++  return user_index < 4 ? LocalUsers().signin_state[user_index] : 0;
++}
++
++std::string LocalUserName(uint32_t user_index) {
++  return user_index < 4 ? LocalUsers().name[user_index] : std::string();
++}
++
++bool UserIndexFromXuid(uint64_t xuid, uint32_t* out_user_index) {
++  const auto& users = LocalUsers();
++  for (uint32_t user = 0; user < 4; ++user) {
++    if (!(users.active_mask & (1u << user))) {
++      continue;
++    }
++    if (users.xuid[user] != xuid) {
++      continue;
++    }
++    if (out_user_index) {
++      *out_user_index = user;
++    }
++    return true;
++  }
++  return false;
++}
++
++}  // namespace
++
+ i32 XamUserGetXUID_entry(u32 user_index, u32 type_mask, mapped_u64 xuid_ptr) {
++  RecordXamUserCall(XamUserStat::GetXuid);
++  PollLocalUserActivation();
+   assert_true(type_mask == 1 || type_mask == 2 || type_mask == 3 || type_mask == 4 ||
+               type_mask == 7);
+   if (!xuid_ptr) {
+@@ -45,16 +423,10 @@ i32 XamUserGetXUID_entry(u32 user_index, u32 type_mask, mapped_u64 xuid_ptr) {
+   uint32_t result = X_E_NO_SUCH_USER;
+   uint64_t xuid = 0;
+   if (user_index < 4) {
+-    if (user_index == 0) {
+-      const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-      auto type = user_profile->type() & type_mask;
+-      if (type & (2 | 4)) {
+-        // maybe online profile?
+-        xuid = user_profile->xuid();
+-        result = X_E_SUCCESS;
+-      } else if (type & 1) {
+-        // maybe offline profile?
+-        xuid = user_profile->xuid();
++    if (IsLocalUser(user_index)) {
++      auto type = LocalUserType(user_index) & type_mask;
++      if (type & (1 | 2 | 4)) {
++        xuid = LocalUserXuid(user_index);
+         result = X_E_SUCCESS;
+       }
+     }
+@@ -66,14 +438,16 @@ i32 XamUserGetXUID_entry(u32 user_index, u32 type_mask, mapped_u64 xuid_ptr) {
+ }
+ 
+ u32 XamUserGetSigninState_entry(u32 user_index) {
+-  uint32_t signin_state = 0;
+-  if (user_index < 4) {
+-    if (user_index == 0) {
+-      const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-      signin_state = user_profile->signin_state();
+-    }
+-  }
+-  return signin_state;
++  RecordXamUserCall(XamUserStat::GetSigninState);
++  const auto& users = LocalUsers();
++  PollLocalUserActivationMask(users.active_mask);
++  return user_index < 4 ? users.signin_state[user_index] : 0;
++}
++
++u32 XamUserGetSigninState_direct(u32 user_index) {
++  const auto& users = LocalUsers();
++  PollLocalUserActivationMask(users.active_mask);
++  return user_index < 4 ? users.signin_state[user_index] : 0;
+ }
+ 
+ typedef struct {
+@@ -87,43 +461,49 @@ typedef struct {
+ static_assert_size(X_USER_SIGNIN_INFO, 40);
+ 
+ i32 XamUserGetSigninInfo_entry(u32 user_index, u32 flags, ppc_ptr_t<X_USER_SIGNIN_INFO> info) {
++  RecordXamUserCall(XamUserStat::GetSigninInfo);
++  PollLocalUserActivation();
+   if (!info) {
+     return X_E_INVALIDARG;
+   }
+ 
+   std::memset(info, 0, sizeof(X_USER_SIGNIN_INFO));
+-  if (user_index) {
++  if (user_index >= 4) {
++    return X_E_INVALIDARG;
++  }
++  if (!IsLocalUser(user_index)) {
+     return X_E_NO_SUCH_USER;
+   }
+ 
+-  const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-  info->xuid = user_profile->xuid();
+-  info->signin_state = user_profile->signin_state();
+-  rex::string::copy_truncating(info->name, user_profile->name(), rex::countof(info->name));
++  info->xuid = LocalUserXuid(user_index);
++  info->signin_state = LocalUserSigninState(user_index);
++  rex::string::copy_truncating(info->name, LocalUserName(user_index), rex::countof(info->name));
+   return X_E_SUCCESS;
+ }
+ 
+ u32 XamUserGetName_entry(u32 user_index, mapped_string buffer, u32 buffer_len) {
++  RecordXamUserCall(XamUserStat::GetName);
++  PollLocalUserActivation();
+   if (user_index >= 4) {
+     return X_E_INVALIDARG;
+   }
+ 
+-  if (user_index) {
++  if (!IsLocalUser(user_index)) {
+     return X_E_NO_SUCH_USER;
+   }
+ 
+-  const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-  const auto& user_name = user_profile->name();
+-  rex::string::copy_truncating(buffer, user_name, std::min(buffer_len, uint32_t(16)));
++  rex::string::copy_truncating(buffer, LocalUserName(user_index), std::min(buffer_len, uint32_t(16)));
+   return X_E_SUCCESS;
+ }
+ 
+ u32 XamUserGetGamerTag_entry(u32 user_index, mapped_wstring buffer, u32 buffer_len) {
++  RecordXamUserCall(XamUserStat::GetGamerTag);
++  PollLocalUserActivation();
+   if (user_index >= 4) {
+     return X_E_INVALIDARG;
+   }
+ 
+-  if (user_index) {
++  if (!IsLocalUser(user_index)) {
+     return X_E_NO_SUCH_USER;
+   }
+ 
+@@ -131,8 +511,7 @@ u32 XamUserGetGamerTag_entry(u32 user_index, mapped_wstring buffer, u32 buffer_l
+     return X_E_INVALIDARG;
+   }
+ 
+-  const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-  auto user_name = rex::string::to_utf16(user_profile->name());
++  auto user_name = rex::string::to_utf16(LocalUserName(user_index));
+   rex::string::copy_and_swap_truncating(buffer, user_name, std::min(buffer_len, uint32_t(16)));
+   return X_E_SUCCESS;
+ }
+@@ -149,14 +528,15 @@ uint32_t XamUserReadProfileSettingsEx(uint32_t title_id, uint32_t user_index, ui
+                                       be<uint32_t>* setting_ids, uint32_t unk,
+                                       be<uint32_t>* buffer_size_ptr, uint8_t* buffer,
+                                       XAM_OVERLAPPED* overlapped) {
++  PollLocalUserActivation();
+   if (!xuid_count) {
+     assert_null(xuids);
+   } else {
+     assert_true(xuid_count == 1);
+     assert_not_null(xuids);
+-    // TODO(gibbed): allow proper lookup of arbitrary XUIDs
+-    const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-    assert_true(static_cast<uint64_t>(xuids[0]) == user_profile->xuid());
++    if (!UserIndexFromXuid(static_cast<uint64_t>(xuids[0]), nullptr)) {
++      return X_ERROR_NO_SUCH_USER;
++    }
+     // TODO(gibbed): we assert here, but in case a title passes xuid_count > 1
+     // until it's implemented for release builds...
+     xuid_count = 1;
+@@ -211,8 +591,7 @@ uint32_t XamUserReadProfileSettingsEx(uint32_t title_id, uint32_t user_index, ui
+   // Title ID = 0 means us.
+   // 0xfffe07d1 = profile?
+ 
+-  if (!xuids && user_index) {
+-    // Only support user 0.
++  if (!xuids && (user_index >= 4 || !IsLocalUser(user_index))) {
+     if (overlapped) {
+       REX_KERNEL_STATE()->CompleteOverlappedImmediate(
+           REX_KERNEL_MEMORY()->HostToGuestVirtual(overlapped), X_ERROR_NO_SUCH_USER);
+@@ -264,7 +643,7 @@ uint32_t XamUserReadProfileSettingsEx(uint32_t title_id, uint32_t user_index, ui
+     std::memset(out_setting, 0, sizeof(X_USER_PROFILE_SETTING));
+     out_setting->from = !setting || !setting->is_set ? 0 : setting->is_title_specific() ? 2 : 1;
+     if (xuids) {
+-      out_setting->xuid = user_profile->xuid();
++      out_setting->xuid = static_cast<uint64_t>(xuids[0]);
+     } else {
+       out_setting->user_index = static_cast<uint32_t>(user_index);
+     }
+@@ -288,6 +667,7 @@ u32 XamUserReadProfileSettings_entry(u32 title_id, u32 user_index, u32 xuid_coun
+                                      u32 setting_count, mapped_u32 setting_ids,
+                                      mapped_u32 buffer_size_ptr, mapped_void buffer_ptr,
+                                      ppc_ptr_t<XAM_OVERLAPPED> overlapped) {
++  RecordXamUserCall(XamUserStat::ReadProfileSettings);
+   return XamUserReadProfileSettingsEx(title_id, user_index, xuid_count, xuids, setting_count,
+                                       setting_ids, 0, buffer_size_ptr, buffer_ptr, overlapped);
+ }
+@@ -297,6 +677,7 @@ u32 XamUserReadProfileSettingsEx_entry(u32 title_id, u32 user_index, u32 xuid_co
+                                        mapped_u32 buffer_size_ptr, u32 unk_2,
+                                        mapped_void buffer_ptr,
+                                        ppc_ptr_t<XAM_OVERLAPPED> overlapped) {
++  RecordXamUserCall(XamUserStat::ReadProfileSettingsEx);
+   return XamUserReadProfileSettingsEx(title_id, user_index, xuid_count, xuids, setting_count,
+                                       setting_ids, unk_2, buffer_size_ptr, buffer_ptr, overlapped);
+ }
+@@ -304,12 +685,12 @@ u32 XamUserReadProfileSettingsEx_entry(u32 title_id, u32 user_index, u32 xuid_co
+ u32 XamUserWriteProfileSettings_entry(u32 title_id, u32 user_index, u32 setting_count,
+                                       ppc_ptr_t<X_USER_PROFILE_SETTING> settings,
+                                       ppc_ptr_t<XAM_OVERLAPPED> overlapped) {
++  RecordXamUserCall(XamUserStat::WriteProfileSettings);
+   if (!setting_count || !settings) {
+     return X_ERROR_INVALID_PARAMETER;
+   }
+ 
+-  if (user_index) {
+-    // Only support user 0.
++  if (user_index >= 4 || !IsLocalUser(user_index)) {
+     if (overlapped) {
+       REX_KERNEL_STATE()->CompleteOverlappedImmediate(overlapped.guest_address(),
+                                                       X_ERROR_NO_SUCH_USER);
+@@ -371,13 +752,14 @@ u32 XamUserWriteProfileSettings_entry(u32 title_id, u32 user_index, u32 setting_
+ }
+ 
+ u32 XamUserCheckPrivilege_entry(u32 user_index, u32 mask, mapped_u32 out_value) {
++  RecordXamUserCall(XamUserStat::CheckPrivilege);
+   // checking all users?
+   if (user_index != 0xFF) {
+     if (user_index >= 4) {
+       return X_ERROR_INVALID_PARAMETER;
+     }
+ 
+-    if (user_index) {
++    if (!IsLocalUser(user_index)) {
+       return X_ERROR_NO_SUCH_USER;
+     }
+   }
+@@ -388,7 +770,8 @@ u32 XamUserCheckPrivilege_entry(u32 user_index, u32 mask, mapped_u32 out_value)
+ }
+ 
+ u32 XamUserContentRestrictionGetFlags_entry(u32 user_index, mapped_u32 out_flags) {
+-  if (user_index) {
++  RecordXamUserCall(XamUserStat::ContentRestrictionGetFlags);
++  if (user_index >= 4 || !IsLocalUser(user_index)) {
+     return X_ERROR_NO_SUCH_USER;
+   }
+ 
+@@ -399,7 +782,8 @@ u32 XamUserContentRestrictionGetFlags_entry(u32 user_index, mapped_u32 out_flags
+ 
+ u32 XamUserContentRestrictionGetRating_entry(u32 user_index, u32 unk1, mapped_u32 out_unk2,
+                                              mapped_u32 out_unk3) {
+-  if (user_index) {
++  RecordXamUserCall(XamUserStat::ContentRestrictionGetRating);
++  if (user_index >= 4 || !IsLocalUser(user_index)) {
+     return X_ERROR_NO_SUCH_USER;
+   }
+ 
+@@ -412,6 +796,7 @@ u32 XamUserContentRestrictionGetRating_entry(u32 user_index, u32 unk1, mapped_u3
+ 
+ u32 XamUserContentRestrictionCheckAccess_entry(u32 user_index, u32 unk1, u32 unk2, u32 unk3,
+                                                u32 unk4, mapped_u32 out_unk5, u32 overlapped_ptr) {
++  RecordXamUserCall(XamUserStat::ContentRestrictionCheckAccess);
+   *out_unk5 = 1;
+ 
+   if (overlapped_ptr) {
+@@ -423,30 +808,52 @@ u32 XamUserContentRestrictionCheckAccess_entry(u32 user_index, u32 unk1, u32 unk
+ }
+ 
+ u32 XamUserIsOnlineEnabled_entry(u32 user_index) {
+-  return 1;
++  RecordXamUserCall(XamUserStat::IsOnlineEnabled);
++  PollLocalUserActivation();
++  return IsLocalUser(user_index) ? 1 : 0;
+ }
+ 
+ u32 XamUserGetMembershipTier_entry(u32 user_index) {
++  RecordXamUserCall(XamUserStat::GetMembershipTier);
++  PollLocalUserActivation();
+   if (user_index >= 4) {
+     return X_ERROR_INVALID_PARAMETER;
+   }
+-  if (user_index) {
++  if (!IsLocalUser(user_index)) {
+     return X_ERROR_NO_SUCH_USER;
+   }
+-  return 6 /* 6 appears to be Gold */;
++  return user_index == 0 ? 6 /* 6 appears to be Gold */ : 0;
++}
++
++u32 XamUserGetUserIndexMask_entry() {
++  RecordXamUserCall(XamUserStat::GetUserIndexMask);
++  PollLocalUserActivation();
++  return ActiveLocalUserMask();
++}
++
++u32 XamUserGetRequestedUserIndexMask_entry() {
++  RecordXamUserCall(XamUserStat::GetRequestedUserIndexMask);
++  PollLocalUserActivation();
++  return ActiveLocalUserMask();
++}
++
++u32 XamUserIsGuest_entry(u32 user_index) {
++  RecordXamUserCall(XamUserStat::IsGuest);
++  PollLocalUserActivation();
++  return IsLocalUser(user_index) && user_index != 0 ? 1 : 0;
+ }
+ 
+ u32 XamUserAreUsersFriends_entry(u32 user_index, u32 unk1, u32 unk2, mapped_u32 out_value,
+                                  u32 overlapped_ptr) {
++  RecordXamUserCall(XamUserStat::AreUsersFriends);
+   uint32_t are_friends = 0;
+   X_RESULT result;
+ 
+   if (user_index >= 4) {
+     result = X_ERROR_INVALID_PARAMETER;
+   } else {
+-    if (user_index == 0) {
+-      const auto& user_profile = REX_KERNEL_STATE()->user_profile();
+-      if (user_profile->signin_state() == 0) {
++    if (IsLocalUser(user_index)) {
++      if (LocalUserSigninState(user_index) == 0) {
+         result = X_ERROR_NOT_LOGGED_ON;
+       } else {
+         // No friends!
+@@ -454,7 +861,6 @@ u32 XamUserAreUsersFriends_entry(u32 user_index, u32 unk1, u32 unk2, mapped_u32
+         result = X_ERROR_SUCCESS;
+       }
+     } else {
+-      // Only support user 0.
+       result = X_ERROR_NO_SUCH_USER;  // if user is local -> X_ERROR_NOT_LOGGED_ON
+     }
+   }
+@@ -476,6 +882,7 @@ u32 XamUserAreUsersFriends_entry(u32 user_index, u32 unk1, u32 unk2, mapped_u32
+ }
+ 
+ u32 XamShowSigninUI_entry(u32 unk, u32 unk_mask) {
++  RecordXamUserCall(XamUserStat::ShowSigninUI);
+   // Mask values vary. Probably matching user types? Local/remote?
+ 
+   // To fix game modes that display a 4 profile signin UI (even if playing
+@@ -598,6 +1005,7 @@ class XStaticAchievementEnumerator : public XEnumerator {
+ u32 XamUserCreateAchievementEnumerator_entry(u32 title_id, u32 user_index, u32 xuid, u32 flags,
+                                              u32 offset, u32 count, mapped_u32 buffer_size_ptr,
+                                              mapped_u32 handle_ptr) {
++  RecordXamUserCall(XamUserStat::CreateAchievementEnumerator);
+   if (!count || !buffer_size_ptr || !handle_ptr) {
+     return X_ERROR_INVALID_PARAMETER;
+   }
+@@ -681,6 +1089,7 @@ u32 XamUserCreateAchievementEnumerator_entry(u32 title_id, u32 user_index, u32 x
+ 
+ u32 XamParseGamerTileKey_entry(mapped_u32 key_ptr, mapped_u32 out1_ptr, mapped_u32 out2_ptr,
+                                mapped_u32 out3_ptr) {
++  RecordXamUserCall(XamUserStat::ParseGamerTileKey);
+   *out1_ptr = 0xC0DE0001;
+   *out2_ptr = 0xC0DE0002;
+   *out3_ptr = 0xC0DE0003;
+@@ -689,6 +1098,7 @@ u32 XamParseGamerTileKey_entry(mapped_u32 key_ptr, mapped_u32 out1_ptr, mapped_u
+ 
+ u32 XamReadTileToTexture_entry(u32 unknown, u32 title_id, u64 tile_id, u32 user_index,
+                                mapped_void buffer_ptr, u32 stride, u32 height, u32 overlapped_ptr) {
++  RecordXamUserCall(XamUserStat::ReadTileToTexture);
+   // TODO(gibbed): unknown=0,2,3,9
+   if (!tile_id) {
+     return X_ERROR_INVALID_PARAMETER;
+@@ -705,6 +1115,7 @@ u32 XamReadTileToTexture_entry(u32 unknown, u32 title_id, u64 tile_id, u32 user_
+ }
+ 
+ u32 XamWriteGamerTile_entry(u32 arg1, u32 arg2, u32 arg3, u32 arg4, u32 arg5, u32 overlapped_ptr) {
++  RecordXamUserCall(XamUserStat::WriteGamerTile);
+   if (overlapped_ptr) {
+     REX_KERNEL_STATE()->CompleteOverlappedImmediate(overlapped_ptr, X_ERROR_SUCCESS);
+     return X_ERROR_IO_PENDING;
+@@ -729,8 +1140,14 @@ u32 XamSessionRefObjByHandle_entry(u32 handle, mapped_u32 obj_ptr) {
+ }  // namespace kernel
+ }  // namespace rex
+ 
++extern "C" REX_FUNC(__imp__XamUserGetSigninState) {
++  rex::kernel::xam::RecordXamUserGetSigninStateCaller(static_cast<uint32_t>(ctx.lr));
++  ctx.r3.u64 = rex::kernel::xam::XamUserGetSigninState_entry(ctx.r3.u32);
++}
++static rex::ppc::detail::PPCFuncRegistrar _ppc_reg___imp__XamUserGetSigninState(
++    "__imp__XamUserGetSigninState", &__imp__XamUserGetSigninState);
++
+ REX_EXPORT(__imp__XamUserGetXUID, rex::kernel::xam::XamUserGetXUID_entry)
+-REX_EXPORT(__imp__XamUserGetSigninState, rex::kernel::xam::XamUserGetSigninState_entry)
+ REX_EXPORT(__imp__XamUserGetSigninInfo, rex::kernel::xam::XamUserGetSigninInfo_entry)
+ REX_EXPORT(__imp__XamUserGetName, rex::kernel::xam::XamUserGetName_entry)
+ REX_EXPORT(__imp__XamUserGetGamerTag, rex::kernel::xam::XamUserGetGamerTag_entry)
+@@ -747,6 +1164,10 @@ REX_EXPORT(__imp__XamUserContentRestrictionCheckAccess,
+            rex::kernel::xam::XamUserContentRestrictionCheckAccess_entry)
+ REX_EXPORT(__imp__XamUserIsOnlineEnabled, rex::kernel::xam::XamUserIsOnlineEnabled_entry)
+ REX_EXPORT(__imp__XamUserGetMembershipTier, rex::kernel::xam::XamUserGetMembershipTier_entry)
++REX_EXPORT(__imp__XamUserGetRequestedUserIndexMask,
++           rex::kernel::xam::XamUserGetRequestedUserIndexMask_entry)
++REX_EXPORT(__imp__XamUserGetUserIndexMask, rex::kernel::xam::XamUserGetUserIndexMask_entry)
++REX_EXPORT(__imp__XamUserIsGuest, rex::kernel::xam::XamUserIsGuest_entry)
+ REX_EXPORT(__imp__XamUserAreUsersFriends, rex::kernel::xam::XamUserAreUsersFriends_entry)
+ REX_EXPORT(__imp__XamShowSigninUI, rex::kernel::xam::XamShowSigninUI_entry)
+ REX_EXPORT(__imp__XamUserCreateAchievementEnumerator,
+@@ -774,16 +1195,13 @@ REX_EXPORT_STUB(__imp__XamUserGetOnlineCountryFromXUID);
+ REX_EXPORT_STUB(__imp__XamUserGetOnlineLanguageFromXUID);
+ REX_EXPORT_STUB(__imp__XamUserGetOnlineXUIDFromOfflineXUID);
+ REX_EXPORT_STUB(__imp__XamUserGetReportingInfo);
+-REX_EXPORT_STUB(__imp__XamUserGetRequestedUserIndexMask);
+ REX_EXPORT_STUB(__imp__XamUserGetSubscriptionType);
+ REX_EXPORT_STUB(__imp__XamUserGetUserFlags);
+ REX_EXPORT_STUB(__imp__XamUserGetUserFlagsFromXUID);
+-REX_EXPORT_STUB(__imp__XamUserGetUserIndexMask);
+ REX_EXPORT_STUB(__imp__XamUserGetUserTenure);
+ REX_EXPORT_STUB(__imp__XamUserGetUsersMissingAvatars);
+ REX_EXPORT_STUB(__imp__XamUserGetXUIDForTFA);
+ REX_EXPORT_STUB(__imp__XamUserInvalidateProfileSetting);
+-REX_EXPORT_STUB(__imp__XamUserIsGuest);
+ REX_EXPORT_STUB(__imp__XamUserIsLogonPreviewModeEnabled);
+ REX_EXPORT_STUB(__imp__XamUserIsParentalControlled);
+ REX_EXPORT_STUB(__imp__XamUserIsPartial);
 diff --git a/src/kernel/xam/xnet_system_link_transport.cpp b/src/kernel/xam/xnet_system_link_transport.cpp
 new file mode 100644
-index 0000000..61adf72
+index 0000000..25494ac
 --- /dev/null
 +++ b/src/kernel/xam/xnet_system_link_transport.cpp
-@@ -0,0 +1,484 @@
+@@ -0,0 +1,752 @@
 +#include "xnet_system_link_transport.h"
 +
 +#include <algorithm>
++#include <array>
 +#include <climits>
 +#include <cstdio>
 +#include <cstring>
 +
 +#include <rex/platform.h>
++
++#include "crypto/TinySHA1.hpp"
++#include "crypto/des/des.h"
++#include "crypto/des/des3.h"
 +
 +#if REX_PLATFORM_WIN32
 +#include <winsock2.h>
@@ -1412,22 +4338,153 @@ index 0000000..61adf72
 +constexpr uint16_t kEtherTypeProviderVlan = 0x88A8;
 +constexpr uint8_t kIpProtocolUdp = 17;
 +constexpr uint16_t kSystemLinkPort = 3074;
++constexpr size_t kXspPrefixSize = 4;
++constexpr size_t kXspVersionSize = 12;
++constexpr size_t kXspBlockCountSize = 1;
++constexpr size_t kXspTailSize = 12;
++constexpr size_t kXspAuthenticatedTrailerSize = 24;
++constexpr size_t kXspMinimumSize =
++    kXspPrefixSize + kXspVersionSize + kXspBlockCountSize + kXspTailSize;
++constexpr uint16_t kDefaultTitlePort = 1000;
++
++constexpr std::array<uint8_t, 16> kRetailRoamableObfuscationKey = {
++    0xE1, 0xBC, 0x15, 0x9C, 0x73, 0xB1, 0xEA, 0xE9, 0xAB, 0x31, 0x70, 0xF3, 0xAD, 0x47, 0xEB, 0xF3,
++};
 +
 +uint16_t ReadBigEndian16(const uint8_t* value) {
-+  return static_cast<uint16_t>((static_cast<uint16_t>(value[0]) << 8) |
-+                               value[1]);
++  return static_cast<uint16_t>((static_cast<uint16_t>(value[0]) << 8) | value[1]);
 +}
 +
 +uint32_t ReadLittleEndian32(const uint8_t* value) {
-+  return static_cast<uint32_t>(value[0]) |
-+         (static_cast<uint32_t>(value[1]) << 8) |
-+         (static_cast<uint32_t>(value[2]) << 16) |
-+         (static_cast<uint32_t>(value[3]) << 24);
++  return static_cast<uint32_t>(value[0]) | (static_cast<uint32_t>(value[1]) << 8) |
++         (static_cast<uint32_t>(value[2]) << 16) | (static_cast<uint32_t>(value[3]) << 24);
++}
++
++uint16_t ReadLittleEndian16(const uint8_t* value) {
++  return static_cast<uint16_t>(value[0] | (static_cast<uint16_t>(value[1]) << 8));
++}
++
++uint64_t ReadBigEndian64(const uint8_t* value) {
++  uint64_t result = 0;
++  for (size_t i = 0; i < 8; ++i) {
++    result = (result << 8) | value[i];
++  }
++  return result;
 +}
 +
 +void WriteBigEndian16(uint8_t* output, uint16_t value) {
 +  output[0] = static_cast<uint8_t>(value >> 8);
 +  output[1] = static_cast<uint8_t>(value);
++}
++
++void WriteBigEndian64(uint8_t* output, uint64_t value) {
++  for (size_t i = 0; i < 8; ++i) {
++    output[7 - i] = static_cast<uint8_t>(value);
++    value >>= 8;
++  }
++}
++
++void WriteLittleEndian16(uint8_t* output, uint16_t value) {
++  output[0] = static_cast<uint8_t>(value);
++  output[1] = static_cast<uint8_t>(value >> 8);
++}
++
++void WriteLittleEndian32(uint8_t* output, uint32_t value) {
++  output[0] = static_cast<uint8_t>(value);
++  output[1] = static_cast<uint8_t>(value >> 8);
++  output[2] = static_cast<uint8_t>(value >> 16);
++  output[3] = static_cast<uint8_t>(value >> 24);
++}
++
++std::array<uint8_t, 20> HmacSha1(std::span<const uint8_t> key, std::span<const uint8_t> first,
++                                 std::span<const uint8_t> second = {}) {
++  std::array<uint8_t, 64> inner_pad{};
++  std::array<uint8_t, 64> outer_pad{};
++  inner_pad.fill(0x36);
++  outer_pad.fill(0x5C);
++  for (size_t i = 0; i < key.size(); ++i) {
++    inner_pad[i] ^= key[i];
++    outer_pad[i] ^= key[i];
++  }
++
++  sha1::SHA1 inner;
++  inner.processBytes(inner_pad.data(), inner_pad.size());
++  inner.processBytes(first.data(), first.size());
++  if (!second.empty()) {
++    inner.processBytes(second.data(), second.size());
++  }
++  std::array<uint8_t, 20> inner_digest{};
++  inner.finalize(inner_digest.data());
++
++  sha1::SHA1 outer;
++  outer.processBytes(outer_pad.data(), outer_pad.size());
++  outer.processBytes(inner_digest.data(), inner_digest.size());
++  std::array<uint8_t, 20> digest{};
++  outer.finalize(digest.data());
++  return digest;
++}
++
++std::array<uint8_t, 8> CalculateBroadcastIv(const std::array<uint8_t, 8>& seed, uint32_t sequence) {
++  const uint64_t first = static_cast<uint64_t>(ReadLittleEndian32(seed.data())) * sequence;
++  const uint64_t second = static_cast<uint64_t>(ReadLittleEndian32(seed.data() + 4)) * sequence;
++  const uint32_t first_low = static_cast<uint32_t>(first);
++  const uint32_t first_high = static_cast<uint32_t>(first >> 32);
++  const uint32_t second_low = static_cast<uint32_t>(second);
++  const uint32_t second_high = static_cast<uint32_t>(second >> 32);
++
++  std::array<uint8_t, 8> iv{};
++  WriteLittleEndian32(iv.data(), first_low ^ second_high);
++  WriteLittleEndian32(iv.data() + 4, first_high ^ second_low);
++  return iv;
++}
++
++void CryptBroadcast(std::span<const uint8_t> input, const SystemLinkBroadcastKeys& keys,
++                    uint32_t sequence, bool encrypt, uint8_t* output) {
++  const auto iv = CalculateBroadcastIv(keys.iv_seed, sequence);
++  DES3 des(ReadBigEndian64(keys.encryption.data()), ReadBigEndian64(keys.encryption.data() + 8),
++           ReadBigEndian64(keys.encryption.data() + 16));
++  uint64_t feedback = ReadBigEndian64(iv.data());
++  for (size_t offset = 0; offset < input.size(); offset += 8) {
++    const uint64_t block = ReadBigEndian64(input.data() + offset);
++    if (encrypt) {
++      feedback = des.encrypt(block ^ feedback);
++      WriteBigEndian64(output + offset, feedback);
++    } else {
++      WriteBigEndian64(output + offset, des.decrypt(block) ^ feedback);
++      feedback = block;
++    }
++  }
++}
++
++uint8_t DecodeExtraEncryptedBytes(uint8_t xflags) {
++  const uint8_t encoded = xflags >> 4;
++  return static_cast<uint8_t>((encoded >> 1) | ((encoded & 1) << 3));
++}
++
++uint8_t EncodeExtraEncryptedBytes(uint8_t count) {
++  return static_cast<uint8_t>(((count & 7) << 1) | ((count >> 3) & 1));
++}
++
++bool ConstantTimeEqual(std::span<const uint8_t> left, std::span<const uint8_t> right) {
++  if (left.size() != right.size()) {
++    return false;
++  }
++  uint8_t difference = 0;
++  for (size_t i = 0; i < left.size(); ++i) {
++    difference |= left[i] ^ right[i];
++  }
++  return difference == 0;
++}
++
++size_t PortEncodingSize(uint16_t source_port, uint16_t destination_port) {
++  if (source_port == kDefaultTitlePort && destination_port == kDefaultTitlePort) {
++    return 0;
++  }
++  if (source_port >= kDefaultTitlePort && source_port < 1256 &&
++      destination_port >= kDefaultTitlePort && destination_port < 1256) {
++    return 1;
++  }
++  return 2;
 +}
 +
 +uint32_t AddChecksumBytes(uint32_t sum, std::span<const uint8_t> bytes) {
@@ -1460,19 +4517,174 @@ index 0000000..61adf72
 +  if (packet->payload.size() == kBroadcastVersionSize &&
 +      ReadLittleEndian32(packet->payload.data()) == kBroadcastVersionMarker) {
 +    packet->payload_kind = SystemLinkRawPayloadKind::kBroadcastVersion;
-+    packet->title_id =
-+        ReadLittleEndian32(packet->payload.data() + kTitleIdOffset);
++    packet->title_id = ReadLittleEndian32(packet->payload.data() + kTitleIdOffset);
 +    packet->broadcast_version =
 +        ReadLittleEndian32(packet->payload.data() + kBroadcastVersionOffset);
++    packet->system_version =
++        ReadLittleEndian32(packet->payload.data() + kBroadcastVersionOffset + 4);
 +  }
 +}
 +
 +}  // namespace
 +
-+bool BuildSystemLinkRawFrame(
-+    const std::array<uint8_t, 6>& source_mac,
-+    const std::array<uint8_t, 6>& destination_mac,
-+    std::span<const uint8_t> payload, std::vector<uint8_t>* frame) {
++SystemLinkBroadcastKeys DeriveSystemLinkBroadcastKeys(
++    const std::array<uint8_t, 16>& title_lan_key) {
++  std::array<std::array<uint8_t, 20>, 3> digests{};
++  std::array<uint8_t, 17> input{};
++  std::copy(title_lan_key.begin(), title_lan_key.end(), input.begin() + 1);
++  for (uint8_t prefix = 0; prefix < digests.size(); ++prefix) {
++    input[0] = prefix;
++    digests[prefix] = HmacSha1(kRetailRoamableObfuscationKey, input);
++  }
++
++  SystemLinkBroadcastKeys keys;
++  std::copy_n(digests[0].begin(), keys.authentication.size(), keys.authentication.begin());
++  std::copy(digests[0].begin() + 16, digests[0].end(), keys.encryption.begin());
++  std::copy(digests[1].begin(), digests[1].end(), keys.encryption.begin() + 4);
++  DES::set_parity(keys.encryption.data(), static_cast<int>(keys.encryption.size()),
++                  keys.encryption.data());
++  std::copy_n(digests[2].begin(), keys.iv_seed.size(), keys.iv_seed.begin());
++  return keys;
++}
++
++bool DecodeSystemLinkBroadcast(std::span<const uint8_t> payload,
++                               const SystemLinkBroadcastKeys& keys,
++                               SystemLinkBroadcastDatagram* datagram) {
++  if (!datagram || payload.size() < kXspMinimumSize || payload[1] != 0 || payload[2] != 0 ||
++      payload[3] != 0) {
++    return false;
++  }
++
++  const uint8_t protocol = payload[0] & 0x0F;
++  if (protocol < 7 || protocol > 9) {
++    return false;
++  }
++  const size_t port_size = protocol - 7;
++  const size_t encoded_ports_size = port_size * 2;
++  const uint8_t extra_encrypted_bytes = DecodeExtraEncryptedBytes(payload[0]);
++  if (extra_encrypted_bytes < encoded_ports_size) {
++    return false;
++  }
++
++  const size_t block_count_offset = payload.size() - kXspTailSize - 1;
++  const size_t encrypted_size = static_cast<size_t>(payload[block_count_offset]) * 8;
++  const size_t version_offset = kXspPrefixSize + encrypted_size;
++  if (!encrypted_size || version_offset + kXspVersionSize != block_count_offset ||
++      encrypted_size < extra_encrypted_bytes ||
++      version_offset + kXspAuthenticatedTrailerSize > payload.size()) {
++    return false;
++  }
++
++  const size_t tail_offset = block_count_offset + 1;
++  const uint16_t sequence = ReadLittleEndian16(payload.data() + tail_offset);
++  std::vector<uint8_t> authenticated(payload.begin(), payload.end());
++  WriteLittleEndian16(authenticated.data() + tail_offset + 2, sequence);
++  std::copy_n(payload.begin(), kXspPrefixSize, authenticated.begin() + tail_offset + 4);
++  std::fill_n(authenticated.begin() + tail_offset + 8, 4, 0);
++  const auto digest = HmacSha1(
++      keys.authentication,
++      std::span<const uint8_t>(authenticated.data() + version_offset, kXspAuthenticatedTrailerSize),
++      payload.subspan(kXspPrefixSize, encrypted_size));
++  if (!ConstantTimeEqual(std::span<const uint8_t>(digest.data(), 10),
++                         payload.subspan(tail_offset + 2, 10))) {
++    return false;
++  }
++
++  std::vector<uint8_t> decrypted(encrypted_size);
++  const uint32_t full_sequence =
++      static_cast<uint32_t>(sequence) | (static_cast<uint32_t>(sequence) << 16);
++  CryptBroadcast(payload.subspan(kXspPrefixSize, encrypted_size), keys, full_sequence, false,
++                 decrypted.data());
++
++  const size_t data_size = encrypted_size - extra_encrypted_bytes;
++  const size_t ports_offset = encrypted_size - encoded_ports_size;
++  if (!std::all_of(decrypted.begin() + data_size, decrypted.begin() + ports_offset,
++                   [](uint8_t value) { return value == 0; })) {
++    return false;
++  }
++
++  uint16_t source_port = kDefaultTitlePort;
++  uint16_t destination_port = kDefaultTitlePort;
++  if (port_size == 1) {
++    source_port = static_cast<uint16_t>(kDefaultTitlePort + decrypted[ports_offset]);
++    destination_port = static_cast<uint16_t>(kDefaultTitlePort + decrypted[ports_offset + 1]);
++  } else if (port_size == 2) {
++    source_port = ReadBigEndian16(decrypted.data() + ports_offset);
++    destination_port = ReadBigEndian16(decrypted.data() + ports_offset + 2);
++  }
++
++  datagram->source_port = source_port;
++  datagram->destination_port = destination_port;
++  datagram->sequence = sequence;
++  datagram->title_id = ReadLittleEndian32(payload.data() + version_offset);
++  datagram->title_version = ReadLittleEndian32(payload.data() + version_offset + 4);
++  datagram->system_version = ReadLittleEndian32(payload.data() + version_offset + 8);
++  datagram->data.assign(decrypted.begin(), decrypted.begin() + data_size);
++  return true;
++}
++
++bool EncodeSystemLinkBroadcast(std::span<const uint8_t> data, uint16_t source_port,
++                               uint16_t destination_port, uint32_t title_id, uint32_t title_version,
++                               uint32_t system_version, uint16_t sequence,
++                               const SystemLinkBroadcastKeys& keys, std::vector<uint8_t>* payload) {
++  if (!payload || !source_port || !destination_port) {
++    return false;
++  }
++
++  const size_t port_size = PortEncodingSize(source_port, destination_port);
++  const size_t encoded_ports_size = port_size * 2;
++  const size_t unaligned_size = data.size() + encoded_ports_size;
++  const size_t encrypted_size = (unaligned_size + 7) & ~size_t{7};
++  if (!encrypted_size || encrypted_size / 8 > UINT8_MAX) {
++    return false;
++  }
++  const size_t extra_encrypted_bytes = encrypted_size - data.size();
++  if (extra_encrypted_bytes > 15) {
++    return false;
++  }
++
++  const uint8_t xflags = static_cast<uint8_t>(
++      (EncodeExtraEncryptedBytes(static_cast<uint8_t>(extra_encrypted_bytes)) << 4) |
++      (7 + port_size));
++  const size_t version_offset = kXspPrefixSize + encrypted_size;
++  const size_t block_count_offset = version_offset + kXspVersionSize;
++  const size_t tail_offset = block_count_offset + 1;
++  payload->assign(tail_offset + kXspTailSize, 0);
++  (*payload)[0] = xflags;
++
++  std::vector<uint8_t> plaintext(encrypted_size, 0);
++  std::copy(data.begin(), data.end(), plaintext.begin());
++  const size_t ports_offset = encrypted_size - encoded_ports_size;
++  if (port_size == 1) {
++    plaintext[ports_offset] = static_cast<uint8_t>(source_port - kDefaultTitlePort);
++    plaintext[ports_offset + 1] = static_cast<uint8_t>(destination_port - kDefaultTitlePort);
++  } else if (port_size == 2) {
++    WriteBigEndian16(plaintext.data() + ports_offset, source_port);
++    WriteBigEndian16(plaintext.data() + ports_offset + 2, destination_port);
++  }
++
++  const uint32_t full_sequence =
++      static_cast<uint32_t>(sequence) | (static_cast<uint32_t>(sequence) << 16);
++  CryptBroadcast(plaintext, keys, full_sequence, true, payload->data() + kXspPrefixSize);
++  WriteLittleEndian32(payload->data() + version_offset, title_id);
++  WriteLittleEndian32(payload->data() + version_offset + 4, title_version);
++  WriteLittleEndian32(payload->data() + version_offset + 8, system_version);
++  (*payload)[block_count_offset] = static_cast<uint8_t>(encrypted_size / 8);
++
++  WriteLittleEndian16(payload->data() + tail_offset, sequence);
++  WriteLittleEndian16(payload->data() + tail_offset + 2, sequence);
++  std::copy_n(payload->begin(), kXspPrefixSize, payload->begin() + tail_offset + 4);
++  const auto digest = HmacSha1(
++      keys.authentication,
++      std::span<const uint8_t>(payload->data() + version_offset, kXspAuthenticatedTrailerSize),
++      std::span<const uint8_t>(payload->data() + kXspPrefixSize, encrypted_size));
++  std::copy_n(digest.begin(), 10, payload->begin() + tail_offset + 2);
++  return true;
++}
++
++bool BuildSystemLinkRawFrame(const std::array<uint8_t, 6>& source_mac,
++                             const std::array<uint8_t, 6>& destination_mac,
++                             std::span<const uint8_t> payload, std::vector<uint8_t>* frame) {
 +  constexpr size_t kEthernetHeaderSize = 14;
 +  constexpr size_t kIpv4HeaderSize = 20;
 +  constexpr size_t kUdpHeaderSize = 8;
@@ -1480,8 +4692,7 @@ index 0000000..61adf72
 +    return false;
 +  }
 +
-+  const uint16_t udp_size =
-+      static_cast<uint16_t>(kUdpHeaderSize + payload.size());
++  const uint16_t udp_size = static_cast<uint16_t>(kUdpHeaderSize + payload.size());
 +  const uint16_t ip_size = static_cast<uint16_t>(kIpv4HeaderSize + udp_size);
 +  frame->assign(kEthernetHeaderSize + ip_size, 0);
 +
@@ -1496,9 +4707,8 @@ index 0000000..61adf72
 +  ip[9] = kIpProtocolUdp;
 +  ip[15] = 1;
 +  std::fill(ip + 16, ip + 20, 0xFF);
-+  WriteBigEndian16(ip + 10,
-+                   FinishChecksum(AddChecksumBytes(
-+                       0, std::span<const uint8_t>(ip, kIpv4HeaderSize))));
++  WriteBigEndian16(
++      ip + 10, FinishChecksum(AddChecksumBytes(0, std::span<const uint8_t>(ip, kIpv4HeaderSize))));
 +
 +  uint8_t* udp = ip + kIpv4HeaderSize;
 +  WriteBigEndian16(udp, kSystemLinkPort);
@@ -1507,19 +4717,16 @@ index 0000000..61adf72
 +  std::copy(payload.begin(), payload.end(), udp + kUdpHeaderSize);
 +
 +  uint32_t udp_checksum = 0;
-+  udp_checksum = AddChecksumBytes(
-+      udp_checksum, std::span<const uint8_t>(ip + 12, 8));
++  udp_checksum = AddChecksumBytes(udp_checksum, std::span<const uint8_t>(ip + 12, 8));
 +  udp_checksum += kIpProtocolUdp;
 +  udp_checksum += udp_size;
-+  udp_checksum = AddChecksumBytes(
-+      udp_checksum, std::span<const uint8_t>(udp, udp_size));
++  udp_checksum = AddChecksumBytes(udp_checksum, std::span<const uint8_t>(udp, udp_size));
 +  uint16_t checksum = FinishChecksum(udp_checksum);
 +  WriteBigEndian16(udp + 6, checksum ? checksum : 0xFFFF);
 +  return true;
 +}
 +
-+bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame,
-+                             SystemLinkRawPacket* packet) {
++bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame, SystemLinkRawPacket* packet) {
 +  if (!packet || frame.size() < 14) {
 +    return false;
 +  }
@@ -1527,8 +4734,7 @@ index 0000000..61adf72
 +  size_t ip_offset = 14;
 +  uint16_t ether_type = ReadBigEndian16(frame.data() + 12);
 +  for (uint32_t vlan_count = 0;
-+       vlan_count < 2 &&
-+       (ether_type == kEtherTypeVlan || ether_type == kEtherTypeProviderVlan);
++       vlan_count < 2 && (ether_type == kEtherTypeVlan || ether_type == kEtherTypeProviderVlan);
 +       ++vlan_count) {
 +    if (frame.size() < ip_offset + 4) {
 +      return false;
@@ -1543,22 +4749,18 @@ index 0000000..61adf72
 +  const uint8_t* ip = frame.data() + ip_offset;
 +  const uint8_t version = ip[0] >> 4;
 +  const size_t ip_header_size = static_cast<size_t>(ip[0] & 0x0F) * 4;
-+  if (version != 4 || ip_header_size < 20 ||
-+      frame.size() < ip_offset + ip_header_size + 8 ||
-+      ip[9] != kIpProtocolUdp || ip[12] != 0 || ip[13] != 0 ||
-+      ip[14] != 0 || ip[15] != 1) {
++  if (version != 4 || ip_header_size < 20 || frame.size() < ip_offset + ip_header_size + 8 ||
++      ip[9] != kIpProtocolUdp || ip[12] != 0 || ip[13] != 0 || ip[14] != 0 || ip[15] != 1) {
 +    return false;
 +  }
 +
 +  const size_t ip_total_size = ReadBigEndian16(ip + 2);
-+  if (ip_total_size < ip_header_size + 8 ||
-+      frame.size() < ip_offset + ip_total_size) {
++  if (ip_total_size < ip_header_size + 8 || frame.size() < ip_offset + ip_total_size) {
 +    return false;
 +  }
 +
 +  const uint8_t* udp = ip + ip_header_size;
-+  if (ReadBigEndian16(udp) != kSystemLinkPort ||
-+      ReadBigEndian16(udp + 2) != kSystemLinkPort) {
++  if (ReadBigEndian16(udp) != kSystemLinkPort || ReadBigEndian16(udp + 2) != kSystemLinkPort) {
 +    return false;
 +  }
 +  const size_t udp_size = ReadBigEndian16(udp + 4);
@@ -1566,10 +4768,8 @@ index 0000000..61adf72
 +    return false;
 +  }
 +
-+  std::copy_n(frame.data(), packet->destination_mac.size(),
-+              packet->destination_mac.begin());
-+  std::copy_n(frame.data() + 6, packet->source_mac.size(),
-+              packet->source_mac.begin());
++  std::copy_n(frame.data(), packet->destination_mac.size(), packet->destination_mac.begin());
++  std::copy_n(frame.data() + 6, packet->source_mac.size(), packet->source_mac.begin());
 +  packet->frame_size = static_cast<uint32_t>(frame.size());
 +  packet->payload.assign(udp + 8, udp + udp_size);
 +  ClassifySystemLinkPayload(packet);
@@ -1608,13 +4808,11 @@ index 0000000..61adf72
 +  using OpenLiveFn = PcapHandle*(__cdecl*)(const char*, int, int, int, char*);
 +  using CloseFn = void(__cdecl*)(PcapHandle*);
 +  using DataLinkFn = int(__cdecl*)(PcapHandle*);
-+  using CompileFn = int(__cdecl*)(PcapHandle*, BpfProgram*, const char*, int,
-+                                  uint32_t);
++  using CompileFn = int(__cdecl*)(PcapHandle*, BpfProgram*, const char*, int, uint32_t);
 +  using SetFilterFn = int(__cdecl*)(PcapHandle*, BpfProgram*);
 +  using FreeCodeFn = void(__cdecl*)(BpfProgram*);
 +  using SetNonBlockFn = int(__cdecl*)(PcapHandle*, int, char*);
-+  using NextExFn = int(__cdecl*)(PcapHandle*, PcapPacketHeader**,
-+                                 const uint8_t**);
++  using NextExFn = int(__cdecl*)(PcapHandle*, PcapPacketHeader**, const uint8_t**);
 +  using SendPacketFn = int(__cdecl*)(PcapHandle*, const uint8_t*, int);
 +  using GetErrorFn = char*(__cdecl*)(PcapHandle*);
 +
@@ -1638,11 +4836,12 @@ index 0000000..61adf72
 +
 +SystemLinkRawTransport::SystemLinkRawTransport() : impl_(std::make_unique<Impl>()) {}
 +
-+SystemLinkRawTransport::~SystemLinkRawTransport() { Close(); }
++SystemLinkRawTransport::~SystemLinkRawTransport() {
++  Close();
++}
 +
-+bool SystemLinkRawTransport::Open(
-+    uint32_t local_ipv4, const std::array<uint8_t, 6>& local_mac,
-+    std::string* error) {
++bool SystemLinkRawTransport::Open(uint32_t local_ipv4, const std::array<uint8_t, 6>& local_mac,
++                                  std::string* error) {
 +  Close();
 +#if REX_PLATFORM_WIN32
 +  constexpr size_t kPcapErrorBufferSize = 256;
@@ -1657,15 +4856,14 @@ index 0000000..61adf72
 +    return false;
 +  }
 +
-+#define REX_LOAD_PCAP_SYMBOL(member, type, symbol)                              \
-+  impl_->member = reinterpret_cast<Impl::type>(                                 \
-+      GetProcAddress(impl_->library, symbol));                                  \
-+  if (!impl_->member) {                                                         \
-+    if (error) {                                                                \
-+      *error = "Npcap is missing " symbol;                                     \
-+    }                                                                           \
-+    Close();                                                                    \
-+    return false;                                                               \
++#define REX_LOAD_PCAP_SYMBOL(member, type, symbol)                                      \
++  impl_->member = reinterpret_cast<Impl::type>(GetProcAddress(impl_->library, symbol)); \
++  if (!impl_->member) {                                                                 \
++    if (error) {                                                                        \
++      *error = "Npcap is missing " symbol;                                              \
++    }                                                                                   \
++    Close();                                                                            \
++    return false;                                                                       \
 +  }
 +
 +  REX_LOAD_PCAP_SYMBOL(find_all_devices, FindAllDevicesFn, "pcap_findalldevs");
@@ -1694,8 +4892,7 @@ index 0000000..61adf72
 +  std::string adapter_name;
 +  for (Impl::PcapInterface* interface = interfaces; interface && adapter_name.empty();
 +       interface = interface->next) {
-+    for (Impl::PcapAddress* address = interface->addresses; address;
-+         address = address->next) {
++    for (Impl::PcapAddress* address = interface->addresses; address; address = address->next) {
 +      if (!address->address || address->address->sa_family != AF_INET) {
 +        continue;
 +      }
@@ -1732,12 +4929,10 @@ index 0000000..61adf72
 +  }
 +
 +  char filter[192]{};
-+  std::snprintf(
-+      filter, sizeof(filter),
-+      "ip src host 0.0.0.1 and udp src port 3074 and udp dst port 3074 and "
-+      "not ether src %02x:%02x:%02x:%02x:%02x:%02x",
-+      local_mac[0], local_mac[1], local_mac[2], local_mac[3], local_mac[4],
-+      local_mac[5]);
++  std::snprintf(filter, sizeof(filter),
++                "ip src host 0.0.0.1 and udp src port 3074 and udp dst port 3074 and "
++                "not ether src %02x:%02x:%02x:%02x:%02x:%02x",
++                local_mac[0], local_mac[1], local_mac[2], local_mac[3], local_mac[4], local_mac[5]);
 +  Impl::BpfProgram program{};
 +  if (impl_->compile(impl_->capture, &program, filter, 1, 0xFFFFFFFFu) != 0) {
 +    if (error) {
@@ -1748,8 +4943,7 @@ index 0000000..61adf72
 +  }
 +  const int filter_result = impl_->set_filter(impl_->capture, &program);
 +  impl_->free_code(&program);
-+  if (filter_result != 0 ||
-+      impl_->set_non_block(impl_->capture, 1, error_buffer) != 0) {
++  if (filter_result != 0 || impl_->set_non_block(impl_->capture, 1, error_buffer) != 0) {
 +    if (error) {
 +      *error = error_buffer[0] ? error_buffer : impl_->get_error(impl_->capture);
 +    }
@@ -1787,8 +4981,8 @@ index 0000000..61adf72
 +#endif
 +}
 +
-+size_t SystemLinkRawTransport::Poll(std::vector<SystemLinkRawPacket>* packets,
-+                                    size_t max_packets, std::string* error) {
++size_t SystemLinkRawTransport::Poll(std::vector<SystemLinkRawPacket>* packets, size_t max_packets,
++                                    std::string* error) {
 +  if (!packets || !max_packets) {
 +    return 0;
 +  }
@@ -1814,8 +5008,7 @@ index 0000000..61adf72
 +      continue;
 +    }
 +    SystemLinkRawPacket packet;
-+    if (ParseSystemLinkRawFrame(
-+            std::span<const uint8_t>(data, header->captured_length), &packet)) {
++    if (ParseSystemLinkRawFrame(std::span<const uint8_t>(data, header->captured_length), &packet)) {
 +      packet.frame_size = header->original_length;
 +      packets->push_back(std::move(packet));
 +      ++accepted;
@@ -1827,8 +5020,7 @@ index 0000000..61adf72
 +#endif
 +}
 +
-+bool SystemLinkRawTransport::SendFrame(std::span<const uint8_t> frame,
-+                                       std::string* error) {
++bool SystemLinkRawTransport::SendFrame(std::span<const uint8_t> frame, std::string* error) {
 +#if REX_PLATFORM_WIN32
 +  if (!impl_->capture || frame.empty() || frame.size() > INT_MAX) {
 +    if (error) {
@@ -1836,8 +5028,7 @@ index 0000000..61adf72
 +    }
 +    return false;
 +  }
-+  if (impl_->send_packet(impl_->capture, frame.data(),
-+                         static_cast<int>(frame.size())) != 0) {
++  if (impl_->send_packet(impl_->capture, frame.data(), static_cast<int>(frame.size())) != 0) {
 +    if (error) {
 +      *error = impl_->get_error(impl_->capture);
 +    }
@@ -1852,13 +5043,11 @@ index 0000000..61adf72
 +#endif
 +}
 +
-+bool SystemLinkRawTransport::SendPayloadTo(
-+    const std::array<uint8_t, 6>& destination_mac,
-+    std::span<const uint8_t> payload, std::string* error) {
++bool SystemLinkRawTransport::SendPayloadTo(const std::array<uint8_t, 6>& destination_mac,
++                                           std::span<const uint8_t> payload, std::string* error) {
 +#if REX_PLATFORM_WIN32
 +  std::vector<uint8_t> frame;
-+  if (!BuildSystemLinkRawFrame(impl_->local_mac, destination_mac, payload,
-+                               &frame)) {
++  if (!BuildSystemLinkRawFrame(impl_->local_mac, destination_mac, payload, &frame)) {
 +    if (error) {
 +      *error = "raw System Link payload is too large";
 +    }
@@ -1876,10 +5065,10 @@ index 0000000..61adf72
 +}  // namespace rex::kernel::xam
 diff --git a/src/kernel/xam/xnet_system_link_transport.h b/src/kernel/xam/xnet_system_link_transport.h
 new file mode 100644
-index 0000000..50a577c
+index 0000000..5f4e16a
 --- /dev/null
 +++ b/src/kernel/xam/xnet_system_link_transport.h
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,84 @@
 +#ifndef REX_KERNEL_XAM_XNET_SYSTEM_LINK_TRANSPORT_H_
 +#define REX_KERNEL_XAM_XNET_SYSTEM_LINK_TRANSPORT_H_
 +
@@ -1905,15 +5094,39 @@ index 0000000..50a577c
 +  SystemLinkRawPayloadKind payload_kind = SystemLinkRawPayloadKind::kUnknown;
 +  uint32_t title_id = 0;
 +  uint32_t broadcast_version = 0;
++  uint32_t system_version = 0;
 +  std::vector<uint8_t> payload;
 +};
 +
-+bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame,
-+                             SystemLinkRawPacket* packet);
-+bool BuildSystemLinkRawFrame(
-+    const std::array<uint8_t, 6>& source_mac,
-+    const std::array<uint8_t, 6>& destination_mac,
-+    std::span<const uint8_t> payload, std::vector<uint8_t>* frame);
++struct SystemLinkBroadcastKeys {
++  std::array<uint8_t, 16> authentication{};
++  std::array<uint8_t, 24> encryption{};
++  std::array<uint8_t, 8> iv_seed{};
++};
++
++struct SystemLinkBroadcastDatagram {
++  uint16_t source_port = 0;
++  uint16_t destination_port = 0;
++  uint16_t sequence = 0;
++  uint32_t title_id = 0;
++  uint32_t title_version = 0;
++  uint32_t system_version = 0;
++  std::vector<uint8_t> data;
++};
++
++SystemLinkBroadcastKeys DeriveSystemLinkBroadcastKeys(const std::array<uint8_t, 16>& title_lan_key);
++bool DecodeSystemLinkBroadcast(std::span<const uint8_t> payload,
++                               const SystemLinkBroadcastKeys& keys,
++                               SystemLinkBroadcastDatagram* datagram);
++bool EncodeSystemLinkBroadcast(std::span<const uint8_t> data, uint16_t source_port,
++                               uint16_t destination_port, uint32_t title_id, uint32_t title_version,
++                               uint32_t system_version, uint16_t sequence,
++                               const SystemLinkBroadcastKeys& keys, std::vector<uint8_t>* payload);
++
++bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame, SystemLinkRawPacket* packet);
++bool BuildSystemLinkRawFrame(const std::array<uint8_t, 6>& source_mac,
++                             const std::array<uint8_t, 6>& destination_mac,
++                             std::span<const uint8_t> payload, std::vector<uint8_t>* frame);
 +
 +class SystemLinkRawTransport {
 + public:
@@ -1923,13 +5136,11 @@ index 0000000..50a577c
 +  SystemLinkRawTransport(const SystemLinkRawTransport&) = delete;
 +  SystemLinkRawTransport& operator=(const SystemLinkRawTransport&) = delete;
 +
-+  bool Open(uint32_t local_ipv4, const std::array<uint8_t, 6>& local_mac,
-+            std::string* error);
++  bool Open(uint32_t local_ipv4, const std::array<uint8_t, 6>& local_mac, std::string* error);
 +  void Close();
 +  bool is_open() const;
 +
-+  size_t Poll(std::vector<SystemLinkRawPacket>* packets, size_t max_packets,
-+              std::string* error);
++  size_t Poll(std::vector<SystemLinkRawPacket>* packets, size_t max_packets, std::string* error);
 +  bool SendFrame(std::span<const uint8_t> frame, std::string* error);
 +  bool SendPayloadTo(const std::array<uint8_t, 6>& destination_mac,
 +                     std::span<const uint8_t> payload, std::string* error);
@@ -1942,6 +5153,20 @@ index 0000000..50a577c
 +}  // namespace rex::kernel::xam
 +
 +#endif  // REX_KERNEL_XAM_XNET_SYSTEM_LINK_TRANSPORT_H_
+diff --git a/src/kernel/xboxkrnl/xboxkrnl_io.cpp b/src/kernel/xboxkrnl/xboxkrnl_io.cpp
+index 3f1a852..adbcb7a 100644
+--- a/src/kernel/xboxkrnl/xboxkrnl_io.cpp
++++ b/src/kernel/xboxkrnl/xboxkrnl_io.cpp
+@@ -172,6 +172,9 @@ u32 NtCreateFile_entry(mapped_u32 handle_out, u32 desired_access,
+     REXKRNL_IMPORT_FAIL("NtCreateFile", "path='{}' -> {:#x}", target_path, result);
+   } else {
+     REXKRNL_IMPORT_RESULT("NtCreateFile", "{:#x} handle={:#x}", result, handle);
++    // REXGLUE_FILE_TRACE: successful opens at info level so asset/map loading
++    // can be traced without guessing.
++    REXKRNL_INFO("[open] {}", target_path);
+   }
+   return result;
+ }
 diff --git a/src/system/CMakeLists.txt b/src/system/CMakeLists.txt
 index a8ad46a..0419b45 100644
 --- a/src/system/CMakeLists.txt
@@ -1954,6 +5179,79 @@ index a8ad46a..0419b45 100644
 +    target_link_libraries(rexruntime PRIVATE ws2_32 iphlpapi bcrypt)
      target_compile_definitions(rexruntime PUBLIC NOMINMAX WIN32_LEAN_AND_MEAN)
  endif()
+ 
+diff --git a/src/system/runtime.cpp b/src/system/runtime.cpp
+index c10694c..c7ee2ae 100644
+--- a/src/system/runtime.cpp
++++ b/src/system/runtime.cpp
+@@ -320,6 +320,31 @@ bool Runtime::SetupVfs() {
+   // Register symbolic links for game: and D:
+   file_system_->RegisterSymbolicLink("game:", mount_path);
+   file_system_->RegisterSymbolicLink("d:", mount_path);
++
++  // REXGLUE_CACHE_PARTITIONS
++  // Halo 3 probes cache0:/cache1: for cache000.map .. cache014.map and uses
++  // them for its streaming/decompression cache. With no device the probes fail
++  // and the streaming system is fed nothing, so its bit-stream decoder asserts.
++  // Register real writable directories, BEFORE the NullDevice below so these
++  // win the registration-order lookup.
++  {
++    auto cache_base = std::filesystem::current_path() / "cache";
++    const char* cache_mounts[] = {"\\Device\\Harddisk0\\Cache0",
++                                  "\\Device\\Harddisk0\\Cache1"};
++    const char* cache_links[] = {"cache0:", "cache1:"};
++    for (int i = 0; i < 2; ++i) {
++      auto dir = cache_base / (i == 0 ? "cache0" : "cache1");
++      std::error_code ec;
++      std::filesystem::create_directories(dir, ec);
++      auto dev = std::make_unique<rex::filesystem::HostPathDevice>(cache_mounts[i], dir, false);
++      if (dev->Initialize() && file_system_->RegisterDevice(std::move(dev))) {
++        file_system_->RegisterSymbolicLink(cache_links[i], cache_mounts[i]);
++        REXSYS_INFO("  Mounted {} at {}", dir.string(), cache_links[i]);
++      } else {
++        REXSYS_WARN("  Failed to mount cache partition {}", cache_links[i]);
++      }
++    }
++  }
+   REXSYS_DEBUG("  Registered symbolic links: game:, d:");
+ 
+   // Mount update_data_root as update:\ if provided
+diff --git a/src/system/xmemory.cpp b/src/system/xmemory.cpp
+index 76cc877..cf2cf5c 100644
+--- a/src/system/xmemory.cpp
++++ b/src/system/xmemory.cpp
+@@ -27,6 +27,7 @@
+ #include <rex/stream.h>
+ #include <rex/system/function_dispatcher.h>
+ #include <rex/system/mmio_handler.h>
++#include <rex/system/xthread.h>
+ #include <rex/system/xmemory.h>
+ #include <rex/thread.h>
+ 
+@@ -543,10 +544,22 @@ bool Memory::AccessViolationCallback(std::unique_lock<std::recursive_mutex> glob
+   uint32_t virtual_address = HostToGuestVirtual(host_address);
+   BaseHeap* heap = LookupHeap(virtual_address);
+   if (!heap || heap->heap_type() != memory::HeapType::kGuestPhysical) {
++    uint32_t diag_lr = 0, diag_indirect = 0, diag_r1 = 0, diag_r3 = 0;
++    if (auto* xt = rex::system::XThread::GetCurrentThread()) {
++      if (auto* ts = xt->thread_state()) {
++        if (auto* pc = ts->context()) {
++          diag_lr = static_cast<uint32_t>(pc->lr);
++          diag_indirect = pc->last_indirect_target;
++          diag_r1 = pc->r1.u32;
++          diag_r3 = pc->r3.u32;
++        }
++      }
++    }
+     REXSYS_ERROR(
+-        "Unhandled guest access violation: {} of guest 0x{:08X} (host 0x{:016X}) on thread 0x{:X}",
++        "Unhandled guest access violation: {} of guest 0x{:08X} (host 0x{:016X}) on thread 0x{:X}"
++        " [guest lr=0x{:08X} last_indirect=0x{:08X} r1=0x{:08X} r3=0x{:08X}]",
+         is_write ? "write" : "read", virtual_address, reinterpret_cast<uintptr_t>(host_address),
+-        rex::thread::current_thread_id());
++        rex::thread::current_thread_id(), diag_lr, diag_indirect, diag_r1, diag_r3);
+     return false;
+   }
  
 diff --git a/src/system/xsocket.cpp b/src/system/xsocket.cpp
 index 2d13ac8..1dae988 100644
@@ -2104,6 +5402,41 @@ index 2d13ac8..1dae988 100644
 +}
 +
  }  // namespace rex::system
+diff --git a/src/ui/CMakeLists.txt b/src/ui/CMakeLists.txt
+index b052a1b..fee91b9 100644
+--- a/src/ui/CMakeLists.txt
++++ b/src/ui/CMakeLists.txt
+@@ -160,12 +160,16 @@ elseif(APPLE)
+     target_link_libraries(rexui PRIVATE "-framework CoreFoundation")
+ endif()
+ 
++# The common Windows presenter uses DXGI to synchronize UI ticks even when the
++# Vulkan graphics backend is selected.
++if(WIN32)
++    target_link_libraries(rexui PUBLIC dxgi)
++endif()
++
+ # D3D12 backend dependencies
+ if(REXGLUE_USE_D3D12)
+     target_link_libraries(rexui PUBLIC
+-        dxgi
+         dxguid
+         dxc-headers
+     )
+ endif()
+-
+diff --git a/src/ui/presenter.cpp b/src/ui/presenter.cpp
+index 7360ed9..287e0e1 100644
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -566,6 +566,7 @@ bool Presenter::RefreshGuestOutput(
+       // output either though because the failure may be something transient.
+       return false;
+     }
++    guest_output_frame_count_.fetch_add(1, std::memory_order_relaxed);
+     guest_output_active_last_refresh_ = true;
+   } else {
+     // Request presenting a blank image if there was a true image previously,
 diff --git a/src/ui/window_sdl.cpp b/src/ui/window_sdl.cpp
 index 1fce7f1..818d563 100644
 --- a/src/ui/window_sdl.cpp
@@ -2158,10 +5491,10 @@ index 7bd264b..e66d139 100644
  
 diff --git a/tests/unit/kernel/xnet_system_link_transport_test.cpp b/tests/unit/kernel/xnet_system_link_transport_test.cpp
 new file mode 100644
-index 0000000..7479202
+index 0000000..4c0e31f
 --- /dev/null
 +++ b/tests/unit/kernel/xnet_system_link_transport_test.cpp
-@@ -0,0 +1,153 @@
+@@ -0,0 +1,220 @@
 +#include <catch2/catch_test_macros.hpp>
 +
 +#include <algorithm>
@@ -2198,14 +5531,11 @@ index 0000000..7479202
 +  return static_cast<uint16_t>(sum);
 +}
 +
-+std::vector<uint8_t> MakeFrame(std::span<const uint8_t> payload,
-+                               bool vlan = false) {
++std::vector<uint8_t> MakeFrame(std::span<const uint8_t> payload, bool vlan = false) {
 +  const size_t ip_offset = vlan ? 18 : 14;
 +  std::vector<uint8_t> frame(ip_offset + 20 + 8 + payload.size());
-+  const std::array<uint8_t, 6> destination = {0xFF, 0xFF, 0xFF,
-+                                               0xFF, 0xFF, 0xFF};
-+  const std::array<uint8_t, 6> source = {0x02, 0x00, 0x00,
-+                                         0x00, 0x00, 0x01};
++  const std::array<uint8_t, 6> destination = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
++  const std::array<uint8_t, 6> source = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
 +  std::copy(destination.begin(), destination.end(), frame.begin());
 +  std::copy(source.begin(), source.end(), frame.begin() + 6);
 +  if (vlan) {
@@ -2240,8 +5570,7 @@ index 0000000..7479202
 +  REQUIRE(ParseSystemLinkRawFrame(frame, &packet));
 +  CHECK(packet.frame_size == frame.size());
 +  CHECK(packet.payload == std::vector<uint8_t>(payload.begin(), payload.end()));
-+  CHECK(packet.source_mac ==
-+        std::array<uint8_t, 6>{0x02, 0x00, 0x00, 0x00, 0x00, 0x01});
++  CHECK(packet.source_mac == std::array<uint8_t, 6>{0x02, 0x00, 0x00, 0x00, 0x00, 0x01});
 +}
 +
 +TEST_CASE("System Link raw parser accepts an Ethernet VLAN tag") {
@@ -2265,13 +5594,87 @@ index 0000000..7479202
 +  CHECK(packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion);
 +  CHECK(packet.title_id == 0x4D5307E6);
 +  CHECK(packet.broadcast_version == 46);
++  CHECK(packet.system_version == 0);
++}
++
++TEST_CASE("System Link broadcast codec round trips Xbox finder layout") {
++  const std::array<uint8_t, 16> title_lan_key = {
++      0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
++      0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF,
++  };
++  const auto keys = DeriveSystemLinkBroadcastKeys(title_lan_key);
++  const std::array<uint8_t, 14> title_data = {
++      0x10, 0x21, 0x32, 0x43, 0x54, 0x65, 0x76, 0x87, 0x98, 0xA9, 0xBA, 0xCB, 0xDC, 0xED,
++  };
++
++  std::vector<uint8_t> payload;
++  REQUIRE(EncodeSystemLinkBroadcast(title_data, 1000, 1001, 0x4D5307E6, 46, 0x200A3200, 0x1234,
++                                    keys, &payload));
++  REQUIRE(payload.size() == 45);
++  CHECK(payload[0] == 0x48);
++  CHECK(payload[20] == 0xE6);
++  CHECK(payload[21] == 0x07);
++  CHECK(payload[22] == 0x53);
++  CHECK(payload[23] == 0x4D);
++  CHECK(payload[24] == 46);
++  CHECK(payload[32] == 2);
++
++  SystemLinkBroadcastDatagram datagram;
++  REQUIRE(DecodeSystemLinkBroadcast(payload, keys, &datagram));
++  CHECK(datagram.source_port == 1000);
++  CHECK(datagram.destination_port == 1001);
++  CHECK(datagram.sequence == 0x1234);
++  CHECK(datagram.title_id == 0x4D5307E6);
++  CHECK(datagram.title_version == 46);
++  CHECK(datagram.system_version == 0x200A3200);
++  CHECK(datagram.data == std::vector<uint8_t>(title_data.begin(), title_data.end()));
++}
++
++TEST_CASE("System Link broadcast codec handles padding and full ports") {
++  const std::array<uint8_t, 16> title_lan_key = {
++      0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,
++      0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF,
++  };
++  const auto keys = DeriveSystemLinkBroadcastKeys(title_lan_key);
++  const std::array<uint8_t, 13> title_data = {
++      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
++  };
++
++  std::vector<uint8_t> payload;
++  REQUIRE(EncodeSystemLinkBroadcast(title_data, 3074, 4000, 0x4D5307E6, 46, 0x200A3200, 7, keys,
++                                    &payload));
++  SystemLinkBroadcastDatagram datagram;
++  REQUIRE(DecodeSystemLinkBroadcast(payload, keys, &datagram));
++  CHECK(datagram.source_port == 3074);
++  CHECK(datagram.destination_port == 4000);
++  CHECK(datagram.data == std::vector<uint8_t>(title_data.begin(), title_data.end()));
++}
++
++TEST_CASE("System Link broadcast codec rejects tampering and wrong keys") {
++  const std::array<uint8_t, 16> title_lan_key = {
++      0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
++      0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF,
++  };
++  const auto keys = DeriveSystemLinkBroadcastKeys(title_lan_key);
++  const std::array<uint8_t, 14> title_data{};
++  std::vector<uint8_t> payload;
++  REQUIRE(EncodeSystemLinkBroadcast(title_data, 1000, 1001, 0x4D5307E6, 46, 0x200A3200, 1, keys,
++                                    &payload));
++
++  SystemLinkBroadcastDatagram datagram;
++  payload[10] ^= 0x80;
++  CHECK_FALSE(DecodeSystemLinkBroadcast(payload, keys, &datagram));
++  payload[10] ^= 0x80;
++
++  auto wrong_key = title_lan_key;
++  wrong_key[0] ^= 1;
++  CHECK_FALSE(
++      DecodeSystemLinkBroadcast(payload, DeriveSystemLinkBroadcastKeys(wrong_key), &datagram));
 +}
 +
 +TEST_CASE("System Link raw frame builder round trips payload and addressing") {
-+  const std::array<uint8_t, 6> source = {0x02, 0x01, 0x02,
-+                                         0x03, 0x04, 0x05};
-+  const std::array<uint8_t, 6> destination = {0x06, 0x07, 0x08,
-+                                              0x09, 0x0A, 0x0B};
++  const std::array<uint8_t, 6> source = {0x02, 0x01, 0x02, 0x03, 0x04, 0x05};
++  const std::array<uint8_t, 6> destination = {0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B};
 +  const std::array<uint8_t, 5> payload = {1, 2, 3, 4, 5};
 +  std::vector<uint8_t> frame;
 +  REQUIRE(BuildSystemLinkRawFrame(source, destination, payload, &frame));
@@ -2287,16 +5690,13 @@ index 0000000..7479202
 +  constexpr size_t kUdpHeaderSize = 8;
 +  const uint8_t* ip = frame.data() + kEthernetHeaderSize;
 +  const uint8_t* udp = ip + kIpv4HeaderSize;
-+  CHECK(FoldChecksum(AddChecksumBytes(
-+            0, std::span<const uint8_t>(ip, kIpv4HeaderSize))) == 0xFFFF);
++  CHECK(FoldChecksum(AddChecksumBytes(0, std::span<const uint8_t>(ip, kIpv4HeaderSize))) == 0xFFFF);
 +
-+  uint32_t udp_sum = AddChecksumBytes(
-+      0, std::span<const uint8_t>(ip + 12, 8));
++  uint32_t udp_sum = AddChecksumBytes(0, std::span<const uint8_t>(ip + 12, 8));
 +  udp_sum += ip[9];
 +  udp_sum += static_cast<uint16_t>(kUdpHeaderSize + payload.size());
-+  udp_sum = AddChecksumBytes(
-+      udp_sum,
-+      std::span<const uint8_t>(udp, kUdpHeaderSize + payload.size()));
++  udp_sum =
++      AddChecksumBytes(udp_sum, std::span<const uint8_t>(udp, kUdpHeaderSize + payload.size()));
 +  CHECK(FoldChecksum(udp_sum) == 0xFFFF);
 +}
 +

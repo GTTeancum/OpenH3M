@@ -146,12 +146,15 @@ Use `-SystemLinkProbeRole Find` to enter the System Link game browser instead.
 `-RawSystemLink` opts into the Npcap-backed console transport. It opens the
 selected Ethernet adapter non-promiscuously with a kernel BPF filter limited to
 Xbox System Link IPv4 traffic from `0.0.0.1` on UDP port 3074. Packet payloads
-are never written to the log. This transport currently identifies raw console
-frames for the authenticated-wrapper work; it does not yet decode them for the
-title.
+are processed only in memory and never written to the log. The transport now
+authenticates and decrypts retail Xbox XSP discovery broadcasts into Halo's UDP
+sockets, and wraps Halo-generated discovery traffic with the title's XEX LAN
+key for transmission to consoles. Only matching title IDs and exact Halo title
+versions are delivered. Real-console discovery remains experimental until the
+finder/host paths are validated end to end.
 
 `-ReflectSystemLinkBeacon` is a diagnostic companion to `-RawSystemLink`. It
-reflects one matching, already authenticated title/version beacon directly to
+reflects one matching, authenticated, version-compatible beacon directly to
 the console MAC that sent it. It does not forge authentication, broadcast the
 frame to other devices, or persist its payload.
 
