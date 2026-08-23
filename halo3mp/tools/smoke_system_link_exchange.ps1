@@ -23,6 +23,7 @@ $hostArguments = @(
     "-SystemLinkProbe",
     "-SystemLinkProbeRole", "Host",
     "-SystemLinkProbeDurationSec", "$HostDurationSec",
+    "-Headless",
     "-NoCapture"
 )
 $hostRunner = Start-Process powershell.exe -ArgumentList $hostArguments `
@@ -31,7 +32,7 @@ $hostRunner = Start-Process powershell.exe -ArgumentList $hostArguments `
 try {
     Start-Sleep -Seconds $FindStartDelaySec
     & $runScript -SystemLinkProbe -SystemLinkProbeRole Find `
-        -SystemLinkProbeDurationSec $FindDurationSec -NoCapture
+        -SystemLinkProbeDurationSec $FindDurationSec -Headless -NoCapture
     $hostRunner.WaitForExit()
     if ($hostRunner.ExitCode -ne 0) {
         throw "System Link host probe failed with exit code $($hostRunner.ExitCode)."

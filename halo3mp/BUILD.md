@@ -133,16 +133,30 @@ For a bounded real-console System Link discovery probe:
 ```
 
 The probe uses synthetic controller input to open a fresh System Link Custom
-Games host lobby, runs hidden for three minutes, and then exits. It writes only
+Games host lobby, runs visibly for three minutes, and then exits. It writes only
 bounded socket metadata to
 `out/build/win-amd64-release/system_link_probe/system_link_probe.log`; packet
 payloads are neither logged nor persisted. Add `-Capture` only for an internal
-guest-output PNG checkpoint. The probe keeps its SDL window hidden, never starts
-SDL text input, and disables the keyboard-controller bridge before launch.
+guest-output PNG checkpoint. The probe disables the keyboard-controller bridge
+before launch, so its synthetic controls do not consume foreground keyboard
+input. Add `-Headless` only when an explicitly hidden run is required.
 
 Use `-SystemLinkProbeRole Find` to enter the System Link game browser instead.
-That path generates Halo's native broadcast discovery query and records only
-bounded transport metadata; `Host` remains the default.
+
+`-RawSystemLink` opts into the Npcap-backed console transport. It opens the
+selected Ethernet adapter non-promiscuously with a kernel BPF filter limited to
+Xbox System Link IPv4 traffic from `0.0.0.1` on UDP port 3074. Packet payloads
+are never written to the log. This transport currently identifies raw console
+frames for the authenticated-wrapper work; it does not yet decode them for the
+title.
+
+The `Find` probe path generates Halo's native broadcast discovery query and
+records only bounded transport metadata; `Host` remains the default.
+
+For an explicitly authorized console, append an address with
+`-ExtraArgs '--xnet_system_link_probe_address=<console-ip>'` to duplicate that
+same title-generated query to the console's UDP 3074 endpoint. This diagnostic
+does not replace the authenticated raw transport required by retail consoles.
 
 Run and validate a complete hidden, title-generated local discovery exchange
 with:

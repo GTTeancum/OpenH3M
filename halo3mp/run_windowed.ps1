@@ -5,6 +5,8 @@ param(
     [switch]$SystemLinkProbe,
     [ValidateSet("Host", "Find")]
     [string]$SystemLinkProbeRole = "Host",
+    [switch]$RawSystemLink,
+    [switch]$Headless,
     [switch]$Capture,
     [switch]$NoCapture,
     [switch]$TraceXamUser,
@@ -270,10 +272,12 @@ $args = @(
 
 if ($automatedRun) {
     $args += @(
-        "--window_start_hidden",
         "--no-keyboard_controller",
         "--no-keyboard_controller_log"
     )
+    if ($Headless) {
+        $args += "--window_start_hidden"
+    }
 } else {
     $args += @(
         "--keyboard_controller",
@@ -336,6 +340,10 @@ if ($SystemLinkProbe) {
             "--halo3mp_capture_guest_output_path=$capturePath"
         )
     }
+}
+
+if ($RawSystemLink) {
+    $args += "--xnet_system_link_raw_transport=true"
 }
 
 if ($SmokeTest) {
@@ -444,7 +452,7 @@ $startProcessArgs = @{
     WorkingDirectory = (Split-Path -Parent $exe)
     PassThru = $true
 }
-if ($automatedRun) {
+if ($Headless) {
     $startProcessArgs.WindowStyle = "Hidden"
 }
 
