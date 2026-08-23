@@ -150,6 +150,11 @@ are never written to the log. This transport currently identifies raw console
 frames for the authenticated-wrapper work; it does not yet decode them for the
 title.
 
+`-ReflectSystemLinkBeacon` is a diagnostic companion to `-RawSystemLink`. It
+reflects one matching, already authenticated title/version beacon directly to
+the console MAC that sent it. It does not forge authentication, broadcast the
+frame to other devices, or persist its payload.
+
 The `Find` probe path generates Halo's native broadcast discovery query and
 records only bounded transport metadata; `Host` remains the default.
 

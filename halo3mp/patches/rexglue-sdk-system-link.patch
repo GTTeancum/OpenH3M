@@ -45,7 +45,7 @@ index 984b97d..bb4c6ec 100644
      xam/xam_nui.cpp
      xam/xam_party.cpp
 diff --git a/src/kernel/xam/xam_net.cpp b/src/kernel/xam/xam_net.cpp
-index 58e36a4..d8a619f 100644
+index 58e36a4..73a9b14 100644
 --- a/src/kernel/xam/xam_net.cpp
 +++ b/src/kernel/xam/xam_net.cpp
 @@ -12,13 +12,21 @@
@@ -92,7 +92,7 @@ index 58e36a4..d8a619f 100644
  #elif REX_PLATFORM_LINUX || REX_PLATFORM_MAC
  #include <arpa/inet.h>
  #include <netinet/in.h>
-@@ -50,6 +64,92 @@ namespace xam {
+@@ -50,6 +64,94 @@ namespace xam {
  using namespace rex::system;
  using namespace rex::system::xam;
  
@@ -102,6 +102,8 @@ index 58e36a4..d8a619f 100644
 +                      "Optional IPv4 target for System Link discovery probes");
 +REXCVAR_DEFINE_BOOL(xnet_system_link_raw_transport, false, "XAM",
 +                    "Capture raw Xbox System Link frames through Npcap");
++REXCVAR_DEFINE_BOOL(xnet_system_link_raw_reflect_beacon, false, "XAM",
++                    "Reflect one authenticated title beacon to its source console");
 +
 +std::atomic<bool> xnet_logged_title_address{false};
 +std::atomic<bool> xnet_logged_link_status{false};
@@ -185,7 +187,7 @@ index 58e36a4..d8a619f 100644
  // https://github.com/G91/TitanOffLine/blob/1e692d9bb9dfac386d08045ccdadf4ae3227bb5e/xkelib/xam/xamNet.h
  enum {
    XNCALLER_INVALID = 0x0,
-@@ -70,6 +170,382 @@ typedef struct {
+@@ -70,6 +172,405 @@ typedef struct {
    uint8_t abOnline[20];           // Online identification
  } XNADDR;
  
@@ -273,6 +275,7 @@ index 58e36a4..d8a619f 100644
 +  std::mutex mutex;
 +  SystemLinkRawTransport transport;
 +  bool attempted = false;
++  std::vector<std::array<uint8_t, 6>> reflected_beacons;
 +};
 +
 +SystemLinkRawTransportState& GetSystemLinkRawTransportState() {
@@ -285,6 +288,7 @@ index 58e36a4..d8a619f 100644
 +  std::lock_guard<std::mutex> lock(state.mutex);
 +  state.transport.Close();
 +  state.attempted = false;
++  state.reflected_beacons.clear();
 +}
 +
 +void PollSystemLinkRawTransport() {
@@ -295,6 +299,7 @@ index 58e36a4..d8a619f 100644
 +      state.transport.Close();
 +    }
 +    state.attempted = false;
++    state.reflected_beacons.clear();
 +    return;
 +  }
 +
@@ -343,6 +348,26 @@ index 58e36a4..d8a619f 100644
 +            "[xnet] Raw System Link console frame bytes={} udp_payload_bytes={} "
 +            "kind=unknown authenticated=false packets={} payload_log=false",
 +            packet.frame_size, packet.payload.size(), count);
++      }
++    }
++    if (REXCVAR_GET(xnet_system_link_raw_reflect_beacon) &&
++        packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion &&
++        packet.title_id == REX_KERNEL_STATE()->title_id() &&
++        std::find(state.reflected_beacons.begin(), state.reflected_beacons.end(),
++                  packet.source_mac) == state.reflected_beacons.end()) {
++      std::string send_error;
++      if (state.transport.SendPayloadTo(packet.source_mac, packet.payload,
++                                        &send_error)) {
++        state.reflected_beacons.push_back(packet.source_mac);
++        if (REXCVAR_GET(xnet_metadata_log)) {
++          REXKRNL_INFO(
++              "[xnet] Raw System Link reflected one matching authenticated "
++              "beacon destination=source-console bytes={} payload_log=false",
++              packet.payload.size());
++        }
++      } else if (REXCVAR_GET(xnet_metadata_log)) {
++        REXKRNL_WARN("[xnet] Raw System Link beacon reflection failed: {}",
++                     send_error);
 +      }
 +    }
 +  }
@@ -568,7 +593,7 @@ index 58e36a4..d8a619f 100644
  typedef struct {
    rex::be<int32_t> status;
    rex::be<uint32_t> cina;
-@@ -199,6 +675,23 @@ u32 NetDll_XNetStartup_entry(u32 caller, ppc_ptr_t<XNetStartupParams> params) {
+@@ -199,6 +700,23 @@ u32 NetDll_XNetStartup_entry(u32 caller, ppc_ptr_t<XNetStartupParams> params) {
    }
    */
  
@@ -592,7 +617,7 @@ index 58e36a4..d8a619f 100644
    return 0;
  }
  
-@@ -210,6 +703,25 @@ u32 NetDll_XNetCleanup_entry(u32 caller, mapped_void params) {
+@@ -210,6 +728,25 @@ u32 NetDll_XNetCleanup_entry(u32 caller, mapped_void params) {
    // TODO: Shut down and delete.
    // delete xnet;
  
@@ -618,7 +643,7 @@ index 58e36a4..d8a619f 100644
    return 0;
  }
  
-@@ -230,11 +742,93 @@ u32 NetDll_XNetGetOpt_entry(u32 one, u32 option_id, mapped_void buffer_ptr,
+@@ -230,11 +767,93 @@ u32 NetDll_XNetGetOpt_entry(u32 one, u32 option_id, mapped_void buffer_ptr,
    }
  }
  
@@ -715,7 +740,7 @@ index 58e36a4..d8a619f 100644
    return 0;
  }
  
-@@ -245,9 +839,12 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
+@@ -245,9 +864,12 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
    ZeroMemory(&wsaData, sizeof(WSADATA));
    int ret = WSAStartup(version, &wsaData);
  
@@ -729,7 +754,7 @@ index 58e36a4..d8a619f 100644
      data_ptr->version = wsaData.wVersion;
      data_ptr->version_high = wsaData.wHighVersion;
      std::memcpy(&data_ptr->description, wsaData.szDescription, 0x100);
-@@ -283,6 +880,10 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
+@@ -283,6 +905,10 @@ u32 NetDll_WSAStartup_entry(u32 caller, u16 version, ppc_ptr_t<X_WSADATA> data_p
    }
    */
  
@@ -740,7 +765,7 @@ index 58e36a4..d8a619f 100644
    return ret;
  }
  
-@@ -300,18 +901,74 @@ u32 NetDll_WSARecvFrom_entry(u32 caller, u32 socket, ppc_ptr_t<XWSABUF> buffers_
+@@ -300,18 +926,74 @@ u32 NetDll_WSARecvFrom_entry(u32 caller, u32 socket, ppc_ptr_t<XWSABUF> buffers_
                               ppc_ptr_t<XSOCKADDR_IN> from_addr,
                               ppc_ptr_t<XWSAOVERLAPPED> overlapped_ptr,
                               mapped_void completion_routine_ptr) {
@@ -753,7 +778,10 @@ index 58e36a4..d8a619f 100644
 +    REXKRNL_INFO("[xnet] WSARecvFrom socket={:#x} buffers={} overlapped={} attempts={}",
 +                 socket, buffer_count, static_cast<bool>(overlapped_ptr), attempts);
 +  }
-+
+ 
+-    // if (evt) {
+-    //  //evt->Set(0, false);
+-    //}
 +  auto host_socket = REX_KERNEL_OBJECTS()->LookupObject<XSocket>(socket);
 +  if (!host_socket) {
 +    XThread::SetLastError(0x2736);  // WSAENOTSOCK
@@ -766,11 +794,11 @@ index 58e36a4..d8a619f 100644
 +  if (overlapped_ptr || completion_routine_ptr) {
 +    XThread::SetLastError(0x2726);  // WSAEINVAL
 +    return -1;
-+  }
+   }
  
--    // if (evt) {
--    //  //evt->Set(0, false);
--    //}
+-  // we're not going to be receiving packets any time soon
+-  // return error so we don't wait on that - Cancerous
+-  return -1;
 +  uint32_t capacity = 0;
 +  for (uint32_t i = 0; i < buffer_count; ++i) {
 +    const uint32_t length = buffers_ptr[i].len;
@@ -806,11 +834,8 @@ index 58e36a4..d8a619f 100644
 +    from_addr->sin_port = native_from.sin_port;
 +    from_addr->sin_addr = native_from.sin_addr;
 +    std::memset(from_addr->x_sin_zero, 0, sizeof(from_addr->x_sin_zero));
-   }
- 
--  // we're not going to be receiving packets any time soon
--  // return error so we don't wait on that - Cancerous
--  return -1;
++  }
++
 +  if (REXCVAR_GET(xnet_metadata_log)) {
 +    const uint64_t packets = xnet_received_packets.fetch_add(1, std::memory_order_relaxed) + 1;
 +    if (packets <= 8 || packets % 256 == 0) {
@@ -824,7 +849,7 @@ index 58e36a4..d8a619f 100644
  }
  
  // If the socket is a VDP socket, buffer 0 is the game data length, and buffer 1
-@@ -346,9 +1003,28 @@ u32 NetDll_WSASendTo_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XWSABUF> buf
+@@ -346,9 +1028,28 @@ u32 NetDll_WSASendTo_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XWSABUF> buf
    }
  
    N_XSOCKADDR_IN native_to(to_ptr);
@@ -856,7 +881,7 @@ index 58e36a4..d8a619f 100644
  
    return 0;
  }
-@@ -436,8 +1112,8 @@ struct XnAddrStatus {
+@@ -436,8 +1137,8 @@ struct XnAddrStatus {
  };
  
  u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
@@ -867,7 +892,7 @@ index 58e36a4..d8a619f 100644
    addr_ptr->inaOnline.s_addr = 0;
    addr_ptr->wPortOnline = 0;
  
-@@ -452,11 +1128,23 @@ u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
+@@ -452,11 +1153,23 @@ u32 NetDll_XNetGetTitleXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
    // https://github.com/facebookarchive/RakNet/blob/master/Source/RakPeer.cpp#L4467
    // "Mac address is a poor solution because you can't have multiple connections
    // from the same system"
@@ -893,7 +918,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
-@@ -466,34 +1154,182 @@ u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
+@@ -466,34 +1179,182 @@ u32 NetDll_XNetGetDebugXnAddr_entry(u32 caller, ppc_ptr_t<XNADDR> addr_ptr) {
    return XnAddrStatus::XNET_GET_XNADDR_NONE;
  }
  
@@ -1085,7 +1110,7 @@ index 58e36a4..d8a619f 100644
  }
  
  // https://github.com/ILOVEPIE/Cxbx-Reloaded/blob/master/src/CxbxKrnl/EmuXOnline.h#L39
-@@ -506,7 +1342,16 @@ struct XEthernetStatus {
+@@ -506,7 +1367,16 @@ struct XEthernetStatus {
  };
  
  u32 NetDll_XNetGetEthernetLinkStatus_entry(u32 caller) {
@@ -1103,7 +1128,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll_XNetDnsLookup_entry(u32 caller, mapped_string host, u32 event_handle, mapped_u32 pdns) {
-@@ -592,7 +1437,12 @@ u32 NetDll_socket_entry(u32 caller, u32 af, u32 type, u32 protocol) {
+@@ -592,7 +1462,12 @@ u32 NetDll_socket_entry(u32 caller, u32 af, u32 type, u32 protocol) {
      return -1;
    }
  
@@ -1117,7 +1142,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
-@@ -603,6 +1453,8 @@ u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
+@@ -603,6 +1478,8 @@ u32 NetDll_closesocket_entry(u32 caller, u32 socket_handle) {
      return -1;
    }
  
@@ -1126,7 +1151,7 @@ index 58e36a4..d8a619f 100644
    // TODO: Absolutely delete this object. It is no longer valid after calling
    // closesocket.
    socket->Close();
-@@ -640,7 +1492,13 @@ u32 NetDll_setsockopt_entry(u32 caller, u32 socket_handle, u32 level, u32 optnam
+@@ -640,7 +1517,13 @@ u32 NetDll_setsockopt_entry(u32 caller, u32 socket_handle, u32 level, u32 optnam
    }
  
    X_STATUS status = socket->SetOption(level, optname, optval_ptr, optlen);
@@ -1141,7 +1166,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void arg_ptr) {
-@@ -657,7 +1515,9 @@ u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void
+@@ -657,7 +1540,9 @@ u32 NetDll_ioctlsocket_entry(u32 caller, u32 socket_handle, u32 cmd, mapped_void
      return -1;
    }
  
@@ -1152,7 +1177,7 @@ index 58e36a4..d8a619f 100644
    return 0;
  }
  
-@@ -670,12 +1530,23 @@ u32 NetDll_bind_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XSOCKADDR_IN> nam
+@@ -670,12 +1555,23 @@ u32 NetDll_bind_entry(u32 caller, u32 socket_handle, ppc_ptr_t<XSOCKADDR_IN> nam
    }
  
    N_XSOCKADDR_IN native_name(name);
@@ -1177,7 +1202,7 @@ index 58e36a4..d8a619f 100644
    return 0;
  }
  
-@@ -793,11 +1664,32 @@ struct host_set {
+@@ -793,11 +1689,32 @@ struct host_set {
      }
      this->count = new_count;
    }
@@ -1210,7 +1235,7 @@ index 58e36a4..d8a619f 100644
    host_set host_readfds = {};
    fd_set native_readfds = {};
    if (readfds) {
-@@ -825,10 +1717,22 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
+@@ -825,10 +1742,22 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
                                               reinterpret_cast<int32_t*>(&timeout.tv_usec));
      timeout_in = &timeout;
    }
@@ -1234,7 +1259,7 @@ index 58e36a4..d8a619f 100644
      host_readfds.Store(readfds);
    }
    if (writefds) {
-@@ -840,8 +1744,10 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
+@@ -840,8 +1769,10 @@ i32 NetDll_select_entry(i32 caller, i32 nfds, ppc_ptr_t<x_fd_set> readfds,
      host_exceptfds.Store(exceptfds);
    }
  
@@ -1247,7 +1272,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 buf_len, u32 flags) {
-@@ -857,6 +1763,13 @@ u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 bu
+@@ -857,6 +1788,13 @@ u32 NetDll_recv_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 bu
  
  u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32 buf_len,
                            u32 flags, ppc_ptr_t<XSOCKADDR_IN> from_ptr, mapped_u32 fromlen_ptr) {
@@ -1261,7 +1286,7 @@ index 58e36a4..d8a619f 100644
    auto socket = REX_KERNEL_OBJECTS()->LookupObject<XSocket>(socket_handle);
    if (!socket) {
      // WSAENOTSOCK
-@@ -868,7 +1781,7 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
+@@ -868,7 +1806,7 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
    if (from_ptr) {
      native_from = *from_ptr;
    }
@@ -1270,7 +1295,7 @@ index 58e36a4..d8a619f 100644
    int ret =
        socket->RecvFrom(buf_ptr, buf_len, flags, &native_from, fromlen_ptr ? &native_fromlen : 0);
  
-@@ -892,6 +1805,17 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
+@@ -892,6 +1830,17 @@ u32 NetDll_recvfrom_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u3
  #endif
    }
  
@@ -1288,7 +1313,7 @@ index 58e36a4..d8a619f 100644
    return ret;
  }
  
-@@ -916,7 +1840,19 @@ u32 NetDll_sendto_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32
+@@ -916,7 +1865,19 @@ u32 NetDll_sendto_entry(u32 caller, u32 socket_handle, mapped_void buf_ptr, u32
    }
  
    N_XSOCKADDR_IN native_to(to_ptr);
@@ -1309,7 +1334,7 @@ index 58e36a4..d8a619f 100644
  }
  
  u32 NetDll___WSAFDIsSet_entry(u32 socket_handle, ppc_ptr_t<x_fd_set> fd_set) {
-@@ -941,6 +1877,9 @@ REX_EXPORT(__imp__NetDll_XNetStartup, rex::kernel::xam::NetDll_XNetStartup_entry
+@@ -941,6 +1902,9 @@ REX_EXPORT(__imp__NetDll_XNetStartup, rex::kernel::xam::NetDll_XNetStartup_entry
  REX_EXPORT(__imp__NetDll_XNetCleanup, rex::kernel::xam::NetDll_XNetCleanup_entry)
  REX_EXPORT(__imp__NetDll_XNetGetOpt, rex::kernel::xam::NetDll_XNetGetOpt_entry)
  REX_EXPORT(__imp__NetDll_XNetRandom, rex::kernel::xam::NetDll_XNetRandom_entry)
@@ -1319,7 +1344,7 @@ index 58e36a4..d8a619f 100644
  REX_EXPORT(__imp__NetDll_WSAStartup, rex::kernel::xam::NetDll_WSAStartup_entry)
  REX_EXPORT(__imp__NetDll_WSACleanup, rex::kernel::xam::NetDll_WSACleanup_entry)
  REX_EXPORT(__imp__NetDll_WSAGetLastError, rex::kernel::xam::NetDll_WSAGetLastError_entry)
-@@ -961,6 +1900,13 @@ REX_EXPORT(__imp__NetDll_XNetXnAddrToInAddr, rex::kernel::xam::NetDll_XNetXnAddr
+@@ -961,6 +1925,13 @@ REX_EXPORT(__imp__NetDll_XNetXnAddrToInAddr, rex::kernel::xam::NetDll_XNetXnAddr
  REX_EXPORT(__imp__NetDll_XNetInAddrToXnAddr, rex::kernel::xam::NetDll_XNetInAddrToXnAddr_entry)
  REX_EXPORT(__imp__NetDll_XNetSetSystemLinkPort,
             rex::kernel::xam::NetDll_XNetSetSystemLinkPort_entry)
@@ -1333,7 +1358,7 @@ index 58e36a4..d8a619f 100644
  REX_EXPORT(__imp__NetDll_XNetGetEthernetLinkStatus,
             rex::kernel::xam::NetDll_XNetGetEthernetLinkStatus_entry)
  REX_EXPORT(__imp__NetDll_XNetDnsLookup, rex::kernel::xam::NetDll_XNetDnsLookup_entry)
-@@ -1030,25 +1976,18 @@ REX_EXPORT_STUB(__imp__NetDll_XHttpSetStatusCallback);
+@@ -1030,25 +2001,18 @@ REX_EXPORT_STUB(__imp__NetDll_XHttpSetStatusCallback);
  REX_EXPORT_STUB(__imp__NetDll_XHttpShutdown);
  REX_EXPORT_STUB(__imp__NetDll_XHttpStartup);
  REX_EXPORT_STUB(__imp__NetDll_XHttpWriteData);
@@ -1361,10 +1386,10 @@ index 58e36a4..d8a619f 100644
  REX_EXPORT_STUB(__imp__NetDll_XmlDownloadGetReceivedDataSize);
 diff --git a/src/kernel/xam/xnet_system_link_transport.cpp b/src/kernel/xam/xnet_system_link_transport.cpp
 new file mode 100644
-index 0000000..f3b84c8
+index 0000000..61adf72
 --- /dev/null
 +++ b/src/kernel/xam/xnet_system_link_transport.cpp
-@@ -0,0 +1,388 @@
+@@ -0,0 +1,484 @@
 +#include "xnet_system_link_transport.h"
 +
 +#include <algorithm>
@@ -1400,6 +1425,30 @@ index 0000000..f3b84c8
 +         (static_cast<uint32_t>(value[3]) << 24);
 +}
 +
++void WriteBigEndian16(uint8_t* output, uint16_t value) {
++  output[0] = static_cast<uint8_t>(value >> 8);
++  output[1] = static_cast<uint8_t>(value);
++}
++
++uint32_t AddChecksumBytes(uint32_t sum, std::span<const uint8_t> bytes) {
++  size_t offset = 0;
++  while (offset + 1 < bytes.size()) {
++    sum += ReadBigEndian16(bytes.data() + offset);
++    offset += 2;
++  }
++  if (offset < bytes.size()) {
++    sum += static_cast<uint16_t>(bytes[offset]) << 8;
++  }
++  return sum;
++}
++
++uint16_t FinishChecksum(uint32_t sum) {
++  while (sum >> 16) {
++    sum = (sum & 0xFFFF) + (sum >> 16);
++  }
++  return static_cast<uint16_t>(~sum);
++}
++
 +void ClassifySystemLinkPayload(SystemLinkRawPacket* packet) {
 +  // Xbox 360 Find Game emits this fixed-size authenticated title/version
 +  // beacon. Keep the remaining bytes opaque until its authenticator is
@@ -1419,6 +1468,55 @@ index 0000000..f3b84c8
 +}
 +
 +}  // namespace
++
++bool BuildSystemLinkRawFrame(
++    const std::array<uint8_t, 6>& source_mac,
++    const std::array<uint8_t, 6>& destination_mac,
++    std::span<const uint8_t> payload, std::vector<uint8_t>* frame) {
++  constexpr size_t kEthernetHeaderSize = 14;
++  constexpr size_t kIpv4HeaderSize = 20;
++  constexpr size_t kUdpHeaderSize = 8;
++  if (!frame || payload.size() > UINT16_MAX - kIpv4HeaderSize - kUdpHeaderSize) {
++    return false;
++  }
++
++  const uint16_t udp_size =
++      static_cast<uint16_t>(kUdpHeaderSize + payload.size());
++  const uint16_t ip_size = static_cast<uint16_t>(kIpv4HeaderSize + udp_size);
++  frame->assign(kEthernetHeaderSize + ip_size, 0);
++
++  std::copy(destination_mac.begin(), destination_mac.end(), frame->begin());
++  std::copy(source_mac.begin(), source_mac.end(), frame->begin() + 6);
++  WriteBigEndian16(frame->data() + 12, kEtherTypeIpv4);
++
++  uint8_t* ip = frame->data() + kEthernetHeaderSize;
++  ip[0] = 0x45;
++  WriteBigEndian16(ip + 2, ip_size);
++  ip[8] = 64;
++  ip[9] = kIpProtocolUdp;
++  ip[15] = 1;
++  std::fill(ip + 16, ip + 20, 0xFF);
++  WriteBigEndian16(ip + 10,
++                   FinishChecksum(AddChecksumBytes(
++                       0, std::span<const uint8_t>(ip, kIpv4HeaderSize))));
++
++  uint8_t* udp = ip + kIpv4HeaderSize;
++  WriteBigEndian16(udp, kSystemLinkPort);
++  WriteBigEndian16(udp + 2, kSystemLinkPort);
++  WriteBigEndian16(udp + 4, udp_size);
++  std::copy(payload.begin(), payload.end(), udp + kUdpHeaderSize);
++
++  uint32_t udp_checksum = 0;
++  udp_checksum = AddChecksumBytes(
++      udp_checksum, std::span<const uint8_t>(ip + 12, 8));
++  udp_checksum += kIpProtocolUdp;
++  udp_checksum += udp_size;
++  udp_checksum = AddChecksumBytes(
++      udp_checksum, std::span<const uint8_t>(udp, udp_size));
++  uint16_t checksum = FinishChecksum(udp_checksum);
++  WriteBigEndian16(udp + 6, checksum ? checksum : 0xFFFF);
++  return true;
++}
 +
 +bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame,
 +                             SystemLinkRawPacket* packet) {
@@ -1522,6 +1620,7 @@ index 0000000..f3b84c8
 +
 +  HMODULE library = nullptr;
 +  PcapHandle* capture = nullptr;
++  std::array<uint8_t, 6> local_mac{};
 +  FindAllDevicesFn find_all_devices = nullptr;
 +  FreeAllDevicesFn free_all_devices = nullptr;
 +  OpenLiveFn open_live = nullptr;
@@ -1657,6 +1756,7 @@ index 0000000..f3b84c8
 +    Close();
 +    return false;
 +  }
++  impl_->local_mac = local_mac;
 +  return true;
 +#else
 +  if (error) {
@@ -1752,13 +1852,34 @@ index 0000000..f3b84c8
 +#endif
 +}
 +
++bool SystemLinkRawTransport::SendPayloadTo(
++    const std::array<uint8_t, 6>& destination_mac,
++    std::span<const uint8_t> payload, std::string* error) {
++#if REX_PLATFORM_WIN32
++  std::vector<uint8_t> frame;
++  if (!BuildSystemLinkRawFrame(impl_->local_mac, destination_mac, payload,
++                               &frame)) {
++    if (error) {
++      *error = "raw System Link payload is too large";
++    }
++    return false;
++  }
++  return SendFrame(frame, error);
++#else
++  if (error) {
++    *error = "raw System Link transport is only available on Windows";
++  }
++  return false;
++#endif
++}
++
 +}  // namespace rex::kernel::xam
 diff --git a/src/kernel/xam/xnet_system_link_transport.h b/src/kernel/xam/xnet_system_link_transport.h
 new file mode 100644
-index 0000000..0f5f84f
+index 0000000..50a577c
 --- /dev/null
 +++ b/src/kernel/xam/xnet_system_link_transport.h
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,62 @@
 +#ifndef REX_KERNEL_XAM_XNET_SYSTEM_LINK_TRANSPORT_H_
 +#define REX_KERNEL_XAM_XNET_SYSTEM_LINK_TRANSPORT_H_
 +
@@ -1789,6 +1910,10 @@ index 0000000..0f5f84f
 +
 +bool ParseSystemLinkRawFrame(std::span<const uint8_t> frame,
 +                             SystemLinkRawPacket* packet);
++bool BuildSystemLinkRawFrame(
++    const std::array<uint8_t, 6>& source_mac,
++    const std::array<uint8_t, 6>& destination_mac,
++    std::span<const uint8_t> payload, std::vector<uint8_t>* frame);
 +
 +class SystemLinkRawTransport {
 + public:
@@ -1806,6 +1931,8 @@ index 0000000..0f5f84f
 +  size_t Poll(std::vector<SystemLinkRawPacket>* packets, size_t max_packets,
 +              std::string* error);
 +  bool SendFrame(std::span<const uint8_t> frame, std::string* error);
++  bool SendPayloadTo(const std::array<uint8_t, 6>& destination_mac,
++                     std::span<const uint8_t> payload, std::string* error);
 +
 + private:
 +  struct Impl;
@@ -2031,10 +2158,10 @@ index 7bd264b..e66d139 100644
  
 diff --git a/tests/unit/kernel/xnet_system_link_transport_test.cpp b/tests/unit/kernel/xnet_system_link_transport_test.cpp
 new file mode 100644
-index 0000000..437127c
+index 0000000..7479202
 --- /dev/null
 +++ b/tests/unit/kernel/xnet_system_link_transport_test.cpp
-@@ -0,0 +1,102 @@
+@@ -0,0 +1,153 @@
 +#include <catch2/catch_test_macros.hpp>
 +
 +#include <algorithm>
@@ -2051,6 +2178,24 @@ index 0000000..437127c
 +void WriteBigEndian16(uint8_t* output, uint16_t value) {
 +  output[0] = static_cast<uint8_t>(value >> 8);
 +  output[1] = static_cast<uint8_t>(value);
++}
++
++uint32_t AddChecksumBytes(uint32_t sum, std::span<const uint8_t> bytes) {
++  size_t offset = 0;
++  for (; offset + 1 < bytes.size(); offset += 2) {
++    sum += (static_cast<uint16_t>(bytes[offset]) << 8) | bytes[offset + 1];
++  }
++  if (offset < bytes.size()) {
++    sum += static_cast<uint16_t>(bytes[offset]) << 8;
++  }
++  return sum;
++}
++
++uint16_t FoldChecksum(uint32_t sum) {
++  while (sum >> 16) {
++    sum = (sum & 0xFFFF) + (sum >> 16);
++  }
++  return static_cast<uint16_t>(sum);
 +}
 +
 +std::vector<uint8_t> MakeFrame(std::span<const uint8_t> payload,
@@ -2120,6 +2265,39 @@ index 0000000..437127c
 +  CHECK(packet.payload_kind == SystemLinkRawPayloadKind::kBroadcastVersion);
 +  CHECK(packet.title_id == 0x4D5307E6);
 +  CHECK(packet.broadcast_version == 46);
++}
++
++TEST_CASE("System Link raw frame builder round trips payload and addressing") {
++  const std::array<uint8_t, 6> source = {0x02, 0x01, 0x02,
++                                         0x03, 0x04, 0x05};
++  const std::array<uint8_t, 6> destination = {0x06, 0x07, 0x08,
++                                              0x09, 0x0A, 0x0B};
++  const std::array<uint8_t, 5> payload = {1, 2, 3, 4, 5};
++  std::vector<uint8_t> frame;
++  REQUIRE(BuildSystemLinkRawFrame(source, destination, payload, &frame));
++
++  SystemLinkRawPacket packet;
++  REQUIRE(ParseSystemLinkRawFrame(frame, &packet));
++  CHECK(packet.source_mac == source);
++  CHECK(packet.destination_mac == destination);
++  CHECK(packet.payload == std::vector<uint8_t>(payload.begin(), payload.end()));
++
++  constexpr size_t kEthernetHeaderSize = 14;
++  constexpr size_t kIpv4HeaderSize = 20;
++  constexpr size_t kUdpHeaderSize = 8;
++  const uint8_t* ip = frame.data() + kEthernetHeaderSize;
++  const uint8_t* udp = ip + kIpv4HeaderSize;
++  CHECK(FoldChecksum(AddChecksumBytes(
++            0, std::span<const uint8_t>(ip, kIpv4HeaderSize))) == 0xFFFF);
++
++  uint32_t udp_sum = AddChecksumBytes(
++      0, std::span<const uint8_t>(ip + 12, 8));
++  udp_sum += ip[9];
++  udp_sum += static_cast<uint16_t>(kUdpHeaderSize + payload.size());
++  udp_sum = AddChecksumBytes(
++      udp_sum,
++      std::span<const uint8_t>(udp, kUdpHeaderSize + payload.size()));
++  CHECK(FoldChecksum(udp_sum) == 0xFFFF);
 +}
 +
 +TEST_CASE("System Link raw parser rejects unrelated and truncated traffic") {

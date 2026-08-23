@@ -6,6 +6,7 @@ param(
     [ValidateSet("Host", "Find")]
     [string]$SystemLinkProbeRole = "Host",
     [switch]$RawSystemLink,
+    [switch]$ReflectSystemLinkBeacon,
     [switch]$Headless,
     [switch]$Capture,
     [switch]$NoCapture,
@@ -344,6 +345,13 @@ if ($SystemLinkProbe) {
 
 if ($RawSystemLink) {
     $args += "--xnet_system_link_raw_transport=true"
+}
+
+if ($ReflectSystemLinkBeacon) {
+    if (-not $RawSystemLink) {
+        throw "-ReflectSystemLinkBeacon requires -RawSystemLink."
+    }
+    $args += "--xnet_system_link_raw_reflect_beacon=true"
 }
 
 if ($SmokeTest) {
