@@ -70,15 +70,17 @@ class SoundImporter:
             row = self.row('Pitch Ranges', pitch_index)
             name, parameters, encoded, runtime, packed = s.unpack('4hI', row)
             first_perm, perm_count = packed & 0xfffff, (packed >> 20) & 63
-            if encoded != -1 or not perm_count:
-                raise ValueError('Unsupported encoded sound permutation data')
+            fixed_permutation = encoded == 0 and runtime == -1 and perm_count == 1
+            if (encoded != -1 and not fixed_permutation) or not perm_count:
+                raise ValueError(f'{s.name(datum & 65535)}: pitch range {pitch_index} '
+                                 f'has encoded index {encoded}, permutation count {perm_count}')
             target_perm = len(self.tables['Permutations'])
             if target_perm + perm_count > 65535:
                 raise ValueError('Retail sound permutation index exhausted')
-            runtime_bit = len(self.tables['Runtime Permutation Flags']) * 8
+            runtime_bit = -1 if fixed_permutation else len(self.tables['Runtime Permutation Flags']) * 8
             if runtime_bit > 32767:
                 raise ValueError('Retail runtime sound flag index exhausted')
-            for _ in range((perm_count + 7) // 8):
+            for _ in range(0 if fixed_permutation else (perm_count + 7) // 8):
                 self.append('Runtime Permutation Flags', b'\0')
             for perm_index in range(first_perm, first_perm + perm_count):
                 p = self.row('Permutations', perm_index)
@@ -98,7 +100,7 @@ class SoundImporter:
                     skip, frames, target_chunk, 1, gain, info))
                 total_frames.append(frames)
             self.append('Pitch Ranges', struct.pack('>4h2H', self.copy('Import Names', name),
-                self.copy('Pitch Range Parameters', parameters), -1, runtime_bit,
+                self.copy('Pitch Range Parameters', parameters), encoded, runtime_bit,
                 (packed >> 16) & 0xfff0, target_perm))
         rate, channels = format_key
         codec_data = bytes(({22050: 0, 44100: 1, 32000: 2, 48000: 3}[rate],

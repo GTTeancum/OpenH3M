@@ -591,6 +591,16 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Fixed sound-permutation support: the missile flight loop uses encoded value 0,
+one permutation and runtime index -1 in both MCC and original armory. That
+specific combination is now preserved instead of rejected or rewritten as
+random-selection data. Other unknown combinations still fail with the sound
+name, pitch index and permutation values. The loop imported and finalized as
+242,823 mono PCM16 frames at 48 kHz; its output selection fields were checked
+as `(0, -1)`. This is structural/decoded-data validation, not audible playback.
+The missile-pod dependency graph now advances to an unsupported `cntl`
+contrail dependency; full weapon/Forge integration remains incomplete.
+
 Forge weapon dependency progress: native pickup defaults were checked in original
 armory/lockout tags for missile pod (32), SMG (14), and plasma rifle (22).
 Scoped MCC weapon UI-field handling now includes those Forge variants alongside
