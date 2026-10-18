@@ -20,7 +20,7 @@ from fmod_audio import SoundBank
 from assemble_scenario import stage_primary_objects, stage_spawn_settings
 from scenario_environment import stage_environment
 from scenario_decals import stage_decals
-from bsp_materials import stage_bsp_materials
+from scenario_geometry import stage_geometry
 from terrain_materials import DiscMaterialImporter
 from water_materials import WaterImporter
 from xexlib import Xex
@@ -95,7 +95,7 @@ def main():
             args.sound_bank, args.decoder, work))
         terrain = DiscMaterialImporter(importer, args.disc_maps or project / 'maps')
         water = WaterImporter(importer, args.disc_maps or project / 'maps')
-        stages = [('bsp_materials', lambda: stage_bsp_materials(importer, terrain, water)),
+        stages = [('geometry', lambda: stage_geometry(importer, terrain, water)),
                   ('objects', lambda: stage_primary_objects(importer, True, True)),
                   ('spawn', lambda: stage_spawn_settings(importer)),
                   ('environment', lambda: stage_environment(importer)),

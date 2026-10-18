@@ -65,7 +65,8 @@ def retail_mopp(code):
 
 def convert_collision_block(converter, at, source_schema, target_schema, path):
     name = source_schema.get('name')
-    if not path.startswith('coll:') or name not in ('BSP Physics', 'MOPP Codes'):
+    design_mopp = path.startswith('sddt:') and name in ('Soft Ceiling MOPP Codes', 'Water MOPP Codes')
+    if not design_mopp and (not path.startswith('coll:') or name not in ('BSP Physics', 'MOPP Codes')):
         return None
     c, b = converter.source, converter.builder
     out = bytearray(int(target_schema.get('elementSize'), 0))

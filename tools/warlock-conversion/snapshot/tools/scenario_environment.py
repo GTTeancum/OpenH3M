@@ -28,9 +28,14 @@ def stage_environment(importer):
             if name == 'Scenario Cluster Data':
                 # MCC leaves this reference null. Retail points to the BSP whose
                 # geometry was replaced, preserving the corresponding BSP index.
-                datum = c.u(bsps[index] + 12)
-                if datum == 0xffffffff or c.tags[datum & 65535]['group'] != 'sbsp':
+                converted = getattr(importer, 'converted_bsps', None)
+                datum = converted[index] if converted is not None else c.u(bsps[index] + 12)
+                tag_index = datum & 65535
+                if tag_index >= len(importer.registry.tags) // 8:
                     raise ValueError('Missing converted retail BSP binding')
+                group_index, salt = struct.unpack_from('>HH', importer.registry.tags, tag_index * 8)
+                if salt != datum >> 16 or c.groups[group_index] != 'sbsp':
+                    raise ValueError('Invalid converted retail BSP binding')
                 data[:16] = b'sbsp' + bytes(8) + struct.pack('>I', datum)
             payload.extend(data)
         arrays[name] = len(rows), bytes(payload)

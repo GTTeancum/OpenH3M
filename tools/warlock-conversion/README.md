@@ -591,6 +591,21 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+The checkpoint CLI now runs `scenario_geometry.stage_geometry`: source-built
+BSP, lightmap, structure design (water-volume MOPP) and wind dependencies are
+bound to the scenario. Environment cluster data follows the newly allocated
+BSP instead of the old cache tag. Added Assembly H3/MCC `sddt` schemas and the
+inherited H3 `wind` schema, with existing function/MOPP translators.
+The combined build completed in 36.06 seconds; serialized scenario BSP,
+cluster BSP, lightmap and shared render-resource bindings were checked.
+Latest private output: `.local/integrated/lockout-source-geometry.map`,
+408,035,328 bytes, SHA256
+`81d6e87dbddaa59291272c5f6190cac3c862a62c4c11f359246ddaf1f257f785`.
+Report: `.local/reports/scenario-checkpoint-source-geometry.json`.
+The superseded water checkpoint was hash-verified and removed. The accepted
+candidate remains untouched. This new map has NOT been deployed/native-tested;
+the build still requires the accepted basis for prototype and scenario data.
+
 `lightmap_importer.py` now creates retail `sLdT` metadata from MCC's separate
 lighting tag and binds a supplied geometry resource. It imports all 19 root
 airprobes and 127 scenery probes, preserving object unique IDs; validates cached
