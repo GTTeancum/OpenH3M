@@ -285,3 +285,24 @@ Automag audio checkpoint:
   own decoder path; no machine-specific decoder path is embedded in source.
 - Reference additions: Assembly ugh! schemas and TagTool FMOD index/bank and sound
   converter sources, retaining the licenses already included in this snapshot.
+
+Retail sound-table checkpoint:
+- sound_importer.py appends decoded PCM sounds to ugh! codec, playback, scale,
+  import-name, pitch-parameter, pitch-range, permutation, runtime-flag and chunk
+  tables. Existing entries retain their indices. MCC's packed 20-bit permutation
+  index is converted to the retail count/index fields with representability checks.
+- The Automag imports its shot plus indoor/outdoor tails: three sounds, ten
+  permutations, stereo/quad 48 kHz PCM16 big endian. The supplied bank/decoder
+  remains optional; unresolved sounds fail explicitly when none is supplied.
+- Focused in-memory finalization checked ten chunk references, frame bounds,
+  runtime-flag references and unchanged prefixes of every modified retail table.
+  Private results: .local/reports/automag-sound-tables.json. No map was deployed,
+  and native PCM playback is not yet verified. Localized/promoted sounds and
+  nonempty encoded-permutation sections remain unsupported with explicit errors.
+- The full Automag graph advances to its muzzle-flash particle postprocess.
+  Its matching native particle shader template exists, but binding the source
+  parameters to retail shader data remains to implement; MCC compiled shader
+  resource data must not be copied into the retail cache.
+- Added the paired Assembly particle schemas. Missing documented particle runtime
+  flags were filled from TagTool Particle.cs (comments identify these additions).
+  PitchRange.cs and SoundCacheFileGestalt.cs document the sound index packing.

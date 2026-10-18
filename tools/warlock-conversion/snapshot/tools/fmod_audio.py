@@ -32,8 +32,9 @@ class SoundBank:
         if sound_hash not in self.index:
             raise ValueError(f'Sound hash {sound_hash:#x} absent from {self.bank.name}')
         entry = self.index[sound_hash]
-        if entry['channels'] not in (1, 2) or entry['index_sample_count'] > 32 * 1024 * 1024:
-            raise ValueError('Sound exceeds bounded mono/stereo decoder scope')
+        if entry['channels'] not in (1, 2, 4, 6) or entry['index_sample_count'] > 32 * 1024 * 1024:
+            raise ValueError(f"Sound {sound_hash:#x} ({entry['name']}) exceeds decoder scope: "
+                             f"channels={entry['channels']}, index size={entry['index_sample_count']}")
         environment = dict(os.environ, TEMP=str(self.workdir), TMP=str(self.workdir),
                            TMPDIR=str(self.workdir))
         result = subprocess.run([str(self.decoder), '-p', '-i', '-W', '1', '-s',

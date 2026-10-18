@@ -14,7 +14,7 @@ import struct
 
 
 class TagImporter:
-    def __init__(self, source, registry, bindings=None):
+    def __init__(self, source, registry, bindings=None, sound_bank=None):
         self.source, self.registry = source, registry
         self.builder = registry.builder
         self.reference = Path(__file__).resolve().parents[1] / 'reference'
@@ -26,6 +26,10 @@ class TagImporter:
         self.added = []
         self.materials = MaterialImporter(source, registry)
         self.failed = False
+        self.sounds = None
+        if sound_bank is not None:
+            from sound_importer import SoundImporter
+            self.sounds = SoundImporter(self, sound_bank)
 
     def import_tag(self, datum):
         if self.failed:
@@ -46,7 +50,11 @@ class TagImporter:
             return self.resolved[key]
         group, name = key
         if group == 'snd!':
-            raise ValueError(f'{group}:{name}: new sound requires audio conversion and ugh! table rebasing')
+            if self.sounds is None:
+                raise ValueError(f'{group}:{name}: new sound requires an explicit sound bank/decoder')
+            result = self.sounds.import_sound(datum)
+            self.resolved[key] = result
+            return result
         if group in ('rmsh', 'rmfl'):
             result = self.materials.shader(datum)
             self.resolved[key] = result
@@ -127,5 +135,7 @@ class TagImporter:
     def finalize(self, bsp_index=0):
         if self.failed:
             raise ValueError('Cannot finalize an incomplete dependency graph')
+        if self.sounds is not None:
+            self.sounds.stage()
         self.target_strings.stage()
         self.registry.finalize(bsp_index)
