@@ -18,6 +18,38 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
+    auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None)}
+    if fmt in auxiliary:
+        source_stride, unit = auxiliary[fmt]
+        if count < 0 or stride != source_stride or len(payload) != count * stride:
+            raise ValueError('Auxiliary vertex payload size mismatch')
+        raw = np.frombuffer(payload, dtype=np.uint8).reshape(count, stride)
+        if unit:
+            return raw.reshape(count, stride // unit, unit)[:, :, ::-1].tobytes(), stride
+        if fmt == 9:
+            # MCC stores one float; retail stores an unsigned-normalized byte
+            # in a four-byte vertex slot (remaining components are padding).
+            values = np.frombuffer(payload, dtype='<f4')
+            if not np.all(np.isfinite(values)) or np.any((values < 0) | (values > 1)):
+                raise ValueError('Ambient PRT coefficient outside normalized range')
+            out = np.zeros((count, 4), dtype=np.uint8)
+            out[:, 0] = np.rint(values * 255).astype(np.uint8)
+            return out.tobytes(), 4
+        if fmt == 10:
+            # MCC TinyNormal reverses the component order and biases by 127;
+            # retail reads four signed-normalized bytes directly.
+            values = raw[:, ::-1].astype(np.int16) - 127
+            if np.any(values > 127):
+                raise ValueError('Linear PRT coefficient exceeds signed-normalized range')
+            return values.astype(np.int8).tobytes(), 4
+        # Quadratic PRT uses three signed 10:10:10 vectors, not the primary
+        # normal stream's 10:11:11 format. Drop each MCC short4 padding component.
+        values = np.frombuffer(payload, dtype='<i2').reshape(count, 3, 4)[:, :, :3]
+        quantized = np.rint(np.clip(values.astype(float) / 32767, -1, 1) * 511).astype(np.int32)
+        packed = np.zeros((count, 3), dtype=np.uint32)
+        for axis in range(3):
+            packed |= (quantized[:, :, axis].astype(np.uint32) & 1023) << (axis * 10)
+        return packed.astype('>u4').tobytes(), 12
     expected = {1: (44, 32, 20, 4), 2: (36, 24, 12, 2), 3: (44, 32, 12, 2)}
     if fmt not in expected:
         raise ValueError(f'Vertex format {fmt} needs a dedicated converter')

@@ -169,3 +169,14 @@ All eight custom/Automag model primary streams converted in memory, including
 skinned Automag and receiver streams. Auxiliary PRT streams still need decoding;
 the source/retail comparison did not justify treating them as raw endian swaps.
 No candidate map was generated or deployed by these checks.
+
+render_resource.py assembles complete render-resource payloads (control records,
+raw buffers, fixups and interops) without writing a map. All eight custom/Automag
+models now convert in memory, including ambient and quadratic PRT auxiliary
+streams; their indices and pointer bounds passed focused checks. Ambient
+quantization error stayed within half an 8-bit normalized step. Static per-pixel,
+static per-vertex and linear PRT conversions are also implemented; native use is
+not yet verified. Zone/play registration, tag graph assembly and manifests remain.
+The auxiliary format descriptions were checked against TheGuardians/TagTool
+VertexStreamHalo3RetailMCC.cs, VertexStreamXbox.cs and VertexElementStream.cs;
+reference copies and TagTool-LICENSE are included alongside the existing sources.
