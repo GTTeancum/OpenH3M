@@ -907,3 +907,22 @@ polyhedron lists were compared once (152 tags). Their verified flag values are
 accepted without changing any bits. The full Forge probe now reaches the
 Sandbox three-way cylinder's MOPP physics layout, which remains unsupported.
 No generated map, deployment or runtime change occurred.
+
+### Sandbox scenery collision and materials checkpoint
+
+Added MOPP shape metadata/packed-code handling and capsule (Pills) conversion,
+including stride-dependent self offsets. Box inner self offsets now handle
+multiple shapes. Focused original-Sandbox comparisons matched six capsule,
+eight barricade box, and one cylinder MOPP metadata records byte-for-byte.
+Additional box/capsule flag values were verified against matching disc objects.
+The antenna mast's removed AI-properties word defaults to verified retail zero.
+
+Render-method decal (`rmd `) tags use their paired schemas and exact native
+postprocess routing. Added two original-disc hologram variants. Existing static
+hologram approximations now accept finite positive periods and validated simple
+UV-scroll functions; reports explicitly identify frozen brightness/UV animation.
+Golf-club pickup metadata uses its original Sandbox values (0, 0).
+
+The full Forge probe now reaches the golf-ball divot normal texture, whose
+format 22 needs an encoder. This is still an explicit failure; no partial map
+was generated or deployed. Gameplay remains untested for these additions.

@@ -152,7 +152,9 @@ class MaterialImporter:
         for tag in c.tags.values():
             if tag['group'] != group:
                 continue
-            if group == 'decs':
+            if group == 'rmd ':
+                containers = [tag['offset'] + 40]
+            elif group == 'decs':
                 containers = [row + 48 for row in c.block(tag['offset'] + 20, 116)]
             elif group == 'cntl':
                 containers = [row + 0x158 for row in c.block(tag['offset'], 0x26c)]

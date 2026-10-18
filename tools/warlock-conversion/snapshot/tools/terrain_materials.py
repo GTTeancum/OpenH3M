@@ -10,7 +10,7 @@ from assemble_scenario import field
 
 DONORS = {'_0_1_1_0_0_0': 'sandbox.map', '_0_2_1_1_1_2': 'docks.map',
           '_0_2_1_1_2_0': 'chill.map', '_0_1_1_1_1_2': 'sidewinder.map'}
-HOLOGRAM_DONORS = {'_2_8_0_0_0_1_0': 'sandbox.map', '_0_3_1_0_0_0_1': 'lockout.map'}
+HOLOGRAM_DONORS = {'_2_3_1_0_0_0_1': 'sandbox.map', '_2_1_1_0_0_0_1': 'lockout.map', '_2_8_0_0_0_1_0': 'sandbox.map', '_0_3_1_0_0_0_1': 'lockout.map'}
 
 
 class DiscMaterialImporter:
@@ -79,8 +79,11 @@ class DiscMaterialImporter:
                         raise ValueError('Terrain animation outside the documented static-ripple approximation')
                 else:
                     from tag_functions import convert_function
-                    if s.unpack('IIIf', row) != (0, 0, 0, 1.) or len(function) != 52 or function[0] != 3:
-                        raise ValueError('Unsupported hologram animation; only periodic brightness may be frozen')
+                    kind, input_id, range_id, period = s.unpack('IIIf', row)
+                    supported = ((kind == 0 and len(function) == 52 and function[0] == 3)
+                                 or (kind in (5, 6) and len(function) == 32 and function[0] == 0))
+                    if input_id or range_id or not 0 < period < float('inf') or not supported:
+                        raise ValueError(f'{s.name(datum & 65535)}: unsupported hologram animation {kind}, function size {len(function)}')
                     convert_function(function)  # Validate the complete function structure.
             textures = bytearray()
             rows = s.block(post + 16, 28)
@@ -142,7 +145,7 @@ class DiscMaterialImporter:
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
                 'native_donor': donors[variant], 'approximation': bool(overlays),
                 'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
-                               else 'Periodic hologram brightness frozen at authored constant values') if overlays else None,
+                               else 'Hologram brightness/UV animation frozen at authored constant values') if overlays else None,
                 'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': True})
             return self.done[datum]
         except Exception:

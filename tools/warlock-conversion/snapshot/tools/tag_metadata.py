@@ -14,6 +14,7 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
 
 # Original-disc UI defaults; ODST variants use their corresponding H3 family.
 ITEM_UI = {
+    r'weap:objects\levels\dlc\shared\golf_club\golf_club': (0, 0),
     r'weap:objects\equipment\autoturret\autoturret_beam': (0, 0),
     r'eqip:objects\equipment\invincibility_equipment\invincibility_equipment': (0, 0),
     r'eqip:objects\equipment\invisibility_equipment\invisibility_equipment': (0, 0),
@@ -117,6 +118,11 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
+                if (path.startswith('bloc:') and source_schema.get('name') == 'AI Properties'
+                        and source_schema.get('elementSize') == '0xC' and size == 16
+                        and key[0] == 'Unknown' and kind == 'undefined' and at == 8):
+                    covered.update(range(at, at + 4))
+                    continue
                 if (path == r'vehi:objects\equipment\autoturret\autoturret'
                         and key[0] in ('Postures', 'Dialogue Variants') and kind == 'tagblock'):
                     covered.update(range(at, at + 12))

@@ -10,13 +10,13 @@ from scenario_placements import fields, translate_enum, translate_flags
 def convert_model_physics(conv, offset, ss, ds, path):
     vehicle_phantom = path.startswith('vehi:') and ss.get('name') == 'Phantom Shapes'
     if (not vehicle_phantom and not path.startswith('phmo:')) or path.count('/') != 1 or ss.get('name') not in (
-            'Rigid Bodies', 'Polyhedra', 'Boxes', 'Lists', 'List Shapes', 'Phantoms', 'Phantom Shapes'):
+            'Rigid Bodies', 'Polyhedra', 'Boxes', 'Lists', 'List Shapes', 'Phantoms', 'Phantom Shapes', 'MOPPs', 'Pills'):
         return None
     from tag_metadata import SCALARS
     block = ss.get('name')
     sizes = {'Rigid Bodies': (192, 176), 'Polyhedra': (160, 128),
              'Boxes': (224, 176), 'Lists': (96, 80), 'List Shapes': (32, 16), 'Phantoms': (88, 44),
-             'Phantom Shapes': (960, 816)}
+             'Phantom Shapes': (960, 816), 'MOPPs': (64, 32), 'Pills': (112, 96)}
     source_size, target_size = sizes[block]
     if (int(ss.get('elementSize'), 0), int(ds.get('elementSize'), 0)) != sizes[block]:
         raise ValueError(f'{path}: unexpected physics layout')
@@ -54,11 +54,13 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 if value < 32 or (value - 32) % source_size:
                     raise ValueError(f'{path}: invalid polyhedron self offset')
                 value = (value - 32) // source_size * target_size + 32
+            elif block == 'Pills' or (block == 'Boxes' and key[1] == 0):
+                if value % source_size:
+                    raise ValueError(f'{path}: invalid shape self offset')
+                value = value // source_size * target_size
             elif block == 'Lists' and value:
                 raise ValueError(f'{path}: unsupported list user data')
-            elif block == 'Boxes' and value:
-                raise ValueError(f'{path}: unsupported inner box user data')
-            elif block == 'Phantom Shapes' and value:
+            elif block in ('Phantom Shapes', 'MOPPs') and value:
                 raise ValueError(f'{path}: unsupported vehicle phantom user data')
             # Phantom user data contains a shape index, not a byte offset.
             values = (value,)
@@ -72,12 +74,12 @@ def convert_model_physics(conv, offset, ss, ds, path):
         elif kind.startswith('enum'):
             values = (translate_enum(values[0], src, dst),)
         elif kind.startswith('flags'):
-            if block in ('Polyhedra', 'Boxes') and name == 'Flags':
+            if block in ('Polyhedra', 'Boxes', 'Pills') and name == 'Flags':
                 # Assembly names only bit 0. These complete values match
                 # corresponding MCC/original Sandbox shapes (152 matching
                 # tag lists), plus the earlier Armory/equipment comparisons.
-                if values[0] not in (0, 10, 33, 46, 49, 54, 55, 56, 57, 60, 64, 66, 69, 70,
-                                     73, 76, 81, 86, 87, 102, 139, 144, 145, 157, 178, 221, 222, 228):
+                if values[0] not in (0, 10, 32, 33, 46, 49, 54, 55, 56, 57, 58, 60, 64, 66, 69, 70,
+                                     73, 76, 81, 86, 87, 90, 102, 139, 144, 145, 157, 171, 178, 202, 221, 222, 228):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

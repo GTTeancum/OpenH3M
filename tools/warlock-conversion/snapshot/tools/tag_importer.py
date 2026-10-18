@@ -84,10 +84,10 @@ class TagImporter:
         # must not silently select a different layout.
         shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
-        if not (self.reference / source_folder / f'{group}.xml').is_file():
+        if not (self.reference / source_folder / f'{group.strip()}.xml').is_file():
             raise ValueError(f'{group}:{name}: missing {source_folder} metadata schema')
-        ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
-        ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
+        ss = ET.parse(self.reference / source_folder / f'{group.strip()}.xml').getroot()
+        ds = ET.parse(self.reference / 'plugins' / f'{group.strip()}.xml').getroot()
         compatibility_notes = []
         if group == 'cfxs':
             # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
@@ -127,7 +127,8 @@ class TagImporter:
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
 
         def data(path, cache, at):
-            if group == 'mode' and '/Per Mesh MOPP[' in path and path.endswith('/MOPP Code'):
+            if ((group == 'mode' and '/Per Mesh MOPP[' in path and path.endswith('/MOPP Code'))
+                    or (group == 'phmo' and path.endswith('/MOPP Codes'))):
                 from collision_physics import convert_packed_mopp
                 size = cache.u(at)
                 pointer = cache.pointer(cache.u(at + 12))
@@ -156,7 +157,7 @@ class TagImporter:
                                       resource_reference=resource,
                                       special_block=lambda at, ss, ds, path:
                                           self.materials.particle_post(at, group)
-                                          if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam') and ss.get('name') == 'Postprocess' else None)
+                                          if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam', 'rmd ') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
         if group == 'prt3':
             payload = self.materials.particle_root(tag['offset'], payload)
