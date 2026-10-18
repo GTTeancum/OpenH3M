@@ -380,3 +380,21 @@ Effect placement checkpoint:
   game launches, decoded-audio files or new map files were needed this checkpoint.
 - Environment/sky/decals, map materials and the final seed-independent pipeline
   remain outstanding; successful object assembly is not final completion.
+
+Sky and acoustic environment checkpoint:
+- Added explicit environment staging for Skies, Atmosphere, Acoustics Palette,
+  Scenario Cluster Data and the Sky Parameters reference. The cluster data binds
+  to the existing converted retail BSP by index; mismatched BSP counts reject.
+- Added paired-platform static per-vertex float3 color endian conversion (format
+  14), allowing the source sky model's full render resource to import. Sky materials
+  still follow the existing reported native-shader approximation policy.
+- Added verified shared skya/snde schemas. Both source reverb definitions and the
+  Guardian background sound graph import through the existing sound-table path.
+- Combined in-memory finalization now includes all 256 object placements, spawn
+  settings, one sky, two atmosphere entries, two acoustic entries and one cluster
+  environment block. It imports 73 metadata tags and 19 sound tags, using about
+  1.93 MB of metadata reserve. Private report:
+  .local/reports/objects-and-environment.json. No map output/deployment or captures.
+- Sky appearance, background audio/reverb and cluster behavior remain unverified
+  in-game. Decals, remaining material/global-lighting work and the reproducible
+  seed-independent build/deployment entry point remain outstanding.

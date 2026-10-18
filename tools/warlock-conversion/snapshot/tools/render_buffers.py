@@ -18,7 +18,8 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
-    auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None)}
+    auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None),
+                 14: (12, 4)}  # Static per-vertex color: float3 on both platforms.
     if fmt in auxiliary:
         source_stride, unit = auxiliary[fmt]
         if count < 0 or stride != source_stride or len(payload) != count * stride:
