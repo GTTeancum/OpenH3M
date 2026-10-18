@@ -7,8 +7,8 @@ No game assets, maps, screenshots, runtime binaries, or generated logs are inclu
 
 ## Integrated scenario checkpoint
 
-`snapshot/tools/build_scenario_checkpoint.py` combines the completed object,
-sound, spawn, sky/environment and decal importers into a separate map file. This
+`snapshot/tools/build_scenario_checkpoint.py` combines BSP shader/foliage material,
+object, sound, spawn, sky/environment and decal importers into a separate map file. This
 command still requires the accepted geometry checkpoint (SHA256 below); it is
 not the final seed-independent converter and does not finish remaining BSP
 materials/reflections. Run with `python -B` from this checkout:
@@ -460,3 +460,18 @@ Environment control checkpoint:
   values and finalized the environment graph in memory. Private metadata report:
   `.local/reports/environment-controls.json`. No output map or runtime changes;
   lighting appearance and reflection content still require final integration.
+
+BSP material integration checkpoint:
+- `stage_bsp_materials()` follows the scenario's active BSP binding, rather than
+  choosing the first BSP tag (the accepted cache also contains unused stock BSP
+  metadata). It preserves material-slot order and all physics/property bytes.
+- 109 shader/foliage slots now use named base, normal, detail and alpha texture
+  parameters through the existing retail shader approximation. This includes
+  formerly skipped A8/Y8/ARGB slots; unrepresented parameters remain reported.
+- The other 18 slots (10 terrain, six hologram, two water) explicitly retain the
+  accepted checkpoint material and are listed as unfinished specialized work.
+  A matching material count is required before any BSP references are patched.
+- Focused checks passed for all 127 slots' preserved physics/property bytes and
+  retained references. The integration command now runs this stage first so
+  subsequent object/environment imports can reuse converted texture resources.
+  Native appearance remains unverified; no accepted map or runtime was changed.
