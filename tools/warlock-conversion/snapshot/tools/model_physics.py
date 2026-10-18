@@ -9,12 +9,12 @@ from scenario_placements import fields, translate_enum, translate_flags
 
 def convert_model_physics(conv, offset, ss, ds, path):
     if not path.startswith('phmo:') or path.count('/') != 1 or ss.get('name') not in (
-            'Rigid Bodies', 'Polyhedra', 'Lists', 'List Shapes', 'Phantoms'):
+            'Rigid Bodies', 'Polyhedra', 'Boxes', 'Lists', 'List Shapes', 'Phantoms'):
         return None
     from tag_metadata import SCALARS
     block = ss.get('name')
     sizes = {'Rigid Bodies': (192, 176), 'Polyhedra': (160, 128),
-             'Lists': (96, 80), 'List Shapes': (32, 16), 'Phantoms': (88, 44)}
+             'Boxes': (224, 176), 'Lists': (96, 80), 'List Shapes': (32, 16), 'Phantoms': (88, 44)}
     source_size, target_size = sizes[block]
     if (int(ss.get('elementSize'), 0), int(ds.get('elementSize'), 0)) != sizes[block]:
         raise ValueError(f'{path}: unexpected physics layout')
@@ -48,12 +48,14 @@ def convert_model_physics(conv, offset, ss, ds, path):
             raise ValueError(f'{path}/{name}: populated runtime pointer')
         if name == 'User Data':
             value = values[0]
-            if block == 'Polyhedra':
+            if block == 'Polyhedra' or (block == 'Boxes' and key[1] == 1):
                 if value < 32 or (value - 32) % source_size:
                     raise ValueError(f'{path}: invalid polyhedron self offset')
                 value = (value - 32) // source_size * target_size + 32
             elif block == 'Lists' and value:
                 raise ValueError(f'{path}: unsupported list user data')
+            elif block == 'Boxes' and value:
+                raise ValueError(f'{path}: unsupported inner box user data')
             # Phantom user data contains a shape index, not a byte offset.
             values = (value,)
         elif kind == 'stringid':
@@ -66,12 +68,12 @@ def convert_model_physics(conv, offset, ss, ds, path):
         elif kind.startswith('enum'):
             values = (translate_enum(values[0], src, dst),)
         elif kind.startswith('flags'):
-            if block == 'Polyhedra' and name == 'Flags':
+            if block in ('Polyhedra', 'Boxes') and name == 'Flags':
                 # Assembly labels only bit 0. Native receiver/jump-pad shapes
                 # retain the same 0x45/0x90 shape flags as their MCC records.
                 # Original armory missile-pod geometry and its projectile confirm 0x46/0x8b.
                 # Retail bunkerworld sentinel-gun geometry also uses 0x42/0x56.
-                if values[0] not in (0x39, 0x42, 0x45, 0x46, 0x56, 0x8b, 0x90):
+                if values[0] not in (0x36, 0x39, 0x42, 0x45, 0x46, 0x56, 0x8b, 0x90, 0xde):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

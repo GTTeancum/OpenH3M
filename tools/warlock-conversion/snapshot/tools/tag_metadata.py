@@ -14,6 +14,8 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
 
 # Original-disc UI defaults; ODST variants use their corresponding H3 family.
 ITEM_UI = {
+    r'eqip:objects\equipment\invincibility_equipment\invincibility_equipment': (0, 0),
+    r'eqip:objects\equipment\invisibility_equipment\invisibility_equipment': (0, 0),
     r'eqip:objects\equipment\autoturret_equipment\autoturret_equipment': (0, 0),
     r'weap:objects\weapons\pistol\automag\automag': (6, 2),
     r'weap:objects\weapons\turret\missile_pod\missile_pod': (32, 0),
@@ -34,6 +36,16 @@ class MetadataConverter:
         self.shader_reference = shader_reference
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
+        if (path.startswith('char:') and source_schema.get('name') == 'Pre-Search Properties'
+                and int(source_schema.get('elementSize'), 0) == 0x24
+                and int(target_schema.get('elementSize'), 0) == 0x28):
+            # TagTool CharacterPreSearchProperties identifies the removed
+            # retail float at 0x18 as DEPRECATED. It is not MCC's final padding
+            # short, despite both being called Unknown in Assembly schemas.
+            if self.source.u(offset) & ~1 or self.source.unpack('h', offset + 0x22)[0]:
+                raise ValueError(f'{path}: unsupported pre-search flags or padding')
+            return (struct.pack('>6I', *self.source.unpack('6I', offset)) + bytes(4)
+                    + struct.pack('>2I2h', *self.source.unpack('2I2h', offset + 0x18)))
         if self.special_block is not None:
             result = self.special_block(offset, source_schema, target_schema, path)
             if result is not None:
@@ -60,6 +72,11 @@ class MetadataConverter:
             if key in target_fields:
                 continue
             at = offset + int(src.get('offset'), 0)
+            if (path.startswith('lens:') and key[0] == 'Occlusion Reflection Index'
+                    and self.source.unpack('i', at)[0] == 0):
+                # MCC can choose a reflection for occlusion; retail uses the
+                # default first reflection. Nondefault selections still reject.
+                continue
             if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Editor Folder Index'
                     and self.source.unpack('h', at)[0] == -1):
                 continue

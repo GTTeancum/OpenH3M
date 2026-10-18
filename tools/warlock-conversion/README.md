@@ -851,3 +851,21 @@ retail normal packing is reused. No native rendering test was run.
 The Forge probe now reaches `char:ai/generic`; its pre-search layout has a
 retail-only float that collides with an unnamed MCC padding field. That layout
 mapping remains to be implemented. No new generated map or deployment occurred.
+
+### AI and equipment box-layout checkpoint
+
+AI pre-search conversion now distinguishes the deprecated retail-only float
+from MCC's unnamed padding short, retaining authored search timings and counts.
+Added the inherited AI-style schema. Invincibility/invisibility equipment uses
+the verified retail equipment pickup defaults.
+
+Box collision shapes now convert the 224-byte MCC layout to 176-byte retail,
+checking null runtime pointers/padding and relocating the outer shape's self
+offset. A converted instant-cover equipment box matched the original Lockout
+record byte-for-byte. Flags 0x36 and 0xDE are supported, corresponding to the
+original grav-lift and instant-cover equipment records.
+
+Forge now reaches the invincibility equipment lens flare. Added the paired
+schemas and default first-reflection occlusion handling; its nested reflection
+layout still needs conversion. No map was generated/deployed, and no gameplay
+validation is claimed for these dependencies.

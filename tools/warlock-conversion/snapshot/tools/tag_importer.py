@@ -70,7 +70,7 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
