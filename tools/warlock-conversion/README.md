@@ -398,3 +398,24 @@ Sky and acoustic environment checkpoint:
 - Sky appearance, background audio/reverb and cluster behavior remain unverified
   in-game. Decals, remaining material/global-lighting work and the reproducible
   seed-independent build/deployment entry point remain outstanding.
+
+Decal conversion checkpoint:
+- `stage_decals()` imports all 51 used decal definitions and stages all 586
+  placements with a compact palette. It refuses unresolved dependencies before
+  replacing scenario arrays. Added MCC/retail decal schemas and documented flags.
+- Exact native shader templates are reused where available. Explicit aliases
+  cover missing tint and render-pass variants; no MCC shader bytecode is copied.
+- Foliage keeps its alpha cutouts. Identical untiled masks share base alpha;
+  independent masks are baked into tiled diffuse color. The POC bake uses nearest
+  sampling, a 512-pixel limit and one mip. Normal-map UV scale retains authored
+  tiling. RGB shares mask sampler behavior, fully modulated tint becomes
+  unmodulated, and MCC transparent decals use the native pre-lighting pass.
+  Sprite atlases and unsupported sampler routing reject explicitly.
+- Mask-coordinate semantics were checked against the `sample_diffuse` function
+  in [HaloShaderGenerator's decal shader](https://github.com/Beatthezombie/HaloShaderGenerator/blob/master/halo_online_shaders/decal.fx).
+  `snapshot/reference/formats/DecalSystem.cs` is the TagTool structure reference.
+- Focused checks verify independent mask alpha, diffuse tiling, all 586 placement
+  transforms and palette bounds, plus combined object/environment finalization.
+  Private report: `.local/reports/objects-environment-decals.json`. This remains
+  in-memory verification; decal appearance is not yet verified in-game, and the
+  accepted candidate has not been replaced. Final pipeline work remains open.

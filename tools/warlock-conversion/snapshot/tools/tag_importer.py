@@ -108,11 +108,13 @@ class TagImporter:
                                       data_reference=data,
                                       resource_reference=resource,
                                       special_block=lambda at, ss, ds, path:
-                                          self.materials.particle_post(at)
-                                          if group == 'prt3' and ss.get('name') == 'Postprocess' else None)
+                                          self.materials.particle_post(at, group)
+                                          if group in ('prt3', 'decs') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
         if group == 'prt3':
             payload = self.materials.particle_root(tag['offset'], payload)
+        elif group == 'decs':
+            payload = self.materials.decal_root(tag['offset'], payload)
         if len(payload) != size:
             raise ValueError('Converted tag root size mismatch')
         offset = address - self.builder.base
