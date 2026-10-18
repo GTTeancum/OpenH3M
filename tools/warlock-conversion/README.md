@@ -591,6 +591,20 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Decorator follow-up: all 400 source groups now validate their MCC model-start
+boundaries against model selectors already encoded in the high byte of each
+TinyPosition variant. The redundant boundary lists can then be omitted from
+the 48-byte retail groups. All 54 cluster physics records convert and match
+the accepted map; this supersedes the 33-cluster rejection noted below.
+Format-20 conversion preserves ushort positions/model-scale values and converts
+biased orientation bytes and packed color. Focused checks covered all 5,235
+instances in 28 buffers (1,168 control bytes, 83,760 raw bytes). Empty index
+buffer tables are now handled without requiring a nonexistent fixup.
+Decorator-set tag dependencies and final resource registration remain to be
+integrated; this is not a native visual test or a complete decorator import.
+Stream layouts were checked against TagTool's `VertexStreamHalo3RetailMCC.cs`
+and `VertexStreamXbox.cs` in its Geometry/RenderGeometry/VertexBuffer directory.
+
 `bsp_metadata.py` adds an explicit 0x118-to-0xDC cluster layout adapter,
 including runtime-pointer checks, owner relocation and collision MOPP conversion.
 It is invoked by `MetadataConverter` for BSP metadata. Focused conversion passed

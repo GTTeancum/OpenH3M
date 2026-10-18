@@ -18,6 +18,20 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
+    if fmt == 20:
+        # TinyPosition: ushort3 position, ushort model/scale, biased/reversed
+        # byte4 orientation, packed color. Model selection stays in variant.
+        if count < 0 or stride != 16 or len(payload) != count * 16:
+            raise ValueError('Decorator instance payload size mismatch')
+        raw = np.frombuffer(payload, dtype=np.uint8).reshape(count, 16)
+        out = np.empty_like(raw)
+        out[:, :8] = raw[:, :8].reshape(count, 4, 2)[:, :, ::-1].reshape(count, 8)
+        normal = raw[:, 8:12][:, ::-1].astype(np.int16) - 127
+        if np.any(normal > 127):
+            raise ValueError('Decorator orientation exceeds signed-normalized range')
+        out[:, 8:12] = normal.astype(np.int8).view(np.uint8)
+        out[:, 12:16] = raw[:, 12:16][:, ::-1]
+        return out.tobytes(), 16
     auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None),
                  14: (12, 4)}
     # Water formats 27/28 require mesh context. MCC's format-27 allocation

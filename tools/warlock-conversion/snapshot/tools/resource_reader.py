@@ -40,5 +40,7 @@ class Resource:
  def unpack(self,fmt,at):return struct.unpack_from(self.c.endian+fmt,self.data,at)
  def ptr(self,at):return self.fix[at]&0x1fffffff
  def buffers(self,which):
-  at=self.root+(24 if which=='vertex' else 36);n=self.unpack('I',at)[0];table=self.ptr(at+4)
+  at=self.root+(24 if which=='vertex' else 36);n=self.unpack('I',at)[0]
+  if not n:return []
+  table=self.ptr(at+4)
   return [self.ptr(table+i*12) for i in range(n)]
