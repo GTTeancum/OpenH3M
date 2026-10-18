@@ -135,3 +135,14 @@ references mapped to their matching retail names. Legacy non-UTF8 bytes are
 preserved losslessly. Adding new strings to the retail table remains to implement.
 The remaining object graph includes custom render/collision/physics resources,
 plus Automag animation and HUD content; those imports are still incomplete.
+
+MetadataConverter in tag_metadata.py now recursively converts described tag
+metadata into retail layout: endian-aware scalar fields, semantic flags/enums,
+translated string IDs, resolved tag references and allocated nested blocks.
+It rejects unresolved resources, opaque data without a handler, nonzero unknown
+fields, incompatible field sets and uncovered/overlapping schema bytes. It expects
+a scratch builder; callers must discard the whole scratch build on failure.
+Actual MCC respawn-point and CTF initial-spawn scenery (256-byte retail roots) and
+the standard sender model (392-byte retail root) converted in memory using real
+retail dependencies. These checks establish metadata conversion only, not custom
+render resource conversion or new gameplay output.
