@@ -7,8 +7,12 @@ import struct
 from render_buffers import convert_vertices, convert_indices
 
 
-def convert_render_resource(source):
+def convert_render_resource(source, water_buffers=None):
     vertices, indices = source.buffers('vertex'), source.buffers('index')
+    water_buffers = water_buffers or {}
+    required_water = {index for index, at in enumerate(vertices) if source.unpack('H', at + 4)[0] in (27, 28)}
+    if set(water_buffers) != required_water:
+        raise ValueError('Water render buffers require complete mesh-topology reconstruction')
     control = bytearray(48)
     raw = bytearray()
     fixups, interops = [], []
@@ -46,7 +50,14 @@ def convert_render_resource(source):
                 size = source.unpack('I', at + 8)[0]
                 if size != count * stride:
                     raise ValueError('Source vertex allocation is not count * stride')
-                data, target_stride = convert_vertices(source_payload(at + 20, size), count, fmt, stride)
+                if i in water_buffers:
+                    target_count, target_fmt, target_stride, data = water_buffers[i]
+                    expected = (27, 36) if fmt == 27 else (26, 12)
+                    if (target_fmt, target_stride) != expected or target_count < 0 or len(data) != target_count * target_stride:
+                        raise ValueError('Invalid reconstructed native water buffer')
+                    count, fmt = target_count, target_fmt
+                else:
+                    data, target_stride = convert_vertices(source_payload(at + 20, size), count, fmt, stride)
                 descriptor = bytearray(28)
                 struct.pack_into('>IHHI', descriptor, 0, count, fmt, target_stride, len(data))
                 pointer_offset = 20

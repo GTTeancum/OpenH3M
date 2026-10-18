@@ -553,3 +553,22 @@ Water geometry prerequisite:
 - Private diagnostic: `.local/reports/water-geometry-gap.json`. Water shader
   binding remains deferred while this geometry prerequisite is addressed. The
   accepted geometry and latest integrated map were not overwritten by this check.
+
+Water topology reconstruction (supersedes the format-27 direct-copy note above):
+- Actual MCC buffer data is packed at six float words per corner despite the
+  descriptor advertising a nine-word allocation. The general direct converter
+  now rejects formats 27/28. `water_buffers.py` selects the source mesh's water
+  parts and expands those six words into the native nine-word layout with padding.
+- Triangle records are rebuilt from the ordinary mesh index buffer, interleaving
+  mesh vertex indices with compact water-corner indices. Their correct native
+  format is **26**, not MCC's expanded format 28. The reconstruction uses source
+  topology and parameters only, not the historical converted seed.
+- All ten rebuilt water buffers (five parameter buffers and five triangle buffers)
+  match the accepted cache's descriptors and payloads byte-for-byte. This explains
+  the earlier count differences and establishes the required conversion path.
+- `convert_render_resource(source, water_buffers)` now accepts this complete
+  reconstruction and rejects missing/partial water bindings. The full source BSP
+  render resource converts successfully, producing 51,810,478 raw bytes in memory.
+  Private report: `.local/reports/water-reconstruction.json`. No map was replaced.
+- Remaining integration: water shaders, then complete source-to-retail BSP/collision
+  metadata assembly and the final seed-independent command/deployment handoff.

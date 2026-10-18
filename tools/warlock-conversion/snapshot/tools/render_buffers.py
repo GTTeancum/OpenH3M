@@ -19,11 +19,10 @@ def pack_basis(components):
 
 def convert_vertices(payload, count, fmt, stride):
     auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None),
-                 14: (12, 4), 27: (36, 4)}
-    # Format 14 is float3 color. Format 27 is nine float words of water
-    # tessellation parameters on both platforms (see the two vertex streams).
-    # MCC format 28 is expanded 128-byte water data, NOT native ushort6 indices;
-    # it must be reconstructed from mesh topology rather than endian-swapped.
+                 14: (12, 4)}
+    # Water formats 27/28 require mesh context. MCC's format-27 allocation
+    # advertises 36-byte vertices but packs meaningful corner data at 24 bytes;
+    # see water_buffers.py. Neither water allocation can be copied directly.
     if fmt in auxiliary:
         source_stride, unit = auxiliary[fmt]
         if count < 0 or stride != source_stride or len(payload) != count * stride:
