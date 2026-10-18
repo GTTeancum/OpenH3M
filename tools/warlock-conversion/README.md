@@ -1,10 +1,25 @@
-# Warlock conversion: code-complete POC
+# Warlock conversion: loading repair in progress
 
 Warlock MCC assets are converted into original Halo 3 Mythic cache structures in
 Blackout's slot. OpenH3M and the original disc assets remain unchanged. This is a
 map-specific proof of concept, not a general MCC converter or a fidelity claim.
 The owner's successful solo collision/visual test covered the earlier checkpoint;
 the expanded final conversion still needs the owner's gameplay testing.
+
+## Current loading status
+
+The owner reported a loading crash in the previous final build. Its native fault
+is in decal sprite initialization. The converter compacted the scenario decal
+palette but left 586 BSP runtime decals using original indices, including indices
+outside the compact palette. Both consumers now use the same remapping, and the
+serialized build check validates the BSP references as well.
+
+The staged repair is `.local/integrated/lockout-decalfix.map`, SHA256
+`ed8298b11375eb0c47c46069f3407a559e2d8931e9bace5f653c8696a72b025c`.
+The existing launcher points to it. All 586 runtime indices and header preflight
+pass. Successful native loading is **not yet confirmed**; the repair goal remains
+open. The latest automated attempt exited before loading the map, so it is not a
+successful smoke test. The prior final hash below identifies the crashing build.
 
 ## Inputs and build
 

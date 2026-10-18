@@ -20,7 +20,7 @@ from tag_importer import TagImporter
 from fmod_audio import SoundBank
 from assemble_scenario import stage_primary_objects, stage_spawn_settings
 from scenario_environment import stage_environment
-from scenario_decals import stage_decals
+from scenario_decals import stage_decals, verify_runtime_decals
 from scenario_geometry import stage_geometry
 from scenario_runtime import stage_runtime
 from scenario_forge import stage_forge
@@ -152,6 +152,7 @@ def main():
         # Reopen the serialized cache; validate its tag table and memory boundary.
         check = Cache(str(temporary))
         try:
+            state['runtime_decals_verified'] = verify_runtime_decals(check, importer.reference)
             if check.u(8) != len(payload) or check.base + check.u(0x18) != 0xbfc00000:
                 raise ValueError('Serialized cache size/memory boundary is invalid')
             tag_count = check.u(check.pointer(check.u(16)) + 8)
