@@ -22,8 +22,6 @@ from scenario_environment import stage_environment
 from scenario_decals import stage_decals
 from scenario_geometry import stage_geometry
 from scenario_runtime import stage_runtime
-from terrain_materials import DiscMaterialImporter
-from water_materials import WaterImporter
 from xexlib import Xex
 
 ACCEPTED_SHA256 = '499f0516e016524f7f8a98ca580e4acb66c2b5d58403a5c755e4ed8f23de4279'
@@ -94,8 +92,7 @@ def main():
         builder = MapBuilder(str(args.basis), 0x1000000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
-        terrain = DiscMaterialImporter(importer, args.disc_maps or project / 'maps')
-        water = WaterImporter(importer, args.disc_maps or project / 'maps')
+        terrain, water = importer.terrain, importer.water
         stages = [('runtime', lambda: stage_runtime(importer)),
                   ('geometry', lambda: stage_geometry(importer, terrain, water)),
                   ('objects', lambda: stage_primary_objects(importer, True, True)),

@@ -43,7 +43,18 @@ class MaterialImporter:
             return self.done[key]
         if key in self.target_names:
             return self.target_names[key]
-        record, control, raw = encode_bitmap_base(self.bitmaps, tag)
+        rows = s.block(s.tags[tag]['offset'] + 0x60, 0x38)
+        if len(rows) == 1 and s.unpack('H', rows[0] + 10)[0] == 2 and self.native_effect_post is not None:
+            owner = self.native_effect_post.cubemap(key[1])
+            self.done[key] = owner
+            self.report.append({'source': key[1], 'native_bitmap_donor': 'snowbound.map',
+                                'approximation': True,
+                                'difference': 'Original-disc cubemap replaces same-named MCC cubemap.'})
+            return owner
+        try:
+            record, control, raw = encode_bitmap_base(self.bitmaps, tag)
+        except ValueError as error:
+            raise ValueError(f'bitm:{key[1]}: {error}') from error
         owner = self.bitmap_resource(record, control, raw)
         self.done[key] = owner
         return owner

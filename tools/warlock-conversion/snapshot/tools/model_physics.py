@@ -8,13 +8,15 @@ from scenario_placements import fields, translate_enum, translate_flags
 
 
 def convert_model_physics(conv, offset, ss, ds, path):
-    if not path.startswith('phmo:') or path.count('/') != 1 or ss.get('name') not in (
-            'Rigid Bodies', 'Polyhedra', 'Boxes', 'Lists', 'List Shapes', 'Phantoms'):
+    vehicle_phantom = path.startswith('vehi:') and ss.get('name') == 'Phantom Shapes'
+    if (not vehicle_phantom and not path.startswith('phmo:')) or path.count('/') != 1 or ss.get('name') not in (
+            'Rigid Bodies', 'Polyhedra', 'Boxes', 'Lists', 'List Shapes', 'Phantoms', 'Phantom Shapes'):
         return None
     from tag_metadata import SCALARS
     block = ss.get('name')
     sizes = {'Rigid Bodies': (192, 176), 'Polyhedra': (160, 128),
-             'Boxes': (224, 176), 'Lists': (96, 80), 'List Shapes': (32, 16), 'Phantoms': (88, 44)}
+             'Boxes': (224, 176), 'Lists': (96, 80), 'List Shapes': (32, 16), 'Phantoms': (88, 44),
+             'Phantom Shapes': (960, 816)}
     source_size, target_size = sizes[block]
     if (int(ss.get('elementSize'), 0), int(ds.get('elementSize'), 0)) != sizes[block]:
         raise ValueError(f'{path}: unexpected physics layout')
@@ -56,6 +58,8 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 raise ValueError(f'{path}: unsupported list user data')
             elif block == 'Boxes' and value:
                 raise ValueError(f'{path}: unsupported inner box user data')
+            elif block == 'Phantom Shapes' and value:
+                raise ValueError(f'{path}: unsupported vehicle phantom user data')
             # Phantom user data contains a shape index, not a byte offset.
             values = (value,)
         elif kind == 'stringid':
@@ -69,11 +73,11 @@ def convert_model_physics(conv, offset, ss, ds, path):
             values = (translate_enum(values[0], src, dst),)
         elif kind.startswith('flags'):
             if block in ('Polyhedra', 'Boxes') and name == 'Flags':
-                # Assembly labels only bit 0. Native receiver/jump-pad shapes
-                # retain the same 0x45/0x90 shape flags as their MCC records.
-                # Original armory missile-pod geometry and its projectile confirm 0x46/0x8b.
-                # Retail bunkerworld sentinel-gun geometry also uses 0x42/0x56.
-                if values[0] not in (0x36, 0x39, 0x42, 0x45, 0x46, 0x56, 0x8b, 0x90, 0xde):
+                # Assembly names only bit 0. These complete values match
+                # corresponding MCC/original Sandbox shapes (152 matching
+                # tag lists), plus the earlier Armory/equipment comparisons.
+                if values[0] not in (0, 10, 33, 46, 49, 54, 55, 56, 57, 60, 64, 66, 69, 70,
+                                     73, 76, 81, 86, 87, 102, 139, 144, 145, 157, 178, 221, 222, 228):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

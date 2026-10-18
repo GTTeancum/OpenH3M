@@ -888,3 +888,22 @@ dependency is retained.
 
 The full Forge probe now stops at the auto-turret vehicle's phantom-shape
 layout. That conversion remains outstanding. No map was generated or deployed.
+
+### Forge equipment finalized; scenery integration checkpoint
+
+The auto-turret equipment graph imports and finalizes (101 new records), including
+its vehicle phantom shapes. The supported phantom layout narrows null runtime
+pointers, preserves sphere/bounds fields and rejects nonzero user data or padding;
+it does not yet support unrelated vehicle phantom self-offset variants.
+
+General dependency import now shares the terrain/hologram/water importers with
+scenario geometry, allowing Forge scenery to use those existing conversions.
+The named Snowbound ice-cave reflection cubemap uses its original-disc resource,
+with that substitution recorded in the material report. Missing schemas and
+bitmap failures now identify the responsible tag.
+
+To avoid repeated one-value physics gates, matching source/original Sandbox
+polyhedron lists were compared once (152 tags). Their verified flag values are
+accepted without changing any bits. The full Forge probe now reaches the
+Sandbox three-way cylinder's MOPP physics layout, which remains unsupported.
+No generated map, deployment or runtime change occurred.

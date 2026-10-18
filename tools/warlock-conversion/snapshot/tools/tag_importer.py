@@ -26,9 +26,14 @@ class TagImporter:
         self.added = []
         self.materials = MaterialImporter(source, registry)
         self.materials.target_strings = self.target_strings
+        self.terrain = self.water = None
         if disc_maps is not None:
             from native_effect_post import NativeEffectPost
+            from terrain_materials import DiscMaterialImporter
+            from water_materials import WaterImporter
             self.materials.native_effect_post = NativeEffectPost(self, disc_maps)
+            self.terrain = DiscMaterialImporter(self, disc_maps)
+            self.water = WaterImporter(self, disc_maps)
         self.failed = False
         self.sounds = None
         if sound_bank is not None:
@@ -53,6 +58,13 @@ class TagImporter:
         if key in self.resolved:
             return self.resolved[key]
         group, name = key
+        if group in ('rmtr', 'rmhg', 'rmw '):
+            specialized = self.water if group == 'rmw ' else self.terrain
+            if specialized is None:
+                raise ValueError(f'{group}:{name}: native shader import requires disc_maps')
+            result = specialized.shader(datum)
+            self.resolved[key] = result
+            return result
         if group == 'snd!':
             if self.sounds is None:
                 raise ValueError(f'{group}:{name}: new sound requires an explicit sound bank/decoder')
@@ -72,6 +84,8 @@ class TagImporter:
         # must not silently select a different layout.
         shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
+        if not (self.reference / source_folder / f'{group}.xml').is_file():
+            raise ValueError(f'{group}:{name}: missing {source_folder} metadata schema')
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
         compatibility_notes = []

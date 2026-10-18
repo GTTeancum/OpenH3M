@@ -12,6 +12,21 @@ class NativeEffectPost:
         self.importer, self.disc_maps = importer, Path(disc_maps)
         self.resolved = {}
 
+    def cubemap(self, name):
+        if name != r'levels\multi\snowbound\bitmaps\cube_icecave_a_cubemap':
+            raise ValueError(f'No verified native cubemap donor: {name}')
+        donor = Cache(str(self.disc_maps / 'snowbound.map'))
+        try:
+            matches = [(tag['salt'] << 16) | index for index, tag in donor.tags.items()
+                       if tag['group'] == 'bitm' and donor.name(index) == name]
+            if len(matches) != 1:
+                raise ValueError(f'Snowbound is missing expected cubemap: {name}')
+            native = NativeShaderImporter(donor, self.importer, self.resolved,
+                {'maps\\shared.map': self.disc_maps / 'shared.map'})
+            return native.import_tag(matches[0])[1]
+        finally:
+            donor.close()
+
     def __call__(self, group, template_name):
         if (group, template_name) not in {
                 ('cntl', r'shaders\contrail_templates\_0_3_0_0'),
