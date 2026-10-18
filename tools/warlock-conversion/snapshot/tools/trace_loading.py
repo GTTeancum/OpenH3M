@@ -3,6 +3,8 @@
 Software breakpoints execute the original instruction using single-step, and are
 restored on detach. No executable files, guest checks, or return values are changed.
 """
+import argparse
+import hashlib
 import ctypes as C
 import csv
 from ctypes import wintypes as W
@@ -15,9 +17,22 @@ import sys
 import time
 import pefile
 
-ROOT = Path(__file__).resolve().parents[2]
-RUN = ROOT / '.local/load-check'
-EXE = Path('D:/Programming/GitHub/H3M/OpenH3M.exe')
+from build_scenario_checkpoint import output_path
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--project', type=Path, required=True)
+parser.add_argument('--exe', type=Path, required=True)
+parser.add_argument('--game', type=Path)
+parser.add_argument('--capture', action='store_true')
+options = parser.parse_args()
+ROOT = options.project.resolve(strict=True)
+RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
+GAME = output_path(options.game or ROOT / '.local/warlock-play', ROOT)
+EXE = options.exe.resolve(strict=True)
+if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
+    raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
+if not (GAME / 'maps/lockout.map').is_file():
+    raise SystemExit('Missing staged Warlock map')
 listing = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq OpenH3M.exe', '/FO', 'CSV', '/NH'],
                          capture_output=True, text=True, check=True)
 if any(row and row[0].casefold() == 'openh3m.exe' for row in csv.reader(listing.stdout.splitlines())):
@@ -25,7 +40,7 @@ if any(row and row[0].casefold() == 'openh3m.exe' for row in csv.reader(listing.
 FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
          0x821B1140: 'header_read_wrapper', 0x82204360: 'load_204360',
          0x82204DA8: 'load_204da8', 0x82205AC0: 'load_205ac0',
-         0x82151DC8: 'hash_verify'}
+         0x82151DC8: 'hash_verify', 0x82241478: 'decal_sprite'}
 kernel = C.WinDLL('kernel32', use_last_error=True)
 
 
@@ -60,13 +75,13 @@ for name in ('temp', 'profile'):
 env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
-args = [str(EXE), f'--game_data_root={ROOT / ".local/test-game"}',
+args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
-        '--input_script=45000:A+250,70000:A+250,95000:A+250', '--input_script_button_state=true',
+        '--input_script=45000:DOWN+220,46000:A+250,55000:UP+220,56000:A+250,58000:UP+120,59000:UP+120,60000:UP+120,61000:UP+120,62000:UP+120,63000:UP+120,64000:UP+120,65000:UP+120,66000:UP+120,67000:UP+120,68000:UP+120,70000:A+250,72000:A+250,74000:DOWN+220,95000:A+250', '--input_script_button_state=true',
         '--input_script_keystrokes=false']
-capture = '--capture' in sys.argv[1:]
-duration = 135 if capture else 150
+capture = options.capture
+duration = 135
 if capture:
     args += ['--halo3mp_capture_guest_output_after_ms=120000',
              f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
@@ -90,7 +105,7 @@ def log(event, **values):
         print(json.dumps(record), flush=True)
 
 
-proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
 ph = open_process(0x1F0FFF, False, proc.pid)
 check(ph)
 breakpoints, entries, pending, stepping = {}, {}, {}, {}
@@ -184,6 +199,23 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name == 'decal_sprite':
+                            try:
+                                def gu(at): return struct.unpack('>I', read(rdx + (at & 0xffffffff), 4))[0]
+                                state = record['argument']
+                                system = gu(state + 4)
+                                handle = gu(state + 8)
+                                r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
+                                table = gu(gu(gu(r13) + 0x1b4) + 0x44)
+                                datum = gu(table + (handle & 65535) * 80 + 4)
+                                root = gu(gu(0x827f0f8c) + (datum & 65535) * 8 + 4)
+                                row = gu(root + 24) + system * 116
+                                post = gu(row + 52)
+                                extra.update(system=system, handle=hex(handle), datum=hex(datum),
+                                             root=hex(root), row=hex(row), post=hex(post),
+                                             system_count=gu(root + 20), flags=hex(gu(row + 4)))
+                            except OSError as error:
+                                extra['read_error'] = str(error)
                         if name.startswith('header_') and name != 'header_read_wrapper':
                             try:
                                 h = read(rdx + record['argument'], 0x3000)
