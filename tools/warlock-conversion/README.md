@@ -7,11 +7,11 @@ No game assets, maps, screenshots, runtime binaries, or generated logs are inclu
 
 ## Integrated scenario checkpoint
 
-`snapshot/tools/build_scenario_checkpoint.py` combines BSP shader/foliage material,
+`snapshot/tools/build_scenario_checkpoint.py` combines all BSP material slots,
 object, sound, spawn, sky/environment and decal importers into a separate map file. This
 command still requires the accepted geometry checkpoint (SHA256 below); it is
-not the final seed-independent converter and does not finish remaining BSP
-materials/reflections. Run with `python -B` from this checkout:
+not the final seed-independent converter. Material/reflection approximations are
+listed in its report. Run with `python -B` from this checkout:
 
 ```powershell
 python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
@@ -572,3 +572,20 @@ Water topology reconstruction (supersedes the format-27 direct-copy note above):
   Private report: `.local/reports/water-reconstruction.json`. No map was replaced.
 - Remaining integration: water shaders, then complete source-to-retail BSP/collision
   metadata assembly and the final seed-independent command/deployment handoff.
+
+Water shader integration checkpoint:
+- `water_materials.py` binds both source water materials to the closest native
+  Zanzibar/Docks variants. All 127 BSP slots now have an explicit conversion;
+  the command no longer retains old material references for unsupported groups.
+- Original-disc wave displacement/slope arrays retain all native mips. Source
+  2D foam/color/shape textures and matching named constants transfer. Reflection
+  cubemaps use the donor water material's original-disc reflection rather than
+  the unsupported MCC cube texture; each substitution is reported by name.
+- POC differences: all water animation overlays use static authored values;
+  pure-water depth bank fade becomes uniform opacity. Its extra painted foam is
+  disabled with a black shape texture; the stream's extra automatic foam uses a
+  high threshold. Source transforms/queryable indices are remapped by parameter
+  name. Unknown variants, animation types and sampler modes reject.
+- Foam/bank semantics were checked against [HaloShaderGenerator water shading](https://github.com/Beatthezombie/HaloShaderGenerator/blob/master/halo_online_shaders/water_shading.fx).
+  This remains a conversion checkpoint, not proof of native water appearance or
+  motion fidelity. Seed-independent BSP/collision assembly is still unfinished.

@@ -22,6 +22,7 @@ from scenario_environment import stage_environment
 from scenario_decals import stage_decals
 from bsp_materials import stage_bsp_materials
 from terrain_materials import DiscMaterialImporter
+from water_materials import WaterImporter
 from xexlib import Xex
 
 ACCEPTED_SHA256 = '499f0516e016524f7f8a98ca580e4acb66c2b5d58403a5c755e4ed8f23de4279'
@@ -79,7 +80,7 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     state = {'status': 'building', 'basis_sha256': ACCEPTED_SHA256,
              'limitations': ['Accepted geometry checkpoint still required; seed-independent pipeline unfinished.',
-                            'Remaining map-material/reflection work is not completed by this command.',
+                            'Material POC approximations include native reflection substitutes and frozen shader animation; see materials report.',
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
     temporary = None
@@ -93,7 +94,8 @@ def main():
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work))
         terrain = DiscMaterialImporter(importer, args.disc_maps or project / 'maps')
-        stages = [('bsp_materials', lambda: stage_bsp_materials(importer, terrain)),
+        water = WaterImporter(importer, args.disc_maps or project / 'maps')
+        stages = [('bsp_materials', lambda: stage_bsp_materials(importer, terrain, water)),
                   ('objects', lambda: stage_primary_objects(importer, True, True)),
                   ('spawn', lambda: stage_spawn_settings(importer)),
                   ('environment', lambda: stage_environment(importer)),

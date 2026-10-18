@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from assemble_scenario import field
 
 
-def stage_bsp_materials(importer, terrain=None):
+def stage_bsp_materials(importer, terrain=None, water=None):
     s, c, b = importer.source, importer.registry.cache, importer.builder
     def active_bsps(cache, folder):
         schema = ET.parse(importer.reference / folder / 'scnr.xml').getroot()
@@ -38,7 +38,8 @@ def stage_bsp_materials(importer, terrain=None):
         if tag is None or tag['salt'] != datum >> 16:
             raise ValueError(f'Invalid source material reference at slot {slot}')
         entry = {'slot': slot, 'source': s.name(datum & 65535), 'group': tag['group']}
-        if tag['group'] not in ('rmsh', 'rmfl') and not (tag['group'] in ('rmtr', 'rmhg') and terrain is not None):
+        specialized = terrain if tag['group'] in ('rmtr', 'rmhg') else water if tag['group'] == 'rmw ' else None
+        if tag['group'] not in ('rmsh', 'rmfl') and specialized is None:
             # Explicitly retain accepted approximations until specialized
             # terrain, hologram and water importers are integrated.
             existing = c.u(target_row + 12)
@@ -49,7 +50,7 @@ def stage_bsp_materials(importer, terrain=None):
                          retained_group=old['group'], retained_datum=hex(existing))
             report['retained_checkpoint'].append(entry)
             continue
-        group, target = terrain.shader(datum) if tag['group'] in ('rmtr', 'rmhg') else importer.materials.shader(datum)
+        group, target = specialized.shader(datum) if specialized is not None else importer.materials.shader(datum)
         updates.append((target_row - c.start + c.base,
                         group.encode('ascii') + bytes(8) + struct.pack('>I', target)))
         entry['target_datum'] = hex(target)
