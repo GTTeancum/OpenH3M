@@ -591,6 +591,17 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+`scenario_runtime.py` now replaces source PVS, zone audibility, zone sets,
+scripting point data and AI hints, and clears stock scripts/globals/references,
+machines, soft ceilings and trigger arrays only after proving those source
+blocks empty. All 512 source expression slots have zero salt plus unused heap
+fill; the converter rejects populated slots and removes this inactive capacity
+and unreferenced string allocation. MCC's absent zone lighting override
+(`FFFF/0000`) is validated before removing its extra fields. The stock-basis
+stage passed in memory, allocating 7,996 metadata bytes. The CLI runs it before
+geometry assembly. Forge palettes and remaining scenario initialization still
+need completion before lifting the CLI's accepted-basis restriction.
+
 Seed-prototype removal: bitmap roots are now constructed explicitly with
 resource-backed/sampleable flags (`0x50`) and empty editor/runtime fields.
 Opaque/alpha material prototypes resolve original-disc tag names instead of
