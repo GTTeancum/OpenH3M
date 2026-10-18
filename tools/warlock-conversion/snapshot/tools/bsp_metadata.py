@@ -7,6 +7,53 @@ import xml.etree.ElementTree as ET
 from collision_physics import convert_collision_block
 
 
+def convert_bsp_root(converter, at, schema, target, path):
+    from resource_reader import Resource
+    source = converter.source
+    if source.u(at + 0xc) & ~1 or source.u(at + 0x398):
+        raise ValueError('Unsupported MCC BSP root flags/padding')
+    schema = copy.deepcopy(schema)
+    schema.set('name', 'Normalized BSP Root')
+    for node in list(schema):
+        offset = int(node.get('offset', '-1'), 0)
+        if node.get('name') == 'Unknown Raw Leaves':
+            node.set('name', 'Leaves')
+        if offset == 0x38c:
+            node.set('name', '[zone] Tag Resources Asset Datum')
+        if offset in (0xc, 0x394, 0x398):
+            schema.remove(node)
+    out = bytearray(converter.convert(at, schema, target, path))
+    resource = Resource(source, source.u(at + 0x394))
+    if len(resource.data) != 48 or resource.root != 0 or resource.unpack('I', 36)[0]:
+        raise ValueError('Unsupported BSP cache-file resource/pathfinding data')
+    consumed = set()
+    for src, dst, source_fmt, target_fmt in ((0, 0x54, 'ii', 'Hh'),
+                                            (12, 0x60, '2H', '2H'),
+                                            (24, 0x18, '2H', '2H')):
+        # Both locations must not contain competing authored arrays.
+        if struct.unpack_from('>I', out, dst)[0]:
+            raise ValueError('BSP array exists in both metadata and resource')
+        count = resource.unpack('I', src)[0]
+        if not count:
+            continue
+        pointer = resource.fix[src + 4]
+        consumed.add(src + 4)
+        segment, offset = (pointer >> 29) - 2, pointer & 0x1fffffff
+        size = count * struct.calcsize('<' + source_fmt)
+        if segment not in (0, 1) or segment >= len(resource.raw) or offset + size > len(resource.raw[segment]):
+            raise ValueError('BSP cache-file array outside resource')
+        data = resource.raw[segment][offset:offset + size]
+        try:
+            payload = b''.join(struct.pack('>' + target_fmt, *v)
+                               for v in struct.iter_unpack('<' + source_fmt, data))
+        except struct.error as exc:
+            raise ValueError('BSP surface mapping exceeds retail limits') from exc
+        struct.pack_into('>III', out, dst, count, converter.builder.alloc(payload), 0)
+    if consumed != set(resource.fix):
+        raise ValueError('Unconsumed BSP cache-file resource fixups')
+    return bytes(out)
+
+
 def decorator_group(converter, at, schema, target, path):
     from resource_reader import Resource
     source = converter.source
@@ -54,9 +101,22 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
     if not path.startswith('sbsp:'):
         return None
     name = source_schema.get('name')
+    if source_schema.get('baseSize') and name != 'Normalized BSP Root':
+        return convert_bsp_root(converter, at, source_schema, target_schema, path)
+    if name == 'Instanced Geometry Instances':
+        # Preserve bit 5 exactly as in the accepted retail map. The bundled
+        # original plugin omits its label; do not shift it to another bit.
+        target = copy.deepcopy(target_schema)
+        flags = next(f for f in target if f.get('name') == 'Flags')
+        ET.SubElement(flags, 'bit', name='Not For Render', index='5')
+        schema = copy.deepcopy(source_schema)
+        schema.set('name', 'Instance fields')
+        return converter.convert(at, schema, target, path)
+    if name == 'BSP Physics':
+        return convert_collision_block(converter, at, source_schema, target_schema, 'coll:' + path)
     if name == 'Decorator Groups':
         return decorator_group(converter, at, source_schema, target_schema, path)
-    if name == 'Collision MOPP Codes':
+    if name in ('Collision MOPP Codes', 'MOPP Codes'):
         schema = copy.deepcopy(source_schema)
         schema.set('name', 'MOPP Codes')
         return convert_collision_block(converter, at, schema, target_schema, 'coll:' + path)

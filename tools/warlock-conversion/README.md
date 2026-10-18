@@ -591,6 +591,18 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Root metadata checkpoint: `bsp_metadata.py` now normalizes the MCC root field
+names and separate serialization flag, converts instance physics and root MOPP
+blocks, and moves cache-file resource arrays into retail metadata. It rejects
+populated resource pathfinding, duplicate metadata/resource arrays, out-of-range
+surface indices and unconsumed fixups. Instance bit 5 is retained at the same
+position as the accepted map (the original XML lacks its label).
+Full metadata traversal produces the 904-byte retail root. Focused comparison
+matched all 39,757 edge/seam pairs, 22,368 surface mappings, 37,930 triangle
+mappings, 1,178 instance flags and 494 instance physics shapes to the accepted
+map. This traversal used placeholder tag/resource callbacks and is NOT a
+deployable map: real dependency binding/resource registration remains next.
+
 Decorator dependencies: `TagImporter` now supports the inherited Assembly H3
 `dctr` schema, format-24 decorator meshes (20-byte MCC to 16-byte retail), and
 BC2/DXT3 textures. The native BC2 resource value `0x1a200153` was checked in
