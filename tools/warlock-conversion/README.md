@@ -591,6 +591,15 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+`bsp_metadata.py` adds an explicit 0x118-to-0xDC cluster layout adapter,
+including runtime-pointer checks, owner relocation and collision MOPP conversion.
+It is invoked by `MetadataConverter` for BSP metadata. Focused conversion passed
+for 21 Warlock clusters and their physics fields matched the accepted map.
+The other 33 clusters reject populated MCC decorator model-start lists: these
+need a dedicated conversion. Source has 400 decorator groups; the accepted map
+has zero. Full BSP conversion is therefore still incomplete, and this checkpoint
+does not silently discard the source decorators.
+
 `snapshot/tools/bsp_collision_resource.py` now converts the MCC structure BSP
 collision resource directly. It relocates control/raw blocks, converts collision
 arrays and instance headers, narrows surface-map indices with overflow checks,

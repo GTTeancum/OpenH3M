@@ -30,6 +30,10 @@ class MetadataConverter:
             if result is not None:
                 return result
         from collision_physics import convert_collision_block
+        from bsp_metadata import convert_bsp_block
+        specialized = convert_bsp_block(self, offset, source_schema, target_schema, path)
+        if specialized is not None:
+            return specialized
         specialized = convert_collision_block(self, offset, source_schema, target_schema, path)
         if specialized is not None:
             return specialized
