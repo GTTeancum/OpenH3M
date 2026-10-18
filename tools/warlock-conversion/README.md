@@ -591,6 +591,18 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+`lightmap_importer.py` now creates retail `sLdT` metadata from MCC's separate
+lighting tag and binds a supplied geometry resource. It imports all 19 root
+airprobes and 127 scenery probes, preserving object unique IDs; validates cached
+per-BSP probe subsets (including the MCC all-BSP airprobe-mask sentinel); and
+converts packed mesh MOPPs. `encode_lightmap_array` converts the two single-mip
+BC3 arrays at their authored 1024x1024 size, with eight and two slices. Both
+bitmap records, resource controls and all 10,485,760 tiled pixel bytes matched
+the accepted arrays exactly. In-memory lightmap assembly/finalization passed
+using the accepted geometry resource as its supplied binding. The arrays were
+regenerated from MCC, not reused from the seed. Final scenario activation and
+removal of bitmap-root/prototype seed assumptions remain outstanding.
+
 Lightmap investigation: retail embeds each 0x1B4 BSP-lighting record in `sLdT`,
 whereas MCC uses separate `Lbsp` tags. The main render resource is shared with
 the BSP. The MCC per-BSP scenery probes are a subset of the root scenery probes;

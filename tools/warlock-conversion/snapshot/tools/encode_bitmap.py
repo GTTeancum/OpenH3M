@@ -4,6 +4,26 @@ from xbox_bitmap import tile_base
 
 SUPPORTED_FORMATS=(0,1,10,11,14,15,16,33)
 
+def encode_lightmap_array(source, tag):
+ """Encode single-mip BC3 lightmap arrays at authored resolution."""
+ infos=source.info(tag)
+ if len(infos)!=1:raise ValueError('Expected one lightmap array bitmap')
+ info=infos[0];c=source.c;row=c.block(c.tags[tag]['offset']+0x60,0x38)[0]
+ depth=c.data[row+8];kind=c.unpack('H',row+10)[0]
+ w,h,fmt=info['width'],info['height'],info['format']
+ if kind!=3 or fmt!=16 or info['mips']!=1 or not depth or not w or not h:
+  raise ValueError('Lightmap array requires single-mip BC3 array data')
+ pixels=source.pixels(tag);slice_size=mip_size(w,h,fmt)
+ if len(pixels)!=slice_size*depth:raise ValueError('Lightmap array payload size mismatch')
+ tiled=b''.join(tile_base(pixels[i*slice_size:(i+1)*slice_size],w,h,fmt) for i in range(depth))
+ record=bytearray(48);record[:4]=b'bitm'
+ struct.pack_into('>HHBBHHH',record,4,w,h,depth,0x0e,3,fmt,3)
+ record[0x15]=c.data[row+0x15]
+ struct.pack_into('>I',record,0x1c,len(tiled));struct.pack_into('>I',record,0x28,0xffffffff)
+ control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
+ struct.pack_into('>HHBBBBI',control,0x28,w,h,depth,1,3,0,0x1a200154)
+ return bytes(record),bytes(control),tiled
+
 def mip_size(width,height,fmt):
  if fmt in (0,1):return width*height
  if fmt in (10,11):return width*height*4
