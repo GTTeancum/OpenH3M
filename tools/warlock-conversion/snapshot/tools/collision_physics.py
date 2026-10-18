@@ -6,6 +6,32 @@ large-BSP pointer missing from the older Assembly collision XML description.
 import struct
 
 
+def convert_packed_mopp(payload):
+    """Convert aligned 48-byte MCC MOPP headers used by lightmap mesh data."""
+    result = bytearray()
+    offset = 0
+    while offset < len(payload):
+        if offset + 48 > len(payload):
+            raise ValueError('Truncated packed MOPP header')
+        if any(struct.unpack_from('<Q', payload, offset + p)[0] for p in (0, 32)):
+            raise ValueError('Packed MOPP contains runtime pointers')
+        size, capacity = struct.unpack_from('<II', payload, offset + 40)
+        end = offset + 48 + size
+        aligned = (end + 15) & ~15
+        if end > len(payload) or aligned > len(payload) or (capacity & 0x7fffffff) < size:
+            raise ValueError('Packed MOPP code exceeds allocation')
+        header = bytearray(48)
+        struct.pack_into('>HH', header, 4, *struct.unpack_from('<HH', payload, offset + 8))
+        struct.pack_into('>4I', header, 16, *struct.unpack_from('<4I', payload, offset + 16))
+        struct.pack_into('>II', header, 36, size, capacity)
+        result.extend(header)
+        result.extend(retail_mopp(payload[offset + 48:end]))
+        # MCC allocator padding can contain stale bytes, never serialized state.
+        result.extend(bytes(aligned - end))
+        offset = aligned
+    return bytes(result)
+
+
 def retail_mopp(code):
     out = bytearray(code)
     at = 0

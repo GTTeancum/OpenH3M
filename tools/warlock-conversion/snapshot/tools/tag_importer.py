@@ -109,6 +109,13 @@ class TagImporter:
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
 
         def data(path, cache, at):
+            if group == 'mode' and '/Per Mesh MOPP[' in path and path.endswith('/MOPP Code'):
+                from collision_physics import convert_packed_mopp
+                size = cache.u(at)
+                pointer = cache.pointer(cache.u(at + 12))
+                if pointer + size > len(cache.data):
+                    raise ValueError('Packed mesh MOPP extends outside source cache')
+                return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
             if (('/Functions[' in path and path.endswith('/Default Function'))
                     or (group in ('ligh', 'jpt!', 'prt3', 'effe') and path.endswith('Function'))):
                 size = cache.u(at)

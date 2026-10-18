@@ -591,6 +591,17 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Lightmap investigation: retail embeds each 0x1B4 BSP-lighting record in `sLdT`,
+whereas MCC uses separate `Lbsp` tags. The main render resource is shared with
+the BSP. The MCC per-BSP scenery probes are a subset of the root scenery probes;
+its airprobe rows differ in the manual BSP mask and need explicit reconciliation.
+`collision_physics.convert_packed_mopp` now converts the aligned 48-byte headers
+and bytecode in per-mesh lightmap MOPP data. All 503 mesh records (733,168 bytes)
+matched the accepted map byte-for-byte after conversion. It clears stale source
+allocation padding and rejects truncated data or resident runtime pointers.
+The model importer also uses this handler for populated per-mesh MOPP data.
+Lightmap root assembly and array-texture conversion remain unfinished.
+
 `bsp_importer.py` now assembles a new BSP with real dependency imports and
 three registered resources: decorator instances (83,760 raw bytes), source
 render geometry including water (51,810,478), and collision (8,737,928).
