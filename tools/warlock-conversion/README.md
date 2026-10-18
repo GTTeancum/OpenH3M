@@ -591,6 +591,18 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Forge palette assembly is implemented in `scenario_forge.py` for all seven
+categories, preserving object references, display names, limits and prices.
+It translates 28-byte MCC entries into 48-byte retail entries with the trailing
+five words zeroed, matching every original Lockout palette. Publication is
+transactional: all dependencies must import before any palette is staged.
+It is NOT yet enabled in the CLI: the first unsupported dependency is the
+missile pod's MCC-only weapon fields. Other source-only weapon entries include
+the silenced SMG and red plasma rifle. Source palette counts are 1 vehicle,
+28 weapons, 17 equipment, 85 scenery, 3 teleporters, 9 goals and 19 spawners.
+Dependency support remains required; this checkpoint does not remove entries
+or claim a successful Forge build.
+
 `scenario_runtime.py` now replaces source PVS, zone audibility, zone sets,
 scripting point data and AI hints, and clears stock scripts/globals/references,
 machines, soft ceilings and trigger arrays only after proving those source
