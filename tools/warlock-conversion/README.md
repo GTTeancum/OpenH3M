@@ -224,3 +224,20 @@ Retail model variant/state padding is initialized for the explicitly supported
 stateless variants. All three tarp props now complete in-memory graph import:
 12 object/model/collision tags plus material/bitmap dependencies, covering seven
 previously missing scenery placements. Native behavior remains unverified.
+
+Physics dependency checkpoint:
+- Added guarded MCC-to-retail rigid body, polyhedron, list, child-shape and
+  phantom conversion. Runtime pointers must be null; polyhedron self offsets
+  are rebased to the retail stride and the root 64-bit-layout flag is cleared.
+- Compared 13 stock receiver/jump-pad records against original salvation.map:
+  12 were byte-identical after string ID translation. The list differs only in
+  a source radius rounding bit after normalizing its homogeneous center w to
+  retail zero. No map output was written during this check.
+- The complete Warlock jump-pad dependency graph now imports in memory. The
+  receiver passes physics and scalar identity-function conversion, then stops
+  at its effect dependency. Other function curve formats remain explicit errors.
+- Added Assembly phmo schemas and retail effe schema, plus TagTool TagFunction
+  format reference (same upstream repositories/licenses listed above).
+- These changes are not deployed to the user-tested candidate. Effects,
+  Automag, remaining scenario/environment content and pipeline integration are
+  still outstanding; this is not a code-complete claim.

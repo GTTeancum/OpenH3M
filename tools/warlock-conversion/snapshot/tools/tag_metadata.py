@@ -27,6 +27,10 @@ class MetadataConverter:
         specialized = convert_collision_block(self, offset, source_schema, target_schema, path)
         if specialized is not None:
             return specialized
+        from model_physics import convert_model_physics
+        specialized = convert_model_physics(self, offset, source_schema, target_schema, path)
+        if specialized is not None:
+            return specialized
         if depth > 32:
             raise ValueError(f'{path}: metadata nesting exceeds limit')
         source_fields, target_fields = fields(source_schema), fields(target_schema)
@@ -124,6 +128,10 @@ class MetadataConverter:
                         raise ValueError(f'{name}: resource datum needs conversion')
                     values = (self.resource_reference(name, values[0]),)
                 elif kind.startswith('flags'):
+                    if path.startswith('phmo:') and source_schema.get('baseSize') and key[0] == 'Flags':
+                        # This describes the serialized pointer width. Nested
+                        # shapes must independently pass their layout handlers.
+                        values = (values[0] & ~4,)
                     values = (translate_flags(values[0], src, dst),)
                 elif kind.startswith('enum'):
                     values = (translate_enum(values[0], src, dst),)
