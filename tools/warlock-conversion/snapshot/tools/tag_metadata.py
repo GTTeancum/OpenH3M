@@ -46,6 +46,12 @@ class MetadataConverter:
             if key in target_fields:
                 continue
             at = offset + int(src.get('offset'), 0)
+            if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Editor Folder Index'
+                    and self.source.unpack('h', at)[0] == -1):
+                continue
+            if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Unknown'
+                    and self.source.unpack('h', at)[0] == 0):
+                continue
             if path == r'weap:objects\weapons\pistol\automag\automag':
                 if key[0] in ('Private Use Font Icon', 'Private Use Font Icon (Dual)'):
                     # MCC Unicode pickup icons have no retail field. Retail
@@ -116,7 +122,12 @@ class MetadataConverter:
             if src.tag.lower() != kind and not compatible_flags:
                 raise ValueError(f'{name}: source/retail field types differ')
             read = offset + int(src.get('offset'), 0)
-            if kind == 'tagblock':
+            if kind == 'ascii':
+                width = int(dst.get('size'), 0)
+                if src.get('size') != dst.get('size'):
+                    raise ValueError(f'{name}: string field size differs')
+                out[at:at + width] = self.source.data[read:read + width]
+            elif kind == 'tagblock':
                 stride = int(src.get('elementSize'), 0)
                 rows = self.source.block(read, stride)
                 if len(rows) > 1000000:

@@ -107,6 +107,7 @@ class CacheRegistry:
         if not 0 <= bsp_index < len(manifests):
             raise ValueError('Selected BSP has no static residency manifest')
         b = self.builder
+        self.stage_simulation_definitions()
         for at, stride, payload in ((self.zone + 0x58, 64, self.resources),
                                    (self.play + 0x18, 88, self.pages),
                                    (self.play + 0x30, 16, self.locations)):
@@ -130,3 +131,22 @@ class CacheRegistry:
             b.put(self.address(manifest + field), 'III', len(bits) // 4, b.alloc(bits), 0)
         b.put(self.address(manifest + 0x30), 'I', self.cache.u(manifest + 0x30) + self.added_bytes)
         self.closed = True
+
+    def stage_simulation_definitions(self):
+        """Keep existing network-definition indices and append new definitions."""
+        schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/plugins/scnr.xml').getroot()
+        field = next(x for x in schema if x.get('name') == 'Simulation Definition Table')
+        scenario = next(t['offset'] for t in self.cache.tags.values() if t['group'] == 'scnr')
+        at = scenario + int(field.get('offset'), 0)
+        payload = self.table(at, 4)
+        groups = {'bipd', 'vehi', 'weap', 'eqip', 'garb', 'proj', 'scen', 'mach',
+                  'ctrl', 'lifi', 'ssce', 'bloc', 'crea', 'term', 'efsc', 'effe', 'jpt!'}
+        self.simulation_added = []
+        for index in range(self.first_tag, len(self.tags) // 8):
+            group, salt = struct.unpack_from('>HH', self.tags, index * 8)
+            if self.cache.groups[group] in groups:
+                datum = (salt << 16) | index
+                payload.extend(struct.pack('>I', datum))
+                self.simulation_added.append(datum)
+        if self.simulation_added:
+            self.builder.put(self.address(at), 'III', len(payload) // 4, self.builder.alloc(payload), 0)

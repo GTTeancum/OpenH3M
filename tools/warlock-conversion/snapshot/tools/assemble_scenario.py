@@ -125,3 +125,36 @@ def stage_primary_objects(importer):
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved']}
+
+
+def stage_spawn_settings(importer):
+    """Transfer starting loadout, fallback starts and authored spawn influences."""
+    import xml.etree.ElementTree as ET
+    from tag_metadata import MetadataConverter
+    source = importer.source
+    ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
+    root = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+    converter = MetadataConverter(source, importer.builder, importer.source_strings,
+                                  importer.target_strings, importer.import_tag)
+    arrays = {}
+    names = ('Player Starting Profile', 'Player Starting Locations', 'Enemy Forbid Influence',
+             'Enemy Bias Influence', 'Ally Bias Influence', 'Selected Ally Bias Influence',
+             'Dead Teammate Influence', 'Spawn Data')
+    for name in names:
+        sf, df = field(ss, name), field(ds, name)
+        stride = int(sf.get('elementSize'), 0)
+        rows = source.block(root + int(sf.get('offset'), 0), stride)
+        payload = bytearray()
+        for index, row in enumerate(rows):
+            if name == 'Spawn Data':
+                # Warlock's single empty record has no overrides or zones.
+                # Retail's additional reserved words likewise initialize zero.
+                if any(source.data[row:row + stride]):
+                    raise ValueError('Nonempty Spawn Data needs a dedicated mapping')
+                payload.extend(bytes(int(df.get('elementSize'), 0)))
+            else:
+                payload.extend(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
+        arrays[name] = len(rows), bytes(payload)
+    stage(importer.builder, {'arrays': arrays, 'unresolved': []}, ds)
+    return {name: count for name, (count, _) in arrays.items()}

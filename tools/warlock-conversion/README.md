@@ -326,3 +326,20 @@ Primary object assembly checkpoint:
 - This remains an in-memory checkpoint. No candidate map was replaced or run.
   Simulation registration, other scenario/environment blocks, remaining material
   work and the reproducible source-to-retail entry point remain outstanding.
+
+Spawn and simulation checkpoint:
+- Registry finalization preserves the retail Simulation Definition Table and
+  appends new gameplay/effect definition tags in allocation order. Existing
+  network-definition indices stay unchanged; this does not prove system-link.
+- stage_spawn_settings imports the authored starting profile, fallback starting
+  location and five spawn-influence records. Warlock's empty Spawn Data record
+  becomes the corresponding zeroed retail record; nonempty overrides still reject.
+  MCC editor-folder padding is omitted only for the observed neutral values.
+- Combined object/spawn finalization preserves all 1192 existing simulation
+  definitions and appends 11 valid new datums (1203 total). Verified the unchanged
+  prefix, appended uniqueness and tag salts in memory. Private report:
+  .local/reports/spawn-and-simulation.json. No map deployment or runtime claim.
+- Next populated placement groups: 66 Sound Scenery and 6 Effect Scenery, each
+  with six palette dependencies absent from Blackout. Effect placement record
+  layouts already convert; sound placement records need rangef scalar support.
+  Ambient sound/effect graphs, decals, atmosphere and other environment work remain.
