@@ -241,3 +241,27 @@ Physics dependency checkpoint:
 - These changes are not deployed to the user-tested candidate. Effects,
   Automag, remaining scenario/environment content and pipeline integration are
   still outstanding; this is not a code-complete claim.
+
+Receiver and Automag animation checkpoint:
+- Both receiver and jump-pad complete dependency graphs import together in a
+  scratch builder. Shared effe/jmad/ligh/jpt! layouts follow Assembly's explicit
+  Halo3MCC -> Halo3 plugin fallback; only verified absent overrides use it.
+- Added animation resource conversion for codecs 1, 3, 4, 6 and 8, retaining
+  compressed samples/keyframes and converting header, sample and flag endianness.
+  All 31 Automag world/first-person animation members convert (2 world, 15 human,
+  14 elite). Other codecs and movement payloads reject explicitly.
+- Added HUD flag-width translation, alpha color fields, weapon range fields,
+  and simple constant/identity/transition functions used by lights/vibration.
+- Automag metadata uses retail Magnum pickup-message index/sort order and damage
+  reporting category. MCC's optional centered-crosshair offset is omitted in
+  favor of the ordinary weapon offset. These are explicit compatibility notes,
+  not claims of identical UI. Retail-only collision sound/aged weapon are null.
+- The Automag graph now reaches its custom silenced gunshot. New sound tags
+  deliberately reject pending audio conversion and ugh! table rebasing; copying
+  their MCC indices would be invalid. Existing same-name retail sounds still reuse
+  the retail tag. No partial Automag map can be finalized after that error.
+- Checks were in memory; the private report is .local/reports/
+  receiver-jump-animation-import.json. No runtime changes, map writes or captures.
+  Gameplay, animation playback and audio remain unverified by this checkpoint.
+- New format sources are Assembly Engines.xml and TagTool animation resource/codec
+  implementations, under their already included upstream licenses.

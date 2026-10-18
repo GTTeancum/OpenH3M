@@ -45,6 +45,8 @@ class TagImporter:
         if key in self.resolved:
             return self.resolved[key]
         group, name = key
+        if group == 'snd!':
+            raise ValueError(f'{group}:{name}: new sound requires audio conversion and ugh! table rebasing')
         if group in ('rmsh', 'rmfl'):
             result = self.materials.shader(datum)
             self.resolved[key] = result
@@ -53,7 +55,12 @@ class TagImporter:
             result = ('bitm', self.materials.bitmap(datum))
             self.resolved[key] = result
             return result
-        ss = ET.parse(self.reference / 'mcc' / f'{group}.xml').getroot()
+        # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
+        # verified absent MCC overrides belong here; a missing local download
+        # must not silently select a different layout.
+        shared_schemas = {'effe', 'jmad', 'ligh', 'jpt!'}
+        source_folder = 'plugins' if group in shared_schemas else 'mcc'
+        ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
         size = int(ds.get('baseSize'), 0)
         owner, address = self.registry.newtag(group, bytes(size))
@@ -61,21 +68,33 @@ class TagImporter:
         self.resolved[key] = (group, owner)
 
         def resource(path, resource_datum):
+            if group == 'jmad' and path.endswith('/[zone] Asset Datum'):
+                from animation_resource import convert_animation_resource
+                payload = convert_animation_resource(Resource(source, resource_datum),
+                    lambda value: self.source_strings.translate(value, self.target_strings))
+                return self.registry.add_resource(owner, 'model_animation_tag_resource', payload)
             if group != 'mode' or not path.endswith('/[zone] Asset Datum'):
                 raise ValueError(f'{path}: resource type requires a dedicated importer')
             payload = convert_render_resource(Resource(source, resource_datum))
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
 
         def data(path, cache, at):
-            if '/Functions[' in path and path.endswith('/Default Function'):
+            if (('/Functions[' in path and path.endswith('/Default Function'))
+                    or (group in ('ligh', 'jpt!') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
                 header = bytes(cache.data[payload:payload + 4])
                 # TagFunction's identity/constant scalar forms have only a
                 # 32-byte header; curves and ranged payloads need more parsing.
-                if (size == 32 and header[0] in (0, 1) and header[2:] == b'\0\0'
+                if (size == 32 and header[0] in (0, 1) and header[2] in (0, 1) and header[3] == 0
                         and not header[1] & 1 and cache.u(payload + 28) == 0):
                     return header + struct.pack('>7I', *cache.unpack('7I', payload + 4))
+                if (size == 44 and header[0] == 2 and header[2:] == b'\0\0'
+                        and not header[1] & 1 and cache.u(payload + 28) == 12):
+                    # Transition: four byte parameters/padding, then two floats.
+                    return (header + struct.pack('>7I', *cache.unpack('7I', payload + 4))
+                            + bytes(cache.data[payload + 32:payload + 36])
+                            + struct.pack('>2I', *cache.unpack('2I', payload + 36)))
             # The observed model PRT-info descriptor is five 32-bit words.
             # Gate the exact header/layout; other user payloads remain unsupported.
             if group == 'mode' and '/User Data[' in path and path.endswith('/User Data'):
@@ -95,7 +114,14 @@ class TagImporter:
             raise ValueError('Converted tag root size mismatch')
         offset = address - self.builder.base
         self.builder.meta[offset:offset + size] = payload
-        self.added.append({'source': name, 'group': group, 'datum': hex(owner)})
+        entry = {'source': name, 'group': group, 'datum': hex(owner)}
+        if group == 'weap' and name == r'objects\weapons\pistol\automag\automag':
+            entry['compatibility_notes'] = [
+                'Retail magnum pickup-message index and sort order replace MCC Unicode icons.',
+                'Retail normal crosshair uses the ordinary weapon offset; MCC centered override is omitted.',
+                'Automag damage statistics use the retail Magnum category.',
+                'Retail-only collision sound and aged-weapon references are null.']
+        self.added.append(entry)
         return group, owner
 
     def finalize(self, bsp_index=0):

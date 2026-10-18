@@ -8,9 +8,9 @@ import struct
 from scenario_placements import FORMATS, fields, translate_flags, translate_enum
 
 
-SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f',
+SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16='2h',
                colorf='3f', vector3='3f', vector4='4f', point2='2f',
-               plane3='4f', plane2='3f', degree2='2f')
+               plane3='4f', plane2='3f', degree2='2f', ranged='2f')
 
 
 class MetadataConverter:
@@ -41,7 +41,22 @@ class MetadataConverter:
             if key in target_fields:
                 continue
             at = offset + int(src.get('offset'), 0)
+            if path == r'weap:objects\weapons\pistol\automag\automag':
+                if key[0] in ('Private Use Font Icon', 'Private Use Font Icon (Dual)'):
+                    # MCC Unicode pickup icons have no retail field. Retail
+                    # uses the magnum message index supplied below instead.
+                    continue
+                if key[0] == 'First Person Weapon Offset Override':
+                    # Only used by MCC's optional centered-crosshair mode.
+                    # Retail uses the ordinary first-person weapon offset.
+                    continue
             if src.tag.lower() == 'tagblock' and self.source.u(at) == 0:
+                continue
+            if path.startswith('chdt:') and src.tag.lower() == 'undefined' and self.source.u(at) == 0:
+                continue
+            if (path.startswith('chdt:') and source_schema.get('name') == 'Text Widgets'
+                    and key[0] == 'Unknown' and src.tag.lower() == 'int16'
+                    and self.source.unpack('h', at)[0] == 0):
                 continue
             if key[0] in ('Instance Flags 3', 'Instance Flags 4') and src.tag.lower() == 'flags32' and self.source.u(at) == 0:
                 # MCC extends instance masks to 128 bits. Retail's 64-bit mask
@@ -54,6 +69,20 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
+                if path == r'weap:objects\weapons\pistol\automag\automag':
+                    defaults = {'OLD Message Index': ('h', 6), 'Sort Order': ('h', 2),
+                                'OLD Multiplayer On-Ground Scale': ('f', 0),
+                                'OLD Campaign On-Ground Scale': ('f', 0)}
+                    if key[0] in defaults:
+                        fmt, value = defaults[key[0]]
+                        struct.pack_into('>' + fmt, out, at, value)
+                        covered.update(range(at, at + struct.calcsize(fmt)))
+                        continue
+                    if key[0] in ('Collision Sound', 'Aged Weapon'):
+                        out[at:at + 4] = b'\xff' * 4
+                        struct.pack_into('>I', out, at + 12, 0xffffffff)
+                        covered.update(range(at, at + 16))
+                        continue
                 if (path.startswith('hlmt:') and source_schema.get('name') == 'Variants'
                         and int(source_schema.get('elementSize'), 0) == 48 and size == 56
                         and kind == 'undefined' and at in (48, 52)):
@@ -78,7 +107,8 @@ class MetadataConverter:
                     covered.update(range(at, at + 12))
                     continue
                 raise ValueError(f'{name}: retail-only field needs a default')
-            if src.tag.lower() != kind:
+            compatible_flags = src.tag.lower().startswith('flags') and kind.startswith('flags')
+            if src.tag.lower() != kind and not compatible_flags:
                 raise ValueError(f'{name}: source/retail field types differ')
             read = offset + int(src.get('offset'), 0)
             if kind == 'tagblock':
@@ -118,9 +148,13 @@ class MetadataConverter:
                 width = 4
             else:
                 fmt = SCALARS.get(kind)
+                if kind == 'colorf' and dst.get('alpha') == 'true':
+                    if src.get('alpha') != 'true':
+                        raise ValueError(f'{name}: color alpha layout differs')
+                    fmt = '4f'
                 if fmt is None:
                     raise ValueError(f'{name}: unsupported field type {kind}')
-                values = self.source.unpack(fmt, read)
+                values = self.source.unpack(SCALARS[src.tag.lower()] if compatible_flags else fmt, read)
                 if kind == 'stringid':
                     values = (self.strings.translate(values[0], self.target_strings),)
                 elif kind == 'datum' and values[0] != 0xffffffff:
@@ -134,7 +168,12 @@ class MetadataConverter:
                         values = (values[0] & ~4,)
                     values = (translate_flags(values[0], src, dst),)
                 elif kind.startswith('enum'):
-                    values = (translate_enum(values[0], src, dst),)
+                    if ('automag' in path and key[0] in ('Damage Effect Reporting Type', 'Damage Reporting Type')
+                            and any(x.get('name') == 'Automag' and int(x.get('value'), 0) == values[0] for x in src)):
+                        # Retail has no ODST Automag statistics category.
+                        values = (int(next(x for x in dst if x.get('name') == 'Magnum').get('value'), 0),)
+                    else:
+                        values = (translate_enum(values[0], src, dst),)
                 struct.pack_into('>' + fmt, out, at, *values)
                 width = struct.calcsize('>' + fmt)
             if at + width > size or covered.intersection(range(at, at + width)):
