@@ -343,3 +343,22 @@ Spawn and simulation checkpoint:
   with six palette dependencies absent from Blackout. Effect placement record
   layouts already convert; sound placement records need rangef scalar support.
   Ambient sound/effect graphs, decals, atmosphere and other environment work remain.
+
+Ambient sound placement checkpoint:
+- Added ssce/efsc schemas and the verified shared Halo3 lsnd layout. The six
+  source sound-scenery graphs import successfully with their looping/detail
+  sound dependencies and source placement distance/cone overrides.
+- stage_primary_objects now accepts include_sound_scenery and
+  include_effect_scenery switches. Placement planning and object-name mapping
+  use the selected groups; failures include the first unresolved records.
+- Combined in-memory finalization includes all 184 primary placements plus
+  66 Sound Scenery placements (six palette entries), spawn settings and network
+  definitions. Eleven new sound tags contain 54 decoded permutations in total.
+  Private evidence: .local/reports/ambient-sound-assembly.json. Not deployed;
+  looping behavior, spatial audio and playback remain user/runtime validation.
+- Six effect-scenery dependencies were probed. Remaining failures include a
+  missing exact native particle template and water-ripple render-method handling.
+  Added documented particle animation flags (Disable Frame Blending and bit 3)
+  from TagTool Particle.cs. No effect placement was silently omitted from output.
+- No decoded audio files, extra maps, captures or temporary extracted banks were
+  created. The reusable decoder installation remains under the workspace .local.

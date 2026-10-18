@@ -628,6 +628,9 @@
 	<flags32 name="Animation Flags" offset="0xFC" visible="true">
 		<bit name="Frame Animation One Shot" index="0" />
 		<bit name="Can Animate Backwards" index="1" />
+		<!-- Runtime animation bits from TagTool Particle.AnimationFlagsValue. -->
+		<bit name="Disable Frame Blending" index="2" />
+		<bit name="Bit 3" index="3" />
 	</flags32>
 	<comment title="Frame Index" />
 	<enum8 name="Input Variable" offset="0x100" visible="true">

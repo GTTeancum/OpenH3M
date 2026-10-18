@@ -16,11 +16,13 @@ def field(schema, name):
     return next(x for x in schema if x.get('name') == name)
 
 
-def prepare(source, target, source_schema, target_schema, imported=None):
-    plan = plan_placements(source, target, source_schema, target_schema, imported)
+def prepare(source, target, source_schema, target_schema, imported=None, placements=None):
+    placements = placements or PLACEMENTS
+    plan = plan_placements(source, target, source_schema, target_schema, imported,
+                           [(name, palette) for name, (palette, _) in placements.items()])
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     arrays, unresolved, maps = {}, [], {}
-    for name, (_, object_type) in PLACEMENTS.items():
+    for name, (_, object_type) in placements.items():
         maps[object_type] = {row['source_index']: i for i, row in enumerate(plan[name]['converted'])}
         unresolved.extend(dict(block=name, **item) for item in plan[name]['unresolved'])
 
@@ -42,7 +44,7 @@ def prepare(source, target, source_schema, target_schema, imported=None):
                                'reason': f'Placement {object_type}:{placement} is not assembled'})
     arrays['Object Names'] = (len(names_rows), bytes(names))
 
-    for name, (palette_name, _) in PLACEMENTS.items():
+    for name, (palette_name, _) in placements.items():
         rows = plan[name]['converted']
         target_field = field(target_schema, name)
         target_fields = [x for x in target_field if x.get('offset') is not None]
@@ -79,7 +81,8 @@ def prepare(source, target, source_schema, target_schema, imported=None):
 
 def stage(builder, prepared, target_schema):
     if prepared['unresolved']:
-        raise ValueError(f"Scenario has {len(prepared['unresolved'])} unresolved dependencies/references")
+        raise ValueError(f"Scenario has {len(prepared['unresolved'])} unresolved dependencies/references: "
+                         f"{prepared['unresolved'][:3]}")
     cache = builder.cache
     scenario = next(t['offset'] for t in cache.tags.values() if t['group'] == 'scnr')
     scenario_address = scenario - cache.start + cache.base
@@ -98,7 +101,7 @@ def stage(builder, prepared, target_schema):
         builder.put(scenario_address + offset, 'III', count, pointer, 0)
 
 
-def stage_primary_objects(importer):
+def stage_primary_objects(importer, include_sound_scenery=False, include_effect_scenery=False):
     """Import every used primary palette entry and stage all four object arrays.
 
     Caller owns the scratch builder and finalization. This does not replace the
@@ -107,12 +110,17 @@ def stage_primary_objects(importer):
     import xml.etree.ElementTree as ET
     from object_variants import resolve_variants
     source, target = importer.source, importer.registry.cache
+    placements = dict(PLACEMENTS)
+    if include_sound_scenery:
+        placements['Sound Scenery'] = ('Sound Scenery Palette', 9)
+    if include_effect_scenery:
+        placements['Effect Scenery'] = ('Effect Scenery Palette', 13)
     ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
     ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
     variants, variant_report = resolve_variants(source, target, importer.registry.newtag)
     importer.resolved.update({key: (key[0], datum) for key, datum in variants.items()})
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
-    for name, (palette_name, _) in PLACEMENTS.items():
+    for name, (palette_name, _) in placements.items():
         sf, pf = field(ss, name), field(ss, palette_name)
         rows = source.block(scenario + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         palette = source.block(scenario + int(pf.get('offset'), 0), int(pf.get('elementSize'), 0))
@@ -121,7 +129,7 @@ def stage_primary_objects(importer):
             if not 0 <= index < len(palette):
                 raise ValueError(f'{name}: invalid palette index {index}')
             importer.import_tag(source.u(palette[index] + 12))
-    prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()})
+    prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements)
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved']}

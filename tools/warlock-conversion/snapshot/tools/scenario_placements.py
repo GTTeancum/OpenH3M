@@ -12,7 +12,7 @@ FORMATS = {
     'enum8': 'b', 'enum16': 'h', 'enum32': 'i',
     'flags8': 'B', 'flags16': 'H', 'flags32': 'I',
     'float32': 'f', 'degree': 'f', 'point3': '3f', 'degree3': '3f',
-    'color32': 'I', 'datum': 'I', 'stringid': 'I',
+    'color32': 'I', 'datum': 'I', 'stringid': 'I', 'rangef': '2f', 'ranged': '2f',
 }
 
 
@@ -91,7 +91,7 @@ def convert_record(cache, row, source_schema, target_schema):
     return bytes(out)
 
 
-def plan_placements(source, target, source_schema, target_schema, imported=None):
+def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None):
     source_scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     retail_names = {(t['group'], target.name(i)): (t['salt'] << 16) | i
                     for i, t in target.tags.items()}
@@ -99,8 +99,9 @@ def plan_placements(source, target, source_schema, target_schema, imported=None)
     # Mapping does not authorize a different tag name as a silent substitute.
     retail_names.update(imported or {})
     result = {}
-    for name, palette in [('Scenery', 'Scenery Palette'), ('Weapons', 'Weapon Palette'),
-                          ('Equipment', 'Equipment Palette'), ('Crates', 'Crates Palette')]:
+    pairs = placements or [('Scenery', 'Scenery Palette'), ('Weapons', 'Weapon Palette'),
+                           ('Equipment', 'Equipment Palette'), ('Crates', 'Crates Palette')]
+    for name, palette in pairs:
         sf = next(x for x in source_schema if x.get('name') == name)
         df = next(x for x in target_schema if x.get('name') == name)
         pf = next(x for x in source_schema if x.get('name') == palette)
