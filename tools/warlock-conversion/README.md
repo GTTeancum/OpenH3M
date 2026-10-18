@@ -591,6 +591,16 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Decorator dependencies: `TagImporter` now supports the inherited Assembly H3
+`dctr` schema, format-24 decorator meshes (20-byte MCC to 16-byte retail), and
+BC2/DXT3 textures. The native BC2 resource value `0x1a200153` was checked in
+stock lockout's `fx\particles\material\_bitmaps\fragments_chitin` bitmap.
+The existing 512-pixel/base-mip bitmap limit still applies. All 28 source
+decorator sets imported and the registry finalized in memory (52 dependency
+metadata records, 1,532,773 staged raw bytes). No map was written or deployed.
+This completes the dependency importer checkpoint; BSP assembly still must
+register the instance resource and bind the imported decorator sets.
+
 Decorator follow-up: all 400 source groups now validate their MCC model-start
 boundaries against model selectors already encoded in the high byte of each
 TinyPosition variant. The redundant boundary lists can then be omitted from

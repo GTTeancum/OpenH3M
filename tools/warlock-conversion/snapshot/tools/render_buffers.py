@@ -18,6 +18,15 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
+    if fmt == 24:
+        if count < 0 or stride != 20 or len(payload) != count * 20:
+            raise ValueError('Decorator mesh payload size mismatch')
+        raw = np.frombuffer(payload, dtype=np.uint8).reshape(count, 20)
+        out = np.zeros((count, 16), dtype=np.uint8)
+        out[:, :12] = raw[:, :12].reshape(count, 6, 2)[:, :, ::-1].reshape(count, 12)
+        xyz = np.frombuffer(payload, dtype='<i2').reshape(count, 10)[:, 6:9]
+        out[:, 12:16] = pack_basis(xyz)
+        return out.tobytes(), 16
     if fmt == 20:
         # TinyPosition: ushort3 position, ushort model/scale, biased/reversed
         # byte4 orientation, packed color. Model selection stays in variant.

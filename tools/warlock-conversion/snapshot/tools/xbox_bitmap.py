@@ -1,4 +1,4 @@
-"""Encode a base mip as Xbox 360 tiled BC1/BC3/BC5 blocks.
+"""Encode a base mip as Xbox 360 tiled BC1/BC2/BC3/BC5 blocks.
 Address bit layout: xenia-project/xenia src/xenia/gpu/texture_address.h (BSD).
 Only base-mip output is supported; callers must set mip count to one.
 """
@@ -15,7 +15,7 @@ def addresses(width_blocks,height_blocks,bytes_per_block):
  return ((v&~255)<<4)|((v&224)<<3)|(bank<<11)|(pipe<<6)|((v&16)<<1)|((y&1)<<4)|(v&15)
 
 def tile_base(payload,width,height,fmt):
- if fmt not in (11,14,16,33):raise ValueError(f'Unsupported block format {fmt}')
+ if fmt not in (11,14,15,16,33):raise ValueError(f'Unsupported block format {fmt}')
  wb=width if fmt==11 else (width+3)//4;hb=height if fmt==11 else (height+3)//4;bpb=4 if fmt==11 else (8 if fmt==14 else 16)
  n=wb*hb*bpb
  if len(payload)<n:raise ValueError('Base mip truncated')
@@ -30,7 +30,7 @@ def tile_base(payload,width,height,fmt):
  return out.tobytes()
 
 def untile_base(payload,width,height,fmt):
- if fmt not in (11,14,16,33):raise ValueError(f'Unsupported block format {fmt}')
+ if fmt not in (11,14,15,16,33):raise ValueError(f'Unsupported block format {fmt}')
  wb=width if fmt==11 else (width+3)//4;hb=height if fmt==11 else (height+3)//4;bpb=4 if fmt==11 else (8 if fmt==14 else 16)
  pos=addresses(wb,hb,bpb).reshape(-1)
  data=np.frombuffer(payload,dtype=np.uint8)[pos[:,None]+np.arange(bpb)]
