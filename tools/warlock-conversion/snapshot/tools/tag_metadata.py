@@ -15,13 +15,14 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
 
 class MetadataConverter:
     def __init__(self, source, builder, strings, target_strings, tag_reference,
-                 data_reference=None, resource_reference=None, special_block=None):
+                 data_reference=None, resource_reference=None, special_block=None, shader_reference=None):
         self.source, self.builder = source, builder
         self.strings, self.target_strings = strings, target_strings
         self.tag_reference = tag_reference
         self.data_reference = data_reference
         self.resource_reference = resource_reference
         self.special_block = special_block
+        self.shader_reference = shader_reference
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
         if self.special_block is not None:
@@ -158,6 +159,12 @@ class MetadataConverter:
                     struct.pack_into('>I', out, at, len(payload))
                     struct.pack_into('>I', out, at + 12, self.builder.alloc(payload))
                 width = 20
+            elif kind == 'shader':
+                if self.shader_reference is None:
+                    raise ValueError(f'{name}: native shader needs a dedicated handler')
+                pointer = self.shader_reference(self.source.u(read), src.get('type'))
+                struct.pack_into('>I', out, at, pointer)
+                width = 4
             elif kind == 'undefined':
                 if self.source.u(read):
                     raise ValueError(f'{name}: nonzero unknown field')

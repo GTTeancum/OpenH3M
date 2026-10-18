@@ -475,3 +475,19 @@ BSP material integration checkpoint:
   retained references. The integration command now runs this stage first so
   subsequent object/environment imports can reuse converted texture resources.
   Native appearance remains unverified; no accepted map or runtime was changed.
+
+Native terrain shader dependency checkpoint:
+- All four terrain templates used by Warlock exist on the original Mythic disc:
+  sandbox `_0_1_1_0_0_0`, docks `_0_2_1_1_1_2`, chill `_0_2_1_1_2_0`, and
+  sidewinder `_0_1_1_1_1_2`. These can supply original Xbox 360 shader programs.
+- `native_shaders.py` imports retail shader-definition/template dependency graphs
+  and relocates native shader info/data. It preserves bytecode and relative debug
+  structures, initializes runtime info following Assembly's shader injection
+  strategy, and rejects unsupported dependencies and invalid data bounds.
+- Layout reference: `reference/formats/H3_Layouts_Shaders.xml`; algorithm reference:
+  [Assembly ThirdGenShaderStreamer](https://github.com/XboxChaos/Assembly/blob/dev/src/Blamite/Blam/ThirdGen/Shaders/ThirdGenShaderStreamer.cs).
+- A combined in-memory import of the four variants produced 25 tags. All 67 newly
+  relocated shader payloads and their debug data matched the disc byte-for-byte.
+  Private metadata report: `.local/reports/native-terrain-shaders.json`.
+  Binding Warlock terrain textures/constants remains pending; these donor graphs
+  are not yet used by the integration command or verified in-game.
