@@ -589,3 +589,15 @@ Water shader integration checkpoint:
 - Foam/bank semantics were checked against [HaloShaderGenerator water shading](https://github.com/Beatthezombie/HaloShaderGenerator/blob/master/halo_online_shaders/water_shading.fx).
   This remains a conversion checkpoint, not proof of native water appearance or
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
+# Source BSP geometry binding checkpoint
+
+`snapshot/tools/bsp_source.py` resolves the active scenario BSP through its
+`sLdT` lightmap and matching `Lbsp` BSP index. It validates tag salts and resource
+ownership/type before converting render buffers, including reconstructed water.
+No resource or tag index is hardcoded. The Warlock source resolves resource
+`0xed430be0` and produces 87,208 control bytes and 51,810,478 raw bytes,
+with all ten water buffers reconstructed. An out-of-range BSP index is rejected.
+This helper currently returns in-memory data; stock-based BSP metadata,
+collision resource assembly and final integration remain unfinished. No generated
+map was deployed or native-tested for this checkpoint.
+
