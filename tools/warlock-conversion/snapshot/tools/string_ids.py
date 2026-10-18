@@ -83,6 +83,50 @@ class StringTable:
         if value in (0, 0xffffffff):
             return value
         text = self.text(value)
-        if text is None or text not in target.by_text:
+        if text is None:
             raise ValueError(f'Missing retail string: {text!r} ({value:#x})')
-        return target.by_text[text]
+        return target.id_for_text(text)
+
+    def id_for_text(self, text):
+        if text not in self.by_text:
+            raise ValueError(f'Missing retail string: {text!r}')
+        return self.by_text[text]
+
+
+class WritableStringTable(StringTable):
+    """Append new identifiers without changing IDs of existing strings."""
+    def __init__(self, builder):
+        super().__init__(builder.cache)
+        self.builder = builder
+        self.original_count = len(self.strings)
+        self.staged = False
+
+    def id_for_text(self, text):
+        if text in self.by_text:
+            return self.by_text[text]
+        if self.staged:
+            raise ValueError('String table already staged')
+        value = self.id_for_index(len(self.strings))
+        if value > 0xffffff or self.index_for_id(value) != len(self.strings):
+            raise ValueError('Retail string namespace exhausted')
+        self.by_text[text] = value
+        self.strings.append(text)
+        return value
+
+    def stage(self):
+        import struct
+        if self.staged:
+            raise ValueError('String table already staged')
+        if len(self.strings) != self.original_count:
+            indices, data = bytearray(), bytearray()
+            for text in self.strings:
+                if text is None:
+                    indices.extend(struct.pack('>I', 0xffffffff))
+                else:
+                    indices.extend(struct.pack('>I', len(data)))
+                    data.extend(text.encode('latin-1') + b'\0')
+            index_pointer = self.builder.append_debug(indices)
+            data_pointer = self.builder.append_debug(data)
+            self.builder.header_updates.update({0x158: len(self.strings), 0x15c: len(data),
+                                                0x160: index_pointer, 0x164: data_pointer})
+        self.staged = True

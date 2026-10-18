@@ -35,6 +35,10 @@ class MetadataConverter:
             at = offset + int(src.get('offset'), 0)
             if src.tag.lower() == 'tagblock' and self.source.u(at) == 0:
                 continue
+            if key[0] in ('Instance Flags 3', 'Instance Flags 4') and src.tag.lower() == 'flags32' and self.source.u(at) == 0:
+                # MCC extends instance masks to 128 bits. Retail's 64-bit mask
+                # can represent this block only when both high words are zero.
+                continue
             raise ValueError(f'{path}/{key[0]}: source-only field requires explicit handling')
         for key, dst in target_fields.items():
             kind = dst.tag.lower()

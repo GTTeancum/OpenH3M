@@ -190,3 +190,15 @@ render resource with exact control bytes, fixups and decoded GPU data, valid pag
 CRC, matching owner reference, required-resource bit and fixed tag-memory end.
 The temporary validation map was removed; the accepted candidate was untouched.
 Native loading, complete custom tag graphs and scenario publication remain pending.
+
+TagImporter now walks dependencies, reserves tags before recursion, converts model
+resources through CacheRegistry and prevents finalization after any failure.
+WritableStringTable appends missing names while preserving existing string IDs;
+MapBuilder can grow the debug section and adjusts resource/metadata/localization
+physical masks. A serialized check preserved every existing string, added
+`tarp_box_stack`, and reread the original BSP resource with CRC verification.
+The temporary check map was removed. Zero high MCC instance-mask words can now
+be omitted when converting to retail's shorter mask; nonzero high words reject.
+The tarp import now reaches its custom tarp_cover shader. A dedicated material
+handler is needed; generic copying of MCC shader postprocess resources is rejected.
+The complete dependency graph and final map remain unfinished.
