@@ -180,3 +180,13 @@ not yet verified. Zone/play registration, tag graph assembly and manifests remai
 The auxiliary format descriptions were checked against TheGuardians/TagTool
 VertexStreamHalo3RetailMCC.cs, VertexStreamXbox.cs and VertexElementStream.cs;
 reference copies and TagTool-LICENSE are included alongside the existing sources.
+
+cache_registry.py now registers new tags and resource pages, compresses payloads,
+calculates salted full/first/last SHA1 plus complemented CRC32, emits zone/play
+records and marks new resource/owner bits in the selected static BSP manifest.
+It resolves resource type indices by their actual string names and updates required
+resource size. An isolated serialized-map check reopened a newly registered tarp
+render resource with exact control bytes, fixups and decoded GPU data, valid page
+CRC, matching owner reference, required-resource bit and fixed tag-memory end.
+The temporary validation map was removed; the accepted candidate was untouched.
+Native loading, complete custom tag graphs and scenario publication remain pending.
