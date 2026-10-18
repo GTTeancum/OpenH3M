@@ -156,3 +156,16 @@ need not match the old encoder because rounding differs. Skinned/auxiliary strea
 resource-control assembly and native rendering of new output remain unfinished.
 Some stock comparison assets use shared.map pages; resource_reader currently
 rejects these explicitly and needs a configurable shared-cache reader.
+
+Resource now accepts an explicit shared_paths mapping for retail shared pages.
+It reads only the requested compressed byte range from an explicitly mapped
+cache, uses that cache's raw-section base, and retains size/CRC checks. Embedded
+map paths cannot open host files implicitly. The original shared.map successfully
+provided the stock first-person assault-rifle resource for comparison.
+Skinned primary vertices (format3) now convert 44 -> 32 bytes, preserving the
+four bone indices and four weights without swapping. A matching 2,918-vertex
+source/retail assault rifle confirmed exact position/UV and bone-field layouts.
+All eight custom/Automag model primary streams converted in memory, including
+skinned Automag and receiver streams. Auxiliary PRT streams still need decoding;
+the source/retail comparison did not justify treating them as raw endian swaps.
+No candidate map was generated or deployed by these checks.

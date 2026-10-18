@@ -1,4 +1,4 @@
-"""Convert MCC primary world/rigid geometry payloads to retail Xbox streams.
+"""Convert MCC primary world/rigid/skinned payloads to retail Xbox streams.
 
 No metadata or resource table is written here. Unsupported formats fail rather
 than preserving a PC-only stride. Resource assembly is a separate stage.
@@ -18,7 +18,7 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
-    expected = {1: (44, 32, 20, 4), 2: (36, 24, 12, 2)}
+    expected = {1: (44, 32, 20, 4), 2: (36, 24, 12, 2), 3: (44, 32, 12, 2)}
     if fmt not in expected:
         raise ValueError(f'Vertex format {fmt} needs a dedicated converter')
     source_stride, target_stride, prefix, unit = expected[fmt]
@@ -33,6 +33,10 @@ def convert_vertices(payload, count, fmt, stride):
         xyz = np.ndarray((count, 3), dtype='<i2', buffer=payload, offset=at,
                          strides=(stride, 2)) if count else np.empty((0, 3), dtype='<i2')
         out[:, prefix + channel * 4:prefix + channel * 4 + 4] = pack_basis(xyz)
+    if fmt == 3:
+        # Four byte-sized bone indices followed by four byte-sized weights.
+        # These are not packed integers and must not be endian-reversed.
+        out[:, 24:32] = raw[:, 36:44]
     return out.tobytes(), target_stride
 
 
