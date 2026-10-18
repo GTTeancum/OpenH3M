@@ -118,16 +118,26 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
-                if (path.startswith('bloc:') and source_schema.get('name') == 'AI Properties'
+                if (path.startswith('hlmt:') and '/Variants[' in path
+                        and source_schema.get('name') == 'Permutations'
+                        and int(source_schema.get('elementSize'), 0) == 24 and size == 36
+                        and 24 <= at < 36 and (key[0].startswith('Runtime State Permutation Index ')
+                                               or key[0] == 'Unknown')):
+                    # Original antenna model stores this runtime lookup and
+                    # trailing padding as zero; authored States remain intact.
+                    width = 4 if kind == 'undefined' else struct.calcsize('>' + SCALARS[kind])
+                    covered.update(range(at, at + width))
+                    continue
+                if (path.startswith(('bloc:', 'weap:')) and source_schema.get('name') == 'AI Properties'
                         and source_schema.get('elementSize') == '0xC' and size == 16
                         and key[0] == 'Unknown' and kind == 'undefined' and at == 8):
                     covered.update(range(at, at + 4))
                     continue
-                if (path == r'vehi:objects\equipment\autoturret\autoturret'
+                if (path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball')
                         and key[0] in ('Postures', 'Dialogue Variants') and kind == 'tagblock'):
                     covered.update(range(at, at + 12))
                     continue
-                if (path == r'vehi:objects\equipment\autoturret\autoturret'
+                if (path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball')
                         and key[0] in ('Camera Stiffness', 'Feign Death Threshold', 'Feign Death Time',
                                        'Stunned Movement Threshold', 'Feign Death Chance', 'Feign Repeat Chance',
                                        'Spawned Actor Count', 'Spawned Velocity', 'Lipsync Attack Weight',
@@ -136,7 +146,7 @@ class MetadataConverter:
                     # removed camera, actor-spawning and dialogue fields zero.
                     covered.update(range(at, at + 4))
                     continue
-                if ((path == r'vehi:objects\equipment\autoturret\autoturret' and key[0] == 'Integrated Light Toggle'
+                if ((path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball') and key[0] == 'Integrated Light Toggle'
                      or path.startswith(r'vehi:objects\equipment\autoturret\autoturret/Seats[')
                      and key[0] == 'Built-In Gunner') and kind == 'tagref'):
                     out[at:at + 4] = b'\xff' * 4

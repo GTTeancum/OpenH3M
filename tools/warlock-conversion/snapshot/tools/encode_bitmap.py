@@ -2,7 +2,7 @@ import struct
 import numpy as np
 from xbox_bitmap import tile_base
 
-SUPPORTED_FORMATS=(0,1,10,11,14,15,16,33)
+SUPPORTED_FORMATS=(0,1,10,11,14,15,16,22,33)
 
 def encode_lightmap_array(source, tag):
  """Encode single-mip BC3 lightmap arrays at authored resolution."""
@@ -27,6 +27,7 @@ def encode_lightmap_array(source, tag):
 def mip_size(width,height,fmt):
  if fmt in (0,1):return width*height
  if fmt in (10,11):return width*height*4
+ if fmt==22:return width*height*2
  if fmt in (14,15,16,33):return ((width+3)//4)*((height+3)//4)*(8 if fmt==14 else 16)
  raise ValueError(f'Unsupported format {fmt}')
 
@@ -65,7 +66,7 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512):
  bitmap[0x15]=source.c.data[source.c.block(source.c.tags[tag]['offset']+0x60,0x38)[index]+0x15]
  struct.pack_into('>I',bitmap,0x1c,len(tiled));struct.pack_into('>I',bitmap,0x28,0xffffffff)
  control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
- gpu_format=0x18280186 if fmt==11 else 0x1a200100+{14:0x52,15:0x53,16:0x54,33:0x71}[fmt]
+ gpu_format=0x18280186 if fmt==11 else 0x2d20ab4a if fmt==22 else 0x1a200100+{14:0x52,15:0x53,16:0x54,33:0x71}[fmt]
  struct.pack_into('>HHBBBBI',control,0x28,w,h,1,1,0,1,gpu_format)
  # Resource fixups use control+0x0C -> raw+0 and control+0x34 -> control+0.
  return bytes(bitmap),bytes(control),tiled

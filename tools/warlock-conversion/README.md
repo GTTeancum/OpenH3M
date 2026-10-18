@@ -926,3 +926,22 @@ Golf-club pickup metadata uses its original Sandbox values (0, 0).
 The full Forge probe now reaches the golf-ball divot normal texture, whose
 format 22 needs an encoder. This is still an explicit failure; no partial map
 was generated or deployed. Gameplay remains untested for these additions.
+
+### V8U8 normal maps and golf-object checkpoint
+
+Format 22 (V8U8) now uses two-byte texel tiling, correct mip sizing, 8-in-16
+endian conversion and the original Sandbox GPU format word. The golf-ball
+normal map's 32,768-byte base mip matches the original retail texture exactly
+and round-trips to the source bytes. The usual one-mip POC policy remains.
+
+Sphere collision shapes convert 160-byte MCC records to 112-byte retail with
+both self offsets relocated. Golf-cup and golf-ball records each match their
+original Sandbox sphere record byte-for-byte. Golf-ball retail-only vehicle
+defaults were checked against Sandbox; golf-club AI-property padding is handled.
+The Sidewinder shield's additional shape flag matches its original counterpart.
+
+Model variant permutations now initialize retail runtime damage-state lookup
+bytes/padding to zero, matching the original antenna model in Descent, while
+retaining authored damage-state blocks. Added an exact Construct hologram donor.
+Forge currently stops at the covenant storage glow's color-function variant;
+that remains unsupported. No new map or deployment was produced.
