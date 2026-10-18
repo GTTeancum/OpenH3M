@@ -945,3 +945,31 @@ bytes/padding to zero, matching the original antenna model in Descent, while
 retaining authored damage-state blocks. Added an exact Construct hologram donor.
 Forge currently stops at the covenant storage glow's color-function variant;
 that remains unsupported. No new map or deployment was produced.
+
+### Integrated original-disc build with Forge
+
+All seven Forge palettes now import and finalize: 1 vehicle, 28 weapons,
+17 equipment, 85 scenery, 3 teleporters, 9 goals and 19 spawners. The standalone
+Forge check finalized 634 imported records. Exact native hologram/decal variants
+can be discovered in the supplied disc-map directory, with parameter checks
+still enforced and donor filenames reported. Hologram static approximations
+validate complete function encodings and report frozen external inputs
+(including `e_glow`), rather than silently accepting arbitrary data.
+
+The checkpoint builder now accepts original disc Lockout and includes the Forge
+stage. Fixed signed 32-bit tag-section displacement arithmetic exposed by that
+original cache. The integrated build completed in 51.34 seconds with 838 imported
+records, 7,652,104 metadata bytes used and a 372,195,328-byte output. It used no
+historical converted seed. Reopened output checks confirmed all imported tag
+addresses/salts plus all 162 serialized Forge entries and 161 non-null object
+references. One palette entry is intentionally null in the source.
+
+Current local output: `.local/integrated/lockout-forge-stock.map` under the H3M
+project; SHA256 `c873528e53005a469e8b11b29e3d479d2a15ea3c7ebdacc532b78c735205fdcd`.
+Report: `.local/reports/scenario-checkpoint-forge-stock.json`. The superseded
+408,035,328-byte source-geometry checkpoint was hash-checked and removed. The
+user-accepted candidate and original disc/runtime remain untouched.
+
+This is an integration checkpoint, not the final handoff: scenario bookkeeping,
+launcher/logging documentation and remaining seed assumptions still need a
+focused audit. No native run or gameplay/system-link validation is claimed.

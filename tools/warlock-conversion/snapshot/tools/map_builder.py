@@ -32,7 +32,9 @@ class MapBuilder:
   def put(o,v):struct.pack_into('>I',out,o,v)
   put(8,len(out));put(0x18,c.u(0x18)+self.reserve);put(0x2e8,self.base);put(0x2f0,self.base);put(0x2f4,c.u(0x2f4)+self.reserve)
   put(0x480,c.u(0x480)+debug_growth);put(0x470,c.u(0x470)+debug_growth)
-  put(0x488,c.u(0x488)+growth);put(0x474,c.u(0x474)+growth+debug_growth);put(0x490,c.u(0x490)+self.reserve);put(0x478,c.u(0x478)+growth+self.reserve+debug_growth)
+  # Section address adjustments are signed 32-bit displacements serialized
+  # as words. Original Lockout starts with a negative tag-section adjustment.
+  put(0x488,c.u(0x488)+growth);put(0x474,(c.u(0x474)+growth+debug_growth)&0xffffffff);put(0x490,c.u(0x490)+self.reserve);put(0x478,c.u(0x478)+growth+self.reserve+debug_growth)
   for at,value in self.header_updates.items():put(at,value)
   assert self.base+c.u(0x18)+self.reserve==0xbfc00000
   put(0x2c4,int(np.bitwise_xor.reduce(np.frombuffer(out,dtype='>u4',offset=0x3000))))

@@ -1,6 +1,6 @@
-"""Assemble completed scenario converters onto the accepted geometry checkpoint.
+"""Assemble scenario converters onto original Lockout or the accepted checkpoint.
 
-This is an integration command, NOT the final seed-independent map converter.
+This remains an integration checkpoint until the scenario handoff audit passes.
 All outputs are confined to the explicitly supplied project's .local directory.
 """
 import argparse
@@ -22,6 +22,7 @@ from scenario_environment import stage_environment
 from scenario_decals import stage_decals
 from scenario_geometry import stage_geometry
 from scenario_runtime import stage_runtime
+from scenario_forge import stage_forge
 from xexlib import Xex
 
 ACCEPTED_SHA256 = '499f0516e016524f7f8a98ca580e4acb66c2b5d58403a5c755e4ed8f23de4279'
@@ -71,14 +72,17 @@ def main():
         raise ValueError('Output already exists; choose a fresh checkpoint path')
     if report.exists() and any(os.path.samefile(report, path) for path in inputs):
         raise ValueError('Report aliases an input file')
-    if file_hash(args.basis) != ACCEPTED_SHA256:
-        raise ValueError('This checkpoint command requires the accepted geometry basis')
+    basis_hash = file_hash(args.basis)
+    original = (args.disc_maps or project / 'maps') / 'lockout.map'
+    if basis_hash not in (ACCEPTED_SHA256, file_hash(original)):
+        raise ValueError('Basis must be original disc Lockout or the accepted geometry checkpoint')
     for path in (output.parent, report.parent):
         path.mkdir(parents=True, exist_ok=True)
     work = output_path(project / '.local/temp', project)
     work.mkdir(parents=True, exist_ok=True)
-    state = {'status': 'building', 'basis_sha256': ACCEPTED_SHA256,
-             'limitations': ['Accepted geometry checkpoint still required; seed-independent pipeline unfinished.',
+    state = {'status': 'building', 'basis_sha256': basis_hash,
+             'historical_seed_used': basis_hash == ACCEPTED_SHA256,
+             'limitations': ['Scenario bookkeeping and reproducible handoff audit remain unfinished.',
                             'Material POC approximations include native reflection substitutes and frozen shader animation; see materials report.',
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
@@ -98,7 +102,8 @@ def main():
                   ('objects', lambda: stage_primary_objects(importer, True, True)),
                   ('spawn', lambda: stage_spawn_settings(importer)),
                   ('environment', lambda: stage_environment(importer)),
-                  ('decals', lambda: stage_decals(importer))]
+                  ('decals', lambda: stage_decals(importer)),
+                  ('forge', lambda: stage_forge(importer))]
         for stage, action in stages:
             print(stage, flush=True)
             state['stages'][stage] = action()

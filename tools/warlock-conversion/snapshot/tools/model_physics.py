@@ -79,7 +79,7 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 # corresponding MCC/original Sandbox shapes (152 matching
                 # tag lists), plus the earlier Armory/equipment comparisons.
                 if values[0] not in (0, 10, 32, 33, 36, 46, 49, 54, 55, 56, 57, 58, 60, 64, 66, 69, 70,
-                                     73, 76, 81, 86, 87, 90, 102, 139, 144, 145, 157, 171, 178, 202, 221, 222, 223, 228):
+                                     73, 76, 81, 86, 87, 90, 94, 102, 139, 144, 145, 154, 157, 171, 178, 202, 215, 221, 222, 223, 228, 232, 237):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

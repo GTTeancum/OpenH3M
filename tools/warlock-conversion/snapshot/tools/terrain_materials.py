@@ -17,6 +17,7 @@ class DiscMaterialImporter:
     def __init__(self, importer, disc_maps):
         self.importer, self.disc_maps = importer, Path(disc_maps)
         self.resolved, self.done = {}, {}
+        self.hologram_donors = dict(HOLOGRAM_DONORS)
 
     def shader(self, datum):
         if datum in self.done:
@@ -34,12 +35,27 @@ class DiscMaterialImporter:
         template_name = s.name(s.u(post + 12) & 65535)
         variant = template_name.rsplit('\\', 1)[-1]
         source_options = [int(value) for value in variant.split('_')[1:]]
-        donors = DONORS if group == 'rmtr' else HOLOGRAM_DONORS
+        donors = DONORS if group == 'rmtr' else self.hologram_donors
         if group == 'rmhg':
             if len(source_options) != 9 or any(source_options[7:]):
                 raise ValueError('Nondefault MCC-only hologram options require separate conversion')
             variant = '_' + '_'.join(str(value) for value in source_options[:7])
             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+        if group == 'rmhg' and variant not in donors:
+            # Exact native shader variants are safe to discover by name; the
+            # parameter/layout checks below still validate the actual binding.
+            for candidate in sorted(self.disc_maps.glob('*.map')):
+                if candidate.name in ('shared.map', 'campaign.map'):
+                    continue
+                cache = Cache(str(candidate))
+                try:
+                    found = any(t['group'] == 'rmt2' and cache.name(k) == template_name
+                                for k, t in cache.tags.items())
+                finally:
+                    cache.close()
+                if found:
+                    donors[variant] = candidate.name
+                    break
         if variant not in donors:
             raise ValueError(f'No verified native terrain donor: {template_name}')
         donor = Cache(str(self.disc_maps / donors[variant]))
@@ -80,9 +96,14 @@ class DiscMaterialImporter:
                 else:
                     from tag_functions import convert_function
                     kind, input_id, range_id, period = s.unpack('IIIf', row)
-                    supported = ((kind == 0 and len(function) == 52 and function[0] == 3)
-                                 or (kind in (5, 6) and len(function) == 32 and function[0] == 0))
-                    if input_id or range_id or not 0 < period < float('inf') or not supported:
+                    glow = (s.name(datum & 65535) == r'objects\gear\covenant\military\shaders\cov_storage_glow'
+                            and i.source_strings.text(input_id) == 'e_glow'
+                            and kind in (0, 1) and len(function) == 32 and function[0] == 0)
+                    # These functions affect the static parameters retained by
+                    # this POC. Validate their full encoding below; opcode and
+                    # allocation size alone do not determine support.
+                    supported = kind in (0, 1, 5, 6)
+                    if (input_id and not glow) or range_id or not 0 < period < float('inf') or not supported:
                         raise ValueError(f'{s.name(datum & 65535)}: unsupported hologram animation {kind}, function size {len(function)}')
                     convert_function(function)  # Validate the complete function structure.
             textures = bytearray()
@@ -145,7 +166,8 @@ class DiscMaterialImporter:
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
                 'native_donor': donors[variant], 'approximation': bool(overlays),
                 'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
-                               else 'Hologram brightness/UV animation frozen at authored constant values') if overlays else None,
+                               else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays else None,
+                'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}),
                 'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': True})
             return self.done[datum]
         except Exception:

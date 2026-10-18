@@ -150,17 +150,18 @@ class MaterialImporter:
         target_template = template_name.rsplit('\\', 1)[0] + '\\' + alias[0] if alias else template_name
         post = None
         for tag in c.tags.values():
-            if tag['group'] != group:
+            tag_group = tag['group']
+            if tag_group != group and not (group == 'rmd ' and tag_group == 'decs'):
                 continue
-            if group == 'rmd ':
+            if tag_group == 'rmd ':
                 containers = [tag['offset'] + 40]
-            elif group == 'decs':
+            elif tag_group == 'decs':
                 containers = [row + 48 for row in c.block(tag['offset'] + 20, 116)]
-            elif group == 'cntl':
+            elif tag_group == 'cntl':
                 containers = [row + 0x158 for row in c.block(tag['offset'], 0x26c)]
-            elif group == 'beam':
+            elif tag_group == 'beam':
                 containers = [row + 0x2c for row in c.block(tag['offset'], 0x208)]
-            elif group == 'ltvl':
+            elif tag_group == 'ltvl':
                 containers = [row + 0x2c for row in c.block(tag['offset'], 0x17c)]
             else:
                 containers = [tag['offset'] + 100]
@@ -174,8 +175,9 @@ class MaterialImporter:
             if post is not None and alias is None:
                 break
         native_output = None
+        native_donor = None
         if post is None and self.native_effect_post is not None:
-            native_output, target_names = self.native_effect_post(group, template_name)
+            native_output, target_names, native_donor = self.native_effect_post(group, template_name)
             alias, target_template = None, template_name
         elif post is None:
             raise ValueError(f'No supported retail {group} template: {template_name}')
@@ -270,7 +272,7 @@ class MaterialImporter:
             b.put(pointer + index * 16, '4I', *c.unpack('4I', native))
         self.report.append({'particle_template': template_name, 'retail_template': target_template,
                             'render_method_group': group,
-                            'native_shader_donor': 'armory.map' if native_output is not None else None,
+                            'native_shader_donor': native_donor,
                             'animated_overlays': s.u(source_post + 92),
                             'approximation': bool(alias), 'difference': alias[2] if alias else None,
                             'textures_imported': source_names[0], 'constants_imported': source_names[1]})
