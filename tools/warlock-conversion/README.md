@@ -94,3 +94,12 @@ palettes and remap name/parent indices before publishing placements to a map.
 Actual-source checks preserved transforms and object IDs for all 162 convertible
 records, verified retail tag salts and confirmed Create At Rest remaps bit5 to bit8.
 The accepted gameplay candidate has not been replaced by this unfinished stage.
+
+The bitmap encoder now supports A8, Y8, XRGB32 and ARGB32 source textures using
+lossless ARGB32 expansion and Xbox tiled 8-in-32 storage. This removes the format
+blocker for 13 formerly skipped material slots. The selected mip remains capped
+at 512 pixels; this is not a full mip-chain implementation. Non-2D textures and
+missing requested mips are rejected explicitly. check_uncompressed_textures.py
+accepts --source, --material-inventory and --output; actual source data passed
+independent address, channel and exact selected-mip roundtrip checks. Native
+rendering of these new formats is not yet verified; no candidate was overwritten.

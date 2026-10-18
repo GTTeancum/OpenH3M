@@ -4,7 +4,7 @@ from pathlib import Path
 from map_builder import MapBuilder
 from cache_reader import Cache
 from mcc_bitmap_source import BitmapSource
-from encode_bitmap import encode_bitmap_base
+from encode_bitmap import encode_bitmap_base, SUPPORTED_FORMATS
 from xexlib import Xex
 R=Path(__file__).resolve().parents[2]
 assert not 'OpenH3M.exe' in subprocess.check_output(['tasklist','/FI','IMAGENAME eq OpenH3M.exe'],text=True)
@@ -72,7 +72,7 @@ for i,m in enumerate(materials):
   report['skipped'].append({'slot':i,'name':m['name'],'reason':'special shader'});continue
  texture_slot=1 if m['group']=='rmtr' else 0
  tid=int(m['textures'][texture_slot]['datum'],16)&65535
- if source.info(tid)[0]['format'] not in (14,16,33):
+ if source.info(tid)[0]['format'] not in SUPPORTED_FORMATS:
   report['skipped'].append({'slot':i,'name':m['name'],'reason':'texture format'});continue
  if m['datum'] not in shaders:
   source_tag=s.tags[int(m['datum'],16)&65535]['offset']
