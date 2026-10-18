@@ -491,3 +491,19 @@ Native terrain shader dependency checkpoint:
   Private metadata report: `.local/reports/native-terrain-shaders.json`.
   Binding Warlock terrain textures/constants remains pending; these donor graphs
   are not yet used by the integration command or verified in-game.
+
+Terrain material integration:
+- The integration command now imports all ten placed terrain materials using
+  the four matching original-disc templates. `--disc-maps` selects the read-only
+  donor directory (default: `<project>/maps`). All texture/constant parameter names
+  and ordering must match before binding. Terrain layer blending, layer normal
+  maps, detail maps and authored constants are retained; the normal texture
+  conversion still uses the documented single-mip/512-pixel POC policy.
+- Material type indices are resolved by name against retail globals instead of
+  copying MCC indices. No geometry or material-slot ordering changes.
+- Three materials' observed 300-second normal-map scrolling overlays are frozen
+  at their authored initial transform. This explicit POC approximation is reported;
+  other animation functions, sampler comparisons, sub-images and routing reject.
+- `terrain_materials.py` provides this binding stage. Specialized BSP work now
+  remains for six hologram and two water slots. Native terrain appearance is not
+  yet verified; metadata conversion is not a claim of final visual parity.
