@@ -10,7 +10,7 @@ from scenario_placements import FORMATS, fields, translate_flags, translate_enum
 
 SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16='2h',
                colorf='3f', vector2='2f', vector3='3f', vector4='4f', point2='2f',
-               plane3='4f', plane2='3f', degree2='2f', ranged='2f')
+               plane3='4f', plane2='3f', degree2='2f', ranged='2f', point16='2h')
 
 
 class MetadataConverter:

@@ -522,3 +522,19 @@ Hologram integration checkpoint:
   has no overlays and transfers its matching shader parameters directly.
 - Only the two water BSP material slots remain on retained checkpoint materials.
   No claim of native visual verification accompanies this code checkpoint.
+
+Native water bitmap dependency checkpoint:
+- `native_bitmap_resource.py` copies original retail texture resources, including
+  array/cube formats and all mips, without routing them through the 2D MCC encoder.
+  Required and optional mip segments are copied at their declared byte lengths,
+  combined into one resident page, and their resource fixups are relocated.
+  This avoids copying unrelated trailing shared-page data. Unknown controls,
+  interleaved layouts, resource salts and unexpected fixups reject.
+- The native shader dependency importer now supports these bitmap resources with
+  an explicit shared-cache mapping. A full wave-displacement bitmap tag/resource
+  import finalized successfully in memory. Independent segment comparisons for
+  displacement and slope arrays plus a cubemap preserved all bytes and control
+  metadata. Private report: `.local/reports/native-water-bitmaps.json`.
+- Water shader binding is still pending: neither source variant exists exactly
+  on the disc, so foam/bank-alpha differences require an explicit mapping. This
+  dependency checkpoint does not yet replace the two retained water materials.
