@@ -591,6 +591,19 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+`bsp_importer.py` now assembles a new BSP with real dependency imports and
+three registered resources: decorator instances (83,760 raw bytes), source
+render geometry including water (51,810,478), and collision (8,737,928).
+It reserves the BSP owner before importing its self-references and routes
+terrain/hologram/water shaders through their dedicated converters. Failures
+invalidate the importer, preventing publication of a partial graph.
+The focused in-memory assembly/finalization succeeded with 112 added tag
+records, 114,161,307 staged raw bytes (including dependent textures/audio) and
+4,326,632 metadata bytes. Explicit FMOD bank/decoder inputs are required for
+the BSP's referenced ambient sounds. No map file was written or deployed.
+The checkpoint CLI does not yet activate this new BSP; scenario/lightmap
+binding and stock-based prototype removal remain unfinished.
+
 Root metadata checkpoint: `bsp_metadata.py` now normalizes the MCC root field
 names and separate serialization flag, converts instance physics and root MOPP
 blocks, and moves cache-file resource arrays into retail metadata. It rejects

@@ -1,0 +1,81 @@
+"""Assemble a new retail BSP tag and its resources from MCC source data."""
+import xml.etree.ElementTree as ET
+from tag_metadata import MetadataConverter
+from resource_reader import Resource
+from render_resource import convert_render_resource
+from bsp_source import convert_bsp_geometry
+from bsp_collision_resource import convert_bsp_collision
+
+
+def import_bsp(importer, terrain, water, bsp_index=0):
+    if importer.failed:
+        raise ValueError('Cannot import BSP into an incomplete dependency graph')
+    try:
+        return _import_bsp(importer, terrain, water, bsp_index)
+    except Exception:
+        importer.failed = True
+        raise
+
+
+def _import_bsp(i, terrain, water, bsp_index):
+    s, b = i.source, i.builder
+    scenario_schema = ET.parse(i.reference / 'mcc/scnr.xml').getroot()
+    field = next(f for f in scenario_schema if f.get('name') == 'Structure BSPs')
+    scenarios = [t['offset'] for t in s.tags.values() if t['group'] == 'scnr']
+    if len(scenarios) != 1:
+        raise ValueError('Expected one source scenario')
+    rows = s.block(scenarios[0] + int(field.get('offset'), 0), int(field.get('elementSize'), 0))
+    if not 0 <= bsp_index < len(rows):
+        raise ValueError('BSP index outside scenario bindings')
+    datum = s.u(rows[bsp_index] + 12)
+    source = s.tags.get(datum & 65535)
+    if source is None or source['salt'] != datum >> 16 or source['group'] != 'sbsp':
+        raise ValueError('Invalid source BSP binding')
+    name = s.name(datum & 65535)
+    ss = ET.parse(i.reference / 'mcc/sbsp.xml').getroot()
+    ds = ET.parse(i.reference / 'plugins/sbsp.xml').getroot()
+    size = int(ds.get('baseSize'), 0)
+    owner, address = i.registry.newtag('sbsp', bytes(size))
+    # Reserve before recursion; cluster/instance physics refer to their owner.
+    i.resolved['sbsp', name] = ('sbsp', owner)
+    resources = []
+
+    def reference(value):
+        tag = s.tags.get(value & 65535)
+        if tag is None or tag['salt'] != value >> 16:
+            raise ValueError('Invalid BSP dependency salt')
+        group = tag['group']
+        if group in ('rmtr', 'rmhg'):
+            return terrain.shader(value)
+        if group == 'rmw ':
+            return water.shader(value)
+        return i.import_tag(value)
+
+    def resource(path, value):
+        provenance = None
+        if path.endswith('/[zone] Asset Datum 1'):
+            payload = convert_render_resource(Resource(s, value))
+            kind = 'render_geometry_api_resource_definition'
+        elif path.endswith('/[zone] Asset Datum 2'):
+            payload, provenance = convert_bsp_geometry(s, bsp_index)
+            kind = 'render_geometry_api_resource_definition'
+        elif path.endswith('/[zone] Tag Resources Asset Datum'):
+            payload = convert_bsp_collision(Resource(s, value))
+            kind = 'structure_bsp_tag_resources'
+        else:
+            raise ValueError(f'Unsupported BSP resource field: {path}')
+        target = i.registry.add_resource(owner, kind, payload)
+        resources.append({'field': path.rsplit('/', 1)[-1], 'datum': hex(target),
+                          'raw_bytes': len(payload['raw']), 'source_binding': provenance})
+        return target
+
+    converter = MetadataConverter(s, b, i.source_strings, i.target_strings,
+                                  reference, resource_reference=resource)
+    payload = converter.convert(source['offset'], ss, ds, 'sbsp:' + name)
+    if len(payload) != size:
+        raise ValueError('BSP root size mismatch')
+    b.meta[address - b.base:address - b.base + size] = payload
+    report = {'source': name, 'group': 'sbsp', 'datum': hex(owner),
+              'resources': resources, 'source_geometry': True}
+    i.added.append(report)
+    return ('sbsp', owner), address, report
