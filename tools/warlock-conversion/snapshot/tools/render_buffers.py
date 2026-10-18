@@ -60,7 +60,7 @@ def convert_vertices(payload, count, fmt, stride):
         out[:, 8:12] = normal.astype(np.int8).view(np.uint8)
         out[:, 12:16] = raw[:, 12:16][:, ::-1]
         return out.tobytes(), 16
-    auxiliary = {4: (4, 2), 6: (20, 4), 9: (4, None), 10: (4, None), 11: (24, None),
+    auxiliary = {4: (4, 2), 6: (20, None), 9: (4, None), 10: (4, None), 11: (24, None),
                  14: (12, 4)}
     # Water formats 27/28 require mesh context. MCC's format-27 allocation
     # advertises 36-byte vertices but packs meaningful corner data at 24 bytes;
@@ -81,13 +81,16 @@ def convert_vertices(payload, count, fmt, stride):
             out = np.zeros((count, 4), dtype=np.uint8)
             out[:, 0] = np.rint(values * 255).astype(np.uint8)
             return out.tobytes(), 4
-        if fmt == 10:
-            # MCC TinyNormal reverses the component order and biases by 127;
-            # retail reads four signed-normalized bytes directly.
-            values = raw[:, ::-1].astype(np.int16) - 127
+        if fmt in (6, 10):
+            # StaticPerVertexColor (6) contains five packed colour-coefficient
+            # vectors, not five floats. Like LinearPRT (10), each MCC vector
+            # reverses component order and biases signed bytes by 127. Endian
+            # reversal alone turns negative lighting terms into large positives.
+            # This conversion matches all 784 such buffers in the accepted map.
+            values = raw.reshape(count, stride // 4, 4)[:, :, ::-1].astype(np.int16) - 127
             if np.any(values > 127):
-                raise ValueError('Linear PRT coefficient exceeds signed-normalized range')
-            return values.astype(np.int8).tobytes(), 4
+                raise ValueError('Packed lighting coefficient exceeds signed-normalized range')
+            return values.astype(np.int8).tobytes(), stride
         # Quadratic PRT uses three signed 10:10:10 vectors, not the primary
         # normal stream's 10:11:11 format. Drop each MCC short4 padding component.
         values = np.frombuffer(payload, dtype='<i2').reshape(count, 3, 4)[:, :, :3]

@@ -114,14 +114,28 @@ is **not evidence that gameplay loaded**. No EXE patching or debugger is require
 
 ## Handoff evidence and limits
 
-Current repaired map: 372,195,328 bytes, SHA256
-`ed8298b11375eb0c47c46069f3407a559e2d8931e9bace5f653c8696a72b025c`.
+Current lighting-repaired map: 372,199,424 bytes, SHA256
+`691bdf7b4d84fecf645abab1d1617d10a8a10c25835dcc80c66e5258e7c9d8ca`.
 The build imports 838 metadata records and all 162 Forge palette entries (161
-non-null references). The report is `.local/reports/warlock-decalfix.json`.
+non-null references). The report is `.local/reports/warlock-lighting-corrected.json`.
 Structural verification covers serialized registry addresses/salts/groups,
 scenario coverage, Forge references, budget, cleared editor blocks and header
-hash. The native loading check reached first-person Slayer; movement, audio, modes
-and multiplayer have not been verified by the agent.
+hash. The native lighting check reached first-person Slayer, with five successful
+resource hash checks and no recorded unhandled exception. Its native capture is
+`.local/loading-traces/20261018-185543-19576/proof-loaded.png`. Inspection confirms
+the neon lighting regression is removed; some grainy surfaces remain. All 784
+format-6 lighting buffers now match the accepted fallback byte for byte. A focused
+regression test verifies signed coefficient conversion and preservation of stride.
+The owner reports working cannons, pickups, invisibility and teleportation;
+teleporter audio is missing. Agent verification does not cover those interactions.
+
+Map size remains unresolved and is not accepted as Xbox 360 appropriate. The size
+audit (`.local/reports/warlock-size-audit.json`) attributes newly added compressed
+pages to audio (107.3 MB), textures (57.3 MB), geometry (42.9 MB), and models and
+animation (2.5 MB), on top of the 143.7 MB basis and metadata growth. Duplicate
+new pages account for only 46 KB. New sounds currently use decoded PCM; investigate
+native retail sound reuse before sacrificing textures or removing working content.
+No actual console memory/residency validation has been completed.
 
 Known POC approximations include reduced texture resolution/mip coverage, native
 reflection substitutions, frozen shader animation and selected original-disc
