@@ -1,0 +1,122 @@
+"""MCC H3 structure_bsp_tag_resources to original H3, without a seed cache.
+
+Layouts: TagTool Tags/Resources/StructureBspTagResources.cs and
+Geometry/BspCollisionGeometry/{CollisionGeometry,InstancedGeometry,Surface}.cs.
+"""
+import struct
+from collision_physics import retail_mopp
+
+
+def convert_bsp_collision(source):
+    if not source.c.mcc:
+        raise ValueError('Expected MCC collision resource')
+    control, raw, fixups = bytearray(32), bytearray(), []
+    used = set()
+
+    def alloc(buffer, payload, alignment=16):
+        buffer.extend(bytes((-len(buffer)) % alignment))
+        at = len(buffer)
+        buffer.extend(payload)
+        return at
+
+    def read(pointer, size):
+        segment, offset = pointer >> 29, pointer & 0x1fffffff
+        if segment == 1:
+            data = source.data
+        elif segment in (2, 3) and segment - 2 < len(source.raw):
+            data = source.raw[segment - 2]
+        else:
+            raise ValueError('Unsupported collision resource segment')
+        if size < 0 or offset + size > len(data):
+            raise ValueError('Collision resource data outside segment')
+        return data[offset:offset + size]
+
+    def block(at, stride):
+        count = source.unpack('I', at)[0]
+        if not count:
+            if at + 4 in source.fix:
+                raise ValueError('Unexpected empty collision block fixup')
+            return count, b''
+        if at + 4 not in source.fix:
+            raise ValueError('Missing collision block fixup')
+        used.add(at + 4)
+        return count, read(source.fix[at + 4], count * stride)
+
+    def output_block(at, count, payload, resident=False):
+        struct.pack_into('>I', control, at, count)
+        if count:
+            offset = alloc(control if resident else raw, payload)
+            fixups.append((at + 4, (0x20000000 if resident else 0x40000000) | offset))
+            return offset
+
+    def array(src, dst, fmt, target_fmt=None):
+        count, data = block(src, struct.calcsize('<' + fmt))
+        target_fmt = target_fmt or fmt
+        try:
+            payload = b''.join(struct.pack('>' + target_fmt, *row)
+                               for row in struct.iter_unpack('<' + fmt, data))
+        except struct.error as exc:
+            raise ValueError('Collision array exceeds retail representation') from exc
+        output_block(dst, count, payload)
+
+    def geometry(src, dst):
+        for index, fmt in enumerate(('Q', '4I', 'BBHI', '2H', '3I2H',
+                                     '5H2B', '6H', '3I2H')):
+            array(src + index * 12, dst + index * 12, fmt)
+
+    def mopp(src, dst):
+        count, headers = block(src, 64)
+        if not count:
+            return
+        source_at = source.fix[src + 4]
+        if source_at >> 29 != 1:
+            raise ValueError('MOPP headers must reside in control data')
+        target_at = output_block(dst, count, bytes(count * 64), True)
+        for index in range(count):
+            s = (source_at & 0x1fffffff) + index * 64
+            d = target_at + index * 64
+            if source.unpack('Q', s)[0] or source.unpack('Q', s + 32)[0]:
+                raise ValueError('Serialized MOPP contains runtime pointer')
+            for so, do, fmt in ((8, 4, 'HH'), (16, 16, '4I'), (40, 36, 'II')):
+                struct.pack_into('>' + fmt, control, d + do, *source.unpack(fmt, s + so))
+            n, code = block(s + 48, 1)
+            if n != source.unpack('I', s + 40)[0]:
+                raise ValueError('MOPP code count mismatch')
+            output_block(d + 48, n, retail_mopp(code))
+            control[d + 60] = source.data[s + 60]
+
+    root = source.root
+    for offset in (12, 36):
+        if source.unpack('I', root + offset)[0]:
+            raise ValueError('Large collision BSPs/Havok data need explicit conversion')
+    count, _ = block(root, 96)
+    bsp_at = output_block(0, count, bytes(count * 96), True)
+    if count:
+        start = source.fix[root + 4]
+        if start >> 29 != 1:
+            raise ValueError('Collision headers must reside in control data')
+        for i in range(count):
+            geometry((start & 0x1fffffff) + i * 96, bsp_at + i * 96)
+    count, _ = block(root + 24, 196)
+    instances = output_block(12, count, bytes(count * 184), True)
+    if count:
+        start = source.fix[root + 28]
+        if start >> 29 != 1:
+            raise ValueError('Instance headers must reside in control data')
+        for i in range(count):
+            s, d = (start & 0x1fffffff) + i * 196, instances + i * 184
+            struct.pack_into('>5I', control, d, *source.unpack('5I', s))
+            geometry(s + 20, d + 20)
+            for offset in (0x74, 0x8c, 0x98):
+                if source.unpack('I', s + offset)[0]:
+                    raise ValueError('Render BSP/breakable/small surface block requires conversion')
+            mopp(s + 0x80, d + 0x80)
+            array(s + 0xa4, d + 0x98, 'ii', 'Hh')
+            # Serialized H3 caches use ushort triangle/section pairs (the
+            # higher-level TagTool class uses expanded integers in memory).
+            array(s + 0xb0, d + 0xa4, '2H')
+            struct.pack_into('>2HI', control, d + 0xb0, *source.unpack('2HI', s + 0xbc))
+    if used != set(source.fix):
+        raise ValueError('Unconsumed collision resource fixups')
+    return {'control': bytes(control), 'raw': bytes(raw), 'root': 0,
+            'fixups': fixups, 'interops': []}

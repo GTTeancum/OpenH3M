@@ -591,6 +591,22 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+`snapshot/tools/bsp_collision_resource.py` now converts the MCC structure BSP
+collision resource directly. It relocates control/raw blocks, converts collision
+arrays and instance headers, narrows surface-map indices with overflow checks,
+and translates MOPP headers/code. Unsupported populated large-BSP, extra Havok,
+render-BSP, breakable and small-surface blocks fail explicitly; every source
+fixup must be consumed. This is an in-memory converter, not yet wired into the
+final stock-based build.
+
+Focused comparison against the user-accepted map matched all main-BSP and 449
+instance collision arrays/scalars, plus all 133 MOPP headers/code blocks.
+Output: 91,264 control bytes, 8,737,928 raw bytes, 1,599 fixups. No native run or
+new map file was needed. Layout references include the bundled H3 `sbsp.xml`
+schemas and [TagTool collision definitions](https://github.com/TheGuardians/TagTool/tree/master/TagTool/Geometry/BspCollisionGeometry).
+The serialized triangle/section pairs are 4 bytes in both H3 cache formats;
+TagTool's expanded in-memory mapping class must not be treated as their stride.
+
 `snapshot/tools/bsp_source.py` resolves the active scenario BSP through its
 `sLdT` lightmap and matching `Lbsp` BSP index. It validates tag salts and resource
 ownership/type before converting render buffers, including reconstructed water.
