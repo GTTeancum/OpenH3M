@@ -5,6 +5,32 @@ in the unchanged OpenH3M runtime. The owner tested solo and reported good collis
 and visuals on 2026-10-18. This is a checkpoint, not a complete general converter.
 No game assets, maps, screenshots, runtime binaries, or generated logs are included.
 
+## Integrated scenario checkpoint
+
+`snapshot/tools/build_scenario_checkpoint.py` combines the completed object,
+sound, spawn, sky/environment and decal importers into a separate map file. This
+command still requires the accepted geometry checkpoint (SHA256 below); it is
+not the final seed-independent converter and does not finish remaining BSP
+materials/reflections. Run with `python -B` from this checkout:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
+  --project C:/X360/ISOs/H3M `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/2977651586/maps/warlock.map `
+  --basis ../candidate/lockout.map --xex ../../default.xex `
+  --sound-bank "D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3/fmod/pc/sfx.fsb" `
+  --decoder ../tools/vgmstream-r2117/vgmstream-cli.exe `
+  --output ../integrated/lockout.map --report ../reports/scenario-checkpoint.json
+```
+
+All generated paths are confined to the declared project's `.local` directory.
+The output must not already exist. The command preserves the basis, derives real
+resource hashes from the supplied XEX, stages in a temporary sibling, reopens and
+checks the serialized cache/tag registry, then renames it into place. Failed
+temporary maps are removed; the report records the failed stage and error.
+No deployment or native launch is performed. The report lists imported tags,
+material approximations, source/output hashes and unfinished conversion scope.
+
 ## Restore the working layout
 
 The snapshot deliberately preserves the exact scripts used for the successful map.
