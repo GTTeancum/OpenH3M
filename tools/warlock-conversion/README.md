@@ -265,3 +265,23 @@ Receiver and Automag animation checkpoint:
   Gameplay, animation playback and audio remain unverified by this checkpoint.
 - New format sources are Assembly Engines.xml and TagTool animation resource/codec
   implementations, under their already included upstream licenses.
+
+Automag audio checkpoint:
+- The custom silenced gunshot has an empty MCC resource page; its four permutation
+  hashes resolve to the installed halo3/fmod/pc/sfx.fsb, not embedded map audio.
+- fmod_audio.py reads the 280-byte .info index and decodes a selected hash with an
+  explicitly supplied vgmstream CLI. It pipes WAV to memory, converts PCM16 to
+  big endian, uses a bounded timeout, and redirects temp paths to the supplied
+  repository-local working directory. No sound playback or extracted bank copy.
+- All four hashes decode to stereo 48 kHz: 64320, 60995, 57891 and 70433 frames.
+  The private report is .local/reports/automag-audio-decode.json. This proves
+  decoding/format, not audible in-game playback.
+- CacheRegistry now accepts the native sound-resource convention: zero serialized
+  control bytes and one data-pointer fixup at offset 12. Compared with the native
+  magnum sound resource. Sound-table rebasing/integration remains outstanding.
+- Local decoder: vgmstream r2117 win64 from the official GitHub release, installed
+  under .local/tools/vgmstream-r2117. Its downloaded ZIP was removed after setup.
+  Binaries and audio assets are not versioned. Future callers must supply their
+  own decoder path; no machine-specific decoder path is embedded in source.
+- Reference additions: Assembly ugh! schemas and TagTool FMOD index/bank and sound
+  converter sources, retaining the licenses already included in this snapshot.

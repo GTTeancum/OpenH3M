@@ -63,12 +63,19 @@ class CacheRegistry:
         if rid >= 65535 or page >= 32767 or location >= 32767:
             raise ValueError('Retail resource index exhausted')
         control, raw = resource['control'], resource['raw']
-        if not 0 <= resource['root'] < len(control):
+        sound = type_name == 'sound_resource_definition'
+        if sound and (control or resource['root'] != 0 or resource['interops']
+                      or resource['fixups'] != [(12, 0x40000000)]):
+            raise ValueError('Unexpected sound resource layout')
+        # Native sound resources serialize no control bytes. Their single fixup
+        # addresses the data pointer in the runtime-created 20-byte dataref.
+        control_size = 20 if sound else len(control)
+        if not 0 <= resource['root'] < control_size:
             raise ValueError('Resource root outside control payload')
         for at, target in resource['fixups']:
             segment, offset = target & 0xe0000000, target & 0x1fffffff
             bound = len(control) if segment == 0x20000000 else len(raw) if segment == 0x40000000 else -1
-            if not 0 <= at <= len(control) - 4 or not 0 <= offset < bound:
+            if not 0 <= at <= control_size - 4 or not 0 <= offset < bound:
                 raise ValueError('Invalid new resource fixup')
         compressed = zlib.compress(raw)[2:-4]
         offset = self.builder.append_raw(compressed)
@@ -83,7 +90,8 @@ class CacheRegistry:
         struct.pack_into('>I', row, 12, owner)
         resource_salt = 0x9100
         struct.pack_into('>HBBIIIHhI', row, 16, resource_salt, self.types[type_name], 2,
-                         len(self.control), len(control), 0xffffffff, 1, location, 0x20000000 | resource['root'])
+                         0 if sound else len(self.control), len(control), 0 if sound else 0xffffffff,
+                         1, location, 0x20000000 | resource['root'])
         for field, pairs in ((40, resource['fixups']), (52, resource['interops'])):
             data = b''.join(struct.pack('>II', *pair) for pair in pairs)
             struct.pack_into('>III', row, field, len(pairs), self.builder.alloc(data) if data else 0, 0)
