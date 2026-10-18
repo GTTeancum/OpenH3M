@@ -231,10 +231,15 @@ class MetadataConverter:
                     except ValueError as error:
                         raise ValueError(f'{name}: {error}') from error
                 elif kind.startswith('enum'):
-                    if ('automag' in path and key[0] in ('Damage Effect Reporting Type', 'Damage Reporting Type')
-                            and any(x.get('name') == 'Automag' and int(x.get('value'), 0) == values[0] for x in src)):
-                        # Retail has no ODST Automag statistics category.
-                        values = (int(next(x for x in dst if x.get('name') == 'Magnum').get('value'), 0),)
+                    statistic_alias = next((pair for token, pair in (
+                        ('automag', ('Automag', 'Magnum')),
+                        ('smg_silenced', ('Silenced SMG', 'SMG')),
+                        ('plasma_rifle_red', ('Brute Plasma Rifle', 'Plasma Rifle')))
+                        if token in path), None)
+                    if (statistic_alias and key[0] in ('Damage Effect Reporting Type', 'Damage Reporting Type')
+                            and any(x.get('name') == statistic_alias[0] and int(x.get('value'), 0) == values[0] for x in src)):
+                        # Retail statistics use the corresponding weapon family.
+                        values = (int(next(x for x in dst if x.get('name') == statistic_alias[1]).get('value'), 0),)
                     else:
                         values = (translate_enum(values[0], src, dst),)
                 struct.pack_into('>' + fmt, out, at, *values)

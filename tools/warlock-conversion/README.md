@@ -786,3 +786,23 @@ shader. This variant exists in original Armory but not Lockout; importing its
 native shader routing from that donor remains outstanding. The importer rejects
 this missing dependency rather than emitting a partial map. No generated map,
 deployment, or gameplay test was performed for this checkpoint.
+
+### Native effect donors and Forge weapon dependencies
+
+The missile pod now imports and finalizes its full dependency graph (41 new
+metadata records) against original Lockout. Its contrail and exhaust shaders
+use exact variants relocated from original Armory, including shared bitmap
+resources. `TagImporter` accepts an explicit `disc_maps` directory, and the
+checkpoint CLI supplies it. No compiled MCC shader or runtime patch is used.
+A separate contrail-only import/finalize also passed with matching named
+texture/constant parameters.
+
+Added paired light-volume schemas and the inherited retail damage-response
+schema, with tag-function conversion. Silenced-SMG physics retains flag 0x39,
+verified against both source SMG and original Lockout SMG. ODST weapon damage
+statistics map to retail weapon-family categories and report that substitution.
+
+The full Forge probe now advances to the red plasma rifle's animated impact
+decal (`_0_1_1_0_0_2`, one overlay). Animation routing conversion remains
+outstanding; this still fails explicitly, so Forge is not enabled in the final
+assembly yet. No new map was generated or deployed during these checks.

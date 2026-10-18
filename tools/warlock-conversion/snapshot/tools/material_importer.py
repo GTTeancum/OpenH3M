@@ -31,6 +31,7 @@ class MaterialImporter:
         self.done = {}
         self.report = []
         self.particle_aliases = {}
+        self.native_effect_post = None
         self.target_names = {(t['group'], self.target.name(i)): (t['salt'] << 16) | i
                              for i, t in self.target.tags.items()}
 
@@ -144,6 +145,8 @@ class MaterialImporter:
                 containers = [row + 48 for row in c.block(tag['offset'] + 20, 116)]
             elif group == 'cntl':
                 containers = [row + 0x158 for row in c.block(tag['offset'], 0x26c)]
+            elif group == 'ltvl':
+                containers = [row + 0x2c for row in c.block(tag['offset'], 0x17c)]
             else:
                 containers = [tag['offset'] + 100]
             for candidate in (post for container in containers for post in c.block(container, 132)):
@@ -155,10 +158,15 @@ class MaterialImporter:
                     post = candidate
             if post is not None and alias is None:
                 break
-        if post is None:
+        native_output = None
+        if post is None and self.native_effect_post is not None:
+            native_output, target_names = self.native_effect_post(group, template_name)
+            alias, target_template = None, template_name
+        elif post is None:
             raise ValueError(f'No supported retail {group} template: {template_name}')
+        else:
+            target_names = self.parameters(c, self.target_strings, post)
         source_names = self.parameters(s, self.source_strings, source_post)
-        target_names = self.parameters(c, self.target_strings, post)
         textures = s.block(source_post + 16, 28)
         constants = s.block(source_post + 28, 16)
         if len(textures) != len(source_names[0]) or len(constants) != len(source_names[1]):
@@ -201,7 +209,9 @@ class MaterialImporter:
             textures = [row for index, row in enumerate(textures) if index != mask_index]
             source_names = ([name for name in source_names[0] if name != 'alpha_map'], source_names[1])
         if source_names != target_names or s.u(source_post + 92):
-            raise ValueError('Particle parameter order differs or has animated overlays')
+            raise ValueError(f'{group}:{template_name}: parameter order differs '
+                             f'({source_names!r} vs {target_names!r}) or has '
+                             f'{s.u(source_post + 92)} animated overlays at {source_post:#x}')
         converted = bytearray()
         for row in textures:
             bitmap = s.u(row + 12)
@@ -212,7 +222,7 @@ class MaterialImporter:
                       self.bitmap(bitmap) if bitmap != 0xffffffff else bitmap)
             converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
                              + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
-        output = bytearray(c.data[post:post + 132])
+        output = bytearray(native_output if native_output is not None else c.data[post:post + 132])
         for offset, stride, rows, payload in (
                 (16, 24, textures, converted),
                 (28, 16, constants, b''.join(struct.pack('>4I', *s.unpack('4I', row)) for row in constants))):
@@ -238,6 +248,7 @@ class MaterialImporter:
             b.put(pointer + index * 16, '4I', *c.unpack('4I', native))
         self.report.append({'particle_template': template_name, 'retail_template': target_template,
                             'render_method_group': group,
+                            'native_shader_donor': 'armory.map' if native_output is not None else None,
                             'approximation': bool(alias), 'difference': alias[2] if alias else None,
                             'textures_imported': source_names[0], 'constants_imported': source_names[1]})
         self.particle_aliases[source_post] = alias

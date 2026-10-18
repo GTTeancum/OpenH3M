@@ -93,7 +93,7 @@ def main():
         source = Cache(str(args.source), True)
         builder = MapBuilder(str(args.basis), 0x1000000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
-            args.sound_bank, args.decoder, work))
+            args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         terrain = DiscMaterialImporter(importer, args.disc_maps or project / 'maps')
         water = WaterImporter(importer, args.disc_maps or project / 'maps')
         stages = [('runtime', lambda: stage_runtime(importer)),
