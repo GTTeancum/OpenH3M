@@ -146,3 +146,13 @@ Actual MCC respawn-point and CTF initial-spawn scenery (256-byte retail roots) a
 the standard sender model (392-byte retail root) converted in memory using real
 retail dependencies. These checks establish metadata conversion only, not custom
 render resource conversion or new gameplay output.
+
+render_buffers.py encodes MCC rigid/world primary vertex buffers into retail
+24/32-byte strides, preserving position/UV bits and packing basis vectors into
+signed 10:11:11, plus 16-bit index endianness conversion. Against the accepted
+candidate: all 495 primary buffers preserve positions/UVs; all 500 index buffers
+match byte-for-byte. Maximum basis error versus source was 0.0009783. Basis bytes
+need not match the old encoder because rounding differs. Skinned/auxiliary streams,
+resource-control assembly and native rendering of new output remain unfinished.
+Some stock comparison assets use shared.map pages; resource_reader currently
+rejects these explicitly and needs a configurable shared-cache reader.
