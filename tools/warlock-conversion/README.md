@@ -538,3 +538,18 @@ Native water bitmap dependency checkpoint:
 - Water shader binding is still pending: neither source variant exists exactly
   on the disc, so foam/bank-alpha differences require an explicit mapping. This
   dependency checkpoint does not yet replace the two retained water materials.
+
+Water geometry prerequisite:
+- The earlier geometry comparison verified formats 1/2 and ordinary index
+  buffers; it did not establish water-buffer correctness or reproducibility.
+  MCC format 28 has 128-byte expanded records, while the accepted native cache
+  uses 12-byte triangle-index records. Their counts also differ. This is not
+  evidence that the accepted scene is broken, but it rules out a direct endian
+  copy as the seed-independent conversion strategy.
+- Format 27 water tessellation parameters are nine float words on both platforms.
+  `render_buffers.py` now converts them while preserving every float bit pattern;
+  all five source buffers passed that check. Format 28 still rejects explicitly
+  until reconstruction from mesh topology is implemented.
+- Private diagnostic: `.local/reports/water-geometry-gap.json`. Water shader
+  binding remains deferred while this geometry prerequisite is addressed. The
+  accepted geometry and latest integrated map were not overwritten by this check.
