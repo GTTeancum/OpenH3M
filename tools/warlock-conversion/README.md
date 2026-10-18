@@ -806,3 +806,23 @@ The full Forge probe now advances to the red plasma rifle's animated impact
 decal (`_0_1_1_0_0_2`, one overlay). Animation routing conversion remains
 outstanding; this still fails explicitly, so Forge is not enabled in the final
 assembly yet. No new map was generated or deployed during these checks.
+
+### Animated impact decal checkpoint
+
+Single-pass effect overlays now retain their function data and remap GPU
+registers through matching template parameter indices. The converter checks
+entry/pass counts, routing bounds, function references, source register matches,
+and unique retail destinations before writing anything usable. Multipass,
+aliased-template and ambiguous animation routes still reject explicitly.
+
+The red plasma rifle impact decal imports and finalizes. Its one animated
+modulation parameter maps from MCC register 0x7102 to retail register 234,
+retaining function index 0 and constant index 2; the generated metadata was
+read back and checked. The full Forge probe passes the weapon entries and now
+stops at the auto-turret equipment's MCC pickup-icon fields. Equipment and the
+remaining Forge scenery dependencies are still unfinished. No gameplay test or
+new map deployment was performed.
+
+Format references added: TagTool `RenderMethod.cs` and
+`RenderMethodTemplate.cs`, from the upstream master branch. These distinguish
+animation function/constant indices from the template GPU-register bindings.

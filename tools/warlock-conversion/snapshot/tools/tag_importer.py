@@ -25,6 +25,7 @@ class TagImporter:
         self.resolved.update(bindings or {})
         self.added = []
         self.materials = MaterialImporter(source, registry)
+        self.materials.target_strings = self.target_strings
         if disc_maps is not None:
             from native_effect_post import NativeEffectPost
             self.materials.native_effect_post = NativeEffectPost(self, disc_maps)

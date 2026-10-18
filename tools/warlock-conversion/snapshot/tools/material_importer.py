@@ -208,7 +208,7 @@ class MaterialImporter:
             mask_index = source_names[0].index('alpha_map')
             textures = [row for index, row in enumerate(textures) if index != mask_index]
             source_names = ([name for name in source_names[0] if name != 'alpha_map'], source_names[1])
-        if source_names != target_names or s.u(source_post + 92):
+        if source_names != target_names:
             raise ValueError(f'{group}:{template_name}: parameter order differs '
                              f'({source_names!r} vs {target_names!r}) or has '
                              f'{s.u(source_post + 92)} animated overlays at {source_post:#x}')
@@ -223,6 +223,13 @@ class MaterialImporter:
             converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
                              + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
         output = bytearray(native_output if native_output is not None else c.data[post:post + 132])
+        if s.u(source_post + 92):
+            if alias or native_output is not None:
+                raise ValueError('Animated effect requires an exact template in the base cache')
+            from effect_animation import convert_animation
+            for offset, header in convert_animation(s, c, b, self.source_strings,
+                                                    self.target_strings, source_post, post).items():
+                output[offset:offset + 12] = header
         for offset, stride, rows, payload in (
                 (16, 24, textures, converted),
                 (28, 16, constants, b''.join(struct.pack('>4I', *s.unpack('4I', row)) for row in constants))):
@@ -249,6 +256,7 @@ class MaterialImporter:
         self.report.append({'particle_template': template_name, 'retail_template': target_template,
                             'render_method_group': group,
                             'native_shader_donor': 'armory.map' if native_output is not None else None,
+                            'animated_overlays': s.u(source_post + 92),
                             'approximation': bool(alias), 'difference': alias[2] if alias else None,
                             'textures_imported': source_names[0], 'constants_imported': source_names[1]})
         self.particle_aliases[source_post] = alias
