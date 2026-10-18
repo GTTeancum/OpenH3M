@@ -66,7 +66,7 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
@@ -117,7 +117,7 @@ class TagImporter:
                     raise ValueError('Packed mesh MOPP extends outside source cache')
                 return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
             if (('/Functions[' in path and path.endswith('/Default Function'))
-                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind') and path.endswith('Function'))):
+                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
                 from tag_functions import convert_function
@@ -149,6 +149,12 @@ class TagImporter:
         offset = address - self.builder.base
         self.builder.meta[offset:offset + size] = payload
         entry = {'source': name, 'group': group, 'datum': hex(owner)}
+        from tag_metadata import WEAPON_UI
+        if f'{group}:{name}' in WEAPON_UI:
+            compatibility_notes.extend([
+                'Native weapon-family pickup index replaces MCC Unicode pickup icons.',
+                'Ordinary first-person offset replaces MCC centered-crosshair override.',
+                'Retail-only collision sound and aged-weapon references are null.'])
         if compatibility_notes:
             entry['compatibility_notes'] = compatibility_notes
         if group == 'weap' and name == r'objects\weapons\pistol\automag\automag':

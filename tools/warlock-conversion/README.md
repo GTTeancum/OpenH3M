@@ -591,6 +591,16 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Forge weapon dependency progress: native pickup defaults were checked in original
+armory/lockout tags for missile pod (32), SMG (14), and plasma rifle (22).
+Scoped MCC weapon UI-field handling now includes those Forge variants alongside
+Automag. Missile-pod physics flags `0x46`/`0x8b` and zero retail model-damage
+padding/unused blocks were verified against original armory records before
+enabling their layout conversion. Added inherited Assembly `chad` and `foot`
+schemas and HUD animation function conversion. The missile-pod dependency graph
+now reaches sound import, where encoded permutation data is explicitly rejected;
+it has NOT completed or been activated. Forge integration remains unfinished.
+
 Forge palette assembly is implemented in `scenario_forge.py` for all seven
 categories, preserving object references, display names, limits and prices.
 It translates 28-byte MCC entries into 48-byte retail entries with the trailing

@@ -12,6 +12,14 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
                colorf='3f', vector2='2f', vector3='3f', vector4='4f', point2='2f',
                plane3='4f', plane2='3f', degree2='2f', ranged='2f', point16='2h')
 
+# Original-disc UI defaults; ODST variants use their corresponding H3 family.
+WEAPON_UI = {
+    r'weap:objects\weapons\pistol\automag\automag': (6, 2),
+    r'weap:objects\weapons\turret\missile_pod\missile_pod': (32, 0),
+    r'weap:objects\weapons\rifle\smg_silenced\smg_silenced': (14, 0),
+    r'weap:objects\weapons\rifle\plasma_rifle_red\plasma_rifle_red': (22, 0),
+}
+
 
 class MetadataConverter:
     def __init__(self, source, builder, strings, target_strings, tag_reference,
@@ -57,10 +65,10 @@ class MetadataConverter:
             if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Unknown'
                     and self.source.unpack('h', at)[0] == 0):
                 continue
-            if path == r'weap:objects\weapons\pistol\automag\automag':
+            if path in WEAPON_UI:
                 if key[0] in ('Private Use Font Icon', 'Private Use Font Icon (Dual)'):
                     # MCC Unicode pickup icons have no retail field. Retail
-                    # uses the magnum message index supplied below instead.
+                    # uses the family message index supplied below instead.
                     continue
                 if key[0] == 'First Person Weapon Offset Override':
                     # Only used by MCC's optional centered-crosshair mode.
@@ -85,8 +93,29 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
-                if path == r'weap:objects\weapons\pistol\automag\automag':
-                    defaults = {'OLD Message Index': ('h', 6), 'Sort Order': ('h', 2),
+                if (path.startswith('hlmt:') and '/New Damage Info[' in path
+                        and source_schema.get('name') == 'Nodes'
+                        and int(source_schema.get('elementSize'), 0) == 2 and size == 16
+                        and key[0] == 'Unknown' and kind in ('int16', 'undefined')):
+                    width = 2 if kind == 'int16' else 4
+                    covered.update(range(at, at + width))
+                    continue
+                if (path.startswith('hlmt:') and source_schema.get('name') == 'Damage Sections'
+                        and int(source_schema.get('elementSize'), 0) == 0x2c and size == 0x44
+                        and key[0] in ('null block here 1', 'null block here 2')
+                        and kind == 'uint32' and 0x18 <= at < 0x30):
+                    covered.update(range(at, at + 4))
+                    continue
+                if (path.startswith('hlmt:') and source_schema.get('name') == 'New Damage Info'
+                        and int(source_schema.get('elementSize'), 0) == 0xa4 and size == 0x100
+                        and key[0] == 'Unknown' and kind in ('undefined', 'int16')):
+                    # MCC strips these zero retail fields; confirmed against
+                    # original armory missile model damage metadata.
+                    width = 4 if kind == 'undefined' else 2
+                    covered.update(range(at, at + width))
+                    continue
+                if path in WEAPON_UI:
+                    defaults = {'OLD Message Index': ('h', WEAPON_UI[path][0]), 'Sort Order': ('h', WEAPON_UI[path][1]),
                                 'OLD Multiplayer On-Ground Scale': ('f', 0),
                                 'OLD Campaign On-Ground Scale': ('f', 0)}
                     if key[0] in defaults:
