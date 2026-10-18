@@ -68,8 +68,12 @@ def convert_animation_resource(source, translate_string):
         at, dst = table + index * 48, 12 + index * 48
         values = list(source.unpack('IIHBB2B3H2I', at))
         name, checksum, frames, nodes, movement, sf, af, md, pill, static, unpacked, compressed = values
-        if movement or md or pill or unpacked:
-            raise ValueError('Animation movement/uncompressed payload is not implemented')
+        # Movement type 1 stores one float32 dx/dy pair per frame after the
+        # node flags. Preserve these deltas; no resampling or scale conversion.
+        if movement not in (0, 1) or md != (frames * 8 if movement == 1 else 0) or pill or unpacked:
+            raise ValueError(f'Animation member {index} (string {name:#x}, {frames} frames): '
+                             f'movement={movement}, movement_bytes={md}, pill_bytes={pill}, '
+                             f'uncompressed_bytes={unpacked} is not implemented')
         size = source.unpack('I', at + 28)[0]
         if any(source.unpack('II', at + 32)) or source.unpack('I', at + 44)[0]:
             raise ValueError('Unexpected animation data-reference flags')
@@ -79,7 +83,7 @@ def convert_animation_resource(source, translate_string):
         if segment is None or segment >= len(source.raw):
             raise ValueError('Invalid animation resource segment')
         data = source.raw[segment][start:start + size]
-        if len(data) != size or size != static + compressed + sf + af or (sf + af) % 4:
+        if len(data) != size or size != static + compressed + sf + af + md or (sf + af) % 4:
             raise ValueError('Animation payload size does not match member header')
         payload = bytearray()
         if static:

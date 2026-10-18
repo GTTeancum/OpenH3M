@@ -9,6 +9,11 @@ import numpy as np
 def pack_basis(components):
     """Convert MCC signed-normalized 16-bit XYZ to retail signed 10:11:11."""
     unit = np.maximum(components.astype(np.float64) / 32767.0, -1.0)
+    return pack_unit_basis(unit)
+
+
+def pack_unit_basis(unit):
+    """Pack normalized XYZ floats into retail signed 10:11:11."""
     packed = np.zeros(len(unit), dtype=np.uint32)
     for axis, (shift, bits) in enumerate(((0, 10), (10, 11), (21, 11))):
         limit = (1 << (bits - 1)) - 1
@@ -18,6 +23,20 @@ def pack_basis(components):
 
 
 def convert_vertices(payload, count, fmt, stride):
+    if fmt == 25:
+        if count < 0 or stride != 32 or len(payload) != count * 32:
+            raise ValueError('Particle model payload size mismatch')
+        values = np.frombuffer(payload, dtype='<f4').reshape(count, 8).astype(np.float64)
+        if (not np.all(np.isfinite(values)) or np.any((values[:, :5] < 0) | (values[:, :5] > 1))
+                or np.any(np.abs(values[:, 5:]) > 1)):
+            raise ValueError('Particle model vertex exceeds normalized bounds')
+        out = np.zeros((count, 16), dtype=np.uint8)
+        normalized = np.rint(values[:, :5] * 65535).astype('>u2').view('u1').reshape(count, 10)
+        out[:, :6] = normalized[:, :6]
+        # Retail stores an unused fourth position component as zero.
+        out[:, 8:12] = normalized[:, 6:10]
+        out[:, 12:16] = pack_unit_basis(values[:, 5:])
+        return out.tobytes(), 16
     if fmt == 24:
         if count < 0 or stride != 20 or len(payload) != count * 20:
             raise ValueError('Decorator mesh payload size mismatch')

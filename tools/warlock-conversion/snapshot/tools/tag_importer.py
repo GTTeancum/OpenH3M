@@ -70,7 +70,7 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
@@ -107,7 +107,7 @@ class TagImporter:
                 payload = convert_animation_resource(Resource(source, resource_datum),
                     lambda value: self.source_strings.translate(value, self.target_strings))
                 return self.registry.add_resource(owner, 'model_animation_tag_resource', payload)
-            if group != 'mode' or not path.endswith('/[zone] Asset Datum'):
+            if group not in ('mode', 'pmdf') or not path.endswith('/[zone] Asset Datum'):
                 raise ValueError(f'{path}: resource type requires a dedicated importer')
             payload = convert_render_resource(Resource(source, resource_datum))
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
@@ -153,14 +153,20 @@ class TagImporter:
         offset = address - self.builder.base
         self.builder.meta[offset:offset + size] = payload
         entry = {'source': name, 'group': group, 'datum': hex(owner)}
-        from tag_metadata import WEAPON_UI
-        if f'{group}:{name}' in WEAPON_UI:
+        from tag_metadata import ITEM_UI
+        if group == 'eqip' and f'{group}:{name}' in ITEM_UI:
+            compatibility_notes.extend([
+                'Retail equipment pickup index 0 replaces MCC Unicode pickup icons.',
+                'Retail-only collision sound is null; legacy item scales are zero.'])
+        elif f'{group}:{name}' in ITEM_UI:
             compatibility_notes.extend([
                 'Native weapon-family pickup index replaces MCC Unicode pickup icons.',
                 'Ordinary first-person offset replaces MCC centered-crosshair override.',
                 'Retail-only collision sound and aged-weapon references are null.'])
         if compatibility_notes:
             entry['compatibility_notes'] = compatibility_notes
+        if group == 'vehi' and name == r'objects\equipment\autoturret\autoturret':
+            entry.setdefault('compatibility_notes', []).append('Retail-only integrated light toggle is null.')
         if group == 'weap' and ('smg_silenced' in name or 'plasma_rifle_red' in name):
             entry.setdefault('compatibility_notes', []).append(
                 'Damage statistics use the corresponding retail SMG or Plasma Rifle category.')

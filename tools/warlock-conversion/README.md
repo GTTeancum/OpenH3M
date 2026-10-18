@@ -826,3 +826,28 @@ new map deployment was performed.
 Format references added: TagTool `RenderMethod.cs` and
 `RenderMethodTemplate.cs`, from the upstream master branch. These distinguish
 animation function/constant indices from the template GPU-register bindings.
+
+### Auto-turret dependency checkpoint
+
+Auto-turret equipment now uses the original equipment pickup-index convention
+(zero), with explicit null retail collision sound and zero legacy scales. Its
+physics flags 0x42/0x56 are also present in original Bunkerworld sentinel-gun
+geometry. Added separate vehicle and AI-character schemas and inherited particle
+model metadata/resource support. Retail-only auto-turret camera, actor-spawning,
+and dialogue scalars default to zero, as in the original multiplayer turrets;
+the removed integrated-light reference is null.
+
+Animation resources now preserve type-1 XY movement as two float32 deltas per
+frame, with exact frame-count/byte-size validation. Other movement layouts,
+pill-offset and uncompressed payloads remain explicit failures. The auto-turret
+animation graph imports and finalizes independently.
+
+Particle-model vertices convert normalized float positions/UVs and float normals
+to the retail 16-byte format. A comparison of 228 matching concrete-debris
+vertices against original Lockout found position/UV differences of at most one
+16-bit quantization step; the output is not claimed byte-identical. The existing
+retail normal packing is reused. No native rendering test was run.
+
+The Forge probe now reaches `char:ai/generic`; its pre-search layout has a
+retail-only float that collides with an unnamed MCC padding field. That layout
+mapping remains to be implemented. No new generated map or deployment occurred.

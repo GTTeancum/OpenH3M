@@ -70,7 +70,8 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 # Assembly labels only bit 0. Native receiver/jump-pad shapes
                 # retain the same 0x45/0x90 shape flags as their MCC records.
                 # Original armory missile-pod geometry and its projectile confirm 0x46/0x8b.
-                if values[0] not in (0x39, 0x45, 0x46, 0x8b, 0x90):
+                # Retail bunkerworld sentinel-gun geometry also uses 0x42/0x56.
+                if values[0] not in (0x39, 0x42, 0x45, 0x46, 0x56, 0x8b, 0x90):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

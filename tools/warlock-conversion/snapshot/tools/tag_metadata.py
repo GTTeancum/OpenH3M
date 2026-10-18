@@ -13,7 +13,8 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
                plane3='4f', plane2='3f', degree2='2f', ranged='2f', point16='2h')
 
 # Original-disc UI defaults; ODST variants use their corresponding H3 family.
-WEAPON_UI = {
+ITEM_UI = {
+    r'eqip:objects\equipment\autoturret_equipment\autoturret_equipment': (0, 0),
     r'weap:objects\weapons\pistol\automag\automag': (6, 2),
     r'weap:objects\weapons\turret\missile_pod\missile_pod': (32, 0),
     r'weap:objects\weapons\rifle\smg_silenced\smg_silenced': (14, 0),
@@ -65,7 +66,7 @@ class MetadataConverter:
             if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Unknown'
                     and self.source.unpack('h', at)[0] == 0):
                 continue
-            if path in WEAPON_UI:
+            if path in ITEM_UI:
                 if key[0] in ('Private Use Font Icon', 'Private Use Font Icon (Dual)'):
                     # MCC Unicode pickup icons have no retail field. Retail
                     # uses the family message index supplied below instead.
@@ -93,6 +94,21 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
+                if (path == r'vehi:objects\equipment\autoturret\autoturret'
+                        and key[0] in ('Camera Stiffness', 'Feign Death Threshold', 'Feign Death Time',
+                                       'Stunned Movement Threshold', 'Feign Death Chance', 'Feign Repeat Chance',
+                                       'Spawned Actor Count', 'Spawned Velocity', 'Lipsync Attack Weight',
+                                       'Lipsync Decay Weight') and kind in ('float32', 'range16')):
+                    # Original multiplayer turret/vehicle tags leave these
+                    # removed camera, actor-spawning and dialogue fields zero.
+                    covered.update(range(at, at + 4))
+                    continue
+                if (path == r'vehi:objects\equipment\autoturret\autoturret'
+                        and key[0] == 'Integrated Light Toggle' and kind == 'tagref'):
+                    out[at:at + 4] = b'\xff' * 4
+                    struct.pack_into('>I', out, at + 12, 0xffffffff)
+                    covered.update(range(at, at + 16))
+                    continue
                 if (path.startswith('hlmt:') and '/New Damage Info[' in path
                         and source_schema.get('name') == 'Nodes'
                         and int(source_schema.get('elementSize'), 0) == 2 and size == 16
@@ -114,8 +130,8 @@ class MetadataConverter:
                     width = 4 if kind == 'undefined' else 2
                     covered.update(range(at, at + width))
                     continue
-                if path in WEAPON_UI:
-                    defaults = {'OLD Message Index': ('h', WEAPON_UI[path][0]), 'Sort Order': ('h', WEAPON_UI[path][1]),
+                if path in ITEM_UI:
+                    defaults = {'OLD Message Index': ('h', ITEM_UI[path][0]), 'Sort Order': ('h', ITEM_UI[path][1]),
                                 'OLD Multiplayer On-Ground Scale': ('f', 0),
                                 'OLD Campaign On-Ground Scale': ('f', 0)}
                     if key[0] in defaults:
