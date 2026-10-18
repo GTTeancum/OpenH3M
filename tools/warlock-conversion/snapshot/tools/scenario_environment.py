@@ -16,7 +16,8 @@ def stage_environment(importer):
     bsp_field = field(ds, 'Structure BSPs')
     bsps = c.block(target_root + int(bsp_field.get('offset'), 0), int(bsp_field.get('elementSize'), 0))
     arrays = {}
-    for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data'):
+    for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data',
+                 'Camera FX Palette', 'Cubemaps', 'Airprobes'):
         sf, df = field(ss, name), field(ds, name)
         rows = s.block(source_root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name == 'Scenario Cluster Data' and len(rows) != len(bsps):
@@ -33,13 +34,19 @@ def stage_environment(importer):
                 data[:16] = b'sbsp' + bytes(8) + struct.pack('>I', datum)
             payload.extend(data)
         arrays[name] = len(rows), bytes(payload)
-    sf, df = field(ss, 'Sky Parameters'), field(ds, 'Sky Parameters')
-    datum = s.u(source_root + int(sf.get('offset'), 0) + 12)
-    if datum == 0xffffffff:
-        raise ValueError('Source has no sky parameters')
-    group, target = importer.import_tag(datum)
-    reference = group.encode('ascii') + bytes(8) + struct.pack('>I', target)
+    references = []
+    for name in ('Sky Parameters', 'Camera Effects', 'Global Screen Effect',
+                 'Global Lighting', 'Performance Throttles'):
+        sf, df = field(ss, name), field(ds, name)
+        datum = s.u(source_root + int(sf.get('offset'), 0) + 12)
+        if datum == 0xffffffff:
+            reference = b'\xff' * 4 + bytes(8) + b'\xff' * 4
+        else:
+            group, target = importer.import_tag(datum)
+            reference = group.encode('ascii') + bytes(8) + struct.pack('>I', target)
+        at = target_root - c.start + c.base + int(df.get('offset'), 0)
+        references.append((at, reference))
     stage(b, {'arrays': arrays, 'unresolved': []}, ds)
-    at = target_root - c.start + c.base + int(df.get('offset'), 0)
-    b.meta[at - b.base:at - b.base + 16] = reference
+    for at, reference in references:
+        b.meta[at - b.base:at - b.base + 16] = reference
     return {name: count for name, (count, _) in arrays.items()}

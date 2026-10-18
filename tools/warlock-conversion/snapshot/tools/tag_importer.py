@@ -66,10 +66,32 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
+        compatibility_notes = []
+        if group == 'cfxs':
+            # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
+            # Ignore only authored default/inactive extensions, not active FX.
+            for offset in (0xE4, 0xF4, 0x144):
+                if not source.u(tag['offset'] + offset) & 1:
+                    raise ValueError(f'{name}: active MCC camera extension at {offset:#x}')
+            for node in list(ss):
+                if node.get('offset') is None or int(node.get('offset'), 0) < 0xE4:
+                    continue
+                if node.tag == 'tagblock' and source.u(tag['offset'] + int(node.get('offset'), 0)):
+                    raise ValueError(f'{name}: nonempty MCC camera grading block')
+                ss.remove(node)
+            compatibility_notes.append('MCC default SSAO/grading/lightshaft extensions omitted; retail exposure and bloom retained.')
+        if group == 'perf':
+            block = next(node for node in ss if node.tag == 'tagblock')
+            anisotropy = next(node for node in block if node.get('name') == 'Anisotropy Level')
+            for row in source.block(tag['offset'], int(block.get('elementSize'), 0)):
+                if source.unpack('f', row + int(anisotropy.get('offset'), 0))[0] != 1.0:
+                    raise ValueError(f'{name}: nondefault MCC anisotropy override')
+            block.remove(anisotropy)
+            compatibility_notes.append('MCC anisotropy level 1 omitted; retail uses native sampler filtering.')
         size = int(ds.get('baseSize'), 0)
         owner, address = self.registry.newtag(group, bytes(size))
         # Reserve before recursion so legitimate cyclic references resolve.
@@ -120,6 +142,8 @@ class TagImporter:
         offset = address - self.builder.base
         self.builder.meta[offset:offset + size] = payload
         entry = {'source': name, 'group': group, 'datum': hex(owner)}
+        if compatibility_notes:
+            entry['compatibility_notes'] = compatibility_notes
         if group == 'weap' and name == r'objects\weapons\pistol\automag\automag':
             entry['compatibility_notes'] = [
                 'Retail magnum pickup-message index and sort order replace MCC Unicode icons.',

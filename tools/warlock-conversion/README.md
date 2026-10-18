@@ -419,3 +419,18 @@ Decal conversion checkpoint:
   Private report: `.local/reports/objects-environment-decals.json`. This remains
   in-memory verification; decal appearance is not yet verified in-game, and the
   accepted candidate has not been replaced. Final pipeline work remains open.
+
+Environment control checkpoint:
+- Environment staging now binds Warlock's Camera Effects, Global Lighting and
+  Performance Throttles, and explicitly copies/nulls Global Screen Effect. It
+  also stages the empty Camera FX Palette, one cubemap position and 19 airprobes.
+  Cubemap positions alone do not establish converted reflection bitmap content.
+- Retail exposure/bloom fields, per-object minimum luminance and all four
+  performance profiles preserve source values. MCC-only camera extensions are
+  omitted only when marked use-default and grading blocks are empty; active
+  overrides reject. MCC anisotropy is omitted only at the observed default 1.
+  These limitations are included in the dependency import report.
+- Verified 70 camera fields/lighting rows/performance profiles against source
+  values and finalized the environment graph in memory. Private metadata report:
+  `.local/reports/environment-controls.json`. No output map or runtime changes;
+  lighting appearance and reflection content still require final integration.

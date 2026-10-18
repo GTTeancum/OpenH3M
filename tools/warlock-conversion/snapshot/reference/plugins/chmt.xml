@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Automatically generated plugin -->
+	<revisions>
+		<revision author="-DeToX-" version="1">Created layout of plugin</revision>
+		<revision author="Lord Zedd" version="2">Done</revision>
+	</revisions>
+	<comment title="Per Object Chocolate Mountain Setting">Specify a min relative luminance for each object type
+Valid Range is 0.0 to 1.0, 0.0 is default
+0. Biped
+1. Vehicle
+2. Weapon
+3. Equipment
+4. Terminal
+5. Projectile
+6. Scenery
+7. Machine
+8. Control
+9. Sound Scenery
+10. Crate
+11. Creature
+12. Giant
+13. Effect Scenery</comment>
+	<tagblock name="Per Object Type Settings" offset="0x0" visible="true" elementSize="0x4">
+		<float32 name="Minimum Luminance" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>
