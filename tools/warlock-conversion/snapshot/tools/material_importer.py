@@ -49,9 +49,11 @@ class MaterialImporter:
 
     def bitmap_resource(self, record, control, raw):
         c, b = self.target, self.builder
-        # The accepted conversion uses this retail bitmap root as its prototype.
-        root = bytearray(c.data[c.tags[8796]['offset']:c.tags[8796]['offset'] + 0xa4])
-        root[0x54:0x8c] = bytes(0x38)
+        # Explicit single-image runtime root: resource-backed and sampleable.
+        # All editor data, sequences and runtime pointers start empty. These
+        # are the same non-pointer fields as the accepted bitmap prototype.
+        root = bytearray(0xa4)
+        struct.pack_into('>H', root, 4, 0x50)
         owner, address = self.registry.newtag('bitm', root)
         resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
             {'control': control, 'raw': raw, 'root': 52,
@@ -86,7 +88,12 @@ class MaterialImporter:
             raise ValueError('Source material parameter counts differ from its template')
         options = [s.unpack('h', x)[0] for x in s.block(tag['offset'] + 16, 2)]
         alpha = tag['group'] == 'rmfl' or (len(options) > 2 and options[2] == 1)
-        template_id = 392 if alpha else 0x21bb
+        template_name = (r'objects\weapons\lod\shaders\lod_plasma_grenade' if alpha
+                         else r'levels\dlc\lockout\shaders\metal_wall_white_flat')
+        native = self.target_names.get(('rmsh', template_name))
+        if native is None:
+            raise ValueError(f'Required native material prototype absent: {template_name}')
+        template_id = native & 65535
         retail = c.tags[template_id]['offset']
         post = c.block(retail + 40, 132)[0]
         target_texture_names, target_constant_names = self.parameters(c, self.target_strings, post)

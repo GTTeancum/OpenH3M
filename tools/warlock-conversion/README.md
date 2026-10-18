@@ -591,6 +591,21 @@ Water shader integration checkpoint:
   motion fidelity. Seed-independent BSP/collision assembly is still unfinished.
 # Source BSP geometry binding checkpoint
 
+Seed-prototype removal: bitmap roots are now constructed explicitly with
+resource-backed/sampleable flags (`0x50`) and empty editor/runtime fields.
+Opaque/alpha material prototypes resolve original-disc tag names instead of
+fixed indices. The full geometry, object, spawn, environment and decal pipeline
+successfully finalized in memory using ONLY original `maps/lockout.map` as its
+basis: 236 added metadata records and 5,916,816 metadata bytes. This run did not
+open the accepted candidate. The CLI basis restriction is still retained until
+scenario initialization is complete.
+Outstanding source scenario state includes PVS/audibility, Forge palettes and
+empty/inactive scripting initialization. Original Lockout scripts, triggers,
+machines and palettes must not remain accidentally active. Source has zero
+scripts/triggers/machines, but one scripting-data row and 512 expression slots;
+those slots require inspection before deciding how to translate them. No new
+map was written or deployed for this checkpoint.
+
 The checkpoint CLI now runs `scenario_geometry.stage_geometry`: source-built
 BSP, lightmap, structure design (water-volume MOPP) and wind dependencies are
 bound to the scenario. Environment cluster data follows the newly allocated
