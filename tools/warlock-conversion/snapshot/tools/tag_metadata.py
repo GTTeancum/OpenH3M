@@ -9,20 +9,25 @@ from scenario_placements import FORMATS, fields, translate_flags, translate_enum
 
 
 SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16='2h',
-               colorf='3f', vector3='3f', vector4='4f', point2='2f',
+               colorf='3f', vector2='2f', vector3='3f', vector4='4f', point2='2f',
                plane3='4f', plane2='3f', degree2='2f', ranged='2f')
 
 
 class MetadataConverter:
     def __init__(self, source, builder, strings, target_strings, tag_reference,
-                 data_reference=None, resource_reference=None):
+                 data_reference=None, resource_reference=None, special_block=None):
         self.source, self.builder = source, builder
         self.strings, self.target_strings = strings, target_strings
         self.tag_reference = tag_reference
         self.data_reference = data_reference
         self.resource_reference = resource_reference
+        self.special_block = special_block
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
+        if self.special_block is not None:
+            result = self.special_block(offset, source_schema, target_schema, path)
+            if result is not None:
+                return result
         from collision_physics import convert_collision_block
         specialized = convert_collision_block(self, offset, source_schema, target_schema, path)
         if specialized is not None:
@@ -162,11 +167,18 @@ class MetadataConverter:
                         raise ValueError(f'{name}: resource datum needs conversion')
                     values = (self.resource_reference(name, values[0]),)
                 elif kind.startswith('flags'):
+                    if path.startswith('effe:') and source_schema.get('name') == 'Particle Systems' and key[0] == 'Flags':
+                        # MCC enhanced-graphics near-fade override has no retail
+                        # graphics mode. Other particle behavior bits still map.
+                        values = (values[0] & ~(1 << 14),)
                     if path.startswith('phmo:') and source_schema.get('baseSize') and key[0] == 'Flags':
                         # This describes the serialized pointer width. Nested
                         # shapes must independently pass their layout handlers.
                         values = (values[0] & ~4,)
-                    values = (translate_flags(values[0], src, dst),)
+                    try:
+                        values = (translate_flags(values[0], src, dst),)
+                    except ValueError as error:
+                        raise ValueError(f'{name}: {error}') from error
                 elif kind.startswith('enum'):
                     if ('automag' in path and key[0] in ('Damage Effect Reporting Type', 'Damage Reporting Type')
                             and any(x.get('name') == 'Automag' and int(x.get('value'), 0) == values[0] for x in src)):

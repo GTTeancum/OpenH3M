@@ -66,7 +66,7 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'effe', 'jmad', 'ligh', 'jpt!'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
@@ -88,21 +88,11 @@ class TagImporter:
 
         def data(path, cache, at):
             if (('/Functions[' in path and path.endswith('/Default Function'))
-                    or (group in ('ligh', 'jpt!') and path.endswith('Function'))):
+                    or (group in ('ligh', 'jpt!', 'prt3', 'effe') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
-                header = bytes(cache.data[payload:payload + 4])
-                # TagFunction's identity/constant scalar forms have only a
-                # 32-byte header; curves and ranged payloads need more parsing.
-                if (size == 32 and header[0] in (0, 1) and header[2] in (0, 1) and header[3] == 0
-                        and not header[1] & 1 and cache.u(payload + 28) == 0):
-                    return header + struct.pack('>7I', *cache.unpack('7I', payload + 4))
-                if (size == 44 and header[0] == 2 and header[2:] == b'\0\0'
-                        and not header[1] & 1 and cache.u(payload + 28) == 12):
-                    # Transition: four byte parameters/padding, then two floats.
-                    return (header + struct.pack('>7I', *cache.unpack('7I', payload + 4))
-                            + bytes(cache.data[payload + 32:payload + 36])
-                            + struct.pack('>2I', *cache.unpack('2I', payload + 36)))
+                from tag_functions import convert_function
+                return convert_function(bytes(cache.data[payload:payload + size]))
             # The observed model PRT-info descriptor is five 32-bit words.
             # Gate the exact header/layout; other user payloads remain unsupported.
             if group == 'mode' and '/User Data[' in path and path.endswith('/User Data'):
@@ -116,7 +106,10 @@ class TagImporter:
         converter = MetadataConverter(source, self.builder, self.source_strings,
                                       self.target_strings, self.import_tag,
                                       data_reference=data,
-                                      resource_reference=resource)
+                                      resource_reference=resource,
+                                      special_block=lambda at, ss, ds, path:
+                                          self.materials.particle_post(at)
+                                          if group == 'prt3' and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
         if len(payload) != size:
             raise ValueError('Converted tag root size mismatch')

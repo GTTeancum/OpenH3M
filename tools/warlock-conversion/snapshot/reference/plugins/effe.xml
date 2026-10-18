@@ -8,38 +8,24 @@
 		<revision author="Lord Zedd" version="4">Enums, better names, etc.</revision>
 	</revisions>
 	<flags32 name="Flags" offset="0x0" visible="true">
-		<bit name="Deleted When Attachment Deactivates" index="0" />
-		<bit name="Run Events In Parallel" index="1" />
-		<bit name="Do Not Re-Use Parts When Looping" index="2" tooltip="This option will hurt performance on effects with very short duration." />
-		<bit name="Age Creator's Weapon" index="3" />
-		<bit name="Use Parent Position But World Orientation" index="4" />
-		<bit name="Can Penetrate Walls (Expensive)" index="5" />
-		<bit name="Cannot Be Restarted" index="6" tooltip="Will help performance for parallel events of different lengths, if the effect is unlikely to be reused" />
-		<bit name="Force Use Own Lightprobe" index="7" tooltip="Do not adopt parent object's lightprobe, even when it's available" />
-		<bit name="Heavy Performance" index="8" tooltip="This effect loads hardware very much and can be turned off for peformance reasons" />
-		<bit name="Half Resolution" index="9" tooltip="This effect is candidate for half resolution render" />
-		<bit name="(Runtime?) Dark Casings?" index="10" />
-		<bit name="(Runtime?) Bit 11" index="11" />
-		<bit name="(Runtime?) Bit 12" index="12" />
-		<bit name="(Runtime?) Bit 13" index="13" />
-		<bit name="(Runtime?) Bit 14" index="14" />
-		<bit name="Bit 15" index="15" />
-		<bit name="Bit 16" index="16" />
-		<bit name="Bit 17" index="17" />
-		<bit name="Bit 18" index="18" />
-		<bit name="Bit 19" index="19" />
-		<bit name="Bit 20" index="20" />
-		<bit name="Bit 21" index="21" />
-		<bit name="Bit 22" index="22" />
-		<bit name="Bit 23" index="23" />
-		<bit name="Bit 24" index="24" />
-		<bit name="Bit 25" index="25" />
-		<bit name="Bit 26" index="26" />
-		<bit name="Bit 27" index="27" />
-		<bit name="Bit 28" index="28" />
-		<bit name="Bit 29" index="29" />
-		<bit name="Bit 30" index="30" />
-		<bit name="Bit 31" index="31" />
+		<!-- Platform-specific runtime flags from TagTool Effect.cs. -->
+		<bit name="DeletedWhenAttachmentDeactivates" index="0" />
+		<bit name="RunEventsInParallel" index="1" />
+		<bit name="DoNotReusePartsWhenLooping" index="2" />
+		<bit name="AgeCreatorsWeapon" index="3" />
+		<bit name="UseParentPositionButWorldOrientation" index="4" />
+		<bit name="CanPenetrateWalls" index="5" />
+		<bit name="CannotBeRestarted" index="6" />
+		<bit name="ForceUseOwnLightprobe" index="7" />
+		<bit name="ForceLooping" index="8" />
+		<bit name="Deterministic" index="9" />
+		<bit name="TintFromLightmap" index="10" />
+		<bit name="TintFromDiffuseTexture" index="11" />
+		<bit name="HasEnvironmentRestrictedPart" index="12" />
+		<bit name="HasEnvironmentRestrictedAcceleration" index="13" />
+		<bit name="HasEnvironmentRestrictedParticleSystem" index="14" />
+		<bit name="TrackSubframeMovements" index="15" />
+		<bit name="UnknownHO" index="16" />
 	</flags32>
 	<int32 name="Fixed Random Seed" offset="0x4" visible="true" tooltip="If this is non-zero, the effect will usually be exactly repeatable" />
 	<float32 name="Restart If Within" offset="0x8" visible="true" />
@@ -1130,8 +1116,13 @@ The location of the last detonated projectile, in case the parent object is a we
 					<bit name="Collide With Scenery" index="3" />
 					<bit name="Collide With Vehicles" index="4" />
 					<bit name="Collide With Bipeds" index="5" />
-					<bit name="Swarm" index="6" />
-					<bit name="Wind" index="7" />
+					<!-- PhysicsFlags from TagTool; stock magnum also uses Wind at bit 8. -->
+				<bit name="Always Collide Every Frame" index="6" />
+				<bit name="Swarm" index="7" />
+					<bit name="Wind" index="8" />
+				<bit name="Turbulence" index="9" />
+				<bit name="Global Force" index="10" />
+				<bit name="Disable Swarm Collision" index="11" />
 				</flags32>
 				<tagblock name="Movements" offset="0x17C" visible="true" elementSize="0x18">
 					<enum16 name="Type" offset="0x0" visible="true">

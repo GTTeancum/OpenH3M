@@ -306,3 +306,23 @@ Retail sound-table checkpoint:
 - Added the paired Assembly particle schemas. Missing documented particle runtime
   flags were filled from TagTool Particle.cs (comments identify these additions).
   PitchRange.cs and SoundCacheFileGestalt.cs document the sound index packing.
+
+Primary object assembly checkpoint:
+- The complete Automag graph now imports: its muzzle-flash particle binds to the
+  exact existing retail template, transfers all named textures/constants and
+  sampler fields, and retains native shader routing rather than MCC shader code.
+- Added identity/constant/transition/multispline function conversion, including
+  ranged functions and color outputs. Unsupported spline sections still fail.
+- Corrected effect root runtime-flag positions using TagTool's distinct MCC and
+  original enums. Assembly's shared effe layout had incorrectly implied identical
+  flag semantics. Both effect schemas now document the explicit platform mapping.
+  Particle movement Wind bit 8 was also verified against the native magnum.
+  MCC's enhanced-graphics near-fade override is omitted in retail.
+- stage_primary_objects(importer) imports every used primary palette entry,
+  applies the verified sender/powerup variants, and stages the complete arrays.
+  Focused combined finalization succeeds with 127 scenery, 16 weapons, 23 equipment,
+  18 crates and 17 object names; zero unresolved entries, 37 new metadata tags.
+  Private evidence: .local/reports/primary-object-assembly.json.
+- This remains an in-memory checkpoint. No candidate map was replaced or run.
+  Simulation registration, other scenario/environment blocks, remaining material
+  work and the reproducible source-to-retail entry point remain outstanding.

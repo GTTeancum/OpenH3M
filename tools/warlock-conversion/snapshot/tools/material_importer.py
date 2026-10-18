@@ -102,3 +102,51 @@ class MaterialImporter:
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
             'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names))})
         return 'rmsh', owner
+
+    def particle_post(self, source_post):
+        """Use an exact native particle template, with source named parameters."""
+        s, c, b = self.source, self.target, self.builder
+        template_name = s.name(s.u(source_post + 12) & 65535)
+        post = None
+        for tag in c.tags.values():
+            if tag['group'] != 'prt3':
+                continue
+            for candidate in c.block(tag['offset'] + 100, 132):
+                datum = c.u(candidate + 12)
+                if datum != 0xffffffff and c.name(datum & 65535) == template_name:
+                    post = candidate
+                    break
+            if post is not None:
+                break
+        if post is None:
+            raise ValueError(f'No exact retail particle template: {template_name}')
+        source_names = self.parameters(s, self.source_strings, source_post)
+        target_names = self.parameters(c, self.target_strings, post)
+        if source_names != target_names or s.u(source_post + 92):
+            raise ValueError('Particle parameter order differs or has animated overlays')
+        textures = s.block(source_post + 16, 28)
+        constants = s.block(source_post + 28, 16)
+        if len(textures) != len(source_names[0]) or len(constants) != len(source_names[1]):
+            raise ValueError('Particle template parameter count mismatch')
+        converted = bytearray()
+        for row in textures:
+            bitmap = s.u(row + 12)
+            index, address, filtering, comparison, external, transform, pad, block, pad2 = s.unpack('h4BbBhH', row + 16)
+            if comparison or pad or pad2 or block:
+                raise ValueError('Unsupported particle sampler comparison/animation routing')
+            bitmap = self.bitmap(bitmap) if bitmap != 0xffffffff else bitmap
+            converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
+                             + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
+        output = bytearray(c.data[post:post + 132])
+        for offset, stride, rows, payload in (
+                (16, 24, textures, converted),
+                (28, 16, constants, b''.join(struct.pack('>4I', *s.unpack('4I', row)) for row in constants))):
+            struct.pack_into('>III', output, offset, len(rows), b.alloc(payload) if rows else 0, 0)
+        integers = s.block(source_post + 40, 4)
+        payload = b''.join(struct.pack('>I', s.u(row)) for row in integers)
+        struct.pack_into('>III', output, 40, len(integers), b.alloc(payload) if integers else 0, 0)
+        struct.pack_into('>I', output, 52, s.u(source_post + 52))
+        struct.pack_into('>III8h', output, 104, *s.unpack('III8h', source_post + 104))
+        self.report.append({'particle_template': template_name, 'approximation': False,
+                            'textures_imported': source_names[0], 'constants_imported': source_names[1]})
+        return bytes(output)

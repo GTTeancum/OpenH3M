@@ -96,3 +96,32 @@ def stage(builder, prepared, target_schema):
         pointer = builder.alloc(payload) if payload else 0
         offset = int(field(target_schema, name).get('offset'), 0)
         builder.put(scenario_address + offset, 'III', count, pointer, 0)
+
+
+def stage_primary_objects(importer):
+    """Import every used primary palette entry and stage all four object arrays.
+
+    Caller owns the scratch builder and finalization. This does not replace the
+    remaining scenario/environment conversion or publish a partial map.
+    """
+    import xml.etree.ElementTree as ET
+    from object_variants import resolve_variants
+    source, target = importer.source, importer.registry.cache
+    ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
+    variants, variant_report = resolve_variants(source, target, importer.registry.newtag)
+    importer.resolved.update({key: (key[0], datum) for key, datum in variants.items()})
+    scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+    for name, (palette_name, _) in PLACEMENTS.items():
+        sf, pf = field(ss, name), field(ss, palette_name)
+        rows = source.block(scenario + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
+        palette = source.block(scenario + int(pf.get('offset'), 0), int(pf.get('elementSize'), 0))
+        for row in rows:
+            index = source.unpack('h', row)[0]
+            if not 0 <= index < len(palette):
+                raise ValueError(f'{name}: invalid palette index {index}')
+            importer.import_tag(source.u(palette[index] + 12))
+    prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()})
+    stage(importer.builder, prepared, ds)
+    return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
+            'variants': variant_report, 'unresolved': prepared['unresolved']}
