@@ -1,0 +1,98 @@
+"""Prepare retail scenario arrays and stage them only when dependencies resolve.
+
+Unresolved records remain visible in the report. Preparation never writes a map;
+stage() refuses partial output so an incomplete scenario cannot be deployed by
+mistake. Imported object tags can be supplied by the dependency importer.
+"""
+import struct
+from scenario_placements import plan_placements
+
+
+PLACEMENTS = {'Scenery': ('Scenery Palette', 6), 'Weapons': ('Weapon Palette', 2),
+              'Equipment': ('Equipment Palette', 3), 'Crates': ('Crates Palette', 10)}
+
+
+def field(schema, name):
+    return next(x for x in schema if x.get('name') == name)
+
+
+def prepare(source, target, source_schema, target_schema, imported=None):
+    plan = plan_placements(source, target, source_schema, target_schema, imported)
+    scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+    arrays, unresolved, maps = {}, [], {}
+    for name, (_, object_type) in PLACEMENTS.items():
+        maps[object_type] = {row['source_index']: i for i, row in enumerate(plan[name]['converted'])}
+        unresolved.extend(dict(block=name, **item) for item in plan[name]['unresolved'])
+
+    # Keep the name-table indices stable, remapping its placement indices instead.
+    names_field = field(source_schema, 'Object Names')
+    names_rows = source.block(scenario + int(names_field.get('offset'), 0), 36)
+    names = bytearray()
+    valid_names = set()
+    for index, row in enumerate(names_rows):
+        object_type, placement = source.unpack('hh', row + 32)
+        mapped = maps.get(object_type, {}).get(placement)
+        names.extend(source.data[row:row + 32])
+        names.extend(struct.pack('>hh', object_type if mapped is not None else -1,
+                                 mapped if mapped is not None else -1))
+        if mapped is not None:
+            valid_names.add(index)
+        elif object_type != -1:
+            unresolved.append({'block': 'Object Names', 'index': index,
+                               'reason': f'Placement {object_type}:{placement} is not assembled'})
+    arrays['Object Names'] = (len(names_rows), bytes(names))
+
+    for name, (palette_name, _) in PLACEMENTS.items():
+        rows = plan[name]['converted']
+        target_field = field(target_schema, name)
+        target_fields = [x for x in target_field if x.get('offset') is not None]
+        palette = bytearray()
+        palette_indices = {}
+        records = bytearray()
+        for row in rows:
+            datum = row['retail_datum']
+            if datum not in palette_indices:
+                palette_indices[datum] = len(palette) // 48
+                tag_group = row['retail_group']
+                # Retail palettes have 32 zero padding bytes after the tagref.
+                palette.extend(tag_group.encode('ascii') + bytes(8) + struct.pack('>I', datum) + bytes(32))
+            record = bytearray(row['record'])
+            struct.pack_into('>h', record, 0, palette_indices[datum])
+            for f in target_fields:
+                offset, fname = int(f.get('offset'), 0), f.get('name')
+                if fname in ('Name Index', 'Parent Object Name Index'):
+                    index = struct.unpack_from('>h', record, offset)[0]
+                    if index != -1 and index not in valid_names:
+                        unresolved.append({'block': name, 'index': row['source_index'],
+                                           'reason': f'{fname} {index} has no assembled object'})
+                elif fname == 'Parent Object Index':
+                    index = struct.unpack_from('>h', record, offset)[0]
+                    if index != -1:
+                        unresolved.append({'block': name, 'index': row['source_index'],
+                                           'reason': 'Non-null multiplayer parent needs global object-index mapping'})
+            records.extend(record)
+        arrays[name] = (len(rows), bytes(records))
+        arrays[palette_name] = (len(palette) // 48, bytes(palette))
+    return {'arrays': arrays, 'unresolved': unresolved,
+            'source_counts': {k: v['source_count'] for k, v in plan.items()}}
+
+
+def stage(builder, prepared, target_schema):
+    if prepared['unresolved']:
+        raise ValueError(f"Scenario has {len(prepared['unresolved'])} unresolved dependencies/references")
+    cache = builder.cache
+    scenario = next(t['offset'] for t in cache.tags.values() if t['group'] == 'scnr')
+    scenario_address = scenario - cache.start + cache.base
+    # Validate every array and reserve capacity before changing the builder.
+    required = 0
+    for name, (count, payload) in prepared['arrays'].items():
+        stride = int(field(target_schema, name).get('elementSize'), 0)
+        if len(payload) != count * stride:
+            raise ValueError(f'{name}: wrong payload size')
+        required += len(payload) + 15
+    if builder.used + required > builder.reserve:
+        raise ValueError('Insufficient metadata reserve for scenario arrays')
+    for name, (count, payload) in prepared['arrays'].items():
+        pointer = builder.alloc(payload) if payload else 0
+        offset = int(field(target_schema, name).get('offset'), 0)
+        builder.put(scenario_address + offset, 'III', count, pointer, 0)

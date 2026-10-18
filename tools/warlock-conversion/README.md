@@ -103,3 +103,14 @@ missing requested mips are rejected explicitly. check_uncompressed_textures.py
 accepts --source, --material-inventory and --output; actual source data passed
 independent address, channel and exact selected-mip roundtrip checks. Native
 rendering of these new formats is not yet verified; no candidate was overwritten.
+
+assemble_scenario.py now prepares retail placement arrays, 48-byte palettes and
+stable object-name indices with remapped placement references. stage() rejects
+unresolved dependencies before touching the builder. Actual source preparation
+produced valid palettes for 162 placements; 22 missing object dependencies plus
+8 unresolved name references prevent publication. This stage is not integrated
+into a generated map yet. object_dependencies.py accepts --source, --candidate,
+and --output and traces the eight missing object tags' direct dependencies.
+The custom blue powerup and sender reuse existing retail dependency tags; the
+Automag additionally requires its own models, animations, projectile, HUD, light
+and firing effect. No silent weapon/object substitutions are made.

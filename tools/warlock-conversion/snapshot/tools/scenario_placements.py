@@ -91,10 +91,13 @@ def convert_record(cache, row, source_schema, target_schema):
     return bytes(out)
 
 
-def plan_placements(source, target, source_schema, target_schema):
+def plan_placements(source, target, source_schema, target_schema, imported=None):
     source_scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     retail_names = {(t['group'], target.name(i)): (t['salt'] << 16) | i
                     for i, t in target.tags.items()}
+    # The dependency importer owns allocation and supplies actual retail datums.
+    # Mapping does not authorize a different tag name as a silent substitute.
+    retail_names.update(imported or {})
     result = {}
     for name, palette in [('Scenery', 'Scenery Palette'), ('Weapons', 'Weapon Palette'),
                           ('Equipment', 'Equipment Palette'), ('Crates', 'Crates Palette')]:
@@ -120,6 +123,7 @@ def plan_placements(source, target, source_schema, target_schema):
                 continue
             converted.append({'source_index': index, 'source_offset': row,
                               'palette_index': palette_index, 'retail_datum': retail_names[key],
+                              'retail_group': key[0],
                               'record': data})
         result[name] = {'source_count': len(rows), 'converted': converted, 'unresolved': unresolved}
     return result
