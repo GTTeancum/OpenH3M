@@ -21,7 +21,7 @@ from assemble_scenario import stage_primary_objects, stage_spawn_settings
 from scenario_environment import stage_environment
 from scenario_decals import stage_decals
 from bsp_materials import stage_bsp_materials
-from terrain_materials import TerrainImporter
+from terrain_materials import DiscMaterialImporter
 from xexlib import Xex
 
 ACCEPTED_SHA256 = '499f0516e016524f7f8a98ca580e4acb66c2b5d58403a5c755e4ed8f23de4279'
@@ -92,7 +92,7 @@ def main():
         builder = MapBuilder(str(args.basis), 0x1000000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work))
-        terrain = TerrainImporter(importer, args.disc_maps or project / 'maps')
+        terrain = DiscMaterialImporter(importer, args.disc_maps or project / 'maps')
         stages = [('bsp_materials', lambda: stage_bsp_materials(importer, terrain)),
                   ('objects', lambda: stage_primary_objects(importer, True, True)),
                   ('spawn', lambda: stage_spawn_settings(importer)),

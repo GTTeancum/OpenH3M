@@ -1,4 +1,4 @@
-"""Bind MCC terrain layers to matching original-disc shader templates."""
+"""Bind MCC terrain and hologram parameters to original-disc shader templates."""
 import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -10,9 +10,10 @@ from assemble_scenario import field
 
 DONORS = {'_0_1_1_0_0_0': 'sandbox.map', '_0_2_1_1_1_2': 'docks.map',
           '_0_2_1_1_2_0': 'chill.map', '_0_1_1_1_1_2': 'sidewinder.map'}
+HOLOGRAM_DONORS = {'_2_8_0_0_0_1_0': 'sandbox.map', '_0_3_1_0_0_0_1': 'lockout.map'}
 
 
-class TerrainImporter:
+class DiscMaterialImporter:
     def __init__(self, importer, disc_maps):
         self.importer, self.disc_maps = importer, Path(disc_maps)
         self.resolved, self.done = {}, {}
@@ -22,8 +23,9 @@ class TerrainImporter:
             return self.done[datum]
         i, s, b = self.importer, self.importer.source, self.importer.builder
         tag = s.tags[datum & 65535]
-        if tag['group'] != 'rmtr' or tag['salt'] != datum >> 16:
-            raise ValueError('Invalid terrain material datum')
+        group = tag['group']
+        if group not in ('rmtr', 'rmhg') or tag['salt'] != datum >> 16:
+            raise ValueError('Invalid specialized material datum')
         root = tag['offset']
         posts = s.block(root + 40, 140)
         if len(posts) != 1 or s.u(root + 28):
@@ -31,9 +33,16 @@ class TerrainImporter:
         post = posts[0]
         template_name = s.name(s.u(post + 12) & 65535)
         variant = template_name.rsplit('\\', 1)[-1]
-        if variant not in DONORS:
+        source_options = [int(value) for value in variant.split('_')[1:]]
+        donors = DONORS if group == 'rmtr' else HOLOGRAM_DONORS
+        if group == 'rmhg':
+            if len(source_options) != 9 or any(source_options[7:]):
+                raise ValueError('Nondefault MCC-only hologram options require separate conversion')
+            variant = '_' + '_'.join(str(value) for value in source_options[:7])
+            template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+        if variant not in donors:
             raise ValueError(f'No verified native terrain donor: {template_name}')
-        donor = Cache(str(self.disc_maps / DONORS[variant]))
+        donor = Cache(str(self.disc_maps / donors[variant]))
         try:
             native = NativeShaderImporter(donor, i, self.resolved)
             lookup = {(t['group'], donor.name(k)): (t['salt'] << 16) | k
@@ -42,15 +51,18 @@ class TerrainImporter:
             native_strings = StringTable(donor)
             source_template = s.tags[s.u(post + 12) & 65535]['offset']
             target_root = donor.tags[target_template & 65535]['offset']
+            promote_layer_count = False
             for offset in (72, 84, 96, 108):
                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
-                if source_names != target_names:
+                if group == 'rmhg' and offset == 84 and not source_names and target_names == ['layers_of_4']:
+                    promote_layer_count = True
+                elif source_names != target_names:
                     raise ValueError('Terrain template parameter order differs between platforms')
             options = [s.unpack('h', r)[0] for r in s.block(root + 16, 2)]
-            if options != [int(value) for value in variant.split('_')[1:]]:
+            if options != source_options:
                 raise ValueError('Terrain root options differ from template variant')
-            definition = native.import_tag(lookup['rmdf', r'shaders\terrain'])
+            definition = native.import_tag(lookup['rmdf', 'shaders\\' + ('terrain' if group == 'rmtr' else 'halogram')])
             _, template = native.import_tag(target_template)
             output = bytearray(132)
             output[:16] = b'rmt2' + bytes(8) + struct.pack('>I', template)
@@ -61,9 +73,15 @@ class TerrainImporter:
                 size = s.u(row + 16)
                 start = s.pointer(s.u(row + 28))
                 expected = bytes.fromhex('0034000000000000000080bf0000000000000000000000000000000000000000')
-                if (s.unpack('IIIf', row) != (6, 0, 0, 300.)
-                        or bytes(s.data[start:start + size]) != expected):
-                    raise ValueError('Terrain animation outside the documented static-ripple approximation')
+                function = bytes(s.data[start:start + size])
+                if group == 'rmtr':
+                    if s.unpack('IIIf', row) != (6, 0, 0, 300.) or function != expected:
+                        raise ValueError('Terrain animation outside the documented static-ripple approximation')
+                else:
+                    from tag_functions import convert_function
+                    if s.unpack('IIIf', row) != (0, 0, 0, 1.) or len(function) != 52 or function[0] != 3:
+                        raise ValueError('Unsupported hologram animation; only periodic brightness may be frozen')
+                    convert_function(function)  # Validate the complete function structure.
             textures = bytearray()
             rows = s.block(post + 16, 28)
             if len(rows) != s.u(source_template + 108):
@@ -85,10 +103,17 @@ class TerrainImporter:
                     raise ValueError('Terrain constant count differs from template')
                 payload = b''.join(struct.pack('>' + fmt, *s.unpack(fmt, row)) for row in rows)
                 struct.pack_into('>III', output, offset, len(rows), b.alloc(payload) if rows else 0, 0)
+            if promote_layer_count:
+                names = [i.source_strings.text(s.u(row)) for row in s.block(source_template + 72, 4)]
+                values = s.unpack('4f', s.block(post + 28, 16)[names.index('layers_of_4')])
+                value = values[0]
+                if not (1 <= value <= 255) or value != int(value) or any(component != value for component in values):
+                    raise ValueError('Hologram layer count cannot be represented by the native integer constant')
+                struct.pack_into('>III', output, 40, 1, b.alloc(struct.pack('>I', int(value))), 0)
             struct.pack_into('>I', output, 52, s.u(post + 52))
             struct.pack_into('>III8h', output, 104, *s.unpack('III8h', post + 104))
-            ss = ET.parse(i.reference / 'mcc/rmtr.xml').getroot()
-            ds = ET.parse(i.reference / 'plugins/rmtr.xml').getroot()
+            ss = ET.parse(i.reference / 'mcc' / f'{group}.xml').getroot()
+            ds = ET.parse(i.reference / 'plugins' / f'{group}.xml').getroot()
 
             def reference(value):
                 if value != s.u(root + 12):
@@ -97,7 +122,9 @@ class TerrainImporter:
 
             converter = MetadataConverter(s, b, i.source_strings, i.target_strings, reference,
                 special_block=lambda at, sf, df, path: bytes(output) if sf.get('name') == 'Postprocess' else None)
-            payload = bytearray(converter.convert(root, ss, ds, 'rmtr:' + s.name(datum & 65535)))
+            payload = bytearray(converter.convert(root, ss, ds, group + ':' + s.name(datum & 65535)))
+            if group == 'rmhg':
+                struct.pack_into('>I', payload, 16, 7)  # Two default MCC-only categories have no retail counterpart.
             c = i.registry.cache
             matg = next(t['offset'] for t in c.tags.values() if t['group'] == 'matg')
             materials = field(ET.parse(i.reference / 'plugins/matg.xml').getroot(), 'Materials')
@@ -105,16 +132,17 @@ class TerrainImporter:
             names = {native_name: index for index, native_name in enumerate(
                 target_strings.text(c.u(row)) for row in c.block(matg + int(materials.get('offset'), 0),
                                                                int(materials.get('elementSize'), 0)))}
-            for index in range(4):
+            for index in range(4 if group == 'rmtr' else 0):
                 material = i.source_strings.text(s.u(root + 64 + index * 4))
                 if material not in names:
                     raise ValueError(f'Terrain physics material missing in retail globals: {material}')
                 struct.pack_into('>h', payload, 80 + index * 2, names[material])
-            owner, _ = i.registry.newtag('rmtr', payload)
-            self.done[datum] = ('rmtr', owner)
+            owner, _ = i.registry.newtag(group, payload)
+            self.done[datum] = (group, owner)
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
-                'native_donor': DONORS[variant], 'approximation': bool(overlays),
-                'difference': '300-second normal-map scrolling frozen at authored initial transform' if overlays else None,
+                'native_donor': donors[variant], 'approximation': bool(overlays),
+                'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
+                               else 'Periodic hologram brightness frozen at authored constant values') if overlays else None,
                 'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': True})
             return self.done[datum]
         except Exception:

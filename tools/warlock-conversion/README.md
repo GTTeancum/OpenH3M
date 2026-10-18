@@ -507,3 +507,18 @@ Terrain material integration:
 - `terrain_materials.py` provides this binding stage. Specialized BSP work now
   remains for six hologram and two water slots. Native terrain appearance is not
   yet verified; metadata conversion is not a claim of final visual parity.
+
+Hologram integration checkpoint:
+- `DiscMaterialImporter` (in `terrain_materials.py`) now also binds all six BSP
+  holograms. Sandbox provides the exact seven-category layered hologram variant;
+  stock Lockout supplies the plasma light-cone variant. The two extra MCC
+  categories must be default zero before being omitted.
+- Source textures, colors and float constants replace the old stock-color
+  substitutions. The native layered shader also requires an integer
+  `layers_of_4` constant; this is derived from the source's exact integral float
+  value (six for the five layered holograms), with bounds/integrality checks.
+- Five holograms' periodic brightness is frozen at authored constant values for
+  this POC and reported explicitly. Other overlay types reject. The light cone
+  has no overlays and transfers its matching shader parameters directly.
+- Only the two water BSP material slots remain on retained checkpoint materials.
+  No claim of native visual verification accompanies this code checkpoint.
