@@ -362,3 +362,21 @@ Ambient sound placement checkpoint:
   from TagTool Particle.cs. No effect placement was silently omitted from output.
 - No decoded audio files, extra maps, captures or temporary extracted banks were
   created. The reusable decoder installation remains under the workspace .local.
+
+Effect placement checkpoint:
+- All 256 authored object placements now stage together: 184 primary objects,
+  66 sound scenery and six effect scenery. The effect palette compacts to its
+  three actually used entries. No unresolved placements in the combined build.
+- Added the shared rwrd water-ripple layout and periodic/remaining multispline
+  function payload conversion. All work remains in memory; candidate unchanged.
+- Two missing particle shader variants use explicit, reported proof-of-concept
+  aliases after checking for an exact native match first. Falling-stream particles
+  allow LDR+HDR instead of LDR-only; splash particles use alpha blend instead of
+  premultiplied alpha. Texture/constant names must match exactly. Root option
+  values, blend constants/state and LDR runtime flag are updated consistently.
+  These visual approximations remain unverified in-game and may change brightness
+  or edge blending. They are not silently presented as exact shader conversion.
+- Private combined report: .local/reports/all-object-assembly.json. No screenshots,
+  game launches, decoded-audio files or new map files were needed this checkpoint.
+- Environment/sky/decals, map materials and the final seed-independent pipeline
+  remain outstanding; successful object assembly is not final completion.

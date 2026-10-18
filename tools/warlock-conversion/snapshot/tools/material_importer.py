@@ -8,6 +8,12 @@ from mcc_bitmap_source import BitmapSource
 from encode_bitmap import encode_bitmap_base
 from string_ids import StringTable
 
+# Explicit, reported proof-of-concept substitutions for absent disc variants.
+PARTICLE_ALIASES = {
+    '_0_10_0_0_1_0_1_1_0_0': ('_0_10_0_0_0_0_1_1_0_0', 'render_targets', 'LDR-only becomes LDR and HDR'),
+    '_1_10_0_0_0_1_1_1_0_0': ('_1_3_0_0_0_1_1_1_0_0', 'blend_mode', 'Premultiplied alpha becomes alpha blend'),
+}
+
 
 class MaterialImporter:
     def __init__(self, source, registry):
@@ -17,6 +23,7 @@ class MaterialImporter:
         self.source_strings, self.target_strings = StringTable(source), StringTable(self.target)
         self.done = {}
         self.report = []
+        self.particle_aliases = {}
         self.target_names = {(t['group'], self.target.name(i)): (t['salt'] << 16) | i
                              for i, t in self.target.tags.items()}
 
@@ -107,6 +114,8 @@ class MaterialImporter:
         """Use an exact native particle template, with source named parameters."""
         s, c, b = self.source, self.target, self.builder
         template_name = s.name(s.u(source_post + 12) & 65535)
+        alias = PARTICLE_ALIASES.get(template_name.rsplit('\\', 1)[-1])
+        target_template = template_name.rsplit('\\', 1)[0] + '\\' + alias[0] if alias else template_name
         post = None
         for tag in c.tags.values():
             if tag['group'] != 'prt3':
@@ -114,9 +123,11 @@ class MaterialImporter:
             for candidate in c.block(tag['offset'] + 100, 132):
                 datum = c.u(candidate + 12)
                 if datum != 0xffffffff and c.name(datum & 65535) == template_name:
-                    post = candidate
+                    post, alias, target_template = candidate, None, template_name
                     break
-            if post is not None:
+                if datum != 0xffffffff and c.name(datum & 65535) == target_template:
+                    post = candidate
+            if post is not None and alias is None:
                 break
         if post is None:
             raise ValueError(f'No exact retail particle template: {template_name}')
@@ -147,6 +158,34 @@ class MaterialImporter:
         struct.pack_into('>III', output, 40, len(integers), b.alloc(payload) if integers else 0, 0)
         struct.pack_into('>I', output, 52, s.u(source_post + 52))
         struct.pack_into('>III8h', output, 104, *s.unpack('III8h', source_post + 104))
-        self.report.append({'particle_template': template_name, 'approximation': False,
+        if alias and alias[1] == 'blend_mode':
+            struct.pack_into('>I', output, 104, c.u(post + 104))
+            index = source_names[1].index('blend_mode')
+            native = c.block(post + 28, 16)[index]
+            pointer = struct.unpack_from('>I', output, 32)[0]
+            b.put(pointer + index * 16, '4I', *c.unpack('4I', native))
+        self.report.append({'particle_template': template_name, 'retail_template': target_template,
+                            'approximation': bool(alias), 'difference': alias[2] if alias else None,
                             'textures_imported': source_names[0], 'constants_imported': source_names[1]})
+        self.particle_aliases[source_post] = alias
         return bytes(output)
+
+    def particle_root(self, source_offset, payload):
+        """Keep root options/runtime flags consistent with a reported alias."""
+        posts = self.source.block(source_offset + 100, 140)
+        if len(posts) != 1:
+            return payload
+        alias = self.particle_aliases.get(posts[0])
+        if alias is None:
+            return payload
+        options = [int(x) for x in alias[0].split('_')[1:]]
+        out = bytearray(payload)
+        count, pointer = struct.unpack_from('>II', out, 76)
+        if count != len(options):
+            raise ValueError('Particle option count differs from template name')
+        for index, value in enumerate(options):
+            self.builder.put(pointer + index * 2, 'h', value)
+        if alias[1] == 'render_targets':
+            flags = struct.unpack_from('>I', out, 16)[0]
+            struct.pack_into('>I', out, 16, flags & ~(1 << 14))
+        return bytes(out)

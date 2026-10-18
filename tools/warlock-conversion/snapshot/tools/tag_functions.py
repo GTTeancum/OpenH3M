@@ -22,18 +22,18 @@ def convert_function(data):
     for _ in range(2 if data[1] & 1 else 1):
         if data[0] in (0, 1):
             continue
-        if data[0] == 2:
+        if data[0] in (2, 3):
             # Transition selector and three pad bytes remain bytes.
-            at = words(at + 4, 2)
+            at = words(at + 4, 2 if data[0] == 2 else 4)
         elif data[0] == 8:
             count = struct.unpack_from('<I', data, at)[0]
             at = words(at, 1)
             if count > 1024:
                 raise ValueError('Excessive tag-function spline sections')
             for _ in range(count):
-                if at >= len(data) or data[at] not in (4, 7):
+                if at >= len(data):
                     raise ValueError('Unsupported spline section layout')
-                at = words(at + 4, 3 if data[at] == 4 else 5)
+                at = words(at + 4, 3 if data[at] == 4 else 5 if data[at] == 7 else 8)
         else:
             raise ValueError(f'Tag-function opcode {data[0]} is not implemented')
     if at != len(data):

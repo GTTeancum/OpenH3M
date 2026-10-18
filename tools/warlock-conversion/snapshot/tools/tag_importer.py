@@ -66,7 +66,7 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         ss = ET.parse(self.reference / source_folder / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
@@ -111,6 +111,8 @@ class TagImporter:
                                           self.materials.particle_post(at)
                                           if group == 'prt3' and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
+        if group == 'prt3':
+            payload = self.materials.particle_root(tag['offset'], payload)
         if len(payload) != size:
             raise ValueError('Converted tag root size mismatch')
         offset = address - self.builder.base
