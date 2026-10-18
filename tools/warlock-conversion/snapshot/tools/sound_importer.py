@@ -123,7 +123,7 @@ class SoundImporter:
 
     def stage(self):
         address = self.target_root - self.target.start + self.target.base
-        for name in self.changed:
+        for name in sorted(self.changed):
             rows = self.tables[name]
             field = self.field(self.ds, name)
             payload = b''.join(rows)

@@ -1,8 +1,10 @@
 """Replace map-specific visibility, audio and inactive stock script state."""
 import copy
+import struct
 import xml.etree.ElementTree as ET
 from assemble_scenario import field, stage
-from tag_metadata import MetadataConverter
+from tag_metadata import MetadataConverter, SCALARS
+from scenario_placements import fields, translate_enum, translate_flags
 
 
 EMPTY_BLOCKS = ('Scripts', 'Globals', 'Script References', 'Machines', 'Machine Palette',
@@ -39,7 +41,7 @@ def _stage(i):
     if any(bytes(s.data[r:r + stride]) != bytes(2) + b'\xba' * (stride - 2) for r in rows):
         raise ValueError('Source contains populated script expression slots')
     arrays['Script Expressions'] = (0, b'')
-    for name in ('Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data'):
+    for name in ('Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces'):
         sf, df = copy.deepcopy(field(ss, name)), field(ds, name)
         rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name == 'Zone Sets':
@@ -50,7 +52,28 @@ def _stage(i):
                     sf.remove(node)
         payload = b''.join(converter.convert(r, sf, df, 'scnr:/' + name) for r in rows)
         arrays[name] = len(rows), payload
+    # Empty source arrays must not inherit unrelated Lockout editor/runtime data.
+    source_fields, target_fields = fields(ss), fields(ds)
+    for key, sf in source_fields.items():
+        if sf.tag == 'tagblock' and key in target_fields and not s.u(root + int(sf.get('offset'), 0)):
+            arrays[sf.get('name')] = (0, b'')
     stage(b, {'arrays': arrays, 'unresolved': []}, ds)
+    address = target - c.start + c.base
+    # Keep Blackout's menu/network slot identity; copy authored budget, north,
+    # flags and object salts instead of inheriting the stock map's values.
+    for key, df in target_fields.items():
+        name = key[0]
+        if key not in source_fields or df.tag not in SCALARS or name in ('Unknown', 'Map ID', 'Campaign ID'):
+            continue
+        sf = source_fields[key]
+        values = s.unpack(SCALARS[sf.tag], root + int(sf.get('offset'), 0))
+        if df.tag.startswith('flags'):
+            values = (translate_flags(values[0], sf, df),)
+        elif df.tag.startswith('enum'):
+            values = (translate_enum(values[0], sf, df),)
+        payload = struct.pack('>' + SCALARS[df.tag], *values)
+        at = address - b.base + int(df.get('offset'), 0)
+        b.meta[at:at + len(payload)] = payload
     # With no scripts/globals/live expressions, the source string allocation is
     # unused. Remove stock strings and editor data without copying heap slack.
     for name in ('Script Strings', 'Editor Scenario Data'):

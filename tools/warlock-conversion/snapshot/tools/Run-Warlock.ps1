@@ -1,30 +1,15 @@
 [CmdletBinding()]
-param()
+param(
+    [Parameter(Mandatory=$true)][string]$Project,
+    [Parameter(Mandatory=$true)][string]$Exe,
+    [string]$Game,
+    [ValidateRange(1,3600)][int]$Seconds = 180
+)
 $ErrorActionPreference = 'Stop'
-$projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
-$runRoot = Join-Path $projectRoot '.local\load-check'
-$gameRoot = Join-Path $projectRoot '.local\test-game'
-$exe = 'D:\Programming\GitHub\H3M\OpenH3M.exe'
-if (Get-Process -Name OpenH3M -ErrorAction SilentlyContinue) {
-    throw 'Close the existing OpenH3M instance first.'
-}
-foreach ($path in @($exe, (Join-Path $gameRoot 'maps\lockout.map'))) {
-    if (-not (Test-Path -LiteralPath $path)) { throw "Missing: $path" }
-}
-foreach ($name in @('temp', 'profile')) {
-    New-Item -ItemType Directory -Path (Join-Path $runRoot $name) -Force | Out-Null
-}
-& python -B (Join-Path $PSScriptRoot 'diagnose_loading.py')
-if ($LASTEXITCODE -ne 0) { throw 'Loading preflight failed.' }
-$env:TEMP = Join-Path $runRoot 'temp'
-$env:TMP = $env:TEMP
-$env:LOCALAPPDATA = Join-Path $runRoot 'profile'
-$env:APPDATA = $env:LOCALAPPDATA
-$arguments = @("--game_data_root=$gameRoot", "--user_data_root=$runRoot",
-    "--cache_root=$runRoot\cache", "--log_file=$runRoot\manual.log")
-Write-Host 'Select Custom Games > Blackout > Slayer. Blackout is the Warlock test slot.'
-Write-Host 'Recognizable Warlock proof verified in first-person Slayer; visual fidelity remains approximate.'
-Write-Host 'Visuals are unfinished; this is not a fidelity-complete conversion.'
-Write-Host 'Original OpenH3M binary; no scripted input or screenshots in this launcher.'
-Write-Host "Logs: $runRoot\manual.log"
-Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $runRoot
+$projectRoot = (Resolve-Path -LiteralPath $Project).Path
+if (-not $Game) { $Game = Join-Path $projectRoot '.local\warlock-play' }
+Push-Location -LiteralPath $projectRoot
+try {
+    & python -B (Join-Path $PSScriptRoot 'warlock_handoff.py') run --project $projectRoot --game $Game --exe $Exe --seconds $Seconds
+    if ($LASTEXITCODE -ne 0) { throw "Warlock launcher failed ($LASTEXITCODE); see .local\warlock-runs." }
+} finally { Pop-Location }

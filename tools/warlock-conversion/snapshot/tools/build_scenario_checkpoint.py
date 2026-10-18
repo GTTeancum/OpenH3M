@@ -1,6 +1,6 @@
 """Assemble scenario converters onto original Lockout or the accepted checkpoint.
 
-This remains an integration checkpoint until the scenario handoff audit passes.
+This is a Warlock-specific proof-of-concept, not a general MCC converter.
 All outputs are confined to the explicitly supplied project's .local directory.
 """
 import argparse
@@ -11,6 +11,7 @@ from pathlib import Path
 import struct
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 
 from cache_reader import Cache
 from cache_registry import CacheRegistry
@@ -56,6 +57,34 @@ def output_path(path, project):
     return path
 
 
+def scenario_coverage(importer, stages):
+    """Reject newly populated source blocks that no assembly stage handles."""
+    handled = {'Structure BSPs', 'Decals', 'Decal Palette'}
+    for name in ('runtime', 'spawn', 'environment', 'forge'):
+        handled.update(stages[name])
+    handled.update(stages['objects']['counts'])
+    schema = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    source = importer.source
+    root = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+    inventory = {}
+    references = {'Camera Effects', 'Global Screen Effect', 'Sky Parameters',
+                  'Global Lighting', 'Lightmaps', 'Performance Throttles'}
+    for node in schema:
+        name = node.get('name')
+        if node.tag == 'tagblock':
+            count = source.u(root + int(node.get('offset'), 0))
+            if count and name not in handled:
+                raise ValueError(f'Unconverted scenario block: {name} ({count})')
+            inventory[name] = count
+        elif node.tag.lower() == 'tagref':
+            datum = source.u(root + int(node.get('offset'), 0) + 12)
+            if datum != 0xffffffff and name not in references:
+                raise ValueError(f'Unconverted scenario reference: {name}')
+    return {'source_blocks': inventory, 'slot_identity': 'Blackout / map ID 520',
+            'simulation_definitions': 'Original retail definitions plus imported dependencies',
+            'unused_placement_palettes': 'Only entries referenced by placements are imported'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
@@ -82,7 +111,7 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     state = {'status': 'building', 'basis_sha256': basis_hash,
              'historical_seed_used': basis_hash == ACCEPTED_SHA256,
-             'limitations': ['Scenario bookkeeping and reproducible handoff audit remain unfinished.',
+             'limitations': ['Warlock-specific POC; unsupported content fails explicitly.',
                             'Material POC approximations include native reflection substitutes and frozen shader animation; see materials report.',
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
@@ -108,6 +137,7 @@ def main():
             print(stage, flush=True)
             state['stages'][stage] = action()
         stage = 'finalize'
+        state['scenario_coverage'] = scenario_coverage(importer, state['stages'])
         importer.finalize()
         state.update(tags=importer.added, materials=importer.materials.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
