@@ -9,6 +9,8 @@ from string_ids import StringTable, WritableStringTable
 from tag_metadata import MetadataConverter
 from resource_reader import Resource
 from render_resource import convert_render_resource
+from material_importer import MaterialImporter
+import struct
 
 
 class TagImporter:
@@ -22,6 +24,7 @@ class TagImporter:
                          for i, t in registry.cache.tags.items()}
         self.resolved.update(bindings or {})
         self.added = []
+        self.materials = MaterialImporter(source, registry)
         self.failed = False
 
     def import_tag(self, datum):
@@ -42,6 +45,14 @@ class TagImporter:
         if key in self.resolved:
             return self.resolved[key]
         group, name = key
+        if group in ('rmsh', 'rmfl'):
+            result = self.materials.shader(datum)
+            self.resolved[key] = result
+            return result
+        if group == 'bitm':
+            result = ('bitm', self.materials.bitmap(datum))
+            self.resolved[key] = result
+            return result
         ss = ET.parse(self.reference / 'mcc' / f'{group}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group}.xml').getroot()
         size = int(ds.get('baseSize'), 0)
@@ -55,8 +66,20 @@ class TagImporter:
             payload = convert_render_resource(Resource(source, resource_datum))
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
 
+        def data(path, cache, at):
+            # The observed model PRT-info descriptor is five 32-bit words.
+            # Gate the exact header/layout; other user payloads remain unsupported.
+            if group == 'mode' and '/User Data[' in path and path.endswith('/User Data'):
+                kind, count, stride = cache.unpack('BBH', at - 4)
+                size = cache.u(at)
+                if (kind, count, stride, size) == (0, 1, 20, 20):
+                    payload = cache.pointer(cache.u(at + 12))
+                    return struct.pack('>5I', *cache.unpack('5I', payload))
+            raise ValueError(f'{path}: opaque data format not implemented')
+
         converter = MetadataConverter(source, self.builder, self.source_strings,
                                       self.target_strings, self.import_tag,
+                                      data_reference=data,
                                       resource_reference=resource)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
         if len(payload) != size:

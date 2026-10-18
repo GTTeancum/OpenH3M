@@ -202,3 +202,14 @@ be omitted when converting to retail's shorter mask; nonzero high words reject.
 The tarp import now reaches its custom tarp_cover shader. A dedicated material
 handler is needed; generic copying of MCC shader postprocess resources is rejected.
 The complete dependency graph and final map remain unfinished.
+
+MaterialImporter now handles custom rmsh/rmfl and bitmap dependencies through the
+resource registry. It imports base/detail/normal textures and matches float
+constants by rmt2 parameter names rather than source array positions. Exact MCC
+shader variants are not generally available in the retail cache: the existing
+proof templates are used, and the report lists every unrepresented texture and
+constant. This is an explicit visual approximation, not shader parity.
+The tarp-box render model now imports through the full dependency/resource path,
+including its material and observed 20-byte PRT-info descriptor. The enclosing
+object import reaches collision BSP physics, where MCC/retail layouts differ and
+still require a dedicated handler. Incomplete graphs remain unpublishable.
