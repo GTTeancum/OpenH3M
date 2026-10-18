@@ -869,3 +869,22 @@ Forge now reaches the invincibility equipment lens flare. Added the paired
 schemas and default first-reflection occlusion handling; its nested reflection
 layout still needs conversion. No map was generated/deployed, and no gameplay
 validation is claimed for these dependencies.
+
+### Legacy flare and beam checkpoint
+
+MCC legacy lens reflections now recover authored radius/brightness ranges from
+verified linear curve payloads, require unit X/Y scaling and no bitmap override,
+and remove MCC's legacy-selector flag. Only the declared live spline bytes are
+interpreted; unused editor allocation capacity is ignored. Three converted
+reflection records (frag/plasma detonation and excavator active) match original
+Lockout records byte-for-byte. Nonlinear curves and nondefault extensions still
+fail explicitly.
+
+Lens time functions, inherited screen-effect functions, and beam-system native
+postprocess routing are supported. The auto-turret beam has explicit non-pickup
+UI defaults. Removed retail posture/dialogue blocks and seat built-in gunner
+references are empty/null for this deployed turret; its authored AI character
+dependency is retained.
+
+The full Forge probe now stops at the auto-turret vehicle's phantom-shape
+layout. That conversion remains outstanding. No map was generated or deployed.

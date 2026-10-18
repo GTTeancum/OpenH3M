@@ -145,6 +145,8 @@ class MaterialImporter:
                 containers = [row + 48 for row in c.block(tag['offset'] + 20, 116)]
             elif group == 'cntl':
                 containers = [row + 0x158 for row in c.block(tag['offset'], 0x26c)]
+            elif group == 'beam':
+                containers = [row + 0x2c for row in c.block(tag['offset'], 0x208)]
             elif group == 'ltvl':
                 containers = [row + 0x2c for row in c.block(tag['offset'], 0x17c)]
             else:
