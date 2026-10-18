@@ -114,3 +114,13 @@ and --output and traces the eight missing object tags' direct dependencies.
 The custom blue powerup and sender reuse existing retail dependency tags; the
 Automag additionally requires its own models, animations, projectile, HUD, light
 and firing effect. No silent weapon/object substitutions are made.
+
+object_variants.py resolves two custom object tags after comparing their complete
+schema-described contents against the corresponding stock MCC tags, including
+nested arrays and function payloads. The custom sender is equivalent; the blue
+powerup changes only Bounding Radius from 0.30 to 0.35. The resolver reuses the
+retail sender and allocates a retail powerup clone with that source radius, while
+preserving retail pointers and dependencies. Unexpected differences are errors.
+An in-memory assembly check now prepares all 23 equipment and 10/18 crate entries;
+remaining custom object dependencies still prevent complete scenario publication.
+No new gameplay candidate has been written by this stage.
