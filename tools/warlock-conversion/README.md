@@ -771,3 +771,18 @@ This helper currently returns in-memory data; stock-based BSP metadata,
 collision resource assembly and final integration remain unfinished. No generated
 map was deployed or native-tested for this checkpoint.
 
+
+### Contrail conversion checkpoint
+
+Contrail (`cntl`) metadata now has separate MCC/retail schemas, function-data
+conversion, and native postprocess lookup through each contrail system. Shader
+aliases remain disabled for contrails: an exact native variant is required.
+Appearance flag bits 5 and 6 are unnamed in Assembly but occur at identical
+positions in original retail tags; both schemas preserve them. The missile-pod
+projectile specifically has flag value 32 in both Warlock and retail Armory.
+
+The focused missile-pod dependency import now reaches its `_0_3_0_0` contrail
+shader. This variant exists in original Armory but not Lockout; importing its
+native shader routing from that donor remains outstanding. The importer rejects
+this missing dependency rather than emitting a partial map. No generated map,
+deployment, or gameplay test was performed for this checkpoint.

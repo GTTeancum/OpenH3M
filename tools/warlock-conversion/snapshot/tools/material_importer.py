@@ -133,7 +133,7 @@ class MaterialImporter:
         """Use native particle/decal routing with source named parameters."""
         s, c, b = self.source, self.target, self.builder
         template_name = s.name(s.u(source_post + 12) & 65535)
-        aliases = DECAL_ALIASES if group == 'decs' else PARTICLE_ALIASES
+        aliases = DECAL_ALIASES if group == 'decs' else PARTICLE_ALIASES if group == 'prt3' else {}
         alias = aliases.get(template_name.rsplit('\\', 1)[-1])
         target_template = template_name.rsplit('\\', 1)[0] + '\\' + alias[0] if alias else template_name
         post = None
@@ -142,6 +142,8 @@ class MaterialImporter:
                 continue
             if group == 'decs':
                 containers = [row + 48 for row in c.block(tag['offset'] + 20, 116)]
+            elif group == 'cntl':
+                containers = [row + 0x158 for row in c.block(tag['offset'], 0x26c)]
             else:
                 containers = [tag['offset'] + 100]
             for candidate in (post for container in containers for post in c.block(container, 132)):

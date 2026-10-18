@@ -117,7 +117,7 @@ class TagImporter:
                     raise ValueError('Packed mesh MOPP extends outside source cache')
                 return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
             if (('/Functions[' in path and path.endswith('/Default Function'))
-                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad') and path.endswith('Function'))):
+                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad', 'cntl') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
                 from tag_functions import convert_function
@@ -138,7 +138,7 @@ class TagImporter:
                                       resource_reference=resource,
                                       special_block=lambda at, ss, ds, path:
                                           self.materials.particle_post(at, group)
-                                          if group in ('prt3', 'decs') and ss.get('name') == 'Postprocess' else None)
+                                          if group in ('prt3', 'decs', 'cntl') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
         if group == 'prt3':
             payload = self.materials.particle_root(tag['offset'], payload)
