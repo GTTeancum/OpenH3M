@@ -78,3 +78,19 @@ https://github.com/XboxChaos/Assembly (dev branch); see Assembly-LICENSE.
 The tiling algebra is based on xenia-project/xenia texture_address.h; see
 xenia-LICENSE. xexlib.py originated in this repository's halo3mp/tools/xexlib.py.
 The private source map is Neckzilla's Warlock workshop item 2977651586.
+
+## Completion work in progress
+
+inventory_conversion.py accepts --source, --candidate and --output paths and writes
+an explicit scenario/dependency inventory without extracting assets. Its placement
+planner converts records semantically, including changed flag bit positions; it
+refuses unmapped strings, nonempty nested blocks and unsupported fields.
+
+2026-10-18 inventory: 120/127 scenery, 14/16 weapons, 22/23 equipment and 6/18
+crates can reuse named retail tags. The remaining 22 placements need dependencies
+imported (custom props, Automag, powerup, teleporters and jump pads). These counts
+are preparation evidence only: the scenario assembly stage still needs to rebuild
+palettes and remap name/parent indices before publishing placements to a map.
+Actual-source checks preserved transforms and object IDs for all 162 convertible
+records, verified retail tag salts and confirmed Create At Rest remaps bit5 to bit8.
+The accepted gameplay candidate has not been replaced by this unfinished stage.

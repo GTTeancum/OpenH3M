@@ -9,6 +9,8 @@ class Cache:
    self.names_base,self.names_size,self.names_index=self.unpack('III',0x24)
   else:
    self.base=self.u(0x2e8);self.start=(self.u(0x48c)+self.u(0x474))&0xffffffff;ng,ga,nt,ta=self.unpack('IIII',self.offset(self.u(0x10)))
+   self.names_base=(self.u(0x2b8)+self.u(0x46c))&0xffffffff
+   self.names_size=self.u(0x2bc);self.names_index=(self.u(0x2c0)+self.u(0x46c))&0xffffffff
   self.groups=[]
   for i in range(ng):
    raw=self.data[self.offset(ga)+i*16:self.offset(ga)+i*16+4];self.groups.append((raw[::-1] if mcc else raw).decode('ascii'))
@@ -29,7 +31,7 @@ class Cache:
   at=self.pointer(p);assert at+n*stride<=len(self.data)
   return [at+i*stride for i in range(n)]
  def name(self,i):
-  assert self.mcc
+  if not self.mcc and i>=self.u(0x2b4):return None
   rel=self.u(self.names_index+i*4)
   if rel==0xffffffff:return None
   assert rel<self.names_size
