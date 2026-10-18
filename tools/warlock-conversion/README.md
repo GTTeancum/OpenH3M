@@ -124,3 +124,14 @@ preserving retail pointers and dependencies. Unexpected differences are errors.
 An in-memory assembly check now prepares all 23 equipment and 10/18 crate entries;
 remaining custom object dependencies still prevent complete scenario publication.
 No new gameplay candidate has been written by this stage.
+
+string_ids.py resolves MCC U13 namespaces from the source header and retail Halo 3
+namespaces from Assembly's definition, then translates identifiers by exact table
+text. This is required for model regions, attachment markers and object functions.
+It rejects missing target strings rather than copying incompatible numeric IDs.
+All 18,558 source and 17,704 candidate table indices passed ID/index roundtrips;
+actual teleporter_active, teleporter_blocked, effect, one and powerup_pickup_blue
+references mapped to their matching retail names. Legacy non-UTF8 bytes are
+preserved losslessly. Adding new strings to the retail table remains to implement.
+The remaining object graph includes custom render/collision/physics resources,
+plus Automag animation and HUD content; those imports are still incomplete.
