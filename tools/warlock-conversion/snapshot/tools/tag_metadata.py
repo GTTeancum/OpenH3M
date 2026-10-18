@@ -23,6 +23,10 @@ class MetadataConverter:
         self.resource_reference = resource_reference
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
+        from collision_physics import convert_collision_block
+        specialized = convert_collision_block(self, offset, source_schema, target_schema, path)
+        if specialized is not None:
+            return specialized
         if depth > 32:
             raise ValueError(f'{path}: metadata nesting exceeds limit')
         source_fields, target_fields = fields(source_schema), fields(target_schema)
@@ -46,6 +50,26 @@ class MetadataConverter:
             name = path + '/' + key[0]
             src = source_fields.get(key)
             if src is None:
+                if (path.startswith('hlmt:') and source_schema.get('name') == 'Variants'
+                        and int(source_schema.get('elementSize'), 0) == 48 and size == 56
+                        and kind == 'undefined' and at in (48, 52)):
+                    covered.update(range(at, at + 4))
+                    continue
+                if (path.startswith('hlmt:') and source_schema.get('name') == 'Regions'
+                        and int(source_schema.get('elementSize'), 0) == 20 and size == 24
+                        and at in (20, 22)):
+                    # MCC omits retail's region sorting override and padding.
+                    # Neutral order is zero (no camera-relative override).
+                    covered.update(range(at, at + 2))
+                    continue
+                if (path.startswith('hlmt:') and source_schema.get('name') == 'Permutations'
+                        and int(source_schema.get('elementSize'), 0) == 24 and size == 36
+                        and at >= 24 and self.source.u(offset + 12) == 0):
+                    # Retail runtime-state lookup/padding is zero for stateless
+                    # permutations, confirmed against native model records.
+                    width = 4 if kind == 'undefined' else struct.calcsize('>' + SCALARS[kind])
+                    covered.update(range(at, at + width))
+                    continue
                 if kind == 'tagblock' and key[0] in ('Predicted Resources', 'Predicted Bitmaps'):
                     covered.update(range(at, at + 12))
                     continue

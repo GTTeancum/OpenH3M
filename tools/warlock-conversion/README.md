@@ -213,3 +213,14 @@ The tarp-box render model now imports through the full dependency/resource path,
 including its material and observed 20-byte PRT-info descriptor. The enclosing
 object import reaches collision BSP physics, where MCC/retail layouts differ and
 still require a dedicated handler. Incomplete graphs remain unpublishable.
+
+collision_physics.py translates MCC 64-bit collision shape headers into retail
+32-bit layouts, including the extra MCC large-BSP runtime pointer omitted by the
+older XML offsets. AABB, shape references, scale and model references are rebuilt;
+runtime pointers must be null. MOPP headers/data are allocated and supported
+32-bit terminal keys translated back to retail bit placement; unsupported opcodes
+or nonrepresentable keys fail. Shape/layout references are included from TagTool.
+Retail model variant/state padding is initialized for the explicitly supported
+stateless variants. All three tarp props now complete in-memory graph import:
+12 object/model/collision tags plus material/bitmap dependencies, covering seven
+previously missing scenery placements. Native behavior remains unverified.
