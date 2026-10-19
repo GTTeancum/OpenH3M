@@ -32,6 +32,7 @@ class MaterialImporter:
         self.report = []
         self.particle_aliases = {}
         self.native_effect_post = None
+        self.native_bitmaps = None
         self.target_names = {(t['group'], self.target.name(i)): (t['salt'] << 16) | i
                              for i, t in self.target.tags.items()}
 
@@ -43,6 +44,11 @@ class MaterialImporter:
             return self.done[key]
         if key in self.target_names:
             return self.target_names[key]
+        if self.native_bitmaps is not None:
+            native = self.native_bitmaps.bitmap(key[1])
+            if native is not None:
+                self.done[key] = native
+                return native
         rows = s.block(s.tags[tag]['offset'] + 0x60, 0x38)
         if len(rows) == 1 and s.unpack('H', rows[0] + 10)[0] == 2 and self.native_effect_post is not None:
             owner = self.native_effect_post.cubemap(key[1])
@@ -127,6 +133,16 @@ class MaterialImporter:
             if source_name in constant_names:
                 values = s.unpack('4f', source_constants[constant_names.index(source_name)])
                 struct.pack_into('>4f', constants, index * 16, *values)
+        suppressed_specular = []
+        if key[1].startswith('levels\\multi\\warlock\\shaders\\'):
+            # The approximate retail fallback produces unstable world highlights.
+            # Preserve diffuse and bump lighting; use matte world materials.
+            for index, name in enumerate(target_constant_names):
+                if any(term in name for term in ('specular_coefficient',
+                        'specular_contribution', 'specular_tint', 'env_tint',
+                        'fresnel_color', 'reflection_coefficient')):
+                    struct.pack_into('>4f', constants, index * 16, 0., 0., 0., 0.)
+                    suppressed_specular.append(name)
         root = bytearray(c.data[retail:retail + 68])
         root[28:40] = bytes(12)
         owner, address = self.registry.newtag('rmsh', root)
@@ -137,6 +153,7 @@ class MaterialImporter:
         self.done[key] = owner
         self.report.append({'source': key[1], 'retail_template': template_id,
             'approximation': True, 'textures_imported': imported,
+            'fallback_specular_suppressed': suppressed_specular,
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
             'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names))})
         return 'rmsh', owner

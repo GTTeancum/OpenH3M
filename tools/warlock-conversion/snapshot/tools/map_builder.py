@@ -23,6 +23,10 @@ class MapBuilder:
   pad=(-len(self.raw))%0x1000;self.raw.extend(bytes(pad));off=self.cache.u(0x488)+len(self.raw);self.raw.extend(payload);return off
  def finish(self,salt):
   self.raw.extend(bytes((-len(self.raw))%0x1000));growth=len(self.raw);c=self.cache;h=bytearray(self.original[:c.start]);tail=self.original[c.start+c.u(0x490):]
+  if hasattr(self,'compacted_raw'):
+   raw_start=(c.u(0x484)+c.u(0x470))&0xffffffff
+   if raw_start+c.u(0x488)!=c.start:raise ValueError('Noncontiguous basis raw section')
+   h=bytearray(self.original[:raw_start]);self.raw=self.compacted_raw;growth=len(self.raw)-c.u(0x488)
   self.debug.extend(bytes((-len(self.debug))%0x1000));debug_growth=len(self.debug)
   debug_end=((c.u(0x47c)+c.u(0x46c))&0xffffffff)+c.u(0x480)
   if debug_growth:

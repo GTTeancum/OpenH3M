@@ -127,6 +127,19 @@ class DiscMaterialImporter:
                     raise ValueError('Terrain constant count differs from template')
                 payload = b''.join(struct.pack('>' + fmt, *s.unpack(fmt, row)) for row in rows)
                 struct.pack_into('>III', output, offset, len(rows), b.alloc(payload) if rows else 0, 0)
+            suppressed_specular = []
+            if group == 'rmtr' and s.name(datum & 65535).startswith('levels\\multi\\warlock\\'):
+                names = [i.source_strings.text(s.u(row)) for row in s.block(source_template + 72, 4)]
+                pointer = struct.unpack_from('>I', output, 32)[0]
+                # The converted terrain specular pass produces white subpixel
+                # spikes. Keep layer blending, normals and diffuse lighting;
+                # use a matte terrain approximation in this POC.
+                for index, name in enumerate(names):
+                    if any(term in name for term in ('specular_coefficient',
+                            'specular_contribution', 'specular_tint', 'env_tint',
+                            'fresnel_color', 'reflection_coefficient')):
+                        b.put(pointer + index * 16, '4f', 0., 0., 0., 0.)
+                        suppressed_specular.append(name)
             if promote_layer_count:
                 names = [i.source_strings.text(s.u(row)) for row in s.block(source_template + 72, 4)]
                 values = s.unpack('4f', s.block(post + 28, 16)[names.index('layers_of_4')])
@@ -164,11 +177,12 @@ class DiscMaterialImporter:
             owner, _ = i.registry.newtag(group, payload)
             self.done[datum] = (group, owner)
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
-                'native_donor': donors[variant], 'approximation': bool(overlays),
+                'native_donor': donors[variant], 'approximation': bool(overlays or suppressed_specular),
                 'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
                                else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays else None,
                 'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}),
-                'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': True})
+                'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': not suppressed_specular,
+                'terrain_specular_suppressed': suppressed_specular})
             return self.done[datum]
         except Exception:
             i.failed = True

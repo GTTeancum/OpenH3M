@@ -10,6 +10,7 @@ import csv
 from ctypes import wintypes as W
 import json
 import os
+import shutil
 from pathlib import Path
 import struct
 import subprocess
@@ -24,6 +25,8 @@ parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--shader-cache-seed', type=Path)
+parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
 ROOT = options.project.resolve(strict=True)
 RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
@@ -72,6 +75,10 @@ def check(ok):
 
 for name in ('temp', 'profile'):
     (RUN / name).mkdir(parents=True, exist_ok=True)
+if options.shader_cache_seed:
+    seed = options.shader_cache_seed.resolve(strict=True)
+    seed.relative_to(ROOT)  # Project confinement applies to cache inputs too.
+    shutil.copytree(seed, RUN / 'cache/shaders')
 env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
@@ -81,9 +88,9 @@ args = [str(EXE), f'--game_data_root={GAME}',
         '--input_script=45000:DOWN+220,46000:A+250,55000:UP+220,56000:A+250,58000:UP+120,59000:UP+120,60000:UP+120,61000:UP+120,62000:UP+120,63000:UP+120,64000:UP+120,65000:UP+120,66000:UP+120,67000:UP+120,68000:UP+120,70000:A+250,72000:A+250,74000:DOWN+220,95000:A+250', '--input_script_button_state=true',
         '--input_script_keystrokes=false']
 capture = options.capture
-duration = 135
+duration = options.seconds
 if capture:
-    args += ['--halo3mp_capture_guest_output_after_ms=120000',
+    args += [f'--halo3mp_capture_guest_output_after_ms={(duration - 15) * 1000}',
              f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
 binary = EXE.read_bytes()
 pe = pefile.PE(data=binary, fast_load=True)
@@ -105,6 +112,9 @@ def log(event, **values):
         print(json.dumps(record), flush=True)
 
 
+log('input_map', path=str(GAME / 'maps/lockout.map'),
+    sha256=hashlib.sha256((GAME / 'maps/lockout.map').read_bytes()).hexdigest(),
+    executable=str(EXE), seconds_limit=duration)
 proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
 ph = open_process(0x1F0FFF, False, proc.pid)
 check(ph)

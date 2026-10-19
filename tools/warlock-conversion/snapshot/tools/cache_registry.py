@@ -23,6 +23,7 @@ class CacheRegistry:
         self.first_resource = len(self.resources) // 64
         self.pages = self.table(self.play + 0x18, 88)
         self.locations = self.table(self.play + 0x30, 16)
+        self.streaming = self.table(self.play + 0x24, 16)
         schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/plugins/zone.xml').getroot()
         self.control_field = self.zone + int(next(f for f in schema if f.get('name') == 'Native Resource Control Data').get('offset'), 0)
         at = c.pointer(c.u(self.control_field + 12))
@@ -34,7 +35,7 @@ class CacheRegistry:
         self.closed = False
 
     def table(self, offset, stride):
-        return bytearray(b''.join(self.cache.data[x:x + stride] for x in self.cache.block(offset, stride)))
+        return bytearray(b''.join(self.builder.read(self.address(x), stride) for x in self.cache.block(offset, stride)))
 
     def address(self, offset):
         return offset - self.cache.start + self.cache.base
@@ -110,6 +111,7 @@ class CacheRegistry:
         self.stage_simulation_definitions()
         for at, stride, payload in ((self.zone + 0x58, 64, self.resources),
                                    (self.play + 0x18, 88, self.pages),
+                                   (self.play + 0x24, 16, self.streaming),
                                    (self.play + 0x30, 16, self.locations)):
             b.put(self.address(at), 'III', len(payload) // stride, b.alloc(payload), 0)
         b.put(self.address(self.control_field), 'I', len(self.control))
@@ -133,12 +135,14 @@ class CacheRegistry:
         self.closed = True
 
     def stage_simulation_definitions(self):
-        """Keep existing network-definition indices and append new definitions."""
+        """Keep live native definitions in order, then append converted definitions."""
         schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/plugins/scnr.xml').getroot()
         field = next(x for x in schema if x.get('name') == 'Simulation Definition Table')
         scenario = next(t['offset'] for t in self.cache.tags.values() if t['group'] == 'scnr')
         at = scenario + int(field.get('offset'), 0)
-        payload = self.table(at, 4)
+        original = self.table(at, 4)
+        payload = bytearray(b''.join(original[j:j + 4] for j in range(0, len(original), 4)
+            if struct.unpack_from('>H', self.tags, (struct.unpack_from('>I', original, j)[0] & 65535) * 8)[0] != 65535))
         groups = {'bipd', 'vehi', 'weap', 'eqip', 'garb', 'proj', 'scen', 'mach',
                   'ctrl', 'lifi', 'ssce', 'bloc', 'crea', 'term', 'efsc', 'effe', 'jpt!'}
         self.simulation_added = []

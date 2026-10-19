@@ -81,7 +81,7 @@ def scenario_coverage(importer, stages):
             if datum != 0xffffffff and name not in references:
                 raise ValueError(f'Unconverted scenario reference: {name}')
     return {'source_blocks': inventory, 'slot_identity': 'Blackout / map ID 520',
-            'simulation_definitions': 'Original retail definitions plus imported dependencies',
+            'simulation_definitions': 'Live retail definitions in original order, followed by imported dependencies',
             'unused_placement_palettes': 'Only entries referenced by placements are imported'}
 
 
@@ -122,7 +122,7 @@ def main():
         salt = resource_salt(args.xex)
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
-        builder = MapBuilder(str(args.basis), 0x1000000)
+        builder = MapBuilder(str(args.basis), 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         terrain, water = importer.terrain, importer.water
@@ -138,8 +138,10 @@ def main():
             state['stages'][stage] = action()
         stage = 'finalize'
         state['scenario_coverage'] = scenario_coverage(importer, state['stages'])
+        from retired_resources import compact_basis
+        state['compaction'] = compact_basis(importer)
         importer.finalize()
-        state.update(tags=importer.added, materials=importer.materials.report,
+        state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
         payload = builder.finish(salt)
         state.update(output_bytes=len(payload), output_sha256=hashlib.sha256(payload).hexdigest())

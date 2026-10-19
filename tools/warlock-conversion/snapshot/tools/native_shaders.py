@@ -92,6 +92,8 @@ class NativeShaderImporter:
         def resource(path, resource_datum):
             if group != 'bitm' or '/Hardware Textures[' not in path:
                 raise ValueError(f'Unsupported native shader resource: {path}')
+            if getattr(self, 'resource_copier', None) is not None:
+                return self.resource_copier(resource_datum, owner)
             from native_bitmap_resource import copy_bitmap_resource
             payload = copy_bitmap_resource(s, resource_datum, self.shared_paths)
             return i.registry.add_resource(owner, 'bitmap_texture_interop_resource', payload)

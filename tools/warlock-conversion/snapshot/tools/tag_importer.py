@@ -38,7 +38,8 @@ class TagImporter:
         self.sounds = None
         if sound_bank is not None:
             from sound_importer import SoundImporter
-            self.sounds = SoundImporter(self, sound_bank)
+            self.sounds = SoundImporter(self, sound_bank, disc_maps)
+            self.materials.native_bitmaps = self.sounds.native
 
     def import_tag(self, datum):
         if self.failed:
@@ -163,6 +164,26 @@ class TagImporter:
             payload = self.materials.particle_root(tag['offset'], payload)
         elif group == 'decs':
             payload = self.materials.decal_root(tag['offset'], payload)
+        if group == 'bloc' and name == r'levels\multi\warlock\fx\teleporter_reciever\teleporter_reciever':
+            # This custom receiver omitted the retail hum attachment entirely.
+            # Restore it using the native marker/teleporter_active scale binding.
+            c = self.registry.cache
+            donor = self.resolved['bloc', r'objects\multi\teleporter_reciever\teleporter_reciever'][1]
+            attachments = next(field for field in ds if field.get('name') == 'Attachments')
+            at = int(attachments.get('offset'), 0)
+            stride = int(attachments.get('elementSize'), 0)
+            native = [row for row in c.block(c.tags[donor & 65535]['offset'] + at, stride)
+                      if c.data[row:row + 4] == b'lsnd']
+            if len(native) != 1:
+                raise ValueError('Expected one retail teleporter hum attachment')
+            count, pointer = struct.unpack_from('>II', payload, at)
+            existing = self.builder.read(pointer, count * stride) if count else b''
+            if any(existing[j:j + 4] == b'lsnd' for j in range(0, len(existing), stride)):
+                raise ValueError('Custom receiver already has a sound attachment')
+            payload = bytearray(payload)
+            combined = existing + c.data[native[0]:native[0] + stride]
+            struct.pack_into('>III', payload, at, count + 1, self.builder.alloc(combined), 0)
+            compatibility_notes.append('Restored native receiver hum with effect marker and teleporter_active scale.')
         if len(payload) != size:
             raise ValueError('Converted tag root size mismatch')
         offset = address - self.builder.base

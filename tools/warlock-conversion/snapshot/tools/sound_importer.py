@@ -5,7 +5,7 @@ from tag_metadata import MetadataConverter
 
 
 class SoundImporter:
-    def __init__(self, importer, bank):
+    def __init__(self, importer, bank, disc_maps=None):
         self.importer, self.bank = importer, bank
         self.source, self.registry = importer.source, importer.registry
         self.builder, self.target = importer.builder, importer.registry.cache
@@ -19,6 +19,9 @@ class SoundImporter:
                 size = int(field.get('elementSize'), 0)
                 rows = self.target.block(self.target_root + int(field.get('offset'), 0), size)
                 self.tables[field.get('name')] = [bytes(self.target.data[x:x + size]) for x in rows]
+
+        from native_sound import NativeSounds
+        self.native = NativeSounds(self, disc_maps) if disc_maps else None
 
     def field(self, schema, name):
         return next(x for x in schema if x.get('name') == name)
@@ -52,6 +55,10 @@ class SoundImporter:
             return self.append(name, data)
 
     def import_sound(self, datum):
+        if self.native is not None:
+            result = self.native.import_sound(self.source.name(datum & 65535))
+            if result is not None:
+                return result
         s = self.source
         at = s.tags[datum & 65535]['offset']
         flags, category, count = s.unpack('HBB', at)

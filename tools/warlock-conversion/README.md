@@ -1,55 +1,68 @@
-# Warlock conversion: POC loading verified
+# Warlock conversion
 
-Warlock MCC assets are converted into original Halo 3 Mythic cache structures in
-Blackout's slot. OpenH3M and the original disc assets remain unchanged. This is a
-map-specific proof of concept, not a general MCC converter or a fidelity claim.
-The owner's successful solo collision/visual test covered the earlier checkpoint;
-the expanded conversion has now passed a native loading check and still needs
-the owner's gameplay testing.
+This pipeline converts the MCC Warlock map into retail Halo 3 Mythic cache
+structures in Blackout's slot. It changes map data only. OpenH3M, the original
+XEX, and the original disc maps are not modified. Generated assets stay private
+under `C:/X360/ISOs/H3M/.local`; Git contains the process and schema definitions.
 
-## Loading repair verified
+## Current build
 
-The owner's loading crash was traced to decal initialization. The converter had
-compacted the scenario decal palette without remapping the 586 BSP runtime decal
-indices. Both consumers now use the same remapping; the serialized build check
-also rejects out-of-range BSP decal references. All 586 repaired entries resolve
-to their authored source decal names.
+Current candidate: `.local/integrated/lockout-release.map`, 182,239,232 bytes
+(173.80 MiB), down from 372,199,424 bytes (354.96 MiB). The tag heap is 23.56 MiB.
+SHA256: `400c6ac9ef1e3454aab016c335511259ddbec139ace00817d49652f29b3e7560`.
+Report: `.local/reports/warlock-release.json`.
+The root `Run-Warlock.cmd` uses the `.local/warlock-play` layout.
+Choose **Custom Games > Blackout > Slayer**.
 
-Current staged map: `.local/integrated/lockout-decalfix.map`, SHA256
-`ed8298b11375eb0c47c46069f3407a559e2d8931e9bace5f653c8696a72b025c`.
-The existing launcher points to this repair. A native 135-second test reached
-first-person Slayer on 2026-10-18: 448 decal initialization calls returned, five
-resource hash checks passed, and no guest access violation occurred before the
-watchdog stopped the child. The application's own capture at 120 seconds shows
-the Warlock arena, first-person weapon and Slayer HUD. It also shows lighting /
-shader noise; this is loading evidence, not a visual-fidelity or gameplay-parity
-claim. Evidence is under `.local/decal-load-confirm/`; structural verification is
-`.local/reports/decalfix-verification.json` and the build report is
-`.local/reports/warlock-decalfix.json`.
+The builder retains the working scenario objects, collision, equipment, cannons,
+teleporters and all 162 Forge palette entries. The owner tested those gameplay
+features on the earlier expanded build. Runtime loading and visual checks are
+recorded separately below; actual-console and system-link testing remain external
+acceptance checks.
 
-The supported native diagnostic uses only the existing process-local controller
-script and the application's native capture. No desktop input or capture is used:
+## Size and visual fixes
 
-```powershell
-python -B tools/warlock-conversion/snapshot/tools/trace_loading.py `
-  --project C:/X360/ISOs/H3M --exe D:/Programming/GitHub/H3M/OpenH3M.exe --capture
-```
+* Native retail maps use the same 3,268 external page descriptors. Original
+  `mainmenu.map`/`shared.map` references remain byte-for-byte unchanged. Blackout,
+  Guardian, Narrows, Construct and Sandbox were compared: each references 346
+  mainmenu pages and 2,922 shared pages. Blackout itself is 137.09 MiB; the new
+  conversion remains larger because it includes custom geometry and assets.
+* 31 newly needed sounds reuse native retail codecs and packets instead of PCM.
+  Native sound pages retain the uncompressed streaming codec used on the disc;
+  deflating XMA packet pages caused decoder errors and is not supported here.
+  Sounds with no matching retail donor retain the explicit PCM conversion.
+* Stock textures retain native mip chains. For 72 large single-image textures,
+  the separate highest-resolution mip is omitted while lower mips are preserved.
+  Custom textures continue through the existing Xbox texture encoder.
+* Unreachable basis tags/resources are removed using header globals, imported
+  references and retail metadata schemas. Packed four-byte tag references are
+  handled explicitly. Live resource fragments are repacked out of mixed pages,
+  so retaining one asset no longer retains unrelated Blackout payloads.
+* Native simulation definitions are rebuilt from live definitions in their old
+  relative order, followed by imported definitions. Both peers must use the same
+  converted cache; this is not a system-link certification.
+* The new-metadata reserve is 8 MiB instead of 16 MiB, with explicit overflow checks.
+* Packed vertex lighting conversion matches all 784 buffers in the accepted
+  fallback, removing the neon lighting regression. Converted Warlock terrain and ordinary
+  world materials suppress unstable specular/environment contributions that
+  produce white floor speckles and reflective artifacts. Layer blending, diffuse
+  lighting and normal maps remain. Stock materials, weapons and water retain
+  their shading parameters. This is a reported matte-material approximation.
+* All 586 BSP runtime decal indices are remapped with the scenario palette.
 
-This diagnostic checks the exact supported executable hash before attaching its
-build-specific breakpoints. It selects Custom Games, Blackout and Slayer, waits
-for map readiness, then starts at 95 seconds. All output, cache and profile paths
-are under a fresh `.local/loading-traces/` directory. It stops its own process at
-135 seconds. The menu sequence assumes this disc's alphabetical map catalog and
-a fresh profile; inspect logs/capture rather than assuming a future run succeeds.
-The earlier A-only sequence selected Matchmaking and is no longer used.
+Remaining POC approximations include selected native shader/reflection substitutes,
+frozen shader animation and reduced custom-texture resolution. See the report's
+per-material notes. The source custom teleporter receiver omitted its hum; the
+converter restores the native receiver's loop attachment, effect marker and
+teleporter_active scale binding. The sender loop and pass-through event remain
+identical to retail. Activation audio lives in shared.map; the loop packets are
+local. Both sets of codec/packet data were compared with the original cache.
+Audible teleporter playback still requires an in-game listening check.
 
-## Inputs and build
+## Build
 
-Run from the Git checkout. Python 3.11+ and `requirements.txt` dependencies are
-required. Keep any environment, pip cache and temporary files inside the project.
-Private prerequisites are the original Mythic disc (including all donor maps and
-`default.xex`), MCC Warlock workshop map, MCC Halo 3 FMOD sound bank and a local
-vgmstream CLI. Assets and decoder binaries are not distributed here.
+Run from `C:/X360/ISOs/H3M/.local/OpenH3M-source`. Use a fresh output filename;
+the builder refuses to overwrite existing maps. No earlier converted seed is needed.
 
 ```powershell
 python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
@@ -58,103 +71,71 @@ python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
   --basis ../../maps/lockout.map --xex ../../default.xex `
   --sound-bank "D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3/fmod/pc/sfx.fsb" `
   --decoder ../tools/vgmstream-r2117/vgmstream-cli.exe `
-  --output ../integrated/lockout-final.map --report ../reports/warlock-final.json
+  --output ../integrated/lockout-rebuilt.map --report ../reports/warlock-rebuilt.json
 ```
 
-All paths are configurable. `--disc-maps` defaults to PROJECT/maps. Use a fresh
-output filename for rebuilding: existing maps are never overwritten. The original
-disc Lockout is sufficient; **no earlier converted seed is required**. The builder
-also accepts the old tested seed for historical comparison, but it is unnecessary.
+The report records input/output hashes, material approximations, native donors,
+resource compaction, metadata usage and failure stage. Unsupported dependency
+layouts fail explicitly. Decoder subprocesses and temporary files stay inside the
+project. Original inputs are read-only; output is published only after checks.
 
-The pipeline converts geometry/collision, decorators, lightmaps, terrain/water and
-object materials, placements and variants, spawns, environment, audio, decals and
-all seven Forge palettes. It copies scenario budget and object salts, replaces
-visibility/audibility, clears unused script/editor blocks, and retains Blackout's
-slot identity. Original simulation definitions remain alongside imported tags.
-All 114 source scenario blocks are inventoried; newly populated unhandled blocks
-or unsupported dependency layouts fail explicitly rather than silently dropping.
-
-A same-directory temporary file is renamed only after serialized cache/tag checks.
-Failures remove temporary maps and write their stage/error to the JSON report.
-The report also records hashes, counts, imported tags and material approximations.
-Audio decoder calls have a 45-second timeout and use project-local temporary files.
-
-## Prepare and play
-
-Prepare a fresh layout; this does not launch the game:
+## Verify and run
 
 ```powershell
-python -B tools/warlock-conversion/snapshot/tools/warlock_handoff.py prepare `
-  --project C:/X360/ISOs/H3M --game ../warlock-play --map ../integrated/lockout-final.map
+python -B tools/warlock-conversion/snapshot/tools/test_lighting_coefficients.py
+python -B tools/warlock-conversion/snapshot/tools/verify_native_resources.py `
+  --map ../integrated/lockout-release.map `
+  --report ../reports/warlock-release.json --disc-maps ../../maps
+python -B tools/warlock-conversion/snapshot/tools/verify_compacted_cache.py `
+  --map ../integrated/lockout-release.map --basis ../../maps/lockout.map
+python -B tools/warlock-conversion/snapshot/tools/verify_teleporter_audio.py `
+  --map ../integrated/lockout-release.map `
+  --report ../reports/warlock-release.json --disc-maps ../../maps
 ```
 
-Preparation checks file size, tag memory and the XEX-salted header hash. It creates
-hardlinks to disc assets and the generated map, saving disk space. Never edit these
-linked files in place. Existing game directories are refused; choose a fresh path
-for another version. The original accepted `.local/test-game` layout is preserved.
+Verification reconstructs native sound streaming segments and compares packets
+and codecs to donors, checks retained/repacked original payloads and external page
+descriptors, and validates serialized decal references during the build.
+
+Prepare a **new** layout with `warlock_handoff.py prepare --project
+C:/X360/ISOs/H3M --game ../warlock-play-new --map ../integrated/lockout-rebuilt.map`.
+Layouts use hardlinks: never edit linked maps in place. The versioned
+`Run-Warlock.ps1` launcher writes hashes and failure logs under `.local/warlock-runs`.
+Its default watchdog is 180 seconds; the root CMD supplies the owner's longer limit.
+
+The bounded native diagnostic requires the verified executable build:
 
 ```powershell
-& tools/warlock-conversion/snapshot/tools/Run-Warlock.ps1 `
-  -Project C:/X360/ISOs/H3M -Exe D:/Programming/GitHub/H3M/OpenH3M.exe `
-  -Seconds 3600
+python -B tools/warlock-conversion/snapshot/tools/trace_loading.py `
+  --project C:/X360/ISOs/H3M --exe D:/Programming/GitHub/H3M/OpenH3M.exe `
+  --capture --seconds 165
 ```
 
-The root `C:\X360\ISOs\H3M\Run-Warlock.cmd` is configured for this new layout and
-calls the versioned script directly. Select **Custom Games > Blackout > Slayer**.
-The launcher sends no UI input and takes no screenshots. Its default watchdog is
-180 seconds; `-Seconds` can be 1–3600. On timeout it closes only its launched child.
-For a data-only check use `warlock_handoff.py check --project ... --game ...`.
+It uses only process-local scripted input, native capture and debugger logging on
+its own child. It refuses a parallel instance, records header/resource checks and
+unhandled faults, and stops its child at the watchdog. No host UI input is sent.
+Each trace records the deployed map SHA256. For repeated checks,
+`--shader-cache-seed <prior-run>/cache/shaders` reuses the small shader cache
+while keeping the new run logs and game caches separate.
+A loading success alone does not establish correct visuals.
 
-Each run writes `.local/warlock-runs/<timestamp-pid>/result.json`, `runtime.log`
-and `console.log`. Temp/profile/cache destinations and the working directory are
-inside that run directory. Reports include preflight failures, executable/map
-hashes, process exit/watchdog status and a bounded excerpt of native failure logs.
-An existing runtime instance prevents a parallel launch. Header preflight success
-is **not evidence that gameplay loaded**. No EXE patching or debugger is required.
+Final native evidence: `.local/loading-traces/20261018-204450-14384/`.
+The deployed SHA256 above entered Slayer and stayed running to the 180-second
+watchdog. `proof-loaded.png` was inspected: the visible floor/ramp has no bright
+speckles and the earlier reflective world artifact is absent. Five resource
+hash checks passed; no unhandled guest faults or audio decoder errors were logged.
+Two preceding cold-start runs stalled before reaching the map and were rejected;
+the successful run reused a small shader cache. No teleporter traversal/listening
+check or physical Xbox/system-link test is claimed.
 
-## Handoff evidence and limits
+## Retention and provenance
 
-Current lighting-repaired map: 372,199,424 bytes, SHA256
-`691bdf7b4d84fecf645abab1d1617d10a8a10c25835dcc80c66e5258e7c9d8ca`.
-The build imports 838 metadata records and all 162 Forge palette entries (161
-non-null references). The report is `.local/reports/warlock-lighting-corrected.json`.
-Structural verification covers serialized registry addresses/salts/groups,
-scenario coverage, Forge references, budget, cleared editor blocks and header
-hash. The native lighting check reached first-person Slayer, with five successful
-resource hash checks and no recorded unhandled exception. Its native capture is
-`.local/loading-traces/20261018-185543-19576/proof-loaded.png`. Inspection confirms
-the neon lighting regression is removed; some grainy surfaces remain. All 784
-format-6 lighting buffers now match the accepted fallback byte for byte. A focused
-regression test verifies signed coefficient conversion and preservation of stride.
-The owner reports working cannons, pickups, invisibility and teleportation;
-teleporter audio is missing. Agent verification does not cover those interactions.
+Keep the accepted fallback `.local/candidate/lockout.map` and the current deployed
+map. Remove superseded generated maps only after exact path/hash checks. Keep
+small reports and useful native failure/visual evidence; never commit game assets,
+binaries, caches or screenshots. Development history belongs in Git.
 
-Map size remains unresolved and is not accepted as Xbox 360 appropriate. The size
-audit (`.local/reports/warlock-size-audit.json`) attributes newly added compressed
-pages to audio (107.3 MB), textures (57.3 MB), geometry (42.9 MB), and models and
-animation (2.5 MB), on top of the 143.7 MB basis and metadata growth. Duplicate
-new pages account for only 46 KB. New sounds currently use decoded PCM; investigate
-native retail sound reuse before sacrificing textures or removing working content.
-No actual console memory/residency validation has been completed.
-
-Known POC approximations include reduced texture resolution/mip coverage, native
-reflection substitutions, frozen shader animation and selected original-disc
-shader/material defaults. Detailed per-material notes are in the build report.
-Audio, Forge interaction, all game modes, multiplayer and system link remain for
-the owner's testing. Runtime compatibility is preserved by making map-side changes;
-actual original-console/system-link compatibility is not certified.
-
-The earlier owner-tested map remains `.local/candidate/lockout.map`, SHA256
-`499f0516e016524f7f8a98ca580e4acb66c2b5d58403a5c755e4ed8f23de4279`.
-It is retained as a fallback. Old standalone snapshot scripts document development history and are not the
-supported build pipeline. The diagnostic command above is explicitly build-specific.
-Do not copy the snapshot into another `.local/tools` directory or run its old
-hardcoded diagnostic scripts; use the commands above directly from the checkout.
-
-Only source/schema files belong in Git. Generated maps, logs, caches, screenshots,
-private assets and binaries stay under the project `.local` and must not be pushed.
-Keep the accepted fallback plus the current output; remove superseded generated
-maps after checking their exact paths/hashes. Retain useful failure reports, prune
-old run caches when no longer needed, and never recursively delete linked disc
-asset directories without checking their resolved paths. Detailed development
-history remains in Git rather than accumulating in this handoff.
+Additional dependency schemas come from
+[Assembly revision fd14ef3](https://github.com/XboxChaos/Assembly/tree/fd14ef3c46135e9422966c6a64cd926fb0bd23fb/src/Assembly/Plugins/Halo3).
+The pinned revision and added schema list are in `snapshot/reference/Assembly-schema-revision.txt`;
+the original license is retained in `snapshot/reference/Assembly-LICENSE`.
