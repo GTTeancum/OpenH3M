@@ -56,7 +56,7 @@ if a.mode == 'vblank-unthrottled':
     # Diagnostic only: reject as a production fix if simulation/output speeds up.
     cmd += ['--vsync=false']
 if a.capture or a.mode == 'vblank-unthrottled':
-    cmd += ['--halo3mp_capture_guest_output_after_ms=145000',
+    cmd += ['--halo3mp_capture_guest_output_times_ms=52000,145000',
             f'--halo3mp_capture_guest_output_path={run / "native-output.png"}']
 state = {'mode': a.mode, 'stock': a.stock, 'command': cmd, 'map_sha256': hashlib.sha256((game / 'maps/chillout.map').read_bytes()).hexdigest(),
          'SDL_TIMER_RESOLUTION': env.get('SDL_TIMER_RESOLUTION'), 'watchdog_seconds': 165}

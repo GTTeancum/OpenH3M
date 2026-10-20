@@ -127,3 +127,52 @@ Required destination: Custom Games, Cold Storage (Prisoner replacement).
 Matchmaking, File Share, and other map slots invalidate the test. Input logs
 alone do not establish menu state. Verify native content before gameplay
 measurement and stop an owned run when the route is wrong. No desktop input.
+
+
+### Short route probes (2026-10-20)
+
+`probe_native_route.py` confines each short native run and captures to `.local`,
+reuses the shared cache, checks the executable hash, refuses concurrent games,
+and kills its owned child at its watchdog. It uses only the existing native
+input script and guest-output capture. No timing claims come from this tool.
+
+- `20261020-175245-route-probe`: connect the synthetic controller at startup
+  with a 1ms right-stick pulse, then original Down/A at 45/46 seconds. Native
+  captures at 40 and 52 seconds both remained on main-menu Matchmaking.
+- `20261020-175411-route-probe`: native captures showed the Bungie intro at
+  18 and 22 seconds, then main menu at 26 seconds. Inputs during intro cannot
+  be treated as menu navigation.
+- `20261020-175456-route-probe`: Down held for one second at 35 seconds left
+  Matchmaking selected (37-second capture); A at 38 seconds entered its lobby
+  (42-second capture).
+- `20261020-175554-route-probe`: analog left-stick Down at 30 seconds also
+  left Matchmaking selected (32-second capture); A at 34 seconds entered its
+  lobby (38-second capture).
+
+All above probes used vsync=false. These captures disqualify that setting as
+an accepted fix: navigation behavior has not been preserved. Startup controller
+connection and shorter/longer digital pulses did not correct it. Stop guessing
+full routes under this option. Current focus is settings retaining normal vblank.
+
+Explicit SDL_TIMER_RESOLUTION=1 had not actually been measured previously;
+assuming its default was active is insufficient. A bounded normal-vblank trial
+now tests this separately from the earlier honor-existing-timer policy trial.
+New pacing captures include both the early lobby and final scene so a route
+failure can be detected before measurement completes.
+
+
+### Explicit timer-resolution result
+
+`20261020-175715-sdl-timer` reached the Custom Games lobby at 52 seconds and
+Prisoner gameplay at 145 seconds; both native images were inspected. The normal
+recorded route was unchanged. SDL_TIMER_RESOLUTION=1 did not fix pacing:
+899 intervals, no skips, mean 33.312ms, deviation 14.778ms, p05 15.114ms,
+p95 51.701ms, p99 52.540ms. There were 320 intervals below 25ms and 319 above
+41.667ms. Maximum polling gap was only 1.910ms, substantially below the observed
+variation. A read-only NtQueryTimerResolution during the run reported 1ms current
+system resolution; that query alone does not prove per-process timer behavior.
+
+No settings have been adopted for production. No engine or disc assets changed.
+Remaining work: locate the source of short/long frame delivery under normal
+vblank and validate a compatible fix; current tools measure output production,
+not simulation or physical-display smoothness by themselves.
