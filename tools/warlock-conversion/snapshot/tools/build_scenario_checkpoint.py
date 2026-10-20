@@ -131,6 +131,7 @@ def main():
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets
         if args.slot == 'chillout':
+            importer.materials.prisoner_materials = True
             importer.omitted_assets = {('eqip', r'custom\powerups\health_pack\tripmine_permanent')}
             state['omitted_assets'] = sorted(importer.omitted_assets)
             # Same native template options as the original Blackout prototype.

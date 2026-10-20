@@ -10,6 +10,8 @@ def stock_aliases():
     result = {}
     def add(group, source, target, variant=None):
         result[group, source] = group, target, variant
+    add('rmsh', r'custom\levels\multiplayer\shaders\invisible',
+        r'objects\multi\shaders\invisible')
     for source, target in {
         r'custom\vehicles\tgof_hce_banshee\hce_banshee': 'banshee',
         r'custom\vehicles\tgof_hce_banshee\brute_variant\brute_banshee': 'banshee',

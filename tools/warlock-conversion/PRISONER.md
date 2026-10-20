@@ -1,7 +1,7 @@
 # Prisoner conversion
 
-Status: candidate 02 reaches first-person gameplay automatically; broader
-visual and gameplay acceptance remains pending.
+Status: candidate 05 reaches first-person gameplay with the first material
+quality pass; lighting and broader gameplay acceptance remain pending.
 
 Source is **Halo Generational Combat**, installed Workshop item `2962955878`,
 `D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map`.
@@ -128,3 +128,35 @@ Candidate 01 and temporary audit scripts were deleted; build reports and
 diagnostic logs retain the failure evidence. Completed attempts' duplicate
 shader caches were removed. Warlock and Resuscitation were not rebuilt during
 this fix.
+
+## Material quality pass (candidate 05)
+
+Candidate: `.local/prisoner/chillout-05.map`, 109,891,584 bytes (104.80 MiB).
+SHA256 `82bc085b55f5d29a165d45a636a00b1bb390778932e99b08c208762970e7a8bc`.
+Candidate 02 is the retained rollback; intermediate 03/04 builds are disposable.
+
+- Sixteen authored metal, glass, floor-indicator and light materials now use
+  matching native Halo 3 shader variants rather than the opaque hall-tile
+  fallback. MCC's three trailing options must all be default before matching.
+  All texture parameters are represented; a serialized comparison verified
+  162 shared float4 constants against the source in candidate 03.
+- The custom invisible material reuses `objects/multi/shaders/invisible` from
+  the original disc, replacing an incorrectly opaque approximation.
+- Donor-specific shader animations are stripped. The two authored floor
+  indicators retain static source parameters pending multipass animation
+  conversion; unrelated donor blinking must not be inherited.
+- Seven metal materials still omit MCC's bump-detail strength parameter. The
+  generator's exact shader combination is absent from the disc and retains
+  the existing fallback. These are explicitly unresolved quality limitations.
+- Builder collision checks pass (782 trees / 56,450 nodes), as do 4,626 typed
+  resource references, 38 stock equivalents and all 156 Forge entries.
+
+The candidate-03 native capture restored ceiling detail but still showed a
+bright, washed-out spawn view. This pass does not claim lighting is finished.
+Candidate-05 native capture was inspected in run
+`.local/loading-traces/20261020-153312-18904`: textured geometry, ceiling detail,
+stock weapon and HUD render in gameplay. The strong light at the spawn and
+washed-out surfaces remain visible; neither invisible-material restoration nor
+native shader matching resolved that lighting problem. This is a material
+correctness pass, not final visual acceptance. Cold Storage header verification
+passed at 102.687 seconds. Candidate 05 is staged in the shared installation.

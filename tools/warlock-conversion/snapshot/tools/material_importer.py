@@ -146,6 +146,19 @@ class MaterialImporter:
         textures = bytearray(b''.join(c.data[x:x + 24] for x in c.block(post + 16, 24)))
         constants = bytearray(b''.join(c.data[x:x + 16] for x in c.block(post + 28, 16)))
         sky_template = None
+        prisoner_template = False
+        if (getattr(self, 'prisoner_materials', False)
+                and key[1].startswith(r'custom\levels\multiplayer\prisoner\shaders' + '\\')):
+            source_template = s.name(s.u(source_post + 12) & 65535)
+            variants = [int(v) for v in source_template.rsplit('\\', 1)[-1].split('_')[1:]]
+            # Verified native H3 variants. MCC adds three default trailing
+            # options; the first ten retain their original H3 meanings.
+            exact = {'_0_2_0_1_1_0_0_0_0_0', '_0_0_0_0_0_0_1_3_0_0',
+                     '_0_1_0_2_5_2_0_3_0_0', '_0_0_0_0_0_0_4_3_0_0'}
+            suffix = '_' + '_'.join(str(v) for v in variants[:10])
+            if len(variants) == 13 and not any(variants[10:]) and suffix in exact:
+                sky_template = source_template.rsplit('\\', 1)[0] + '\\' + suffix
+                prisoner_template = True
         if getattr(self, 'resuscitation_sky', False) and '\\sky\\shaders\\' in key[1]:
             source_template = s.name(s.u(source_post + 12) & 65535)
             variants = [int(v) for v in source_template.rsplit('\\', 1)[-1].split('_')[1:]]
@@ -157,6 +170,7 @@ class MaterialImporter:
                 # variant. Keep its authored emission with unbumped sky routing.
                 variants[1] = 0
             sky_template = source_template.rsplit('\\', 1)[0] + '\\_' + '_'.join(str(v) for v in variants[:10])
+        if sky_template:
             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template)
             target_texture_names, target_constant_names = names
             count, pointer = struct.unpack_from('>II', native_sky_post, 16)
@@ -199,14 +213,27 @@ class MaterialImporter:
             struct.pack_into('>i', root, 56, s.unpack('i', tag['offset'] + 56)[0])
             b.meta[address - b.base:address - b.base + 68] = root
         output_post = bytearray(native_sky_post if sky_template else c.data[post:post + 132])
+        frozen_animations = 0
+        if prisoner_template:
+            # Shader routing is reusable; donor-specific blinking/scrolling
+            # is not. Until multipass rmsh animation remapping is supported,
+            # keep source constants static instead of inheriting donor effects.
+            frozen_animations = s.u(source_post + 92)
+            output_post[56:104] = bytes(48)
         struct.pack_into('>III', output_post, 16, len(target_texture_names), b.alloc(textures), 0)
         struct.pack_into('>III', output_post, 28, len(target_constant_names), b.alloc(constants), 0)
         b.put(address + 40, 'III', 1, b.alloc(output_post), 0)
         self.done[key] = owner
         self.report.append({'source': key[1], 'retail_template': struct.unpack_from('>I', output_post, 12)[0] & 65535,
-            'approximation': True, 'textures_imported': imported,
-            'native_sky_template': sky_template,
-            'native_sky_donor': sky_donor if sky_template else None,
+            'approximation': (not prisoner_template or bool(set(texture_names) - set(imported))
+                              or bool(set(constant_names) - set(target_constant_names))
+                              or bool(frozen_animations)),
+            'textures_imported': imported,
+            'frozen_source_animations': frozen_animations,
+            'native_sky_template': sky_template if not prisoner_template else None,
+            'native_sky_donor': sky_donor if sky_template and not prisoner_template else None,
+            'native_material_template': sky_template if prisoner_template else None,
+            'native_material_donor': sky_donor if prisoner_template else None,
             'fallback_specular_suppressed': suppressed_specular,
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
             'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names))})
