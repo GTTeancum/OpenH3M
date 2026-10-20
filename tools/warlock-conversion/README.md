@@ -8,6 +8,15 @@ under `C:/X360/ISOs/H3M/.local`; Git contains the process and schema definitions
 The next experiment, Resuscitation in Last Resort's slot with its full Forge
 palette, is tracked in [RESUSCITATION.md](RESUSCITATION.md). Both maps now load from one shared installation and launcher.
 
+## Binding asset policy
+
+Use original Xbox 360 Halo 3 assets and their native dependencies, visuals and
+behavior whenever an equivalent exists anywhere on the disc or in shared resources.
+Convert custom/MCC content only where Halo 3 has no equivalent. This applies to
+all maps and Forge palettes, including future DLC. No Halo 2-faithful substitutes.
+Only an explicit human-user instruction can override this policy; record its scope.
+See [repository instructions](../../AGENTS.md).
+
 ## Current build
 
 Current candidate: `.local/integrated/lockout-release.map`, 182,239,232 bytes
