@@ -112,7 +112,13 @@ input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')
-    input_steps.extend(['121000:RSRIGHT+1800', '130000:RT+500'])
+    if options.slot == 'chillout':
+        # Prisoner's initial ledge opens south after walking west. Native
+        # position samples and source collision sightlines establish this path.
+        input_steps.extend(['115000:RT+100', '117000:LSRIGHT+1000',
+                            '119000:LSUP+3500', '124000:RSLEFT+1800', '130000:RT+100'])
+    else:
+        input_steps.extend(['120000:RSRIGHT+1600', '124000:LSUP+1500'])
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
@@ -141,6 +147,7 @@ started = time.monotonic()
 def log(event, **values):
     record = {'seconds': round(time.monotonic() - started, 3), 'event': event, **values}
     out.write(json.dumps(record) + '\n')
+    out.flush()
     if event in ('attached', 'error', 'exit', 'watchdog'):
         print(json.dumps(record), flush=True)
 
@@ -372,8 +379,8 @@ try:
                                 system = gu(state + 4)
                                 handle = gu(state + 8)
                                 r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
-                                if options.sample_world:
-                                    options.sample_world = False
+                                if options.sample_world and time.monotonic() - getattr(options,'world_last_sample',0) > 5:
+                                    options.world_last_sample = time.monotonic()
                                     tls = gu(r13)
                                     tables = []
                                     for offset in range(0, 0x800, 4):
@@ -391,7 +398,18 @@ try:
                                                 item['data'] = read(rdx+data,512).hex()
                                             tables.append(item)
                                         except OSError: pass
-                                    log('world_tables',tls=hex(tls),tables=tables)
+                                    player_unit = None
+                                    players = next((t for t in tables if t['name']=='players'),None)
+                                    objects = next((t for t in tables if t['name']=='object'),None)
+                                    if players and objects:
+                                        unit = struct.unpack_from('>I',bytes.fromhex(players['data']),0x28)[0]
+                                        object_data = struct.unpack_from('>I',bytes.fromhex(objects['header']),0x44)[0]
+                                        head = read(rdx+object_data+(unit & 65535)*16,16)
+                                        if struct.unpack_from('>H',head)[0] == unit>>16:
+                                            pointer = struct.unpack_from('>I',head,12)[0]
+                                            player_unit = {'handle':hex(unit),'header':head.hex(),
+                                                           'body':read(rdx+pointer,512).hex()}
+                                    log('world_tables',tls=hex(tls),tables=tables,player_unit=player_unit)
                                 table = gu(gu(gu(r13) + 0x1b4) + 0x44)
                                 datum = gu(table + (handle & 65535) * 80 + 4)
                                 root = gu(gu(0x827f0f8c) + (datum & 65535) * 8 + 4)

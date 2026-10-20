@@ -1,7 +1,8 @@
 # Prisoner conversion
 
-Status: candidate 09 is staged. Bright bullet-impact patches are resolved;
-the completion goal remains active pending room-wide visual/traversal acceptance.
+Status: candidate 09 is code complete for the proof of concept and staged in the
+shared installation. Room-wide visual inspection and focused native traversal
+passed. Extensive playtesting remains the user's responsibility.
 
 Source is **Halo Generational Combat**, installed Workshop item `2962955878`,
 `D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map`.
@@ -37,7 +38,7 @@ python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
   --basis ../../maps/chillout.map --xex ../../default.xex `
   --sound-bank D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/halo3/fmod/pc/sfx.fsb `
   --decoder ../tools/vgmstream-r2117/vgmstream-cli.exe `
-  --output ../prisoner/chillout-09.map --report ../reports/prisoner-09.json
+  --output ../prisoner/chillout-10.map --report ../reports/prisoner-10.json
 ```
 
 The builder rejects an existing output; select a new candidate name after a
@@ -199,9 +200,9 @@ single rollback while acceptance is pending.
 Focused verification commands (same working directory as reproduction):
 
 ```powershell
-python -B tools/warlock-conversion/snapshot/tools/verify_player_animations.py --map ../prisoner/chillout-08.map
-python -B tools/warlock-conversion/snapshot/tools/verify_resource_indices.py --map ../prisoner/chillout-08.map
-python -B tools/warlock-conversion/snapshot/tools/verify_material_parameters.py --source D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map --map ../prisoner/chillout-08.map --report ../reports/prisoner-08.json
+python -B tools/warlock-conversion/snapshot/tools/verify_player_animations.py --map ../prisoner/chillout-09.map
+python -B tools/warlock-conversion/snapshot/tools/verify_resource_indices.py --map ../prisoner/chillout-09.map
+python -B tools/warlock-conversion/snapshot/tools/verify_material_parameters.py --source D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map --map ../prisoner/chillout-09.map --report ../reports/prisoner-09.json
 ```
 
 ## Candidate 09: native metal impact response
@@ -232,3 +233,40 @@ captures do not demonstrate room-wide quality or traversal. A read-only
 table data on the first impact so subsequent navigation can be based on game
 state instead of guessing. No host input, capture app, executable edits or
 original-disc modifications are used. Completion is still pending.
+
+## Accepted proof-of-concept verification
+
+Native run `.local/loading-traces/20261020-163612-27284` used the final
+process-local route. Read-only object samples establish movement from
+`(9.263, 5.521, 5.606)` to `(2.785, 5.952, 3.209)`: the player passed the upper
+ledge obstruction and landed on the lower walkway. The inspected native
+`proof-loaded.png` shows the wider Prisoner room with multiple platforms,
+doorways, textured floor/walls and differentiated light/shadow. The earlier
+washed-out wall problem and square impact patches are resolved in the checked
+views. The rifle fired four rounds across the two short trigger steps (32 to
+28). The run ended at its 150-second watchdog with continued rendering and no
+observed crash. Earlier traversal also displayed a sniper pickup prompt.
+
+The upper spawn is beside a low obstruction. Source collision queries and
+native player positions explained repeated wall-only captures: move right to
+the gap along the north wall, walk west, then turn left toward the room. The
+route is recorded under `--walk-check` for Cold Storage; other slots retain
+their previous route. `--sample-world` records bounded player/object data on
+impacts, and diagnostic logs now flush promptly. No desktop input is involved.
+
+Reproduce the accepted runtime check:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/trace_loading.py --project ../.. --exe D:/Programming/GitHub/H3M/OpenH3M.exe --game ../custom-maps-play --slot chillout --capture --walk-check --sample-world --sample-on-stall --seconds 150 --shader-cache-seed ../loading-traces/20261020-161430-34512/cache/shaders
+```
+
+Acceptance is deliberately focused: no exhaustive Forge-item, vehicle, audio,
+multiplayer or system-link playtest was performed. All 156 palette entries and
+their resource bindings were checked structurally; native Shade animation
+dependencies were checked against original-disc data, not by seating a player.
+Health packs remain removed by the user's explicit instruction. OpenH3M and
+original disc assets were not changed; Warlock and Resuscitation were not rebuilt.
+
+Cleanup retains candidate 09 and one candidate-02 rollback. Automatic approval
+review blocked recursive deletion of completed diagnostic caches with no
+specific reason, so those caches remain; obsolete map builds were removed.
