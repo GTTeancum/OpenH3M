@@ -31,6 +31,13 @@ def convert_model_physics(conv, offset, ss, ds, path):
             value = conv.source.unpack(fmt, offset + at)[0]
             if block == 'List Shapes' and at == 12:
                 struct.pack_into('>I', out, 8, value)
+            elif (block == 'List Shapes' and at in (20, 24, 28)
+                  and value == 0xcbcbcbcb
+                  and conv.source.unpack('3I', offset + 20) == (0xcbcbcbcb,) * 3):
+                # MCC's 32-byte child record ends with 12 alignment bytes.
+                # Resuscitation's lift retains the compiler's CB fill here;
+                # the retail 16-byte record has no corresponding storage.
+                continue
             elif value:
                 raise ValueError(f'{path}: nonzero physics padding at {at:#x}')
     for key, dst in fields(ds).items():
@@ -60,6 +67,11 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 value = value // source_size * target_size
             elif block == 'Lists' and value:
                 raise ValueError(f'{path}: unsupported list user data')
+            elif (vehicle_phantom and key[1] in (1, 2) and value == key[1]):
+                # Embedded phantom user data identifies the child, not a
+                # byte offset. Retail Chopper/Warthog/Elephant use 1;
+                # Scorpion additionally uses 2, matching the MCC records.
+                pass
             elif block in ('Phantom Shapes', 'MOPPs') and value:
                 raise ValueError(f'{path}: unsupported vehicle phantom user data')
             # Phantom user data contains a shape index, not a byte offset.
@@ -78,8 +90,12 @@ def convert_model_physics(conv, offset, ss, ds, path):
                 # Assembly names only bit 0. These complete values match
                 # corresponding MCC/original Sandbox shapes (152 matching
                 # tag lists), plus the earlier Armory/equipment comparisons.
-                if values[0] not in (0, 10, 32, 33, 36, 46, 49, 54, 55, 56, 57, 58, 60, 64, 66, 69, 70,
-                                     73, 76, 81, 86, 87, 90, 94, 102, 139, 144, 145, 154, 157, 171, 178, 202, 215, 221, 222, 223, 228, 232, 237):
+                # Extended against same-named Resuscitation/disc models only
+                # where all shape flag values and row indices match exactly.
+                if values[0] not in (0, 10, 32, 33, 36, 38, 46, 49, 54, 55, 56, 57, 58, 60, 64, 65, 66, 69, 70,
+                                     72, 73, 76, 78, 79, 81, 82, 84, 86, 87, 90, 91, 94, 96, 102, 117,
+                                     139, 144, 145, 154, 157, 171, 178, 187, 202, 212, 213, 215,
+                                     221, 222, 223, 228, 232, 237):
                     raise ValueError(f'{path}: unverified polyhedron flags')
             else:
                 values = (translate_flags(values[0], src, dst),)

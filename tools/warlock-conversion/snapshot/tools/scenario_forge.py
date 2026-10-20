@@ -25,6 +25,7 @@ def stage_forge(importer):
                 if int(node.get('offset', '0'), 0) >= 28:
                     prefix.remove(node)
             rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
+            print(f'forge {category}: {len(rows)} entries', flush=True)
             # Retail's five trailing runtime/editor words are zero in all
             # original Lockout palettes; MCC does not serialize these words.
             payload = b''.join(converter.convert(row, sf, prefix, f'scnr:/{name}[{index}]') + bytes(20)

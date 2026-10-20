@@ -37,12 +37,12 @@ def preflight(path, xex):
         cache.close()
 
 
-def prepare(project, game, converted):
+def prepare(project, game, converted, slot='lockout'):
     # Fresh deployment only: never overwrite the accepted candidate or a stock
     # hardlink. Links avoid duplicating large private assets in the repository.
     if game.exists():
         raise ValueError('Game directory already exists; choose a fresh --game path')
-    inputs = [(converted, Path('maps/lockout.map'))]
+    inputs = [(converted, Path('maps') / (slot + '.map'))]
     for name in ('default.xex', 'WaveShell-Xbox.dll', 'WavesLibDLL.dll',
                  'maps/mainmenu.map', 'maps/shared.map'):
         path = project / name
@@ -81,7 +81,7 @@ def run(args, project, game, run_root, state):
     command = [str(exe), f'--game_data_root={game}', f'--user_data_root={run_root}',
                f'--cache_root={run_root / "cache"}', f'--log_file={run_root / "runtime.log"}']
     state.update(executable=str(exe), executable_sha256=file_hash(exe), watchdog_seconds=args.seconds)
-    print('Select Custom Games > Blackout > Slayer. Blackout is the Warlock slot.', flush=True)
+    print('Select Custom Games > ' + ('Blackout' if args.slot == 'lockout' else 'Last Resort') + ' > Slayer.', flush=True)
     print(f'Logs: {run_root}; watchdog: {args.seconds} seconds', flush=True)
     with (run_root / 'console.log').open('wb') as log:
         child = subprocess.Popen(command, cwd=run_root, env=env, stdout=log, stderr=log,
@@ -114,6 +114,7 @@ def main():
     parser.add_argument('action', choices=('prepare', 'check', 'run'))
     parser.add_argument('--project', type=Path, required=True)
     parser.add_argument('--game', type=Path, required=True)
+    parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
     parser.add_argument('--map', type=Path)
     parser.add_argument('--exe', type=Path)
     parser.add_argument('--seconds', type=int, default=180)
@@ -131,10 +132,10 @@ def main():
                 raise ValueError('prepare requires --map')
             converted = output_path(args.map, project)
             state['preflight'] = preflight(converted, project / 'default.xex')
-            state['linked_files'] = prepare(project, game, converted)
+            state['linked_files'] = prepare(project, game, converted, args.slot)
             state['status'] = 'prepared'
         else:
-            state['preflight'] = preflight(output_path(game / 'maps/lockout.map', project), project / 'default.xex')
+            state['preflight'] = preflight(output_path(game / 'maps' / (args.slot + '.map'), project), project / 'default.xex')
             state['status'] = 'checked'
             if args.action == 'run':
                 if args.exe is None:

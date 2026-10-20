@@ -83,26 +83,38 @@ class TagImporter:
         # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
         # verified absent MCC overrides belong here; a missing local download
         # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc'}
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc', 'trak', 'cddf', 'pmov'}
         source_folder = 'plugins' if group in shared_schemas else 'mcc'
         if not (self.reference / source_folder / f'{group.strip()}.xml').is_file():
             raise ValueError(f'{group}:{name}: missing {source_folder} metadata schema')
         ss = ET.parse(self.reference / source_folder / f'{group.strip()}.xml').getroot()
         ds = ET.parse(self.reference / 'plugins' / f'{group.strip()}.xml').getroot()
         compatibility_notes = []
+        from tag_metadata import ITEM_UI
+        if group in ('weap', 'eqip') and self.sounds and self.sounds.native and f'{group}:{name}' not in ITEM_UI:
+            donor_ui = self.sounds.native.item_ui.get((group, name))
+            if donor_ui:
+                ITEM_UI[f'{group}:{name}'] = donor_ui[0]
+                compatibility_notes.append('Retail pickup-message index and sort order from ' + donor_ui[1])
         if group == 'cfxs':
             # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
             # Ignore only authored default/inactive extensions, not active FX.
+            grading_active = any(
+                source.u(row) & 1
+                for node in ss if node.tag == 'tagblock' and 0xFC <= int(node.get('offset'), 0) < 0x144
+                for row in source.block(tag['offset'] + int(node.get('offset'), 0),
+                                        int(node.get('elementSize'), 0)))
             for offset in (0xE4, 0xF4, 0x144):
-                if not source.u(tag['offset'] + offset) & 1:
+                flags = source.u(tag['offset'] + offset)
+                if not flags & 1 and flags & 2 and not (offset == 0xF4 and not grading_active):
                     raise ValueError(f'{name}: active MCC camera extension at {offset:#x}')
             for node in list(ss):
                 if node.get('offset') is None or int(node.get('offset'), 0) < 0xE4:
                     continue
-                if node.tag == 'tagblock' and source.u(tag['offset'] + int(node.get('offset'), 0)):
-                    raise ValueError(f'{name}: nonempty MCC camera grading block')
+                if node.tag == 'tagblock' and grading_active:
+                    raise ValueError(f'{name}: active MCC camera grading block')
                 ss.remove(node)
-            compatibility_notes.append('MCC default SSAO/grading/lightshaft extensions omitted; retail exposure and bloom retained.')
+            compatibility_notes.append('MCC default/inactive SSAO/grading/lightshaft extensions omitted; disabled grading rows omitted; retail exposure and bloom retained.')
         if group == 'perf':
             block = next(node for node in ss if node.tag == 'tagblock')
             anisotropy = next(node for node in block if node.get('name') == 'Anisotropy Level')
@@ -137,11 +149,14 @@ class TagImporter:
                     raise ValueError('Packed mesh MOPP extends outside source cache')
                 return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
             if (('/Functions[' in path and path.endswith('/Default Function'))
-                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad', 'cntl', 'ltvl', 'drdf', 'lens', 'sefc', 'beam') and path.endswith('Function'))):
+                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad', 'cntl', 'ltvl', 'drdf', 'lens', 'sefc', 'beam', 'pmov') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
                 from tag_functions import convert_function
-                return convert_function(bytes(cache.data[payload:payload + size]))
+                try:
+                    return convert_function(bytes(cache.data[payload:payload + size]))
+                except ValueError as error:
+                    raise ValueError(f'{path}: {error}') from error
             # The observed model PRT-info descriptor is five 32-bit words.
             # Gate the exact header/layout; other user payloads remain unsupported.
             if group == 'mode' and '/User Data[' in path and path.endswith('/User Data'):

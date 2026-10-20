@@ -41,7 +41,7 @@ class DiscMaterialImporter:
                 raise ValueError('Nondefault MCC-only hologram options require separate conversion')
             variant = '_' + '_'.join(str(value) for value in source_options[:7])
             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
-        if group == 'rmhg' and variant not in donors:
+        if variant not in donors:
             # Exact native shader variants are safe to discover by name; the
             # parameter/layout checks below still validate the actual binding.
             for candidate in sorted(self.disc_maps.glob('*.map')):
@@ -68,13 +68,22 @@ class DiscMaterialImporter:
             source_template = s.tags[s.u(post + 12) & 65535]['offset']
             target_root = donor.tags[target_template & 65535]['offset']
             promote_layer_count = False
+            omitted_constants = []
+            float_indices = None
             for offset in (72, 84, 96, 108):
                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
                 if group == 'rmhg' and offset == 84 and not source_names and target_names == ['layers_of_4']:
                     promote_layer_count = True
                 elif source_names != target_names:
-                    raise ValueError('Terrain template parameter order differs between platforms')
+                    omitted = set(source_names) - set(target_names)
+                    if (group == 'rmtr' and offset == 72 and variant.endswith('_0')
+                            and omitted and all(n.startswith('environment_specular_contribution_m_') for n in omitted)
+                            and [n for n in source_names if n not in omitted] == target_names):
+                        float_indices = [source_names.index(n) for n in target_names]
+                        omitted_constants = sorted(omitted)
+                    else:
+                        raise ValueError(f'Terrain parameter order differs: {template_name} field {offset}: {source_names} vs {target_names}')
             options = [s.unpack('h', r)[0] for r in s.block(root + 16, 2)]
             if options != source_options:
                 raise ValueError('Terrain root options differ from template variant')
@@ -99,11 +108,14 @@ class DiscMaterialImporter:
                     glow = (s.name(datum & 65535) == r'objects\gear\covenant\military\shaders\cov_storage_glow'
                             and i.source_strings.text(input_id) == 'e_glow'
                             and kind in (0, 1) and len(function) == 32 and function[0] == 0)
+                    seat_power = (s.name(datum & 65535).startswith('objects\\vehicles\\')
+                                  and i.source_strings.text(input_id) in ('driver_seat_power', 'gunner_seat_power')
+                                  and kind == 0 and len(function) == 32 and function[0] == 0)
                     # These functions affect the static parameters retained by
                     # this POC. Validate their full encoding below; opcode and
                     # allocation size alone do not determine support.
                     supported = kind in (0, 1, 5, 6)
-                    if (input_id and not glow) or range_id or not 0 < period < float('inf') or not supported:
+                    if (input_id and not (glow or seat_power)) or range_id or not 0 < period < float('inf') or not supported:
                         raise ValueError(f'{s.name(datum & 65535)}: unsupported hologram animation {kind}, function size {len(function)}')
                     convert_function(function)  # Validate the complete function structure.
             textures = bytearray()
@@ -125,6 +137,8 @@ class DiscMaterialImporter:
                 rows = s.block(post + offset, stride)
                 if len(rows) != s.u(source_template + parameter_offset):
                     raise ValueError('Terrain constant count differs from template')
+                if offset == 28 and float_indices is not None:
+                    rows = [rows[index] for index in float_indices]
                 payload = b''.join(struct.pack('>' + fmt, *s.unpack(fmt, row)) for row in rows)
                 struct.pack_into('>III', output, offset, len(rows), b.alloc(payload) if rows else 0, 0)
             suppressed_specular = []
@@ -149,6 +163,13 @@ class DiscMaterialImporter:
                 struct.pack_into('>III', output, 40, 1, b.alloc(struct.pack('>I', int(value))), 0)
             struct.pack_into('>I', output, 52, s.u(post + 52))
             struct.pack_into('>III8h', output, 104, *s.unpack('III8h', post + 104))
+            if float_indices is not None:
+                for offset in range(116, 132, 2):
+                    index = struct.unpack_from('>h', output, offset)[0]
+                    if index >= 0:
+                        if index not in float_indices:
+                            raise ValueError('Terrain query references an omitted parameter')
+                        struct.pack_into('>h', output, offset, float_indices.index(index))
             ss = ET.parse(i.reference / 'mcc' / f'{group}.xml').getroot()
             ds = ET.parse(i.reference / 'plugins' / f'{group}.xml').getroot()
 
@@ -171,18 +192,22 @@ class DiscMaterialImporter:
                                                                int(materials.get('elementSize'), 0)))}
             for index in range(4 if group == 'rmtr' else 0):
                 material = i.source_strings.text(s.u(root + 64 + index * 4))
+                if not material:
+                    struct.pack_into('>h', payload, 80 + index * 2, -1)
+                    continue
                 if material not in names:
                     raise ValueError(f'Terrain physics material missing in retail globals: {material}')
                 struct.pack_into('>h', payload, 80 + index * 2, names[material])
             owner, _ = i.registry.newtag(group, payload)
             self.done[datum] = (group, owner)
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
-                'native_donor': donors[variant], 'approximation': bool(overlays or suppressed_specular),
+                'native_donor': donors[variant], 'approximation': bool(overlays or suppressed_specular or omitted_constants),
                 'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
                                else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays else None,
                 'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}),
                 'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': not suppressed_specular,
-                'terrain_specular_suppressed': suppressed_specular})
+                'terrain_specular_suppressed': suppressed_specular,
+                'unused_mcc_environment_constants_omitted': omitted_constants})
             return self.done[datum]
         except Exception:
             i.failed = True

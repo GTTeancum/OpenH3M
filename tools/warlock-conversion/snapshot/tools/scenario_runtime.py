@@ -8,7 +8,7 @@ from scenario_placements import fields, translate_enum, translate_flags
 
 
 EMPTY_BLOCKS = ('Scripts', 'Globals', 'Script References', 'Machines', 'Machine Palette',
-                'Soft Ceilings', 'Trigger Volumes', 'Scenario Kill Triggers',
+                'Trigger Volumes', 'Scenario Kill Triggers',
                 'Scenario Safe Zone Triggers')
 
 
@@ -41,7 +41,7 @@ def _stage(i):
     if any(bytes(s.data[r:r + stride]) != bytes(2) + b'\xba' * (stride - 2) for r in rows):
         raise ValueError('Source contains populated script expression slots')
     arrays['Script Expressions'] = (0, b'')
-    for name in ('Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces'):
+    for name in ('Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders'):
         sf, df = copy.deepcopy(field(ss, name)), field(ds, name)
         rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name == 'Zone Sets':
@@ -52,6 +52,10 @@ def _stage(i):
                     sf.remove(node)
         payload = b''.join(converter.convert(r, sf, df, 'scnr:/' + name) for r in rows)
         arrays[name] = len(rows), payload
+    # Unused editor palettes have no runtime consumers in this multiplayer map.
+    for palette, consumers in (('Biped Palette', ('Bipeds',)), ('Character Palette', ('Squads',))):
+        if all(not s.u(root + int(field(ss, name).get('offset'), 0)) for name in consumers):
+            arrays[palette] = (0, b'')
     # Empty source arrays must not inherit unrelated Lockout editor/runtime data.
     source_fields, target_fields = fields(ss), fields(ds)
     for key, sf in source_fields.items():

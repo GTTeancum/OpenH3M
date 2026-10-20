@@ -50,6 +50,24 @@ class MaterialImporter:
                 self.done[key] = native
                 return native
         rows = s.block(s.tags[tag]['offset'] + 0x60, 0x38)
+        if len(rows) > 1 and all(s.unpack('H', row + 10)[0] == 2 for row in rows):
+            from encode_bitmap import encode_cubemap_base
+            root = bytearray(0xa4)
+            struct.pack_into('>H', root, 4, 0x50)
+            owner, address = self.registry.newtag('bitm', root)
+            records, resources = bytearray(), bytearray()
+            for index in range(len(rows)):
+                record, control, raw = encode_cubemap_base(self.bitmaps, tag, index)
+                resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
+                    {'control': control, 'raw': raw, 'root': 52,
+                     'fixups': [(12, 0x40000000), (52, 0x20000000)], 'interops': [(0x20000034, 2)]})
+                records.extend(record); resources.extend(struct.pack('>II', resource, 0))
+            b.put(address + 96, 'III', len(rows), b.alloc(records), 0)
+            b.put(address + 140, 'III', len(rows), b.alloc(resources), 0)
+            self.done[key] = owner
+            self.report.append({'source': key[1], 'approximation': True, 'cubemap_images': len(rows),
+                                'difference': 'Authored reflection faces retained at 64-pixel single-mip resolution.'})
+            return owner
         if len(rows) == 1 and s.unpack('H', rows[0] + 10)[0] == 2 and self.native_effect_post is not None:
             owner = self.native_effect_post.cubemap(key[1])
             self.done[key] = owner
@@ -107,7 +125,7 @@ class MaterialImporter:
         options = [s.unpack('h', x)[0] for x in s.block(tag['offset'] + 16, 2)]
         alpha = tag['group'] == 'rmfl' or (len(options) > 2 and options[2] == 1)
         template_name = (r'objects\weapons\lod\shaders\lod_plasma_grenade' if alpha
-                         else r'levels\dlc\lockout\shaders\metal_wall_white_flat')
+                         else getattr(self, 'opaque_prototype', r'levels\dlc\lockout\shaders\metal_wall_white_flat'))
         native = self.target_names.get(('rmsh', template_name))
         if native is None:
             raise ValueError(f'Required native material prototype absent: {template_name}')
@@ -250,12 +268,14 @@ class MaterialImporter:
         for row in textures:
             bitmap = s.u(row + 12)
             index, address, filtering, comparison, external, transform, pad, block, pad2 = s.unpack('h4BbBhH', row + 16)
-            if comparison or pad or pad2 or block:
+            if (comparison or pad or pad2
+                    or (block and ((block & 1023) + (block >> 10) > s.u(source_post + 92)
+                                   or not block >> 10))):
                 raise ValueError('Unsupported particle sampler comparison/animation routing')
             bitmap = (baked_bitmap if baked_bitmap is not None and row == mask else
                       self.bitmap(bitmap) if bitmap != 0xffffffff else bitmap)
             converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
-                             + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
+                             + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, block))
         output = bytearray(native_output if native_output is not None else c.data[post:post + 132])
         if s.u(source_post + 92):
             if alias or native_output is not None:

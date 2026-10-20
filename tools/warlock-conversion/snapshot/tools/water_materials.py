@@ -9,6 +9,7 @@ from tag_metadata import MetadataConverter
 from tag_functions import convert_function
 
 VARIANTS = {
+    '_0_1_1_1_1_0_1_3': ('riverworld.map', '_0_1_1_1_1_0_1_3'),
     '_0_0_1_1_1_0_2_1': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
     '_0_1_1_1_2_0_1_2': ('docks.map', '_0_1_1_1_2_0_1_3'),
 }

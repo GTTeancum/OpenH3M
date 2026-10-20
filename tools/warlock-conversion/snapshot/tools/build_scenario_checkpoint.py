@@ -1,6 +1,6 @@
-"""Assemble scenario converters onto original Lockout or the accepted checkpoint.
+"""Assemble a scenario onto original Blackout/Last Resort or the accepted Warlock seed.
 
-This is a Warlock-specific proof-of-concept, not a general MCC converter.
+This is a Warlock/Resuscitation proof-of-concept, not a general MCC converter.
 All outputs are confined to the explicitly supplied project's .local directory.
 """
 import argparse
@@ -80,7 +80,7 @@ def scenario_coverage(importer, stages):
             datum = source.u(root + int(node.get('offset'), 0) + 12)
             if datum != 0xffffffff and name not in references:
                 raise ValueError(f'Unconverted scenario reference: {name}')
-    return {'source_blocks': inventory, 'slot_identity': 'Blackout / map ID 520',
+    return {'source_blocks': inventory, 'slot_identity': getattr(importer, 'slot', 'lockout'),
             'simulation_definitions': 'Live retail definitions in original order, followed by imported dependencies',
             'unused_placement_palettes': 'Only entries referenced by placements are imported'}
 
@@ -89,6 +89,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
     args = parser.parse_args()
     project = args.project.resolve(strict=True)
@@ -102,16 +103,16 @@ def main():
     if report.exists() and any(os.path.samefile(report, path) for path in inputs):
         raise ValueError('Report aliases an input file')
     basis_hash = file_hash(args.basis)
-    original = (args.disc_maps or project / 'maps') / 'lockout.map'
-    if basis_hash not in (ACCEPTED_SHA256, file_hash(original)):
-        raise ValueError('Basis must be original disc Lockout or the accepted geometry checkpoint')
+    original = (args.disc_maps or project / 'maps') / (args.slot + '.map')
+    if basis_hash != file_hash(original) and not (args.slot == 'lockout' and basis_hash == ACCEPTED_SHA256):
+        raise ValueError('Basis must match the selected original disc map (or the accepted Lockout checkpoint)')
     for path in (output.parent, report.parent):
         path.mkdir(parents=True, exist_ok=True)
     work = output_path(project / '.local/temp', project)
     work.mkdir(parents=True, exist_ok=True)
     state = {'status': 'building', 'basis_sha256': basis_hash,
              'historical_seed_used': basis_hash == ACCEPTED_SHA256,
-             'limitations': ['Warlock-specific POC; unsupported content fails explicitly.',
+             'limitations': ['Map conversion POC; unsupported content fails explicitly.',
                             'Material POC approximations include native reflection substitutes and frozen shader animation; see materials report.',
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
@@ -125,6 +126,9 @@ def main():
         builder = MapBuilder(str(args.basis), 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
+        importer.slot = args.slot
+        if args.slot == 'zanzibar':
+            importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
         terrain, water = importer.terrain, importer.water
         stages = [('runtime', lambda: stage_runtime(importer)),
                   ('geometry', lambda: stage_geometry(importer, terrain, water)),
@@ -135,11 +139,16 @@ def main():
                   ('forge', lambda: stage_forge(importer))]
         for stage, action in stages:
             print(stage, flush=True)
+            stage_started = time.monotonic()
             state['stages'][stage] = action()
+            state.setdefault('stage_seconds', {})[stage] = round(time.monotonic() - stage_started, 2)
+            print(f'{stage}: {state["stage_seconds"][stage]}s', flush=True)
         stage = 'finalize'
         state['scenario_coverage'] = scenario_coverage(importer, state['stages'])
         from retired_resources import compact_basis
         state['compaction'] = compact_basis(importer)
+        from scenario_residency import stage_residency
+        state['residency'] = stage_residency(importer)
         importer.finalize()
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))

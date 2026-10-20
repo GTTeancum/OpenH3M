@@ -12,6 +12,7 @@ class NativeSounds:
     def __init__(self, sounds, disc_maps):
         self.sounds = sounds
         self.paths = {}
+        self.item_ui = {}
         self.bitmaps = {}
         self.bitmap_resolved = {}
         self.page_cache = {}
@@ -25,12 +26,20 @@ class NativeSounds:
                 zone = next(t['offset'] for t in c.tags.values() if t['group'] == 'zone')
                 resources = c.block(zone + 88, 64)
                 for i, t in c.tags.items():
+                    if t['group'] in ('weap', 'eqip'):
+                        self.item_ui.setdefault((t['group'], c.name(i)),
+                                                (c.unpack('2h', t['offset'] + 0xfc), path.name))
                     if t['group'] == 'bitm':
                         ids = [c.u(x) for x in c.block(t['offset'] + 0x8c, 8)]
                         if ids and all(v != 0xffffffff and (v & 65535) < len(resources) and c.unpack('H', resources[v & 65535] + 16)[0] == v >> 16 for v in ids):
                             self.bitmaps.setdefault(c.name(i), (path, i))
                     if t['group'] == 'snd!' and c.name(i) in wanted:
-                        self.paths.setdefault(c.name(i), (path, i))
+                        resource = c.u(t['offset'] + 24)
+                        # Some maps retain sound tags whose resource rows
+                        # were stripped. Continue searching other disc maps.
+                        if (resource != 0xffffffff and (resource & 65535) < len(resources)
+                                and c.unpack('H', resources[resource & 65535] + 16)[0] == resource >> 16):
+                            self.paths.setdefault(c.name(i), (path, i))
             finally:
                 c.close()
 

@@ -23,6 +23,12 @@ ITEM_UI = {
     r'weap:objects\weapons\turret\missile_pod\missile_pod': (32, 0),
     r'weap:objects\weapons\rifle\smg_silenced\smg_silenced': (14, 0),
     r'weap:objects\weapons\rifle\plasma_rifle_red\plasma_rifle_red': (22, 0),
+    # Resuscitation's vehicle-mounted weapons have no pickup/swap UI or icons.
+    r'weap:objects\vehicles\spectre\turrets\plasma\plasma_turret': (0, 0),
+    r'weap:objects\vehicles\spectre\turrets\shadow\shadow_turret': (0, 0),
+    # Undeployed MCC variants use their retail portable turret family's UI.
+    r'weap:objects\weapons\turret\machinegun_turret\machinegun_turret_undeployed': (28, 0),
+    r'weap:objects\weapons\turret\plasma_cannon\plasma_cannon_undeployed': (0, 0),
 }
 
 
@@ -128,27 +134,30 @@ class MetadataConverter:
                     width = 4 if kind == 'undefined' else struct.calcsize('>' + SCALARS[kind])
                     covered.update(range(at, at + width))
                     continue
-                if (path.startswith(('bloc:', 'weap:')) and source_schema.get('name') == 'AI Properties'
+                if (path.startswith(('bloc:', 'weap:', 'vehi:', 'eqip:', 'bipd:')) and source_schema.get('name') == 'AI Properties'
                         and source_schema.get('elementSize') == '0xC' and size == 16
                         and key[0] == 'Unknown' and kind == 'undefined' and at == 8):
+                    # Zero in every original-disc AI row in these groups
+                    # (183 vehicle, 426 crate, 236 weapon, 78 equipment, 80 biped).
                     covered.update(range(at, at + 4))
                     continue
-                if (path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball')
+                if (path.startswith('vehi:') and '/' not in path
                         and key[0] in ('Postures', 'Dialogue Variants') and kind == 'tagblock'):
                     covered.update(range(at, at + 12))
                     continue
-                if (path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball')
+                if (path.startswith('vehi:') and '/' not in path
                         and key[0] in ('Camera Stiffness', 'Feign Death Threshold', 'Feign Death Time',
                                        'Stunned Movement Threshold', 'Feign Death Chance', 'Feign Repeat Chance',
                                        'Spawned Actor Count', 'Spawned Velocity', 'Lipsync Attack Weight',
                                        'Lipsync Decay Weight') and kind in ('float32', 'range16')):
-                    # Original multiplayer turret/vehicle tags leave these
-                    # removed camera, actor-spawning and dialogue fields zero.
+                    # All 266 original-disc vehicle tags leave these removed
+                    # camera, actor-spawning and dialogue fields zero.
                     covered.update(range(at, at + 4))
                     continue
-                if ((path in (r'vehi:objects\equipment\autoturret\autoturret', r'vehi:objects\levels\dlc\shared\golf_ball\golf_ball') and key[0] == 'Integrated Light Toggle'
-                     or path.startswith(r'vehi:objects\equipment\autoturret\autoturret/Seats[')
+                if ((path.startswith('vehi:') and '/' not in path and key[0] == 'Integrated Light Toggle'
+                     or path.startswith('vehi:') and '/Seats[' in path
                      and key[0] == 'Built-In Gunner') and kind == 'tagref'):
+                    # Null in all original-disc vehicles, including all 739 seats.
                     out[at:at + 4] = b'\xff' * 4
                     struct.pack_into('>I', out, at + 12, 0xffffffff)
                     covered.update(range(at, at + 16))

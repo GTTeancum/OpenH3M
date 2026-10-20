@@ -5,6 +5,10 @@ structures in Blackout's slot. It changes map data only. OpenH3M, the original
 XEX, and the original disc maps are not modified. Generated assets stay private
 under `C:/X360/ISOs/H3M/.local`; Git contains the process and schema definitions.
 
+The next experiment, Resuscitation in Last Resort's slot with its full Forge
+palette, is tracked in [RESUSCITATION.md](RESUSCITATION.md). Its conversion is
+still in progress; the Warlock release below remains the accepted build.
+
 ## Current build
 
 Current candidate: `.local/integrated/lockout-release.map`, 182,239,232 bytes

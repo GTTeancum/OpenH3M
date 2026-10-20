@@ -47,7 +47,7 @@ class NativeEffectPost:
             return result
 
         filename = 'armory.map'
-        if group == 'rmd ':
+        if group in ('rmd ', 'prt3', 'cntl'):
             filename = None
             for candidate in sorted(self.disc_maps.glob('*.map')):
                 if candidate.name in ('shared.map', 'campaign.map'):
@@ -65,7 +65,7 @@ class NativeEffectPost:
                 ('prt3', r'shaders\particle_templates\_1_3_0_0_1_0_0_0_0_0')}:
             raise ValueError(f'No verified native effect donor: {group}:{template_name}')
         if filename is None:
-            raise ValueError(f'No exact native decal donor: {template_name}')
+            raise ValueError(f'No exact native effect donor: {group}:{template_name}')
         i = self.importer
         donor = Cache(str(self.disc_maps / filename))
         try:

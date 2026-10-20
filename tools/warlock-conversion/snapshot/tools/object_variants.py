@@ -66,6 +66,8 @@ def resolve_variants(source, target, newtag, reference=None):
     dst = {(t['group'], target.name(i)): (i, t) for i, t in target.tags.items()}
     resolved, report = {}, []
     for group, custom_name, stock_name, permitted in VARIANTS:
+        if (group, custom_name) not in src:
+            continue
         custom, stock = src[group, custom_name], src[group, stock_name]
         index, retail = dst[group, stock_name]
         ss = ET.parse(reference / 'mcc' / f'{group}.xml').getroot()

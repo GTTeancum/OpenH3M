@@ -70,3 +70,32 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512):
  struct.pack_into('>HHBBBBI',control,0x28,w,h,1,1,0,1,gpu_format)
  # Resource fixups use control+0x0C -> raw+0 and control+0x34 -> control+0.
  return bytes(bitmap),bytes(control),tiled
+
+
+def encode_cubemap_base(source, tag, index=0, max_dimension=64):
+ """Encode six face-major DDS mip chains as a native, single-mip cube."""
+ info=source.info(tag)[index];c=source.c
+ row=c.block(c.tags[tag]['offset']+0x60,0x38)[index]
+ w,h,fmt=info['width'],info['height'],info['format']
+ if c.unpack('H',row+10)[0]!=2 or w!=h or fmt not in (14,15,16):
+  raise ValueError('Cubemap requires square BC1/BC2/BC3 faces')
+ levels=[];fw,fh=w,h
+ for level in range(info['mips']):
+  levels.append((fw,fh,mip_size(fw,fh,fmt)));fw=max(1,fw//2);fh=max(1,fh//2)
+ from resource_reader import Resource
+ resource=Resource(c,info['resource'])
+ if info['high_size'] or resource.unpack('I',0)[0]!=info['size'] or resource.fix.get(12)!=0x40000000:
+  raise ValueError('Unsupported cubemap resource segmentation')
+ pixels=resource.raw[0][:info['size']];chain=sum(v[2] for v in levels)
+ if len(pixels)!=6*chain:raise ValueError('Cubemap face/mip payload size mismatch')
+ chosen=next((j for j,v in enumerate(levels) if v[0]<=max_dimension),None)
+ if chosen is None:raise ValueError('Cubemap has no mip within the size budget')
+ w,h,size=levels[chosen];offset=sum(v[2] for v in levels[:chosen])
+ raw=b''.join(tile_base(pixels[f*chain+offset:f*chain+offset+size],w,h,fmt) for f in range(6))
+ record=bytearray(48);record[:4]=b'bitm'
+ struct.pack_into('>HHBBHHH',record,4,w,h,1,0x1e,2,fmt,3)
+ record[21]=c.data[row+21]
+ struct.pack_into('>I',record,28,len(raw));struct.pack_into('>I',record,40,0xffffffff)
+ control=bytearray(64);struct.pack_into('>I',control,0,len(raw))
+ struct.pack_into('>HHBBBBI',control,40,w,h,1,1,2,0,0x1a200100+{14:0x52,15:0x53,16:0x54}[fmt])
+ return bytes(record),bytes(control),raw

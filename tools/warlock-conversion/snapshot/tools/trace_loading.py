@@ -4,6 +4,7 @@ Software breakpoints execute the original instruction using single-step, and are
 restored on detach. No executable files, guest checks, or return values are changed.
 """
 import argparse
+import bisect
 import hashlib
 import ctypes as C
 import csv
@@ -24,7 +25,10 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
+parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--sample-threads', action='store_true',
+                    help='Record bounded thread instruction/stack samples near the watchdog')
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
@@ -34,8 +38,8 @@ GAME = output_path(options.game or ROOT / '.local/warlock-play', ROOT)
 EXE = options.exe.resolve(strict=True)
 if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
-if not (GAME / 'maps/lockout.map').is_file():
-    raise SystemExit('Missing staged Warlock map')
+if not (GAME / 'maps' / (options.slot + '.map')).is_file():
+    raise SystemExit('Missing staged map for selected slot')
 listing = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq OpenH3M.exe', '/FO', 'CSV', '/NH'],
                          capture_output=True, text=True, check=True)
 if any(row and row[0].casefold() == 'openh3m.exe' for row in csv.reader(listing.stdout.splitlines())):
@@ -66,6 +70,8 @@ detach = api('DebugActiveProcessStop', [W.DWORD])
 wait_event = api('WaitForDebugEvent', [C.c_void_p, W.DWORD])
 continue_event = api('ContinueDebugEvent', [W.DWORD, W.DWORD, W.DWORD])
 kill_on_exit = api('DebugSetProcessKillOnExit', [W.BOOL])
+suspend_thread = api('SuspendThread', [W.HANDLE], W.DWORD)
+resume_thread = api('ResumeThread', [W.HANDLE], W.DWORD)
 
 
 def check(ok):
@@ -82,10 +88,16 @@ if options.shader_cache_seed:
 env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
+input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+# A fresh profile starts Custom Games on Last Resort. Warlock needs the
+# first alphabetic map (Blackout); Last Resort must retain its current choice.
+if options.slot == 'lockout':
+    input_steps.extend(f'{at}:UP+120' for at in range(58000, 69000, 1000))
+input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
-        '--input_script=45000:DOWN+220,46000:A+250,55000:UP+220,56000:A+250,58000:UP+120,59000:UP+120,60000:UP+120,61000:UP+120,62000:UP+120,63000:UP+120,64000:UP+120,65000:UP+120,66000:UP+120,67000:UP+120,68000:UP+120,70000:A+250,72000:A+250,74000:DOWN+220,95000:A+250', '--input_script_button_state=true',
+        '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
 capture = options.capture
 duration = options.seconds
@@ -112,8 +124,8 @@ def log(event, **values):
         print(json.dumps(record), flush=True)
 
 
-log('input_map', path=str(GAME / 'maps/lockout.map'),
-    sha256=hashlib.sha256((GAME / 'maps/lockout.map').read_bytes()).hexdigest(),
+log('input_map', path=str(GAME / 'maps' / (options.slot + '.map')),
+    sha256=hashlib.sha256((GAME / 'maps' / (options.slot + '.map')).read_bytes()).hexdigest(),
     executable=str(EXE), seconds_limit=duration)
 proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
 ph = open_process(0x1F0FFF, False, proc.pid)
@@ -121,6 +133,8 @@ check(ph)
 breakpoints, entries, pending, stepping = {}, {}, {}, {}
 hash_counts = {'passed': 0, 'failed': 0}
 attached = False
+thread_ids = set()
+sampled = False
 
 
 def read(address, size):
@@ -162,6 +176,80 @@ def guest_string(memory_base, address, length=300):
         return '<unreadable>'
 
 
+def sample_threads():
+    # Only inspect this harness's child. No window enumeration or host input.
+    import numpy as np
+    words = np.frombuffer(binary[:len(binary) & ~7], dtype='<u8')
+    base = pe.OPTIONAL_HEADER.ImageBase
+    size = pe.OPTIONAL_HEADER.SizeOfImage
+    mask = ((words[:-1] >= 0x82000000) & (words[:-1] < 0x83000000)
+            & (words[1:] >= base) & (words[1:] < base + size))
+    mappings = sorted((int(words[n + 1]) - base, int(words[n]))
+                      for n in np.flatnonzero(mask))
+    addresses = [rva for rva, _ in mappings]
+
+    def describe(address):
+        rva = address - image_base
+        result = {'host': hex(address)}
+        if 0 <= rva < size:
+            result['rva'] = hex(rva)
+            index = bisect.bisect_right(addresses, rva) - 1
+            if index >= 0 and rva - addresses[index] < 0x10000:
+                result['nearest_guest'] = hex(mappings[index][1])
+                result['host_offset'] = hex(rva - addresses[index])
+        return result
+
+    for tid in sorted(thread_ids):
+        handle = open_thread(0x1F03FF, False, tid)
+        if not handle:
+            continue
+        suspended = False
+        try:
+            suspended = suspend_thread(handle) != 0xffffffff
+            if not suspended:
+                continue
+            th, backing, ctx, _ = context(tid)
+            try:
+                rip, rsp = struct.unpack_from('<Q', ctx, 248)[0], struct.unpack_from('<Q', ctx, 152)[0]
+                stack = read(rsp, 1024)
+                candidates = [v for v in struct.unpack('<128Q', stack)
+                              if image_base <= v < image_base + size]
+                extra = {}
+                instruction = describe(rip)
+                if instruction.get('nearest_guest') == '0x822c2058':
+                    # Verified executable's allocator prologue keeps PPCContext
+                    # and guest memory base in these two fixed stack slots.
+                    ppc, memory = struct.unpack('<2Q', read(rsp + 0x38, 16))
+                    registers = struct.unpack('<32Q', read(ppc, 256))
+                    heap = registers[30] & 0xffffffff
+                    def gu(address):
+                        address &= 0xffffffff
+                        return struct.unpack('>I', read(memory + address + (0x1000 if address >= 0xe0000000 else 0), 4))[0]
+                    head, table = gu(heap + 0x48), gu(heap + 0x70)
+                    nodes, seen = [], set()
+                    handle = head
+                    for _ in range(24):
+                        if handle == 0xffffffff or handle in seen:
+                            break
+                        seen.add(handle)
+                        node = gu(table + 0x44) + (handle & 65535) * 24
+                        words = [gu(node + j * 4) for j in range(6)]
+                        nodes.append({'handle': hex(handle), 'words': [hex(v) for v in words]})
+                        handle = words[3]
+                    extra['allocator'] = {'heap': hex(heap), 'head': hex(head), 'nodes': nodes,
+                                          'cycle': handle in seen, 'next': hex(handle)}
+                log('thread_sample', tid=tid, instruction=describe(rip),
+                    stack_candidates=[describe(v) for v in candidates[:24]], **extra)
+            finally:
+                close(th)
+        except OSError as error:
+            log('thread_sample_error', tid=tid, detail=str(error))
+        finally:
+            if suspended:
+                resume_thread(handle)
+            close(handle)
+
+
 try:
     # Skip normal startup's numerous lazy-memory first-chance exceptions.
     time.sleep(35)
@@ -173,8 +261,15 @@ try:
         if not wait_event(event, 100):
             if proc.poll() is not None:
                 break
+            if options.sample_threads and not sampled and time.monotonic() - started >= duration - 10:
+                sample_threads()
+                sampled = True
             continue
         code, pid, tid = struct.unpack_from('<III', event)
+        if code in (2, 3):
+            thread_ids.add(tid)
+        elif code == 4:
+            thread_ids.discard(tid)
         status = 0x10002  # DBG_CONTINUE
         if code == 3:  # CREATE_PROCESS_DEBUG_EVENT
             image_base = struct.unpack_from('<Q', event, 40)[0]
