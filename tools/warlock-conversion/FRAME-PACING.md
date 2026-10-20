@@ -224,3 +224,38 @@ interrupts. It therefore cannot replace the mixed GPU counter as a pure-vblank
 measurement. The wrapper calls the original translated callback at RVA
 0x1f2c330. Any further callback investigation must distinguish interrupt sources.
 No engine source, binaries, guest memory values, or map assets were altered.
+
+
+### Direct guest vblank measurement
+
+Read-only disassembly distinguishes the source-0 interrupt branch (original
+callback at executable RVA 0x1f2c330) from source-1 GPU events. Source 0 calls
+the handler at RVA 0x1c7c0e0; it increments the big-endian device counter at
++0x4094. `--guest-vblank-timing` discovers the device and guest-memory base with
+one restored handler breakpoint before the measurement window, then polls only
+memory. Executable hash and handler signature are checked before use.
+
+`20261020-181153-baseline`: native lobby and Prisoner gameplay images inspected.
+Guest vblank: 1799 single increments, mean 16.667ms, deviation 0.951ms,
+p05 15.477ms, p95 17.753ms, no non-single increments, max polling gap 2.373ms.
+In the same window frame output: mean 33.312ms, deviation 15.741ms,
+p05 14.203ms, p95 52.020ms, no missed increments. This directly places the
+large variation after guest vblank delivery rather than in that clock itself.
+It does not yet identify which downstream component causes the variation.
+
+The installed application's default anisotropic_override=3 forces 4x filtering
+(per the installed flag description). A diagnostic filtering-off trial tests
+GPU workload by setting it to 0; it is not a production change or a claim about
+what every original game texture requests. Existing PresentMon GPU-busy data
+motivates this test, but repeated host presents limit per-game-frame attribution.
+
+
+`20261020-181501-filtering-off` reached verified Prisoner gameplay but did not
+fix pacing: mean 33.315ms, deviation 14.838ms, p05 15.141ms, p95 51.799ms,
+zero skipped output increments, maximum polling gap 1.954ms. PresentMon GPU-busy
+sum over the 30-second window was 19918ms versus 19581ms for the adjacent direct-
+vblank baseline; p95 was 22.42ms versus 22.90ms. This did not materially reduce
+measured GPU work, so it neither fixes pacing nor conclusively rules out GPU
+workload as a contributor. Default filtering remains unchanged. Further timer
+or filtering guesses are not supported by these results; investigate downstream
+frame scheduling/synchronization using the direct vblank measurement as control.

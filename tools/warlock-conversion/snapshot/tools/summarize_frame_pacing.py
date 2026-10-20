@@ -51,6 +51,21 @@ def summarize(run):
             'p95_ms': round(ordered_v[round((len(vd)-1)*.95)], 3),
             'non_single_counter_deltas': sum(int(b.get('gpu_progress_count', b.get('vblank_count')))-int(a.get('gpu_progress_count', a.get('vblank_count'))) != 1 for a,b in zip(vr,vr[1:])),
             'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in vr),3)}
+    gvpath = run / 'guest-vblank.csv'
+    if gvpath.exists():
+        gr = [r for r in csv.DictReader(gvpath.open()) if float(r['seconds']) >= 125]
+        gd = [1000 * (float(b['seconds']) - float(a['seconds']))
+              for a,b in zip(gr,gr[1:]) if int(b['guest_vblank_count'])-int(a['guest_vblank_count']) == 1]
+        if len(gd) < 100: raise ValueError('Insufficient guest vblank samples')
+        ordered_g = sorted(gd)
+        report['guest_vblank'] = {
+            'metric': 'guest device+0x4094, incremented by source-0 vblank handler',
+            'intervals': len(gd), 'mean_ms': round(statistics.mean(gd),3),
+            'stdev_ms': round(statistics.pstdev(gd),3),
+            'p05_ms': round(ordered_g[round((len(gd)-1)*.05)],3),
+            'p95_ms': round(ordered_g[round((len(gd)-1)*.95)],3),
+            'non_single_counter_deltas': sum(int(b['guest_vblank_count'])-int(a['guest_vblank_count'])!=1 for a,b in zip(gr,gr[1:])),
+            'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in gr),3)}
     return report
 
 
