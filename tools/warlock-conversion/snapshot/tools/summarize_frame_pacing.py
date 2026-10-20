@@ -66,6 +66,20 @@ def summarize(run):
             'p95_ms': round(ordered_g[round((len(gd)-1)*.95)],3),
             'non_single_counter_deltas': sum(int(b['guest_vblank_count'])-int(a['guest_vblank_count'])!=1 for a,b in zip(gr,gr[1:])),
             'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in gr),3)}
+    fpath = run / 'guest-flip.csv'
+    if fpath.exists():
+        fr = [r for r in csv.DictReader(fpath.open()) if float(r['seconds']) >= 125]
+        fd = [1000*(float(b['seconds'])-float(a['seconds'])) for a,b in zip(fr,fr[1:])
+              if int(b['guest_flip_count'])-int(a['guest_flip_count']) == 1]
+        if len(fd) < 100: raise ValueError('Insufficient guest frame-queue samples')
+        ordered_f = sorted(fd)
+        report['guest_frame_queue'] = {
+            'metric': 'guest device+0x40a8 queue progress; not physical display flips',
+            'intervals': len(fd), 'mean_ms': round(statistics.mean(fd),3),
+            'stdev_ms': round(statistics.pstdev(fd),3),
+            'p05_ms': round(ordered_f[round((len(fd)-1)*.05)],3),
+            'p95_ms': round(ordered_f[round((len(fd)-1)*.95)],3),
+            'non_single_counter_deltas': sum(int(b['guest_flip_count'])-int(a['guest_flip_count'])!=1 for a,b in zip(fr,fr[1:]))}
     return report
 
 

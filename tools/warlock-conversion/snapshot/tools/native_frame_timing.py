@@ -131,7 +131,7 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
         while time.perf_counter() - started < begin:
             if child.poll() is not None: raise RuntimeError('Game exited before measurement')
             time.sleep(.05)
-        previous = None; previous_gpu_progress = None; previous_guest_vblank = None
+        previous = None; previous_gpu_progress = None; previous_guest_vblank = None; previous_guest_flip = None
         from contextlib import ExitStack
         with ExitStack() as stack:
             stream = stack.enter_context(output.open('w', newline=''))
@@ -141,6 +141,8 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
             if guest_vblank:
                 gvstream = stack.enter_context(output.with_name('guest-vblank.csv').open('w', newline=''))
                 gvwriter = csv.writer(gvstream); gvwriter.writerow(['seconds', 'guest_vblank_count', 'poll_gap_ms'])
+                flipstream = stack.enter_context(output.with_name('guest-flip.csv').open('w', newline=''))
+                flipwriter = csv.writer(flipstream); flipwriter.writerow(['seconds', 'guest_flip_count', 'poll_gap_ms'])
             writer = csv.writer(stream); writer.writerow(['seconds', 'guest_frame_count', 'poll_gap_ms'])
             last_poll = time.perf_counter()
             while time.perf_counter() - started < end and child.poll() is None:
@@ -154,7 +156,12 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                         vwriter.writerow([time.perf_counter() - started, vc, (now - last_poll) * 1000])
                         previous_gpu_progress = vc
                 if guest_vblank:
-                    gc = struct.unpack('>I', read(pointers['guest_vblank'], 4))[0]
+                    state = read(pointers['guest_vblank'], 24)
+                    gc = struct.unpack_from('>I', state, 0)[0]
+                    fc = struct.unpack_from('>I', state, 20)[0]
+                    if fc != previous_guest_flip:
+                        flipwriter.writerow([time.perf_counter() - started, fc, (now - last_poll) * 1000])
+                        previous_guest_flip = fc
                     if gc != previous_guest_vblank:
                         gvwriter.writerow([time.perf_counter() - started, gc, (now - last_poll) * 1000])
                         previous_guest_vblank = gc

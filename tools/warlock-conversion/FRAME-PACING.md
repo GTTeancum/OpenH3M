@@ -259,3 +259,33 @@ measured GPU work, so it neither fixes pacing nor conclusively rules out GPU
 workload as a contributor. Default filtering remains unchanged. Further timer
 or filtering guesses are not supported by these results; investigate downstream
 frame scheduling/synchronization using the direct vblank measurement as control.
+
+
+### Guest frame-queue progress and authorization boundary
+
+The same source-0 handler advances its queue index at device+0x40a8 (native
+increment/store at executable RVAs 0x1c7c4fc and 0x1c7c531). The read-only sampler
+now records this adjacent field as guest-flip.csv, without another breakpoint.
+The name describes guest queue progress, NOT physical display flips.
+
+`20261020-181907-baseline`: both native images verified the correct lobby and
+Prisoner gameplay. Queue progress: 898 intervals, mean 33.316ms, deviation
+12.797ms, p05 17.058ms, p95 49.559ms, no missed queue increments. Guest vblank
+in the same run: mean 16.665ms, deviation 0.769ms; one observation skipped an
+increment (maximum polling gap 8.324ms). Output still varied roughly 15/52ms.
+Thus substantial irregularity exists in guest frame scheduling/queue progress
+before physical-display presentation. This does not yet identify a single
+faulty instruction or prove a particular runtime patch will fix it.
+
+Inspected upstream host VdSwap substitutes an emulated swap packet for the
+console command sequence; it is a relevant investigation point, not by itself
+proof of a bug. The runtime exposes both GPU backend implementations internally,
+but the inspected app invokes LoadGpuPlugin with the default backend; no usable
+backend-selection configuration was established. No backend switch was attempted.
+
+Tested settings have not supplied a validated fix. A user decision has been
+requested before investigating/implementing a host-runtime correction, because
+AGENTS.md and the active goal explicitly prohibit modifying OpenH3M. Original
+360 gameplay, assets and future system-link compatibility must remain preserved.
+This is the first turn awaiting that scope decision; goal remains active and
+incomplete. No engine changes are authorized by this note or by the request.
