@@ -17,7 +17,7 @@ from build_scenario_checkpoint import output_path
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--project', type=Path, required=True)
 p.add_argument('--exe', type=Path, required=True)
-p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled'), default='baseline')
+p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled', 'ntsc-refresh'), default='baseline')
 p.add_argument('--capture', action='store_true')
 p.add_argument('--native-timing', action='store_true', help='Read the existing in-game frame counter without per-frame debugger traps.')
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
@@ -49,6 +49,8 @@ cmd = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}',
        f'--cache_root={root / "custom-maps-play/cache"}', f'--log_file={run / "runtime.log"}',
        '--keyboard_controller=false', '--input_script=' + ','.join(steps),
        '--input_script_button_state=true', '--input_script_keystrokes=false', '--halo3mp_log_fps=true']
+if a.mode == 'ntsc-refresh':
+    cmd += ['--video_mode_refresh_rate=59.94']
 if a.mode == 'no-tearing':
     cmd += ['--d3d12_allow_variable_refresh_rate_and_tearing=false']
 if a.mode == 'ui-thread':

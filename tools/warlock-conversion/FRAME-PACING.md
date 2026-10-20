@@ -201,3 +201,26 @@ No pure-vblank or simulation-tick conclusion is justified by this counter.
 Next diagnosis must separate the virtual clock from the swap increments or
 validate an existing compatible video-mode setting. Do not adopt no-vsync or
 change engine code based on this mixed counter.
+
+
+### Fractional refresh and offline clock estimate
+
+`20261020-180652-ntsc-refresh` used the existing
+`--video_mode_refresh_rate=59.94` setting with vsync enabled. Native captures
+verified Custom Games and Prisoner. This did not fix pacing: 898 intervals,
+mean 33.385ms, deviation 14.727ms, p05 14.205ms, p95 51.987ms; zero missed
+increments, maximum polling gap 1.942ms. Production refresh is unchanged.
+
+An exploratory offline subtraction on `20261020-180209-baseline` matched all
+900 output events to a GPU-progress increment within 3ms. Subtracting those
+left 1799 residual events, mean spacing 16.6668ms, deviation 0.8517ms,
+p05 15.262ms and p95 18.186ms. Saved as `exploratory-residual.json` in that run.
+This suggests the virtual clock itself is substantially steadier than output,
+but matching/subtraction is not a direct vblank trace and cannot prove causality.
+
+The installed guest interrupt wrapper at executable RVA 0x44d4510 has its own
+atomic counter (RVA 0x4611c40), but logs show it combines source=0 and source=1
+interrupts. It therefore cannot replace the mixed GPU counter as a pure-vblank
+measurement. The wrapper calls the original translated callback at RVA
+0x1f2c330. Any further callback investigation must distinguish interrupt sources.
+No engine source, binaries, guest memory values, or map assets were altered.
