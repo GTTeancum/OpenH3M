@@ -39,7 +39,7 @@ class NativeEffectPost:
                 elif actual == 'decs':
                     containers = [row + 48 for row in cache.block(tag['offset'] + 20, 116)]
                 else:
-                    containers = [tag['offset'] + (40 if actual == 'rmd ' else 100)]
+                    containers = [tag['offset'] + (40 if actual in ('rmd ', 'rmsh') else 100)]
                 for container in containers:
                     for post in cache.block(container, 132):
                         if cache.name(cache.u(post + 12) & 65535) == template_name:
@@ -47,7 +47,7 @@ class NativeEffectPost:
             return result
 
         filename = 'armory.map'
-        if group in ('rmd ', 'prt3', 'cntl'):
+        if group in ('rmd ', 'prt3', 'cntl', 'rmsh'):
             filename = None
             for candidate in sorted(self.disc_maps.glob('*.map')):
                 if candidate.name in ('shared.map', 'campaign.map'):
@@ -79,7 +79,16 @@ class NativeEffectPost:
                 {'maps\\shared.map': self.disc_maps / 'shared.map'})
             schema = ET.parse(i.reference / 'plugins' / f'{group.strip()}.xml').getroot()
             schema = next(node for node in schema.iter('tagblock') if node.get('name') == 'Postprocess')
-            converter = MetadataConverter(donor, i.builder, strings, i.target_strings, native.import_tag)
+            def data(path, cache, at):
+                if group != 'rmsh' or not path.endswith('/Animation Function'):
+                    raise ValueError(f'Unsupported native shader data: {path}')
+                size = cache.u(at)
+                start = cache.pointer(cache.u(at + 12))
+                if start + size > len(cache.data):
+                    raise ValueError('Native shader function outside donor')
+                return bytes(cache.data[start:start + size])
+            converter = MetadataConverter(donor, i.builder, strings, i.target_strings, native.import_tag,
+                                          data_reference=data)
             output = converter.convert(post, schema, schema, f'native-{group}/Postprocess')
             return output, names, filename
         finally:

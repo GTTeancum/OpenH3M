@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 import os
+import shutil
 from pathlib import Path
 import struct
 import subprocess
@@ -76,6 +77,10 @@ def run(args, project, game, run_root, state):
     env = os.environ.copy()
     for name in ('temp', 'profile', 'cache'):
         output_path(run_root / name, project).mkdir(exist_ok=True)
+    if args.shader_cache_seed is not None:
+        seed = output_path(args.shader_cache_seed, project).resolve(strict=True)
+        shutil.copytree(seed, run_root / 'cache/shaders')
+        state['shader_cache_seed'] = str(seed)
     env.update(TEMP=str(run_root / 'temp'), TMP=str(run_root / 'temp'),
                LOCALAPPDATA=str(run_root / 'profile'), APPDATA=str(run_root / 'profile'))
     command = [str(exe), f'--game_data_root={game}', f'--user_data_root={run_root}',
@@ -117,6 +122,7 @@ def main():
     parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
     parser.add_argument('--map', type=Path)
     parser.add_argument('--exe', type=Path)
+    parser.add_argument('--shader-cache-seed', type=Path)
     parser.add_argument('--seconds', type=int, default=180)
     args = parser.parse_args()
     project = args.project.resolve(strict=True)

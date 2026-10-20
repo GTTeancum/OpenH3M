@@ -5,6 +5,7 @@ from string_ids import StringTable
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--map',required=True)
 parser.add_argument('--basis',required=True)
+parser.add_argument('--report', help='Build report containing resource index remapping')
 args=parser.parse_args()
 a=Cache(args.basis);b=Cache(args.map);page_cache={}
 def tables(c):
@@ -28,7 +29,11 @@ from pathlib import Path
 import xml.etree.ElementTree as E
 co=int(next(f for f in E.parse(Path(__file__).resolve().parents[1]/'reference/plugins/zone.xml').getroot() if f.get('name')=='Native Resource Control Data').get('offset'),0)
 ca=a.pointer(a.u(za+co+12));cb=b.pointer(b.u(zb+co+12));checked=0;payload_bytes=0
-for i,(old,new) in enumerate(zip(ra,rb)):
+mapping = json.loads(open(args.report).read()).get('resource_indices', {}).get('old_to_new') if args.report else None
+if mapping is None and len(rb) < len(ra): raise ValueError('Resource compaction requires --report')
+for i,old in enumerate(ra):
+ if mapping is not None and str(i) not in mapping: continue
+ new = rb[mapping[str(i)] if mapping is not None else i]
  if b.unpack('h',new+34)[0]<0 or a.unpack('H',old+16)[0]==65535:continue
  ao,an=a.unpack('II',old+20);bo,bn=b.unpack('II',new+20);assert an==bn and a.data[ca+ao:ca+ao+an]==b.data[cb+bo:cb+bo+bn]
  al=la[a.unpack('h',old+34)[0]];bl=lb[b.unpack('h',new+34)[0]]

@@ -27,6 +27,7 @@ parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
 parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--trace-allocator', action='store_true')
 parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
 parser.add_argument('--shader-cache-seed', type=Path)
@@ -48,6 +49,9 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
          0x821B1140: 'header_read_wrapper', 0x82204360: 'load_204360',
          0x82204DA8: 'load_204da8', 0x82205AC0: 'load_205ac0',
          0x82151DC8: 'hash_verify', 0x82241478: 'decal_sprite'}
+if options.trace_allocator:
+    FUNCS[0x822c2058] = 'resource_compact'
+    FUNCS[0x822c2480] = 'resource_move'
 kernel = C.WinDLL('kernel32', use_last_error=True)
 
 
@@ -227,21 +231,21 @@ def sample_threads():
                         return struct.unpack('>I', read(memory + address + (0x1000 if address >= 0xe0000000 else 0), 4))[0]
                     head, table = gu(heap + 0x48), gu(heap + 0x70)
                     nodes, seen = [], set()
-                    handle = head
+                    node_handle = head
                     for _ in range(24):
-                        if handle == 0xffffffff or handle in seen:
+                        if node_handle == 0xffffffff or node_handle in seen:
                             break
-                        seen.add(handle)
-                        node = gu(table + 0x44) + (handle & 65535) * 24
+                        seen.add(node_handle)
+                        node = gu(table + 0x44) + (node_handle & 65535) * 24
                         words = [gu(node + j * 4) for j in range(6)]
-                        nodes.append({'handle': hex(handle), 'words': [hex(v) for v in words]})
-                        handle = words[3]
+                        nodes.append({'handle': hex(node_handle), 'address': hex(node), 'words': [hex(v) for v in words]})
+                        node_handle = words[3]
                     extra['allocator'] = {'heap': hex(heap),
                                           'name': guest_string(memory, heap, 32),
-                                          'table': hex(table), 'table_name': guest_string(memory, table, 32),
+                                          'entries': hex(gu(table + 0x44)), 'table': hex(table), 'table_name': guest_string(memory, table, 32),
                                           'header_words': [hex(gu(heap + j * 4)) for j in range(30)],
                                           'head': hex(head), 'nodes': nodes,
-                                          'cycle': handle in seen, 'next': hex(handle)}
+                                          'cycle': node_handle in seen, 'next': hex(node_handle)}
                 log('thread_sample', tid=tid, instruction=describe(rip),
                     stack_candidates=[describe(v) for v in candidates[:24]], **extra)
             finally:
@@ -308,6 +312,21 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name in ('resource_compact', 'resource_move'):
+                            try:
+                                def gu(at): return struct.unpack('>I', read(rdx + (at & 0xffffffff), 4))[0]
+                                wrapper = record['argument']
+                                heap = gu(wrapper + 12)
+                                table = gu(heap + 0x70)
+                                node = gu(table + 0x44)
+                                extra = {'heap': hex(heap), 'table': hex(table), 'entries': hex(node),
+                                         'wrapper_words': [hex(gu(wrapper + j * 4)) for j in range(16)],
+                                         'arguments': [hex(regs[j] & 0xffffffff) for j in (0, 4, 5, 6)],
+                                         'resource_table_header': [hex(gu(gu(wrapper) + j * 4)) for j in range(22)],
+                                         'head': hex(gu(heap + 0x48)),
+                                         'nodes': [hex(gu(node + j * 4)) for j in range(18)]}
+                            except OSError as error:
+                                extra['read_error'] = str(error)
                         if name == 'decal_sprite':
                             try:
                                 def gu(at): return struct.unpack('>I', read(rdx + (at & 0xffffffff), 4))[0]

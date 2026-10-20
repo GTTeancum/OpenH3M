@@ -1,8 +1,8 @@
 # Resuscitation / Last Resort experiment
 
-Status: full-palette conversion and resource checks pass. Native loading is
-not working yet: the first correctly selected Last Resort run produced a black
-capture. This is not a release or a successful gameplay conversion.
+Status: proof-of-concept conversion complete. Candidate 06 loads into Slayer
+as Last Resort with the full 180-entry Forge palette. Its native capture was
+inspected: blue sky, canyon cliffs, base ramps, vehicles and player HUD are visible.
 The user selected the full authored Forge palette on 2026-10-20.
 Warlock's release and launch layout remain separate.
 
@@ -121,7 +121,7 @@ entries to match Resuscitation's six scenario zone sets. All six source manifest
 were compared and are equivalent, with the same residency masks as the seed.
 It remains 114,946,048 bytes; SHA256:
 `d8e66bf1ffdbf2251ef323f4485136eb3a18480e67d6789dec32f3f47c8e71f0`.
-The play layout currently links candidate 02. Its diagnostic run is
+At that stage, the play layout linked candidate 02. Its diagnostic run is
 `20261020-113214-30268`, with allocator-list sampling enabled and no capture.
 That run still stalls in `0x822c2058`. Its sample confirms a cycle: heap
 `0xbe154820`, head handle `0x142b0000`, node words
@@ -131,7 +131,115 @@ fix is necessary table consistency work, but did not fix this loading stall.
 The next diagnostic should identify the allocator by its stored name/header
 and determine which cache data or allocation size creates the bad list.
 
-The latest converter also remaps the resource table's BSP reference to the
-converted BSP; this was added after candidate 02 was built and needs a fresh
-build. No engine changes or load-check bypasses are allowed. Keep the goal
+The converter also remaps the resource table's BSP reference to the
+converted BSP; this was added after candidate 02 and included in candidate 03. No engine changes or load-check bypasses are allowed. Keep the goal
 active until the actual map is visible and the final cache has been verified.
+
+Candidate 03 adds the resource BSP-reference remap. It remains 114,946,048
+bytes, SHA256 `9d505e1c56945d21d09f45e7fe22fcad9ec3429de2570c618ba6ef1532eb8c87`.
+Its serialized BSP reference and six zone records pass focused validation,
+but the native test still stalls in the same resource allocator. The Resuscitation layout was then staged with candidate 03.
+
+The unmodified original Last Resort control run
+`.local/loading-traces/20261020-114022-33660` uses the same fresh profile,
+menu route, shader seed and verified executable. It proceeds past that stall
+into decal/effect initialization with continuing GPU work. No screenshot was
+requested for this diagnostic, so it is not a visual-success claim. This
+narrows the difference to the converted cache rather than the initial menu
+selection alone.
+
+## Resource-index compaction (candidate 04)
+
+Candidate 04 retains all 180 Forge entries and packs 5,619 resource slots down
+to 5,106 by removing the 513 retired basis resources. It remaps typed asset
+references and every resource residency bitset, and clears obsolete Last Resort
+prefetch prediction hints. Original shared-page descriptors and sound packets
+are preserved. This is a cache conversion change; no runtime patch is used.
+
+The serialized checks pass: 4,710 typed resource references, all 180 Forge
+entries, all 208 native sounds, and 268 repacked segments. An independent
+candidate-03/04 comparison also verifies all 52 resource-manifest bitsets.
+SHA256: `7437ea094c106e1c44e9767430958a55cee2d1e6752449eaf4b3dc5e451637bf`.
+Size remains 114,946,048 bytes (109.62 MiB); metadata use is 8,095,496 bytes.
+
+The native candidate-04 run is `20261020-115936-9288`. It gets past the earlier
+allocator cycle; its capture shows Resuscitation in Slayer, with canyon cliffs, base ramps,
+vehicles and HUD. Inspection found a dark sky and excessive base highlights,
+so that candidate was superseded.
+The allocator diagnostic shows a 5,483-entry, 20-byte page-state table. Slot
+compaction fixes the observed corruption, but the precise allocation-limit
+mechanism is not yet established; do not describe 5,483 as a universal resource
+limit for other maps.
+
+For reindexed caches, pass their build report to `verify_compacted_cache.py`
+using `--report`, and also run `verify_resource_indices.py --map <candidate>`.
+Retired candidates 01 and 02 have been removed; their reports and diagnostic
+logs remain. Stock Last Resort and the accepted Warlock files are unchanged.
+
+
+## Current candidate and manual launch
+
+Candidate 06: `.local/resuscitation/zanzibar-06.map`, hardlinked as
+`.local/resuscitation-play/maps/zanzibar.map`.
+Size: 115,154,944 bytes (109.82 MiB), compared with stock Last Resort's
+129,523,712 bytes (123.52 MiB). SHA256:
+`488be0a1b7d29807027d6f666ec6b5ee864775e700301f3263ac0d6a90b1a8f1`.
+It uses 8,119,212 bytes of the 8 MiB new-metadata reserve.
+
+All 180 Forge entries, 4,715 typed resource references, 208 native sounds and
+268 repacked resource segments pass the serialized checks. The packed resource
+table contains 5,111 entries. Original shared-page descriptors remain unchanged.
+
+Seven sky materials now use native shader variants with authored self-illumination
+textures/constants, rather than the opaque wall fallback. The distant sky terrain
+uses the matching unbumped variant because its bump-detail variant is absent from
+the original disc. Native donor cloud animation is retained. Custom world
+materials use the same diffuse/bump-preserving matte approximation as Warlock.
+Vehicle glow, reduced-resolution cubemaps and other reported material approximations
+remain part of this proof of concept.
+
+Launch `C:/X360/ISOs/H3M/Run-Resuscitation.cmd`, then choose **Custom Games >
+Last Resort > Slayer**. It launches the unchanged executable at
+`D:/Programming/GitHub/H3M/OpenH3M.exe`, with a one-hour watchdog. The manual
+launcher seeds each run from `.local/resuscitation-play/shader-cache`, copied
+from the verified native run; logs/profiles remain under `.local/warlock-runs`.
+The name of that logging folder is historical and does not mean Warlock is loaded.
+
+For a fresh layout, use `warlock_handoff.py prepare --slot zanzibar` with the
+candidate map. Copy the verified native run's `cache/shaders` directory to the
+new layout's `shader-cache` directory before using the manual launcher.
+Never replace an original disc hardlink in place: remove only the verified
+staged link, then create a new hardlink to the generated candidate.
+
+Broad gameplay, every Forge item's behavior, audio listening, physical Xbox 360
+and system-link testing remain unverified. No engine or original-disc file was
+modified. This is a Last Resort replacement experiment; the later DLC bundle is
+not part of this conversion.
+
+Candidate 05's capture (`20261020-121114-27524`) confirmed gameplay and reduced
+white material artifacts, but its sky remained dark. Source sky materials used
+a custom fog setting while the fallback root retained setting zero. Candidate
+06 copies each source sky material's custom fog index as well as its flag.
+It was produced by a bounded incremental correction of six fog-index fields;
+a complete byte comparison permits only those fields and regenerated checksum
+fields to differ from candidate 05. The normal converter includes the same fix,
+so future conversions do not require that incremental step. Resource, sound,
+Forge and geometry data are unchanged from the verified candidate 05.
+Native candidate-06 evidence: `.local/loading-traces/20261020-121636-26244/`.
+
+
+Final native check: candidate 06 stayed running to the 150-second watchdog.
+Its 135-second `proof-loaded.png` was inspected: the sky is blue rather than
+black, canyon/base geometry is recognizable, and the earlier white rock
+highlights are absent. Some base surfaces remain strongly lit and the ring is
+bright; this remains an approximate material conversion rather than a visual
+match claim. Four hashes passed, zero failed; no unhandled guest fault was
+reported. Interactive movement, Forge spawning and listening tests were not
+performed by the agent.
+
+The manual launcher uses the shader seed from this final run. Candidate 06 is
+the only retained generated Resuscitation map; candidates 01–05 were removed
+after verification. The original stock-control hardlink costs no second asset
+copy. Small reports, logs and the useful native captures remain local. Source,
+verification tools and repeatable build instructions are committed; game assets
+and captures are not committed.

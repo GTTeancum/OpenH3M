@@ -128,6 +128,7 @@ def main():
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
         if args.slot == 'zanzibar':
+            importer.materials.resuscitation_sky = True
             importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
         terrain, water = importer.terrain, importer.water
         stages = [('runtime', lambda: stage_runtime(importer)),
@@ -149,6 +150,9 @@ def main():
         state['compaction'] = compact_basis(importer)
         from scenario_residency import stage_residency
         state['residency'] = stage_residency(importer)
+        if args.slot == 'zanzibar':
+            from resource_indices import compact_resource_indices
+            state['resource_indices'] = compact_resource_indices(importer)
         importer.finalize()
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
@@ -186,6 +190,8 @@ def main():
         state.update(status='checkpoint_built', output=str(output))
     except Exception as error:
         state.update(status='failed', failed_stage=stage, error=str(error))
+        if builder is not None:
+            state.update(metadata_used=builder.used, metadata_reserved=builder.reserve)
         raise
     finally:
         if source is not None:

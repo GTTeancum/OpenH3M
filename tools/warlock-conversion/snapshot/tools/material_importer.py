@@ -135,6 +135,24 @@ class MaterialImporter:
         target_texture_names, target_constant_names = self.parameters(c, self.target_strings, post)
         textures = bytearray(b''.join(c.data[x:x + 24] for x in c.block(post + 16, 24)))
         constants = bytearray(b''.join(c.data[x:x + 16] for x in c.block(post + 28, 16)))
+        sky_template = None
+        if getattr(self, 'resuscitation_sky', False) and '\\sky\\shaders\\' in key[1]:
+            source_template = s.name(s.u(source_post + 12) & 65535)
+            variants = [int(v) for v in source_template.rsplit('\\', 1)[-1].split('_')[1:]]
+            if len(variants) != 13 or any(variants[10:]):
+                raise ValueError('Sky has nondefault MCC-only shader options')
+            if (key[1] == r'levels\multi\resuscitation\sky\shaders\terrain_desert'
+                    and variants[:10] == [0, 2, 0, 0, 0, 0, 5, 0, 0, 0]):
+                # The distant self-lit sky terrain has no native bump-detail
+                # variant. Keep its authored emission with unbumped sky routing.
+                variants[1] = 0
+            sky_template = source_template.rsplit('\\', 1)[0] + '\\_' + '_'.join(str(v) for v in variants[:10])
+            native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template)
+            target_texture_names, target_constant_names = names
+            count, pointer = struct.unpack_from('>II', native_sky_post, 16)
+            textures = bytearray(b.read(pointer, count * 24))
+            count, pointer = struct.unpack_from('>II', native_sky_post, 28)
+            constants = bytearray(b.read(pointer, count * 16))
         imported = []
         for index, name in enumerate(target_texture_names):
             source_name = 'base_map' if name == 'alpha_test_map' and name not in texture_names else name
@@ -152,7 +170,7 @@ class MaterialImporter:
                 values = s.unpack('4f', source_constants[constant_names.index(source_name)])
                 struct.pack_into('>4f', constants, index * 16, *values)
         suppressed_specular = []
-        if key[1].startswith('levels\\multi\\warlock\\shaders\\'):
+        if key[1].startswith('levels\\multi\\warlock\\shaders\\') or (getattr(self, 'resuscitation_sky', False) and key[1].startswith('levels\\multi\\resuscitation\\shaders\\')):
             # The approximate retail fallback produces unstable world highlights.
             # Preserve diffuse and bump lighting; use matte world materials.
             for index, name in enumerate(target_constant_names):
@@ -164,13 +182,21 @@ class MaterialImporter:
         root = bytearray(c.data[retail:retail + 68])
         root[28:40] = bytes(12)
         owner, address = self.registry.newtag('rmsh', root)
-        output_post = bytearray(c.data[post:post + 132])
+        if sky_template:
+            struct.pack_into('>III', root, 16, 10, b.alloc(struct.pack('>10h', *variants[:10])), 0)
+            struct.pack_into('>H', root, 52, s.unpack('H', tag['offset'] + 52)[0])
+            root[54] = s.data[tag['offset'] + 54]
+            struct.pack_into('>i', root, 56, s.unpack('i', tag['offset'] + 56)[0])
+            b.meta[address - b.base:address - b.base + 68] = root
+        output_post = bytearray(native_sky_post if sky_template else c.data[post:post + 132])
         struct.pack_into('>III', output_post, 16, len(target_texture_names), b.alloc(textures), 0)
         struct.pack_into('>III', output_post, 28, len(target_constant_names), b.alloc(constants), 0)
         b.put(address + 40, 'III', 1, b.alloc(output_post), 0)
         self.done[key] = owner
-        self.report.append({'source': key[1], 'retail_template': template_id,
+        self.report.append({'source': key[1], 'retail_template': struct.unpack_from('>I', output_post, 12)[0] & 65535,
             'approximation': True, 'textures_imported': imported,
+            'native_sky_template': sky_template,
+            'native_sky_donor': sky_donor if sky_template else None,
             'fallback_specular_suppressed': suppressed_specular,
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
             'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names))})
