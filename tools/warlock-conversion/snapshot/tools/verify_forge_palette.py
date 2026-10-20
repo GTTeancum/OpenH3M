@@ -13,6 +13,8 @@ def main():
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     imported = {int(t['datum'], 16): (t['group'], t['source']) for t in report['tags']}
+    equivalents = {(t.get('source_group'), t['source']): t
+                   for t in report['tags'] if 'stock_equivalent' in t}
     reference = Path(__file__).resolve().parents[1] / 'reference'
     source, target = Cache(args.source, True), Cache(args.map)
     try:
@@ -36,6 +38,11 @@ def main():
                 st, dt = source.tags[src & 65535], target.tags[dst & 65535]
                 expected = st['group'], source.name(src & 65535)
                 actual = imported.get(dst, (dt['group'], target.name(dst & 65535)))
+                equivalent = equivalents.get(expected)
+                if equivalent:
+                    if dst != int(equivalent['datum'], 16) or dt['group'] != equivalent['group'] or dt['salt'] != dst >> 16:
+                        raise ValueError(f'{category}[{index}]: stock equivalent reference invalid')
+                    continue
                 if dt['salt'] != dst >> 16 or actual != expected or dt['group'] != st['group']:
                     raise ValueError(f'{category}[{index}]: object reference changed: {expected} -> {actual}')
             counts[category] = len(rows[0])

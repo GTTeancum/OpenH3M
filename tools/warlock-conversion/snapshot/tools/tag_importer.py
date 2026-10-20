@@ -59,6 +59,11 @@ class TagImporter:
         if key in self.resolved:
             return self.resolved[key]
         group, name = key
+        native = getattr(self, 'native_assets', None)
+        if native is not None and group not in ('scnr', 'sbsp', 'sLdT', 'zone', 'play', 'matg', 'ugh!'):
+            result = native.import_named(key)
+            if result is not None:
+                return result
         if group in ('rmtr', 'rmhg', 'rmw '):
             specialized = self.water if group == 'rmw ' else self.terrain
             if specialized is None:

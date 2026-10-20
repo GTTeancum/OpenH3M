@@ -123,13 +123,20 @@ def main():
         salt = resource_salt(args.xex)
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
-        builder = MapBuilder(str(args.basis), 0x800000)
+        builder = MapBuilder(str(args.basis), 0xc00000 if args.slot == 'zanzibar' else 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
+        from native_assets import NativeAssets
+        importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
+        importer.materials.native_assets = importer.native_assets
         if args.slot == 'zanzibar':
             importer.materials.resuscitation_sky = True
             importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
+        if args.slot == 'zanzibar':
+            from player_animations import stage_player_animations
+            stage = 'player_animations'
+            state['stages'][stage] = stage_player_animations(importer)
         terrain, water = importer.terrain, importer.water
         stages = [('runtime', lambda: stage_runtime(importer)),
                   ('geometry', lambda: stage_geometry(importer, terrain, water)),

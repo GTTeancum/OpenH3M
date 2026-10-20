@@ -24,6 +24,11 @@ class WaterImporter:
         if datum in self.done:
             return self.done[datum]
         i, s, b = self.i, self.i.source, self.i.builder
+        native_assets = getattr(i, 'native_assets', None)
+        if native_assets is not None:
+            native = native_assets.import_named((s.tags[datum & 65535]['group'], s.name(datum & 65535)))
+            if native is not None:
+                return native
         tag = s.tags[datum & 65535]
         if tag['group'] != 'rmw ' or tag['salt'] != datum >> 16:
             raise ValueError('Invalid water shader datum')

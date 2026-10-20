@@ -88,7 +88,7 @@ def compact_basis(importer):
         struct.pack_into('>HHI', r.tags, i * 8, 65535, 65535, 0)
     for i in range(r.first_resource):
         owner = struct.unpack_from('>I', r.resources, i * 64 + 12)[0] & 65535
-        if owner in retired:
+        if owner in retired or owner in getattr(r, 'superseded_resource_owners', set()):
             dead_resources.add(i)
             struct.pack_into('>h', r.resources, i * 64 + 34, -1)
     # The basis packs hundreds of textures/meshes/animations into one page.

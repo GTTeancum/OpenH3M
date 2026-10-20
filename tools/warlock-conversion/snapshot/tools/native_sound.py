@@ -17,7 +17,6 @@ class NativeSounds:
         self.bitmap_resolved = {}
         self.page_cache = {}
         self.trimmed = {}
-        wanted = {sounds.source.name(i) for i, t in sounds.source.tags.items() if t['group'] == 'snd!'}
         for path in sorted(Path(disc_maps).glob('*.map')):
             if path.name in ('shared.map', 'campaign.map'):
                 continue
@@ -33,7 +32,7 @@ class NativeSounds:
                         ids = [c.u(x) for x in c.block(t['offset'] + 0x8c, 8)]
                         if ids and all(v != 0xffffffff and (v & 65535) < len(resources) and c.unpack('H', resources[v & 65535] + 16)[0] == v >> 16 for v in ids):
                             self.bitmaps.setdefault(c.name(i), (path, i))
-                    if t['group'] == 'snd!' and c.name(i) in wanted:
+                    if t['group'] == 'snd!':
                         resource = c.u(t['offset'] + 24)
                         # Some maps retain sound tags whose resource rows
                         # were stripped. Continue searching other disc maps.
@@ -203,7 +202,7 @@ class NativeSounds:
         def row(table, index):
             field = s.field(s.ds, table)
             return c.block(root + int(field.get('offset'), 0), int(field.get('elementSize'), 0))[index]
-        if language != -1 or promotion != -1 or custom != -1 or (extra != -1 and c.u(row('Extra Info', extra))):
+        if language != -1 or custom != -1 or (extra != -1 and c.u(row('Extra Info', extra))):
             raise ValueError('Unsupported native sound auxiliary table: ' + name)
         conv = MetadataConverter(c, s.builder, StringTable(c), s.importer.target_strings,
                                  lambda datum: (_ for _ in ()).throw(ValueError('Unexpected native sound tag dependency')))
@@ -216,6 +215,10 @@ class NativeSounds:
                 return s.tables[table].index(data)
             except ValueError:
                 return s.append(table, data)
+        if promotion != -1:
+            for rule in c.block(row('Promotions', promotion), 16):
+                if not 0 <= c.unpack('h', rule)[0] < count:
+                    raise ValueError('Native promotion uses a nonlocal pitch index')
         owner, address = s.registry.newtag('snd!', bytes(32))
         target_first = len(s.tables['Pitch Ranges'])
         for pitch in range(first, first + count):
@@ -242,7 +245,7 @@ class NativeSounds:
                 copy('Pitch Range Parameters', parameters), encoded, bit, packed >> 16, target_perm))
         res = self.resource(c, resource, owner)
         data = struct.pack('>HBB6hbbhIII', flags, category, count, copy('Codecs', codec), target_first,
-            -1, priority, copy('Playbacks', playback), copy('Scales', scale), -1, -1, -1, duration, res, padding)
+            -1, priority, copy('Playbacks', playback), copy('Scales', scale), copy('Promotions', promotion), -1, copy('Extra Info', extra), duration, res, padding)
         off = address - s.builder.base
         s.builder.meta[off:off + 32] = data
         s.report.append({'source': name, 'datum': hex(owner), 'encoding': 'native retail', 'donor': filename})

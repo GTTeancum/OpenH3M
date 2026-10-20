@@ -42,6 +42,11 @@ class MaterialImporter:
         key = ('bitm', s.name(tag))
         if key in self.done:
             return self.done[key]
+        native_assets = getattr(self, 'native_assets', None)
+        if native_assets is not None:
+            native = native_assets.import_named(key)
+            if native is not None:
+                return native[1]
         if key in self.target_names:
             return self.target_names[key]
         if self.native_bitmaps is not None:
@@ -116,6 +121,11 @@ class MaterialImporter:
         key = tag['group'], s.name(datum & 65535)
         if key in self.done:
             return 'rmsh', self.done[key]
+        native_assets = getattr(self, 'native_assets', None)
+        if native_assets is not None:
+            native = native_assets.import_named(key)
+            if native is not None:
+                return native
         source_post = s.block(tag['offset'] + 40, 140)[0]
         texture_names, constant_names = self.parameters(s, self.source_strings, source_post)
         source_textures = s.block(source_post + 16, 28)

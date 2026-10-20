@@ -27,6 +27,8 @@ parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
 parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
+parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
 parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
@@ -35,7 +37,7 @@ parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
 ROOT = options.project.resolve(strict=True)
 RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
-GAME = output_path(options.game or ROOT / '.local/warlock-play', ROOT)
+GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
 EXE = options.exe.resolve(strict=True)
 if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
@@ -103,6 +105,8 @@ args = [str(EXE), f'--game_data_root={GAME}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
+if options.manual_input:
+    args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
 capture = options.capture
 duration = options.seconds
 if capture:
@@ -139,6 +143,10 @@ hash_counts = {'passed': 0, 'failed': 0}
 attached = False
 thread_ids = set()
 sampled = False
+stall_offset = 0
+stall_last_progress = None
+stall_samples = 0
+stall_last_check = 0.0
 
 
 def read(address, size):
@@ -269,6 +277,23 @@ try:
         if not wait_event(event, 100):
             if proc.poll() is not None:
                 break
+            now = time.monotonic()
+            if (options.sample_on_stall and stall_samples < 3 and now - stall_last_check >= 1
+                    and now - started >= (60 if options.manual_input else 105)):
+                stall_last_check = now
+                runtime_path = RUN / 'trace-runtime.log'
+                if runtime_path.exists():
+                    with runtime_path.open('rb') as stream:
+                        stream.seek(stall_offset)
+                        chunk = stream.read()
+                        stall_offset = stream.tell()
+                    if b'GPU context update' in chunk or b'[input-script] returned' in chunk:
+                        stall_last_progress = now
+                    elif stall_last_progress is not None and now - stall_last_progress >= 3:
+                        log('possible_gameplay_stall', seconds_without_progress=now-stall_last_progress)
+                        sample_threads()
+                        stall_samples += 1
+                        stall_last_progress = now
             if options.sample_threads and not sampled and time.monotonic() - started >= duration - 10:
                 sample_threads()
                 sampled = True

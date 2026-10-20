@@ -23,6 +23,11 @@ class DiscMaterialImporter:
         if datum in self.done:
             return self.done[datum]
         i, s, b = self.importer, self.importer.source, self.importer.builder
+        native_assets = getattr(i, 'native_assets', None)
+        if native_assets is not None:
+            native = native_assets.import_named((s.tags[datum & 65535]['group'], s.name(datum & 65535)))
+            if native is not None:
+                return native
         tag = s.tags[datum & 65535]
         group = tag['group']
         if group not in ('rmtr', 'rmhg') or tag['salt'] != datum >> 16:

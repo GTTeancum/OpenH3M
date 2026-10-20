@@ -1,6 +1,6 @@
 # Resuscitation / Last Resort experiment
 
-Status: proof-of-concept conversion complete. Candidate 06 loads into Slayer
+Status: gameplay regression repair in progress; candidate 06 is not an accepted gameplay build. Candidate 06 loads into Slayer
 as Last Resort with the full 180-entry Forge palette. Its native capture was
 inspected: blue sky, canyon cliffs, base ramps, vehicles and player HUD are visible.
 The user selected the full authored Forge palette on 2026-10-20.
@@ -246,3 +246,126 @@ after verification. The original stock-control hardlink costs no second asset
 copy. Small reports, logs and the useful native captures remain local. Source,
 verification tools and repeatable build instructions are committed; game assets
 and captures are not committed.
+
+
+## Gameplay regression and stock-asset correction (2026-10-20)
+
+The owner reported low framerate, no Banshee entry prompt, and a freeze after
+holding RB and pushing the Banshee. The run at
+`.local/warlock-runs/20261020-124752-15104` stopped GPU/input progress at
+12:48:51.842 while vblank continued until the window was closed at 12:49:00.564.
+A clean process exit did not mean successful gameplay.
+
+The reused Last Resort player animation graphs lacked `banshee_d` and other
+vehicle modes. Matching vehicles now use original-disc native tags and resources;
+player graphs come from the stock disc as well. Native Banshee physics scalars
+also matched the previous converted model, so that comparison alone did not
+explain the freeze. Banshee entry, contact stability and framerate require a
+focused gameplay recheck; none is inferred from resource checks or a load capture.
+
+Candidate 08: `.local/resuscitation/zanzibar-08.map`, 151,666,688 bytes (144.64 MiB),
+SHA256 `d334b11dd31aed662b0a1a63eb5fa1d438d9cd9a897d6dfa37da8606435f3d39`.
+It preserves 180 Forge entries; 4,898 typed resource references validate across
+5,294 resource slots. Native comparison verified 16 imported vehicle tags,
+154 physics models, 24 animation graphs, 181 render models, 343 bitmaps and
+1,105 resource payloads. All 208 native sound codecs/packets match their donors.
+This is serialized-data evidence, not gameplay acceptance.
+
+`native_assets.py` searches original maps before converting a missing asset,
+rejects stripped donors and records the chosen donor. Shared-page references stay
+shared. Local donor pages are trimmed to referenced datarefs without changing
+asset bytes or dropping texture mips. The oversized candidate 07 was deleted.
+The accepted Warlock map and the engine/disc files remain unchanged.
+
+Native donor player graphs cover Banshee driving/boarding. An audit also found
+`shade_d` missing from the broad donor graph; stock Chill/Guardian/Snowbound have
+that mode. Do not claim every Forge vehicle is usable until the supplemental
+player animation dependency is resolved and checked. Some stock boarding-seat
+labels intentionally have no independent player mode; those alone are not failures.
+
+For a bounded user-operated diagnostic, run `trace_loading.py` with
+`--manual-input --sample-on-stall --sample-threads --seconds 180 --slot zanzibar`
+and the shared `.local/custom-maps-play` layout. It uses only its own child process,
+records potential stalls, and sends no desktop or scripted input in manual mode.
+
+Candidate 08 native load check: `.local/loading-traces/20261020-131318-22108`.
+Both header-authentication calls returned success; resource hashes passed 4/4.
+The 135-second native capture was inspected and shows the authored desert canyon,
+base ramps, vehicle placement and first-person HUD. Rendering continued through
+the 150-second watchdog. A brief loading pause was sampled at 107 seconds and
+then resumed; it is not evidence of the reported gameplay freeze.
+
+Candidate 08 user-operated diagnostic: `.local/loading-traces/20261020-131606-29440`.
+The user reported a crash while boosting a Ghost trapped under another tank and
+suggested damage as a possible trigger. The harness logged its 180-second watchdog
+and terminated its child at approximately 13:19:07; controller and GPU activity
+continued through that time, with no recorded unhandled exception or sustained
+stall. Therefore this run does not establish a boost/damage crash or successful
+vehicle validation. Clarify whether gameplay froze before the timed shutdown.
+
+User clarification: the Ghost session simply closed, with no preceding freeze or
+other abnormal behavior. This matches the harness watchdog termination; do not
+classify this session as a Ghost boost, collision, or damage crash. The earlier
+reported freeze remains unverified by this bounded run. Vehicle entry coverage
+and performance acceptance were not explicitly confirmed by this clarification.
+
+## Forge additions reassessment (2026-10-20)
+
+The earlier 11-item list meant no exact (tag group, name) match, not 11 genuinely
+new assets. Broader disc inventory and model-variant inspection found:
+
+- Soccer ball: native `vehi` object in armory and other maps; source uses `bloc`.
+  Candidate 08 already reuses its native model, collision, physics and materials,
+  but still converts the source object wrapper. Full native object selection is
+  pending; group differences must be handled explicitly in palette verification.
+- Troop Warthog and wrecked-turret Warthog: native Warthog model has `troop` and
+  `wrecked_turret` variants (also default, gauss, wrecked, no_turret). Native troop
+  child vehicle exists. These are stock asset variants, not new custom vehicles.
+- Anti-air Wraith: native Wraith model has `anti_air`; native anti-air child vehicle
+  and weapon exist. This is a stock asset variant, not a new custom vehicle.
+- Candidate 08 still converts the three variant vehicle root tags. Native model
+  availability alone does not prove native seat, weapon or damage configuration.
+  Resolve native variant assembly before claiming policy compliance for them.
+- No alternate object donor was found on the installed Mythic multiplayer disc
+  for Spectre, silenced SMG, Automag, red plasma rifle, auto-turret, Covenant ramp
+  or the map-specific credits object. These seven remain donor-unresolved; this
+  does not establish absence from Halo 3 campaign or another game/disc.
+
+All 26 ordinary map tag inventories were checked, including mainmenu. shared.map
+is a resource cache and cannot be read as a normal named-tag inventory by Cache;
+its resource payloads are addressed through donor map tags, not alternate object
+names. No additional campaign cache is present in this project's maps directory.
+This reassessment changes documentation only, not the active map build.
+
+## Candidate 09: four approved stock Forge equivalents
+
+User requested restoring factory versions of the soccer ball, troop Warthog,
+wrecked-turret Warthog and anti-air Wraith, while holding the seven unresolved
+items unchanged. `NativeAssets.import_named` now maps these explicitly:
+
+- Soccer ball references the native `vehi` object, replacing the MCC `bloc` root.
+- The three vehicles clone their complete relocated stock vehicle roots and
+  select the native `troop`, `wrecked_turret`, or `anti_air` model variant.
+  Native model variant child objects supply the appropriate troop attachment,
+  chaingun, or anti-air turrets. No source vehicle tuning, seats, weapons or damage
+  fields are copied into these replacement roots.
+- The other seven unresolved palette entries remain as previously converted.
+
+Candidate: `.local/resuscitation/zanzibar-09.map`, 151,502,848 bytes (144.48 MiB),
+SHA256 `329fd851df4bd9e03853b771cc9b362e5cb66908d021a3d844eeba0f808b2291`.
+All 180 Forge references pass verification, including the intentional soccer-ball
+object group change. `verify_stock_equivalents.py` verifies complete root equality
+with stock except the selected model variant, checks native variant children and
+requires the soccer ball to reference the native object itself. Resource
+compaction validates 4,895 references across 5,291 resource slots.
+The single shared installation now points Last Resort to candidate 09; Warlock
+and the OpenH3M executable are unchanged. Candidate 08 remains the rollback.
+
+Candidate 09 native load check: `.local/loading-traces/20261020-142530-24608`.
+Inspected its native capture: the authored desert canyon, base ramps, vehicles,
+first-person weapon and HUD are present. Existing bright sky-ring/base materials
+remain; this change does not address them. This run checks loading and visible
+map content, not spawning/driving each of the four replacements or audio.
+Native metadata/resource verification passed (17 vehicles, 154 physics models,
+24 animation graphs, 181 render models, 343 bitmaps and 1,105 resource segments).
+Removed obsolete candidate 06; candidate 08 remains the rollback.
