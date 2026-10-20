@@ -294,3 +294,45 @@ incomplete. No engine changes are authorized by this note or by the request.
 
 The user clarified that the preceding refusal was a misunderstanding and explicitly authorized engine patches, provided the core stays Xbox 360-compatible. Host-runtime frame pacing work is now within scope. Preserve original gameplay, simulation rate, map formats, stock asset behavior, and system-link semantics; do not alter the core to hide presentation timing problems. No smoothness fix or cross-console compatibility validation is claimed by this authorization.
 
+
+### Presentation queue deadlines (2026-10-20)
+
+Run `20261020-195153-baseline` used the unchanged installed executable and shared
+cache. Native 52-second capture verified Custom Games; native 145-second capture
+verified Prisoner gameplay. Watchdog ended the owned process normally for this
+harness; no host input or desktop capture was used.
+
+The sampler now reads a single bounded 160-byte device snapshot from +0x4094
+through +0x4130. Read-only disassembly establishes a 16-entry presentation ring
+at +0x40ac (buffer, target-vblank pairs), consumer +0x412c, producer +0x4130.
+Original translated handler `0x825bf658` (installed native RVA 0x1c7c0e0)
+compares the head entry target to the current vblank, increments completed
++0x40a8, advances the consumer and may loop through further eligible entries.
+The producer is original function `0x825bf758` (native RVA 0x2d28d40).
+It also has a direct completion branch, bypassing ring insertion when the
+computed target equals current vblank (branch at native RVA 0x2d29724).
+These are observations of original code, not proposed guest-code patches.
+
+Settled window: output mean 33.333ms, deviation 15.046ms, p05 14.286ms,
+p95 52.046ms, zero skipped output observations. Vblank mean 16.667ms,
+deviation 0.902ms, zero skipped increments. Completion observations: 318
+one-vblank intervals, 263 two-vblank intervals, 318 three-vblank intervals.
+The ring retained 593 distinct entries with no conflicting sampled targets;
+target spacing was predominantly 2 or 4 vblanks. This is NOT the complete
+presentation-request cadence: direct completions bypass the ring. Therefore a
+patch that only smooths ring consumption is not yet justified. The sampler
+also records last requested target (+0x409c) and issued count (+0x40a4) for the
+next targeted run; those two columns were added after this run and are not
+claimed as measured here. Snapshots are not atomic across guest threads.
+
+Next investigation: trace the producer's target calculation and its presentation
+callback, correlate direct vs queued requests with host VdSwap handling, then
+patch the host boundary while retaining the guest's interval and simulation.
+No host fix has been deployed or validated. Do not substitute a steady title-bar
+FPS or a generic sleep for smooth-motion validation.
+
+Build preparation: materialized the existing tracked halo3mp sources in the
+same sparse checkout, and fetched SDK source into ignored work/rexglue-sdk,
+commit c94f5ebdcb3c9d1a460ca48e04f9758448f8d518, for inspection. This is upstream
+reference, NOT asserted to match the installed runtime. No submodule download,
+SDK build, generated guest-code copy, or second game installation was created.

@@ -143,6 +143,11 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                 gvwriter = csv.writer(gvstream); gvwriter.writerow(['seconds', 'guest_vblank_count', 'poll_gap_ms'])
                 flipstream = stack.enter_context(output.with_name('guest-flip.csv').open('w', newline=''))
                 flipwriter = csv.writer(flipstream); flipwriter.writerow(['seconds', 'guest_flip_count', 'poll_gap_ms'])
+                queue_stream = stack.enter_context(output.with_name('guest-queue.csv').open('w', newline=''))
+                queue_writer = csv.writer(queue_stream)
+                queue_writer.writerow(['seconds', 'vblank', 'completed', 'head', 'tail',
+                                       'poll_gap_ms', 'last_requested_target', 'issued'] + [f'slot_{i}_{field}' for i in range(16)
+                                                        for field in ('buffer', 'target_vblank')])
             writer = csv.writer(stream); writer.writerow(['seconds', 'guest_frame_count', 'poll_gap_ms'])
             last_poll = time.perf_counter()
             while time.perf_counter() - started < end and child.poll() is None:
@@ -156,9 +161,20 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                         vwriter.writerow([time.perf_counter() - started, vc, (now - last_poll) * 1000])
                         previous_gpu_progress = vc
                 if guest_vblank:
-                    state = read(pointers['guest_vblank'], 24)
+                    # One bounded snapshot through device+0x4130. The original
+                    # D3D interrupt compares each ring entry's target vblank to
+                    # +0x4094 before advancing +0x40a8. Read only; cross-thread
+                    # writes can still make a snapshot transiently inconsistent.
+                    state = read(pointers['guest_vblank'], 0xa0)
                     gc = struct.unpack_from('>I', state, 0)[0]
                     fc = struct.unpack_from('>I', state, 20)[0]
+                    if gc != previous_guest_vblank or fc != previous_guest_flip:
+                        head, tail = struct.unpack_from('>II', state, 0x98)
+                        slots = struct.unpack_from('>32I', state, 0x18)
+                        queue_writer.writerow([time.perf_counter() - started, gc, fc, head, tail,
+                                               (now - last_poll) * 1000,
+                                               struct.unpack_from('>I', state, 8)[0],
+                                               struct.unpack_from('>I', state, 16)[0], *slots])
                     if fc != previous_guest_flip:
                         flipwriter.writerow([time.perf_counter() - started, fc, (now - last_poll) * 1000])
                         previous_guest_flip = fc
