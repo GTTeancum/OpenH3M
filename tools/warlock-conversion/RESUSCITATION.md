@@ -4,7 +4,7 @@ Status: proof-of-concept conversion complete. Candidate 06 loads into Slayer
 as Last Resort with the full 180-entry Forge palette. Its native capture was
 inspected: blue sky, canyon cliffs, base ramps, vehicles and player HUD are visible.
 The user selected the full authored Forge palette on 2026-10-20.
-Warlock's release and launch layout remain separate.
+Warlock and Resuscitation share `.local/custom-maps-play` and `Run-CustomMaps.cmd`.
 
 Run from `C:/X360/ISOs/H3M/.local/OpenH3M-source`:
 
@@ -180,7 +180,7 @@ logs remain. Stock Last Resort and the accepted Warlock files are unchanged.
 ## Current candidate and manual launch
 
 Candidate 06: `.local/resuscitation/zanzibar-06.map`, hardlinked as
-`.local/resuscitation-play/maps/zanzibar.map`.
+`.local/custom-maps-play/maps/zanzibar.map`.
 Size: 115,154,944 bytes (109.82 MiB), compared with stock Last Resort's
 129,523,712 bytes (123.52 MiB). SHA256:
 `488be0a1b7d29807027d6f666ec6b5ee864775e700301f3263ac0d6a90b1a8f1`.
@@ -198,16 +198,19 @@ materials use the same diffuse/bump-preserving matte approximation as Warlock.
 Vehicle glow, reduced-resolution cubemaps and other reported material approximations
 remain part of this proof of concept.
 
-Launch `C:/X360/ISOs/H3M/Run-Resuscitation.cmd`, then choose **Custom Games >
+Launch `C:/X360/ISOs/H3M/Run-CustomMaps.cmd`, then choose **Custom Games >
 Last Resort > Slayer**. It launches the unchanged executable at
 `D:/Programming/GitHub/H3M/OpenH3M.exe`, with a one-hour watchdog. The manual
-launcher seeds each run from `.local/resuscitation-play/shader-cache`, copied
-from the verified native run; logs/profiles remain under `.local/warlock-runs`.
-The name of that logging folder is historical and does not mean Warlock is loaded.
+launcher reuses `.local/custom-maps-play/cache` and `user` for both maps.
+Logs remain under `.local/warlock-runs`; that folder name is historical.
+The old root launchers forward to the shared launcher. Automatic approval review
+blocked deletion of the unused `.local/resuscitation-play` hardlink layout; it
+contains no separate map payload or shader cache. No map or engine was rebuilt. Original assets and the two converted maps are hardlinked.
 
-For a fresh layout, use `warlock_handoff.py prepare --slot zanzibar` with the
-candidate map. Copy the verified native run's `cache/shaders` directory to the
-new layout's `shader-cache` directory before using the manual launcher.
+For a fresh shared layout, prepare Warlock with `warlock_handoff.py prepare`,
+then hardlink the converted Resuscitation map into `maps/zanzibar.map` in that
+same layout. Use `check --all-maps` to authenticate both staged maps.
+
 Never replace an original disc hardlink in place: remove only the verified
 staged link, then create a new hardlink to the generated candidate.
 

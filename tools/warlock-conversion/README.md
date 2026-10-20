@@ -6,8 +6,7 @@ XEX, and the original disc maps are not modified. Generated assets stay private
 under `C:/X360/ISOs/H3M/.local`; Git contains the process and schema definitions.
 
 The next experiment, Resuscitation in Last Resort's slot with its full Forge
-palette, is tracked in [RESUSCITATION.md](RESUSCITATION.md). Its conversion is
-still in progress; the Warlock release below remains the accepted build.
+palette, is tracked in [RESUSCITATION.md](RESUSCITATION.md). Both maps now load from one shared installation and launcher.
 
 ## Current build
 
@@ -15,7 +14,10 @@ Current candidate: `.local/integrated/lockout-release.map`, 182,239,232 bytes
 (173.80 MiB), down from 372,199,424 bytes (354.96 MiB). The tag heap is 23.56 MiB.
 SHA256: `400c6ac9ef1e3454aab016c335511259ddbec139ace00817d49652f29b3e7560`.
 Report: `.local/reports/warlock-release.json`.
-The root `Run-Warlock.cmd` uses the `.local/warlock-play` layout.
+The root `Run-CustomMaps.cmd` uses `.local/custom-maps-play`, containing both
+Warlock (`lockout.map`) and Resuscitation (`zanzibar.map`). They share the engine,
+disc assets, persistent cache and player profile. Logs remain per run.
+The legacy PowerShell launcher names forward to this same launcher.
 Choose **Custom Games > Blackout > Slayer**.
 
 The builder retains the working scenario objects, collision, equipment, cannons,

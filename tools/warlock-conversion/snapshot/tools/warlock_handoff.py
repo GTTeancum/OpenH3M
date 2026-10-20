@@ -77,15 +77,23 @@ def run(args, project, game, run_root, state):
     env = os.environ.copy()
     for name in ('temp', 'profile', 'cache'):
         output_path(run_root / name, project).mkdir(exist_ok=True)
+    cache_root = output_path(args.cache_root, project) if args.cache_root else run_root / 'cache'
+    user_root = output_path(args.user_root, project) if args.user_root else run_root
+    cache_root.mkdir(parents=True, exist_ok=True)
+    user_root.mkdir(parents=True, exist_ok=True)
     if args.shader_cache_seed is not None:
         seed = output_path(args.shader_cache_seed, project).resolve(strict=True)
-        shutil.copytree(seed, run_root / 'cache/shaders')
+        shutil.copytree(seed, cache_root / 'shaders', dirs_exist_ok=True)
         state['shader_cache_seed'] = str(seed)
+    profile_root = user_root / 'profile' if args.user_root else run_root / 'profile'
+    profile_root.mkdir(parents=True, exist_ok=True)
     env.update(TEMP=str(run_root / 'temp'), TMP=str(run_root / 'temp'),
-               LOCALAPPDATA=str(run_root / 'profile'), APPDATA=str(run_root / 'profile'))
-    command = [str(exe), f'--game_data_root={game}', f'--user_data_root={run_root}',
-               f'--cache_root={run_root / "cache"}', f'--log_file={run_root / "runtime.log"}']
+               LOCALAPPDATA=str(profile_root), APPDATA=str(profile_root))
+    command = [str(exe), f'--game_data_root={game}', f'--user_data_root={user_root}',
+               f'--cache_root={cache_root}', f'--log_file={run_root / "runtime.log"}']
     state.update(executable=str(exe), executable_sha256=file_hash(exe), watchdog_seconds=args.seconds)
+    if args.all_maps:
+        print('Available maps: Blackout = Warlock; Last Resort = Resuscitation.', flush=True)
     print('Select Custom Games > ' + ('Blackout' if args.slot == 'lockout' else 'Last Resort') + ' > Slayer.', flush=True)
     print(f'Logs: {run_root}; watchdog: {args.seconds} seconds', flush=True)
     with (run_root / 'console.log').open('wb') as log:
@@ -123,6 +131,9 @@ def main():
     parser.add_argument('--map', type=Path)
     parser.add_argument('--exe', type=Path)
     parser.add_argument('--shader-cache-seed', type=Path)
+    parser.add_argument('--cache-root', type=Path)
+    parser.add_argument('--user-root', type=Path)
+    parser.add_argument('--all-maps', action='store_true')
     parser.add_argument('--seconds', type=int, default=180)
     args = parser.parse_args()
     project = args.project.resolve(strict=True)
@@ -142,6 +153,9 @@ def main():
             state['status'] = 'prepared'
         else:
             state['preflight'] = preflight(output_path(game / 'maps' / (args.slot + '.map'), project), project / 'default.xex')
+            if args.all_maps:
+                state['maps'] = {slot: preflight(output_path(game / 'maps' / (slot + '.map'), project), project / 'default.xex')
+                                 for slot in ('lockout', 'zanzibar')}
             state['status'] = 'checked'
             if args.action == 'run':
                 if args.exe is None:
