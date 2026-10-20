@@ -176,3 +176,28 @@ No settings have been adopted for production. No engine or disc assets changed.
 Remaining work: locate the source of short/long frame delivery under normal
 vblank and validate a compatible fix; current tools measure output production,
 not simulation or physical-display smoothness by themselves.
+
+
+### GPU progress discovery (2026-10-20)
+
+`20261020-180209-baseline`: native captures verified Custom Games lobby and
+Prisoner gameplay. Guest output remained uneven: 899 intervals, mean 33.334ms,
+standard deviation 14.626ms, p05 14.727ms, p95 51.962ms, zero missed increments.
+
+The second discovery breakpoint observed the installed GPU worker at RVA
+0x1552b (`inc dword ptr [rax+0x78]`). It was restored before measurement. The
+counter advanced roughly 90 times/second, not 60. Inspection established it is
+shared GPU progress: the swap path also increments it (installed RVA 0x1a7f3).
+The upstream [command processor implementation](https://github.com/rexglue/rexglue-sdk/blob/main/src/graphics/command_processor.cpp)
+likewise increments counter_ after IssueSwap and writes it for EVENT_WRITE_SHD.
+This is NOT evidence of a 90Hz virtual display or an irregular vblank timer.
+
+The raw discovery file retains its original `vblank.csv` name for provenance;
+its regenerated summary explicitly labels the combined metric. New captures use
+`--gpu-progress-timing` and `gpu-progress.csv`. The tool checks the GPU DLL hash
+and instruction signature before discovery and polls read-only during timing.
+No pure-vblank or simulation-tick conclusion is justified by this counter.
+
+Next diagnosis must separate the virtual clock from the swap increments or
+validate an existing compatible video-mode setting. Do not adopt no-vsync or
+change engine code based on this mixed counter.

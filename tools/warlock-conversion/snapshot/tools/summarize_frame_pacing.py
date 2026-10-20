@@ -22,7 +22,7 @@ def summarize(run):
     ordered = sorted(intervals)
     def percentile(q): return round(ordered[round((len(ordered) - 1) * q)], 3)
     state = json.loads((run / 'run.json').read_text())
-    return {'run': str(run), 'mode': state['mode'], 'stock': state.get('stock', False),
+    report = {'run': str(run), 'mode': state['mode'], 'stock': state.get('stock', False),
             'map_sha256': state['map_sha256'], 'metric': 'new guest-output frames, not host presents',
             'measurement_start_seconds': 125, 'scene_verified_by_this_tool': False,
             'intervals': len(intervals), 'skipped_frames': skipped,
@@ -34,6 +34,25 @@ def summarize(run):
             'over_41_667_ms': sum(x > 41.667 for x in intervals),
             'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in rows), 3),
             'caution': 'Scene and simulation speed require separate verification. Polling introduces timing uncertainty up to the observation gap. Display cadence is separate.'}
+
+    vpath = run / 'gpu-progress.csv'
+    if not vpath.exists(): vpath = run / 'vblank.csv'  # Legacy mislabeled discovery trace.
+    if vpath.exists():
+        vr = [r for r in csv.DictReader(vpath.open()) if float(r['seconds']) >= 125]
+        vd = [1000 * (float(b['seconds']) - float(a['seconds']))
+              for a, b in zip(vr, vr[1:]) if int(b.get('gpu_progress_count', b.get('vblank_count'))) - int(a.get('gpu_progress_count', a.get('vblank_count'))) == 1]
+        if len(vd) < 100: raise ValueError('Insufficient GPU progress samples')
+        ordered_v = sorted(vd)
+        report['gpu_progress'] = {
+            'metric': 'combined vblank AND frame-swap increments; not pure vblank timing',
+            'intervals': len(vd), 'mean_ms': round(statistics.mean(vd), 3),
+            'stdev_ms': round(statistics.pstdev(vd), 3),
+            'p05_ms': round(ordered_v[round((len(vd)-1)*.05)], 3),
+            'p95_ms': round(ordered_v[round((len(vd)-1)*.95)], 3),
+            'non_single_counter_deltas': sum(int(b.get('gpu_progress_count', b.get('vblank_count')))-int(a.get('gpu_progress_count', a.get('vblank_count'))) != 1 for a,b in zip(vr,vr[1:])),
+            'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in vr),3)}
+    return report
+
 
 
 if __name__ == '__main__':

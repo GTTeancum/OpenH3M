@@ -20,6 +20,7 @@ p.add_argument('--exe', type=Path, required=True)
 p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled'), default='baseline')
 p.add_argument('--capture', action='store_true')
 p.add_argument('--native-timing', action='store_true', help='Read the existing in-game frame counter without per-frame debugger traps.')
+p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
 a = p.parse_args()
 project = a.project.resolve(strict=True)
@@ -87,7 +88,7 @@ with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb'
             stdout=pmout, stderr=pmout, creationflags=subprocess.CREATE_NO_WINDOW)
         if a.native_timing:
             from native_frame_timing import record
-            state['native_timing'] = record(child, exe.parent / 'rexruntime.dll', run / 'guest-frames.csv', started)
+            state['native_timing'] = record(child, exe.parent / 'rexruntime.dll', run / 'guest-frames.csv', started, gpu_progress=a.gpu_progress_timing)
         try:
             state['exit_code'] = child.wait(timeout=max(0.01, 165 - (time.perf_counter() - started)))
         except subprocess.TimeoutExpired:

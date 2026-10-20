@@ -1,18 +1,19 @@
 """Observe an owned native game's existing guest-output counter.
 
-One restored debugger breakpoint discovers the presenter instance before the
+Restored debugger breakpoints discover existing counter addresses before the
 measurement window. Measurement itself only reads memory; no per-frame traps,
 injected code, screenshots, input or executable changes.
 """
 import ctypes as C
 from ctypes import wintypes as W
 import csv
+import hashlib
 import struct
 import time
 import pefile
 
 
-def record(child, runtime, output, started, begin=110, end=155):
+def record(child, runtime, output, started, begin=110, end=155, gpu_progress=False):
     kernel = C.WinDLL('kernel32', use_last_error=True)
     psapi = C.WinDLL('psapi', use_last_error=True)
     def api(lib, name, args, result=W.BOOL):
@@ -36,7 +37,7 @@ def record(child, runtime, output, started, begin=110, end=155):
     def check(ok):
         if not ok: raise C.WinError(C.get_last_error())
     ph = op(0x1f0fff, False, child.pid); check(ph)
-    attached = False; original = None; hook = None
+    attached = False; originals = {}; pointers = {}
     def read(address, size):
         b = C.create_string_buffer(size); n = C.c_size_t()
         check(rpm(ph, address, b, size, C.byref(n)))
@@ -51,10 +52,12 @@ def record(child, runtime, output, started, begin=110, end=155):
             time.sleep(.05)
         handles = (W.HMODULE * 1024)(); needed = W.DWORD()
         check(modules(ph, handles, C.sizeof(handles), C.byref(needed)))
-        base = None
+        base = None; gpu_base = None
         for h in handles[:needed.value // C.sizeof(W.HMODULE)]:
             name = C.create_unicode_buffer(260)
-            if modname(ph, h, name, 260) and name.value.lower() == runtime.name.lower(): base = h
+            if modname(ph, h, name, 260):
+                if name.value.lower() == runtime.name.lower(): base = h
+                if name.value.lower() == 'rexgpu-xenos.dll': gpu_base = h
         if base is None: raise RuntimeError('Runtime module not loaded')
         pe = pefile.PE(str(runtime), fast_load=True); pe.parse_data_directories(directories=[0])
         entry = next(s.address for s in pe.DIRECTORY_ENTRY_EXPORT.symbols
@@ -63,11 +66,24 @@ def record(child, runtime, output, started, begin=110, end=155):
         if pe.get_data(entry + 0xe3, 8) != bytes.fromhex('f048ff87b8010000'):
             raise RuntimeError('Frame-counter layout differs from verified runtime')
         hook = base + entry
-        original = read(hook, 1)
-        if original != b'\x55': raise RuntimeError('Unexpected presenter entry instruction')
-        check(attach(child.pid)); attached = True; check(kill(False)); write(hook, b'\xcc')
-        pointer = None; deadline = time.perf_counter() + 10
-        while pointer is None and time.perf_counter() < deadline:
+        if read(hook, 1) != b'\x55': raise RuntimeError('Unexpected presenter entry instruction')
+        hooks = {hook: ('guest', 128, 0x1b8)}  # Win64 CONTEXT RCX
+        if gpu_progress:
+            gpu_path = runtime.parent / 'rexgpu-xenos.dll'
+            if hashlib.sha256(gpu_path.read_bytes()).hexdigest() != 'aed76f757f9c570923e90ec99d26305f368857e972ea9d97b650af1ce806bc94':
+                raise RuntimeError('Unexpected GPU runtime build')
+            gpu = pefile.PE(str(gpu_path), fast_load=True)
+            # Verified worker increments [RAX+78h]; swaps also increment it.
+            # This is GPU progress, NOT an isolated virtual-vblank clock.
+            if gpu_base is None or gpu.get_data(0x1552b, 3) != bytes.fromhex('ff4078'):
+                raise RuntimeError('Unsupported gpu_progress counter layout')
+            hooks[gpu_base + 0x1552b] = ('gpu_progress', 120, 0x78)  # CONTEXT RAX
+        check(attach(child.pid)); attached = True; check(kill(False))
+        for address in hooks:
+            originals[address] = read(address, 1)
+            write(address, b'\xcc')
+        deadline = time.perf_counter() + 10
+        while len(pointers) < len(hooks) and time.perf_counter() < deadline:
             ev = C.create_string_buffer(176)
             if not wait(ev, 100): continue
             code, pid, tid = struct.unpack_from('<III', ev)
@@ -78,26 +94,33 @@ def record(child, runtime, output, started, begin=110, end=155):
             if code == 1:
                 exception = struct.unpack_from('<I', ev, 16)[0]
                 address = struct.unpack_from('<Q', ev, 32)[0]
-                if exception == 0x80000003 and address == hook:
+                if exception == 0x80000003 and address in originals:
                     th = ot(0x1f03ff, False, tid); check(th)
                     try:
                         backing = C.create_string_buffer(1248)
                         addr = (C.addressof(backing) + 15) & ~15
                         ctx = (C.c_ubyte * 1232).from_address(addr)
                         struct.pack_into('<I', ctx, 48, 0x10001f); check(get(th, addr))
-                        pointer = struct.unpack_from('<Q', ctx, 128)[0] + 0x1b8
-                        write(hook, original); original = None
-                        struct.pack_into('<Q', ctx, 248, hook); check(setctx(th, addr))
+                        name, register, offset = hooks[address]
+                        pointers[name] = struct.unpack_from('<Q', ctx, register)[0] + offset
+                        write(address, originals.pop(address))
+                        struct.pack_into('<Q', ctx, 248, address); check(setctx(th, addr))
                     finally: close(th)
                 elif exception != 0x80000003: status = 0x80010001
             check(cont(pid, tid, status))
-        if pointer is None: raise RuntimeError('Presenter discovery timed out')
+        if len(pointers) != len(hooks): raise RuntimeError('Counter discovery timed out')
+        pointer = pointers['guest']
         check(detach(child.pid)); attached = False
         while time.perf_counter() - started < begin:
             if child.poll() is not None: raise RuntimeError('Game exited before measurement')
             time.sleep(.05)
-        previous = None
-        with output.open('w', newline='') as stream:
+        previous = None; previous_gpu_progress = None
+        from contextlib import ExitStack
+        with ExitStack() as stack:
+            stream = stack.enter_context(output.open('w', newline=''))
+            if gpu_progress:
+                vstream = stack.enter_context(output.with_name('gpu-progress.csv').open('w', newline=''))
+                vwriter = csv.writer(vstream); vwriter.writerow(['seconds', 'gpu_progress_count', 'poll_gap_ms'])
             writer = csv.writer(stream); writer.writerow(['seconds', 'guest_frame_count', 'poll_gap_ms'])
             last_poll = time.perf_counter()
             while time.perf_counter() - started < end and child.poll() is None:
@@ -105,11 +128,17 @@ def record(child, runtime, output, started, begin=110, end=155):
                 if count != previous:
                     writer.writerow([time.perf_counter() - started, count, (now - last_poll) * 1000])
                     previous = count
+                if gpu_progress:
+                    vc = struct.unpack('<I', read(pointers['gpu_progress'], 4))[0]
+                    if vc != previous_gpu_progress:
+                        vwriter.writerow([time.perf_counter() - started, vc, (now - last_poll) * 1000])
+                        previous_gpu_progress = vc
                 last_poll = now
                 time.sleep(.001)
-        return {'counter_address': hex(pointer), 'measurement_start': begin, 'measurement_end': end,
-                'method': 'one restored discovery breakpoint, then read-only counter polling'}
+        return {'counter_address': hex(pointer), 'gpu_progress_counter_address': hex(pointers.get('gpu_progress', 0)), 'measurement_start': begin, 'measurement_end': end,
+                'method': f'{len(hooks)} restored discovery breakpoints, then read-only counter polling'}
     finally:
-        if original is not None and hook is not None and attached: write(hook, original)
+        if attached:
+            for address, original in originals.items(): write(address, original)
         if attached: detach(child.pid)
         close(ph)
