@@ -123,6 +123,13 @@ It remains 114,946,048 bytes; SHA256:
 `d8e66bf1ffdbf2251ef323f4485136eb3a18480e67d6789dec32f3f47c8e71f0`.
 The play layout currently links candidate 02. Its diagnostic run is
 `20261020-113214-30268`, with allocator-list sampling enabled and no capture.
+That run still stalls in `0x822c2058`. Its sample confirms a cycle: heap
+`0xbe154820`, head handle `0x142b0000`, node words
+`142b0002 0000080a 00000000 00000000 00000000 00000001`.
+The next handle is zero, resolving to the same node indefinitely. The six-zone
+fix is necessary table consistency work, but did not fix this loading stall.
+The next diagnostic should identify the allocator by its stored name/header
+and determine which cache data or allocation size creates the bad list.
 
 The latest converter also remaps the resource table's BSP reference to the
 converted BSP; this was added after candidate 02 was built and needs a fresh

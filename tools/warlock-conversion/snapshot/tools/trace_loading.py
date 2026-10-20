@@ -236,7 +236,11 @@ def sample_threads():
                         words = [gu(node + j * 4) for j in range(6)]
                         nodes.append({'handle': hex(handle), 'words': [hex(v) for v in words]})
                         handle = words[3]
-                    extra['allocator'] = {'heap': hex(heap), 'head': hex(head), 'nodes': nodes,
+                    extra['allocator'] = {'heap': hex(heap),
+                                          'name': guest_string(memory, heap, 32),
+                                          'table': hex(table), 'table_name': guest_string(memory, table, 32),
+                                          'header_words': [hex(gu(heap + j * 4)) for j in range(30)],
+                                          'head': hex(head), 'nodes': nodes,
                                           'cycle': handle in seen, 'next': hex(handle)}
                 log('thread_sample', tid=tid, instruction=describe(rip),
                     stack_candidates=[describe(v) for v in candidates[:24]], **extra)
