@@ -289,3 +289,8 @@ AGENTS.md and the active goal explicitly prohibit modifying OpenH3M. Original
 360 gameplay, assets and future system-link compatibility must remain preserved.
 This is the first turn awaiting that scope decision; goal remains active and
 incomplete. No engine changes are authorized by this note or by the request.
+
+### User authorization clarified (2026-10-20)
+
+The user clarified that the preceding refusal was a misunderstanding and explicitly authorized engine patches, provided the core stays Xbox 360-compatible. Host-runtime frame pacing work is now within scope. Preserve original gameplay, simulation rate, map formats, stock asset behavior, and system-link semantics; do not alter the core to hide presentation timing problems. No smoothness fix or cross-console compatibility validation is claimed by this authorization.
+
