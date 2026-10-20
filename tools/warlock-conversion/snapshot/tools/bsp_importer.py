@@ -1,5 +1,6 @@
 """Assemble a new retail BSP tag and its resources from MCC source data."""
 import xml.etree.ElementTree as ET
+import struct
 from tag_metadata import MetadataConverter
 from resource_reader import Resource
 from render_resource import convert_render_resource
@@ -72,10 +73,30 @@ def _import_bsp(i, terrain, water, bsp_index):
     converter = MetadataConverter(s, b, i.source_strings, i.target_strings,
                                   reference, resource_reference=resource)
     payload = converter.convert(source['offset'], ss, ds, 'sbsp:' + name)
+    material_bindings = []
+    if getattr(i.materials, 'prisoner_materials', False):
+        # The CE-authored metal shaders have no physical material assignment.
+        # Give their collision surfaces the existing Halo 3 metal response.
+        globals_root = next(t['offset'] for t in i.registry.cache.tags.values() if t['group']=='matg')
+        materials = i.registry.cache.block(globals_root+0x17c,0x170)
+        metal = next(n for n,row in enumerate(materials)
+                     if i.target_strings.text(i.registry.cache.u(row))=='hard_metal_thick')
+        source_rows = s.block(source['offset']+0x28,24)
+        count, pointer = struct.unpack_from('>II',payload,0x24)
+        if count != len(source_rows): raise ValueError('Collision material count changed')
+        for n,row in enumerate(source_rows):
+            shader = s.u(row+12)
+            shader_name = s.name(shader & 65535) or ''
+            if (shader_name.startswith('custom\\levels\\multiplayer\\prisoner\\shaders\\metal_')
+                    and s.unpack('h',row+16)[0]==0
+                    and not i.source_strings.text(s.u(s.tags[shader&65535]['offset']+64))):
+                b.put(pointer+n*24+16,'h',metal)
+                material_bindings.append({'shader':shader_name,'material':'hard_metal_thick','index':metal})
     if len(payload) != size:
         raise ValueError('BSP root size mismatch')
     b.meta[address - b.base:address - b.base + size] = payload
     report = {'source': name, 'group': 'sbsp', 'datum': hex(owner),
-              'resources': resources, 'source_geometry': True}
+              'resources': resources, 'source_geometry': True,
+              'native_collision_materials': material_bindings}
     i.added.append(report)
     return ('sbsp', owner), address, report

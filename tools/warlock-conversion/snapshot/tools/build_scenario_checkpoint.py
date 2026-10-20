@@ -113,7 +113,7 @@ def main():
     state = {'status': 'building', 'basis_sha256': basis_hash,
              'historical_seed_used': basis_hash == ACCEPTED_SHA256,
              'limitations': ['Map conversion POC; unsupported content fails explicitly.',
-                            'Material POC approximations include native reflection substitutes and frozen shader animation; see materials report.',
+                            'Per-material approximations and converted animations are listed in the materials report.',
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
     temporary = None
@@ -182,6 +182,9 @@ def main():
         try:
             from verify_collision_trees import verify as verify_collision_trees
             state['collision_trees_verified'] = verify_collision_trees(check)
+            if args.slot == 'chillout':
+                from verify_player_animations import verify as verify_player_animations
+                state['player_animations_verified'] = verify_player_animations(check)
             state['runtime_decals_verified'] = verify_runtime_decals(check, importer.reference)
             if check.u(8) != len(payload) or check.base + check.u(0x18) != 0xbfc00000:
                 raise ValueError('Serialized cache size/memory boundary is invalid')

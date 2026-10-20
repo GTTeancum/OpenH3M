@@ -17,6 +17,8 @@ def main():
         parser.add_argument('--' + name, type=Path, required=True)
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
+    extended_players = {int(row['graph'], 16) for row in report.get('stages', {}).get('player_animations', [])
+                        if 'shade_d' in row.get('added_modes', [])}
     target = Cache(args.map)
     target_strings = StringTable(target)
     reference = Path(__file__).resolve().parents[1] / 'reference/plugins'
@@ -51,6 +53,13 @@ def main():
                         if kind == 'tagblock':
                             stride = int(f.get('elementSize'), 0)
                             aa, bb = donor.block(x, stride), target.block(y, stride)
+                            if group == 'jmad' and int(tag['datum'],16) in extended_players:
+                                # Native seat animation bodies remain unchanged;
+                                # the added Shade lookup points to a stock graph.
+                                if f.get('name') == 'Modes' and len(bb)==len(aa)+1:
+                                    bb = [r for r in bb if target_strings.text(target.u(r)) != 'shade_d']
+                                elif f.get('name') == 'Inheritance List' and len(bb)==len(aa)+1:
+                                    bb = bb[:-1]
                             if len(aa) != len(bb):
                                 raise ValueError('Native block count changed: ' + f.get('name'))
                             if group == 'jmad' and f.get('sort') == 'true':
@@ -104,6 +113,9 @@ def main():
                 verified[group] = verified.get(group, 0) + 1
             finally:
                 donor.close()
+        if extended_players:
+            from verify_player_animations import verify
+            verify(target)
         print(json.dumps({'native_metadata_verified': verified,
                           'native_resource_segments_verified': resource_count,
                           'scope': 'scalar/physics bytes, strings, block counts, opaque payloads and resource bytes'}))

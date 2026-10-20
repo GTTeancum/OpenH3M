@@ -34,6 +34,8 @@ parser.add_argument('--sample-on-stall', action='store_true', help='Sample our c
 parser.add_argument('--trace-allocator', action='store_true')
 parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
+parser.add_argument('--sample-world', action='store_true',
+                    help='Read bounded gameplay table diagnostics at the first bullet impact.')
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
@@ -110,7 +112,7 @@ input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')
-    input_steps.extend(['120000:RSRIGHT+1600', '124000:LSUP+1500'])
+    input_steps.extend(['121000:RSRIGHT+1800', '130000:RT+500'])
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
@@ -370,6 +372,26 @@ try:
                                 system = gu(state + 4)
                                 handle = gu(state + 8)
                                 r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
+                                if options.sample_world:
+                                    options.sample_world = False
+                                    tls = gu(r13)
+                                    tables = []
+                                    for offset in range(0, 0x800, 4):
+                                        try:
+                                            pointer = gu(tls + offset)
+                                            if not 0x80000000 <= pointer < 0xe0000000: continue
+                                            header = read(rdx + pointer, 96)
+                                            label = header[:32].split(b'\0')[0]
+                                            if not label or not all(32 <= v < 127 for v in label): continue
+                                            if not any(v in label.lower() for v in (b'object',b'player',b'observer',b'camera')): continue
+                                            data = struct.unpack_from('>I',header,0x44)[0]
+                                            item = {'offset':hex(offset),'pointer':hex(pointer),'name':label.decode(),
+                                                    'header':header.hex()}
+                                            if 0x80000000 <= data < 0xe0000000:
+                                                item['data'] = read(rdx+data,512).hex()
+                                            tables.append(item)
+                                        except OSError: pass
+                                    log('world_tables',tls=hex(tls),tables=tables)
                                 table = gu(gu(gu(r13) + 0x1b4) + 0x44)
                                 datum = gu(table + (handle & 65535) * 80 + 4)
                                 root = gu(gu(0x827f0f8c) + (datum & 65535) * 8 + 4)

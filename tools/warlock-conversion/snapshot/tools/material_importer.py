@@ -147,6 +147,7 @@ class MaterialImporter:
         constants = bytearray(b''.join(c.data[x:x + 16] for x in c.block(post + 28, 16)))
         sky_template = None
         prisoner_template = False
+        disabled_extra_environment = False
         if (getattr(self, 'prisoner_materials', False)
                 and key[1].startswith(r'custom\levels\multiplayer\prisoner\shaders' + '\\')):
             source_template = s.name(s.u(source_post + 12) & 65535)
@@ -156,6 +157,14 @@ class MaterialImporter:
             exact = {'_0_2_0_1_1_0_0_0_0_0', '_0_0_0_0_0_0_1_3_0_0',
                      '_0_1_0_2_5_2_0_3_0_0', '_0_0_0_0_0_0_4_3_0_0'}
             suffix = '_' + '_'.join(str(v) for v in variants[:10])
+            if suffix == '_0_1_0_1_1_0_5_0_0_0':
+                # H3 has this combination with environment mapping enabled.
+                # A zero environment tint preserves the source's disabled
+                # reflection while retaining its authored emission/detail.
+                variants[5] = 2
+                suffix = '_' + '_'.join(str(v) for v in variants[:10])
+                exact.add(suffix)
+                disabled_extra_environment = True
             if len(variants) == 13 and not any(variants[10:]) and suffix in exact:
                 sky_template = source_template.rsplit('\\', 1)[0] + '\\' + suffix
                 prisoner_template = True
@@ -193,7 +202,15 @@ class MaterialImporter:
             if source_name in constant_names:
                 values = s.unpack('4f', source_constants[constant_names.index(source_name)])
                 struct.pack_into('>4f', constants, index * 16, *values)
+            elif disabled_extra_environment and name.startswith('env_tint'):
+                struct.pack_into('>4f', constants, index * 16, 0., 0., 0., 0.)
         suppressed_specular = []
+        implicit_defaults = []
+        if prisoner_template and 'bump_detail_coefficient' in constant_names and 'bump_detail_coefficient' not in target_constant_names:
+            value = s.unpack('4f', source_constants[constant_names.index('bump_detail_coefficient')])
+            if value != (1., 1., 1., 1.):
+                raise ValueError('Non-unit MCC bump-detail strength requires explicit conversion')
+            implicit_defaults.append('bump_detail_coefficient')
         if key[1].startswith('levels\\multi\\warlock\\shaders\\') or (getattr(self, 'resuscitation_sky', False) and key[1].startswith('levels\\multi\\resuscitation\\shaders\\')):
             # The approximate retail fallback produces unstable world highlights.
             # Preserve diffuse and bump lighting; use matte world materials.
@@ -213,30 +230,30 @@ class MaterialImporter:
             struct.pack_into('>i', root, 56, s.unpack('i', tag['offset'] + 56)[0])
             b.meta[address - b.base:address - b.base + 68] = root
         output_post = bytearray(native_sky_post if sky_template else c.data[post:post + 132])
-        frozen_animations = 0
+        converted_animations = 0
         if prisoner_template:
-            # Shader routing is reusable; donor-specific blinking/scrolling
-            # is not. Until multipass rmsh animation remapping is supported,
-            # keep source constants static instead of inheriting donor effects.
-            frozen_animations = s.u(source_post + 92)
             output_post[56:104] = bytes(48)
+            if s.u(source_post + 92):
+                from material_animation import convert_material_animation
+                converted_animations = convert_material_animation(self, source_post, output_post)
         struct.pack_into('>III', output_post, 16, len(target_texture_names), b.alloc(textures), 0)
         struct.pack_into('>III', output_post, 28, len(target_constant_names), b.alloc(constants), 0)
         b.put(address + 40, 'III', 1, b.alloc(output_post), 0)
         self.done[key] = owner
         self.report.append({'source': key[1], 'retail_template': struct.unpack_from('>I', output_post, 12)[0] & 65535,
             'approximation': (not prisoner_template or bool(set(texture_names) - set(imported))
-                              or bool(set(constant_names) - set(target_constant_names))
-                              or bool(frozen_animations)),
+                              or bool(set(constant_names) - set(target_constant_names) - set(implicit_defaults))),
             'textures_imported': imported,
-            'frozen_source_animations': frozen_animations,
+            'converted_source_animations': converted_animations,
+            'disabled_extra_environment': disabled_extra_environment,
+            'implicit_native_defaults': implicit_defaults,
             'native_sky_template': sky_template if not prisoner_template else None,
             'native_sky_donor': sky_donor if sky_template and not prisoner_template else None,
             'native_material_template': sky_template if prisoner_template else None,
             'native_material_donor': sky_donor if prisoner_template else None,
             'fallback_specular_suppressed': suppressed_specular,
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
-            'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names))})
+            'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names) - set(implicit_defaults))})
         return 'rmsh', owner
 
     def particle_post(self, source_post, group='prt3'):

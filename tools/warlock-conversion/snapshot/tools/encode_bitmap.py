@@ -4,6 +4,18 @@ from xbox_bitmap import tile_base
 
 SUPPORTED_FORMATS=(0,1,10,11,14,15,16,22,33)
 
+def texture_gpu_format(fmt,curve):
+ """Preserve color sampling: MCC sRGB uses the retail gamma fetch format.
+
+ Retail Cold Storage uses AS16 formats plus RGB gamma signs for color,
+ but plain formats for linear data. Gamma2 is shader-managed in retail.
+ Normal maps must retain their signed/linear fetch interpretation.
+ """
+ linear=0x18280186 if fmt==11 else 0x2d20ab4a if fmt==22 else 0x1a200100+{14:0x52,15:0x53,16:0x54,33:0x71}[fmt]
+ if curve in (1,5) and fmt in (11,14,15,16):
+  return (linear & ~0x3f) | {11:50,14:51,15:52,16:53}[fmt] | 0x7e00
+ return linear
+
 def encode_lightmap_array(source, tag):
  """Encode single-mip BC3 lightmap arrays at authored resolution."""
  infos=source.info(tag)
@@ -66,7 +78,7 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512):
  bitmap[0x15]=source.c.data[source.c.block(source.c.tags[tag]['offset']+0x60,0x38)[index]+0x15]
  struct.pack_into('>I',bitmap,0x1c,len(tiled));struct.pack_into('>I',bitmap,0x28,0xffffffff)
  control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
- gpu_format=0x18280186 if fmt==11 else 0x2d20ab4a if fmt==22 else 0x1a200100+{14:0x52,15:0x53,16:0x54,33:0x71}[fmt]
+ gpu_format=texture_gpu_format(fmt,bitmap[0x15])
  struct.pack_into('>HHBBBBI',control,0x28,w,h,1,1,0,1,gpu_format)
  # Resource fixups use control+0x0C -> raw+0 and control+0x34 -> control+0.
  return bytes(bitmap),bytes(control),tiled
@@ -97,5 +109,5 @@ def encode_cubemap_base(source, tag, index=0, max_dimension=64):
  record[21]=c.data[row+21]
  struct.pack_into('>I',record,28,len(raw));struct.pack_into('>I',record,40,0xffffffff)
  control=bytearray(64);struct.pack_into('>I',control,0,len(raw))
- struct.pack_into('>HHBBBBI',control,40,w,h,1,1,2,0,0x1a200100+{14:0x52,15:0x53,16:0x54}[fmt])
+ struct.pack_into('>HHBBBBI',control,40,w,h,1,1,2,0,texture_gpu_format(fmt,record[21]))
  return bytes(record),bytes(control),raw
