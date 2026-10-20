@@ -24,7 +24,7 @@ def summarize(run):
     state = json.loads((run / 'run.json').read_text())
     return {'run': str(run), 'mode': state['mode'], 'stock': state.get('stock', False),
             'map_sha256': state['map_sha256'], 'metric': 'new guest-output frames, not host presents',
-            'settled_gameplay_start_seconds': 125,
+            'measurement_start_seconds': 125, 'scene_verified_by_this_tool': False,
             'intervals': len(intervals), 'skipped_frames': skipped,
             'mean_ms': round(statistics.mean(intervals), 3),
             'stdev_ms': round(statistics.pstdev(intervals), 3),
@@ -33,7 +33,7 @@ def summarize(run):
             'under_25_ms': sum(x < 25 for x in intervals),
             'over_41_667_ms': sum(x > 41.667 for x in intervals),
             'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in rows), 3),
-            'caution': 'Polling introduces up to the observation gap in timing uncertainty. Display cadence is separate.'}
+            'caution': 'Scene and simulation speed require separate verification. Polling introduces timing uncertainty up to the observation gap. Display cadence is separate.'}
 
 
 if __name__ == '__main__':

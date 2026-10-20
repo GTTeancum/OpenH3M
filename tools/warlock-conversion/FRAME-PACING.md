@@ -42,7 +42,7 @@ python -B tools/warlock-conversion/snapshot/tools/check_frame_pacing.py --projec
 python -B tools/warlock-conversion/snapshot/tools/summarize_frame_pacing.py ../pacing/RUN-DIRECTORY
 ```
 
-The summary uses settled gameplay from 125 seconds onward. It reports skipped
+The summary uses samples from 125 seconds onward; it does not verify the scene. It reports skipped
 counter increments and polling gaps rather than concealing sampling uncertainty.
 Native timing by itself does not prove visual correctness, simulation speed or
 smooth display delivery. Inspect native output and compare equivalent routes.
@@ -78,3 +78,52 @@ smooth display delivery. Inspect native output and compare equivalent routes.
 Remaining acceptance: compare native timings with stock Cold Storage, identify
 a repeatable improvement without changing the engine or game simulation, inspect
 the resulting native output, and document/deploy only the validated settings.
+
+
+## Subsequent experiments and route failures
+
+- Original Cold Storage run `20261020-172944-stock-baseline`: native image
+  verified. 900 intervals, mean 33.332ms, standard deviation 11.317ms,
+  p05 15.539ms, p95 51.644ms; no skipped frames, max polling gap 2.642ms.
+  Irregularity exists with original disc assets, not just converted maps.
+- `20261020-173248-honor-timers`: honoring the child's timer resolution while
+  occluded did not fix pacing (mean 33.463ms, deviation 13.012ms).
+- `vsync=false` changes virtual-vblank delivery and GPU waits. It is diagnostic
+  only; simulation speed and scene must be checked independently.
+- `20261020-173547-vblank-unthrottled` lacked a native content capture.
+  Its apparent improvement is withdrawn: subsequent runs reached File Share.
+- Native keystroke-only navigation was not consumed. 40ms button pulses failed
+  too: `20261020-174539-9380` showed Matchmaking selected at 52 seconds and
+  File Share at 135 seconds. Both native images were inspected.
+- An extra A at 30 seconds failed in `20261020-174941-36136`: its native
+  52-second image showed the Matchmaking lobby selector. The owned run was
+  stopped, and that speculative startup press was removed.
+- No no-vsync route is validated. Do not launch further full timing runs until
+  its starting state and navigation are established. No production fix applied.
+- Loading tracer supports project-local shared cache reuse, bounded multiple
+  native captures, and candidate game-time globals at bullet impacts. Candidate
+  layout matches initialized=1, rate=30, length=1/30, speed=1; tick deltas must
+  validate the candidate before drawing simulation-speed conclusions.
+
+## Recorded working route and limits
+
+The original button-state route remains in both scripts. It reached native-
+image-verified Prisoner and stock Cold Storage with default vsync. It is timed,
+not state-aware, and has not been validated under changed virtual-vblank timing.
+
+| Script time | Process-local input |
+| --- | --- |
+| 45s | Down (120ms pacing runner / 220ms loading tracer) |
+| 46s | A (250ms) |
+| 55s | Up (120ms pacing runner / 220ms loading tracer) |
+| 56s | A (250ms) |
+| 58-67s | Up once per second (120ms each), top of map list |
+| 68s | Down (120ms), Cold Storage follows Blackout |
+| 70s, 72s | A (250ms each) |
+| 74s | Down (220ms) |
+| 95s | A (250ms), launch match |
+
+Required destination: Custom Games, Cold Storage (Prisoner replacement).
+Matchmaking, File Share, and other map slots invalidate the test. Input logs
+alone do not establish menu state. Verify native content before gameplay
+measurement and stop an owned run when the route is wrong. No desktop input.

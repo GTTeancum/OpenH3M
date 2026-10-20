@@ -27,6 +27,9 @@ parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
 parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--capture-times-ms', help='Comma-separated native guest capture times for bounded route diagnostics.')
+parser.add_argument('--diagnostic-no-vsync', action='store_true',
+                    help='Test existing vsync=false option; simulation speed must be validated separately.')
 parser.add_argument('--walk-check', action='store_true',
                     help='Use process-local sticks to turn and walk briefly after loading.')
 parser.add_argument('--powerup-check', action='store_true',
@@ -39,6 +42,7 @@ parser.add_argument('--sample-threads', action='store_true',
 parser.add_argument('--sample-world', action='store_true',
                     help='Read bounded gameplay table diagnostics at the first bullet impact.')
 parser.add_argument('--shader-cache-seed', type=Path)
+parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
 if options.powerup_check and (not options.walk_check or options.slot != 'chillout' or options.seconds < 165):
@@ -46,6 +50,7 @@ if options.powerup_check and (not options.walk_check or options.slot != 'chillou
 ROOT = options.project.resolve(strict=True)
 RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
 GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
+CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
 if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
@@ -98,7 +103,7 @@ for name in ('temp', 'profile'):
 if options.shader_cache_seed:
     seed = options.shader_cache_seed.resolve(strict=True)
     seed.relative_to(ROOT)  # Project confinement applies to cache inputs too.
-    shutil.copytree(seed, RUN / 'cache/shaders')
+    shutil.copytree(seed, CACHE / 'shaders', dirs_exist_ok=True)
 env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
@@ -126,17 +131,24 @@ if options.walk_check:
 if options.powerup_check:
     input_steps.extend(['132000:LSUP+3000', '138000:LSRIGHT+900', '143000:RT+100'])
 args = [str(EXE), f'--game_data_root={GAME}',
-        f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
+        f'--user_data_root={RUN}', f'--cache_root={CACHE}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
 if options.manual_input:
     args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
+if options.diagnostic_no_vsync:
+    args += ['--vsync=false']
 capture = options.capture
 duration = options.seconds
 if capture:
     args += [f'--halo3mp_capture_guest_output_after_ms={(duration - 15) * 1000}',
              f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
+    if options.capture_times_ms:
+        capture_times = [int(t) for t in options.capture_times_ms.split(',')]
+        if not capture_times or any(t <= 0 or t >= duration * 1000 for t in capture_times):
+            raise SystemExit('Capture times must be inside the bounded run')
+        args += ['--halo3mp_capture_guest_output_times_ms=' + ','.join(map(str, capture_times))]
 binary = EXE.read_bytes()
 pe = pefile.PE(data=binary, fast_load=True)
 rvas = {}
@@ -389,11 +401,22 @@ try:
                                     options.world_last_sample = time.monotonic()
                                     tls = gu(r13)
                                     tables = []
+                                    game_time_candidates = []
                                     for offset in range(0, 0x800, 4):
                                         try:
                                             pointer = gu(tls + offset)
                                             if not 0x80000000 <= pointer < 0xe0000000: continue
                                             header = read(rdx + pointer, 96)
+                                            # Candidate Halo 3 game_time_globals layout. Validate
+                                            # via live tick deltas; do not assume a TLS offset.
+                                            rate = struct.unpack_from('>h', header, 4)[0]
+                                            length = struct.unpack_from('>f', header, 8)[0]
+                                            speed = struct.unpack_from('>f', header, 16)[0]
+                                            if header[0] == 1 and rate == 30 and abs(length - 1 / 30) < 1e-7 and speed == 1:
+                                                game_time_candidates.append({'tls_offset': hex(offset),
+                                                    'pointer': hex(pointer), 'tick_rate': rate,
+                                                    'tick_length': length, 'ticks': struct.unpack_from('>i', header, 12)[0],
+                                                    'speed': speed, 'bytes': header[:44].hex()})
                                             label = header[:32].split(b'\0')[0]
                                             if not label or not all(32 <= v < 127 for v in label): continue
                                             if not any(v in label.lower() for v in (b'object',b'player',b'observer',b'camera')): continue
@@ -415,7 +438,8 @@ try:
                                             pointer = struct.unpack_from('>I',head,12)[0]
                                             player_unit = {'handle':hex(unit),'header':head.hex(),
                                                            'body':read(rdx+pointer,512).hex()}
-                                    log('world_tables',tls=hex(tls),tables=tables,player_unit=player_unit)
+                                    log('world_tables',tls=hex(tls),tables=tables,player_unit=player_unit,
+                                        game_time_candidates=game_time_candidates)
                                 table = gu(gu(gu(r13) + 0x1b4) + 0x44)
                                 datum = gu(table + (handle & 65535) * 80 + 4)
                                 root = gu(gu(0x827f0f8c) + (datum & 65535) * 8 + 4)

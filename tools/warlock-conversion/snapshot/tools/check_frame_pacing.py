@@ -17,7 +17,7 @@ from build_scenario_checkpoint import output_path
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--project', type=Path, required=True)
 p.add_argument('--exe', type=Path, required=True)
-p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers'), default='baseline')
+p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled'), default='baseline')
 p.add_argument('--capture', action='store_true')
 p.add_argument('--native-timing', action='store_true', help='Read the existing in-game frame counter without per-frame debugger traps.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
@@ -52,7 +52,10 @@ if a.mode == 'no-tearing':
     cmd += ['--d3d12_allow_variable_refresh_rate_and_tearing=false']
 if a.mode == 'ui-thread':
     cmd += ['--host_present_from_non_ui_thread=false']
-if a.capture:
+if a.mode == 'vblank-unthrottled':
+    # Diagnostic only: reject as a production fix if simulation/output speeds up.
+    cmd += ['--vsync=false']
+if a.capture or a.mode == 'vblank-unthrottled':
     cmd += ['--halo3mp_capture_guest_output_after_ms=145000',
             f'--halo3mp_capture_guest_output_path={run / "native-output.png"}']
 state = {'mode': a.mode, 'stock': a.stock, 'command': cmd, 'map_sha256': hashlib.sha256((game / 'maps/chillout.map').read_bytes()).hexdigest(),
