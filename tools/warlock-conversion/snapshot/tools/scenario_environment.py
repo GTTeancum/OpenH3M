@@ -17,14 +17,23 @@ def stage_environment(importer):
     bsps = c.block(target_root + int(bsp_field.get('offset'), 0), int(bsp_field.get('elementSize'), 0))
     arrays = {}
     for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data',
-                 'Camera FX Palette', 'Cubemaps', 'Airprobes'):
+                 'Camera FX Palette', 'Cubemaps', 'Airprobes',
+                 'Light Volumes', 'Light Volumes Palette'):
         sf, df = field(ss, name), field(ds, name)
         rows = s.block(source_root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name == 'Scenario Cluster Data' and len(rows) != len(bsps):
             raise ValueError('Environment BSP count differs from converted geometry')
         payload = bytearray()
         for index, row in enumerate(rows):
-            data = bytearray(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
+            if name == 'Light Volumes Palette':
+                # Like the object palettes: MCC tagref only, retail adds
+                # eight unused/editor words, initialized to zero.
+                datum = s.u(row + 12)
+                group, target = importer.import_tag(datum)
+                data = bytearray(group.encode('ascii') + bytes(8) +
+                                 struct.pack('>I', target) + bytes(32))
+            else:
+                data = bytearray(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
             if name == 'Scenario Cluster Data':
                 # MCC leaves this reference null. Retail points to the BSP whose
                 # geometry was replaced, preserving the corresponding BSP index.

@@ -25,8 +25,10 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
-parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
+parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--walk-check', action='store_true',
+                    help='Use process-local sticks to turn and walk briefly after loading.')
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
 parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
@@ -97,9 +99,18 @@ env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
-if options.slot == 'lockout':
-    input_steps.extend(f'{at}:UP+120' for at in range(58000, 69000, 1000))
+if options.slot in ('lockout', 'chillout'):
+    input_steps.extend(f'{at}:UP+120' for at in range(58000, 68000, 1000))
+    if options.slot == 'chillout':
+        # The menu retains disc entries even when their map files are absent.
+        # Unattended observations: two DOWNs select Construct, three Epitaph.
+        # Cold Storage is the preceding entry, reached with one DOWN.
+        input_steps.append('68000:DOWN+120')
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
+if options.walk_check:
+    if options.manual_input:
+        raise SystemExit('--walk-check requires scripted input')
+    input_steps.extend(['120000:RSRIGHT+1600', '124000:LSUP+1500'])
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',

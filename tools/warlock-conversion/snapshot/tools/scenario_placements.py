@@ -91,7 +91,7 @@ def convert_record(cache, row, source_schema, target_schema):
     return bytes(out)
 
 
-def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None):
+def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None, omitted=()):
     source_scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     retail_names = {(t['group'], target.name(i)): (t['salt'] << 16) | i
                     for i, t in target.tags.items()}
@@ -114,6 +114,8 @@ def plan_placements(source, target, source_schema, target_schema, imported=None,
                 raise ValueError(f'{name}[{index}]: invalid palette index {palette_index}')
             tid = source.u(palettes[palette_index] + 12) & 0xffff
             key = source.tags[tid]['group'], source.name(tid)
+            if key in omitted:
+                continue
             try:
                 data = convert_record(source, row, sf, df)
             except ValueError as exc:

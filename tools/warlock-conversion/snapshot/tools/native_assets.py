@@ -51,6 +51,8 @@ class NativeAssets:
             ('vehi', r'objects\vehicles\wraith\wraith_anti_air'):
                 ('vehi', r'objects\vehicles\wraith\wraith', 'anti_air'),
         }
+        from generational_assets import stock_aliases
+        aliases.update(stock_aliases())
         if key in aliases:
             if key in self.i.resolved:
                 return self.i.resolved[key]

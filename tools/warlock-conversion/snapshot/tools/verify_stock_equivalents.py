@@ -1,4 +1,4 @@
-"""Verify the four approved Forge replacements use complete stock definitions."""
+"""Verify declared stock replacements use complete native definitions."""
 import argparse
 import json
 import xml.etree.ElementTree as ET
@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--map', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--expected-count', type=int)
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     c = Cache(args.map)
@@ -30,7 +31,7 @@ def main():
             result = int(entry['datum'], 16)
             a, b = c.tags[base & 65535]['offset'], c.tags[result & 65535]['offset']
             if entry['stock_variant'] is None:
-                assert result == base, 'Soccer ball must reference the native object itself'
+                assert result == base, 'Unmodified equivalent must reference the native object itself'
             else:
                 left, right = bytearray(c.data[a:a+size]), bytearray(c.data[b:b+size])
                 assert strings.text(c.u(b+0x30)) == entry['stock_variant']
@@ -45,7 +46,9 @@ def main():
                     datum = c.u(row+24)
                     assert c.tags[datum & 65535]['salt'] == datum >> 16
             checked.append(entry['source'])
-        assert len(checked) == 4, checked
+        assert checked, 'No stock equivalents were verified'
+        if args.expected_count is not None:
+            assert len(checked) == args.expected_count, checked
         print(json.dumps({'stock_equivalents_verified': checked}))
     finally:
         c.close()

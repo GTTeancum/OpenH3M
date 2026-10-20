@@ -16,10 +16,10 @@ def field(schema, name):
     return next(x for x in schema if x.get('name') == name)
 
 
-def prepare(source, target, source_schema, target_schema, imported=None, placements=None):
+def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=()):
     placements = placements or PLACEMENTS
     plan = plan_placements(source, target, source_schema, target_schema, imported,
-                           [(name, palette) for name, (palette, _) in placements.items()])
+                           [(name, palette) for name, (palette, _) in placements.items()], omitted)
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     arrays, unresolved, maps = {}, [], {}
     for name, (_, object_type) in placements.items():
@@ -111,7 +111,7 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     from object_variants import resolve_variants
     source, target = importer.source, importer.registry.cache
     placements = dict(PLACEMENTS)
-    if getattr(importer, 'slot', 'lockout') == 'zanzibar':
+    if getattr(importer, 'slot', 'lockout') in ('zanzibar', 'chillout'):
         placements['Vehicles'] = ('Vehicle Palette', 1)
     if include_sound_scenery:
         placements['Sound Scenery'] = ('Sound Scenery Palette', 9)
@@ -130,8 +130,12 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
             index = source.unpack('h', row)[0]
             if not 0 <= index < len(palette):
                 raise ValueError(f'{name}: invalid palette index {index}')
-            importer.import_tag(source.u(palette[index] + 12))
-    prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements)
+            datum = source.u(palette[index] + 12)
+            key = source.tags[datum & 65535]['group'], source.name(datum & 65535)
+            if key not in getattr(importer, 'omitted_assets', ()):
+                importer.import_tag(datum)
+    prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements,
+                       getattr(importer, 'omitted_assets', ()))
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved']}

@@ -1,0 +1,130 @@
+# Prisoner conversion
+
+Status: candidate 02 reaches first-person gameplay automatically; broader
+visual and gameplay acceptance remains pending.
+
+Source is **Halo Generational Combat**, installed Workshop item `2962955878`,
+`D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map`.
+The other installed Prisoner (item `3583572796`, H2CE Public Test) uses Halo 2 and
+is not the selected source.
+
+The user selected Cold Storage (`chillout.map`) as the replacement. Keep the
+single `.local/custom-maps-play` installation alongside Warlock/Blackout and
+Resuscitation/Last Resort. Do not change OpenH3M or original disc files.
+
+## Asset decisions
+
+- Apply the repository's stock Halo 3 asset policy to all equivalents, including
+  CE/H2-styled guns, grenades, powerups, vehicles and cosmetic faction variants.
+  Explicit mappings are in `snapshot/tools/generational_assets.py`.
+- Source has 157 Forge entries. On 2026-10-20 the user explicitly requested
+  removing health packs, both placed objects and the Forge entry. Their source
+  `Health Pack` equipment block (100 health, 100 shield) is MCC-only.
+  Expected remaining Forge count: 156.
+- Preserve unique authored geometry and objects without stock equivalents.
+  Source contains one placed custom jet; do not silently remove it.
+- Keep generated assets, reports and logs under the project `.local` directory.
+  Failed attempts reuse the same candidate/report names when no map was emitted.
+
+## Reproduction
+
+Run from `.local/OpenH3M-source`:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
+  --project ../.. --slot chillout `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map `
+  --basis ../../maps/chillout.map --xex ../../default.xex `
+  --sound-bank D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/halo3/fmod/pc/sfx.fsb `
+  --decoder ../tools/vgmstream-r2117/vgmstream-cli.exe `
+  --output ../prisoner/chillout-01.map --report ../reports/prisoner-01.json
+```
+
+The builder rejects an existing output; select a new candidate name after a
+successful build. Verify resource handles, the palette after approved omissions,
+stock equivalents and loading before staging an accepted candidate.
+
+## Format handling added
+
+- Resolve geometry resource types by the source's type-name table rather than a
+  fixed numerical type index.
+- Use the existing collision MOPP conversion for BSP breakable-surface records.
+- Preserve trigger volumes and scenario light-volume placements/palettes.
+- Support legacy identity-range lens curves and constant unit scale ranges.
+- Use Cold Storage's native opaque shader prototype with the same template
+  options as the existing Blackout prototype.
+
+Visual, sound, collision, Forge and gameplay acceptance must be recorded from
+actual checks; successful serialization alone does not establish them.
+
+## Candidate 01
+
+`.local/prisoner/chillout-01.map`, 108,892,160 bytes (103.85 MiB).
+SHA256 `60be691efb7cf0775058c77dde475766dd4fff08174b494967fe62ef848b06ad`.
+This candidate failed to reach gameplay and has been superseded.
+
+- 156 Forge entries verified after the explicitly approved health-pack removal.
+- Four health-pack placements removed: 24 source equipment placements become 20.
+  No health-pack tag is imported.
+- 37 explicit stock-equivalent mappings verified, including shared destination
+  handles for cosmetic weapon/vehicle variants.
+- 4,617 typed resource references validated across 5,059 resource slots.
+- Header preflight passed for all three installed converted maps.
+- Preserved 96 scenery, six weapons, 59 crates, one custom jet, one effect-scenery
+  and one light-volume placement. Unused flock/creature palettes are omitted only
+  when their placement arrays are empty.
+- Broader native player animation graphs replace Cold Storage's restricted
+  graphs. The donor still lacks `shade_d`; Shade use is a known outstanding
+  animation dependency, also present in the prior Resuscitation work.
+
+No claim of exhaustive Forge behavior, vehicle use, collision or audio testing.
+The original disc, Warlock and Resuscitation map binaries remain unchanged.
+
+## Black-screen diagnosis and candidate 02
+
+The user confirmed both correctly selected Cold Storage attempts remained black.
+They assisted with input but do not want to drive diagnostic runs. Use the
+runtime's process-local input script; never host input or desktop automation.
+The menu includes entries whose map files are absent from the shared test
+installation. Two DOWN steps selected Construct in the unattended candidate-02
+run (user observed); three selected Epitaph (native capture). Cold Storage is
+before Construct, so use one DOWN. Neither wrong-map run is a Prisoner load
+result.
+
+Bounded thread samples in `.local/loading-traces/20261020-150107-22668`
+repeatedly found the loading thread in guest `0x820ab9f0`, a packed collision
+tree traversal. The BSP resource tree was valid, but 47 custom object collision
+trees contained invalid links/cycles. The XML describes retail byte fields;
+MCC stores each node as a single little-endian uint64. Convert the whole packed
+word to big endian, preserving its two 24-bit children and 16-bit plane.
+
+Candidate 02: `.local/prisoner/chillout-02.map`, 108,892,160 bytes.
+SHA256 `07ab9a533e00f195d21109a56bb1941b3bbeb3c25833097d38a93f1e240b4962`.
+The shared installation's `maps/chillout.map` is a hardlink to this candidate.
+All 782 object collision trees / 56,450 packed nodes pass the new
+`verify_collision_trees.py` check; candidate 01 fails it and stock Cold Storage
+passes. The builder now runs that check before publishing future outputs.
+Resource references, all 156 Forge entries and 37 stock equivalents also pass.
+
+Unattended run `.local/loading-traces/20261020-151411-32808` verified `chillout`
+at 102.671 seconds, passed all six observed hashes, and reached first-person
+gameplay in the native capture at 135 seconds. The 150-second watchdog ended
+the run normally. No human input was needed.
+
+The inspected capture shows textured interior geometry, the stock assault rifle
+and HUD. The spawn faces a wall with a strong bright light at the right edge;
+this proves the black-screen failure is fixed but does not establish room-wide
+visual quality, movement, audio, Forge behavior or vehicle usability. No
+interactive desktop control was used. Keep those checks explicitly outstanding.
+
+A second run, `.local/loading-traces/20261020-151918-24344`, used `--walk-check`:
+the runtime logged right-stick input at 120 seconds and forward input at 124
+seconds. The inspected capture shows a changed view close to a wall; it is not
+a room-wide visual proof or a traversal/collision acceptance test. This run
+also reached its 150-second watchdog with six successful hashes and no observed
+crash. Broader validation remains outstanding.
+
+Candidate 01 and temporary audit scripts were deleted; build reports and
+diagnostic logs retain the failure evidence. Completed attempts' duplicate
+shader caches were removed. Warlock and Resuscitation were not rebuilt during
+this fix.

@@ -13,11 +13,14 @@ def stage_player_animations(i):
                     if tag['group'] == 'jmad' and c.name(index) == name), None)
         source = next(((index, tag) for index, tag in s.tags.items()
                        if tag['group'] == 'jmad' and s.name(index) == name), None)
-        if old is None or source is None:
+        if old is None:
             raise ValueError('Missing player animation graph: ' + name)
         def modes(cache, tag, strings):
             return {strings.text(cache.u(row)) for row in cache.block(tag['offset'] + 0x5c, 40)}
-        missing = sorted(modes(s, source[1], i.source_strings) - modes(c, old[1], i.target_strings))
+        required = (modes(s, source[1], i.source_strings) if source is not None else
+                    {'banshee_d', 'ghost_d', 'warthog_d', 'scorpion_d', 'wraith_d',
+                     'hornet_d', 'mongoose_d', 'shade_d'})
+        missing = sorted(required - modes(c, old[1], i.target_strings))
         if not missing:
             continue
         _, datum = i.native_assets.import_named(('jmad', name), force=True)
@@ -30,6 +33,6 @@ def stage_player_animations(i):
         count, pointer = struct.unpack('>II', b.read(address + 0x5c, 8))
         actual = {i.target_strings.text(struct.unpack('>I', b.read(pointer + n * 40, 4))[0]) for n in range(count)}
         result.append({'player': name, 'added_modes': sorted(actual - modes(c, old[1], i.target_strings)),
-                       'source_modes_not_in_donor': sorted(modes(s, source[1], i.source_strings) - actual),
+                       'source_modes_not_in_donor': sorted(required - actual),
                        'graph': hex(datum)})
     return result

@@ -89,7 +89,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
         parser.add_argument('--' + name, type=Path, required=True)
-    parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
+    parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
     args = parser.parse_args()
     project = args.project.resolve(strict=True)
@@ -123,17 +123,22 @@ def main():
         salt = resource_salt(args.xex)
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
-        builder = MapBuilder(str(args.basis), 0xc00000 if args.slot == 'zanzibar' else 0x800000)
+        builder = MapBuilder(str(args.basis), 0xc00000 if args.slot != 'lockout' else 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
         from native_assets import NativeAssets
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets
+        if args.slot == 'chillout':
+            importer.omitted_assets = {('eqip', r'custom\powerups\health_pack\tripmine_permanent')}
+            state['omitted_assets'] = sorted(importer.omitted_assets)
+            # Same native template options as the original Blackout prototype.
+            importer.materials.opaque_prototype = r'levels\dlc\chillout\shaders\chillout_halltile'
         if args.slot == 'zanzibar':
             importer.materials.resuscitation_sky = True
             importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
-        if args.slot == 'zanzibar':
+        if args.slot in ('zanzibar', 'chillout'):
             from player_animations import stage_player_animations
             stage = 'player_animations'
             state['stages'][stage] = stage_player_animations(importer)
@@ -157,7 +162,7 @@ def main():
         state['compaction'] = compact_basis(importer)
         from scenario_residency import stage_residency
         state['residency'] = stage_residency(importer)
-        if args.slot == 'zanzibar':
+        if args.slot in ('zanzibar', 'chillout'):
             from resource_indices import compact_resource_indices
             state['resource_indices'] = compact_resource_indices(importer)
         importer.finalize()
@@ -174,6 +179,8 @@ def main():
         # Reopen the serialized cache; validate its tag table and memory boundary.
         check = Cache(str(temporary))
         try:
+            from verify_collision_trees import verify as verify_collision_trees
+            state['collision_trees_verified'] = verify_collision_trees(check)
             state['runtime_decals_verified'] = verify_runtime_decals(check, importer.reference)
             if check.u(8) != len(payload) or check.base + check.u(0x18) != 0xbfc00000:
                 raise ValueError('Serialized cache size/memory boundary is invalid')

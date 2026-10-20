@@ -4,6 +4,7 @@ from pathlib import Path
 from resource_reader import Resource
 from render_resource import convert_render_resource
 from water_buffers import rebuild_water_buffers
+from string_ids import StringTable
 
 
 def convert_bsp_geometry(cache, bsp_index=0):
@@ -54,8 +55,13 @@ def convert_bsp_geometry(cache, bsp_index=0):
     if index >= len(rows):
         raise ValueError('BSP geometry resource outside zone')
     row = rows[index]
+    types = cache.block(zones[0] + 4, 28)
+    type_index = cache.data[row + 18]
+    type_name = (StringTable(cache).text(cache.u(types[type_index] + 24))
+                 if type_index < len(types) else None)
     if (cache.unpack('H', row + 16)[0] != resource_datum >> 16
-            or cache.u(row + 12) != owner or cache.data[row + 18] != 1):
+            or cache.u(row + 12) != owner
+            or type_name != 'render_geometry_api_resource_definition'):
         raise ValueError('BSP geometry resource salt, owner or type mismatch')
     source = Resource(cache, resource_datum)
     water = rebuild_water_buffers(cache, bsp, source)

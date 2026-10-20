@@ -18,11 +18,17 @@ def convert_reflection(source, at):
     # MCC added independent X/Y scaling; unit constants preserve H3's circular
     # reflection. Reject non-unit scaling instead of silently distorting it.
     unit = bytes.fromhex('012400000000803f000000000000000000000000000000000000000000000000')
-    if function(76) != unit or function(96) != unit:
+    unit_range = bytes.fromhex('013400000000803f0000803f0000000000000000000000000000000000000000')
+    if function(76) not in (unit, unit_range) or function(96) not in (unit, unit_range):
         raise ValueError('Non-unit lens reflection scaling has no retail representation')
     ranges = []
     for offset in (56, 116):
         data = function(offset)
+        # Identity function with range endpoints: the retail legacy range is
+        # the same interpolation, without MCC's function allocation.
+        if len(data) == 32 and data[:4] == bytes.fromhex('00340000') and data[12:] == bytes(20):
+            ranges.extend(struct.unpack_from('<2I', data, 4))
+            continue
         # Header declares exactly 20 live spline bytes. Longer allocations
         # contain stale editor capacity, not additional runtime sections.
         if (len(data) < 52 or data[:4] != bytes.fromhex('08240000')

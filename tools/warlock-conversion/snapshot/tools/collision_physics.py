@@ -65,7 +65,16 @@ def retail_mopp(code):
 
 def convert_collision_block(converter, at, source_schema, target_schema, path):
     name = source_schema.get('name')
+    if path.startswith('coll:') and name == 'BSP3D Nodes':
+        # The XML's byte fields describe the retail view, not MCC's storage.
+        # Both child indices (24 bits each) and the plane (16 bits) form one
+        # endian-sensitive uint64. Swapping only Plane creates invalid trees.
+        if any(int(schema.get('elementSize'), 0) != 8
+               for schema in (source_schema, target_schema)):
+            raise ValueError('Unsupported packed collision node layout')
+        return struct.pack('>Q', converter.source.unpack('Q', at)[0])
     design_mopp = path.startswith('sddt:') and name in ('Soft Ceiling MOPP Codes', 'Water MOPP Codes')
+    design_mopp |= path.startswith('sbsp:') and name == 'Breakable Surfaces MOPP Codes'
     if not design_mopp and (not path.startswith('coll:') or name not in ('BSP Physics', 'MOPP Codes')):
         return None
     c, b = converter.source, converter.builder

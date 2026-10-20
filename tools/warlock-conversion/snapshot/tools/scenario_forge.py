@@ -25,6 +25,11 @@ def stage_forge(importer):
                 if int(node.get('offset', '0'), 0) >= 28:
                     prefix.remove(node)
             rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
+            object_offset = next(int(n.get('offset'), 0) + 12 for n in sf if n.tag.lower() == 'tagref')
+            rows = [row for row in rows
+                    if s.u(row + object_offset) == 0xffffffff or (s.tags[s.u(row + object_offset) & 65535]['group'],
+                        s.name(s.u(row + object_offset) & 65535))
+                    not in getattr(importer, 'omitted_assets', ())]
             print(f'forge {category}: {len(rows)} entries', flush=True)
             # Retail's five trailing runtime/editor words are zero in all
             # original Lockout palettes; MCC does not serialize these words.

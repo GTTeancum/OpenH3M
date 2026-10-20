@@ -94,7 +94,7 @@ def run(args, project, game, run_root, state):
     state.update(executable=str(exe), executable_sha256=file_hash(exe), watchdog_seconds=args.seconds)
     if args.all_maps:
         print('Available maps: Blackout = Warlock; Last Resort = Resuscitation.', flush=True)
-    print('Select Custom Games > ' + ('Blackout' if args.slot == 'lockout' else 'Last Resort') + ' > Slayer.', flush=True)
+    print('Select Custom Games > ' + {'lockout': 'Blackout', 'zanzibar': 'Last Resort', 'chillout': 'Cold Storage'}[args.slot] + ' > Slayer.', flush=True)
     print(f'Logs: {run_root}; watchdog: {args.seconds} seconds', flush=True)
     with (run_root / 'console.log').open('wb') as log:
         child = subprocess.Popen(command, cwd=run_root, env=env, stdout=log, stderr=log,
@@ -127,7 +127,7 @@ def main():
     parser.add_argument('action', choices=('prepare', 'check', 'run'))
     parser.add_argument('--project', type=Path, required=True)
     parser.add_argument('--game', type=Path, required=True)
-    parser.add_argument('--slot', choices=('lockout', 'zanzibar'), default='lockout')
+    parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
     parser.add_argument('--map', type=Path)
     parser.add_argument('--exe', type=Path)
     parser.add_argument('--shader-cache-seed', type=Path)
@@ -155,7 +155,8 @@ def main():
             state['preflight'] = preflight(output_path(game / 'maps' / (args.slot + '.map'), project), project / 'default.xex')
             if args.all_maps:
                 state['maps'] = {slot: preflight(output_path(game / 'maps' / (slot + '.map'), project), project / 'default.xex')
-                                 for slot in ('lockout', 'zanzibar')}
+                                 for slot in ('lockout', 'zanzibar', 'chillout')
+                                 if (game / 'maps' / (slot + '.map')).exists()}
             state['status'] = 'checked'
             if args.action == 'run':
                 if args.exe is None:

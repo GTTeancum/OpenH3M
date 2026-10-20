@@ -14,6 +14,9 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
 
 # Original-disc UI defaults; ODST variants use their corresponding H3 family.
 ITEM_UI = {
+    # Generational Combat's mounted rocket turrets have no pickup/swap UI.
+    r'weap:custom\vehicles\tgof_hce_new_rwarthog\r_turret\rturret_weapon\rturret_weapon': (0, 0),
+    r'weap:custom\vehicles\tgof_warthog_turrets\rocket\weapon\rocket_turret': (0, 0),
     r'weap:objects\levels\dlc\shared\golf_club\golf_club': (0, 0),
     r'weap:objects\equipment\autoturret\autoturret_beam': (0, 0),
     r'eqip:objects\equipment\invincibility_equipment\invincibility_equipment': (0, 0),
@@ -283,9 +286,12 @@ class MetadataConverter:
                 if kind == 'stringid':
                     values = (self.strings.translate(values[0], self.target_strings),)
                 elif kind == 'datum' and values[0] != 0xffffffff:
-                    if self.resource_reference is None:
+                    if path.startswith('scnr:/Light Volumes[') and key[0] == 'Unique ID':
+                        pass  # Authored placement identity, not a resource handle.
+                    elif self.resource_reference is None:
                         raise ValueError(f'{name}: resource datum needs conversion')
-                    values = (self.resource_reference(name, values[0]),)
+                    else:
+                        values = (self.resource_reference(name, values[0]),)
                 elif kind.startswith('flags'):
                     if path.startswith('effe:') and source_schema.get('name') == 'Particle Systems' and key[0] == 'Flags':
                         # MCC enhanced-graphics near-fade override has no retail
