@@ -29,6 +29,8 @@ parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), defau
 parser.add_argument('--capture', action='store_true')
 parser.add_argument('--walk-check', action='store_true',
                     help='Use process-local sticks to turn and walk briefly after loading.')
+parser.add_argument('--powerup-check', action='store_true',
+                    help='Extend the Prisoner walk toward the ground-floor camo; inspect capture to assess result.')
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
 parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
@@ -39,6 +41,8 @@ parser.add_argument('--sample-world', action='store_true',
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
+if options.powerup_check and (not options.walk_check or options.slot != 'chillout' or options.seconds < 165):
+    parser.error('--powerup-check requires --walk-check --slot chillout and at least 165 seconds')
 ROOT = options.project.resolve(strict=True)
 RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
 GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
@@ -119,6 +123,8 @@ if options.walk_check:
                             '119000:LSUP+3500', '124000:RSLEFT+1800', '130000:RT+100'])
     else:
         input_steps.extend(['120000:RSRIGHT+1600', '124000:LSUP+1500'])
+if options.powerup_check:
+    input_steps.extend(['132000:LSUP+3000', '138000:LSRIGHT+900', '143000:RT+100'])
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={RUN / "cache"}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',

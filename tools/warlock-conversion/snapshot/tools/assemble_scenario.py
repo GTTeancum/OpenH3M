@@ -136,9 +136,42 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
                 importer.import_tag(datum)
     prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements,
                        getattr(importer, 'omitted_assets', ()))
+    powerup_adjustments = []
+    if getattr(importer, 'slot', None) == 'chillout':
+        # CE powerups were authored with their origins on the floor. Native H3
+        # pickups need clearance and the retail resting/acceleration settings.
+        # Change placements only; leave native equipment and physics untouched.
+        count, payload = prepared['arrays']['Equipment']
+        payload = bytearray(payload)
+        equipment = field(ds, 'Equipment')
+        stride = int(equipment.get('elementSize'), 0)
+        palette = prepared['arrays']['Equipment Palette'][1]
+        native_names = {(t['salt'] << 16) | i: target.name(i) for i, t in target.tags.items()}
+        for i in range(count):
+            at = i * stride
+            pi = struct.unpack_from('>h', payload, at)[0]
+            datum = struct.unpack_from('>I', palette, pi * 48 + 12)[0]
+            name = native_names.get(datum, '')
+            if name not in (r'objects\multi\powerups\powerup_blue\powerup_blue',
+                            r'objects\multi\powerups\powerup_red\powerup_red'):
+                continue
+            pos = at + int(field(equipment, 'Position').get('offset'), 0)
+            xyz = struct.unpack_from('>3f', payload, pos)
+            struct.pack_into('>f', payload, pos + 8, xyz[2] + 0.35)
+            for label, fmt, value in [('Placement Flags', 'I', 0x100),
+                                      ('Equipment Flags', 'I', 4), ('Team', 'h', 8)]:
+                offset = at + int(field(equipment, label).get('offset'), 0)
+                old = struct.unpack_from('>' + fmt, payload, offset)[0]
+                struct.pack_into('>' + fmt, payload, offset, value if label == 'Team' else old | value)
+            powerup_adjustments.append({'index': i, 'tag': name, 'original_position': xyz,
+                                        'height_clearance': 0.35, 'settings': 'Retail resting, acceleration, neutral team'})
+        if len(powerup_adjustments) != 2:
+            raise ValueError('Prisoner must have exactly two native powerup placements')
+        prepared['arrays']['Equipment'] = count, bytes(payload)
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
-            'variants': variant_report, 'unresolved': prepared['unresolved']}
+            'variants': variant_report, 'unresolved': prepared['unresolved'],
+            'powerup_adjustments': powerup_adjustments}
 
 
 def stage_spawn_settings(importer):

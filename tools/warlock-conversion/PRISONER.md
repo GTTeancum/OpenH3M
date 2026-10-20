@@ -1,8 +1,10 @@
 # Prisoner conversion
 
-Status: candidate 09 is code complete for the proof of concept and staged in the
-shared installation. Room-wide visual inspection and focused native traversal
-passed. Extensive playtesting remains the user's responsibility.
+Status: candidate 10 addresses the user's ground-floor camo pickup report and is
+staged in the shared installation. Candidate 09 passed room-wide visual inspection
+and traversal, but that did not verify powerup collection. See the pickup follow-up
+below for the current validation boundary. The user confirmed camo collection is
+fixed on 2026-10-20.
 
 Source is **Halo Generational Combat**, installed Workshop item `2962955878`,
 `D:/SteamLibrary/steamapps/workshop/content/976730/2962955878/maps/prisoner.map`.
@@ -270,3 +272,40 @@ original disc assets were not changed; Warlock and Resuscitation were not rebuil
 Cleanup retains candidate 09 and one candidate-02 rollback. Automatic approval
 review blocked recursive deletion of completed diagnostic caches with no
 specific reason, so those caches remain; obsolete map builds were removed.
+
+## Ground-floor powerup pickup follow-up (2026-10-20)
+
+The user reported that candidate 09's ground-floor camo looked embedded and
+could not be collected. Its source origin was Z=-0.5272586, almost exactly on
+the collision floor (approximately -0.5275). Halo uses Z for vertical height.
+Candidate 10 raises the two native powerup placements by 0.35 world units and
+applies original Cold Storage/Guardian placement settings: Create At Rest,
+Does Accelerate, and Neutral team. Native equipment tags/physics stay unchanged.
+This is a placement correction, not a claim that the exact engine-side cause
+of the previous pickup failure has been isolated.
+
+- User confirmation: "Active camo is fixed."
+- Native run: `.local/loading-traces/20261020-170242-6840`, 165-second watchdog,
+  six hash checks passed, zero failed. The inspected native capture shows the
+  ground-floor interior, HUD and cloaked first-person weapon. The new optional
+  `--powerup-check --walk-check --slot chillout --seconds 165` route uses only
+  the existing process-local input facility; route completion alone is not a
+  pickup-success assertion.
+- Serialized comparison: only equipment placement records 2 and 3 changed;
+  the other 18 equipment placements are byte-identical. Collision and animation
+  checks passed during build. Overshield collection has not been separately tested.
+- Candidate: `.local/prisoner/chillout-10.map`, 110,436,352 bytes (105.32 MiB).
+  SHA256 `c14c7d8fe5f810bdec1873e620caadd11803702d6c120bee4de053456609e460`.
+  Installed as `custom-maps-play/maps/chillout.map`. Candidate 09 is now the
+  sole map rollback; candidate 02 was removed after the user's confirmation.
+
+The user's uneven-motion report remains unresolved. A lightweight audit of the
+last 30 seconds of their manual session (`warlock-runs/20261020-165446-25612`)
+grouped adjacent GPU-context messages within 5ms: 898 intervals, mean 33.37ms,
+10th percentile 22ms and 90th percentile 44ms. The earlier untouched Cold Storage
+control (`loading-traces/20261020-160814-25588`) also showed alternating short/long
+intervals: 883 intervals, mean 33.93ms, 10th percentile 23ms, 90th percentile 45ms.
+These are GPU log-message intervals, NOT measured displayed-frame times; they
+support investigating runtime/display pacing but do not identify its cause.
+The original engine and display settings have not been changed. Audit data is
+in `.local/reports/prisoner-motion-log-audit.json`.
