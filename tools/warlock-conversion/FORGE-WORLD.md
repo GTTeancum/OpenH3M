@@ -4,8 +4,8 @@ Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
 is fixed and verified in native captures before and after turning/walking.**
 Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
 remain open. This is not a completed port. The shared installation contains
-`sandbox-contained.map` (138,219,520 bytes; 131.8 MiB), SHA256
-`f24953d0bed19a2fea0d584737f546c86786f8d3dd43e89633d0bac0b43b0f40`.
+`sandbox-sky-animation.map` (138,219,520 bytes; 131.8 MiB), SHA256
+`eac15748ad6057fbccdab6d57c42b059ea1aa7482b442124932432d05c9dcb41`.
 Original disc maps and the other conversions remain intact. Earlier failed runs
 below are historical; the latest native result is recorded at the end.
 
@@ -915,3 +915,66 @@ patch at the waterline remains. This is not full visual acceptance. The newly
 extended lower portion is verified geometrically, not yet by an underwater
 native traversal. The previous single-mip-normal candidate (136,712,192 bytes)
 was removed; the immediately previous normal-mip candidate remains for rollback.
+
+
+### Authored sky animation correction
+
+A new read-only comparison against the original-disc donors and MCC source
+identified donor material animation leakage. The converter copied donor shader
+programs and postprocess animation routes, then replaced constants/textures.
+This gave `horizon_flats` a donor self-illumination animation ranging from 0 to
+32, although its source has no animation and uses intensity 1. `dome_stars`
+and `mountains_wisps` inherited donor color/brightness controls (including an
+intensity range 3 to 15); clouds inherited four donor scrolling functions
+instead of their two authored functions. These are verified serialized defects,
+not an inference from the bright screenshot alone.
+
+Forge sky materials now clear donor animation tables and convert only authored
+source functions/routes using the existing semantic register remapper. The
+remapper accepts an absent retail entry only when the corresponding source
+animation pass contains zero routes. Puffy clouds have exactly such an empty
+entry (index 10). Nonempty mismatches still fail instead of discarding animation.
+This change is scoped to Forge sky materials; previous conversions are not rebuilt.
+
+`audit_forge_sky_animations.py` locates the converted sky model through its build
+report, pairs all 12 model materials with their authored counterparts, compares
+function types, input/range variables, periods and endian-converted payloads,
+and rejects donor routing on unanimated materials. The old contained build fails
+on cloud animation count; the corrected build passes with three authored
+functions total. The serialized containment audit and all 22 focused Forge tests
+also pass. Native visual acceptance is recorded separately below.
+
+The water investigation did not justify a speculative constant change. Serialized
+source/candidate reflection values agree. The reference shader's automatic-foam
+formula supports the existing high foam-height suppression, although this PC
+reference is not proof of identical Xbox bytecode:
+https://raw.githubusercontent.com/Beatthezombie/HaloShaderGenerator/master/halo_online_shaders/water_shading.fx
+Current parameter comparison is retained in `work/forge-world/water-current-audit.json`.
+
+
+Reproduce the authored sky comparison from repository root:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/audit_forge_sky_animations.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --candidate work/forge-world/sandbox-sky-animation.map `
+  --build-report work/forge-world/sky-animation-report.json `
+  --report work/forge-world/sky-animation-audit.json
+```
+
+`audit_forge_water.py` now accepts an explicit candidate path and defaults to the
+shared deployed Sandbox map instead of referencing a deleted historical build.
+
+
+Native run `.local/loading-traces/20261021-180203-10088` completed its 180-second
+watchdog. Its 174000 ms capture was inspected against the same-route capture
+from `20261021-175150-33548`: the yellow/white waterline glow becomes blue-white
+mist, and the excessively bright stars become subdued. Terrain, mountains,
+clouds, ring and Forge HUD remain visible. This establishes donor animation
+leakage as the cause of the observed excess glow at this viewpoint. It does not
+establish complete visual fidelity from a single view; the mist card edge is
+still visible. Monitor deflection remains intact, minimum signed margin -0.869
+and final position (-56.125, -4.004, 45.456); no observer errors were recorded.
+No engine, water constants, geometry or simulation tuning changed in this fix.
+The preceding contained build is retained for rollback; the older normal-mip
+candidate is removed to keep only current and immediately previous candidates.

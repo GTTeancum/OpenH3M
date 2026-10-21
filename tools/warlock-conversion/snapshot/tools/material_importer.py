@@ -254,7 +254,10 @@ class MaterialImporter:
             b.meta[address - b.base:address - b.base + 68] = root
         output_post = bytearray(native_sky_post if sky_template else c.data[post:post + 132])
         converted_animations = 0
-        if prisoner_template:
+        authored_forge_sky = (getattr(self, 'forge_world_sky', False)
+                              and '\\sky_halo\\shaders\\' in key[1])
+        if prisoner_template or authored_forge_sky:
+            # Donor programs are reusable; donor material animations are not.
             output_post[56:104] = bytes(48)
             if s.u(source_post + 92):
                 from material_animation import convert_material_animation

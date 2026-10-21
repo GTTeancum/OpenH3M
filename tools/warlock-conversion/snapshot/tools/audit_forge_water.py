@@ -39,7 +39,8 @@ if __name__=='__main__':
     for name in ('zanzibar','riverworld','docks','deadlock'):
         report[name]=inspect(root/'../../maps'/f'{name}.map')
     report['forge_source']=inspect(Path(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map'),True)
-    report['forge_candidate']=inspect(root/'work/forge-world/sandbox-sky.map')
+    report['forge_candidate']=inspect(Path(sys.argv[1]) if len(sys.argv)>1
+                                      else root/'../custom-maps-play/maps/sandbox.map')
     (root/'work/forge-world/water-reference-audit.json').write_text(json.dumps(report,indent=2))
     for name,records in report.items():
         print(name,len(records),'water materials')

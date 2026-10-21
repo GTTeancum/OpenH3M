@@ -48,6 +48,12 @@ def convert_material_animation(materials, source_post, target_post):
         animation_passes = list(span(ae[entry], len(ap)))
         if not animation_passes:
             continue
+        # MCC may list an empty animation pass for an entry absent on retail.
+        # No function/register routes exist to translate in that case.
+        if not target_passes and all(
+                not (struct.unpack_from('<H', ap[ai], usage*2)[0] >> 10)
+                for ai in animation_passes for usage in range(3)):
+            continue
         if len(source_passes) != len(target_passes) or len(source_passes) != len(animation_passes):
             raise ValueError('Material animation pass counts differ')
         for si, ti, ai in zip(source_passes, target_passes, animation_passes):
