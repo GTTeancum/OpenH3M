@@ -10,8 +10,8 @@
   Native image-linked DXGI measurements also show frequent sampled 1/3-refresh
   transitions despite steady game output. Two-frame waitable synchronization is
   deployed after reducing sampled uneven transitions to 4.4% on Prisoner and
-  5.2% on stock Cold Storage; direct-launch validation and remaining variation
-  still need attention. Added queueing delay is roughly one display refresh.
+  5.2% on stock Cold Storage; direct launch verified at 2.9%. Remaining variation
+  still needs attention. Added queueing delay is roughly one display refresh.
 - [ ] Optimize further after the current frame-pacing investigation. The only
   test system so far is the user's **Beelink SER8**; results do not establish
   performance on other PCs or Xbox 360 hardware.

@@ -1186,3 +1186,41 @@ Root runtime8c6f703d...adb4db; GPUc9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62
 EXE/guest modules unchanged. Direct-bootstrap run remains pending; goal active
 because occasional display cadence variation and the manual large hitch remain.
 No further one-frame capacity or plain blocking-vsync repeats are warranted.
+
+### Direct deployment and remaining phase drift (2026-10-20)
+
+Direct root run 20261020-223045-baseline completed using bootstrap paths and
+saved presentation settings, without sync/capacity CLI overrides. Native image
+inspected: correct Prisoner gameplay/effects. Output mean 33.335ms, deviation
+0.811ms, no >60ms gaps. 1,350 observed images, no missing IDs; refresh deltas
+21 one /1,310 two /18 three (2.89% non-two). Sampled report-age median33.369ms.
+All deployed hashes rechecked; manifest direct-validation status now updated.
+Normal game behavior and original assets retained; detailed logs are opt-in.
+
+Analysis of earlier two-frame trace found short/long pairs clustered around
+image indices ~469-500, consistent with producer/display phase drift rather
+than sustained output slowdown. This is an inference, not proof of physical
+scanout timing. One targeted comparison now tests interval2 with capacity1:
+20261020-223357-baseline (session6680), same root EXE/route, CLI-only overrides.
+It holds each submitted image for two display refreshes on the measured59.94Hz
+display, preserving the producer's30Hz and guest clocks. No build or persistent
+setting change. Check duplicate/missing image IDs as well as refresh intervals;
+regular submissions alone must not hide repeated or skipped game images.
+
+Interval2/capacity1 run 20261020-223357-baseline completed, native Prisoner image
+inspected. Output mean33.334ms, deviation0.846ms, no >60ms output gaps. However,
+REJECT promotion: regular33.366ms submissions hid20 unobserved game-image IDs,
+with1,330 identified transitions and six four-refresh holds among consecutive
+IDs. Every valid adjacent PresentCount advanced by one and two refreshes, so
+this trace is not sparse presentation sampling in the way interval0 was.
+Missing IDs therefore expose mailbox/display handoff loss rather than merely
+an apparently improved average. Sampled report age median33.367ms. No saved
+settings changed; direct-validated interval1/capacity2 remains installed.
+
+The remaining problem involves independently paced producer/latest-image
+mailbox consumption crossing refresh boundaries. Further arbitrary sync/capacity
+sweeps are not justified. Next inspect bounded image buffering or host-only
+phase alignment, retaining guest clocks/gameplay and explicitly measuring any
+latency or skipped-image tradeoff. Goal not complete; the original large manual
+Cold Storage hitch also remains unproven. This turn verified direct deployment
+and rejected a misleading regular-submission candidate. No desktop input used.
