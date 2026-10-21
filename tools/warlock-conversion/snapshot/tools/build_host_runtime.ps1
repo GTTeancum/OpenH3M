@@ -15,7 +15,7 @@ try {
     $env:PATH = 'C:\Program Files\LLVM\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;' + $oldPath
     $patches = @('d3d12-index-buffer-cache', 'd3d12-vertex-residency', 'input-script',
         'local-users', 'local-user-direct', 'memexport-performance', 'presenter-host-tools',
-        'windows-mspack-path', 'host-frame-pacing', 'portable-bootstrap')
+        'windows-mspack-path', 'host-frame-pacing', 'portable-bootstrap', 'halo3-virtual-adapter')
     if ($GpuDiagnostics) { $patches += 'preparation-timing' }
     foreach ($name in $patches) {
         $patch = Join-Path $repo "halo3mp/patches/rexglue-sdk-$name.patch"

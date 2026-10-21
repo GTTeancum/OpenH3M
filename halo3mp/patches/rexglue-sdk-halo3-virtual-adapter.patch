@@ -1,0 +1,51 @@
+--- a/src/system/function_dispatcher.cpp
++++ b/src/system/function_dispatcher.cpp
+@@ -39,6 +39,25 @@
+             ctx.last_indirect_target);
+ }
+ 
++// Original Halo 3 Mythic virtual-call adapter, missed by older generated maps.
++// Mirrors all nine PPC instructions; preserves LR/CR and tail-calls the target.
++static void Halo3VirtualAdapter8263D8F8(PPCContext& ctx, uint8_t* base) {
++  auto* memory = Runtime::instance()->memory();
++  auto load = [memory](uint64_t address) {
++    return memory::load_and_swap<uint32_t>(memory->TranslateVirtual(static_cast<uint32_t>(address)));
++  };
++  ctx.r3.u64 = load(ctx.r3.u64 + 4);
++  ctx.r4.u64 = ctx.r5.u64;
++  ctx.r5.u64 = ctx.r6.u64;
++  ctx.r6.u64 = ctx.r7.u64;
++  ctx.r7.u64 = ctx.r9.u64;
++  ctx.r11.u64 = load(ctx.r3.u64);
++  ctx.r11.u64 = load(ctx.r11.u64 + 0x1c);
++  ctx.ctr.u64 = ctx.r11.u64;
++  ctx.last_indirect_target = static_cast<uint32_t>(ctx.ctr.u64) & ~3u;
++  ResolveIndirectFunction(ctx.last_indirect_target)(ctx, base);
++}
++
+ PPCFunc* ResolveIndirectFunction(uint32_t guest_address) {
+   FunctionDispatcher* dispatcher = GetBoundFunctionDispatcher();
+   if (!dispatcher) {
+@@ -49,6 +68,22 @@
+     return func;
+   }
+ 
++  if (guest_address == 0x8263D8F8u) {
++    // Never substitute for a registered function or another game revision.
++    // XEX contents are already mapped here; validate the complete original body.
++    static constexpr uint32_t expected[] = {
++        0x80630004u, 0x7ca42b78u, 0x7cc53378u, 0x7ce63b78u, 0x7d274b78u,
++        0x81630000u, 0x816b001cu, 0x7d6903a6u, 0x4e800420u};
++    auto* code = Runtime::instance()->memory()->TranslateVirtual(guest_address);
++    bool matches = true;
++    for (size_t i = 0; i < sizeof(expected) / sizeof(expected[0]); ++i) {
++      if (memory::load_and_swap<uint32_t>(code + i * 4) != expected[i]) matches = false;
++    }
++    if (matches && dispatcher->SetFunction(guest_address, &Halo3VirtualAdapter8263D8F8)) {
++      REXLOG_INFO("Registered byte-verified Halo 3 virtual adapter 8263D8F8");
++      return &Halo3VirtualAdapter8263D8F8;
++    }
++  }
+   return &InvalidFunctionTrap;
+ }
+ 

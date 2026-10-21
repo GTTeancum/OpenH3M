@@ -614,3 +614,78 @@ runtime on the same effects route. Do not stub out the original game function
 or skip gameplay as a workaround. The helper now records any harness error and
 the child's exit status before cleanup, so subsequent exits are attributable.
 Goal remains active; smoothness improvement alone is not a successful deployment.
+
+### Missing original virtual-call wrapper (2026-10-20)
+
+Read the original default.xex in memory through snapshot/tools/xexlib.py; no disc
+file was changed and no full extracted image was saved. Xex.image() is a mapped
+image: use guest_address-image_base, NOT PE raw-file section offsets. The complete
+body at 0x8263D8F8 is nine instructions:
+
+    lwz r3,4(r3)
+    mr r4,r5
+    mr r5,r6
+    mr r6,r7
+    mr r7,r9
+    lwz r11,0(r3)
+    lwz r11,0x1c(r11)
+    mtctr r11
+    bctr
+
+The existing BUILD.md already records a similar missed wrapper at 0x8263D938.
+The manifest now explicitly declares 0x8263D8F8 for future full code generation.
+rexglue-sdk-halo3-virtual-adapter.patch supplies the exact wrapper for the current
+unchanged EXE only when indirect resolution fails AND all nine original opcode
+words match in guest memory. Existing registrations win. It performs the original
+big-endian 32-bit loads and register moves, preserves CR/LR, updates CTR and
+branches to the original target via the dispatcher. It never substitutes a dummy
+return or changes game rules. The guarded byte sequence was checked against all
+36 original XEX bytes. This is a compatibility repair, not a pacing shortcut.
+
+Build helper applies this patch after portable-bootstrap. The host runtime/GPU
+pair rebuilt successfully in the same incremental tree. Integrated verification
+is still required before deployment. Original-runtime comparison is
+20261020-205213-baseline, tool session 87017: original EXE/runtime from the existing
+D: installation, project-local game/log/cache paths, and the extended effects
+route. Verify the terminal result rather than inferring completion from this note.
+
+Original-runtime comparison 20261020-205213-baseline completed under its watchdog
+without this crash. Native 145-second image was inspected: Prisoner ground-floor
+interior, weapon/HUD and an actual grenade-throw animation. It retained uneven
+cadence: 899 settled intervals, mean 33.335ms, deviation 14.718ms, p05 14.257ms,
+p95 51.922ms, 314 short/313 long intervals; one 67.466ms gap in the full capture.
+This run did not prove the original runtime reaches the missing-wrapper path.
+Do not claim the crash was reproduced in it. The installed EXE contains the
+nearby known 8263D938 mapping address but no literal 8263D8F8 address; that binary
+scan is supporting evidence, not a complete code-generation audit.
+
+Current staged repaired-runtime SHA256:
+4e9b1c46b4795b5e42fcadd2265554c98e00f4a79baf453a90617dd845eda3d4.
+Complete import audit passed. Repair verification run is
+20261020-205514-baseline, session 83945: same process-local effects script,
+shared maps/cache, ordinary ephemeral test profile, threshold logging and native
+captures. No production installation was replaced. Check native capture, fatal
+logs, timing and whether the byte-verified registration message occurred before
+claiming the missing-wrapper path has been exercised successfully.
+
+Repaired candidate run 20261020-205514-baseline completed under its watchdog.
+The 145-second native image was inspected: correct Prisoner interior, weapon/HUD,
+bullet impacts and a thrown grenade, closely matching the original-runtime route.
+899 settled intervals averaged 33.334ms, deviation 1.024ms, p05 31.650ms,
+p95 34.681ms, p99 35.953ms; zero intervals above 41.667ms, zero >60ms full-capture
+gaps, no skipped frames. Guest vblank remained 16.666ms. No fatal log entry.
+There was NO byte-verified registration message, so this run did not exercise
+the missing-wrapper repair. Static opcode/semantic verification is not a claim
+of in-game crash-path reproduction. Preparation logging recorded 134 events;
+no output hitch existed to correlate.
+
+The repaired candidate is now staged again at the project root with the shared
+bootstrap paths, 5MB log rotation and three retained log files. GPU SHA256:
+bf2a7b68df8035b8bba59774e4323fdf26081ea15d3ac89ef87fd0365e9f1c40.
+Legacy root CMD wrappers now reference the root EXE; unlike the earlier failed
+deployment, a rollback would need to restore those wrapper EXE references too.
+Direct-launch/shared-profile validation is 20261020-205857-baseline, session
+87191, using --portable-paths --effects-route. Do not treat staging as success;
+inspect its terminal state, native image, counter report and fatal/registration
+logs. The normal entry is intended to be C:\X360\ISOs\H3M\OpenH3M.exe only after
+this validation. Original disc assets remain unchanged.
