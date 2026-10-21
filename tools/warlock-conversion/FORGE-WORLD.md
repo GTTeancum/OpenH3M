@@ -1117,3 +1117,31 @@ Audit scratch payloads are removed in `finally`. Future conversion reports now
 record each imported lightmap's semantic role, source name, target datum,
 dimensions, layer count and tiled size, so resource owners remain traceable even
 when serialized imported tags do not have names.
+
+### Forge palette reproduces missing menu glyphs
+
+`trace_loading.py --forge-palette-check --slot sandbox` uses the previously
+verified Forge lobby route, switches to monitor with D-pad Up at 118000 ms and
+opens creation with X at 121000 ms. The 124000 ms native capture shows the Weapons
+palette, with LB/RB category controls; this is now a reproducible menu checkpoint.
+The flag rejects simultaneous manual, walking or boundary routes. No OS input.
+
+- Gulch `.local/loading-traces/20261021-182855-31292/proof-loaded.png`: visible
+  missing glyphs in OBJECT (J), Done (D), Summary (u), category pagination and
+  dollar/hash symbols. Terrain and monitor HUD are present. This reproduces the
+  user's menu-text report and supersedes the earlier 'unreproduced' status.
+- Untouched original Sandbox `.local/loading-traces/20261021-183129-10644/proof-loaded.png`:
+  identical route, runtime, shared host cache and capture time; all of those
+  palette labels/symbols render correctly. Original Sandbox structures, weapons,
+  lighting and monitor HUD are visible, confirming the correct stock content.
+- Both child runs finished at their 135-second watchdog. English font-package
+  hashes were rechecked identical. The map conversion/data or resulting resource
+  pressure is therefore the next investigation target; these two runs do not
+  establish which mechanism is responsible. Do not replace the font package or
+  declare a global font/runtime defect from this evidence.
+
+Reproduce Gulch with the normal shared installation; append
+`--game C:/X360/ISOs/H3M` for original-disc stock baseline. Use
+`--capture --capture-times-ms 124000 --seconds 135` and the existing shared cache.
+Player/vehicle containment is still unverified: this check opens the creation
+palette only and does not spawn or drive a vehicle.

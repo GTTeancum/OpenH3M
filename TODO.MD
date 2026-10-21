@@ -46,3 +46,12 @@
 - [ ] Keep the conversion process repeatable and documented. Maintain one shared
   test installation, regularly remove superseded outputs, and retain only the
   rollback and diagnostic evidence needed for current work. Never commit assets.
+
+## Converted-map rendering regressions
+
+- [ ] Fix missing Forge menu glyphs on Forge Gulch. The 2026-10-21 process-local
+  palette check reproduces missing letters/symbols on Gulch while the identical
+  stock Sandbox route renders them correctly with the same runtime/font package.
+  See FORGE-WORLD.md for both native captures and the repeatable route. Investigate
+  conversion data/resource usage; do not treat the earlier readable main-menu
+  capture as coverage of this failure.
