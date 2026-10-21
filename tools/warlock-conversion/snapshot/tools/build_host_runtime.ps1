@@ -1,4 +1,5 @@
 # Rebuild the host runtime only; uses the shared game executable and map cache.
+param([switch]$GpuDiagnostics)
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '../../../..')).Path
 $sdk = Join-Path $repo 'work/rexglue-sdk'
@@ -15,6 +16,7 @@ try {
     $patches = @('d3d12-index-buffer-cache', 'd3d12-vertex-residency', 'input-script',
         'local-users', 'local-user-direct', 'memexport-performance', 'presenter-host-tools',
         'windows-mspack-path', 'host-frame-pacing')
+    if ($GpuDiagnostics) { $patches += 'preparation-timing' }
     foreach ($name in $patches) {
         $patch = Join-Path $repo "halo3mp/patches/rexglue-sdk-$name.patch"
         git -C $sdk apply --ignore-space-change --reverse --check $patch 2>$null
@@ -34,6 +36,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Configuration failed; see work/runtime-configure.log.' }
     cmake --build "$sdk/out/pacing-release" --target rexruntime --parallel 4 *> work/runtime-build.log
     if ($LASTEXITCODE -ne 0) { throw 'Build failed; see work/runtime-build.log.' }
+    if ($GpuDiagnostics) {
+        cmake --build "$sdk/out/pacing-release" --target rexgpu-xenos --parallel 4 *> work/gpu-build.log
+        if ($LASTEXITCODE -ne 0) { throw 'GPU build failed; see work/gpu-build.log.' }
+    }
 } finally {
     $env:TEMP = $oldTemp; $env:TMP = $oldTmp; $env:PATH = $oldPath
     Pop-Location

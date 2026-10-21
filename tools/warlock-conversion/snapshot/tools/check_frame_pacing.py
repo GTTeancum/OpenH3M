@@ -23,6 +23,8 @@ p.add_argument('--native-timing', action='store_true', help='Read the existing i
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--guest-vblank-timing', action='store_true', help='Also sample the source-0 guest vblank handler counter.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
+p.add_argument('--cache-root', type=Path, help='Explicit project-local cache for controlled cold/warm comparisons.')
+p.add_argument('--slow-preparation-ms', type=int, choices=range(1, 1001), help='Enable threshold logging in the diagnostic GPU plugin.')
 p.add_argument('--pacing-probe', type=Path, help='Explicit diagnostic DLL, owned child only; requires native timing.')
 p.add_argument('--host-output-fps', type=int, choices=range(0, 361), help='Override source-patched host output pacing; 0 disables it.')
 a = p.parse_args()
@@ -42,6 +44,8 @@ listing = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq OpenH3M.exe', '/FO', 
 if any(row and row[0].lower() == 'openh3m.exe' for row in csv.reader(listing.stdout.splitlines())):
     raise SystemExit('OpenH3M already running')
 run.mkdir(parents=True)
+cache = output_path(a.cache_root.resolve() if a.cache_root else root / 'custom-maps-play/cache', project)
+cache.mkdir(parents=True, exist_ok=True)
 for name in ('temp', 'profile'):
     (run / name).mkdir()
 env = dict(os.environ, TEMP=str(run / 'temp'), TMP=str(run / 'temp'),
@@ -53,13 +57,15 @@ steps += [f'{t}:UP+120' for t in range(58000, 68000, 1000)]
 steps += ['68000:DOWN+120', '70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250',
           '117000:LSRIGHT+1000', '119000:LSUP+3500', '124000:RSLEFT+1800']
 cmd = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}',
-       f'--cache_root={root / "custom-maps-play/cache"}', f'--log_file={run / "runtime.log"}',
+       f'--cache_root={cache}', f'--log_file={run / "runtime.log"}',
        '--keyboard_controller=false', '--input_script=' + ','.join(steps),
        '--input_script_button_state=true', '--input_script_keystrokes=false', '--halo3mp_log_fps=true']
 if a.mode == 'filtering-off':
     cmd += ['--anisotropic_override=0']
 if a.host_output_fps is not None:
     cmd += [f'--host_guest_output_fps={a.host_output_fps}']
+if a.slow_preparation_ms is not None:
+    cmd += [f'--d3d12_slow_preparation_ms={a.slow_preparation_ms}']
 if a.mode == 'ntsc-refresh':
     cmd += ['--video_mode_refresh_rate=59.94']
 if a.mode == 'no-tearing':
@@ -74,12 +80,15 @@ if a.capture or a.mode == 'vblank-unthrottled':
             f'--halo3mp_capture_guest_output_path={run / "native-output.png"}']
 state = {'mode': a.mode, 'stock': a.stock, 'command': cmd, 'map_sha256': hashlib.sha256((game / 'maps/chillout.map').read_bytes()).hexdigest(),
          'runtime_sha256': hashlib.sha256((exe.parent / 'rexruntime.dll').read_bytes()).hexdigest(),
+         'gpu_sha256': hashlib.sha256((exe.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest(),
+         'cache_root': str(cache),
          'host_output_fps_override': a.host_output_fps,
          'SDL_TIMER_RESOLUTION': env.get('SDL_TIMER_RESOLUTION'), 'watchdog_seconds': 165}
 print(run, flush=True)
 with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb') as pmout:
     child = subprocess.Popen(cmd, cwd=run, env=env, stdout=out, stderr=out, creationflags=subprocess.CREATE_NO_WINDOW)
     started = time.perf_counter()
+    state['started_unix_seconds'] = time.time()
     state['pid'] = child.pid
     pm = None
     try:

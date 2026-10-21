@@ -505,3 +505,54 @@ The shared cache must be retained, not discarded as disposable diagnostic data.
 Validation this checkpoint: Python AST parsing for all changed diagnostic tools,
 PowerShell parser for the runtime build helper, complete export audit and git
 whitespace check. No additional game build or map duplication was introduced.
+
+### Targeted first-use diagnostics (2026-10-20)
+
+Added rexglue-sdk-preparation-timing.patch and the optional -GpuDiagnostics flag
+on build_host_runtime.ps1. This builds rexgpu-xenos in the same SDK build tree,
+with no duplicate map installation. d3d12_slow_preparation_ms defaults to zero
+(disabled); a positive value logs shader translation and pipeline preparation
+only when a call exceeds that many milliseconds. It records elapsed time and
+shader identity, without replacing draws, mutating guest code or changing clocks.
+
+The rebuilt diagnostic pair is staged in work/pacing-runtime; it supersedes
+that folder's previous candidate but has NOT been deployed to the normal launcher.
+Runtime SHA256 7cd6bbf005f3a34445b69316d6c2299949e0c1cae267c4e3a505713c19bfe01a;
+GPU SHA256 0101324fa02937421b38af0cd8f34467c876d9e20bae279ad3fbcbbdca0cd360.
+Export audit passed with 10,886 runtime exports and zero missing imports.
+The runtime relink included the generated build-version change; source pacing
+behavior remains unchanged. Existing original GPU remains available at the
+previous external installation (read-only here), hash aed76f757f9c570923e90ec99d26305f368857e972ea9d97b650af1ce806bc94.
+
+check_frame_pacing.py now accepts a confined --cache-root and
+--slow-preparation-ms, records GPU hash and launch wall time for log correlation.
+summarize_preparation.py reports overlap between >60ms output gaps and the
+logged preparation intervals. Overlap alone is not causation: compilation can
+occur on worker threads. No-overlap also cannot rule out queued waits or work
+below the logging threshold. The new trace's process-start.json uses Windows
+creation time because that trace began before the launch-time field was added.
+
+Cold application-cache run 20261020-203853-stock-baseline uses the unchanged
+scripted route, a separate .local/pacing/preparation-cache, and a 5ms threshold.
+This is NOT a cold driver-cache experiment: persistent driver caches were not
+cleared or modified. Native 52-second image confirms Custom Games lobby before
+the recorded Cold Storage selection. Verify terminal session 20474 and the
+145-second gameplay capture before interpreting the result. Keep the shared
+custom-maps-play/cache unchanged throughout this comparison.
+
+Cold-cache diagnostic run completed under its watchdog. Native 145-second image
+was inspected: correct blue-lit Cold Storage interior, weapon/HUD and camouflage,
+matching the scripted warm-route endpoint. 899 settled intervals: mean 33.333ms,
+standard deviation 1.100ms, p05 31.646ms, p95 34.787ms, p99 35.025ms; one interval
+below 25ms and one above 41.667ms, no skips. No >60ms gaps in the full capture.
+82 preparation events exceeded 5ms; the longest was a 21.514ms pipeline call at
+103.207 seconds, and seven logged events ended after 110 seconds. No frame-gap
+correlation can be established because this route did not reproduce the large
+stalls. This result weakens a blanket 'uncached shaders caused the hiccups'
+explanation, but cannot rule out unvisited effects/pipelines or driver caching.
+
+Do not spend another identical warm run: its absence of >60ms stalls cannot
+locate the manual walk's earlier half-second pauses. Next work should expand the
+process-local traversal/effects coverage or add diagnostics at the actual stall,
+then deploy the proven pacing change. The diagnostic GPU plugin is not yet a
+production replacement. Shared maps/cache and normal launcher remain unchanged.
