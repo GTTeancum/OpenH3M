@@ -450,3 +450,51 @@ no-water and expanded-visibility candidates are temporary isolation builds, not
 accepted deployments. Restore the full-content candidate after each diagnostic.
 Superseded large map outputs are removed; small reports and selected native
 captures remain locally ignored. No original-disc files or engine code changed.
+
+## Research-first correction and stock-water comparison (2026-10-21)
+
+Human instruction: stop iterative speculative builds; research the relevant
+working Halo 3 maps before changing the conversion. No new test run or conversion
+change followed this instruction. The already-running no-water-pass diagnostic
+finished but was never deployed. The full-content sandbox-sky candidate remains
+staged; it still fails visual acceptance.
+
+Read-only references: original-disc zanzibar (Last Resort), riverworld (Valhalla),
+docks (Longshore), deadlock (High Ground), MCC Forge source, and the generated
+candidate. Reproduce from repository root with `python -B` on
+`snapshot/tools/audit_forge_water.py` and `audit_forge_water_geometry.py` under this
+directory. Reports go to ignored `work/forge-world/water-*-audit.json`.
+
+Established facts:
+- Stock examples use water triangle format 26 / stride 12 and parameter format
+  27 / stride 36, as does the converted candidate. MCC triangle format 28 /
+  stride 128 is not copied to the candidate.
+- Candidate water part ranges and water heights match source exactly. Main
+  ocean is near Z=2.1955; puddles near Z=2.417; cave water near Z=4.4034.
+- All sampled stock, source and candidate water queryable properties are -1.
+  None of their texture constants requests an external mirror target. This is
+  a sampler observation, not proof that no shader uses an external texture.
+- Stock index buffers place water triangles after ordinary geometry, although
+  their part-table water rows come first. Forge source/candidate place water
+  triangles first in both. Stock docks demonstrates multiple water parts with
+  cumulative corner offsets [0,4056]; Forge [0,591] and [0,6498] use that same
+  offset unit. Whether index-buffer ordering is required remains unproven.
+- Stock water shares parameter records across triangle corners; this converter
+  expands to one parameter per corner. This is an optimization opportunity,
+  not evidence of the current rendering failure.
+
+Primary implementation references checked:
+https://github.com/TheGuardians/TagTool/blob/master/TagTool/Tags/Definitions/RenderMethod.cs
+and the previously retained VertexStreamXbox.cs / VertexStreamHalo3RetailMCC.cs
+in snapshot/reference/formats. RenderMethod distinguishes normal bitmap,
+mirror and refraction sampler modes. Its queryable-property helper accesses
+texture constants: the converter's blanket real-constant remapping warrants a
+separate audit, but cannot explain these water materials because all slots are
+-1. Do not change it as a supposed fix for this failure.
+
+The earlier no-water test only suppressed counts, leaving water flags and
+materials. It therefore did NOT conclusively rule out the water pass. Likewise,
+upside-down scenery is a reason to investigate reflection, not a diagnosis.
+The user's image proves terrain can render from another view. Current evidence
+does not identify a root cause. Expanded-bounds/PVS and flat-material diagnostic
+maps are not fixes and are removed after recording their results.
