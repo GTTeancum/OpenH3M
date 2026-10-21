@@ -1,0 +1,88 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <algorithm>
++#include <chrono>
+ #include <cstdarg>
+ #include <cstring>
+ #include <sstream>
+@@ -50,6 +51,8 @@
+ REXCVAR_DEFINE_BOOL(d3d12_cache_index_buffer, true, "GPU/D3D12",
+                     "Skip redundant index buffer bindings within a command list")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
++REXCVAR_DECLARE(bool, d3d12_log_present_timing);
+ 
+ namespace rex::graphics::d3d12 {
+ 
+@@ -3115,6 +3118,17 @@
+ }
+ 
+ void D3D12CommandProcessor::CheckSubmissionFence(uint64_t await_submission) {
++  const auto wait_for_fence = [&](const char* kind) {
++    const bool trace = REXCVAR_GET(d3d12_log_present_timing);
++    const auto start = trace ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
++    const DWORD result = WaitForSingleObject(fence_completion_event_, INFINITE);
++    if (trace) {
++      const double elapsed = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
++      if (elapsed >= 5.0) REXGPU_INFO("[queue-wait] kind={} elapsed_ms={:.3f} target={} result={} queue={:X}",
++          kind, elapsed, await_submission, result, uintptr_t(GetD3D12Provider().GetDirectQueue()));
++    }
++    return result;
++  };
+   if (await_submission >= submission_current_) {
+     if (submission_open_) {
+       EndSubmission(false);
+@@ -3130,7 +3144,7 @@
+                     SUCCEEDED(queue_operations_since_submission_fence_->SetEventOnCompletion(
+                         fence_value, fence_completion_event_)))) {
+         PROFILE_CMD_BUFFER_STALL();
+-        WaitForSingleObject(fence_completion_event_, INFINITE);
++        wait_for_fence("guest-queue-operations");
+         queue_operations_done_since_submission_signal_ = false;
+       } else {
+         REXGPU_ERROR(
+@@ -3149,7 +3163,7 @@
+     if (SUCCEEDED(
+             submission_fence_->SetEventOnCompletion(await_submission, fence_completion_event_))) {
+       PROFILE_CMD_BUFFER_STALL();
+-      WaitForSingleObject(fence_completion_event_, INFINITE);
++      wait_for_fence("guest-submission");
+       submission_completed_ = submission_fence_->GetCompletedValue();
+     }
+   }
+--- a/src/ui/d3d12/d3d12_submission_tracker.cpp
++++ b/src/ui/d3d12/d3d12_submission_tracker.cpp
+@@ -9,9 +9,13 @@
+  * @modified    Tom Clay, 2026 - Adapted for ReXGlue runtime
+  */
+ 
++#include <chrono>
++#include <rex/cvar.h>
+ #include <rex/assert.h>
+ #include <rex/logging.h>
+ #include <rex/ui/d3d12/d3d12_submission_tracker.h>
++
++REXCVAR_DECLARE(bool, d3d12_log_present_timing);
+ 
+ namespace rex::ui::d3d12 {
+ 
+@@ -74,7 +78,15 @@
+     if (FAILED(fence_->SetEventOnCompletion(fence_value, fence_completion_event_))) {
+       return false;
+     }
+-    if (WaitForSingleObject(fence_completion_event_, INFINITE) != WAIT_OBJECT_0) {
++    const bool trace = REXCVAR_GET(d3d12_log_present_timing);
++    const auto start = trace ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
++    const DWORD result = WaitForSingleObject(fence_completion_event_, INFINITE);
++    if (trace) {
++      const double elapsed = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
++      if (elapsed >= 5.0) REXLOG_INFO("[queue-wait] kind=host-tracker elapsed_ms={:.3f} target={} result={} queue={:X}",
++          elapsed, fence_value, result, uintptr_t(queue_.Get()));
++    }
++    if (result != WAIT_OBJECT_0) {
+       return false;
+     }
+   }

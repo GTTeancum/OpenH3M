@@ -1022,3 +1022,42 @@ Normal root binaries/configuration remain unchanged. The opt-in synchronization
 setting remains zero by default and is retained only for repeatable diagnostics.
 No assets modified, no external trace or desktop input used. Goal remains active;
 this turn made progress by rejecting two plausible but harmful configurations.
+
+### Queue-wait diagnosis (2026-10-20)
+
+Previous goal turn was progress: two synchronized candidates rejected on native
+output/visibility evidence. Source inspection confirms the D3D12 command
+processor and presenter both use provider.GetDirectQueue(). The command processor
+has synchronous fence waits for frame reuse, queue completion and guest occlusion
+query results; EndGuestOcclusionQuery ends a submission and waits before reading
+its real sample count. Do not stub these results or disable guest occlusion to
+mask the problem; that would change rendering behavior.
+
+Added rexglue-sdk-queue-wait-timing.patch. When existing native presentation
+diagnostics are enabled, log only actual fence waits >=5ms, tagged guest queue
+operations, guest submission, or host tracker, with queue pointer/target/result.
+No wait, fence value, synchronization or public-layout behavior changes. Both
+runtime and GPU rebuilt; all 18 patches validated and 10,899 exports had no
+missing imports. Staged runtime hash:
+8d77f480903fcec6e17b2d818c984706ddc7b4fd406b0b652fdbee7dd498ebe6.
+One bounded repeat of the failing UI-thread synchronized configuration is
+running: 20261020-220045-ui-thread (session 57113). Purpose: correlate actual
+waits with the already-reproduced stalls, not repeat a success-only smoke test.
+Normal deployed runtime/GPU/configuration remain unchanged.
+
+Run 20261020-220045-ui-thread completed. Native image inspected: expected
+Prisoner interior and grenade throw. Regression reproduced: mean output interval
+37.874ms, deviation 15.023ms, seven >60ms gaps, maximum 333.080ms. Thresholded
+fence instrumentation logged 17 host-tracker waits in the full run and zero
+>=5ms guest fence waits. None overlapped the seven output gaps. This rules out
+attribution to the instrumented long fence waits; it does NOT rule out driver
+blocking inside queue submission/signaling, many short waits, or other locks.
+summarize_queue_waits.py records overlaps without inventing caller identity.
+
+Source EndSubmission has ExecuteCommandLists at current line 3458 and Signal
+at 3472, both on the shared direct queue. These calls are outside the instrumented
+WaitForSingleObject regions and can therefore remain unmeasured. Next useful
+instrumentation is CPU duration of submission/signaling and the encompassing
+RefreshGuestOutput phases, not another blind synchronization configuration.
+No evidence supports replacing queue ownership yet. Keep occlusion correctness
+and original guest behavior. Normal installation unchanged; goal remains active.
