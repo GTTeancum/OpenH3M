@@ -556,3 +556,61 @@ locate the manual walk's earlier half-second pauses. Next work should expand the
 process-local traversal/effects coverage or add diagnostics at the actual stall,
 then deploy the proven pacing change. The diagnostic GPU plugin is not yet a
 production replacement. Shared maps/cache and normal launcher remain unchanged.
+
+### Portable shared installation candidate (2026-10-20)
+
+Added rexglue-sdk-portable-bootstrap.patch. cvar::Init optionally reads an
+adjacent <executable>.bootstrap.toml after CLI parsing but before consumers
+resolve game/user/cache paths. Command-line values retain precedence. Without
+that opt-in file behavior is unchanged. This fixes the existing ordering where
+ReXApp resolves its paths before loading its normal TOML. It is host startup
+configuration only; original game executable and guest modules are unchanged.
+
+snapshot/tools/deploy_host_runtime.py installs only seven host/translated-module
+binaries at the project root and writes OpenH3M.bootstrap.toml, referencing the
+existing .local/custom-maps-play game/cache/user folders. It rejects unmanaged
+binary/config replacements and any running OpenH3M process. Legacy CMD wrappers
+are redirected to the root EXE. The intended user entry is now OpenH3M.exe itself;
+no separate map builds, map copying or outside-repository deployment is required.
+Deployment records live in .local/runtime-deployment.json. Source staging remains
+work/pacing-runtime until verification finishes, then it can be removed.
+
+Candidate runtime SHA256 55cf5019c50e10cf710311f09c4136953d8476813f0a01e47142d84d76c43e66;
+GPU SHA256 86e51b5811ee38bfbf7a7b4d5f75367ec62abfc209800e2d1d7a724127163048.
+The GPU includes the opt-in preparation logger (off for normal launches).
+Import audit passed. The normal OpenH3M.exe hash remains ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406.
+
+check_frame_pacing.py --portable-paths validates and uses the bootstrap settings
+without --game_data_root/--user_data_root/--cache_root overrides. Its new
+--effects-route adds in-process movement, firing and grenades at 127-150 seconds,
+using the existing bounded test harness. No host desktop input is generated.
+Run 20261020-204512-baseline (session 7607) is testing the root EXE with Prisoner,
+the shared cache, bootstrap paths and preparation logging. Inspect its native
+capture and counters before claiming successful deployment. The user feedback
+about longer Cold Storage traversal hiccups remains unresolved.
+
+Portable/effects validation FAILED: 20261020-204512-baseline exited around
+138 seconds with `[FATAL] Call to invalid or unregistered function at guest
+address 0x8263D8F8` on the game thread. The sampler then reported WinError 299
+because its process memory disappeared. This is not a successful timing run.
+There is no 145-second gameplay capture. The 52-second native image was inspected
+and showed the expected Custom Games lobby; logs reached chillout map loading,
+but that is insufficient to verify the expected rendered gameplay content.
+The late log also contains physical-controller analog values, so do not assume
+the entire path was isolated from incidental controller state.
+
+The newly installed seven binaries and managed bootstrap TOML were removed
+only after their hashes matched this turn's deployment manifest. Previous
+launchers still point to the prior D: installation; original disc files/maps
+were not altered. .local/runtime-deployment.json records withdrawal and reason.
+This removes the redundant ~binary-set copy and prevents presenting the failed
+candidate as a working direct-launch install. work/pacing-runtime retains the
+candidate for diagnosis. The deployment helper and bootstrap patch are saved
+but NOT validated for normal use.
+
+Next: determine whether 0x8263D8F8 is missing translated registration/code or
+whether a bad target is being called, including comparison against the original
+runtime on the same effects route. Do not stub out the original game function
+or skip gameplay as a workaround. The helper now records any harness error and
+the child's exit status before cleanup, so subsequent exits are attributable.
+Goal remains active; smoothness improvement alone is not a successful deployment.

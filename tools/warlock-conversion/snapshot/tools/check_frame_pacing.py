@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import subprocess
 import time
+import tomllib
 
 from build_scenario_checkpoint import output_path
 
@@ -23,6 +24,8 @@ p.add_argument('--native-timing', action='store_true', help='Read the existing i
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--guest-vblank-timing', action='store_true', help='Also sample the source-0 guest vblank handler counter.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
+p.add_argument('--effects-route', action='store_true', help='Extend the saved gameplay route with movement, firing and grenades inside the game process.')
+p.add_argument('--portable-paths', action='store_true', help='Verify direct-launch bootstrap paths instead of passing path overrides.')
 p.add_argument('--cache-root', type=Path, help='Explicit project-local cache for controlled cold/warm comparisons.')
 p.add_argument('--slow-preparation-ms', type=int, choices=range(1, 1001), help='Enable threshold logging in the diagnostic GPU plugin.')
 p.add_argument('--pacing-probe', type=Path, help='Explicit diagnostic DLL, owned child only; requires native timing.')
@@ -56,10 +59,20 @@ steps = ['45000:DOWN+120', '46000:A+250', '55000:UP+120', '56000:A+250']
 steps += [f'{t}:UP+120' for t in range(58000, 68000, 1000)]
 steps += ['68000:DOWN+120', '70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250',
           '117000:LSRIGHT+1000', '119000:LSUP+3500', '124000:RSLEFT+1800']
+if a.effects_route:
+    steps += ['127000:LSUP+6500', '128000:RT+2500', '135000:LT+120',
+              '137000:RSRIGHT+1400', '139000:LSUP+4000', '140000:RT+2500',
+              '146000:LT+120', '149000:RSLEFT+1400']
 cmd = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}',
        f'--cache_root={cache}', f'--log_file={run / "runtime.log"}',
        '--keyboard_controller=false', '--input_script=' + ','.join(steps),
        '--input_script_button_state=true', '--input_script_keystrokes=false', '--halo3mp_log_fps=true']
+if a.portable_paths:
+    bootstrap = tomllib.loads(exe.with_suffix('.bootstrap.toml').read_text())
+    if Path(bootstrap['game_data_root']).resolve() != game or Path(bootstrap['cache_root']).resolve() != cache:
+        raise SystemExit('Bootstrap does not match the requested game/cache paths')
+    output_path(Path(bootstrap['user_data_root']), project)
+    cmd = [arg for arg in cmd if not arg.startswith(('--game_data_root=', '--user_data_root=', '--cache_root='))]
 if a.mode == 'filtering-off':
     cmd += ['--anisotropic_override=0']
 if a.host_output_fps is not None:
@@ -118,7 +131,11 @@ with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb'
         except subprocess.TimeoutExpired:
             state['watchdog'] = True
         state['presentmon_exit_code'] = pm.wait(timeout=10)
+    except Exception as error:
+        state['harness_error'] = f'{type(error).__name__}: {error}'
+        raise
     finally:
+        state['child_exit_before_cleanup'] = child.poll()
         for proc in (child, pm):
             if proc is not None and proc.poll() is None:
                 proc.kill()
