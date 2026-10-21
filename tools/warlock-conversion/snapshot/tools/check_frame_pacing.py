@@ -20,6 +20,7 @@ p.add_argument('--project', type=Path, required=True)
 p.add_argument('--exe', type=Path, required=True)
 p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled', 'ntsc-refresh', 'filtering-off'), default='baseline')
 p.add_argument('--capture', action='store_true')
+p.add_argument('--presentation-capacity', type=int, choices=(1,2), help='Maximum queued host frames; requires waitable presentation.')
 p.add_argument('--waitable-presentation', action='store_true', help='Wait for host presentation capacity before rendering.')
 p.add_argument('--host-sync-interval', type=int, choices=range(5), help='Opt-in host presentation synchronization; guest timing unchanged.')
 p.add_argument('--present-timing', action='store_true', help='Read process-local DXGI presentation statistics; skip unreliable external ETW tracing.')
@@ -90,6 +91,12 @@ if a.mode == 'filtering-off':
     cmd += ['--anisotropic_override=0']
 if a.host_output_fps is not None:
     cmd += [f'--host_guest_output_fps={a.host_output_fps}']
+if a.presentation_capacity is not None:
+    if not a.waitable_presentation:
+        raise SystemExit('Presentation capacity requires waitable presentation')
+    if b'd3d12_host_maximum_frame_latency\0' not in (exe.parent / 'rexruntime.dll').read_bytes():
+        raise SystemExit('Runtime lacks presentation capacity support')
+    cmd += [f'--d3d12_host_maximum_frame_latency={a.presentation_capacity}']
 if a.waitable_presentation:
     if b'd3d12_host_waitable_presentation\0' not in (exe.parent / 'rexruntime.dll').read_bytes():
         raise SystemExit('Runtime lacks waitable presentation support')

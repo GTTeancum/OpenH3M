@@ -1,6 +1,6 @@
 # Frame pacing investigation
 
-Status: active, with host pacing and cached-pipeline startup preparation fixes deployed at
+Status: active, with host pacing, startup preparation and two-frame waitable presentation deployed at
 `C:\X360\ISOs\H3M\OpenH3M.exe`. Direct launch reuses the shared converted maps,
 cache and saves. Prisoner's extended movement/firing/grenade check measured
 0.806ms frame-interval deviation at 30 FPS, versus 14.718ms on the original
@@ -1141,3 +1141,48 @@ headroom at maximum latency 1: permit a bounded two-frame capacity comparison,
 measure image cadence and latency tradeoff, and retain 30Hz guest behavior.
 Do not switch queues or change simulation based on unsupported speculation.
 Normal installation unchanged; opt-in candidate/documentation committed locally.
+
+### Two-frame capacity comparison (2026-10-20)
+
+Added bounded opt-in d3d12_host_maximum_frame_latency (1 or 2, default 1) and
+harness --presentation-capacity. Existing flags remain disabled by default.
+All 21 patches and incremental builds passed; import audit 10,908 exports,
+zero missing imports. Staged runtime SHA256:
+8c6f703d7360e9e2e80788f7b8cc0af94237ee947bf082f4620f192ae5adb4db.
+
+Prisoner run 20261020-222306-ui-thread completed and native scene inspected:
+expected Prisoner geometry, camouflaged weapon and grenade animation. Mean output
+33.333ms, deviation 1.079ms; no short/long settled intervals and no >60ms gaps.
+No queue-execute/output-refresh >=5ms events; two host-tracker events outside
+any long output gap. Image-linked cadence: 1,349 observed identities, zero missing
+IDs, 31 one-refresh / 1,289 two-refresh / 28 three-refresh transitions. Non-two
+fraction 4.38%, versus 24.63% unsynchronized and 29.28% capacity 1. All 2,695
+adjacent successful presentation statistics advanced exactly one refresh.
+Median submission-to-first-sampled-report age 33.363ms versus 16.658ms at
+capacity 1 (roughly one extra refresh). This includes sampling delay and is NOT
+an input-latency measurement. Guest vblank remains 16.667ms.
+
+Stock comparison 20261020-222624-stock-ui-thread (session 78967) is pending with
+the same settings/effects route. No normal installation change yet. This is a
+strong bounded cadence improvement, not evidence that every future hitch or
+all hardware/display combinations are solved.
+
+Stock run 20261020-222624-stock-ui-thread completed; native 145-second image
+inspected: Cold Storage blue interior, bullet impacts and camouflaged grenade
+throw. Output mean 33.335ms, deviation 1.206ms, no >60ms gaps. Display identity
+sequence has no missing IDs, 36 one-refresh / 1,278 two-refresh / 34 three-refresh
+transitions (5.19% non-two). Every adjacent valid presentation statistic advanced
+one refresh. Median sampled submission/report age 33.363ms. Guest vblank16.666ms;
+guest queue progress still varied independently (13.283ms deviation), so output
+metrics must not be confused with uniform internal queue behavior.
+
+Deployed tested runtime/GPU through deploy_host_runtime.py
+--synchronized-presentation. Bootstrap now selects UI-thread, interval 1,
+waitable presentation, capacity 2, retaining host output 30 and shared maps/cache.
+Detailed presentation diagnostics remain false by default. Manifest now preserves
+cleanup history but clears stale direct-validation status when replacing binaries.
+All seven deployed hashes and both stock/converted chillout.map hashes verified.
+Root runtime8c6f703d...adb4db; GPUc9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c.
+EXE/guest modules unchanged. Direct-bootstrap run remains pending; goal active
+because occasional display cadence variation and the manual large hitch remain.
+No further one-frame capacity or plain blocking-vsync repeats are warranted.

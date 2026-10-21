@@ -8,7 +8,10 @@
   verified Prisoner variation fell from 14.718ms to 0.806ms. Remaining: reproduce
   the larger intermittent Cold Storage traversal hitch before calling this done.
   Native image-linked DXGI measurements also show frequent sampled 1/3-refresh
-  transitions despite steady game output; evaluate host display synchronization.
+  transitions despite steady game output. Two-frame waitable synchronization is
+  deployed after reducing sampled uneven transitions to 4.4% on Prisoner and
+  5.2% on stock Cold Storage; direct-launch validation and remaining variation
+  still need attention. Added queueing delay is roughly one display refresh.
 - [ ] Optimize further after the current frame-pacing investigation. The only
   test system so far is the user's **Beelink SER8**; results do not establish
   performance on other PCs or Xbox 360 hardware.

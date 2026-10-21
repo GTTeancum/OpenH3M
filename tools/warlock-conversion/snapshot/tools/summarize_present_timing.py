@@ -65,6 +65,19 @@ def summarize(path):
             missing_images+=delta-1
         else:
             backwards+=1
+    first_submitted={}
+    for r in rows:
+        if r['present_hr']==0 and r.get('guest_painted',0):
+            first_submitted.setdefault(r['guest_painted'],r)
+    reported_ages=[]
+    for r in observed:
+        submission=first_submitted.get(r['guest'])
+        if submission and r['qpc']>=submission['qpc']:
+            reported_ages.append((r['qpc']-submission['qpc'])*1000/submission['frequency'])
+    result['sampled_image_report_age_ms']={
+        'median':statistics.median(reported_ages) if reported_ages else None,
+        'maximum':max(reported_ages) if reported_ages else None,
+        'caution':'From first logged submission to first sampled display report; includes polling delay. Not input latency or exact scanout latency.'}
     result['guest_image_observations']={
         'identified_transitions':len(observed),
         'unmatched_statistics':unmatched,
