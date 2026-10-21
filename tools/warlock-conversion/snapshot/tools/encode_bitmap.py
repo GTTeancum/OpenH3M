@@ -56,7 +56,17 @@ def expand_argb(payload,width,height,fmt):
  else:raise ValueError(f'Cannot expand format {fmt}')
  return out.tobytes()
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False):
+def clear_bc3_blue(payload):
+ """Zero an unused blend channel without changing BC3 red, green or alpha."""
+ if len(payload)%16:raise ValueError('BC3 payload is not whole blocks')
+ blocks=np.frombuffer(payload,dtype='<u2').reshape(-1,8).copy()
+ # BC3 color endpoints are RGB565 at bytes 8/10. Its color block always
+ # uses four-color interpolation, including when endpoints become equal.
+ blocks[:,4:6]&=np.uint16(0xffe0)
+ return blocks.tobytes()
+
+
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False):
  """Return retail bitmap record, resource control bytes and tiled base mip.
  Mip levels are intentionally limited to one in both metadata records.
  """
@@ -66,6 +76,9 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False):
  if source.c.unpack('H',row+10)[0]!=0:raise ValueError('Only 2D bitmap conversion is supported')
  if max_dimension<1:raise ValueError('max_dimension must be positive')
  pixels=source.pixels(tag,index)
+ if zero_blue:
+  if fmt!=16:raise ValueError('Unused blue blend channel requires BC3 source')
+  pixels=clear_bc3_blue(pixels)
  level=0
  while max(w,h)>max_dimension:
   level+=1

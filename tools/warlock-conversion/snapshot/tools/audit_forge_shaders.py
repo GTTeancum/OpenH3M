@@ -3,7 +3,7 @@ from pathlib import Path
 sys.path.insert(0,str(Path('tools/warlock-conversion/snapshot/tools').resolve()))
 from cache_reader import Cache
 out={}
-for name,path,mcc in [('guardian',Path('../../maps/guardian.map'),False),('zanzibar',Path('../../maps/zanzibar.map'),False),('source',Path(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map'),True),('candidate',Path('work/forge-world/sandbox-sky.map'),False)]:
+for name,path,mcc in [('guardian',Path('../../maps/guardian.map'),False),('zanzibar',Path('../../maps/zanzibar.map'),False),('source',Path(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map'),True),('candidate',(Path(sys.argv[1]) if len(sys.argv)>1 else Path('work/forge-world/sandbox-sky.map')),False)]:
  c=Cache(path,mcc);schema=E.parse('tools/warlock-conversion/snapshot/reference/'+('mcc' if mcc else 'plugins')+'/sbsp.xml').getroot();mf=next(f for f in schema if f.get('name')=='Materials')
  bsps=[t['offset'] for t in c.tags.values() if t['group']=='sbsp'];roots=[t['offset'] for t in c.tags.values() if t['group']=='Lbsp'] if mcc else [b for t in c.tags.values() if t['group']=='sLdT' for b in c.block(t['offset']+4,436)]
  issues=[];used=collections.Counter()

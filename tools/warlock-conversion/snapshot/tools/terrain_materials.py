@@ -42,6 +42,8 @@ class DiscMaterialImporter:
         source_options = [int(value) for value in variant.split('_')[1:]]
         source_variant = variant
         fallback = None
+        prt_two_layer = (getattr(i, 'stock_forge_palette', False) and group == 'rmtr'
+                         and s.name(datum & 65535) == r'levels\multi\forge_halo\shaders\forge_halo_rocks')
         if getattr(i, 'stock_forge_palette', False) and group == 'rmtr':
             # This disc template retains all four authored terrain layers.
             # Several identically named retail variants only support three.
@@ -51,6 +53,14 @@ class DiscMaterialImporter:
             if fallback:
                 variant = fallback
                 template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+        if prt_two_layer:
+            if source_variant != '_0_0_1_1_2_0':
+                raise ValueError('Forge rock PRT mapping needs review for changed source options')
+            # Guardian's exact variant has no ambient PRT pass. Cold Storage
+            # supports it with an extra material. Zero its otherwise ignored
+            # blue weight, retaining the source two-layer normalization.
+            fallback = variant = '_0_0_1_1_1_0'
+            template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
         donors = DONORS if group == 'rmtr' else self.hologram_donors
         if group == 'rmhg':
             if len(source_options) != 9 or any(source_options[7:]):
@@ -84,6 +94,8 @@ class DiscMaterialImporter:
             native_strings = StringTable(donor)
             source_template = s.tags[s.u(post + 12) & 65535]['offset']
             target_root = donor.tags[target_template & 65535]['offset']
+            if prt_two_layer and not donor.u(target_root + 32) & (1 << 6):
+                raise ValueError('Forge rock donor lacks ambient PRT')
             promote_layer_count = False
             omitted_constants = []
             float_indices = None
@@ -92,7 +104,24 @@ class DiscMaterialImporter:
             for offset in (72, 84, 96, 108):
                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
-                if group == 'rmhg' and offset == 84 and not source_names and target_names == ['layers_of_4']:
+                if prt_two_layer and offset in (72, 108):
+                    mapped_names = [n.replace('_m_2', '_m_0') for n in target_names]
+                    if any(n not in source_names for n in mapped_names):
+                        raise ValueError('Unknown parameter in Forge rock PRT mapping')
+                    indices = [source_names.index(n) for n in mapped_names]
+                    if offset == 72:
+                        float_indices = indices
+                        omitted_constants = sorted(set(source_names) - set(mapped_names))
+                        if any(not n.startswith('environment_specular_contribution_m_') for n in omitted_constants):
+                            raise ValueError('Forge rock PRT mapping drops an active parameter')
+                    else:
+                        texture_indices = indices
+                        blend_row = s.block(post + 16, 28)[source_names.index('blend_map')]
+                        blend_name = s.name(s.u(blend_row + 12) & 65535)
+                        if ('bitm', blend_name) in i.materials.done:
+                            raise ValueError('Forge rock blend bitmap was already imported without channel mask')
+                        i.materials.zero_blue_blend_maps = getattr(i.materials, 'zero_blue_blend_maps', set()) | {blend_name}
+                elif group == 'rmhg' and offset == 84 and not source_names and target_names == ['layers_of_4']:
                     promote_layer_count = True
                 elif source_names != target_names:
                     omitted = set(source_names) - set(target_names)
@@ -262,6 +291,8 @@ class DiscMaterialImporter:
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
                 'native_donor': donors[variant], 'source_template_variant': source_variant, 'fallback_template_variant': fallback,
                 'approximation': bool(fallback or overlays or suppressed_specular or omitted_constants),
+                'ambient_prt_two_layer_mapping': prt_two_layer,
+                'inactive_third_layer_blue_zeroed': prt_two_layer,
                 'difference': ('Terrain UV animation frozen at authored initial transform' if group == 'rmtr'
                                else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays else None,
                 'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}),

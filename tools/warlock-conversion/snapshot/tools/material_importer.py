@@ -82,7 +82,8 @@ class MaterialImporter:
             return owner
         try:
             record, control, raw = encode_bitmap_base(self.bitmaps, tag, max_dimension=getattr(self, 'bitmap_size_overrides', {}).get(key[1], 512),
-                resize_blend=getattr(self, 'resize_blend_maps', False) and 'blend' in key[1])
+                resize_blend=getattr(self, 'resize_blend_maps', False) and 'blend' in key[1],
+                zero_blue=key[1] in getattr(self, 'zero_blue_blend_maps', set()))
         except ValueError as error:
             raise ValueError(f'bitm:{key[1]}: {error}') from error
         owner = self.bitmap_resource(record, control, raw)

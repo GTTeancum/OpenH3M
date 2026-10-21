@@ -1,5 +1,5 @@
 """Read-only rendering inventory against stock H3; no map mutations or launches."""
-import collections,json,struct
+import collections,json,struct,sys
 from pathlib import Path
 import xml.etree.ElementTree as E
 from cache_reader import Cache
@@ -59,7 +59,7 @@ def inspect(path,mcc=False):
 if __name__=='__main__':
  report={name:inspect(ROOT/'../../maps'/f'{name}.map') for name in ('sandbox','zanzibar','riverworld','sidewinder','chill','guardian')}
  report['source']=inspect(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map',True)
- report['candidate']=inspect(ROOT/'work/forge-world/sandbox-sky.map')
+ report['candidate']=inspect(Path(sys.argv[1]) if len(sys.argv)>1 else ROOT/'work/forge-world/sandbox-sky.map')
  differences=[]
  for bi,(s,d) in enumerate(zip(report['source']['lighting'],report['candidate']['lighting'])):
   for key in ('flags','geometry_flags','clusters','instances','compression','mesh_mopp_count','subpart_visibility_count','meshes'):

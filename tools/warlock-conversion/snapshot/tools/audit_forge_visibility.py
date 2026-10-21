@@ -4,7 +4,7 @@ sys.path.insert(0,str(Path('tools/warlock-conversion/snapshot/tools').resolve())
 from cache_reader import Cache
 from forge_mopp import terminals
 out={}
-for name,path,mcc in [('stock',Path('../../maps/zanzibar.map'),False),('source',Path(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map'),True),('candidate',Path('work/forge-world/sandbox-sky.map'),False)]:
+for name,path,mcc in [('stock',Path('../../maps/zanzibar.map'),False),('source',Path(r'D:\SteamLibrary\steamapps\workshop\content\976730\3597611181\maps\forge_halo.map'),True),('candidate',(Path(sys.argv[1]) if len(sys.argv)>1 else Path('work/forge-world/sandbox-sky.map')),False)]:
  c=Cache(path,mcc);roots=[t['offset'] for t in c.tags.values() if t['group']=='Lbsp'] if mcc else [b for t in c.tags.values() if t['group']=='sLdT' for b in c.block(t['offset']+4,436)]
  bsps=[]
  for root in roots:

@@ -33,7 +33,8 @@ def prepare(cache):
                 if face >= 0:
                     keep[face] = True
     portals = [cache.unpack('i', row + 4)[0] for row in cache.block(tag['offset'] + 0x7c, 40)]
-    payloads, maps, report = partition(arrays, keep, portals)
+    leaf_clusters = [cache.data[row] for row in cache.block(tag['offset'] + 0x34, 1)]
+    payloads, maps, report = partition(arrays, keep, portals, leaf_clusters)
     if any(edge not in maps['edges'] for edge in seam_edges):
         raise ValueError('Partition lost a shared BSP seam')
     report.update(seam_support_surfaces=int(keep.sum()) - selected_count,
@@ -70,7 +71,7 @@ def active_tree(children, terminals):
     return active, value
 
 
-def partition(arrays, keep, required_planes=()):
+def partition(arrays, keep, required_planes=(), leaf_clusters=None):
     nodes, planes, leaves, refs, nodes2, surfaces, edges, vertices = arrays
     source_loops = surface_loops(arrays)
     if len(keep) != len(surfaces) or not any(keep):
@@ -87,6 +88,11 @@ def partition(arrays, keep, required_planes=()):
         raise ValueError('Selection has no original root')
     ids = lambda flags: [n for n, flag in enumerate(flags) if flag]
     selected = {'nodes': ids(a3), 'leaves': ids(al), 'nodes2': ids(a2), 'surfaces': ids(keep)}
+    visibility_children, leaf_aliases = None, {}
+    if leaf_clusters is not None:
+        from forge_visibility_partition import preserve_clusters
+        selected['nodes'], selected['leaves'], visibility_children, leaf_aliases = preserve_clusters(
+            nodes, a3, al, leaf_clusters)
     selected['edges'] = [n for n, e in enumerate(edges)
                          if (e[4] >= 0 and keep[e[4]]) or (e[5] >= 0 and keep[e[5]])]
     selected['vertices'] = sorted({v for n in selected['edges'] for v in edges[n][:2]})
@@ -123,6 +129,8 @@ def partition(arrays, keep, required_planes=()):
     target = [[] for _ in range(8)]
     for old in selected['nodes']:
         plane, back, front = nodes[old]
+        if visibility_children is not None:
+            back, front = visibility_children[old]
         back = child(back, maps['nodes'], maps['leaves'], 24)
         front = child(front, maps['nodes'], maps['leaves'], 24)
         target[0].append((plane_map[plane] | (back << 16) | (front << 40),))
@@ -171,13 +179,16 @@ def partition(arrays, keep, required_planes=()):
     xyz = positions(arrays)
     rng = np.random.default_rng(20261021)
     probes = rng.uniform(xyz.min(axis=0), xyz.max(axis=0), (2048, 3))
+    opened_solid_queries = 0
+    empty_leaf_indices = {maps['leaves'][old] for old in leaf_aliases.values()}
     for point in probes:
         original = 0
         while original >= 0:
             plane, back, front = nodes[original]
             normal = planes[plane]
             original = front if sum(point[k] * normal[k] for k in range(3)) >= normal[3] else back
-        expected = maps['leaves'].get(original & 0x7fffffff) if original != -1 else None
+        old_leaf = original & 0x7fffffff
+        expected = maps['leaves'].get(leaf_aliases.get(old_leaf, old_leaf)) if original != -1 else None
         actual = 0
         while not actual & 0x800000:
             packed = decoded[0][actual][0]
@@ -185,7 +196,9 @@ def partition(arrays, keep, required_planes=()):
             front = sum(point[k] * normal[k] for k in range(3)) >= normal[3]
             actual = (packed >> (40 if front else 16)) & 0xffffff
         actual = None if actual == 0xffffff else actual & 0x7fffff
-        if actual != expected:
+        if original == -1 and actual in empty_leaf_indices:
+            opened_solid_queries += 1
+        elif actual != expected:
             raise ValueError('Packed tree changed spatial leaf classification')
     for old, new in maps['surfaces'].items():
         s = decoded[5][new]
@@ -215,6 +228,9 @@ def partition(arrays, keep, required_planes=()):
         'raw_bytes': sum(map(len, payloads)),
         'surface_loops_roundtrip_verified': len(maps['surfaces']),
         'spatial_queries_roundtrip_verified': len(probes),
+        'empty_visibility_leaves': len(empty_leaf_indices),
+        'original_leaf_cluster_assignments_preserved': len(leaves) if leaf_clusters is not None else None,
+        'discarded_solid_probe_regions_opened': opened_solid_queries,
         'negative_surface_planes_translated': sum(surfaces[n][0] < 0 for n in maps['surfaces']),
         'status': 'Offline table prototype; NOT map-ready',
     }
@@ -231,16 +247,10 @@ def main():
     from cache_reader import Cache
     c = Cache(a.source, True)
     try:
-        tag, arrays = read_mesh(c)
-        xyz = positions(arrays)
-        loops = surface_loops(arrays)
-        mins = np.array([xyz[loop].min(axis=0) for loop in loops])
-        maxs = np.array([xyz[loop].max(axis=0) for loop in loops])
-        keep, _ = classify_bounds(mins, maxs)
+        tag, _, maps, result = prepare(c)
         portals = [c.unpack('i', row + 4)[0] for row in c.block(tag['offset'] + 0x7c, 40)]
         if any(plane < 0 for plane in portals):
             raise ValueError('Unexpected portal plane sentinel')
-        _, maps, result = partition(arrays, keep, portals)
         result['portal_planes_retained'] = len(set(portals))
         # Record coupled metadata so integration cannot mistake these tables
         # for a stand-alone, deployable collision-resource replacement.

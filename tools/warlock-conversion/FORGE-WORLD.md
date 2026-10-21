@@ -543,3 +543,58 @@ They distinguish mesh visibility MOPPs/subpart bounds from BSP leaf/portal data.
 Next research priorities: compatible rock shader pass, partitioned leaf/portal
 semantics, live resource binding/visibility selection, and remaining sky/lighting
 approximations. Do not treat matching serialized fields as visual acceptance.
+
+## Evidence-based visibility and rock-lighting corrections (2026-10-21)
+
+`forge_visibility_partition.py` now preserves source render-cluster classification
+while dropping out-of-Gulch collision surfaces. The prior surface-only pruning
+lost 18 of 13,887 sampled nonsolid points 0.65 units above retained upward-facing
+polygons. It did not lose any of 96 sampled near-camera points at the spawn;
+therefore this defect was not presented as the established cause of the initial
+bad view. All 18 failing points now recover their original cluster in decoded
+retail tables (`preserved-visibility-audit.json`).
+
+Only subtrees without retained collision can simplify. Empty leaves of the same
+cluster share a representative; different clusters retain separating nodes.
+Discarded solid regions within those subtrees may become empty, as intended for
+removed outside collision. Subtrees supporting retained collision retain their
+solid branches. Source nonsolid leaf cluster identities are preserved. The new
+tables use 119,622 nodes, 62,600 planes and 59,185 leaves (12 empty cluster leaves),
+within original index widths. All 26,463 retained surface loops still roundtrip;
+2,048 spatial readback samples pass. No engine limits were raised.
+
+For `forge_halo_rocks`, Cold Storage's native `_0_0_1_1_1_0` template supplies
+ambient PRT, unlike Guardian's exact-named `_0_0_1_1_2_0`. Stock option definitions
+show the difference enables material 2. The source blue blend channel, ignored
+when material 2 is off, contains BC3 noise up to 8/255. Clear only the blue RGB565
+endpoint bits before tiling, so the extra material receives zero weight. Red,
+green and alpha decode unchanged, including alpha and interpolation edge cases.
+Unused material-2 bindings reuse valid material-0 values; no assets are added
+for that unused layer. The original active layers retain their normalization.
+Primary shader implementation corroborating active-channel normalization:
+https://github.com/Beatthezombie/HaloShaderGenerator/blob/master/halo_online_shaders/terrain.fx
+This is Halo Online reference source, not proof of Xbox shader bytecode identity;
+actual donor categories, parameters and pass coverage were inspected from the
+original Cold Storage cache. The new shader audit reports zero missing required
+PRT passes, vs four formerly. The mapping and masked channel are reported.
+
+Fourteen focused Forge tests pass. Rebuilt candidate:
+`work/forge-world/sandbox-visibility-prt.map`, 137,646,080 bytes.
+Render metadata and per-mesh visibility trees still match source. Audits accept
+an optional candidate-map argument so they validate the actual new output.
+Only this candidate was built and staged for the runtime check after research.
+No engine code, original disc files, or other installed maps changed.
+
+Native validation `20261021-153032-route-probe` FAILED visual acceptance.
+Both native captures (116000 and 134000 ms, with a process-local turn between)
+still show missing terrain and inverted scenery. The two verified offline
+corrections do not resolve the main rendering failure. Do not call this fixed.
+No further speculative candidate was built.
+
+Independent payload readback (`audit_forge_positions.py`) compares primary
+position/UV bit patterns directly between MCC and the decoded candidate, without
+calling the encoder. All 166 primary buffers / 146,012 vertices match. Together
+with matching compression metadata, this rules out altered stored primary
+positions as the explanation; it does not validate live transforms, resource
+binding, visibility selection, or water/reflection render state. The next step
+is to trace those runtime paths against a stock map before changing more data.
