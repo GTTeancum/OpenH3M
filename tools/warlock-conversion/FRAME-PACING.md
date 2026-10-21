@@ -1061,3 +1061,40 @@ instrumentation is CPU duration of submission/signaling and the encompassing
 RefreshGuestOutput phases, not another blind synchronization configuration.
 No evidence supports replacing queue ownership yet. Keep occlusion correctness
 and original guest behavior. Normal installation unchanged; goal remains active.
+
+### Output-phase diagnosis (2026-10-20)
+
+Previous turn made progress by showing no long measured fence waits overlapped
+the reproduced stalls. Added rexglue-sdk-output-phase-timing.patch with >=5ms
+phase logs under the existing opt-in diagnostic flag: submission setup, pipeline
+completion, command-list setup/deferred translation/close, ExecuteCommandLists,
+Signal, output pacing, resource refresh, mailbox publication, paint-mode mutex
+acquisition and painting/requesting. No synchronization semantics changed.
+The queue-wait summary now also parses these phases; nested durations must not
+be treated as independent additive causes.
+All 19 patches validated, incremental builds passed, 10,900 exports had no
+missing imports. Staged runtime SHA256:
+0e6670c1bb72b0f6ce629a363793e849afef23639c5b829e5a7ee83928fb8ace.
+Run 20261020-221155-ui-thread (session 2262) is pending, reproducing the rejected
+synchronized UI-thread configuration with broader phase evidence. Normal
+installation is unchanged; all output remains in the project.
+
+Run 20261020-221155-ui-thread completed; native 145-second image inspected,
+expected Prisoner scene and grenade animation confirmed. Threshold phase counts:
+6,171 queue-execute, 2,580 output-refresh (nested), 596 output-pacing,
+36 queue-signal, 47 host-tracker. No >=5ms pipeline-completion or paint-mode-lock
+phase appeared. All twelve >60ms output gaps overlap queue-execute waits, often
+about 16ms, but these account for only part of each long gap. Example: the
+150.225ms interval at 128.912-129.062s overlaps one 15.957ms queue-execute call.
+Do not claim the entire large hitch is explained or sum nested refresh times.
+This establishes CPU blocking in ExecuteCommandLists under this synchronized
+configuration, rather than assuming it from shared queue ownership.
+
+Before splitting queues (which would require correct cross-queue image fences),
+inspect DXGI swap-chain frame-latency waiting: waiting for available presentation
+capacity outside driver submission may avoid blocking inside Present while it
+serializes the shared queue. Current swap-chain creation uses flip-discard and
+optional tearing only; no frame-latency waitable flag or explicit frame-latency
+wait exists. Any candidate must preserve producer 30Hz, image correctness and
+shutdown/resize behavior, and must be opt-in until measured. Root installation
+unchanged. Goal active; this turn produced source instrumentation and new evidence.
