@@ -1,0 +1,58 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -32,6 +32,9 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_allow_variable_refresh_rate_and_tearing, true, "UI/D3D12",
+                     "Allow variable refresh rate and tearing");
++
++REXCVAR_DEFINE_BOOL(d3d12_log_present_timing, false, "UI/D3D12",
++                    "Log DXGI delivery statistics from 110-155 seconds after first present");
+ 
+ namespace rex::ui::d3d12 {
+ 
+@@ -1155,9 +1158,45 @@
+   // fullscreen is ever used in, the allow tearing flag must not be passed in
+   // fullscreen, but DXGI fullscreen is largely unneeded with the flip
+   // presentation model used in Direct3D 12).
++  LARGE_INTEGER timing_begin{}, timing_end{}, timing_frequency{};
++  const bool log_present_timing = REXCVAR_GET(d3d12_log_present_timing);
++  if (log_present_timing) {
++    QueryPerformanceCounter(&timing_begin);
++    QueryPerformanceFrequency(&timing_frequency);
++  }
+   HRESULT present_result = paint_context_.swap_chain->Present(
+       0, DXGI_PRESENT_RESTART |
+              (paint_context_.swap_chain_allows_tearing ? DXGI_PRESENT_ALLOW_TEARING : 0));
++  if (log_present_timing) {
++    QueryPerformanceCounter(&timing_end);
++    // Diagnostic state is thread-local: no public class layout or guest changes.
++    static thread_local const D3D12Presenter* timing_owner = nullptr;
++    static thread_local LONGLONG timing_origin = 0;
++    if (timing_owner != this) {
++      timing_owner = this;
++      timing_origin = timing_begin.QuadPart;
++    }
++    const double elapsed_ms = double(timing_begin.QuadPart - timing_origin) *
++                              1000.0 / double(timing_frequency.QuadPart);
++    if (elapsed_ms >= 110000.0 && elapsed_ms <= 155000.0) {
++      DXGI_FRAME_STATISTICS statistics{};
++      const HRESULT statistics_result = paint_context_.swap_chain->GetFrameStatistics(&statistics);
++      UINT last_present_count = 0;
++      const HRESULT count_result = paint_context_.swap_chain->GetLastPresentCount(&last_present_count);
++      // Frame statistics may be unsupported/disjoint. Preserve HRESULTs rather
++      // than treating zeroed statistics as successful display delivery.
++      REXLOG_INFO("[host-present] qpc={} frequency={} elapsed_ms={:.3f} call_ms={:.3f} "
++                  "present_hr={:08X} stats_hr={:08X} count_hr={:08X} submitted={} "
++                  "displayed={} refresh={} sync_refresh={} sync_qpc={} guest_observed={}",
++                  timing_begin.QuadPart, timing_frequency.QuadPart, elapsed_ms,
++                  double(timing_end.QuadPart - timing_begin.QuadPart) * 1000.0 /
++                      double(timing_frequency.QuadPart),
++                  uint32_t(present_result), uint32_t(statistics_result), uint32_t(count_result),
++                  last_present_count, statistics.PresentCount, statistics.PresentRefreshCount,
++                  statistics.SyncRefreshCount, statistics.SyncQPCTime.QuadPart,
++                  guest_output_frame_count());
++    }
++  }
+   // Even if presentation has failed, work might have been enqueued anyway
+   // internally before the failure according to Jesse Natalie from the DirectX
+   // Discord server.

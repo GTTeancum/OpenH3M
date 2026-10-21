@@ -20,6 +20,7 @@ p.add_argument('--project', type=Path, required=True)
 p.add_argument('--exe', type=Path, required=True)
 p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled', 'ntsc-refresh', 'filtering-off'), default='baseline')
 p.add_argument('--capture', action='store_true')
+p.add_argument('--present-timing', action='store_true', help='Read process-local DXGI presentation statistics; skip unreliable external ETW tracing.')
 p.add_argument('--native-timing', action='store_true', help='Read the existing in-game frame counter without per-frame debugger traps.')
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--guest-vblank-timing', action='store_true', help='Also sample the source-0 guest vblank handler counter.')
@@ -87,6 +88,10 @@ if a.mode == 'filtering-off':
     cmd += ['--anisotropic_override=0']
 if a.host_output_fps is not None:
     cmd += [f'--host_guest_output_fps={a.host_output_fps}']
+if a.present_timing:
+    if b'd3d12_log_present_timing\0' not in (exe.parent / 'rexruntime.dll').read_bytes():
+        raise SystemExit('Runtime lacks native presentation timing')
+    cmd += ['--d3d12_log_present_timing=true']
 if a.slow_preparation_ms is not None:
     cmd += [f'--d3d12_slow_preparation_ms={a.slow_preparation_ms}']
 if a.mode == 'ntsc-refresh':
@@ -129,11 +134,12 @@ with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb'
             if not fn(int(child._handle), 4, C.byref(policy), C.sizeof(policy)):
                 raise C.WinError(C.get_last_error())
             state['timer_policy'] = 'Always honor existing process timer-resolution requests'
-        pm = subprocess.Popen([str(root / 'tools/PresentMon-2.6.0-x64.exe'), '--process_id', str(child.pid),
-            '--delay', '110', '--timed', '45', '--terminate_after_timed', '--no_track_input',
-            '--no_console_stats', '--session_name', 'H3M-pacing-' + str(child.pid),
-            '--output_file', str(run / 'frames.csv')], cwd=run, env=env,
-            stdout=pmout, stderr=pmout, creationflags=subprocess.CREATE_NO_WINDOW)
+        if not a.present_timing:
+            pm = subprocess.Popen([str(root / 'tools/PresentMon-2.6.0-x64.exe'), '--process_id', str(child.pid),
+                '--delay', '110', '--timed', '45', '--terminate_after_timed', '--no_track_input',
+                '--no_console_stats', '--session_name', 'H3M-pacing-' + str(child.pid),
+                '--output_file', str(run / 'frames.csv')], cwd=run, env=env,
+                stdout=pmout, stderr=pmout, creationflags=subprocess.CREATE_NO_WINDOW)
         if a.native_timing:
             from native_frame_timing import record
             state['native_timing'] = record(child, exe.parent / 'rexruntime.dll', run / 'guest-frames.csv', started, gpu_progress=a.gpu_progress_timing, guest_vblank=a.guest_vblank_timing, pacing_probe=a.pacing_probe)
@@ -141,7 +147,8 @@ with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb'
             state['exit_code'] = child.wait(timeout=max(0.01, 165 - (time.perf_counter() - started)))
         except subprocess.TimeoutExpired:
             state['watchdog'] = True
-        state['presentmon_exit_code'] = pm.wait(timeout=10)
+        state['presentmon_exit_code'] = pm.wait(timeout=10) if pm else None
+        state['presentation_method'] = 'native DXGI statistics' if a.present_timing else 'PresentMon; validate CSV and lost events separately'
     except Exception as error:
         state['harness_error'] = f'{type(error).__name__}: {error}'
         raise

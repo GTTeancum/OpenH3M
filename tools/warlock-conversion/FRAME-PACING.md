@@ -884,3 +884,43 @@ Cold Storage hitch remains unproven, and captured replay endpoints differ.
 No system-link/audio/other-hardware verification is claimed. Goal stays active.
 Cleanup remains subject to the previously recorded automatic-review denial;
 no cleanup workaround attempted. No assets changed or committed.
+
+### Native presentation statistics (2026-10-20)
+
+The previous goal turn was progress: deployed prewarm correction and verified
+stock/converted runs. This turn confirmed that PresentMon's successful exit
+was not usable measurement: no frames.csv, 539,215 lost ETW events on the last
+direct run. No physical-delivery conclusion follows from those traces.
+
+Added opt-in rexglue-sdk-present-timing.patch. d3d12_log_present_timing defaults
+false; enabled diagnostics query DXGI frame statistics and last-present count
+and log QPC, HRESULTs, refresh counts and observed guest-output progress only
+110-155 seconds after first present. No desktop capture/input or system-wide
+trace. Thread-local bookkeeping avoids changing public object layout. Present
+flags and game simulation are unchanged. check_frame_pacing.py --present-timing
+checks runtime support and skips external PresentMon entirely. All 15 patches
+validated; incremental build succeeded and 10,891 exports had no missing imports.
+The normal installation is unchanged; diagnostic staged runtime hash:
+aa73683ae33cbe6470cb9a942d8480228631ebdb6bd220df231cd4322895c5ff.
+
+Run 20261020-214202-baseline (session 11493) finished its watchdog. Native
+145-second image inspected: expected Prisoner interior, grenade throw and
+projectile. Game-output mean 33.334ms, deviation 0.873ms, no >60ms full-window
+gaps, guest vblank 16.666ms. Native statistics: 4,048 records; one initial
+DXGI_ERROR_FRAME_STATISTICS_DISJOINT, then 4,047 successful statistics queries.
+Present calls median 0.106ms, maximum 0.756ms. Submission intervals averaged
+11.118ms (about 90 submissions/s), maximum 17.509ms, while guest output is 30Hz.
+This is repeated host submission, NOT evidence of 90 distinct gameplay images
+or a 90Hz display. Sync refresh progressed 2,697 counts over roughly 44.994s,
+consistent with about 59.94Hz. PresentCount frequently advances by more than one
+between samples; do not infer an exact displayed guest-image sequence from this.
+
+summarize_present_timing.py preserves HRESULT counts, unavailable/missing
+states, counter resets and repeated statistics. Its observed guest count is NOT
+the identity of the painted/displayed image. SyncQPCTime is a scheduler sync
+sample, not a presentation timestamp. Reference:
+https://learn.microsoft.com/en-us/windows/win32/api/dxgi/ns-dxgi-dxgi_frame_statistics
+Next useful measurement: associate the actual acquired guest image with submitted
+presentation IDs, then compare its reported refresh cadence. Do not repeat a run
+with only the existing counters and claim that proves displayed-image smoothness.
+Goal remains active; known cleanup review denial remains, no bypass attempted.
