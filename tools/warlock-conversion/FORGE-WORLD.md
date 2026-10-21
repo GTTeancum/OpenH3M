@@ -1,6 +1,7 @@
 # Forge World / Sandbox conversion
 
-Status (2026-10-21): **incomplete, blocked at retail collision representation**.
+Status (2026-10-21): **Forge Gulch started; offline collision tables serialize,
+but metadata/physics integration and containment remain incomplete**.
 No candidate map has been emitted or deployed. Existing converted maps and the
 host runtime are unchanged. The conversion groundwork below is not validated
 in gameplay and must not be described as a working port.
@@ -184,3 +185,78 @@ python -B tools/warlock-conversion/snapshot/tools/analyze_forge_split.py `
 
 No map, executable, source asset or existing installation was changed by this
 assessment. Temporary spatial-array data was removed after the final report.
+
+## Forge Gulch implementation (user sketch, 2026-10-21)
+
+The user selected **Forge Gulch first**, still over Sandbox, and supplied a red
+curved split on an aerial image. The right-hand canyon/coast is Gulch; the left
+side remains Forge World. Full visual scenery remains a requirement for both.
+`forge_gulch_boundary.py` now records a world-coordinate interpretation of that
+sketch, replacing the rectangular estimate for this candidate. It includes the
+Montana/coastline region that the old X <= 10 cut partly excluded. The island,
+beach cave and waterfall are on the World side. This is a geographic draft,
+not a claim of user-approved exact coordinates or tested in-game containment.
+
+`plot_forge_split.py` draws actual source terrain with the draft line. Null-shader
+collision barriers are hidden only in this planning plot. They are not discarded
+from the collision selection. The plot is not an in-game capture or visual proof.
+
+`partition_forge_collision.py` performs an actual **in-memory** conversion of the
+selected large collision tables into retail big-endian tables. It retains
+crossing polygons intact, remaps every table index, assigns signed-reference
+planes first, deduplicates only byte-identical planes, translates surface plane
+orientation to the retail flag, and repairs vertex incident-edge references.
+It also retains all 18 distinct portal planes, including seven additional unique
+planes needed by full-world visibility. Original render data is not edited.
+
+Current main-BSP prototype results:
+
+| Table | Serialized count |
+| --- | ---: |
+| 3D nodes | 116,852 |
+| Planes | 60,946 |
+| Leaves | 58,732 |
+| 2D references | 86,617 |
+| 2D nodes | 4,178 |
+| Surfaces | 26,147 |
+| Edges | 41,161 |
+| Vertices | 15,008 |
+
+Table payload is 3,840,948 bytes, excluding resource headers, instances and added
+containment. Every retained polygon's serialized vertex loop, material and plane
+orientation passed read-back verification. 257 reversed planes were translated.
+2,048 deterministic spatial probes through the decoded packed tree agreed with
+the source tree's retained-leaf mapping. Four focused regression tests passed.
+These checks do not prove collision response, Havok integration or gameplay.
+
+**Do not wire these tables into a candidate yet.** The existing builder gate
+remains enabled. Coupled source data that still needs conversion includes:
+
+- 99,039 leaf-cluster entries, to be remapped to the 58,732 retained leaves.
+- 44,461 surface-mapping rows and 52,348 triangle-mapping entries.
+- 69,737 edge/seam rows and two seam tables: the cut removes 168/273 and 23/23
+  of their original edge references. Shared-BSP seam correspondence must be
+  resolved explicitly; stale indices or silently deleting seams is unacceptable.
+- 2,199 instanced geometry placements retained for visuals, with collision and
+  cluster MOPP bindings still requiring a semantic audit. Existing MOPP format
+  conversion accepts all 11 nonempty cluster code blocks, which alone does not
+  establish that their keys remain correct after partitioning.
+- Collision-backed containment for players, flying vehicles and the Forge camera;
+  spawn/camera placement; full candidate serialization, budget and native checks.
+
+Reproduce from the repository root, without writing a map or copying assets:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/partition_forge_collision.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --report work/forge-world/gulch-collision.json
+python -B tools/warlock-conversion/snapshot/tools/plot_forge_split.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --output work/forge-world/gulch-boundary.png
+python -B -m unittest discover -s tools/warlock-conversion/snapshot/tools -p test_forge_partition.py -v
+```
+
+Use `analyze_forge_split.py --sketch` to reproduce the two-sided estimate. Its
+plane count excludes the seven additional portal planes retained by the actual
+prototype. Ignored outputs reuse their existing paths; no second installation,
+executable build, source-cache copy or binary collision dump is created.

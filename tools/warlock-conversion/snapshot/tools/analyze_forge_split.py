@@ -6,7 +6,7 @@ from cache_reader import Cache
 from resource_reader import Resource
 
 
-def analyze(path,cut,cut_x=None):
+def analyze(path,cut,cut_x=None,sketch=False):
  c=Cache(path,True)
  try:
   t=next(t for n,t in c.tags.items() if t['group']=='sbsp' and c.name(n)==r'levels\multi\forge_halo\forge_halo')
@@ -60,6 +60,9 @@ def analyze(path,cut,cut_x=None):
   if cut_x is not None:
    gulch &= mins[:,0]<=cut_x
    world |= maxs[:,0]>=cut_x
+  if sketch:
+   from forge_gulch_boundary import classify_bounds
+   gulch,world=classify_bounds(mins,maxs)
   for name,keep in [('Forge Gulch',gulch),('Forge World',world)]:
    def surface(ch):
     if ch==-1:return False
@@ -114,7 +117,7 @@ def analyze(path,cut,cut_x=None):
      retail_lightmaps.append({'name':c.name(idx),'raw_bytes':len(raw)})
   return {'retail_visual_payloads':{'geometry':retail_geometry,'lightmaps':retail_lightmaps,
       'total_raw_bytes':sum(x['raw_bytes'] for x in retail_geometry+retail_lightmaps)},
-    'candidate_cut':{'cut_y':cut,'cut_x':cut_x,'gulch_side':'Y <= cut_y and optional X <= cut_x','world_side':'Complement, including crossing polygons',
+    'candidate_cut':{'mode':'user-sketch-polyline' if sketch else 'rectangle','cut_y':None if sketch else cut,'cut_x':None if sketch else cut_x,'gulch_side':'Y <= boundary(X)' if sketch else 'Y <= cut_y and optional X <= cut_x','world_side':'Complement, including crossing polygons',
      'status':'Provisional canyon-mouth cut; final boundary requires visual/gameplay validation',
      'crossing_surfaces_retained_on_both_sides':int((gulch & world).sum())},
     'estimates':outputs,'source_visual_payloads':{'geometry':geometry,'lightmaps':lightmaps,
@@ -131,10 +134,11 @@ def main():
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument('--source',required=True);p.add_argument('--cut-y',type=float,default=-20)
  p.add_argument('--cut-x',type=float)
+ p.add_argument('--sketch',action='store_true',help='Use Forge Gulch boundary interpreted from the user sketch')
  p.add_argument('--report',type=Path,required=True);a=p.parse_args()
  report=a.report.resolve();repo=Path(__file__).resolve().parents[4]
  if not report.is_relative_to(repo):raise ValueError('Report must stay in repository')
- result=analyze(a.source,a.cut_y,a.cut_x);report.parent.mkdir(parents=True,exist_ok=True)
+ result=analyze(a.source,a.cut_y,a.cut_x,a.sketch);report.parent.mkdir(parents=True,exist_ok=True)
  report.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 
 if __name__=='__main__':main()
