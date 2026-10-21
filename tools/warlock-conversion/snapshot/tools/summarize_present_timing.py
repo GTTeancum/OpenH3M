@@ -44,6 +44,33 @@ def summarize(path):
                   repeated_display_statistics=repeats,
                   first_successful_statistics=good[0] if good else None,
                   last_successful_statistics=good[-1] if good else None)
+    submitted_images={r['submitted']:r['guest_painted'] for r in rows
+                      if r['count_hr']==0 and r['present_hr']==0 and 'guest_painted' in r}
+    observed=[]; unmatched=0
+    for r in rows:
+        if r['stats_hr']:
+            continue
+        guest=submitted_images.get(r['displayed'])
+        if guest is None:
+            unmatched+=1
+            continue
+        if guest and (not observed or guest!=observed[-1]['guest']):
+            observed.append({'guest':guest,'refresh':r['refresh'],'qpc':r['qpc']})
+    identity_intervals=Counter(); missing_images=0; backwards=0
+    for a,b in zip(observed,observed[1:]):
+        delta=b['guest']-a['guest']
+        if delta==1:
+            identity_intervals[b['refresh']-a['refresh']]+=1
+        elif delta>1:
+            missing_images+=delta-1
+        else:
+            backwards+=1
+    result['guest_image_observations']={
+        'identified_transitions':len(observed),
+        'unmatched_statistics':unmatched,
+        'refresh_deltas_between_consecutive_images':dict(sorted(identity_intervals.items())),
+        'unobserved_image_ids':missing_images,'backwards_transitions':backwards,
+        'caution':'Maps reported present IDs to the acquired mailbox image. Polling may miss an earlier presentation of the same image; these are sampled visibility transitions, not an exhaustive scanout history.'}
     return result
 
 if __name__=='__main__':

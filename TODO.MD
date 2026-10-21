@@ -7,6 +7,8 @@
   converted maps against original disc maps. The host pacing fix is deployed;
   verified Prisoner variation fell from 14.718ms to 0.806ms. Remaining: reproduce
   the larger intermittent Cold Storage traversal hitch before calling this done.
+  Native image-linked DXGI measurements also show frequent sampled 1/3-refresh
+  transitions despite steady game output; evaluate host display synchronization.
 - [ ] Optimize further after the current frame-pacing investigation. The only
   test system so far is the user's **Beelink SER8**; results do not establish
   performance on other PCs or Xbox 360 hardware.

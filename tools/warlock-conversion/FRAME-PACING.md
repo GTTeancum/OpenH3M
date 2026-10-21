@@ -924,3 +924,51 @@ Next useful measurement: associate the actual acquired guest image with submitte
 presentation IDs, then compare its reported refresh cadence. Do not repeat a run
 with only the existing counters and claim that proves displayed-image smoothness.
 Goal remains active; known cleanup review denial remains, no bypass attempted.
+
+### Acquired image identity diagnostic (2026-10-20)
+
+Previous goal turn made progress: native DXGI statistics replaced missing ETW
+evidence. Added rexglue-sdk-present-image-identity.patch to remove the remaining
+ambiguity between current output progress and the actually acquired image.
+A Windows-only diagnostic sidecar records each successful producer sequence
+in its three mailbox slots before the ready-image release. The D3D12 painter
+reads the matching slot while holding the existing consumer lock, then logs
+that identity with GetLastPresentCount. The extra mutex protects the sidecar;
+it is not held across mailbox exchange, draw, or Present. It does not change
+Presenter/GuestOutputProperties layout, guest state, or presentation flags.
+Entries are erased at presenter destruction. Producer/reader bookkeeping is
+only enabled by d3d12_log_present_timing; normal launches do not use it.
+
+summarize_present_timing.py joins successful submitted IDs with reported DXGI
+PresentCount, keeps missing IDs explicit and counts sampled visibility refresh
+deltas for consecutive guest images. This remains sampled evidence: the first
+presentation of an image may precede its first observed report. Do not present
+it as a complete scanout history. Older logs without guest_painted correctly
+report no identified images instead of substituting guest_observed.
+
+All 16 patches validated, runtime/GPU builds passed; 10,897 runtime exports,
+zero missing imports. Staged diagnostic runtime SHA256:
+ed7cc007d8b7a10f7327af2703fbcdcfe86e22fb76a5189d395de22e20101a3a.
+Normal installation unchanged. Prisoner effects run 20261020-214718-baseline
+(session 29080) is pending under its existing 165-second watchdog.
+
+Run 20261020-214718-baseline completed and its native 145-second image was
+inspected: expected Prisoner structure/materials and weapon/grenade animation.
+Game output mean 33.332ms, deviation 0.804ms; no >60ms capture gaps, no skipped
+counter observations. DXGI trace: 4,047 submissions, one initial disjoint result,
+then 4,046 valid statistics. No reset; 1,349 identified game-image transitions,
+zero missing sequential image IDs and zero backwards transitions. Only the
+initial statistics record could not be joined to a pre-window submission.
+Consecutive-image sampled refresh deltas: 167 at one refresh, 1,016 at two,
+165 at three (332/1,348 = 24.63% non-two). This is evidence consistent with
+remaining display cadence unevenness despite steady guest production. Sampling
+can report a later repeated presentation of an image, so don't claim an exact
+first-exposure time or that 24.63% of actual frames necessarily stuttered.
+
+The current presenter always calls Present(0, RESTART | optional ALLOW_TEARING)
+and submits repeated images at about 90Hz to this approximately 59.94Hz display.
+Next targeted experiment: opt-in synchronized host presentation, retaining
+unchanged guest clocks and measuring both image-linked display cadence and game
+output rate. Do not lower asset quality, infer hardware insufficiency, or call
+the goal complete from the steady game counter alone. Normal deployment remains
+unchanged; source diagnostic changes committed locally, no game assets included.
