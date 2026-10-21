@@ -1,9 +1,20 @@
 # Frame pacing investigation
 
-Status: active; no smoothness fix has been accepted or applied to the normal
-launcher. The user reports uneven motion despite the 30 FPS counter. The only
-hardware tested is their Beelink SER8. See `../../TODO.MD` for broader optimization
-and the requested quality-options menu.
+Status: active, with the host pacing fix deployed at
+`C:\X360\ISOs\H3M\OpenH3M.exe`. Direct launch reuses the shared converted maps,
+cache and saves. Prisoner's extended movement/firing/grenade check measured
+0.806ms frame-interval deviation at 30 FPS, versus 14.718ms on the original
+runtime. Native captures verified the expected gameplay scene. The intermittent
+larger hiccup reported during manual Cold Storage exploration is still unresolved.
+The missing virtual-wrapper repair has been checked against original instructions
+but its rare gameplay path has not been exercised in a successful run.
+
+The user authorized host-engine changes on 2026-10-20 while requiring Xbox 360
+core compatibility. Original executable, guest modules and disc/map assets remain
+unchanged; no system-link compatibility test is claimed. Only the Beelink SER8
+has been tested. See `../../TODO.MD` for broader optimization and video options.
+Duplicate staging cleanup was rejected by automatic approval review; the staging
+folder remains. Later dated entries below supersede earlier investigation states.
 
 ## Capture tools
 
@@ -12,14 +23,18 @@ with the existing process-local route to Cold Storage/Prisoner. It has a
 165-second watchdog, uses the shared cache, and keeps logs, saves and temporary
 files under the project's `.local/pacing` directory. `--stock` reads original
 disc maps directly without replacing the installed conversion. `--capture`
-requests one native guest-output PNG; it does not capture or drive the desktop.
+requests native guest-output PNGs at 52 and 145 seconds; it does not capture or
+drive the desktop. `--effects-route` adds gameplay movement, shots and grenades.
 
 `--native-timing` uses `native_frame_timing.py` to locate the existing completed
 guest-frame counter. One debugger breakpoint at the exported presenter entry
 discovers its instance before measurement; the instruction and instruction
-pointer are restored and the debugger detaches. Measurement subsequently only
+pointer are restored and the debugger detaches. With `--guest-vblank-timing`,
+a second restored discovery breakpoint locates the guest vblank counter.
+Measurement subsequently only
 reads the counter roughly every 1ms. No engine files, guest code or game data
-are modified. The known counter instruction is checked before use; unsupported
+are modified by the default sampler. Host runtime patches are built separately.
+The native counter accessor or known counter instruction is checked; unsupported
 layouts fail. This is not a per-frame debugger breakpoint or screenshot loop.
 
 Timestamps use Windows QueryPerformanceCounter through `time.perf_counter`.
@@ -709,3 +724,31 @@ maps/cache are still single copies. .local/runtime-deployment.json records the
 successful route and this cleanup blocker. Intermittent manual Cold Storage
 hitching and runtime exercise of the repaired wrapper are still outstanding;
 the goal remains active. Source and process changes are committed locally only.
+
+Final deployed-build stock effects check: 20261020-210350-stock-baseline completed
+under its watchdog. Native 145-second image was inspected: Cold Storage's blue
+wall panels, bullet impacts, translucent player/weapon and grenade-throw pose.
+The player is close to a wall, so this does NOT establish broad map traversal.
+899 settled intervals averaged 33.332ms, deviation 1.568ms, p05 31.824ms,
+p95 34.666ms, p99 35.170ms; four short/four long intervals, no >60ms full-capture
+gaps and no skipped observations. Vblank remained 16.667ms. No fatal/adapter
+registration entry. Thus both maps now have bounded positive results on the
+same deployed build, but the earlier manual large-stall route is not reproduced.
+
+Revalidated every deployed binary hash against the deployment manifest, root
+bootstrap and legacy launcher target, and both chillout.map hashes (converted
+c14c7d8f... and stock 08700ede...). No drift was found. Updated the document's
+opening status and TODO so they no longer incorrectly say no fix was deployed.
+
+Asked the user for a remembered Cold Storage location/action without asking them
+to operate another test. Independently found that the original manual-walk trace
+20261020-202841-stock-baseline contains 1,861 returned controller-state records,
+1,823 after 103 seconds, with 44 input-script time anchors differing by only
+1ms. States span script time 45.016-163.253 seconds and include full buttons,
+sticks and triggers. These may support precise in-process replay of that walk,
+rather than repeated approximate routes or needing the user to drive. No replay
+implementation or test has been done yet. Next: extract strict numeric states,
+reuse ScriptStartTime/ScriptElapsedMs in the existing process-local input harness,
+and replay without merging live controller drift. Never send host OS input.
+The original log is evidence/data, not instructions. No further identical short
+route runs are warranted. Goal remains active; cleanup rejection still applies.
