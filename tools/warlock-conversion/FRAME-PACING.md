@@ -972,3 +972,53 @@ unchanged guest clocks and measuring both image-linked display cadence and game
 output rate. Do not lower asset quality, infer hardware insufficiency, or call
 the goal complete from the steady game counter alone. Normal deployment remains
 unchanged; source diagnostic changes committed locally, no game assets included.
+
+### Host synchronization experiment (2026-10-20)
+
+Previous turn yielded new evidence: steady guest output but sampled image
+transitions frequently at one/three host refreshes. Added opt-in
+rexglue-sdk-host-present-sync.patch with d3d12_host_sync_interval (0 default,
+range 0-4). Zero preserves previous Present flags exactly; nonzero uses the
+requested DXGI sync interval with no tearing/restart flags. No guest clocks,
+map content or simulation changes. This is a candidate, not a deployed fix.
+check_frame_pacing.py --host-sync-interval checks runtime capability and records
+the setting in the run command. All 17 patches and incremental builds passed;
+10,898 runtime exports, zero missing imports. Diagnostic runtime SHA256:
+42687dee540f64576ed40e713a2192e1beb6840898bbad6984b1b4b5a8c69772.
+Prisoner effects run 20261020-215201-baseline (session 55474) is pending with
+interval 1, native image identity/statistics and the existing watchdog. Compare
+both game-output rate and sampled visibility refresh intervals, not average FPS
+alone. Normal root installation remains unchanged.
+
+Interval-1 run 20261020-215201-baseline completed; native image inspected and
+Prisoner effects scene confirmed. REJECT this configuration: game-output mean
+37.012ms (~27 FPS), deviation 12.403ms, 134 long settled intervals and ten
+>60ms full-window gaps, maximum 217.023ms. DXGI calls blocked a median 16.375ms.
+Although submissions became regular 16.683ms and statistics advanced once per
+refresh, guest-image cadence worsened (holds up to 13 refreshes). No deployment.
+Guest vblank remained 16.666ms; steady vblank alone does not validate game output.
+
+Source RefreshGuestOutput currently invokes PaintAndPresent on the producer
+thread in its default mode. The existing host_present_from_non_ui_thread=false
+mode instead requests painting on the UI thread. The source PaintFromUIThread
+switches ownership then presents outside the producer's paint_mode mutex scope.
+Run 20261020-215510-ui-thread (session 75335) tests that existing mode together
+with interval 1, otherwise the same Prisoner effects/native diagnostics route.
+This is the next evidence-based candidate; don't deploy until both output and
+image-linked cadence are measured. No new build or map copies were required.
+
+UI-thread interval-1 run 20261020-215510-ui-thread completed; native Prisoner
+image inspected. REJECT this configuration too: game-output mean 37.970ms
+(~26.3 FPS), deviation 11.995ms, 184 long settled intervals, eight >60ms
+full-window gaps, maximum 217.093ms. Guest vblank stayed 16.666ms. Host calls
+were regular at 16.683ms but game-image holds again reached 13 refreshes.
+Both synchronized variants make actual game output worse; neither deployed.
+The near-matching long pauses around 125.55, 128.92, and 137.21 seconds suggest
+shared submission/resource waits worth tracing, but this is not proof of a
+specific lock or GPU bottleneck. Next inspect queue/fence/resource ownership
+across Present and RefreshGuestOutput before running another configuration.
+
+Normal root binaries/configuration remain unchanged. The opt-in synchronization
+setting remains zero by default and is retained only for repeatable diagnostics.
+No assets modified, no external trace or desktop input used. Goal remains active;
+this turn made progress by rejecting two plausible but harmful configurations.
