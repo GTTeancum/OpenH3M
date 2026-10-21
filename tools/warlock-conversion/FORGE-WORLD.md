@@ -4,8 +4,8 @@ Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
 is fixed and verified in native captures before and after turning/walking.**
 Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
 remain open. This is not a completed port. The shared installation contains
-`sandbox-normal-mips.map` (138,219,520 bytes; 131.8 MiB), SHA256
-`83c22ef5dad8b4c540da1bb30cef08debcb5f742c154c9bec9737297fd8f9daf`.
+`sandbox-contained.map` (138,219,520 bytes; 131.8 MiB), SHA256
+`f24953d0bed19a2fea0d584737f546c86786f8d3dd43e89633d0bac0b43b0f40`.
 Original disc maps and the other conversions remain intact. Earlier failed runs
 below are historical; the latest native result is recorded at the end.
 
@@ -877,3 +877,41 @@ No map/engine changes or new screenshots were made for this diagnostic.
 All 19 focused Forge tests and the serialized containment audit pass. The
 observer diagnostic now reads the scenario index once before launch, avoiding
 repeated cache parsing during the run.
+
+
+### Closed-shell comparison exposes and fixes a bottom bypass
+
+Original Sandbox's 144 acceleration triangles form a closed shell (216 unique
+edges, each shared twice). Last Resort's 438 acceleration triangles likewise
+form a closed shell (657 shared edges). Forge World's retained 442 triangles
+also form a closed shell (663 shared edges), extending from
+(-130.399, -266.344, -147.355) to (184.757, 278.253, 75.231).
+These are serialized original/native triangle measurements, not visual guesses.
+
+The former divider ran from Z=-40 to 160. It therefore did not partition the
+entire closed shell: space below -40 was a possible bypass. The builder now
+extends the divider four units past the original shell wherever necessary,
+retaining at least the previous vertical extent. For this source the bottom
+is -151.355 and the top remains 160. It also rejects a source whose X bounds
+extend beyond the fixed split endpoints. The four-unit overlap exceeds the
+measured sub-unit soft-boundary penetration; no gameplay tuning changes.
+
+The independent serialized audit checks closed-shell edge incidence, endpoint
+coverage, vertical overlap and every divider triangle. It rejects the previous
+`sandbox-normal-mips.map` for inadequate vertical overlap and passes the new
+`sandbox-contained.map`. Compiled MOPP shrinks from 6,041 to 5,956 bytes; total
+cache size remains 138,219,520 bytes. Three regression tests exercise deep/tall
+shells and incompatible source extents; all 22 focused tests pass. Native
+biped/vehicle verification and whole-console budget acceptance remain open.
+
+
+Native regression run `.local/loading-traces/20261021-175150-33548` used the
+new deployed candidate and completed its 180-second watchdog with no recorded
+observer errors. The sustained outward monitor approach again deflected along
+the curve; deepest measured margin was -0.880 units, recovering to -0.546 at
+179.25 seconds. The 174000 ms native capture was inspected: foreground terrain,
+distant mountains, sky and Forge HUD are present, but a conspicuous bright
+patch at the waterline remains. This is not full visual acceptance. The newly
+extended lower portion is verified geometrically, not yet by an underwater
+native traversal. The previous single-mip-normal candidate (136,712,192 bytes)
+was removed; the immediately previous normal-mip candidate remains for rollback.

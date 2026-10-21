@@ -10,16 +10,27 @@ from forge_gulch_boundary import BOUNDARY
 COMPILER_SHA256 = '27e45ec9dc5e06e0f51afb78991d8f8f1ba6cdb057f04e6ef2f0feaa4fcf618e'
 
 
+def split_vertical_extent(original):
+    """Overlap the closed outer shell so the divider cannot be flown under/over."""
+    vertices = np.asarray(original)[:, 8:].reshape(-1, 3)
+    low, high = vertices.min(axis=0), vertices.max(axis=0)
+    if BOUNDARY[0][0] >= low[0]-4 or BOUNDARY[-1][0] <= high[0]+4:
+        raise ValueError('Split endpoints must extend beyond the outer containment shell')
+    # Four units exceed the measured <1-unit monitor penetration at the split.
+    return min(-40., float(low[2])-4.), max(160., float(high[2])+4.)
+
+
 def triangles(source, root):
     ceilings = source.block(root + 16, 20)
     if len(ceilings) != 1 or source.unpack('hh', ceilings[0] + 4) != (0, 0):
         raise ValueError('Expected one acceleration soft ceiling')
     original = [source.unpack('17f', row) for row in source.block(ceilings[0] + 8, 68)]
+    bottom, top = split_vertical_extent(original)
     result = list(original)
     for start, end in zip(BOUNDARY, BOUNDARY[1:]):
-        a = np.array([*start, -40.])
-        b = np.array([*end, -40.])
-        c, d = b + [0., 0., 200.], a + [0., 0., 200.]
+        a = np.array([*start, bottom])
+        b = np.array([*end, bottom])
+        c, d = b + [0., 0., top-bottom], a + [0., 0., top-bottom]
         # Normal points into Gulch (negative Y), matching the source ceiling's
         # inward-facing convention. Keep both triangles in the existing group.
         for vertices in ((a, c, d), (a, b, c)):
