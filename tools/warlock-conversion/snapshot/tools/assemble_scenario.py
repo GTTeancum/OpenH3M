@@ -111,7 +111,7 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     from object_variants import resolve_variants
     source, target = importer.source, importer.registry.cache
     placements = dict(PLACEMENTS)
-    if getattr(importer, 'slot', 'lockout') in ('zanzibar', 'chillout'):
+    if getattr(importer, 'slot', 'lockout') in ('zanzibar', 'chillout', 'sandbox'):
         placements['Vehicles'] = ('Vehicle Palette', 1)
     if include_sound_scenery:
         placements['Sound Scenery'] = ('Sound Scenery Palette', 9)

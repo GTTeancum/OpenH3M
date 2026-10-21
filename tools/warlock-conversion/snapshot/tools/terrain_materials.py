@@ -40,6 +40,17 @@ class DiscMaterialImporter:
         template_name = s.name(s.u(post + 12) & 65535)
         variant = template_name.rsplit('\\', 1)[-1]
         source_options = [int(value) for value in variant.split('_')[1:]]
+        source_variant = variant
+        fallback = None
+        if getattr(i, 'stock_forge_palette', False) and group == 'rmtr':
+            # This disc template retains all four authored terrain layers.
+            # Several identically named retail variants only support three.
+            sr = s.tags[s.u(post + 12) & 65535]['offset']
+            names = [i.source_strings.text(s.u(row)) for row in s.block(sr + 108, 4)]
+            fallback = '_0_0_1_1_1_2' if 'base_map_m_3' in names and variant != '_0_0_1_1_1_2' else None
+            if fallback:
+                variant = fallback
+                template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
         donors = DONORS if group == 'rmtr' else self.hologram_donors
         if group == 'rmhg':
             if len(source_options) != 9 or any(source_options[7:]):
@@ -75,6 +86,8 @@ class DiscMaterialImporter:
             promote_layer_count = False
             omitted_constants = []
             float_indices = None
+            texture_indices = None
+            float_defaults = {}
             for offset in (72, 84, 96, 108):
                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
@@ -82,7 +95,26 @@ class DiscMaterialImporter:
                     promote_layer_count = True
                 elif source_names != target_names:
                     omitted = set(source_names) - set(target_names)
-                    if (group == 'rmtr' and offset == 72 and variant.endswith('_0')
+                    if fallback and offset == 72:
+                        missing = set(target_names) - set(source_names)
+                        allowed = ('diffuse_coefficient_m_', 'specular_coefficient_m_', 'specular_power_m_',
+                                   'specular_tint_m_', 'fresnel_curve_steepness_m_', 'area_specular_contribution_m_',
+                                   'analytical_specular_contribution_m_', 'albedo_specular_tint_blend_m_')
+                        if any(not n.startswith(allowed) for n in missing):
+                            raise ValueError('Terrain fallback missing non-material constants: '+str(missing))
+                        float_indices = [source_names.index(n) if n in source_names else -1 for n in target_names]
+                        float_defaults = {j:(1.0 if n.startswith(('diffuse_coefficient_', 'specular_power_')) else 0.0)
+                                          for j,n in enumerate(target_names) if n in missing}
+                        omitted_constants = sorted(omitted)
+                    elif fallback and offset == 108 and set(target_names).issubset(source_names):
+                        indices = [source_names.index(n) for n in target_names]
+                        if offset == 72:
+                            float_indices = indices
+                            omitted_constants = sorted(omitted)
+                        else:
+                            texture_indices = indices
+                    elif (group == 'rmtr' and offset == 72
+                            and (variant.endswith('_0') or getattr(i, 'stock_forge_palette', False))
                             and omitted and all(n.startswith('environment_specular_contribution_m_') for n in omitted)
                             and [n for n in source_names if n not in omitted] == target_names):
                         float_indices = [source_names.index(n) for n in target_names]
@@ -105,7 +137,13 @@ class DiscMaterialImporter:
                 expected = bytes.fromhex('0034000000000000000080bf0000000000000000000000000000000000000000')
                 function = bytes(s.data[start:start + size])
                 if group == 'rmtr':
-                    if s.unpack('IIIf', row) != (6, 0, 0, 300.) or function != expected:
+                    if getattr(i, 'stock_forge_palette', False):
+                        from tag_functions import convert_function
+                        kind, input_id, range_id, period = s.unpack('IIIf', row)
+                        if kind not in (5,6) or input_id or range_id or period not in (10.,40.):
+                            raise ValueError('Unsupported Forge World terrain animation')
+                        convert_function(function)
+                    elif s.unpack('IIIf', row) != (6, 0, 0, 300.) or function != expected:
                         raise ValueError('Terrain animation outside the documented static-ripple approximation')
                 else:
                     from tag_functions import convert_function
@@ -127,6 +165,8 @@ class DiscMaterialImporter:
             rows = s.block(post + 16, 28)
             if len(rows) != s.u(source_template + 108):
                 raise ValueError('Terrain texture count differs from template')
+            if texture_indices is not None:
+                rows = [rows[index] for index in texture_indices]
             for row in rows:
                 bitmap = s.u(row + 12)
                 index, address, filtering, comparison, external, transform, pad, animation, pad2 = s.unpack('h4BbBhH', row + 16)
@@ -134,6 +174,10 @@ class DiscMaterialImporter:
                     raise ValueError('Unsupported terrain sampler routing')
                 if index != 0:
                     raise ValueError('Terrain texture array/sub-image is unsupported')
+                if float_indices is not None and transform >= 0:
+                    if transform not in float_indices:
+                        raise ValueError('Terrain sampler uses omitted transform')
+                    transform = float_indices.index(transform)
                 bitmap = i.materials.bitmap(bitmap) if bitmap != 0xffffffff else bitmap
                 textures.extend((b'bitm' if bitmap != 0xffffffff else b'\xff' * 4) + bytes(8)
                                 + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
@@ -143,8 +187,12 @@ class DiscMaterialImporter:
                 if len(rows) != s.u(source_template + parameter_offset):
                     raise ValueError('Terrain constant count differs from template')
                 if offset == 28 and float_indices is not None:
-                    rows = [rows[index] for index in float_indices]
-                payload = b''.join(struct.pack('>' + fmt, *s.unpack(fmt, row)) for row in rows)
+                    payload = b''.join(struct.pack('>4f', *([float_defaults[j]] * 4)) if index < 0
+                                       else struct.pack('>4I', *s.unpack('4I', rows[index]))
+                                       for j,index in enumerate(float_indices))
+                    rows = float_indices
+                else:
+                    payload = b''.join(struct.pack('>' + fmt, *s.unpack(fmt, row)) for row in rows)
                 struct.pack_into('>III', output, offset, len(rows), b.alloc(payload) if rows else 0, 0)
             suppressed_specular = []
             if group == 'rmtr' and s.name(datum & 65535).startswith('levels\\multi\\warlock\\'):
@@ -186,6 +234,11 @@ class DiscMaterialImporter:
             converter = MetadataConverter(s, b, i.source_strings, i.target_strings, reference,
                 special_block=lambda at, sf, df, path: bytes(output) if sf.get('name') == 'Postprocess' else None)
             payload = bytearray(converter.convert(root, ss, ds, group + ':' + s.name(datum & 65535)))
+            if fallback:
+                count, pointer = struct.unpack_from('>II', payload, 16)
+                target_options = [int(v) for v in variant.split('_')[1:]]
+                if count != len(target_options):raise ValueError('Terrain fallback option count')
+                for n,value in enumerate(target_options):b.put(pointer+n*2,'h',value)
             if group == 'rmhg':
                 struct.pack_into('>I', payload, 16, 7)  # Two default MCC-only categories have no retail counterpart.
             c = i.registry.cache
@@ -206,13 +259,14 @@ class DiscMaterialImporter:
             owner, _ = i.registry.newtag(group, payload)
             self.done[datum] = (group, owner)
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': template_name,
-                'native_donor': donors[variant], 'approximation': bool(overlays or suppressed_specular or omitted_constants),
-                'difference': ('300-second normal-map scrolling frozen at authored initial transform' if group == 'rmtr'
+                'native_donor': donors[variant], 'source_template_variant': source_variant, 'fallback_template_variant': fallback,
+                'approximation': bool(fallback or overlays or suppressed_specular or omitted_constants),
+                'difference': ('Terrain UV animation frozen at authored initial transform' if group == 'rmtr'
                                else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays else None,
                 'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}),
                 'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': not suppressed_specular,
                 'terrain_specular_suppressed': suppressed_specular,
-                'unused_mcc_environment_constants_omitted': omitted_constants})
+                'unused_mcc_environment_constants_omitted': omitted_constants, 'native_constant_defaults': float_defaults})
             return self.done[datum]
         except Exception:
             i.failed = True

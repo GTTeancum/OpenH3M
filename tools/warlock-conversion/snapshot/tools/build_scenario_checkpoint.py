@@ -89,7 +89,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
         parser.add_argument('--' + name, type=Path, required=True)
-    parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
+    parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
     args = parser.parse_args()
     project = args.project.resolve(strict=True)
@@ -123,6 +123,12 @@ def main():
         salt = resource_salt(args.xex)
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
+        if args.slot == 'sandbox':
+            from preflight_collision_budget import inspect
+            stage = 'collision_budget_preflight'
+            state['collision_budget'] = inspect(source)
+            if not state['collision_budget']['conversion_ready']:
+                raise ValueError('Forge World needs an offline large-collision BSP rebuild/partition before retail conversion; see collision_budget in report. No engine limits may be raised.')
         builder = MapBuilder(str(args.basis), 0xc00000 if args.slot != 'lockout' else 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
@@ -130,6 +136,9 @@ def main():
         from native_assets import NativeAssets
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets
+        if args.slot == 'sandbox':
+            from forge_world import configure
+            state['asset_policy'] = configure(importer)
         if args.slot == 'chillout':
             importer.materials.prisoner_materials = True
             importer.omitted_assets = {('eqip', r'custom\powerups\health_pack\tripmine_permanent')}
@@ -139,7 +148,7 @@ def main():
         if args.slot == 'zanzibar':
             importer.materials.resuscitation_sky = True
             importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
-        if args.slot in ('zanzibar', 'chillout'):
+        if args.slot in ('zanzibar', 'chillout', 'sandbox'):
             from player_animations import stage_player_animations
             stage = 'player_animations'
             state['stages'][stage] = stage_player_animations(importer)
@@ -163,10 +172,13 @@ def main():
         state['compaction'] = compact_basis(importer)
         from scenario_residency import stage_residency
         state['residency'] = stage_residency(importer)
-        if args.slot in ('zanzibar', 'chillout'):
+        if args.slot in ('zanzibar', 'chillout', 'sandbox'):
             from resource_indices import compact_resource_indices
             state['resource_indices'] = compact_resource_indices(importer)
         importer.finalize()
+        if args.slot == 'sandbox':
+            from forge_world import finalize_residency
+            state['multi_bsp_residency'] = finalize_residency(importer)
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
         payload = builder.finish(salt)

@@ -24,16 +24,22 @@ def _stage(i, terrain, water):
     sf, df = field(ss, 'Structure BSPs'), field(ds, 'Structure BSPs')
     rows = s.block(source_root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
     target_rows = c.block(target_root + int(df.get('offset'), 0), int(df.get('elementSize'), 0))
-    if len(rows) != 1 or len(target_rows) != 1:
-        raise ValueError('Geometry assembly currently requires one source and target BSP')
-    bsp, _, bsp_report = import_bsp(i, terrain, water)
-    geometry = next(r for r in bsp_report['resources'] if r['field'] == '[zone] Asset Datum 2')
-    lightmap, _, lighting_report = import_lightmap(i, int(geometry['datum'], 16))
+    if not rows or len(rows) > 32 or not target_rows:
+        raise ValueError('Invalid source or target BSP bindings')
+    bsps, reports, geometry_resources = [], [], []
+    for index in range(len(rows)):
+        bsp, _, report = import_bsp(i, terrain, water, index)
+        geometry = next(r for r in report['resources'] if r['field'] == '[zone] Asset Datum 2')
+        bsps.append(bsp[1])
+        reports.append(report)
+        geometry_resources.append(int(geometry['datum'], 16))
+    lightmap, _, lighting_report = import_lightmap(i, geometry_resources)
     converter = MetadataConverter(s, b, i.source_strings, i.target_strings, i.import_tag)
-    payload = converter.convert(rows[0], sf, df, 'scnr:/Structure BSPs[0]')
+    payload = b''.join(converter.convert(row, sf, df, f'scnr:/Structure BSPs[{index}]')
+                       for index, row in enumerate(rows))
     # Publish scenario references only after both dependency graphs succeed.
-    stage(b, {'arrays': {'Structure BSPs': (1, payload)}, 'unresolved': []}, ds)
+    stage(b, {'arrays': {'Structure BSPs': (len(rows), payload)}, 'unresolved': []}, ds)
     at = target_root - c.start + c.base + int(field(ds, 'Lightmaps').get('offset'), 0)
     b.meta[at - b.base:at - b.base + 16] = lightmap[0].encode('ascii') + bytes(8) + struct.pack('>I', lightmap[1])
-    i.converted_bsps = [bsp[1]]
-    return {'bsp': bsp_report, 'lightmap': lighting_report}
+    i.converted_bsps = bsps
+    return {'bsp': reports[0], 'bsps': reports, 'lightmap': lighting_report}

@@ -39,11 +39,18 @@ class WaterImporter:
         post = posts[0]
         source_template = s.tags[s.u(post + 12) & 65535]['offset']
         variant = s.name(s.u(post + 12) & 65535).rsplit('\\', 1)[-1]
-        if variant not in VARIANTS:
+        variants = dict(VARIANTS)
+        if getattr(i, 'stock_forge_palette', False):
+            variants.update({
+                '_0_1_1_1_2_0_2_2': ('deadlock.map', '_0_1_1_1_2_0_2_3'),
+                '_0_0_1_1_2_0_1_0': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
+                '_0_0_1_1_1_0_1_0': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
+            })
+        if variant not in variants:
             raise ValueError('Water variant has no documented retail mapping')
         if [s.unpack('h', row)[0] for row in s.block(root + 16, 2)] != [int(value) for value in variant.split('_')[1:]]:
             raise ValueError('Water root options differ from its compiled template')
-        filename, target_variant = VARIANTS[variant]
+        filename, target_variant = variants[variant]
         donor = Cache(str(self.disc_maps / filename))
         try:
             native = NativeShaderImporter(donor, i, self.resolved,
@@ -75,7 +82,9 @@ class WaterImporter:
                 kind, input_name, range_name, period = s.unpack('IIIf', row)
                 size, start = s.u(row + 16), s.pointer(s.u(row + 28))
                 function = bytes(s.data[start:start + size])
-                if kind not in (0, 5, 6) or input_name or range_name or not 0 < period <= 60 or not function or function[0] != 0:
+                limit = 120 if getattr(i, 'stock_forge_palette', False) else 60
+                opcodes = (0,3) if getattr(i, 'stock_forge_palette', False) else (0,)
+                if kind not in (0, 5, 6) or input_name or range_name or not 0 < period <= limit or not function or function[0] not in opcodes:
                     raise ValueError('Water animation exceeds documented static POC mapping')
                 convert_function(function)
             definition = native.import_tag(lookup['rmdf', r'shaders\water'])
@@ -94,7 +103,13 @@ class WaterImporter:
                         transform_name = source_constants[transform]
                         transform = target_constants.index(transform_name)
                     if parameter in ('wave_displacement_array', 'wave_slope_array'):
-                        _, bitmap = native.import_tag(lookup['bitm', s.name(bitmap & 65535)])
+                        key = ('bitm', s.name(bitmap & 65535))
+                        wave = lookup.get(key)
+                        if wave is None and getattr(i, 'stock_forge_palette', False):
+                            wave = donor.u(donor_textures[target_textures.index(parameter)] + 12)
+                            substitutions.append({'parameter': parameter, 'native_bitmap': donor.name(wave & 65535)})
+                        if wave is None:raise ValueError('Native water wave array absent: '+key[1])
+                        _, bitmap = native.import_tag(wave)
                     elif parameter == 'environment_map':
                         donor_bitmap = donor.u(donor_textures[target_textures.index(parameter)] + 12)
                         _, bitmap = native.import_tag(donor_bitmap)
@@ -117,6 +132,11 @@ class WaterImporter:
                 elif parameter in ('foam_height', 'foam_pow'):
                     value = 1000000. if parameter == 'foam_height' else 1.
                     values.extend(struct.pack('>4f', value, value, value, value))
+                elif getattr(i, 'stock_forge_palette', False):
+                    native_constants = donor.block(donor_post + 28, 16)
+                    values.extend(donor.data[native_constants[target_constants.index(parameter)]:
+                                             native_constants[target_constants.index(parameter)]+16])
+                    substitutions.append({'parameter': parameter, 'constant': 'Native donor material default'})
                 else:
                     raise ValueError(f'Water constant has no explicit default: {parameter}')
             struct.pack_into('>III', output, 16, len(target_textures), b.alloc(records), 0)

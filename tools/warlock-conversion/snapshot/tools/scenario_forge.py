@@ -7,6 +7,9 @@ from tag_metadata import MetadataConverter
 
 def stage_forge(importer):
     try:
+        if getattr(importer, 'stock_forge_palette', False):
+            from forge_world import stage_stock_palette
+            return stage_stock_palette(importer)
         s, b = importer.source, importer.builder
         ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
         ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()

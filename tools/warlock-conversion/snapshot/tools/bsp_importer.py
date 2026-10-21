@@ -72,6 +72,7 @@ def _import_bsp(i, terrain, water, bsp_index):
 
     converter = MetadataConverter(s, b, i.source_strings, i.target_strings,
                                   reference, resource_reference=resource)
+    converter.source_bsp = source
     payload = converter.convert(source['offset'], ss, ds, 'sbsp:' + name)
     material_bindings = []
     if getattr(i.materials, 'prisoner_materials', False):

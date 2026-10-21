@@ -59,7 +59,8 @@ def decorator_group(converter, at, schema, target, path):
     source = converter.source
     resource = getattr(converter, '_decorator_resource', None)
     if resource is None:
-        bsps = [t for t in source.tags.values() if t['group'] == 'sbsp']
+        bound = getattr(converter, 'source_bsp', None)
+        bsps = [bound] if bound is not None else [t for t in source.tags.values() if t['group'] == 'sbsp']
         if len(bsps) != 1:
             raise ValueError('Decorator conversion needs an unambiguous source BSP')
         root_schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/mcc/sbsp.xml').getroot()

@@ -233,6 +233,12 @@ class MetadataConverter:
                 if src.get('size') != dst.get('size'):
                     raise ValueError(f'{name}: string field size differs')
                 out[at:at + width] = self.source.data[read:read + width]
+            elif kind == 'hexstring' and '/Seam Identifiers[' in path and key[0] == 'ID':
+                # Opaque seam identity, matched byte-for-byte across BSPs.
+                width = int(src.get('size'), 0)
+                if width != 16 or int(dst.get('size'), 0) != width:
+                    raise ValueError('Unexpected seam identifier size')
+                out[at:at + width] = self.source.data[read:read + width]
             elif kind == 'tagblock':
                 stride = int(src.get('elementSize'), 0)
                 rows = self.source.block(read, stride)

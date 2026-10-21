@@ -10,3 +10,5 @@
 - Only the human user can override this policy. Agent judgment, source-map preferences, convenience, and prior conversion choices do not authorize exceptions. Record any explicit user override and its scope.
 - Keep original disc assets unchanged; perform conversion relocation/remapping in the generated cache and conversion tools.
 - User clarification, 2026-10-20: engine/host-runtime patches for smoothness are authorized. Preserve compatibility with the original Xbox 360 core: gameplay rules, simulation rate, map formats, stock asset behavior, and system-link semantics. This supersedes the earlier blanket prohibition on modifying OpenH3M, only for this scope. Do not claim system-link compatibility verified without testing it.
+
+- Forge World exception, user 2026-10-21: remove custom Forge objects and replace Reach weapons/vehicles with original Halo 3 assets. Sandbox is the selected replacement slot. The earlier full-custom-palette requirement applies to the previous conversions, not Forge World. Preserve original Xbox 360 budgets and core compatibility.

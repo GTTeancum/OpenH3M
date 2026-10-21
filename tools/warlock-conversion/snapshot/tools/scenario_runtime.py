@@ -74,6 +74,11 @@ def _stage(i):
             continue
         sf = source_fields[key]
         values = s.unpack(SCALARS[sf.tag], root + int(sf.get('offset'), 0))
+        if (getattr(i, 'stock_forge_palette', False) and name == 'Flags'
+                and sf.tag.startswith('flags')):
+            # MCC's Eldorado object-light sampling has no retail flag.
+            # Use native H3 probe sampling; geometry/light probes remain intact.
+            values = (values[0] & ~(1 << 7),)
         if df.tag.startswith('flags'):
             values = (translate_flags(values[0], sf, df),)
         elif df.tag.startswith('enum'):

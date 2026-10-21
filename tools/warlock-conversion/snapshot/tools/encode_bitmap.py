@@ -56,7 +56,7 @@ def expand_argb(payload,width,height,fmt):
  else:raise ValueError(f'Cannot expand format {fmt}')
  return out.tobytes()
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512):
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False):
  """Return retail bitmap record, resource control bytes and tiled base mip.
  Mip levels are intentionally limited to one in both metadata records.
  """
@@ -69,7 +69,17 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512):
  level=0
  while max(w,h)>max_dimension:
   level+=1
-  if level>=info['mips']:raise ValueError('Source has no mip at the requested size')
+  if level>=info['mips']:
+   if not resize_blend or fmt!=16:raise ValueError('Source has no mip at the requested size')
+   from PIL import Image
+   image=Image.frombytes('RGBA',(w,h),pixels[:mip_size(w,h,fmt)],'bcn',3)
+   nw,nh=w,h
+   while max(nw,nh)>max_dimension:nw=max(1,nw//2);nh=max(1,nh//2)
+   # Terrain blend channels are independent linear weights, not sRGB color
+   # or opacity. Resize each independently, without premultiplying alpha.
+   channels=[ch.resize((nw,nh),Image.Resampling.BOX) for ch in image.split()]
+   pixels=Image.merge('RGBA',channels).tobytes('raw','BGRA');w,h,fmt=nw,nh,11
+   break
   pixels=pixels[mip_size(w,h,fmt):];w=max(1,w//2);h=max(1,h//2)
  if fmt in (0,1,10,11):pixels=expand_argb(pixels,w,h,fmt);fmt=11
  tiled=tile_base(pixels,w,h,fmt)

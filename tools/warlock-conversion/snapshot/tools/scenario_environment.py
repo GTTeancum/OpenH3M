@@ -21,7 +21,7 @@ def stage_environment(importer):
                  'Light Volumes', 'Light Volumes Palette'):
         sf, df = field(ss, name), field(ds, name)
         rows = s.block(source_root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
-        if name == 'Scenario Cluster Data' and len(rows) != len(bsps):
+        if name == 'Scenario Cluster Data' and len(rows) != len(getattr(importer, 'converted_bsps', bsps)):
             raise ValueError('Environment BSP count differs from converted geometry')
         payload = bytearray()
         for index, row in enumerate(rows):

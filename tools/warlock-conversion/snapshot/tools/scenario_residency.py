@@ -19,7 +19,7 @@ def stage_residency(importer):
     converted = getattr(importer, 'converted_bsps', None)
     if converted:
         field = fields[1]['BSP References']
-        if len(rows(c, roots[1], field)) != len(converted):
+        if len(rows(c, roots[1], field)) != len(converted) and not getattr(importer, 'always_loaded_bsps', False):
             raise ValueError('Resource BSP reference count differs from converted geometry')
         payload = b''.join(struct.pack('>4s8xI', b'sbsp', datum) for datum in converted)
         b.put(importer.registry.address(roots[1] + int(field.get('offset'), 0)),
