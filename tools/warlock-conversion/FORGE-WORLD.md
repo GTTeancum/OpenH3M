@@ -810,3 +810,70 @@ Current file growth is 1,507,328 bytes compared with the single-mip normal build
 The 28 normal resources occupy 8,617,984 uncompressed tiled bytes in total.
 This is a resource subtotal, not a whole-console resident-memory measurement.
 Containment and overall Xbox 360 budget acceptance remain unverified.
+
+
+### Repeatable containment diagnostics and memory accounting limits
+
+`trace_loading.py --slot sandbox --forge-boundary-check --sample-observer
+--seconds 180` selects Forge with two initial Down presses, then Sandbox with
+five map-list Down presses. Native route probe
+`.local/native-probes/20261021-173147-route-probe` showed Forge / Sandbox at
+73500 ms and monitor gameplay at 134000 ms. D-pad Up switches to monitor;
+RB ascends, LT supplies thrust, and left strafe travels toward the curved split
+from the initial +X-facing spawn. The original Halo 3 manual documents these
+monitor controls: https://halo.wiki.gallery/images/d/da/H3_Manual.pdf .
+All input remains inside the game process.
+
+Observer telemetry reads the verified original observer record through TLS
++0x25c, record +0x1cc. Positive `gulch_margin` is inside the requested split.
+The loading cinematic camera before gameplay is not a containment result.
+Sampling occurs outside the debugger's idle-only branch so busy debug-event
+traffic cannot silently suppress position evidence.
+
+The ordinary-speed run `20261021-173903-35764` traveled about 87 units of the
+184-unit approach. Boosted run `20261021-174239-30716` approached within 12.8
+units, but changed height/position near terrain and input ended before reaching
+the split. Neither establishes that the boundary holds. The next diagnostic
+uses thrust during ascent and maintains strafe until 178 seconds to test above
+that terrain; it still uses the existing deployed map and 180-second watchdog.
+
+`audit_gulch_containment.py` verifies all 16 added triangle planes, winding,
+requested XY segments, vertical extent, scenario object-category flags and
+compiled MOPP presence. Current result passes with 6,041 MOPP bytes. This is a
+serialization check, explicitly not native containment proof. Original XEX
+initialization at 0x822470A0 enables all 128 ceilings through a separate TLS
++0x284 bitset; lookup at 0x822486E0 uses it. Consequently the serialized zero
+runtime field is not evidence of disabled ceilings. No speculative flag patch
+was made.
+
+Memory-accounting exclusions established from the local SDK source:
+- `src/system/xmemory.cpp` precommits the full 512 MiB physical arena. Host
+  committed/working-set bytes are not a measure of occupied guest allocations.
+- Its physical heaps share a 512 MiB parent, but virtual/XEX heaps are separate;
+  physical capacity alone does not prove total retail memory acceptance.
+- `MmQueryStatistics_entry` in `src/kernel/xboxkrnl/xboxkrnl_memory.cpp` derives
+  available pages from heap counters, but hardcodes many other fields, including
+  title physical pages. Those placeholder fields cannot be used as measurements.
+- ManagedDonkey's physical-memory constants describe a different PC build and
+  cannot serve as original Xbox 360 limits.
+
+Budget acceptance therefore remains open pending actual allocation accounting;
+the 138,219,520-byte cache size is not a substitute.
+
+
+The elevated boosted test `20261021-174620-22872` completed at the 180-second
+watchdog. At 168.203 seconds the monitor was (-45.143, -14.858, 42.104),
+2.465 units inside the split. With left strafe and LT still held, it was
+(-50.346, -7.623, 42.104) at 172.203 and then followed the line toward
+(-53.962, -4.937, 44.790) at 177.203. The signed margin remained approximately
+-0.8 units while input pressed outward: native acceleration deflected the
+monitor along the curved split instead of allowing continued +Y flight.
+Input ended at 178 seconds; the final 179.203 sample was (-56.133, -3.975,
+45.461), margin -0.572. This supports soft monitor containment at the tested
+segment and bend, with finite penetration inherent in an acceleration boundary.
+It does not prove all segments, endpoint/height coverage, bipeds or vehicles.
+No map/engine changes or new screenshots were made for this diagnostic.
+
+All 19 focused Forge tests and the serialized containment audit pass. The
+observer diagnostic now reads the scenario index once before launch, avoiding
+repeated cache parsing during the run.

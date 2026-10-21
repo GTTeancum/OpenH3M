@@ -32,6 +32,10 @@ parser.add_argument('--diagnostic-no-vsync', action='store_true',
                     help='Test existing vsync=false option; simulation speed must be validated separately.')
 parser.add_argument('--walk-check', action='store_true',
                     help='Use process-local sticks to turn and walk briefly after loading.')
+parser.add_argument('--forge-boundary-check', action='store_true',
+                    help='Use the verified Forge lobby route, become monitor and strafe toward the Gulch split.')
+parser.add_argument('--sample-observer', action='store_true',
+                    help='Read the verified native observer position once per second after loading.')
 parser.add_argument('--powerup-check', action='store_true',
                     help='Extend the Prisoner walk toward the ground-floor camo; inspect capture to assess result.')
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
@@ -47,6 +51,8 @@ parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
+if options.forge_boundary_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.seconds < 180):
+    parser.error('--forge-boundary-check requires Sandbox, scripted input, no --walk-check, and 180 seconds')
 if options.powerup_check and (not options.walk_check or options.slot != 'chillout' or options.seconds < 165):
     parser.error('--powerup-check requires --walk-check --slot chillout and at least 165 seconds')
 ROOT = options.project.resolve(strict=True)
@@ -61,6 +67,14 @@ if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe65
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
 if not (GAME / 'maps' / (options.slot + '.map')).is_file():
     raise SystemExit('Missing staged map for selected slot')
+if options.sample_observer:
+    from cache_reader import Cache
+    from forge_gulch_boundary import boundary_y
+    cache = Cache(GAME / 'maps' / (options.slot + '.map'))
+    try:
+        scenario_index = next(k for k, t in cache.tags.items() if t['group'] == 'scnr')
+    finally:
+        cache.close()
 listing = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq OpenH3M.exe', '/FO', 'CSV', '/NH'],
                          capture_output=True, text=True, check=True)
 if any(row and row[0].casefold() == 'openh3m.exe' for row in csv.reader(listing.stdout.splitlines())):
@@ -113,6 +127,8 @@ env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+if options.forge_boundary_check:
+    input_steps.insert(1, '45500:DOWN+220')
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
 if options.slot in ('lockout', 'chillout'):
@@ -126,6 +142,13 @@ if options.slot == 'sandbox':
     # Native capture: four DOWNs reach Rat's Nest; fifth selects Sandbox.
     input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
+if options.forge_boundary_check:
+    # Native 20261021-173147 route probe confirms Forge / Sandbox. From the
+    # +X spawn facing, left strafe travels +Y toward the curved split.
+    # Halo 3's original manual documents LT as monitor thrust. At ordinary
+    # speed the 40-second probe travels only ~87 units of the ~184-unit gap.
+    input_steps.extend(['118000:UP+200', '120000:RB+8000',
+                        '119900:LT+58100', '130000:LSLEFT+48000'])
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')
@@ -199,6 +222,7 @@ draw_armed = False
 draw_samples = 0
 guest_memory_base = None
 guest_r13 = None
+observer_sample_time = 0
 sampled_vertex_addresses = set()
 draw_stream = (RUN / 'draw-registers.bin').open('wb') if options.sample_draws else None
 
@@ -327,6 +351,32 @@ try:
     attached = True
     check(kill_on_exit(False))
     while time.monotonic() - started < duration:
+        now = time.monotonic()
+        if (options.sample_observer and guest_memory_base and guest_r13
+                and now-started >= 105 and now-observer_sample_time >= 1):
+            observer_sample_time = now
+            try:
+                def observer_word(address):
+                    return struct.unpack('>I', read(guest_memory_base+(address & 0xffffffff), 4))[0]
+                tls = observer_word(guest_r13)
+                pointer = observer_word(tls+0x25c)
+                if not 0x80000000 <= pointer < 0xe0000000:
+                    raise ValueError('Observer pointer outside expected guest range')
+                data = read(guest_memory_base+pointer+0x1cc, 96)
+                position = struct.unpack_from('>3f', data)
+                table = observer_word(0x827f0f8c)
+                root = observer_word(table+scenario_index*8+4)
+                count = observer_word(root+0x23c)
+                if not 0 <= count <= 128:
+                    raise ValueError('Unexpected live soft-ceiling count')
+                ceilings = observer_word(root+0x240)
+                flags = [read(guest_memory_base+ceilings+j*12, 12).hex() for j in range(count)]
+                log('observer_position', position=position, location=data[12:16].hex(),
+                    gulch_margin=float(boundary_y(position[0]))-position[1],
+                    forward=struct.unpack_from('>3f', data, 40), observer_bytes=data.hex(),
+                    soft_ceiling_records=flags)
+            except (OSError, ValueError) as error:
+                log('observer_sample_error', detail=str(error))
         event = C.create_string_buffer(176)
         if not wait_event(event, 100):
             if proc.poll() is not None:
