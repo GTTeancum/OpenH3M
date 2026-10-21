@@ -318,3 +318,35 @@ file; no tool was downloaded or executed. This may help build native boundary
 physics without altering OpenH3M. All remaining memory/native/visual checks from
 the goal still apply. Native test routing currently lacks a Sandbox option and
 must be extended using only the process-local harness before any run.
+
+## Native boundary compilation (2026-10-21)
+
+Previous turn made verified progress (collision/metadata integration). This turn
+adds `forge_gulch_containment.py`: preserve all 442 original soft-ceiling triangles
+and append 16 inward-facing triangles along the draft split, spanning Z=-40..160.
+The offline compiler emits 6,041 bytes of MOPP code for the combined 458 triangles.
+The design's water fields remain byte-identical in a scratch-builder check.
+Compilation and field checks are not proof that the game enforces the boundary.
+The scenario's ignore masks are zeroed for the Gulch profile so bipeds, vehicles
+and camera are included; runtime behavior still requires native checks.
+
+The compiler is TagTool's `Tools/mopp.exe`, 283,136 bytes, stored only in ignored
+`work/forge-world/tools`. SHA256:
+`27e45ec9dc5e06e0f51afb78991d8f8f1ba6cdb057f04e6ef2f0feaa4fcf618e`.
+The helper downloads it if absent and rejects any hash mismatch before execution.
+It runs hidden, with temporary/profile paths inside this repository, and deletes
+its input/output scratch files afterward. Input formatting must use the exact
+TagTool `;### vertices ###` / `;### surfaces ###` headings and tab-separated
+coordinates/indices; generic headings caused compiler stack-check failures and
+were replaced. The compiled native header is 48 bytes plus code and alignment;
+the helper emits a retail 64-byte tag header and keeps code bytes unchanged.
+
+Sandbox now skips `stage_player_animations`: its stock Forge palette needs no
+MCC custom vehicle/player modes. This preserves the native animation graph and
+avoids importing unused modes such as behemoth/shade from the source palette.
+
+The latest full build failure is still the nonlegacy multi-texture sun flare;
+no additional full build was run just to rediscover that known failure. All six
+Forge tests still pass. Goal stays active; no candidate, deployment or gameplay
+claim. Resolve the flare, finish serialization/budget checks, then test native
+content and containment through the process-local harness.

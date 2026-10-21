@@ -51,6 +51,12 @@ def _stage(i):
                 if node.get('offset') and int(node.get('offset'), 0) >= 36:
                     sf.remove(node)
         payload = b''.join(converter.convert(r, sf, df, 'scnr:/' + name) for r in rows)
+        if name == 'Soft Ceilings' and getattr(i, 'gulch_partition', None):
+            if len(rows) != 1 or len(payload) != 12:
+                raise ValueError('Gulch expects one scenario soft ceiling')
+            # Zero ignore masks: apply to bipeds, vehicles and camera. Runtime
+            # flags are recomputed by the original engine on map load.
+            payload = bytes(4) + payload[4:]
         arrays[name] = len(rows), payload
     # Unused editor palettes have no runtime consumers in this multiplayer map.
     for palette, consumers in (('Biped Palette', ('Bipeds',)), ('Character Palette', ('Squads',)),

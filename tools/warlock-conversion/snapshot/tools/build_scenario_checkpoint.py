@@ -159,7 +159,7 @@ def main():
         if args.slot == 'zanzibar':
             importer.materials.resuscitation_sky = True
             importer.materials.opaque_prototype = r'levels\solo\040_voi\shaders\metals\metal_factory_outerpanel_i'
-        if args.slot in ('zanzibar', 'chillout', 'sandbox'):
+        if args.slot in ('zanzibar', 'chillout'):
             from player_animations import stage_player_animations
             stage = 'player_animations'
             state['stages'][stage] = stage_player_animations(importer)
@@ -192,6 +192,8 @@ def main():
             state['multi_bsp_residency'] = finalize_residency(importer)
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
+        if args.forge_gulch:
+            state['gulch_containment'] = importer.gulch_containment_report
         payload = builder.finish(salt)
         state.update(output_bytes=len(payload), output_sha256=hashlib.sha256(payload).hexdigest())
         stage = 'serialize'

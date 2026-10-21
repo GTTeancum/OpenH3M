@@ -180,6 +180,10 @@ class TagImporter:
                                           self.materials.particle_post(at, group)
                                           if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam', 'rmd ') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
+        if group == 'sddt' and getattr(self, 'gulch_partition', None):
+            from forge_gulch_containment import apply
+            payload = apply(self, tag['offset'], payload)
+            compatibility_notes.append('Retained original outer soft ceilings; added compiled Forge Gulch split boundary. Native containment unverified.')
         if group == 'prt3':
             payload = self.materials.particle_root(tag['offset'], payload)
         elif group == 'decs':
