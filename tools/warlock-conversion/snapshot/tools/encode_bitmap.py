@@ -11,7 +11,7 @@ def texture_gpu_format(fmt,curve):
  but plain formats for linear data. Gamma2 is shader-managed in retail.
  Normal maps must retain their signed/linear fetch interpretation.
  """
- linear=0x18280186 if fmt==11 else 0x2d20ab4a if fmt==22 else 0x1a200100+{14:0x52,15:0x53,16:0x54,33:0x71}[fmt]
+ linear=0x18280186 if fmt==11 else 0x2d20ab4a if fmt==22 else 0x1a215571 if fmt==33 else 0x1a200100+{14:0x52,15:0x53,16:0x54}[fmt]
  if curve in (1,5) and fmt in (11,14,15,16):
   return (linear & ~0x3f) | {11:50,14:51,15:52,16:53}[fmt] | 0x7e00
  return linear
@@ -66,6 +66,21 @@ def clear_bc3_blue(payload):
  return blocks.tobytes()
 
 
+def mcc_dxn_to_retail(payload):
+ """Translate signed MCC BC5 endpoints into retail biased-unsigned DXN.
+
+ TagTool BitmapConverterGen3.ConvertDXGIFormats adds 128 and swaps XY for
+ MCC -> PC ATI2; its original-Xbox -> ATI2 path only swaps XY. Thus this
+ direct MCC -> Xbox path biases endpoints without swapping the two blocks.
+ Selector bits stay unchanged. Native DXN uses GPUSIGN_BIAS on all channels.
+ """
+ if len(payload)%16:raise ValueError('DXN payload is not whole blocks')
+ blocks=np.frombuffer(payload,dtype=np.uint8).reshape(-1,16).copy()
+ endpoints=(0,1,8,9)
+ blocks[:,endpoints]^=np.uint8(128)
+ return blocks.tobytes()
+
+
 def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False):
  """Return retail bitmap record, resource control bytes and tiled base mip.
  Mip levels are intentionally limited to one in both metadata records.
@@ -76,6 +91,7 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
  if source.c.unpack('H',row+10)[0]!=0:raise ValueError('Only 2D bitmap conversion is supported')
  if max_dimension<1:raise ValueError('max_dimension must be positive')
  pixels=source.pixels(tag,index)
+ if fmt==33:pixels=mcc_dxn_to_retail(pixels)
  if zero_blue:
   if fmt!=16:raise ValueError('Unused blue blend channel requires BC3 source')
   pixels=clear_bc3_blue(pixels)

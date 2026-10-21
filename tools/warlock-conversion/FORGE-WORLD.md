@@ -4,8 +4,8 @@ Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
 is fixed and verified in native captures before and after turning/walking.**
 Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
 remain open. This is not a completed port. The shared installation contains
-`sandbox-rebuilt-collision.map` (136,704,000 bytes; 130.4 MiB), SHA256
-`1d10c242ec69c385d696b9fe4887d79fd10cde764c436b3bf9fd3cceb70477ab`.
+`sandbox-native-normals.map` (136,712,192 bytes; 130.4 MiB), SHA256
+`1f1c877e0faf6523d9a5c1b0af53c5be62b57e5132c46338f98aa5021c9aa72f`.
 Original disc maps and the other conversions remain intact. Earlier failed runs
 below are historical; the latest native result is recorded at the end.
 
@@ -748,3 +748,30 @@ visual comparison required before attributing the speckles to this difference.
 Reference implementations for the retail packed mip layout:
 - https://github.com/TheGuardians/TagTool/blob/master/TagTool/Bitmaps/Utils/XboxBitmapUtils.cs
 - https://github.com/xenia-project/xenia/blob/master/src/xenia/gpu/texture_util.cc
+
+### Confirmed MCC/retail normal encoding difference
+
+Before mip implementation, direct resource inspection found a separate format
+bug. All 88 BC5 normal resources inspected in Last Resort and all 93 in Valhalla
+use GPU format `0x1a215571` (DXN, tiled, 8-in-16 endian, GPUSIGN_BIAS on XYZW).
+The converter emitted `0x1a200171`, with unsigned sampling, and copied MCC signed
+endpoints unchanged. TagTool's `BitmapConverterGen3.ConvertDXGIFormats` biases
+MCC endpoints by 128 and swaps XY for PC ATI2; original Xbox-to-ATI2 only swaps
+XY. Direct MCC-to-Xbox therefore biases the four endpoints without swapping
+the channels. Selector bits remain unchanged. The original terrain shader
+expects signed XY from the GPU; its PC-only branch supplies that remapping.
+
+`encode_bitmap.py` now performs that conversion and emits the original-disc
+sampling format. Existing accepted map files are not rebuilt by this change.
+Primary references:
+- https://github.com/TheGuardians/TagTool/blob/master/TagTool/Bitmaps/Utils/BitmapConverterGen3.cs
+- https://github.com/TheGuardians/TagTool/blob/master/TagTool/Direct3D/Xbox360/D3D.cs
+
+`audit_forge_normal_payload.py` independently computes expected endpoint bytes,
+untile-reads the serialized candidate and confirms all three rock normal maps
+plus their GPU format. All 19 focused tests pass. Native run
+`.local/loading-traces/20261021-171958-31932` inspected both 116000/134000 ms
+captures before and after turning/walking. Terrain remains present, and rock
+shading changes, but fine grain remains. Do not claim the full shading problem
+is solved: mip chains, containment and guest memory acceptance remain open.
+The run reached its 140-second watchdog without a reported unhandled crash.
