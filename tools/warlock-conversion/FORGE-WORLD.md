@@ -1087,3 +1087,33 @@ These inventories exclude simulation, framebuffers, staging, alignment and
 allocator overhead; some listed pages are streamed and need not coexist.
 They neither prove a 360 budget failure nor certify fit. Runtime pool occupancy
 and vehicle/player containment remain open. Menu corruption remains unreproduced.
+
+### Lighting resource oracle and independent layer verification
+
+The two unnamed large bitmap resources from the footprint inventory are now
+identified by their `sLdT` references: 0x9000287e is the main BSP's eight-layer
+lightprobe array, and 0x9000287f is its two-layer dominant-light array. Their
+1536x1536 BC3 payloads total 22.5 MiB. The second BSP's 512x512 pair adds 2.5 MiB.
+An inventory of all 24 original playable maps (excluding mainmenu/shared) finds
+1024x1024 BC3, one mip, eight lightprobe layers and two dominant layers in every
+map: 10 MiB per stock map. This establishes an optimization lead, not a proven
+1024 hardware limit or authorization to discard lighting layers.
+
+`audit_forge_lightmaps.py` follows the actual source/target BSP lightmap bindings,
+checks all 54 compression coefficients per BSP, and independently decodes every
+layer through pinned TagTool. All 20 layer hashes exactly match the source BC3
+bytes, including the 1536x1536 arrays. Thus no layer-order, tiling, truncation or
+coefficient discrepancy was found. Visual fidelity and runtime pool occupancy
+are separate requirements. No deployed cache changed during this audit.
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/audit_forge_lightmaps.py --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map --candidate work/forge-world/sandbox-sky-animation.map --stock-dir ../../maps --report work/forge-world/lightmap-byte-audit.json
+```
+
+The existing `validate_bitmap_mips` helper must be rebuilt after updating its
+source. It now optionally accepts depth, bitmap type and layer index after its
+existing arguments; existing normal-map callers retain the 2D/layer-zero defaults.
+Audit scratch payloads are removed in `finally`. Future conversion reports now
+record each imported lightmap's semantic role, source name, target datum,
+dimensions, layer count and tiled size, so resource owners remain traceable even
+when serialized imported tags do not have names.

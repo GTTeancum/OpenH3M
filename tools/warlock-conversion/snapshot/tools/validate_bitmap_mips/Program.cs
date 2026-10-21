@@ -7,13 +7,13 @@ using TagTool.Tags.Resources;
 // code executes, and no files are written by this validation program.
 var raw = File.ReadAllBytes(args[0]);
 var definition = new BitmapTextureInteropDefinition {
-    Width=short.Parse(args[1]), Height=short.Parse(args[2]), Depth=1,
-    MipmapCount=sbyte.Parse(args[3]), BitmapType=BitmapType.Texture2D,
+    Width=short.Parse(args[1]), Height=short.Parse(args[2]), Depth=args.Length > 5 ? byte.Parse(args[5]) : (byte)1,
+    MipmapCount=sbyte.Parse(args[3]), BitmapType=args.Length > 6 ? (BitmapType)int.Parse(args[6]) : BitmapType.Texture2D,
     HighResInSecondaryResource=0, D3DFormat=unchecked((int)Convert.ToUInt32(args[4], 16))
 };
 var hashes = new List<string>();
 for (int level=0; level<definition.MipmapCount; level++) {
-    var bytes = XboxBitmapUtils.GetXboxBitmapLevelData(raw, null, definition, level, 0, false, 0, null);
+    var bytes = XboxBitmapUtils.GetXboxBitmapLevelData(raw, null, definition, level, args.Length > 7 ? int.Parse(args[7]) : 0, false, 0, null);
     hashes.Add(Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant());
 }
 Console.WriteLine(JsonSerializer.Serialize(hashes));

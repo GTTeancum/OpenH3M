@@ -37,6 +37,7 @@ def _import(i, geometry_resource):
     if len(rows) != len(resources) or s.u(root + 16) or any(s.u(root + o) for o in (0, 64, 68, 72)):
         raise ValueError('Expected matching per-pixel BSP lightmaps and no extra root data')
     converted_bsps = []
+    texture_report = []
     for bsp_index, (source_row, geometry_resource) in enumerate(zip(rows, resources)):
         lighting = resolve(s.u(source_row + 12), 'Lbsp')
         if s.unpack('h', lighting + 2)[0] != bsp_index:
@@ -76,6 +77,11 @@ def _import(i, geometry_resource):
             resolve(value, 'bitm')
             record, control, raw = encode_lightmap_array(i.materials.bitmaps, value & 65535)
             textures[value] = ('bitm', i.materials.bitmap_resource(record, control, raw))
+            width, height = struct.unpack_from('>HH', record, 4)
+            texture_report.append({'bsp': bsp_index,
+                'role': 'lightprobe' if offset == 0xe0 else 'dominant',
+                'source': s.name(value & 65535), 'datum': hex(textures[value][1]),
+                'width': width, 'height': height, 'layers': record[8], 'tiled_bytes': len(raw)})
 
         def reference(value):
             if value not in textures:
@@ -131,6 +137,7 @@ def _import(i, geometry_resource):
     owner, address = i.registry.newtag('sLdT', result)
     i.resolved['sLdT', s.name(datum & 65535)] = ('sLdT', owner)
     report = {'group': 'sLdT', 'datum': hex(owner), 'source': s.name(datum & 65535),
-              'bsp_count': len(converted_bsps), 'probe_counts': counts, 'source_lightmap_arrays': True}
+              'bsp_count': len(converted_bsps), 'probe_counts': counts, 'source_lightmap_arrays': True,
+              'textures': texture_report}
     i.added.append(report)
     return ('sLdT', owner), address, report
