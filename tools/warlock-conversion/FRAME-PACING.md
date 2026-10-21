@@ -689,3 +689,23 @@ Direct-launch/shared-profile validation is 20261020-205857-baseline, session
 inspect its terminal state, native image, counter report and fatal/registration
 logs. The normal entry is intended to be C:\X360\ISOs\H3M\OpenH3M.exe only after
 this validation. Original disc assets remain unchanged.
+
+Direct-launch verification 20261020-205857-baseline completed under its watchdog.
+The native 145-second image was inspected: correct Prisoner interior, weapon/HUD,
+impacts and grenade-throw animation. It used the root EXE with NO game/user/cache
+CLI overrides, confirming the bootstrap found the shared installation/profile.
+899 settled intervals: mean 33.333ms, deviation 0.806ms, p05 31.940ms,
+p95 34.708ms, p99 34.948ms, zero short/long outliers, zero >60ms full-capture gaps
+and no skipped frames. Guest vblank remained 16.667ms. No fatal entry and no
+missing-wrapper registration message; that exact rare crash path remains
+unexercised despite the successful route. Normal root EXE deployment is now
+validated for this bounded flow. No system-link or physical-display claim.
+
+Attempted cleanup of duplicate work/pacing-runtime binaries was rejected by
+automatic approval review ('blocked by policy') before execution. No cleanup
+commands ran and no files were removed. Do not retry by another mechanism.
+The staging directory remains alongside the deployed root binaries; the shared
+maps/cache are still single copies. .local/runtime-deployment.json records the
+successful route and this cleanup blocker. Intermittent manual Cold Storage
+hitching and runtime exercise of the repaired wrapper are still outstanding;
+the goal remains active. Source and process changes are committed locally only.
