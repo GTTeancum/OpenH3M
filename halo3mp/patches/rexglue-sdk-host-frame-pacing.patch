@@ -1,0 +1,66 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -12,6 +12,8 @@
+ #include <algorithm>
+ #include <atomic>
+ #include <cctype>
++#include <chrono>
++#include <thread>
+ #include <utility>
+ 
+ #include <rex/assert.h>
+@@ -20,6 +22,46 @@
+ #include <rex/platform.h>
+ #include <rex/ui/presenter.h>
+ #include <rex/ui/window.h>
++
++// OpenH3M host policy: match its original 30 FPS render cadence without changing
++// guest clocks, vblank interrupts, D3D queue deadlines or simulation state.
++REXCVAR_DEFINE_INT32(host_guest_output_fps, 30, "UI/Presenter",
++                    "Host guest-output pacing rate; 0 disables pacing")
++    .range(0, 360);
++
++namespace {
++void PaceHostOutput(const void* presenter, bool active) {
++  using Clock = std::chrono::steady_clock;
++  struct State {
++    const void* presenter = nullptr;
++    int rate = 0;
++    Clock::time_point deadline{};
++  };
++  // RefreshGuestOutput already requires one serial producer. Thread-local state
++  // preserves the SDK's public class layout and resets on producer changes.
++  static thread_local State state;
++  const int rate = REXCVAR_GET(host_guest_output_fps);
++  if (!active || rate <= 0) {
++    state = {};
++    return;
++  }
++  const auto period = std::chrono::duration_cast<Clock::duration>(
++      std::chrono::duration<double>(1.0 / rate));
++  auto now = Clock::now();
++  if (state.presenter != presenter || state.rate != rate) {
++    state = {presenter, rate, now};
++  }
++  if (now < state.deadline) {
++    // A blocking host wait, not a spin loop or a guest-clock adjustment.
++    std::this_thread::sleep_until(state.deadline);
++    now = Clock::now();
++  }
++  // After a real stall, reset the host schedule instead of issuing a burst of
++  // catch-up frames. This does not fabricate or interpolate guest frames.
++  if (now - state.deadline > period) state.deadline = now;
++  state.deadline += period;
++}
++}  // namespace
+ 
+ #if defined(REX_HAS_FIDELITYFX_RUNTIME) && REX_HAS_FIDELITYFX_RUNTIME
+ #include <ffx_api/ffx_api.h>
+@@ -550,6 +592,7 @@
+     uint32_t frontbuffer_width, uint32_t frontbuffer_height, uint32_t display_aspect_ratio_x,
+     uint32_t display_aspect_ratio_y,
+     std::function<bool(GuestOutputRefreshContext& context)> refresher) {
++  PaceHostOutput(this, frontbuffer_width != 0 && frontbuffer_height != 0);
+   GuestOutputProperties& writable_properties =
+       guest_output_properties_[guest_output_mailbox_writable_];
+   writable_properties.frontbuffer_width = frontbuffer_width;

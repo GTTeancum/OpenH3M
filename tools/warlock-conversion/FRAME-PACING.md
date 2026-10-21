@@ -375,3 +375,53 @@ Next: implement safe owned-child loading (or equivalent stopped-thread setup),
 measure this candidate against the saved baseline, reject it if it reduces
 sustained throughput or merely redistributes stalls, then convert any proven
 behavior into an ordinary runtime source patch. Do not ship the diagnostic hook.
+
+### First successful host pacing experiment (2026-10-20)
+
+`20261020-200751-host-probe-baseline` completed in the owned process. The native
+145-second image was inspected: Prisoner gameplay, ground-floor interior,
+active camouflage and weapon/HUD visible. The fixed route reached the map;
+no desktop input/capture was used. This static image verifies scene content,
+not motion quality or simulation speed by itself.
+
+The launcher loads the diagnostic DLL while the owned child runs, but its
+PrepareProbe only allocates its trampoline/state. The normal discovery debugger
+then stops all threads at the single producer's RefreshGuestOutput entry and
+arms the 15-byte detour there, rewinding that thread to the entry. This replaces
+the earlier planned suspended-start loading method. Module addresses account
+for ASLR and forwarded LoadLibraryW; signatures are checked. Only the owned
+child's memory is changed. Its executable and installed DLL files are unchanged.
+
+Probe DLL SHA256 ab55b375f3a49542a44895352b7653afa6faffa5bf41a123499e3a69b7d1c4e5.
+Armed at 15.219 seconds; pacing activates about 95 seconds after preparation.
+1349 paced calls, zero late schedule resets. The settled 899 intervals averaged
+33.334ms (30 FPS), deviation 2.645ms, p05 30.103ms, p95 36.462ms, p99 37.199ms;
+4 intervals below 25ms and 4 above 41.667ms, no skipped output observations.
+Adjacent baseline had deviation 15.578ms, p05 14.206ms, p95 52.078ms and
+345 short/344 long intervals. Vblank remained 16.666ms with deviation 0.868ms.
+Guest queue completion still varied (deviation 12.796ms), consistent with the
+probe pacing host output rather than changing guest deadlines. Simulation rate,
+physical display cadence, input latency and system-link are not established by
+these counters. Keep those limitations explicit; goal is not complete.
+
+The probe's 1,418,079 wait calls expose excessive short Sleep(0) polling.
+The production candidate instead uses blocking std::this_thread::sleep_until.
+`halo3mp/patches/rexglue-sdk-host-frame-pacing.patch` layers after the existing
+presenter-host-tools patch. It adds host_guest_output_fps (OpenH3M-specific
+30 FPS default, 0 disables), serial-producer thread-local state (no extra SDK
+class-layout change), blank-output/reset handling and no catch-up bursts after
+real stalls. This source candidate has NOT yet been built or tested in-game.
+It is not identical to the probe; the final runtime needs its own measurement.
+
+SDK v0.10.0 source c94f5ebdcb3c9d1a460ca48e04f9758448f8d518 now has all six
+existing halo3mp SDK patches applied with --ignore-space-change (Windows CRLF
+otherwise prevents matching), followed by the host pacing patch. Only required
+D3D12 runtime submodules were fetched shallowly; no Vulkan/test/profiling trees.
+A Release CMake configuration is in progress in work/rexglue-sdk/out/pacing-release
+(tool session 68054 at this checkpoint). Compiler TEMP/TMP is work/build-temp;
+Ninja and clang are installed system tools. Configure flags: Ninja, Release,
+clang/clang++, REXGLUE_ENABLE_TRACY=OFF, REXGLUE_BUILD_TESTS=OFF,
+REXGLUE_USE_VULKAN=OFF, CMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON. Revalidate that live
+session before taking further action. Build target rexruntime first; preserve
+existing game EXE, maps, GPU plugin and shared cache unless evidence requires
+additional ABI-matched components. No production binaries have been replaced.

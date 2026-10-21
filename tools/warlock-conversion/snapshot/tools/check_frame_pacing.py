@@ -23,11 +23,16 @@ p.add_argument('--native-timing', action='store_true', help='Read the existing i
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--guest-vblank-timing', action='store_true', help='Also sample the source-0 guest vblank handler counter.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
+p.add_argument('--pacing-probe', type=Path, help='Explicit diagnostic DLL, owned child only; requires native timing.')
 a = p.parse_args()
 project = a.project.resolve(strict=True)
+if a.pacing_probe:
+    a.pacing_probe = a.pacing_probe.resolve(strict=True)
+    a.pacing_probe.relative_to(project)
+    if not a.native_timing: raise SystemExit('Pacing probe requires native timing')
 root = output_path(project / '.local', project)
 game = project if a.stock else root / 'custom-maps-play'
-run = output_path(root / 'pacing' / (time.strftime('%Y%m%d-%H%M%S') + '-' + ('stock-' if a.stock else '') + a.mode), project)
+run = output_path(root / 'pacing' / (time.strftime('%Y%m%d-%H%M%S') + '-' + ('stock-' if a.stock else '') + ('host-probe-' if a.pacing_probe else '') + a.mode), project)
 exe = a.exe.resolve(strict=True)
 if hashlib.sha256(exe.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('Unexpected runtime build')
@@ -93,7 +98,7 @@ with (run / 'console.log').open('wb') as out, (run / 'presentmon.log').open('wb'
             stdout=pmout, stderr=pmout, creationflags=subprocess.CREATE_NO_WINDOW)
         if a.native_timing:
             from native_frame_timing import record
-            state['native_timing'] = record(child, exe.parent / 'rexruntime.dll', run / 'guest-frames.csv', started, gpu_progress=a.gpu_progress_timing, guest_vblank=a.guest_vblank_timing)
+            state['native_timing'] = record(child, exe.parent / 'rexruntime.dll', run / 'guest-frames.csv', started, gpu_progress=a.gpu_progress_timing, guest_vblank=a.guest_vblank_timing, pacing_probe=a.pacing_probe)
         try:
             state['exit_code'] = child.wait(timeout=max(0.01, 165 - (time.perf_counter() - started)))
         except subprocess.TimeoutExpired:

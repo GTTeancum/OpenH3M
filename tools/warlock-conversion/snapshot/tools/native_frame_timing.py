@@ -1,8 +1,9 @@
 """Observe an owned native game's existing guest-output counter.
 
 Restored debugger breakpoints discover existing counter addresses before the
-measurement window. Measurement itself only reads memory; no per-frame traps,
-injected code, screenshots, input or executable changes.
+measurement window. Measurement itself only reads memory; no per-frame traps.
+The explicit pacing_probe option prepares a host-only diagnostic DLL and arms
+it at the stopped presenter entry. Default runs restore every discovery byte.
 """
 import ctypes as C
 from ctypes import wintypes as W
@@ -13,7 +14,7 @@ import time
 import pefile
 
 
-def record(child, runtime, output, started, begin=110, end=155, gpu_progress=False, guest_vblank=False):
+def record(child, runtime, output, started, begin=110, end=155, gpu_progress=False, guest_vblank=False, pacing_probe=None):
     kernel = C.WinDLL('kernel32', use_last_error=True)
     psapi = C.WinDLL('psapi', use_last_error=True)
     def api(lib, name, args, result=W.BOOL):
@@ -50,6 +51,10 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
         while time.perf_counter() - started < 15:
             if child.poll() is not None: raise RuntimeError('Game exited before counter discovery')
             time.sleep(.05)
+        probe = None
+        if pacing_probe:
+            from prepare_host_pacing_probe import prepare
+            probe = prepare(child, pacing_probe)
         handles = (W.HMODULE * 1024)(); needed = W.DWORD()
         check(modules(ph, handles, C.sizeof(handles), C.byref(needed)))
         base = None; gpu_base = None; exe_base = None
@@ -121,6 +126,14 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                         else:
                             pointers[name] = struct.unpack_from('<Q', ctx, register)[0] + offset
                         write(address, originals.pop(address))
+                        if probe and name == 'guest':
+                            # All threads are stopped at this debugger event;
+                            # this is the single guest-output producer's entry.
+                            expected = bytes.fromhex('55415741565657534881ec88000000')
+                            if read(address, 15) != expected:
+                                raise RuntimeError('Probe prologue changed before arming')
+                            write(address, b'\xff\x25\0\0\0\0' + struct.pack('<Q', probe['target']) + b'\x90')
+                            probe['armed_seconds'] = time.perf_counter() - started
                         struct.pack_into('<Q', ctx, 248, address); check(setctx(th, addr))
                     finally: close(th)
                 elif exception != 0x80000003: status = 0x80010001
@@ -195,8 +208,12 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                         previous_guest_vblank = gc
                 last_poll = now
                 time.sleep(.001)
+        if probe:
+            values = struct.unpack('<IIQQQQ', read(probe['stats'], 40))
+            probe['counters'] = dict(zip(('version', 'prepared', 'calls', 'paced', 'waits', 'late'), values))
         return {'counter_address': hex(pointer), 'gpu_progress_counter_address': hex(pointers.get('gpu_progress', 0)), 'guest_vblank_counter_address': hex(pointers.get('guest_vblank', 0)), 'd3d_callbacks': d3d_callbacks, 'measurement_start': begin, 'measurement_end': end,
-                'method': f'{len(hooks)} restored discovery breakpoints, then read-only counter polling'}
+                'pacing_probe': probe,
+                'method': f'{len(hooks)} discovery breakpoints, read-only counter polling' + ('; explicit host pacing probe armed while debugger stopped all threads' if probe else '; original instructions restored')}
     finally:
         if attached:
             for address, original in originals.items(): write(address, original)

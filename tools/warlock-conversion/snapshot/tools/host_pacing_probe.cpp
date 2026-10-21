@@ -1,6 +1,7 @@
 // Diagnostic only, for the hash-checked owned OpenH3M child. Load and call
-// InstallProbe while its primary thread is still suspended, before any game
-// threads start. Never attach this probe to a user's running game.
+// PrepareProbe before the debugger stops the owned child at its presenter
+// entry; the debugger installs the jump only while all threads are stopped.
+// Never attach this probe to a user's running game.
 // No file changes, guest-memory writes, host input, or desktop capture.
 // This is NOT a shipping hook: a successful trial must become a source patch.
 #define WIN32_LEAN_AND_MEAN
@@ -15,7 +16,7 @@ struct Stats {
 };
 extern "C" __declspec(dllexport) Stats ProbeState = {1, 0, 0, 0, 0, 0};
 
-static bool RefreshPaced(void* presenter, unsigned width, unsigned height,
+extern "C" __declspec(dllexport) bool RefreshPaced(void* presenter, unsigned width, unsigned height,
                          unsigned aspect_x, unsigned aspect_y, void* refresher) {
   ++ProbeState.calls;
   LARGE_INTEGER now;
@@ -47,7 +48,7 @@ static void Jump(volatile unsigned char* at, const void* destination) {
   for (int i = 0; i < 8; ++i) at[6 + i] = static_cast<unsigned char>(address >> (i * 8));
 }
 
-extern "C" __declspec(dllexport) DWORD WINAPI InstallProbe(void*) {
+extern "C" __declspec(dllexport) DWORD WINAPI PrepareProbe(void*) {
   if (ProbeState.installed) return 1;
   HMODULE runtime = GetModuleHandleW(L"rexruntime.dll");
   if (!runtime) return 2;
@@ -70,16 +71,9 @@ extern "C" __declspec(dllexport) DWORD WINAPI InstallProbe(void*) {
   FlushInstructionCache(GetCurrentProcess(), trampoline, 32);
   LARGE_INTEGER counter;
   QueryPerformanceFrequency(&counter); frequency = counter.QuadPart;
-  QueryPerformanceCounter(&counter); activated_at = counter.QuadPart + 110 * frequency;
+  QueryPerformanceCounter(&counter); activated_at = counter.QuadPart + 95 * frequency;
   original = reinterpret_cast<Refresh>(trampoline);
-  if (!VirtualProtect(entry, sizeof(expected), PAGE_EXECUTE_READWRITE, &previous)) {
-    VirtualFree(trampoline, 0, MEM_RELEASE); original = nullptr; return 7;
-  }
-  Jump(entry, reinterpret_cast<void*>(&RefreshPaced));
-  entry[14] = 0x90;
-  DWORD unused;
-  VirtualProtect(entry, sizeof(expected), previous, &unused);
-  FlushInstructionCache(GetCurrentProcess(), entry, sizeof(expected));
+  // No live code writes here. The debugger arms the prepared target.
   ProbeState.installed = 1;
   return 0;
 }
