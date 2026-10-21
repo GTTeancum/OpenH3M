@@ -124,3 +124,63 @@ subsequent format gaps; validate both BSPs and resource manifests; measure guest
 memory against stock maps and original engine allocations; native capture and
 correct-content gameplay/Forge checks; install only a valid budgeted candidate
 into the existing shared installation. Keep the original source read-only.
+
+## Two-map feasibility check (2026-10-21)
+
+The user names the proposed maps **Forge Gulch** (the Blood Gulch/canyon area)
+and **Forge World** (the remaining playable area). Both should retain the whole
+visible landscape, with player/vehicle/Forge-camera boundaries preventing access
+to the other side. This is a feasibility assessment, not authorization to call
+an untested partition complete. The second replacement slot has not been chosen.
+
+`analyze_forge_split.py` reads actual surface edge loops and vertex positions,
+then follows the 2D/3D collision references to estimate retained lookup data.
+Material names alone are insufficient: gulch talus materials occur outside the
+canyon. A provisional intersection of Y <= -20 and X <= 10 covers the main
+canyon floor/caves; the complement supplies the other map. The final boundary
+needs visual validation and collision-backed containment, including flying
+vehicles and Forge movement. This is not a finalized geographic selection.
+
+Surfaces touching the provisional boundary stay on both sides (418 surfaces),
+so the estimate does not gain space by throwing away crossing polygons.
+
+| Main-BSP estimate | Forge Gulch | Forge World |
+| --- | ---: | ---: |
+| Surfaces | 24,973 | 19,906 |
+| Edges | 39,364 | 31,255 |
+| Retained planes before exact deduplication | 60,956 | 42,206 |
+| Exact unique retained planes | 58,796 | 40,296 |
+| Planes referenced by signed 2D entries | 22,683 | 18,301 |
+| 2D nodes | 3,912 | 3,568 |
+
+Both selections fit the checked 16-bit plane/edge counts. Their 2D reference
+planes, surface indices and 2D-node indices also fit signed/flagged index ranges;
+a converter must allocate the 2D-referenced planes first and remap every index.
+These counts are conservative reference-closure estimates, not serialized valid
+retail collision. They exclude new containment geometry and separate instance
+and shared-BSP collision. All connected collision, MOPP, visibility and surface
+mappings still need consistent rebuilding and validation.
+
+Both complete visible geometry sections successfully converted **in memory**:
+20,146,716 + 1,462,562 bytes of retail geometry. All four lightmap arrays also
+encoded successfully, retaining authored dimensions. Combined geometry and
+lighting payload: **47,823,678 bytes (45.61 MiB)**, plus 85,968 bytes of geometry
+control data. This does not include terrain textures, decorators, stock Forge
+objects, collision, audio, tags, render targets or engine memory. It does not
+prove visual correctness, frame rate or total 360 memory compliance.
+
+Conclusion: the proposed split removes the immediate index-count obstacle
+without deleting visible scenery. Retain it as the preferred conversion plan;
+do not claim a complete budget fit or working map until both candidates exist
+and their complete allocations and gameplay have been checked.
+
+Reproduce (all output remains ignored inside this repository):
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/analyze_forge_split.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --cut-y -20 --cut-x 10 --report work/forge-world/split-analysis.json
+```
+
+No map, executable, source asset or existing installation was changed by this
+assessment. Temporary spatial-array data was removed after the final report.
