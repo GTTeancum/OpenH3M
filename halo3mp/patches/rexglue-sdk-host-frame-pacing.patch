@@ -9,7 +9,7 @@
  #include <utility>
  
  #include <rex/assert.h>
-@@ -20,6 +22,46 @@
+@@ -20,6 +22,51 @@
  #include <rex/platform.h>
  #include <rex/ui/presenter.h>
  #include <rex/ui/window.h>
@@ -19,6 +19,11 @@
 +REXCVAR_DEFINE_INT32(host_guest_output_fps, 30, "UI/Presenter",
 +                    "Host guest-output pacing rate; 0 disables pacing")
 +    .range(0, 360);
++
++// Stable native diagnostic accessor; does not modify guest or presenter state.
++extern "C" uint64_t RexHostGuestOutputCount(const rex::ui::Presenter* presenter) {
++  return presenter->guest_output_frame_count();
++}
 +
 +namespace {
 +void PaceHostOutput(const void* presenter, bool active) {
@@ -56,7 +61,7 @@
  
  #if defined(REX_HAS_FIDELITYFX_RUNTIME) && REX_HAS_FIDELITYFX_RUNTIME
  #include <ffx_api/ffx_api.h>
-@@ -550,6 +592,7 @@
+@@ -550,6 +597,7 @@
      uint32_t frontbuffer_width, uint32_t frontbuffer_height, uint32_t display_aspect_ratio_x,
      uint32_t display_aspect_ratio_y,
      std::function<bool(GuestOutputRefreshContext& context)> refresher) {

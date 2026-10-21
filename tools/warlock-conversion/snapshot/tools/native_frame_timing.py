@@ -68,12 +68,22 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
         pe = pefile.PE(str(runtime), fast_load=True); pe.parse_data_directories(directories=[0])
         entry = next(s.address for s in pe.DIRECTORY_ENTRY_EXPORT.symbols
                      if s.name and s.name.startswith(b'?RefreshGuestOutput@Presenter@'))
-        # Verified installed build: lock inc qword ptr [rdi+1b8h]. Fail closed.
-        if pe.get_data(entry + 0xe3, 8) != bytes.fromhex('f048ff87b8010000'):
+        accessor = next((s for s in pe.DIRECTORY_ENTRY_EXPORT.symbols
+                         if s.name == b'RexHostGuestOutputCount'), None)
+        counter_offset = 0x1b8
+        if accessor:
+            # Compiled read-only accessor: mov rax,[rcx+disp32]; ret.
+            code = pe.get_data(accessor.address, 8)
+            if code[:3] != b'\x48\x8b\x81' or code[7:] != b'\xc3':
+                raise RuntimeError('Unsupported native counter accessor layout')
+            counter_offset = struct.unpack_from('<i', code, 3)[0]
+            if not 0 < counter_offset < 0x4000:
+                raise RuntimeError('Invalid presenter counter offset')
+        elif pe.get_data(entry + 0xe3, 8) != bytes.fromhex('f048ff87b8010000'):
             raise RuntimeError('Frame-counter layout differs from verified runtime')
         hook = base + entry
         if read(hook, 1) != b'\x55': raise RuntimeError('Unexpected presenter entry instruction')
-        hooks = {hook: ('guest', 128, 0x1b8)}  # Win64 CONTEXT RCX
+        hooks = {hook: ('guest', 128, counter_offset)}  # Win64 CONTEXT RCX
         if gpu_progress:
             gpu_path = runtime.parent / 'rexgpu-xenos.dll'
             if hashlib.sha256(gpu_path.read_bytes()).hexdigest() != 'aed76f757f9c570923e90ec99d26305f368857e972ea9d97b650af1ce806bc94':

@@ -15,6 +15,11 @@
 - [ ] Profile CPU, GPU, memory and resource streaming before selecting further
   optimizations. Preserve original Halo 3 behavior and stock assets, and keep
   converted caches appropriate for the Xbox 360 compatibility objective.
+- [ ] Investigate loading-time shader/pipeline preparation for first-visit
+  stutters. Cached pipelines already load at startup; Cold Storage exploration
+  increased that cache from 507 to 560 pipelines. Confirm causality with timing
+  before attributing all stalls to compilation. Keep one shared cache and do
+  not skip rendering or change guest simulation to hide compilation work.
 
 ## Video options
 
@@ -22,9 +27,9 @@
   relevant individual controls, persistent settings, and restore-defaults support.
   Identify which settings the existing runtime actually supports before choosing
   controls; verify their visual and performance effects on the test matrix.
-  Engine-side implementation remains subject to the existing instruction to
-  keep OpenH3M unchanged unless the user explicitly overrides it. Recording this
-  TODO does not authorize engine modifications or altered game simulation.
+  The user authorized host-engine smoothness patches on 2026-10-20, provided
+  the core stays compatible with Xbox 360. Preserve that boundary for quality
+  settings; recording this TODO does not authorize altered game simulation.
 
 ## Packaging and maintenance
 

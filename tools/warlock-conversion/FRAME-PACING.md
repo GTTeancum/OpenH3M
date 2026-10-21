@@ -425,3 +425,83 @@ REXGLUE_USE_VULKAN=OFF, CMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON. Revalidate that liv
 session before taking further action. Build target rexruntime first; preserve
 existing game EXE, maps, GPU plugin and shared cache unless evidence requires
 additional ABI-matched components. No production binaries have been replaced.
+
+### Source runtime built; traversal-stall investigation remains open (2026-10-20)
+
+This supersedes the build-pending checkpoint above. The runtime was built from
+SDK c94f5ebdcb3c9d1a460ca48e04f9758448f8d518 with the existing six patches,
+plus local-user-direct, windows-mspack-path and host-frame-pacing. Reproduction:
+run snapshot/tools/build_host_runtime.ps1 from this repository. Required shallow
+SDK submodules are cli11, libmspack, FFmpeg, tomlplusplus, simde, xxHash, spdlog,
+fmt, utfcpp, imgui, sdl3, o1heap, vulkan-headers, vulkan-memory-allocator,
+spirv-headers, spirv-tools and glslang. All source/build/temp data stays in work/.
+Use the existing SDK checkout, not a second build per map.
+
+The build uses installed clang/clang++, Ninja, Release and -march=x86-64-v2,
+with Tracy/tests disabled. Vulkan must be enabled alongside D3D12 because the
+unchanged GPU plugin imports Vulkan exports even when D3D12 is selected.
+The Windows mspack patch resolves a checked-out text symlink to its real source
+folder. The local-user-direct patch restores the signin export required by the
+existing executable, using the same local-user activation/state functions.
+The final host patch also exports a read-only frame-counter accessor, avoiding
+an assumed opcode offset for diagnostics. No guest code, maps or simulation
+clock changes were made.
+
+Output: work/rexglue-sdk/out/win-amd64/rexruntime.dll; candidate staging:
+work/pacing-runtime (binaries only, shared maps/cache). Runtime SHA256:
+260b9b5a478e4e639323eca9025544c8b29c6769f6d8b433a28d134a63005806.
+The unchanged EXE/GPU plugin and guest DLLs are used. audit_runtime_imports.py
+checked all 10,886 exports with zero missing named imports. pefile's default
+8,192-export limit initially produced false missing-import reports; the checker
+now explicitly raises that limit and checks completeness. Export compatibility
+alone does not verify C++ layout or gameplay, so native gameplay checks follow.
+
+Prisoner run 20261020-202533-baseline, without the diagnostic DLL hook:
+899 settled intervals, mean 33.333ms, standard deviation 0.801ms, p05 31.939ms,
+p95 34.751ms, p99 35.118ms, no intervals below 25ms or above 41.667ms, no skipped
+observations. Guest vblank remained 16.667ms, deviation 0.861ms. Native gameplay
+capture at 145 seconds was inspected and shows Prisoner geometry, weapon and HUD.
+The adjacent old-runtime baseline's deviation was 15.578ms. This establishes a
+large improvement in sampled output cadence, not physical-display verification.
+
+Stock Cold Storage run 20261020-202841-stock-baseline reached the correct original
+map (145-second native image inspected). The human walked around and reported
+hiccups. Settled output: 863 intervals, mean 34.706ms, deviation 20.634ms,
+p05 32.015ms, p95 34.693ms; 7 intervals above 41.667ms. Across the full capture,
+there were 10 intervals above 60ms, including 555ms and 662ms at ~122 seconds,
+which the settled-window summary alone would omit. The summary tool now records
+all >60ms intervals and counter deltas over the complete capture.
+
+During the largest stalls, the guest vblank counter continued steadily and the
+sampled guest flip queue was empty (head==tail; issued==completed). Thus the
+remaining delay is not simply the original alternating output cadence. This
+observation does not distinguish CPU work, GPU preparation, IO or synchronization.
+Do not declare the SER8 inadequate or the goal complete from this run.
+
+The initial stock launch restored 456 shaders/507 pipelines; the following
+launch restored 493/560. Source confirms persistent pipeline descriptions are
+translated and compiled at startup. This supports investigating first-use work,
+not claiming it caused every stall. The warm-cache repeat is
+20261020-203316-stock-baseline (tool session 73105); verify terminal state and
+capture/results before relying on it. Production deployment remains pending.
+System-link, other hardware, audio fidelity and physical display cadence have
+not been validated by these timing/capture checks.
+
+Warm-repeat result: session 73105 completed normally under its watchdog.
+20261020-203316-stock-baseline reached original Cold Storage; the 145-second
+native capture was inspected (blue-lit interior, weapon/HUD, active camouflage).
+899 settled intervals averaged 33.334ms, deviation 0.913ms, p05 31.620ms,
+p95 34.732ms, p99 35.427ms; zero short/long outliers and zero skipped observations.
+The entire 110-155-second capture contained no interval above 60ms. Vblank
+remained 16.667ms. Startup restored 493 shaders and 560 pipelines.
+
+This is consistent with cached first-use preparation helping, but not a causal
+proof: the previous run included the user's movement and ended in another room,
+whereas this repeat used the saved scripted route. Do not claim identical scene
+coverage or all-map first-visit smoothness. Keep the goal active; remaining work
+is targeted first-use stall diagnosis/preparation and production deployment.
+The shared cache must be retained, not discarded as disposable diagnostic data.
+
+Validation this checkpoint: Python AST parsing for all changed diagnostic tools,
+PowerShell parser for the runtime build helper, complete export audit and git
+whitespace check. No additional game build or map duplication was introduced.

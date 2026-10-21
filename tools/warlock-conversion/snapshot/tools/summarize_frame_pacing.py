@@ -7,7 +7,9 @@ import statistics
 
 
 def summarize(run):
-    rows = [r for r in csv.DictReader((run / 'guest-frames.csv').open()) if float(r['seconds']) >= 125]
+    with (run / 'guest-frames.csv').open() as source:
+        all_rows = list(csv.DictReader(source))
+    rows = [r for r in all_rows if float(r['seconds']) >= 125]
     if not rows or all(abs(float(r['seconds']) * 1000 - round(float(r['seconds']) * 1000)) < .001 for r in rows):
         raise ValueError('Missing or quantized timestamps; require high-resolution counter capture')
     intervals, skipped = [], 0
@@ -34,6 +36,17 @@ def summarize(run):
             'over_41_667_ms': sum(x > 41.667 for x in intervals),
             'max_observation_poll_gap_ms': round(max(float(r['poll_gap_ms']) for r in rows), 3),
             'caution': 'Scene and simulation speed require separate verification. Polling introduces timing uncertainty up to the observation gap. Display cadence is separate.'}
+
+    # Keep traversal stalls visible even when they precede the settled window.
+    # Include the counter delta so missing observations cannot masquerade as a
+    # proven one-frame stall. This is output timing, not a GPU bottleneck verdict.
+    report['full_capture_hitches_over_60ms'] = [
+        {'start_seconds': round(float(a['seconds']), 6),
+         'end_seconds': round(float(b['seconds']), 6),
+         'interval_ms': round(1000 * (float(b['seconds']) - float(a['seconds'])), 3),
+         'counter_delta': int(b['guest_frame_count']) - int(a['guest_frame_count'])}
+        for a, b in zip(all_rows, all_rows[1:])
+        if float(b['seconds']) - float(a['seconds']) > .060]
 
     vpath = run / 'gpu-progress.csv'
     if not vpath.exists(): vpath = run / 'vblank.csv'  # Legacy mislabeled discovery trace.
