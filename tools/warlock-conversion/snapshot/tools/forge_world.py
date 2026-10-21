@@ -25,6 +25,7 @@ def configure(i):
     if len(rows) != 1 or s.unpack('8I',rows[0]+4) != (0,3,3,0,0,0,0,0xffffffff):
         raise ValueError('Forge World must use one zone with both BSPs always active')
     i.materials.resize_blend_maps = True
+    i.materials.preserve_normal_mips = True
     i.materials.forge_world_sky = True
     i.materials.bitmap_size_overrides = {}
     for index, tag in s.tags.items():

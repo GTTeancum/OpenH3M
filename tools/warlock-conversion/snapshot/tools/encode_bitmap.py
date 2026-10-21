@@ -81,9 +81,9 @@ def mcc_dxn_to_retail(payload):
  return blocks.tobytes()
 
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False):
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False):
  """Return retail bitmap record, resource control bytes and tiled base mip.
- Mip levels are intentionally limited to one in both metadata records.
+ By default retain one mip; Forge normal textures retain their authored chain.
  """
  info=source.info(tag)[index];fmt=info['format'];w=info['width'];h=info['height']
  if fmt not in SUPPORTED_FORMATS:raise ValueError(f'Format {fmt} needs a dedicated encoder')
@@ -111,14 +111,20 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
    break
   pixels=pixels[mip_size(w,h,fmt):];w=max(1,w//2);h=max(1,h//2)
  if fmt in (0,1,10,11):pixels=expand_argb(pixels,w,h,fmt);fmt=11
- tiled=tile_base(pixels,w,h,fmt)
+ mip_count=1
+ if preserve_normal_mips and fmt==33 and info['mips']-level>1:
+  from xbox_mip_chain import tile_chain
+  mip_count=info['mips']-level
+  tiled=tile_chain(pixels,w,h,mip_count,fmt)
+ else:tiled=tile_base(pixels,w,h,fmt)
  bitmap=bytearray(48);bitmap[:4]=b'bitm'
  struct.pack_into('>HHBBHHH',bitmap,4,w,h,1,0x0e,0,fmt,3)
  bitmap[0x15]=source.c.data[source.c.block(source.c.tags[tag]['offset']+0x60,0x38)[index]+0x15]
+ bitmap[0x14]=mip_count-1
  struct.pack_into('>I',bitmap,0x1c,len(tiled));struct.pack_into('>I',bitmap,0x28,0xffffffff)
  control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
  gpu_format=texture_gpu_format(fmt,bitmap[0x15])
- struct.pack_into('>HHBBBBI',control,0x28,w,h,1,1,0,1,gpu_format)
+ struct.pack_into('>HHBBBBI',control,0x28,w,h,1,mip_count,0,0 if mip_count>1 else 1,gpu_format)
  # Resource fixups use control+0x0C -> raw+0 and control+0x34 -> control+0.
  return bytes(bitmap),bytes(control),tiled
 

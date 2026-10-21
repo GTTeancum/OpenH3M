@@ -4,8 +4,8 @@ Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
 is fixed and verified in native captures before and after turning/walking.**
 Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
 remain open. This is not a completed port. The shared installation contains
-`sandbox-native-normals.map` (136,712,192 bytes; 130.4 MiB), SHA256
-`1f1c877e0faf6523d9a5c1b0af53c5be62b57e5132c46338f98aa5021c9aa72f`.
+`sandbox-normal-mips.map` (138,219,520 bytes; 131.8 MiB), SHA256
+`83c22ef5dad8b4c540da1bb30cef08debcb5f742c154c9bec9737297fd8f9daf`.
 Original disc maps and the other conversions remain intact. Earlier failed runs
 below are historical; the latest native result is recorded at the end.
 
@@ -775,3 +775,38 @@ captures before and after turning/walking. Terrain remains present, and rock
 shading changes, but fine grain remains. Do not claim the full shading problem
 is solved: mip chains, containment and guest memory acceptance remain open.
 The run reached its 140-second watchdog without a reported unhandled crash.
+
+### Authored normal mip chains retained
+
+Forge conversion now retains the authored BC5 normal mip chains below the
+existing resolution cap. `xbox_mip_chain.py` implements the original tiled
+layout and packed tail. It does not regenerate/compress normal data. The
+resource stores the complete chain in one primary segment, with matching
+bitmap and interop mip counts. Other conversions keep their current mip policy.
+Color/blend/cubemap mip policy has not changed in this step.
+
+The independent pinned TagTool decoder first checked synthetic square and
+rectangular textures (512x512, 256x512, 512x256, 128x512), with every decoded
+mip matching its input. `audit_forge_mips.py` then checked the serialized map:
+all 28 custom normal textures / 264 mips match the MCC source after endpoint
+conversion. It builds its small decoder bridge as needed using repository-local
+temporary/package directories and verifies the TagTool assembly hash.
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/audit_forge_mips.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --candidate work/forge-world/sandbox-normal-mips.map `
+  --report work/forge-world/mip-payload-audit.json
+```
+
+Native run `.local/loading-traces/20261021-172724-37480` reached gameplay;
+both 116000/134000 ms captures were inspected before and after turning/walking.
+Terrain and surrounding scenery remain present. The texture change introduces
+no observed loading/rendering regression in this route. Static captures do not
+prove temporal shimmer eliminated; do not claim that. Fine visual texture remains.
+The 140-second run ended at its watchdog without a reported unhandled crash.
+
+Current file growth is 1,507,328 bytes compared with the single-mip normal build.
+The 28 normal resources occupy 8,617,984 uncompressed tiled bytes in total.
+This is a resource subtotal, not a whole-console resident-memory measurement.
+Containment and overall Xbox 360 budget acceptance remain unverified.
