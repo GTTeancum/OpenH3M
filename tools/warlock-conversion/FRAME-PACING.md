@@ -1098,3 +1098,46 @@ optional tearing only; no frame-latency waitable flag or explicit frame-latency
 wait exists. Any candidate must preserve producer 30Hz, image correctness and
 shutdown/resize behavior, and must be opt-in until measured. Root installation
 unchanged. Goal active; this turn produced source instrumentation and new evidence.
+
+### Waitable presentation candidate (2026-10-20)
+
+Added opt-in rexglue-sdk-waitable-presentation.patch. DXGI swap-chain creation
+uses FRAME_LATENCY_WAITABLE_OBJECT, sets maximum latency 1, obtains the waitable
+handle once, and waits before rendering including the first frame. Resize keeps
+the creation flag. A sidecar avoids public class-layout changes and closes the
+handle on swap-chain destruction and presenter teardown. Wait is bounded to
+100ms; timeout/failure is logged and returns not-presented without queue work.
+The setting requires restart and defaults false. Waiting implies UI-thread
+presentation so the producer doesn't itself perform the capacity wait.
+Reference: https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_3/nf-dxgi1_3-idxgiswapchain2-getframelatencywaitableobject
+
+All 20 patches validated and build passed. Import audit: 10,907 exports, zero
+missing imports. Diagnostic staged runtime SHA256:
+f225716350f6748e5321335de64793820a4f8ec7787894a18a3aa04aa00ad14a.
+Run 20261020-221722-ui-thread (session 69232) tests interval 1 + capacity wait,
+with native game-image identity and queue/output-phase tracing. No normal
+installation change. Must verify game-output rate, image-linked cadence and
+absence of wait failures before promoting. Resize/shutdown paths are source
+reviewed, not interactively exercised; no desktop input is permitted.
+
+Waitable run 20261020-221722-ui-thread completed. Native 145-second Prisoner
+image inspected (expected room/weapon/grenade pose). No fatal or capacity timeout.
+Output restored to mean 33.334ms, deviation 0.956ms, no >60ms gaps. No >=5ms
+queue-execute, queue-signal, output-refresh or fence-wait events: only intended
+output-pacing sleeps. Present calls median 0.122ms, maximum 0.586ms. This fixes
+the synchronized candidate's blocking regression, not the overall smoothness goal.
+
+Image-linked cadence still uneven: 1,350 observed images, no missing IDs or
+backwards transitions; consecutive refresh deltas 199 at one, 954 at two,
+196 at three (395/1,349 = 29.28% non-two). Host submissions averaged 18.525ms,
+including 268 two-refresh submission intervals. Do NOT deploy as a smoothness
+solution. Native capture confirms gameplay, not subjective motion quality.
+
+Checked the suspected UI double-wait: AreUITicksNeededFromUIThread already
+returns false when surface_paint_connection_has_implicit_vsync_ is true, which
+the candidate sets. Thus WaitForUITickFromUIThread returns immediately; no fix
+there is justified. Next useful hypothesis is insufficient presentation queue
+headroom at maximum latency 1: permit a bounded two-frame capacity comparison,
+measure image cadence and latency tradeoff, and retain 30Hz guest behavior.
+Do not switch queues or change simulation based on unsupported speculation.
+Normal installation unchanged; opt-in candidate/documentation committed locally.
