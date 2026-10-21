@@ -22,6 +22,10 @@
   increased that cache from 507 to 560 pipelines. Confirm causality with timing
   before attributing all stalls to compilation. Keep one shared cache and do
   not skip rendering or change guest simulation to hide compilation work.
+  A fresh-cache recorded walk showed an 82ms gap overlapping pipeline builds.
+  The startup worker-limit/completion-wait correction is deployed and passed
+  stock Cold Storage and direct Prisoner native checks;
+  it prepares known combinations only, not unencountered content.
 
 ## Video options
 

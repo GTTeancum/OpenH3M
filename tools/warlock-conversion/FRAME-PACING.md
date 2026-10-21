@@ -1,6 +1,6 @@
 # Frame pacing investigation
 
-Status: active, with the host pacing fix deployed at
+Status: active, with host pacing and cached-pipeline startup preparation fixes deployed at
 `C:\X360\ISOs\H3M\OpenH3M.exe`. Direct launch reuses the shared converted maps,
 cache and saves. Prisoner's extended movement/firing/grenade check measured
 0.806ms frame-interval deviation at 30 FPS, versus 14.718ms on the original
@@ -818,3 +818,69 @@ The application/driver caches were warm during this replay. A further useful
 comparison, if needed, is this same recorded walk with a separate empty
 application cache; repeated short canned routes add no useful evidence. Do not
 clear external driver caches or bypass the existing staging-cleanup rejection.
+
+### Cold-cache replay and startup prewarm correction (2026-10-20)
+
+Fresh application-cache replay 20261020-212703-stock-baseline completed under
+its watchdog. Native 145-second image inspected: stock Cold Storage white
+central area, AR magazine 19, pickup prompt and nearby shield effect. The route
+is relevant but not an exact saved-state reproduction. Driver caches were not
+cleared. Settled output mean 33.332ms, deviation 0.951ms, no short/long intervals.
+Full capture includes an 81.985ms interval at 124.711-124.793s, overlapping two
+pipeline builds (15.107ms and 21.511ms). Worker overlap is not causal proof;
+the prior 0.35-0.66s stalls did not recur. The original empty-cache startup log
+has no restored shader/pipeline count, followed by first-use preparation.
+
+Source inspection found two concrete prewarm defects in the pinned SDK:
+creation_thread_needed_count was calculated but the expansion loop compared
+against creation_thread_original_count, so it never expanded. Also the blocking
+completion wait was nested inside temporary-worker teardown, skipping the wait
+when no extra workers existed. rexglue-sdk-pipeline-prewarm.patch uses the
+calculated limit and waits for remaining workers independently of expansion.
+It retains the existing lock/event protocol and nonblocking flag behavior.
+No guest simulation, map, asset, presentation rate or network changes.
+This prepares recorded combinations only, not every unseen map/effect variant.
+
+All 14 patches validated; incremental runtime/GPU build succeeded. Import audit
+found zero missing names among 10,889 runtime exports. Diagnostic staged GPU
+updated; the deployed root is unchanged pending native validation. Run
+20261020-213304-stock-baseline (session 96066) replays the recorded walk using
+the application cache populated by the preceding cold run. This compares cold
+first use with restored preparation, not a controlled patch-only A/B test.
+
+Warm-cache candidate replay 20261020-213304-stock-baseline completed. Startup
+translated 297 shaders in 10ms and created 336 pipelines in 126ms. Full measured
+window had no >60ms output gaps; settled mean 33.333ms, deviation 1.022ms,
+no short/long intervals or skipped observations, guest vblank 16.666ms.
+Native 145-second image was inspected: Cold Storage blue interior, AR 19,
+bubble-shield inventory icon. It ended at a different wall/room than the cold
+run, so this does NOT establish identical route/position or isolate cache
+causality. Final replay frame released every control. No fatal was logged.
+PresentMon reported lost ETW events; its output is not used to establish
+physical-display cadence. Native output timing is the metric above.
+
+Deployed only the corrected GPU plugin after checking every existing manifest
+binary hash and confirming no OpenH3M process was running. New GPU SHA256:
+62a5dd8bbdae8196606d9d6a6d569040d3dabfb877dcaf9e6a0a3c1c5a300208.
+The deployed runtime, EXE and guest modules are unchanged. A manifest-scoped
+import check covered all seven host binaries against 10,886 deployed runtime
+exports, with no missing imports. The generic staging auditor cannot scan the
+mixed disc root because its original Xbox DLLs are not Windows PE modules;
+this is a tool-scope limitation, not a binary-load failure.
+Direct Prisoner run 20261020-213615-baseline (session 98284) is pending. It
+restored 493 shaders in 12ms and 565 pipelines in 179ms before gameplay, using
+the existing shared cache. No per-map cache silo was created for deployment.
+
+Direct Prisoner run 20261020-213615-baseline completed under its watchdog.
+Native 145-second image inspected: recognizable Prisoner geometry/materials,
+AR grenade-throw animation and airborne grenade. No fatal/adapter registration.
+899 settled intervals: mean 33.334ms, deviation 1.049ms, p95 34.887ms,
+p99 36.200ms, no short/long intervals or skipped observations. Full capture
+110-155s had no >60ms gaps. Guest vblank 16.666ms. Deployed manifest hashes
+rechecked and prewarm validation updated. Map hash remains c14c7d8f...e460.
+Startup preparation fix is now deployed; this does not establish elimination
+of every intermittent hitch or physical-display pacing. The earlier large
+Cold Storage hitch remains unproven, and captured replay endpoints differ.
+No system-link/audio/other-hardware verification is claimed. Goal stays active.
+Cleanup remains subject to the previously recorded automatic-review denial;
+no cleanup workaround attempted. No assets changed or committed.
