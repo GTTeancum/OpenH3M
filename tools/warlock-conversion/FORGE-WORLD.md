@@ -498,3 +498,48 @@ upside-down scenery is a reason to investigate reflection, not a diagnosis.
 The user's image proves terrain can render from another view. Current evidence
 does not identify a root cause. Expanded-bounds/PVS and flat-material diagnostic
 maps are not fixes and are removed after recording their results.
+
+## Broader rendering research, not only water (2026-10-21)
+
+Human clarification: research applies across suspected subsystems, not just
+water. Compare working original H3 maps before implementation changes or more
+experimental builds. This pass made no conversion/runtime changes and launched
+no game.
+
+Read-only `audit_forge_rendering.py` compares Sandbox, Last Resort, Valhalla,
+Avalanche, Narrows and Guardian against Forge source/candidate. From repository
+root run `python -B tools/warlock-conversion/snapshot/tools/audit_forge_rendering.py`.
+`audit_forge_visibility.py` and `audit_forge_shaders.py` run the focused checks.
+Reports remain ignored under `work/forge-world`.
+
+Findings:
+- Both Forge BSPs preserve all 170 mesh records, including part/subpart ranges,
+  buffer slots, mesh flags/types, compression records and per-cluster/instance
+  lighting assignments. No out-of-range buffer or part/subpart index range was
+  found in the candidate or the six stock references. This is metadata evidence,
+  not proof of correct live buffer upload, actual vertex values, or residency.
+- Empty per-mesh subpart-visibility arrays occur in all six stock examples too;
+  their absence is not evidence of a broken conversion.
+- The 170 per-mesh visibility MOPP headers, decoded terminal keys and reorder
+  tables match source/candidate. Every decoded key is within its mesh's subpart
+  count, also checked against Last Resort. This does not validate the separate
+  partitioned collision/leaf/portal visibility path or runtime culling.
+- Candidate has a concrete shader-pass mismatch: BSP 0 meshes 16,18,29,111 use
+  ambient PRT with material 2 (`forge_halo_rocks`). Source template
+  `_0_0_1_1_2_0` supports the pass; its sole exact-named original-disc donor,
+  Guardian, has mask 0x2263a and lacks it. Guardian and Last Resort's own mesh /
+  shader pairings show no such mismatch. No alternative was substituted yet.
+  Resolve compatible native template options/parameter bindings before changing
+  the donor. This defect does NOT establish the cause of all missing terrain.
+- Candidate converts six foliage-material part uses from rmfl to rmsh; record
+  this separately from terrain rendering and evaluate the existing approximation.
+- Main Forge BSP contains 2199 instances vs Last Resort's 1130; this comparison
+  is workload context, not a proven engine-limit violation or console RAM budget.
+
+Primary implementation references reviewed alongside original disc data:
+https://github.com/TheGuardians/TagTool/blob/master/TagTool/Geometry/RenderGeometry/RenderGeometry.cs
+https://github.com/TheGuardians/TagTool/blob/master/TagTool/Tags/Definitions/ScenarioStructureBsp.cs
+They distinguish mesh visibility MOPPs/subpart bounds from BSP leaf/portal data.
+Next research priorities: compatible rock shader pass, partitioned leaf/portal
+semantics, live resource binding/visibility selection, and remaining sky/lighting
+approximations. Do not treat matching serialized fields as visual acceptance.
