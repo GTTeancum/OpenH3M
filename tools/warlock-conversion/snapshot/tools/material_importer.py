@@ -147,6 +147,7 @@ class MaterialImporter:
         textures = bytearray(b''.join(c.data[x:x + 24] for x in c.block(post + 16, 24)))
         constants = bytearray(b''.join(c.data[x:x + 16] for x in c.block(post + 28, 16)))
         sky_template = None
+        forge_sky_alias = None
         prisoner_template = False
         disabled_extra_environment = False
         if (getattr(self, 'prisoner_materials', False)
@@ -180,6 +181,25 @@ class MaterialImporter:
                 # variant. Keep its authored emission with unbumped sky routing.
                 variants[1] = 0
             sky_template = source_template.rsplit('\\', 1)[0] + '\\_' + '_'.join(str(v) for v in variants[:10])
+        if getattr(self, 'forge_world_sky', False) and '\\sky_halo\\shaders\\' in key[1]:
+            source_template = s.name(s.u(source_post + 12) & 65535)
+            variants = [int(v) for v in source_template.rsplit('\\', 1)[-1].split('_')[1:]]
+            if len(variants) != 13 or any(variants[10:]):
+                raise ValueError('Forge sky has nondefault MCC-only shader options')
+            suffix = '_' + '_'.join(str(v) for v in variants[:10])
+            aliases = {
+                '_7_0_0_0_4_0_4_3_0_0': '_7_0_0_0_0_0_4_3_0_0',
+                '_0_0_0_0_4_0_4_3_0_0': '_0_0_0_0_0_0_4_3_0_0',
+                '_2_0_0_0_4_0_1_0_0_0': '_2_0_0_0_0_0_1_0_0_0',
+                '_5_4_0_0_0_0_0_0_0_0': '_5_2_0_0_0_0_0_0_0_0',
+                '_5_4_0_1_0_0_5_0_0_0': '_0_0_0_1_0_0_5_0_0_0',
+            }
+            if suffix in aliases:
+                forge_sky_alias = {'source': suffix, 'target': aliases[suffix],
+                                   'note': 'Explicit native sky material/bump approximation; blend mode preserved'}
+                suffix = aliases[suffix]
+                variants[:10] = [int(v) for v in suffix.split('_')[1:]]
+            sky_template = source_template.rsplit('\\', 1)[0] + '\\' + suffix
         if sky_template:
             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template)
             target_texture_names, target_constant_names = names
@@ -248,6 +268,7 @@ class MaterialImporter:
             'converted_source_animations': converted_animations,
             'disabled_extra_environment': disabled_extra_environment,
             'implicit_native_defaults': implicit_defaults,
+            'forge_sky_alias': forge_sky_alias,
             'native_sky_template': sky_template if not prisoner_template else None,
             'native_sky_donor': sky_donor if sky_template and not prisoner_template else None,
             'native_material_template': sky_template if prisoner_template else None,

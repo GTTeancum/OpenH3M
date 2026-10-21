@@ -55,6 +55,7 @@ class WaterImporter:
         try:
             native = NativeShaderImporter(donor, i, self.resolved,
                 {'maps\\shared.map': self.disc_maps / 'shared.map'})
+            native.donor_scoped = getattr(i, 'stock_forge_palette', False)
             lookup = {(t['group'], donor.name(k)): t['salt'] << 16 | k for k, t in donor.tags.items()}
             name = 'shaders\\water_templates\\' + target_variant
             td = lookup['rmt2', name]

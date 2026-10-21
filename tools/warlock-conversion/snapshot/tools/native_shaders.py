@@ -25,6 +25,7 @@ class NativeShaderImporter:
         self.failed = False
         self.shader_pointers = {}
         self.shared_paths = shared_paths
+        self.donor_scoped = False
 
     def shader_pointer(self, pointer, shader_type):
         if not pointer:
@@ -70,9 +71,14 @@ class NativeShaderImporter:
             raise ValueError('Invalid native shader dependency datum')
         group, name = tag['group'], s.name(datum & 65535)
         key = (group, name) if name is not None else (str(Path(s.file.name).resolve()), datum)
+        # Compiled shader graphs are map-local even when their tag names match.
+        # Their entry-point and shader indices must stay with the donor graph.
+        scoped = self.donor_scoped and group != 'bitm' and Path(s.file.name).resolve() != Path(i.registry.cache.file.name).resolve()
+        if scoped:
+            key = (str(Path(s.file.name).resolve()), group, name if name is not None else datum)
         if key in self.resolved:
             return self.resolved[key]
-        if key in self.existing:
+        if not scoped and key in self.existing:
             return self.existing[key]
         if group not in self.GROUPS:
             raise ValueError(f'Native shader dependency needs dedicated import: {group}:{name}')
@@ -105,5 +111,6 @@ class NativeShaderImporter:
         at = address - i.builder.base
         i.builder.meta[at:at + len(payload)] = payload
         i.added.append({'source': name, 'group': group, 'datum': hex(owner),
-                        'native_shader_donor': True})
+                        'native_shader_donor': True, 'native_shader_donor_file': Path(s.file.name).name,
+                        'donor_scoped_graph': scoped})
         return group, owner

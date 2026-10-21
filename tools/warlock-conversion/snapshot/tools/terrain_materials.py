@@ -77,6 +77,7 @@ class DiscMaterialImporter:
         donor = Cache(str(self.disc_maps / donors[variant]))
         try:
             native = NativeShaderImporter(donor, i, self.resolved)
+            native.donor_scoped = getattr(i, 'stock_forge_palette', False)
             lookup = {(t['group'], donor.name(k)): (t['salt'] << 16) | k
                       for k, t in donor.tags.items()}
             target_template = lookup['rmt2', template_name]

@@ -419,3 +419,34 @@ The sky flare approximations, boundary behavior, Forge-camera containment and
 actual console memory/frame budgets remain unverified. No engine change was
 made. Next tests should resolve this failure rather than collect redundant
 loading screenshots. All nine focused Forge tests pass.
+
+## View-dependent terrain investigation (2026-10-21)
+
+The human walked the map and confirms collision is present where tested, while
+terrain appears/disappears with viewing direction. Do not describe their movement
+as scripted control or infer missing collision from the visual holes.
+
+Negative isolation checks:
+- Removing water did not restore terrain (142028 route probe; human drove).
+- Replacing terrain materials with stock opaque scorpion-guts material did not
+  restore terrain (144704 probe, 116s and 128s native images).
+- Source and converted scalar cluster bounds, mesh indices and instance
+  transforms agree. Spawn-height leaf queries at Z 1.45, 2, 3, 5 and 10 remain
+  retained, assigned to original cluster 0; Z 30 remains retained in cluster 1.
+  This does not establish that pruning is correct everywhere.
+- Source world mesh 126 contains the Gulch terrain bounds including the spawn.
+  Further culling/render-stream diagnosis is required.
+
+Shader graph imports for Forge terrain/water now retain each donor's native
+non-bitmap dependency graph rather than silently reusing same-named Sandbox
+shader definitions. This alone did not fix missing terrain. Forge sky materials
+now use native templates preserving blend/self-illumination, with explicit
+reported material/bump aliases when exact templates are absent. Native 142345
+captures show clouds/ring instead of opaque sky cards; horizon remains overbright.
+Do not claim full sky fidelity or completed terrain rendering.
+
+The full-content candidate is `work/forge-world/sandbox-sky.map`. Flat-material,
+no-water and expanded-visibility candidates are temporary isolation builds, not
+accepted deployments. Restore the full-content candidate after each diagnostic.
+Superseded large map outputs are removed; small reports and selected native
+captures remain locally ignored. No original-disc files or engine code changed.
