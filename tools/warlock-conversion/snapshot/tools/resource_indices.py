@@ -19,7 +19,7 @@ def compact_resource_indices(importer):
             raise ValueError('Resource reference pointer outside metadata')
         return struct.unpack('>I', b.read(address, 4))[0]
 
-    def walk(address, schema):
+    def walk(address, schema, label):
         nonlocal references
         key = address, id(schema)
         if key in visited:
@@ -33,10 +33,11 @@ def compact_resource_indices(importer):
             if kind == 'tagblock':
                 n, pointer = word(at), word(at + 4)
                 stride = int(f.get('elementSize'), 0)
-                if n > 1000000 or n and (pointer < b.base or pointer + n * stride > b.base + len(b.meta)):
-                    raise ValueError('Resource reference block outside metadata')
+                if stride <= 0 or n and (pointer < b.base or pointer + n * stride > b.base + len(b.meta)):
+                    raise ValueError(f'{label}/{f.get("name")}: resource block outside metadata '
+                                     f'(count={n}, pointer={pointer:#x}, stride={stride})')
                 for j in range(n):
-                    walk(pointer + j * stride, f)
+                    walk(pointer + j * stride, f, f'{label}/{f.get("name")}[{j}]')
             elif kind == 'datum' and '[zone]' in f.get('name', ''):
                 if at in remapped_references:
                     continue
@@ -64,7 +65,7 @@ def compact_resource_indices(importer):
             schemas[name] = ET.parse(path).getroot()
         schema = schemas.get(name)
         if schema is not None and any('[zone]' in f.get('name', '') for f in schema.iter()):
-            walk(address, schema)
+            walk(address, schema, f'{name} tag {index:#x}')
 
     schema = ET.parse(importer.reference / 'plugins/zone.xml').getroot()
     root = r.address(r.zone)

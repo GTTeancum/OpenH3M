@@ -149,7 +149,18 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
     if name in ('Collision MOPP Codes', 'MOPP Codes'):
         schema = copy.deepcopy(source_schema)
         schema.set('name', 'MOPP Codes')
-        return convert_collision_block(converter, at, schema, target_schema, 'coll:' + path)
+        transform = None
+        if partition and name == 'MOPP Codes':
+            from resource_reader import Resource
+            from forge_mopp import remap_surfaces
+            root = converter.source_bsp['offset']
+            sidecar = Resource(converter.source, converter.source.u(root + 0x394))
+            surface_count = sidecar.unpack('I', 0)[0]
+            instance_count = converter.source.u(root + 0x1c0)
+            transform = lambda code: remap_surfaces(code, partition[1]['surfaces'],
+                                                    surface_count, instance_count)
+        return convert_collision_block(converter, at, schema, target_schema, 'coll:' + path,
+                                       mopp_transform=transform)
     if name != 'Clusters':
         return None
     if source_schema.get('elementSize') != '0x118' or target_schema.get('elementSize') != '0xDC':

@@ -64,6 +64,10 @@ class TagImporter:
             result = native.import_named(key)
             if result is not None:
                 return result
+        if group == 'lens' and getattr(self, 'gulch_partition', None):
+            from forge_sun_flare import NAME, import_flare
+            if name == NAME:
+                return import_flare(self, datum)
         if group in ('rmtr', 'rmhg', 'rmw '):
             specialized = self.water if group == 'rmw ' else self.terrain
             if specialized is None:

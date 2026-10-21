@@ -63,7 +63,7 @@ def retail_mopp(code):
     return bytes(out)
 
 
-def convert_collision_block(converter, at, source_schema, target_schema, path):
+def convert_collision_block(converter, at, source_schema, target_schema, path, mopp_transform=None):
     name = source_schema.get('name')
     if path.startswith('coll:') and name == 'BSP3D Nodes':
         # The XML's byte fields describe the retail view, not MCC's storage.
@@ -117,7 +117,11 @@ def convert_collision_block(converter, at, source_schema, target_schema, path):
         size = c.u(at+0x28)
         if size != len(rows):
             raise ValueError('MOPP size differs from data block')
-        code = retail_mopp(bytes(c.data[row] for row in rows))
+        code = bytes(c.data[row] for row in rows)
+        if mopp_transform is not None:
+            code = mopp_transform(code)
+            struct.pack_into('>II', out, 0x24, len(code), len(code) | 0x80000000)
+        code = retail_mopp(code)
         struct.pack_into('>III', out, 0x30, len(code), b.alloc(code) if code else 0, 0)
         out[0x3c] = c.data[at+0x3c]
     return bytes(out)

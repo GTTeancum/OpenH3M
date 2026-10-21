@@ -41,9 +41,11 @@ def _stage(i):
     if any(bytes(s.data[r:r + stride]) != bytes(2) + b'\xba' * (stride - 2) for r in rows):
         raise ValueError('Source contains populated script expression slots')
     arrays['Script Expressions'] = (0, b'')
-    for name in ('Trigger Volumes', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders'):
+    for name in ('Scenario Resources', 'Trigger Volumes', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders'):
         sf, df = copy.deepcopy(field(ss, name)), field(ds, name)
         rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
+        if name == 'Scenario Resources':
+            field(sf, 'Split Resources').set('name', 'Resources')
         if name == 'Zone Sets':
             if any(s.unpack('HH', r + 36) != (65535, 0) for r in rows):
                 raise ValueError('Active MCC zone lighting override requires conversion')

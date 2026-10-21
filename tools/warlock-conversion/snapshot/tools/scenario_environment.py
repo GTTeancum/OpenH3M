@@ -16,7 +16,7 @@ def stage_environment(importer):
     bsp_field = field(ds, 'Structure BSPs')
     bsps = c.block(target_root + int(bsp_field.get('offset'), 0), int(bsp_field.get('elementSize'), 0))
     arrays = {}
-    for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data',
+    for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data', 'Lighting Zone Sets',
                  'Camera FX Palette', 'Cubemaps', 'Airprobes',
                  'Light Volumes', 'Light Volumes Palette'):
         sf, df = field(ss, name), field(ds, name)

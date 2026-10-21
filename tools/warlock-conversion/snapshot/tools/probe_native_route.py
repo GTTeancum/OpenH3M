@@ -17,7 +17,8 @@ exe=a.exe.resolve(strict=True)
 if hashlib.sha256(exe.read_bytes()).hexdigest()!='ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406': raise SystemExit('Unexpected runtime')
 listing=subprocess.run(['tasklist','/FI','IMAGENAME eq OpenH3M.exe','/FO','CSV','/NH'],capture_output=True,text=True,check=True)
 if any(r and r[0].lower()=='openh3m.exe' for r in csv.reader(listing.stdout.splitlines())): raise SystemExit('Game already running')
-run=output_path(root/'.local/pacing'/ (time.strftime('%Y%m%d-%H%M%S')+'-route-probe'),root)
+repository=Path(__file__).resolve().parents[4]
+run=output_path(repository/'.local/native-probes'/ (time.strftime('%Y%m%d-%H%M%S')+'-route-probe'),repository)
 for name in ('temp','profile'): (run/name).mkdir(parents=True)
 env=dict(os.environ,TEMP=str(run/'temp'),TMP=str(run/'temp'),APPDATA=str(run/'profile'),LOCALAPPDATA=str(run/'profile'))
 cmd=[str(exe),f'--game_data_root={root / ".local/custom-maps-play"}',f'--user_data_root={run}',f'--cache_root={root / ".local/custom-maps-play/cache"}',f'--log_file={run / "runtime.log"}','--keyboard_controller=false',f'--input_script={a.script}','--input_script_button_state=true','--input_script_keystrokes=false',f'--halo3mp_capture_guest_output_times_ms={a.captures}',f'--halo3mp_capture_guest_output_path={run / "native.png"}']

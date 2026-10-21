@@ -350,3 +350,72 @@ no additional full build was run just to rediscover that known failure. All six
 Forge tests still pass. Goal stays active; no candidate, deployment or gameplay
 claim. Resolve the flare, finish serialization/budget checks, then test native
 content and containment through the process-local harness.
+
+
+## First serialized Gulch candidate (2026-10-21)
+
+The sun flare now has a dedicated retail representation retaining all 18
+reflections and their referenced images. The representation reduces curves to
+endpoint ranges, uses equal-area circular scales for anisotropic reflections,
+and moves the source occlusion reflection first. These are explicit visual
+approximations requiring native inspection. Source lighting zone sets and the
+empty/null scenario resource grouping also convert through validated schemas.
+
+The root terrain MOPP required actual key relocation after partitioning.
+`forge_mopp.py` follows TagTool's branch-local offset semantics:
+https://github.com/TheGuardians/TagTool/blob/master/TagTool/Havok/HavokMoppUtil.cs
+The input's shape classes 8..12 share 11,541 surface indices; class 13 covers
+the remaining 32,920. Their union is exactly all 44,461 original surfaces.
+Class 16 references retained instances. The converter verifies this contract,
+retains spatial cut/scale/property instructions, removes discarded terminals,
+remaps retained surface indices and relocates every branch. Absolute terminal
+bases prevent corruption from relative compact encodings. Readback verifies
+all intended keys, including instances. Main code grows from 1,106,385 to
+1,816,656 bytes; reachable keys decrease from 92,777 to 44,207. No engine
+limits or runtime instructions were patched. Resource walking now checks real
+bounds rather than rejecting any byte array over an arbitrary million entries.
+
+The first candidate builds successfully in about 31 seconds: 133,881,856 bytes
+(127.68 MiB), SHA256
+`3f0a41db1c936fcf138306e3d3d4fda5cd0c66bd1c41dd7512b2d224cc676f7f`.
+It is staged only as `sandbox.map` in the existing shared installation.
+This is file size, not a measured Xbox 360 working-set budget. Nine focused
+Forge tests pass. Native selection/gameplay/visuals and boundary behavior are
+still under verification; this is not a completed-map claim.
+
+Native route-probe logs, profiles and captures now stay in this repository's
+ignored `.local/native-probes`. The existing shared installation and cache
+remain the common deployment target; no second game build was created.
+
+
+## Native candidate check: visual failure, goal still active
+
+Verified fresh-profile route: Custom Games at 45s DOWN / 46s A; map menu
+55s UP / 56s A; five DOWN presses at 58,59,60,61,62s select Sandbox.
+65s native capture confirms the highlighted Sandbox entry. Select at 70s A,
+72s A, 74s DOWN, start at 95s A. This route is now in `trace_loading.py`.
+Both diagnostic tools write beneath this repository's ignored `.local`.
+
+Native runs reached actual Slayer gameplay, with the expected H3 HUD/weapon,
+and responded to process-local look/walk. However, the terrain is visibly wrong:
+large sky-colored gaps/planes and rocks/trees overhead, with distant mountains
+and some ground/water still visible. This fails visual acceptance. Do not treat
+the staged Sandbox candidate as ready or the goal as complete.
+
+Evidence (ignored, local only):
+- `.local/native-probes/20261021-140601-route-probe`: selected Sandbox at 65s,
+  bad gameplay at 132s, runtime log with invalid texture fetch constants.
+- `.local/loading-traces/20261021-140925-28496`: bad gameplay already at 113s
+  before scripted motion; 132s after turning/walking. Six hash validations pass,
+  no failed hashes, Sandbox header authentication/verification returns success.
+  Run stopped at its 140-second watchdog. No crash was observed in these runs.
+
+Source and converted player start match exactly:
+(-49.5638008,-195.6840057,1.4517200). Source floor surface 9932 crosses this XY
+at Z=1.3826152 and remains in the partition. This rules out a lost serialized
+start or discarded spawn-floor polygon, but does not prove runtime collision.
+Terrain rendering/visibility, bitmap bindings and live collision need diagnosis.
+The sky flare approximations, boundary behavior, Forge-camera containment and
+actual console memory/frame budgets remain unverified. No engine change was
+made. Next tests should resolve this failure rather than collect redundant
+loading screenshots. All nine focused Forge tests pass.

@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
-parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout'), default='lockout')
+parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
 parser.add_argument('--capture', action='store_true')
 parser.add_argument('--capture-times-ms', help='Comma-separated native guest capture times for bounded route diagnostics.')
 parser.add_argument('--diagnostic-no-vsync', action='store_true',
@@ -48,7 +48,8 @@ options = parser.parse_args()
 if options.powerup_check and (not options.walk_check or options.slot != 'chillout' or options.seconds < 165):
     parser.error('--powerup-check requires --walk-check --slot chillout and at least 165 seconds')
 ROOT = options.project.resolve(strict=True)
-RUN = output_path(ROOT / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), ROOT)
+REPOSITORY = Path(__file__).resolve().parents[4]
+RUN = output_path(REPOSITORY / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), REPOSITORY)
 GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
 CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
@@ -117,6 +118,9 @@ if options.slot in ('lockout', 'chillout'):
         # Unattended observations: two DOWNs select Construct, three Epitaph.
         # Cold Storage is the preceding entry, reached with one DOWN.
         input_steps.append('68000:DOWN+120')
+if options.slot == 'sandbox':
+    # Native capture: four DOWNs reach Rat's Nest; fifth selects Sandbox.
+    input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
 if options.walk_check:
     if options.manual_input:
