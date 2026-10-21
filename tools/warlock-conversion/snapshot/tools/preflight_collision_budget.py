@@ -36,9 +36,9 @@ def inspect(cache):
                 planes=payload(1,16)
                 unique=len({planes[o:o+16] for o in range(0,len(planes),16)})
                 entry['large_blocks'].append({'counts':counts,'byte_unique_planes':unique,
-                    'plane_index_width_retail_bits':16,'edge_index_width_retail_bits':16,
-                    'direct_narrowing_overflow':counts['planes']>65536 or counts['edges']>65535,
-                    'exact_plane_dedup_still_exceeds_16_bits':unique>65536})
+                    'plane_index_width_retail_bits':16,'plane_index_signed':True,'maximum_plane_count':32768,'edge_index_width_retail_bits':16,
+                    'direct_narrowing_overflow':counts['planes']>32768 or counts['edges']>65535,
+                    'exact_plane_dedup_still_exceeds_signed_limit':unique>32768})
         result.append(entry)
     return {'bsps':result, 'retail_large_collision_supported':False,
             'conversion_ready': all(not e['large_collision_bsps'] and not e['havok_blocks'] for e in result),

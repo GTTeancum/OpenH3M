@@ -39,6 +39,9 @@ def prepare(cache):
         raise ValueError('Partition lost a shared BSP seam')
     report.update(seam_support_surfaces=int(keep.sum()) - selected_count,
                   authored_seam_edges_preserved=len(seam_edges))
+    if report['counts']['planes'] > 32768:
+        from rebuild_forge_collision import rebuild
+        payloads, maps, report = rebuild(cache, tag, arrays, payloads, maps, report, portals)
     return tag, payloads, maps, report
 
 
@@ -98,7 +101,8 @@ def partition(arrays, keep, required_planes=(), leaf_clusters=None):
     selected['vertices'] = sorted({v for n in selected['edges'] for v in edges[n][:2]})
     maps = {name: {old: new for new, old in enumerate(order)} for name, order in selected.items()}
     # Signed 2D plane references get the lower half of the plane address space.
-    ref_planes = sorted({refs[n][0] & 0x7fffffff for n in ids(ar)})
+    ref_planes = sorted({refs[n][0] & 0x7fffffff for n in ids(ar)} |
+                        {surfaces[n][0] & 0x7fffffff for n in selected['surfaces']})
     other_planes = sorted((set(required_planes) | {nodes[n][0] for n in selected['nodes']} |
                            {surfaces[n][0] & 0x7fffffff for n in selected['surfaces']}) - set(ref_planes))
     plane_map, unique, plane_rows = {}, {}, []
@@ -150,11 +154,13 @@ def partition(arrays, keep, required_planes=(), leaf_clusters=None):
         target[4].append((*row[:3], *(child(ch, maps['nodes2'], maps['surfaces'], 16) for ch in row[3:])))
     for old in selected['surfaces']:
         plane, edge, material, breakset, breakindex, flags, best = surfaces[old]
-        # MCC carries orientation in bit 31 of the plane, retail uses flag 7.
+        # Large MCC surfaces carry orientation in plane bit 31; retail H3
+        # uses plane bit 15 (verified in original Sandbox/Last Resort/
+        # Valhalla/Guardian). Flag 7 belongs to a later engine format.
         if flags & 128:
             raise ValueError('Ambiguous source surface orientation')
-        target[5].append((plane_map[plane & 0x7fffffff], maps['edges'][edge], material,
-                          breakset, breakindex, flags | (128 if plane < 0 else 0), best & 255))
+        target[5].append((plane_map[plane & 0x7fffffff] | (0x8000 if plane < 0 else 0),
+                          maps['edges'][edge], material, breakset, breakindex, flags, best & 255))
     incident = {}
     for old in selected['edges']:
         start, end, forward, reverse, left, right = edges[old]
@@ -219,8 +225,8 @@ def partition(arrays, keep, required_planes=(), leaf_clusters=None):
         if edge != first or loop != expected:
             raise ValueError('Serialized polygon changed')
         source_surface = surfaces[old]
-        if (s[2:5] != source_surface[2:5] or bool(s[5] & 128) != (source_surface[0] < 0)
-                or decoded[1][s[0]] != planes[source_surface[0] & 0x7fffffff]):
+        if (s[2:5] != source_surface[2:5] or bool(s[0] & 0x8000) != (source_surface[0] < 0)
+                or decoded[1][s[0] & 0x7fff] != planes[source_surface[0] & 0x7fffffff]):
             raise ValueError('Serialized surface material or plane changed')
     return payloads, maps, {
         'counts': dict(zip(('nodes3d', 'planes', 'leaves', 'references2d', 'nodes2d',
@@ -258,7 +264,7 @@ def main():
         sidecar = Resource(c, c.u(tag['offset'] + 0x394))
         result['metadata_dependencies'] = {
             'source_leaf_cluster_bytes': c.u(tag['offset'] + 0x34),
-            'target_leaf_cluster_bytes': len(maps['leaves']),
+            'target_leaf_cluster_bytes': len(maps.get('leaf_clusters', maps['leaves'])),
             'source_surface_mapping_rows': sidecar.unpack('I', 0)[0],
             'source_triangle_mapping_rows': sidecar.unpack('I', 12)[0],
             'source_edge_seam_rows': sidecar.unpack('I', 24)[0],

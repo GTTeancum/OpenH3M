@@ -41,6 +41,8 @@ parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
 parser.add_argument('--sample-world', action='store_true',
                     help='Read bounded gameplay table diagnostics at the first bullet impact.')
+parser.add_argument('--sample-draws', action='store_true',
+                    help='Read 1024 native GPU draw states after 110 seconds; no render-state changes.')
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
@@ -53,6 +55,8 @@ RUN = output_path(REPOSITORY / '.local/loading-traces' / (time.strftime('%Y%m%d-
 GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
 CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
+if options.sample_draws and hashlib.sha256((EXE.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest() != 'c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c':
+    raise SystemExit('Draw diagnostic requires the verified GPU plugin.')
 if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
 if not (GAME / 'maps' / (options.slot + '.map')).is_file():
@@ -146,8 +150,9 @@ if options.diagnostic_no_vsync:
 capture = options.capture
 duration = options.seconds
 if capture:
-    args += [f'--halo3mp_capture_guest_output_after_ms={(duration - 15) * 1000}',
-             f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
+    args += [f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
+    if not options.capture_times_ms:
+        args += [f'--halo3mp_capture_guest_output_after_ms={(duration - 15) * 1000}']
     if options.capture_times_ms:
         capture_times = [int(t) for t in options.capture_times_ms.split(',')]
         if not capture_times or any(t <= 0 or t >= duration * 1000 for t in capture_times):
@@ -189,6 +194,13 @@ stall_offset = 0
 stall_last_progress = None
 stall_samples = 0
 stall_last_check = 0.0
+draw_address = None
+draw_armed = False
+draw_samples = 0
+guest_memory_base = None
+guest_r13 = None
+sampled_vertex_addresses = set()
+draw_stream = (RUN / 'draw-registers.bin').open('wb') if options.sample_draws else None
 
 
 def read(address, size):
@@ -320,6 +332,8 @@ try:
             if proc.poll() is not None:
                 break
             now = time.monotonic()
+            if options.sample_draws and draw_address and not draw_armed and now - started >= 110:
+                check(kernel.DebugBreakProcess(ph))
             if (options.sample_on_stall and stall_samples < 3 and now - stall_last_check >= 1
                     and now - started >= (60 if options.manual_input else 105)):
                 stall_last_check = now
@@ -346,6 +360,10 @@ try:
         elif code == 4:
             thread_ids.discard(tid)
         status = 0x10002  # DBG_CONTINUE
+        if options.sample_draws and draw_address and not draw_armed and time.monotonic() - started >= 110:
+            breakpoint(draw_address)
+            draw_armed = True
+            log('draw_trace_armed', address=hex(draw_address))
         if code == 3:  # CREATE_PROCESS_DEBUG_EVENT
             image_base = struct.unpack_from('<Q', event, 40)[0]
             for rva, descriptor in rvas.items():
@@ -359,6 +377,16 @@ try:
         elif code == 6:  # LOAD_DLL_DEBUG_EVENT
             file_handle = struct.unpack_from('<Q', event, 16)[0]
             if file_handle:
+                if options.sample_draws:
+                    path_buffer = C.create_unicode_buffer(2048)
+                    get_path = kernel.GetFinalPathNameByHandleW
+                    get_path.argtypes = [W.HANDLE, W.LPWSTR, W.DWORD, W.DWORD]
+                    if get_path(file_handle, path_buffer, 2048, 0) and path_buffer.value.lower().endswith('rexgpu-xenos.dll'):
+                        module_base = struct.unpack_from('<Q', event, 24)[0]
+                        draw_address = module_base + 0x14e740
+                        if read(draw_address, 13) != bytes.fromhex('55415741564155415456575348'):
+                            raise ValueError('Draw entry signature mismatch')
+                        log('draw_plugin', base=hex(module_base))
                 close(file_handle)
         elif code == 1:  # EXCEPTION_DEBUG_EVENT
             exception = struct.unpack_from('<I', event, 16)[0]
@@ -368,7 +396,83 @@ try:
                 try:
                     rcx, rdx = struct.unpack_from('<QQ', ctx, 128)
                     rsp = struct.unpack_from('<Q', ctx, 152)[0]
-                    if address in entries:
+                    if address == draw_address:
+                        registers = struct.unpack('<Q', read(rcx + 0x20, 8))[0]
+                        shaders = struct.unpack('<2Q', read(rcx + 0xf0, 16))
+                        state = read(registers, 0x5003 * 4)
+                        draw_stream.write(state)
+                        if draw_samples == 200 and guest_memory_base and guest_r13:
+                            import numpy as np
+                            camera = struct.unpack_from('<3f', state, (0x4000 + 7 * 4) * 4)
+                            def gu_draw(at):
+                                return struct.unpack('>I', read(guest_memory_base + (at & 0xffffffff), 4))[0]
+                            tls = gu_draw(guest_r13)
+                            matches = []
+                            scanned = set()
+                            for tls_offset in range(0, 0x800, 4):
+                                try:
+                                    pointer = gu_draw(tls + tls_offset)
+                                    if pointer in scanned or not 0x80000000 <= pointer < 0xe0000000:
+                                        continue
+                                    scanned.add(pointer)
+                                    data = read(guest_memory_base + pointer, 16384)
+                                    floats = np.frombuffer(data, dtype='>f4')
+                                    with np.errstate(invalid='ignore'):
+                                        found = np.flatnonzero((np.abs(floats[:-2] - camera[0]) < .02)
+                                            & (np.abs(floats[1:-1] - camera[1]) < .02)
+                                            & (np.abs(floats[2:] - camera[2]) < .02))
+                                    for offset in found[:8]:
+                                        byte_offset = int(offset) * 4
+                                        matches.append({'tls_offset':hex(tls_offset),'pointer':hex(pointer),
+                                            'offset':hex(byte_offset),'bytes':data[byte_offset:byte_offset+96].hex()})
+                                except OSError:
+                                    continue
+                            log('camera_location_candidates', camera=camera, tls=hex(tls), matches=matches)
+                            from cache_reader import Cache
+                            map_cache = Cache(GAME / 'maps' / (options.slot + '.map'))
+                            try:
+                                tag_table = gu_draw(0x827f0f8c)
+                                bsp_state = []
+                                for tag_index, tag in map_cache.tags.items():
+                                    if tag['group'] != 'sbsp':
+                                        continue
+                                    live_root = gu_draw(tag_table + tag_index * 8 + 4)
+                                    count = gu_draw(live_root + 0x30)
+                                    leaf_pointer = gu_draw(live_root + 0x34)
+                                    if count > 1000000:
+                                        raise ValueError('Unexpected live leaf count')
+                                    live_leaves = read(guest_memory_base + leaf_pointer, count)
+                                    offline_rows = map_cache.block(tag['offset'] + 0x30, 1)
+                                    offline_leaves = bytes(map_cache.data[row] for row in offline_rows)
+                                    bsp_state.append({'tag':tag_index,'name':map_cache.name(tag_index),
+                                        'root':hex(live_root),'leaf_count':count,
+                                        'leaf_bytes_match':live_leaves == offline_leaves,
+                                        'selected_leaves':{hex(n):live_leaves[n] for n in (0x63bd,0xba14) if n<count},
+                                        'root_bytes':read(guest_memory_base+live_root,0x388).hex()})
+                                log('live_bsp_state',bsps=bsp_state)
+                            finally:
+                                map_cache.close()
+
+                        extra_draw = {}
+                        index_info = struct.unpack_from('<Q', ctx, 192)[0]
+                        if index_info:
+                            extra_draw['index_info'] = read(index_info, 24).hex()
+                        fetch, size = struct.unpack_from('<II', state, 0x48be * 4)
+                        vertex_address = fetch & 0x1ffffffc
+                        if guest_memory_base and fetch & 3 == 3 and vertex_address not in sampled_vertex_addresses:
+                            try:
+                                extra_draw['vertex_address'] = hex(vertex_address)
+                                extra_draw['vertex_head'] = read(guest_memory_base + 0xa0000000 + vertex_address, 96).hex()
+                                sampled_vertex_addresses.add(vertex_address)
+                            except OSError as error:
+                                extra_draw['vertex_read_error'] = str(error)
+                        log('draw', sample=draw_samples, primitive=rdx,
+                            index_count=struct.unpack_from('<Q', ctx, 184)[0],
+                            shaders=[read(p, 64).hex() if p else None for p in shaders], **extra_draw)
+                        draw_samples += 1
+                    elif address in entries:
+                        guest_memory_base = rdx
+                        guest_r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
                         guest, name = entries[address]
                         regs = struct.unpack('<7Q', read(rcx, 56))
                         return_address = struct.unpack('<Q', read(rsp, 8))[0]
@@ -486,7 +590,7 @@ try:
                     close(th)
             elif exception == 0x80000004 and tid in stepping:
                 address = stepping.pop(tid)
-                if address in entries or any(a == address and records for (_, a), records in pending.items()):
+                if (address == draw_address and draw_samples < 1024) or address in entries or any(a == address and records for (_, a), records in pending.items()):
                     write(address, b'\xcc')
                 else:
                     breakpoints.pop(address, None)
@@ -528,4 +632,16 @@ finally:
         proc.wait(timeout=10)
     close(ph)
     log('hash_summary', **hash_counts)
+    if draw_stream:
+        draw_stream.close()
+        import gzip
+        raw_path = RUN / 'draw-registers.bin'
+        compressed_path = RUN / 'draw-registers.bin.gz'
+        with raw_path.open('rb') as source, gzip.open(compressed_path, 'wb', compresslevel=3) as dest:
+            shutil.copyfileobj(source, dest)
+        with gzip.open(compressed_path, 'rb') as source:
+            decoded_size = sum(len(block) for block in iter(lambda: source.read(1048576), b''))
+        if decoded_size != raw_path.stat().st_size:
+            raise ValueError('Draw evidence compression failed readback')
+        raw_path.unlink()
     out.close()

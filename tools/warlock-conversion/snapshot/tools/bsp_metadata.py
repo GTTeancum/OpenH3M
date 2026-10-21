@@ -66,7 +66,9 @@ def convert_bsp_root(converter, at, schema, target, path):
         leaf_map = partition[1]['leaves']
         if any(old >= len(rows) for old in leaf_map):
             raise ValueError('Partition leaf cluster index outside source')
-        payload = bytes(source.data[rows[old]] for old in leaf_map)
+        payload = partition[1].get('leaf_clusters')
+        if payload is None:
+            payload = bytes(source.data[rows[old]] for old in leaf_map)
         struct.pack_into('>III', out, 0x30, len(payload), converter.builder.alloc(payload), 0)
     return bytes(out)
 

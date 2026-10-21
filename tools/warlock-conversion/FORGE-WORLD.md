@@ -1,10 +1,13 @@
 # Forge World / Sandbox conversion
 
-Status (2026-10-21): **Forge Gulch started; offline collision tables serialize,
-but metadata/physics integration and containment remain incomplete**.
-No candidate map has been emitted or deployed. Existing converted maps and the
-host runtime are unchanged. The conversion groundwork below is not validated
-in gameplay and must not be described as a working port.
+Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
+is fixed and verified in native captures before and after turning/walking.**
+Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
+remain open. This is not a completed port. The shared installation contains
+`sandbox-rebuilt-collision.map` (136,704,000 bytes; 130.4 MiB), SHA256
+`1d10c242ec69c385d696b9fe4887d79fd10cde764c436b3bf9fd3cceb70477ab`.
+Original disc maps and the other conversions remain intact. Earlier failed runs
+below are historical; the latest native result is recorded at the end.
 
 ## Source and authorized scope
 
@@ -56,7 +59,7 @@ Main source BSP large-collision counts:
 | Vertices | 25,264 |
 
 Exact byte-identical plane deduplication leaves **95,361** planes, still above
-65,536 addressable values. Edge count also exceeds the retail index range.
+the native signed-node limit of 32,768 planes. Edge count also exceeds the retail index range.
 The second/shared BSP uses ordinary collision. The main BSP needs a real offline
 collision rebuild/partition, with the associated BSP/instance references,
 visibility and residency updated consistently. Casting indices, dropping high
@@ -598,3 +601,150 @@ with matching compression metadata, this rules out altered stored primary
 positions as the explanation; it does not validate live transforms, resource
 binding, visibility selection, or water/reflection render state. The next step
 is to trace those runtime paths against a stock map before changing more data.
+
+## Runtime draw investigation (2026-10-21, ongoing)
+
+`trace_loading.py --sample-draws` now samples native D3D12 IssueDraw state in its
+own hash-checked child after 110 seconds. It records at most 1,024 draws, restores
+breakpoint bytes, and exits under the existing watchdog. It changes no GPU
+registers, guest values, or game files and generates no host input. Entry address
+and register-file offsets were identified by matching the local SDK object code
+to the installed GPU DLL (SHA256 c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c).
+
+Runs `20261021-154537-1996` and `20261021-155308-33068` confirm submitted terrain
+uses a normal view/projection matrix. Camera (-45.2618,-196.0952,2.1297) lies in
+cluster 0 in both original and serialized candidate collision trees. All 2,252
+instance transforms match the source. Render floor at the authored spawn is
+Z=1.38261517765, matching collision. Primary GPU fetch allocation sizes show
+mesh 127 submitted repeatedly, while mesh 126 (containing the spawn floor) is
+absent from the 1,024-draw sample. This sample is bounded, not a whole-run proof.
+The captured image remains bad. Shader prefix matching is exploratory and may
+match multiple variants; it is not exact shader identity validation.
+
+A new native-layout difference: original Sandbox, Last Resort, Valhalla,
+Avalanche and Guardian all serialize a per-mesh MOPP array in BOTH their BSP
+geometry and lighting geometry. Every code blob and reorder table matches
+between those two locations. MCC Forge omits the BSP array, retaining it only
+in Lbsp. The converter had preserved that omission. `scenario_geometry.py`
+now binds an omitted BSP array to the already converted lighting allocation,
+with matching BSP/mesh/tree count checks. This adds no duplicate tree payload.
+Native verification `20261021-155801-route-probe` FAILED: both captures still
+show missing terrain. The matching BSP trees alone did not resolve the failure.
+
+
+### Native collision encoding and camera classification
+
+Run `20261021-160412-16620` found an observer-result-shaped record at TLS +0x25c,
+base +0x1cc, with camera (-45.261806,-196.095169,2.129657). Position is followed
+by bytes 00 01 BA 14, then zero velocity/rotation and the matching forward/up
+vectors. The first two location bytes suggest BSP 0 / cluster 1, while independent
+source and serialized collision queries produce cluster 0 (source leaf 0x6671,
+converted leaf 0x63bd). The final two bytes have not been proven a leaf index.
+This is a lead to trace, not permission to override the camera's cluster.
+
+All 25 original disc scenario PVS headers have short values (0,8), whereas all
+four converted maps have (8,0). The three previously accepted conversions share
+that difference; its runtime significance is not established. No speculative PVS
+header patch was made.
+
+Direct original-disc collision inspection found a confirmed format mistake:
+original Halo 3 surface orientation uses plane-index bit 15, not surface flag 7.
+Sandbox has 261 reversed plane indices, Last Resort 1828, Valhalla 905, and
+Guardian 889; all four have ZERO surface flag-7 entries. The TagTool generic
+SurfaceFlags enum describes later formats here and was insufficient evidence for
+retail H3. The Gulch large-to-retail converter now puts all surface/ref planes
+below 32768 and moves orientation from source plane bit 31 to retail bit 15.
+Further native-code inspection below supersedes the initial unsigned-node assumption. Serialization
+readback verifies orientation against the original polygon and plane. The native
+visual result of this correction is still under test; do not claim it fixed yet.
+
+
+### Confirmed signed-plane overflow and native-budget rebuild
+
+The original executable's point-to-leaf routine at 0x820BB5F0 sign-extends the
+packed node's low 16-bit plane index at 0x820BB640, then multiplies it by 16.
+The collision traversal at 0x822D7AB8 does the same at 0x822D7AF0. Consequently
+ALL node plane indices must be below 32768. The old 62600-plane partition was
+invalid despite passing the converter's unsigned readback. Original disc maps
+already obey this limit. `preflight_collision_budget.py` now reports the signed
+limit and `bsp_collision_resource.py` rejects overflow before serialization.
+No engine limit or native code was changed.
+
+The preceding surface-orientation correction alone still FAILED visual run
+`20261021-161521-29436`: the camera remained assigned to cluster 1. Native
+readback confirmed the entire live leaf-to-cluster array matched the file.
+
+`rebuild_forge_collision.py` uses the pinned TagTool collision builder (release
+ce2dc6a) through the small `rebuild_collision` bridge. It reconstructs the tree
+from the retained original polygons: 26463 surfaces, 41781 edges and 15309
+vertices remain byte-equivalent in geometry/material/topology; the rebuilt tree
+uses 23931 planes. `forge_visibility_overlay.py` then clips each rebuilt empty
+cell against the original cluster-only partition, preserving the authored
+cluster classification without importing out-of-Gulch collision. Reference lists
+are shared when a leaf splits; resource payloads are not duplicated.
+
+Overlay output: 63662 nodes, 24679 planes, 37646 leaves; authored portal planes
+are rebound afterward. 31463 independent polygon-offset/random probes found
+zero solid/empty differences versus the rebuilt collision and zero cluster
+mismatches in 30108 nonsolid source/output comparisons. This is offline evidence;
+native rendering, containment and overall memory acceptance still require their
+own evidence. The native result for `sandbox-rebuilt-collision.map` follows below.
+
+Rebuild work and tool caches remain under repository `work/forge-world` and
+`.local`. The 27 MB release archive and unused package files were removed after
+verification; only 7.4 MB of builder dependencies remain. The slim dependency
+set successfully rebuilt the collision again. Output caching is keyed by input,
+source spatial data and implementation, with result hashes checked before reuse.
+
+### Native terrain acceptance and repeatable spatial checks
+
+Run `.local/loading-traces/20261021-170528-27160` reached the correct Sandbox
+replacement. Both native captures (116000 and 134000 ms) were opened and inspected.
+Ground, grassy slopes and cliffs render before and after process-local turning
+and walking. The live observer now reports BSP 0 / cluster 0 (`00 00 21ce`),
+matching the independently queried source, rather than the prior incorrect
+cluster 1. This establishes the missing-terrain fix for the tested views; it
+does not establish containment or whole-map performance. No engine change was made.
+
+Run the independent spatial audit without altering rebuild caches:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/audit_forge_spatial.py `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --report work/forge-world/spatial-audit.json
+python -B -m unittest discover -s tools/warlock-conversion/snapshot/tools -p 'test_forge*.py' -q
+```
+
+The repeated audit checks 31,463 points: zero solid/empty mismatches, zero
+cluster mismatches across 30,108 nonsolid comparisons. Its output hash binds it
+to the intermediate rebuilt collision. It is a bounded spatial sample, not an
+exhaustive or native test. All 17 focused tests pass, including oblique clipping
+volume, solid preservation, shared collision references and equal-cluster collapse.
+
+### Remaining rock shading investigation
+
+`audit_terrain_parameters.py` compares compiled constants in Guardian, Avalanche,
+Last Resort, Valhalla, MCC Forge World and the converted cache. Converted rock
+specular coefficients, powers and tint match the source by parameter name;
+the high MCC environment values (7) are omitted because these original-disc
+templates have no matching environment constant. They are not accidentally
+being fed to another native parameter. Stock rock materials also have nonzero
+specular, so their presence alone does not justify globally disabling it.
+Next investigate normal/specular texture encoding and native material output.
+
+The source sky explicitly contains `sky_halo/shaders/dome_stars` and
+`sky_halo/bitmaps/star_mask`. Dots in the sky are therefore not by themselves
+evidence of corruption; retain authored stars. The rock speckles remain under
+investigation. Do not use the earlier Warlock matte approximation as proof of
+the cause or silently apply it here.
+
+The next comparison found a concrete discrepancy: source `rocks_2dblend_normal`
+is 512x512 with 10 mips, and `rocks_lichen_normal` / `rocks_smooth_normal` are
+1024x1024 with 11 mips (BC5/DXN). `encode_bitmap_base` intentionally emits only
+one mip. Stock Last Resort's `rock_rough_zbump` is 1024x1024 BC5 with 11 mips;
+its 90 normal textures and Valhalla's 94 all have multiple levels. Restoring
+authored mip chains is the next implementation step, with native readback and
+visual comparison required before attributing the speckles to this difference.
+Reference implementations for the retail packed mip layout:
+- https://github.com/TheGuardians/TagTool/blob/master/TagTool/Bitmaps/Utils/XboxBitmapUtils.cs
+- https://github.com/xenia-project/xenia/blob/master/src/xenia/gpu/texture_util.cc

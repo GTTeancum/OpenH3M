@@ -109,7 +109,7 @@ def main():
         raise ValueError('Basis must match the selected original disc map (or the accepted Lockout checkpoint)')
     for path in (output.parent, report.parent):
         path.mkdir(parents=True, exist_ok=True)
-    work = output_path(project / '.local/temp', project)
+    work = output_path(Path(__file__).resolve().parents[4] / '.local/build-temp', project)
     work.mkdir(parents=True, exist_ok=True)
     state = {'status': 'building', 'basis_sha256': basis_hash,
              'historical_seed_used': basis_hash == ACCEPTED_SHA256,

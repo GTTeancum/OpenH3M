@@ -25,7 +25,7 @@ class ForgePartitionTests(unittest.TestCase):
 
     def test_removed_face_and_reversed_plane_roundtrip(self):
         # Two disjoint triangles, one in each halfspace. Keep the negative-X
-        # face; its plane orientation must move from bit 31 into retail flags.
+        # face; its plane orientation must move from bit 31 into retail plane bit 15.
         arrays = [
             [(0, -2147483648, -2147483647)],
             [(1., 0., 0., 0.), (0., 0., 1., 0.)],
@@ -40,7 +40,8 @@ class ForgePartitionTests(unittest.TestCase):
         payloads, maps, report = partition(arrays, [True, False])
         self.assertEqual(maps['surfaces'], {0: 0})
         surface = struct.unpack('>2H3h2B', payloads[5])
-        self.assertEqual(surface[5], 128)
+        self.assertEqual(surface[5], 0)
+        self.assertEqual(surface[0], 0x8000)
         node = struct.unpack('>Q', payloads[0])[0]
         self.assertEqual((node >> 16) & 0xffffff, 0x800000)
         self.assertEqual((node >> 40) & 0xffffff, 0xffffff)
