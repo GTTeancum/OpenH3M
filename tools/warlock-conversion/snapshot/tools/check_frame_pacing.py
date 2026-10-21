@@ -20,6 +20,7 @@ p.add_argument('--project', type=Path, required=True)
 p.add_argument('--exe', type=Path, required=True)
 p.add_argument('--mode', choices=('baseline', 'sdl-timer', 'no-tearing', 'ui-thread', 'honor-timers', 'vblank-unthrottled', 'ntsc-refresh', 'filtering-off'), default='baseline')
 p.add_argument('--capture', action='store_true')
+p.add_argument('--display-phase', action='store_true', help='Align host output phase to a compatible display cadence.')
 p.add_argument('--presentation-capacity', type=int, choices=(1,2), help='Maximum queued host frames; requires waitable presentation.')
 p.add_argument('--waitable-presentation', action='store_true', help='Wait for host presentation capacity before rendering.')
 p.add_argument('--host-sync-interval', type=int, choices=range(5), help='Opt-in host presentation synchronization; guest timing unchanged.')
@@ -91,6 +92,10 @@ if a.mode == 'filtering-off':
     cmd += ['--anisotropic_override=0']
 if a.host_output_fps is not None:
     cmd += [f'--host_guest_output_fps={a.host_output_fps}']
+if a.display_phase:
+    if b'host_output_display_phase\0' not in (exe.parent / 'rexruntime.dll').read_bytes():
+        raise SystemExit('Runtime lacks display-phase pacing')
+    cmd += ['--host_output_display_phase=true']
 if a.presentation_capacity is not None:
     if not a.waitable_presentation:
         raise SystemExit('Presentation capacity requires waitable presentation')

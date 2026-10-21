@@ -2,16 +2,13 @@
 
 ## Performance and hardware coverage
 
-- [ ] Resolve uneven motion/frame pacing despite the reported 30 FPS average.
-  Measure new in-game frames separately from host presentation, and compare
-  converted maps against original disc maps. The host pacing fix is deployed;
-  verified Prisoner variation fell from 14.718ms to 0.806ms. Remaining: reproduce
-  the larger intermittent Cold Storage traversal hitch before calling this done.
-  Native image-linked DXGI measurements also show frequent sampled 1/3-refresh
-  transitions despite steady game output. Two-frame waitable synchronization is
-  deployed after reducing sampled uneven transitions to 4.4% on Prisoner and
-  5.2% on stock Cold Storage; direct launch verified at 2.9%. Remaining variation
-  still needs attention. Added queueing delay is roughly one display refresh.
+- [x] Resolve periodic uneven motion/frame pacing despite reported30FPS.
+  Phase-aligned host presentation is deployed and direct-launch verified on the
+  SER8:1,347/1,347 measured image transitions evenly spaced, no missing images.
+  Stock recorded walk99.1% evenly spaced; one isolated65.58ms output gap remains
+  for broader performance profiling. Guest clocks and map assets are unchanged.
+  Rendering follows29.97FPS on this59.94Hz display. Compared with one-frame
+  capacity, the chosen queue adds roughly one refresh of measured report delay.
 - [ ] Optimize further after the current frame-pacing investigation. The only
   test system so far is the user's **Beelink SER8**; results do not establish
   performance on other PCs or Xbox 360 hardware.

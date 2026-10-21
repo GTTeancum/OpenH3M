@@ -29,7 +29,7 @@ names = ['OpenH3M.exe', 'rexruntime.dll', 'rexgpu-xenos.dll', 'halo3mp_l360.dll'
 digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 if args.synchronized_presentation:
     runtime_data = (source / 'rexruntime.dll').read_bytes()
-    for option in ('d3d12_host_sync_interval', 'd3d12_host_waitable_presentation', 'd3d12_host_maximum_frame_latency'):
+    for option in ('d3d12_host_sync_interval', 'd3d12_host_waitable_presentation', 'd3d12_host_maximum_frame_latency', 'host_output_display_phase'):
         if option.encode() + b'\0' not in runtime_data:
             raise SystemExit(f'Runtime lacks {option}')
 record = project / '.local/runtime-deployment.json'
@@ -53,7 +53,7 @@ settings = {'game_data_root': game, 'user_data_root': game / 'user',
 content = marker + ''.join(f'{key} = {json.dumps(path.as_posix())}\n' for key, path in settings.items())
 content += 'host_guest_output_fps = 30\nlog_max_file_size_mb = 5\nlog_max_files = 3\n'
 if args.synchronized_presentation:
-    content += 'host_present_from_non_ui_thread = false\nd3d12_host_sync_interval = 1\nd3d12_host_waitable_presentation = true\nd3d12_host_maximum_frame_latency = 2\n'
+    content += 'host_present_from_non_ui_thread = false\nd3d12_host_sync_interval = 1\nd3d12_host_waitable_presentation = true\nd3d12_host_maximum_frame_latency = 2\nhost_output_display_phase = true\n'
 for name in names:
     if not (project / name).exists() or digest(project / name) != digest(source / name):
         shutil.copy2(source / name, project / name)

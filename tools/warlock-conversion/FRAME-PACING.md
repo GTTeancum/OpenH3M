@@ -1,20 +1,23 @@
 # Frame pacing investigation
 
-Status: active, with host pacing, startup preparation and two-frame waitable presentation deployed at
-`C:\X360\ISOs\H3M\OpenH3M.exe`. Direct launch reuses the shared converted maps,
-cache and saves. Prisoner's extended movement/firing/grenade check measured
-0.806ms frame-interval deviation at 30 FPS, versus 14.718ms on the original
-runtime. Native captures verified the expected gameplay scene. The intermittent
-larger hiccup reported during manual Cold Storage exploration is still unresolved.
-The missing virtual-wrapper repair has been checked against original instructions
-but its rare gameplay path has not been exercised in a successful run.
+Status: periodic frame-cadence fix implemented, deployed and validated on the
+Beelink SER8. Final direct launch at `C:\X360\ISOs\H3M\OpenH3M.exe` showed
+1,347/1,347 measured consecutive game-image transitions at exactly two display
+refreshes, no missing image IDs, and no >60ms output gaps. Host rendering follows
+29.97FPS on the measured59.94Hz display; guest vblank remains60Hz. Shared maps,
+saves and cache are reused. Source patches and tools are committed locally.
 
-The user authorized host-engine changes on 2026-10-20 while requiring Xbox 360
-core compatibility. Original executable, guest modules and disc/map assets remain
-unchanged; no system-link compatibility test is claimed. Only the Beelink SER8
-has been tested. See `../../TODO.MD` for broader optimization and video options.
-Duplicate staging cleanup was rejected by automatic approval review; the staging
-folder remains. Later dated entries below supersede earlier investigation states.
+Stock Cold Storage's recorded walk was99.1% evenly spaced and retained one
+65.58ms output gap. This is not a claim that every future performance hitch is
+eliminated. The historical0.35-0.66s pauses did not recur; their cause is unproven.
+Other hardware, system-link operation and the rare adapter repair path have not
+been tested. The user authorized host-runtime changes while preserving360 core
+compatibility; EXE, translated guest modules and map assets are unchanged.
+
+Closeout remains blocked by automatic approval review rejecting duplicate
+staging/cache deletion. The rejected directories remain; do not bypass the
+rejection through another tool. See final audit below. Older dated entries are
+historical, and later evidence supersedes their pending statuses.
 
 ## Capture tools
 
@@ -1224,3 +1227,96 @@ phase alignment, retaining guest clocks/gameplay and explicitly measuring any
 latency or skipped-image tradeoff. Goal not complete; the original large manual
 Cold Storage hitch also remains unproven. This turn verified direct deployment
 and rejected a misleading regular-submission candidate. No desktop input used.
+
+### Host-only display-phase candidate (2026-10-20)
+
+Previous turn verified deployment and rejected interval2 image loss. Added
+opt-in host_output_display_phase, default false. DXGI scheduler sync samples
+provide a host refresh clock measured over at least32 refreshes. The producer
+waits to a midpoint between refresh boundaries at the nearest compatible
+integer refresh/output ratio. Only ratios within1% of the requested host output
+rate qualify; stale (>1s), unavailable, invalid or incompatible timing falls back
+to the existing host pacing. At59.94Hz this intentionally renders29.97FPS rather
+than drifting an exact30FPS producer across refresh boundaries. Guest timers,
+vblank interrupts, simulation rate and assets are not changed. No interpolation,
+synthetic frames or hidden quality reduction. Shared state is external to public
+class layout; mutex held only for clock snapshot/update, never during sleep.
+
+All22 patches/build passed; 10,913 exports, zero missing imports. Diagnostic
+runtime SHA256 f0ea64b4b24abcaa2ed228f9a514bfeda451e037b33ed31a4749bd511530ffac.
+Run20261020-224017-ui-thread (session51158) tests phase alignment with the
+validated interval1/capacity2 configuration. Native image identity must establish
+cadence and missing/duplicate behavior, and guest vblank must remain unchanged.
+Normal installation remains at the previously validated configuration.
+
+Phase-aligned Prisoner run20261020-224017-ui-thread completed, native image
+inspected: correct Prisoner gameplay/materials and grenade animation. All1,347
+consecutive identified-image transitions span exactly two refreshes; zero
+missing IDs or backwards transitions. All2,697 adjacent presentation statistics
+advanced one refresh, all queries successful. Two initial unmatched reports
+refer to submissions before the measurement window. Output mean33.364ms,
+deviation0.866ms, no >60ms gaps; guest vblank16.667ms. Median sampled report
+age33.364ms, so phase alignment adds no measured queue-delay increase relative
+to the installed interval1/capacity2 configuration. Display clock59.9404Hz.
+
+Stock recorded-walk confirmation20261020-224351-stock-ui-thread (session19498)
+is running with the same settings and existing shared cache. It reuses the
+recorded input rather than another short approximation. Native endpoints still
+need inspection because input replay does not restore deterministic game state.
+Deployment helper now includes phase alignment when synchronized presentation
+is selected and rejects a runtime lacking that flag. Not yet deployed.
+
+Stock recorded-walk phase run20261020-224351-stock-ui-thread completed. Native
+145-second image inspected: stock Cold Storage interior, AR19 and bubble-shield
+inventory icon; endpoint differs from original manual walk, so no deterministic
+path identity is claimed. Replay released all controls at163288ms. No fatal or
+capacity timeout.1,347 observed game images, zero missing IDs. Refresh deltas:
+6 one /1,334 two /5 three /1 four (99.11% two). One65.580ms output gap at127.716s;
+phase logs show only intentional pacing sleeps, not a long pipeline/queue wait.
+Thus periodic phase judder improved strongly, but this stock run is not hitch-free.
+The previous0.35-0.66s manual pauses did not recur; their original cause remains
+unproven. Mean output33.404ms; guest vblank16.666ms. No claim about all hardware,
+system-link testing, or subjective input latency.
+
+Deployed the tested phase-aligned runtime with the validated waitable settings.
+Detailed diagnostics remain off by default. All seven deployed binary hashes,
+saved bootstrap settings/shared paths, and stock/converted chillout hashes were
+verified. Final direct-bootstrap check20261020-224815-baseline (session61192)
+is pending. Existing original EXE and translated guest modules are unchanged.
+
+### Final implementation audit and cleanup blocker (2026-10-20)
+
+Direct phase-aligned run20261020-224815-baseline completed under watchdog with
+no fatal or capacity timeout. Native image inspected: correct Prisoner interior,
+weapon and grenade throw.1,348 identified images; all1,347 consecutive intervals
+two refreshes, zero missing/backwards IDs. Output mean33.366ms, deviation0.904ms,
+no >60ms gaps. Guest vblank16.666ms. Sampled report-age median33.365ms. Native
+output polling had a4.304ms maximum observation gap, separate from frame timing.
+
+Requirements/evidence:
+- Actual delivery: native DXGI presentation IDs joined to acquired mailbox image
+  identities; final presentation-summary.json reports even transitions, not merely
+  FPS or successful draw calls. Scene independently inspected in native capture.
+- Stock comparison:20261020-224351-stock-ui-thread;99.1% regular image transitions,
+  zero missing IDs, one65.58ms output gap explicitly retained as a limitation.
+- Installed fix: final run uses root EXE/bootstrap with no phase/sync/capacity
+  overrides; all seven deployed binary hashes rechecked against manifest.
+- Compatibility boundary: host-only pacing/presentation changes; source pipeline
+  waits/real occlusion results preserved. EXE/translated guest hashes unchanged,
+  original stock and converted chillout hashes rechecked. No system-link test claim.
+- Process: all artifacts inside project, process-local input/native capture only,
+  shared installation/cache, no map-specific build. Tools/patch stack reproduce it.
+- Documentation/roadmap: this evidence and TODO record measured tradeoffs, broader
+  hardware optimization and quality-menu work. No assets included in Git.
+- Mandatory cleanup: NOT COMPLETE. Automatic approval review previously rejected
+  removing work/pacing-runtime with "blocked by policy" and the older
+  .local/loading-traces/20261020-173958-27920/cache. Both remain, confirmed read-only.
+  Staging contains seven now-deployed host binaries plus import-audit.json
+  (~104.6MB decimal). This same blocker has persisted across multiple goal turns;
+  no alternate deletion mechanism was attempted. It requires external action.
+
+Regular cadence implementation/validation is finished on the requested machine;
+no additional configuration sweeps are justified. Do not mark the whole goal
+complete while mandatory cleanup remains blocked. Keep isolated stock performance
+spikes visible in the broader optimization backlog rather than claiming hitch-free
+operation or requiring exhaustive tests contrary to the user's stated scope.
