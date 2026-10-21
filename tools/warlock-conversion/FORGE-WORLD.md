@@ -1049,3 +1049,41 @@ not reproduce the user's reported corruption and is not a claimed fix. Font
 package hash is 7ad74e0c5a97b2bc1654c629e2700c5a7d7d0cbd316a0bf47494769678db3296;
 mainmenu.map hash is d1a8ef6074c7be74579af4a70bbf9173496bf14bddde0d53af66fc88657081df
 in both original/shared roots. The affected menu/session is pending clarification.
+
+### Static resource footprint comparison (2026-10-21)
+
+`audit_resource_footprint.py` inventories retail `zone` resources and `play`
+locations, deduplicating nonempty physical pages by source file and block offset.
+It includes shared resources, skips retail empty pages that reuse the next page's
+block offset, and rejects inconsistent descriptions/indices. It also inventories
+resource bitsets for each manifest. Manifest page totals include both required
+and optional locations and are NOT measured resident bytes. No asset extraction,
+new map candidate, or runtime change is involved.
+
+Reproduce from repository root:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/audit_resource_footprint.py work/forge-world/sandbox-sky-animation.map ../../maps/sandbox.map ../../maps/shrine.map ../../maps/sidewinder.map ../../maps/zanzibar.map --report work/forge-world/resource-footprint.json
+```
+
+| Cache | Tag memory bytes | All referenced uncompressed page bytes |
+| --- | ---: | ---: |
+| Forge Gulch current | 31,588,352 | 483,172,152 |
+| Original Sandbox | 19,005,440 | 434,424,996 |
+| Original Valhalla | 19,070,976 | 420,193,454 |
+| Original Avalanche | 21,823,488 | 470,618,780 |
+| Original Last Resort | 18,677,760 | 419,006,296 |
+
+Gulch local required-page inventory is 143.55 MiB versus Sandbox 65.24 MiB;
+shared required-page inventory is 133.03 versus 131.72 MiB. The material increase
+is local converted resources, not duplicated shared stock objects. This points
+budget investigation at local geometry/lighting/textures. The largest local
+pages include BSP render data (20,146,716 bytes), BSP collision data (9,466,766),
+and bitmap owners 0x9000287e/0x9000287f (18,874,368 and 4,718,592 bytes).
+The latter contain 1536x1536 type-3/format-16 bitmap records; semantic role and
+safe optimization must be established from their references before changing them.
+
+These inventories exclude simulation, framebuffers, staging, alignment and
+allocator overhead; some listed pages are streamed and need not coexist.
+They neither prove a 360 budget failure nor certify fit. Runtime pool occupancy
+and vehicle/player containment remain open. Menu corruption remains unreproduced.
