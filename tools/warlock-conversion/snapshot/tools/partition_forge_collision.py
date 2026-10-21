@@ -13,6 +13,34 @@ from forge_collision_mesh import read_mesh, surface_loops, positions
 from forge_gulch_boundary import classify_bounds, BOUNDARY
 
 
+def prepare(cache):
+    """Prepare the Gulch partition while retaining authored BSP seam topology."""
+    tag, arrays = read_mesh(cache)
+    xyz = positions(arrays)
+    loops = surface_loops(arrays)
+    mins = np.array([xyz[loop].min(axis=0) for loop in loops])
+    maxs = np.array([xyz[loop].max(axis=0) for loop in loops])
+    keep, _ = classify_bounds(mins, maxs)
+    selected_count = int(keep.sum())
+    seam_edges = []
+    for seam in cache.block(tag['offset'] + 0x10, 40):
+        for row in cache.block(seam + 16, 4):
+            edge = cache.unpack('i', row)[0]
+            if not 0 <= edge < len(arrays[6]):
+                raise ValueError('Invalid authored seam edge')
+            seam_edges.append(edge)
+            for face in arrays[6][edge][4:]:
+                if face >= 0:
+                    keep[face] = True
+    portals = [cache.unpack('i', row + 4)[0] for row in cache.block(tag['offset'] + 0x7c, 40)]
+    payloads, maps, report = partition(arrays, keep, portals)
+    if any(edge not in maps['edges'] for edge in seam_edges):
+        raise ValueError('Partition lost a shared BSP seam')
+    report.update(seam_support_surfaces=int(keep.sum()) - selected_count,
+                  authored_seam_edges_preserved=len(seam_edges))
+    return tag, payloads, maps, report
+
+
 def active_tree(children, terminals):
     states, active = [0] * len(children), [False] * len(children)
 

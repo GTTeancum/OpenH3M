@@ -83,8 +83,17 @@ def _import(i, geometry_resource):
             return textures[value]
 
         def data(path, cache, at):
+            if '/User Data[' in path and path.endswith('/User Data'):
+                kind, count, stride = cache.unpack('BBH', at - 4)
+                size = cache.u(at)
+                if (kind, count, stride, size) == (0, 1, 20, 20):
+                    pointer = cache.pointer(cache.u(at + 12))
+                    if pointer + size > len(cache.data):
+                        raise ValueError('Lightmap PRT descriptor outside cache')
+                    # Same five-word PRT descriptor used by render models.
+                    return struct.pack('>5I', *cache.unpack('5I', pointer))
             if '/Per Mesh MOPP[' not in path or not path.endswith('/MOPP Code'):
-                raise ValueError('Unsupported opaque lightmap data')
+                raise ValueError(f'{path}: unsupported opaque lightmap data')
             size = cache.u(at)
             pointer = cache.pointer(cache.u(at + 12))
             if pointer + size > len(cache.data):

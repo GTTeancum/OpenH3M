@@ -260,3 +260,61 @@ Use `analyze_forge_split.py --sketch` to reproduce the two-sided estimate. Its
 plane count excludes the seven additional portal planes retained by the actual
 prototype. Ignored outputs reuse their existing paths; no second installation,
 executable build, source-cache copy or binary collision dump is created.
+
+## Active goal: build integration checkpoint (2026-10-21)
+
+User explicitly requested a goal to get Forge Gulch running. Goal remains active;
+no candidate has been emitted or deployed and no native gameplay checked.
+
+The seam issue is addressed by `partition_forge_collision.prepare`: retain both
+faces adjacent to every authored main-BSP seam edge. This adds 316 support
+surfaces outside the geometric selection while preserving all 296 seam edges
+and their order/identities. These support strips are not additional playable
+areas; containment is still required. Actual prepared counts are 61,761 planes,
+26,463 surfaces, 41,781 edges, 15,309 vertices and 59,173 leaves; table payload
+3,899,304 bytes. Polygon round-trips and 2,048 spatial probes pass.
+
+`--forge-gulch` now explicitly prepares this partition instead of rejecting the
+source's large format. Other Sandbox builds retain the original preflight gate.
+The BSP importer serializes the prepared retail tables and remaps leaf clusters,
+surface-mapping rows, edge/seam rows, seam edge indices and portal planes.
+Full geometry, existing triangle mappings and instance indices remain intact.
+This path completed both BSPs and both lightmap bindings in the build. It is
+still a development path, not permission to deploy an unchecked map.
+
+Additional verified format handling: five-word PRT descriptors in lightmap user
+data use the existing model descriptor conversion; the single unnamed effect
+placement with palette index -1 is omitted only for the Gulch profile. Named
+null placements still reject. Six Forge-specific tests and whitespace checks pass.
+
+Latest reproduction from repository root:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
+  --project ../.. --slot sandbox --forge-gulch `
+  --source D:/SteamLibrary/steamapps/workshop/content/976730/3597611181/maps/forge_halo.map `
+  --basis ../../maps/sandbox.map --xex ../../default.xex `
+  --sound-bank 'D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3/fmod/pc/sfx.fsb' `
+  --decoder ../tools/vgmstream-r2117/vgmstream-cli.exe `
+  --output work/forge-world/sandbox-candidate.map `
+  --report work/forge-world/build-report.json
+```
+
+Latest failure is at environment import, after geometry, placements and spawn
+settings passed: `lens:levels\multi\s3d_avalanche\sky\shaders\flare_sun_ava_01`
+has occlusion reflection index 10, 18 nonlegacy reflections, individual bitmap
+overrides, non-unit X/Y scales and radius/brightness curves. Do not simply ignore
+the index or force these through `convert_reflection`'s legacy-only handler.
+Original disc maps were searched for the lens; no matching stock sun flare was
+found. Existing source sky rendering and flare conversion still need a suitable
+retail representation. Source player start (-49.5638,-195.6840,1.45172) is already
+in the Gulch. There are no source kill/safe trigger volumes. One source soft
+ceiling exists; an added split boundary must constrain the Forge camera too.
+
+Useful primary source for a proper offline MOPP build:
+https://github.com/TheGuardians/TagTool/blob/master/TagTool/Havok/CollisionMoppGenerator.cs
+uses HavokTool `generate-collision-mopp` with an intermediate vertex/polygon text
+file; no tool was downloaded or executed. This may help build native boundary
+physics without altering OpenH3M. All remaining memory/native/visual checks from
+the goal still apply. Native test routing currently lacks a Sandbox option and
+must be extended using only the process-local harness before any run.

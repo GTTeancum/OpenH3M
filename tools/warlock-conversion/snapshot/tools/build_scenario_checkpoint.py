@@ -90,6 +90,7 @@ def main():
     for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
+    parser.add_argument('--forge-gulch', action='store_true', help='Build the spatially partitioned Forge Gulch candidate over Sandbox')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
     args = parser.parse_args()
     project = args.project.resolve(strict=True)
@@ -123,16 +124,26 @@ def main():
         salt = resource_salt(args.xex)
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
+        gulch_partition = None
+        if args.forge_gulch and args.slot != 'sandbox':
+            raise ValueError('Forge Gulch requires the Sandbox slot')
         if args.slot == 'sandbox':
             from preflight_collision_budget import inspect
             stage = 'collision_budget_preflight'
             state['collision_budget'] = inspect(source)
-            if not state['collision_budget']['conversion_ready']:
+            if args.forge_gulch:
+                from partition_forge_collision import prepare
+                _, tables, maps, proof = prepare(source)
+                gulch_partition = tables, maps
+                state['gulch_collision'] = proof
+                state['limitations'].append('Development candidate: split containment and native validation pending.')
+            elif not state['collision_budget']['conversion_ready']:
                 raise ValueError('Forge World needs an offline large-collision BSP rebuild/partition before retail conversion; see collision_budget in report. No engine limits may be raised.')
         builder = MapBuilder(str(args.basis), 0xc00000 if args.slot != 'lockout' else 0x800000)
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBank(
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
+        importer.gulch_partition = gulch_partition
         from native_assets import NativeAssets
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets

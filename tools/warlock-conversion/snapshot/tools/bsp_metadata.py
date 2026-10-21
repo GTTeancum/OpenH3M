@@ -43,6 +43,14 @@ def convert_bsp_root(converter, at, schema, target, path):
         if segment not in (0, 1) or segment >= len(resource.raw) or offset + size > len(resource.raw[segment]):
             raise ValueError('BSP cache-file array outside resource')
         data = resource.raw[segment][offset:offset + size]
+        partition = getattr(converter, 'gulch_partition', None)
+        if partition and src in (0, 24):
+            order = partition[1]['surfaces' if src == 0 else 'edges']
+            stride = struct.calcsize('<' + source_fmt)
+            if any(old >= count for old in order):
+                raise ValueError('Partition metadata index outside original array')
+            data = b''.join(data[old*stride:(old+1)*stride] for old in order)
+            count = len(order)
         try:
             payload = b''.join(struct.pack('>' + target_fmt, *v)
                                for v in struct.iter_unpack('<' + source_fmt, data))
@@ -51,6 +59,15 @@ def convert_bsp_root(converter, at, schema, target, path):
         struct.pack_into('>III', out, dst, count, converter.builder.alloc(payload), 0)
     if consumed != set(resource.fix):
         raise ValueError('Unconsumed BSP cache-file resource fixups')
+    partition = getattr(converter, 'gulch_partition', None)
+    if partition:
+        # Rebuild the root leaf-to-render-cluster table using the exact leaf map.
+        rows = source.block(at + 0x34, 1)
+        leaf_map = partition[1]['leaves']
+        if any(old >= len(rows) for old in leaf_map):
+            raise ValueError('Partition leaf cluster index outside source')
+        payload = bytes(source.data[rows[old]] for old in leaf_map)
+        struct.pack_into('>III', out, 0x30, len(payload), converter.builder.alloc(payload), 0)
     return bytes(out)
 
 
@@ -102,6 +119,18 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
     if not path.startswith('sbsp:'):
         return None
     name = source_schema.get('name')
+    partition = getattr(converter, 'gulch_partition', None)
+    if partition and name in ('Edge Mapping', 'Cluster Portals'):
+        schema = copy.deepcopy(source_schema)
+        schema.set('name', 'Partition remapped fields')
+        out = bytearray(converter.convert(at, schema, target_schema, path + '/remapped'))
+        field_offset = 0 if name == 'Edge Mapping' else 4
+        table = partition[1]['edges' if name == 'Edge Mapping' else 'planes']
+        old = converter.source.unpack('i', at + field_offset)[0]
+        if old not in table:
+            raise ValueError('Partition lost required seam edge or portal plane')
+        struct.pack_into('>i', out, field_offset, table[old])
+        return bytes(out)
     if source_schema.get('baseSize') and name != 'Normalized BSP Root':
         return convert_bsp_root(converter, at, source_schema, target_schema, path)
     if name == 'Instanced Geometry Instances':

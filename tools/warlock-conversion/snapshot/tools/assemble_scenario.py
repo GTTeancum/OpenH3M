@@ -16,10 +16,10 @@ def field(schema, name):
     return next(x for x in schema if x.get('name') == name)
 
 
-def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=()):
+def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False):
     placements = placements or PLACEMENTS
     plan = plan_placements(source, target, source_schema, target_schema, imported,
-                           [(name, palette) for name, (palette, _) in placements.items()], omitted)
+                           [(name, palette) for name, (palette, _) in placements.items()], omitted, omit_null_effects)
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     arrays, unresolved, maps = {}, [], {}
     for name, (_, object_type) in placements.items():
@@ -128,6 +128,10 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
         palette = source.block(scenario + int(pf.get('offset'), 0), int(pf.get('elementSize'), 0))
         for row in rows:
             index = source.unpack('h', row)[0]
+            if getattr(importer, 'gulch_partition', None) and name == 'Effect Scenery' and index == -1:
+                if source.unpack('h', row + 2)[0] != -1:
+                    raise ValueError('Named null effect placement requires review')
+                continue
             if not 0 <= index < len(palette):
                 raise ValueError(f'{name}: invalid palette index {index}')
             datum = source.u(palette[index] + 12)
@@ -135,7 +139,7 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
             if key not in getattr(importer, 'omitted_assets', ()):
                 importer.import_tag(datum)
     prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements,
-                       getattr(importer, 'omitted_assets', ()))
+                       getattr(importer, 'omitted_assets', ()), bool(getattr(importer, 'gulch_partition', None)))
     powerup_adjustments = []
     if getattr(importer, 'slot', None) == 'chillout':
         # CE powerups were authored with their origins on the floor. Native H3

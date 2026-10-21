@@ -61,7 +61,8 @@ def _import_bsp(i, terrain, water, bsp_index):
             payload, provenance = convert_bsp_geometry(s, bsp_index)
             kind = 'render_geometry_api_resource_definition'
         elif path.endswith('/[zone] Tag Resources Asset Datum'):
-            payload = convert_bsp_collision(Resource(s, value))
+            partition = getattr(i, 'gulch_partition', None) if bsp_index == 0 else None
+            payload = convert_bsp_collision(Resource(s, value), partition[0] if partition else None)
             kind = 'structure_bsp_tag_resources'
         else:
             raise ValueError(f'Unsupported BSP resource field: {path}')
@@ -73,6 +74,7 @@ def _import_bsp(i, terrain, water, bsp_index):
     converter = MetadataConverter(s, b, i.source_strings, i.target_strings,
                                   reference, resource_reference=resource)
     converter.source_bsp = source
+    converter.gulch_partition = getattr(i, 'gulch_partition', None) if bsp_index == 0 else None
     payload = converter.convert(source['offset'], ss, ds, 'sbsp:' + name)
     material_bindings = []
     if getattr(i.materials, 'prisoner_materials', False):

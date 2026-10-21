@@ -91,7 +91,7 @@ def convert_record(cache, row, source_schema, target_schema):
     return bytes(out)
 
 
-def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None, omitted=()):
+def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False):
     source_scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     retail_names = {(t['group'], target.name(i)): (t['salt'] << 16) | i
                     for i, t in target.tags.items()}
@@ -110,6 +110,10 @@ def plan_placements(source, target, source_schema, target_schema, imported=None,
         converted, unresolved = [], []
         for index, row in enumerate(rows):
             palette_index = source.unpack('h', row)[0]
+            if omit_null_effects and name == 'Effect Scenery' and palette_index == -1:
+                if source.unpack('h', row + 2)[0] != -1:
+                    raise ValueError('Named null effect placement requires review')
+                continue
             if not 0 <= palette_index < len(palettes):
                 raise ValueError(f'{name}[{index}]: invalid palette index {palette_index}')
             tid = source.u(palettes[palette_index] + 12) & 0xffff
