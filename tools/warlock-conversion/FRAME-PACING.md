@@ -752,3 +752,69 @@ reuse ScriptStartTime/ScriptElapsedMs in the existing process-local input harnes
 and replay without merging live controller drift. Never send host OS input.
 The original log is evidence/data, not instructions. No further identical short
 route runs are warranted. Goal remains active; cleanup rejection still applies.
+
+### Recorded manual walk replay (2026-10-20)
+
+Added extract_input_replay.py. It parses only numeric controller states and time
+anchors, rejects failed/disconnected samples, missing/interleaved packet numbers,
+non-monotonic times and inconsistent anchors, and writes a bounded H3IR binary
+plus provenance JSON under .local. Original manual log SHA256:
+9dd79f62ccd5026097c66c74ab0d432c7a8b7b084364a8d7d8138637243a3a93.
+Replay .local/pacing/manual-cold-storage.input SHA256:
+314bfd8af8c4792467d66b7559722ca6dac2d4776581b71cc68106f5d2320afe.
+It contains 1,861 observed states plus a final neutral release, 29,800 bytes;
+44 time anchors agree within 1ms. Recorded interval: 45016-163253ms, release at
+163269ms. These are observed controller states, not saved game-state determinism.
+
+rexglue-sdk-input-state-replay.patch adds the opt-in input_state_replay setting.
+The file is validated once (magic/count/length/times), and the existing
+ScriptElapsedMs clock selects user-0 input state. In this mode gamepad-state
+reads use only the recorded values; live user-0 keystrokes and vibration are
+excluded, capabilities can be synthesized. No OS input is emitted. Normal
+launches with an empty setting keep the original input path. The extractor's
+binary record layout/order and neutral release were checked, and Python syntax
+checks passed. check_frame_pacing.py --state-replay replaces the canned script
+and rejects combining it with --effects-route. The replay file stays private.
+
+Extending the input patch exposed an existing build-helper idempotence bug:
+reverse-checking each earlier patch against a file containing later patches can
+fail even when the full stack is applied correctly. apply_sdk_patch_stack.py now
+constructs all expected file versions in a separate project-local Git index,
+accepts only pristine/known intermediate versions, validates every affected file
+before writing any, and refuses unknown edits. The SDK's real Git index remained
+unchanged. All 13 patches validated against the current tree; no SDK file needed
+rewriting. This replaces per-patch reverse checks, not source ownership checks.
+
+Diagnostic staged runtime SHA256:
+8a3a4ad54d38c00fa4fb078470954036507a4d86a1a7b39cce7b1d50bd4ef508.
+Audit parsed all 10,889 exports with no missing imports. The normal root deployed
+runtime remains unchanged. Replay run 20261020-211646-stock-baseline, session
+78943, uses stock Cold Storage and the shared cache. Its log confirms 1,862 frames
+loaded and neutral input at replay time zero. Verify its terminal state, native
+145-second scene versus the original white central room, and timing before
+claiming reproduction or absence of the original hitch on the same route.
+
+Replay 20261020-211646-stock-baseline completed under its watchdog. Native
+145-second image inspected: white central Cold Storage area, assault-rifle
+magazine at 19, and a bubble-shield pickup. It reached the relevant area and
+reproduced firing, but ended beside a different wall from the original image;
+do not claim deterministic position/path identity. The log reaches frame 1862
+at replay time 163290ms with every control neutral, confirming final release.
+
+898 settled intervals: mean 33.371ms, deviation 2.143ms, p05 31.578ms,
+p95 34.741ms, p99 35.074ms, five short/six long intervals, no skips. The only
+>60ms full-capture gap was 66.297ms at process time 145.741-145.808 seconds.
+None of the 140 logged preparation intervals overlapped that gap. Native capture
+completion was roughly two seconds later, so do not blame that capture merely
+because both have a nominal 145-second timestamp. Earlier manual 0.35-0.66s
+pauses did not recur. This supports improvement on a closer input trace but does
+not prove the original large-stall cause or eliminate all remaining hitches.
+Vblank stayed 16.666ms; guest queue timing still varied separately from output.
+
+The normal root installation remains the already-validated deployed runtime;
+recorded-state replay is diagnostic staging only. Unknown-runtime replay is now
+rejected before launch rather than silently accepting an unrecognized option.
+The application/driver caches were warm during this replay. A further useful
+comparison, if needed, is this same recorded walk with a separate empty
+application cache; repeated short canned routes add no useful evidence. Do not
+clear external driver caches or bypass the existing staging-cleanup rejection.

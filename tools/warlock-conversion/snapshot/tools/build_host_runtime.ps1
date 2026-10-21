@@ -15,18 +15,13 @@ try {
     $env:PATH = 'C:\Program Files\LLVM\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;' + $oldPath
     $patches = @('d3d12-index-buffer-cache', 'd3d12-vertex-residency', 'input-script',
         'local-users', 'local-user-direct', 'memexport-performance', 'presenter-host-tools',
-        'windows-mspack-path', 'host-frame-pacing', 'portable-bootstrap', 'halo3-virtual-adapter')
+        'windows-mspack-path', 'host-frame-pacing', 'portable-bootstrap', 'halo3-virtual-adapter',
+        'input-state-replay')
     if ($GpuDiagnostics) { $patches += 'preparation-timing' }
-    foreach ($name in $patches) {
-        $patch = Join-Path $repo "halo3mp/patches/rexglue-sdk-$name.patch"
-        git -C $sdk apply --ignore-space-change --reverse --check $patch 2>$null
-        if ($LASTEXITCODE -ne 0) {
-            git -C $sdk apply --ignore-space-change --check $patch
-            if ($LASTEXITCODE -ne 0) { throw "Cannot apply $name to SDK checkout." }
-            git -C $sdk apply --ignore-space-change $patch
-            if ($LASTEXITCODE -ne 0) { throw "Failed applying $name." }
-        }
-    }
+    $patchFiles = @($patches | ForEach-Object { Join-Path $repo "halo3mp/patches/rexglue-sdk-$_.patch" })
+    & python -B (Join-Path $PSScriptRoot 'apply_sdk_patch_stack.py') --sdk $sdk `
+        --index (Join-Path $repo 'work/build-temp/sdk-patch-index') @patchFiles
+    if ($LASTEXITCODE -ne 0) { throw 'SDK patch-stack validation failed.' }
     cmake -S $sdk -B "$sdk/out/pacing-release" -G Ninja -DCMAKE_BUILD_TYPE=Release `
         -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ `
         -DCMAKE_C_FLAGS=-march=x86-64-v2 -DCMAKE_CXX_FLAGS=-march=x86-64-v2 `

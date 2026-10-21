@@ -24,6 +24,7 @@ p.add_argument('--native-timing', action='store_true', help='Read the existing i
 p.add_argument('--gpu-progress-timing', action='store_true', help='Also sample combined vblank/swap progress; requires --native-timing.')
 p.add_argument('--guest-vblank-timing', action='store_true', help='Also sample the source-0 guest vblank handler counter.')
 p.add_argument('--stock', action='store_true', help='Read original disc maps directly; keep generated files in .local.')
+p.add_argument('--state-replay', type=Path, help='Replay a recorded H3IR file inside the game process instead of the canned route.')
 p.add_argument('--effects-route', action='store_true', help='Extend the saved gameplay route with movement, firing and grenades inside the game process.')
 p.add_argument('--portable-paths', action='store_true', help='Verify direct-launch bootstrap paths instead of passing path overrides.')
 p.add_argument('--cache-root', type=Path, help='Explicit project-local cache for controlled cold/warm comparisons.')
@@ -32,6 +33,10 @@ p.add_argument('--pacing-probe', type=Path, help='Explicit diagnostic DLL, owned
 p.add_argument('--host-output-fps', type=int, choices=range(0, 361), help='Override source-patched host output pacing; 0 disables it.')
 a = p.parse_args()
 project = a.project.resolve(strict=True)
+if a.state_replay:
+    a.state_replay = a.state_replay.resolve(strict=True)
+    a.state_replay.relative_to(project)
+    if a.effects_route: raise SystemExit('State replay and effects route are mutually exclusive')
 if a.pacing_probe:
     a.pacing_probe = a.pacing_probe.resolve(strict=True)
     a.pacing_probe.relative_to(project)
@@ -40,6 +45,8 @@ root = output_path(project / '.local', project)
 game = project if a.stock else root / 'custom-maps-play'
 run = output_path(root / 'pacing' / (time.strftime('%Y%m%d-%H%M%S') + '-' + ('stock-' if a.stock else '') + ('host-probe-' if a.pacing_probe else '') + a.mode), project)
 exe = a.exe.resolve(strict=True)
+if a.state_replay and b'input_state_replay\0' not in (exe.parent / 'rexruntime.dll').read_bytes():
+    raise SystemExit('This runtime lacks the opt-in recorded-state replay support')
 if hashlib.sha256(exe.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
     raise SystemExit('Unexpected runtime build')
 listing = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq OpenH3M.exe', '/FO', 'CSV', '/NH'],
@@ -67,6 +74,9 @@ cmd = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}',
        f'--cache_root={cache}', f'--log_file={run / "runtime.log"}',
        '--keyboard_controller=false', '--input_script=' + ','.join(steps),
        '--input_script_button_state=true', '--input_script_keystrokes=false', '--halo3mp_log_fps=true']
+if a.state_replay:
+    cmd = [arg for arg in cmd if not arg.startswith('--input_script=')]
+    cmd += [f'--input_state_replay={a.state_replay}']
 if a.portable_paths:
     bootstrap = tomllib.loads(exe.with_suffix('.bootstrap.toml').read_text())
     if Path(bootstrap['game_data_root']).resolve() != game or Path(bootstrap['cache_root']).resolve() != cache:
@@ -95,6 +105,7 @@ state = {'mode': a.mode, 'stock': a.stock, 'command': cmd, 'map_sha256': hashlib
          'runtime_sha256': hashlib.sha256((exe.parent / 'rexruntime.dll').read_bytes()).hexdigest(),
          'gpu_sha256': hashlib.sha256((exe.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest(),
          'cache_root': str(cache),
+         'state_replay_sha256': hashlib.sha256(a.state_replay.read_bytes()).hexdigest() if a.state_replay else None,
          'host_output_fps_override': a.host_output_fps,
          'SDL_TIMER_RESOLUTION': env.get('SDL_TIMER_RESOLUTION'), 'watchdog_seconds': 165}
 print(run, flush=True)
