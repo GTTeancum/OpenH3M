@@ -132,6 +132,16 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
             if child.poll() is not None: raise RuntimeError('Game exited before measurement')
             time.sleep(.05)
         previous = None; previous_gpu_progress = None; previous_guest_vblank = None; previous_guest_flip = None
+        d3d_callbacks = None
+        if guest_vblank:
+            device_host = pointers['guest_vblank'] - 0x4094
+            d3d_callbacks = list(struct.unpack('>II', read(device_host + 0x408c, 8)))
+            writeback_guest = struct.unpack('>I', read(device_host + 0x2a94, 4))[0]
+            if writeback_guest < 0x1000:
+                raise RuntimeError(f'Unexpected D3D writeback address {writeback_guest:#x}')
+            # Match the installed generated PPC memory access: physical aliases
+            # E0000000..FFFFFFFF include the runtime's extra 4 KiB mapping gap.
+            writeback_host = memory + writeback_guest + (0x1000 if writeback_guest >= 0xe0000000 else 0)
         from contextlib import ExitStack
         with ExitStack() as stack:
             stream = stack.enter_context(output.open('w', newline=''))
@@ -146,7 +156,8 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                 queue_stream = stack.enter_context(output.with_name('guest-queue.csv').open('w', newline=''))
                 queue_writer = csv.writer(queue_stream)
                 queue_writer.writerow(['seconds', 'vblank', 'completed', 'head', 'tail',
-                                       'poll_gap_ms', 'last_requested_target', 'issued'] + [f'slot_{i}_{field}' for i in range(16)
+                                       'poll_gap_ms', 'last_requested_target', 'issued',
+                                       'interrupt_callback', 'interrupt_argument'] + [f'slot_{i}_{field}' for i in range(16)
                                                         for field in ('buffer', 'target_vblank')])
             writer = csv.writer(stream); writer.writerow(['seconds', 'guest_frame_count', 'poll_gap_ms'])
             last_poll = time.perf_counter()
@@ -171,10 +182,11 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                     if gc != previous_guest_vblank or fc != previous_guest_flip:
                         head, tail = struct.unpack_from('>II', state, 0x98)
                         slots = struct.unpack_from('>32I', state, 0x18)
+                        interrupt = struct.unpack('>II', read(writeback_host + 0x10, 8))
                         queue_writer.writerow([time.perf_counter() - started, gc, fc, head, tail,
                                                (now - last_poll) * 1000,
                                                struct.unpack_from('>I', state, 8)[0],
-                                               struct.unpack_from('>I', state, 16)[0], *slots])
+                                               struct.unpack_from('>I', state, 16)[0], *interrupt, *slots])
                     if fc != previous_guest_flip:
                         flipwriter.writerow([time.perf_counter() - started, fc, (now - last_poll) * 1000])
                         previous_guest_flip = fc
@@ -183,7 +195,7 @@ def record(child, runtime, output, started, begin=110, end=155, gpu_progress=Fal
                         previous_guest_vblank = gc
                 last_poll = now
                 time.sleep(.001)
-        return {'counter_address': hex(pointer), 'gpu_progress_counter_address': hex(pointers.get('gpu_progress', 0)), 'guest_vblank_counter_address': hex(pointers.get('guest_vblank', 0)), 'measurement_start': begin, 'measurement_end': end,
+        return {'counter_address': hex(pointer), 'gpu_progress_counter_address': hex(pointers.get('gpu_progress', 0)), 'guest_vblank_counter_address': hex(pointers.get('guest_vblank', 0)), 'd3d_callbacks': d3d_callbacks, 'measurement_start': begin, 'measurement_end': end,
                 'method': f'{len(hooks)} restored discovery breakpoints, then read-only counter polling'}
     finally:
         if attached:

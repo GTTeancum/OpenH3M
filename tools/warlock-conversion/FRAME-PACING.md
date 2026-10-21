@@ -336,3 +336,42 @@ same sparse checkout, and fetched SDK source into ignored work/rexglue-sdk,
 commit c94f5ebdcb3c9d1a460ca48e04f9758448f8d518, for inspection. This is upstream
 reference, NOT asserted to match the installed runtime. No submodule download,
 SDK build, generated guest-code copy, or second game installation was created.
+
+### Request interval and host-only prototype (2026-10-20)
+
+`20261020-195749-baseline` was aborted by the diagnostic address guard before
+measurement: the writeback buffer uses a high physical-memory alias. Fixed the
+sampler to apply the same extra 4 KiB address offset used by the installed
+translated PPC memory-access code for addresses >= 0xe0000000. This failed run
+supplies no performance evidence.
+
+`20261020-195954-baseline` completed; the native 145-second image was inspected
+and shows Prisoner gameplay. Output mean 33.313ms, deviation 15.578ms; vblank
+mean 16.666ms, deviation 0.829ms. All 2141 settled writeback samples retained
+argument 0x10a: interval bits 8..11 = 1, cutoff low byte = 10 percent. These are
+samples, not an exhaustive interrupt history. Present callback device+0x408c
+was zero; the vblank callback +0x4090 was 2185621112. Consecutive observed
+request target spacings: 345 at one vblank, 210 at two, 344 at three. Thus the
+requested interval field is stable while computed deadlines are irregular.
+
+Read-only decoding of original default.xex confirms D3D function 0x825bf758
+computes max(previous_target + interval, current_vblank), advancing by one
+vblank when late in the current refresh according to the cutoff. It then
+performs the direct/queued completion behavior described above. Original code
+and assets remain unchanged. This does not prove a defect in that original
+algorithm, or authorize replacing its simulation logic.
+
+A 4608-byte native host presentation probe now builds from
+snapshot/tools/host_pacing_probe.cpp using build_host_pacing_probe.ps1, with all
+outputs and compiler temporary files in ignored work/pacing-probe. It attempts
+30 Hz host output pacing only after 110 seconds, keeping the menu route and
+all guest code intact. It is an experiment, not a validated fix or shipping
+hook. It has NOT been loaded into a game yet, and does not establish smoothness,
+performance, input latency, simulation speed or system-link compatibility.
+The launcher integration must hash-check the runtime and install only in an
+owned process with the primary thread suspended before game threads start;
+never patch a live user session or install across executing prologue bytes.
+Next: implement safe owned-child loading (or equivalent stopped-thread setup),
+measure this candidate against the saved baseline, reject it if it reduces
+sustained throughput or merely redistributes stalls, then convert any proven
+behavior into an ordinary runtime source patch. Do not ship the diagnostic hook.
