@@ -41,6 +41,8 @@ parser.add_argument('--powerup-check', action='store_true',
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
 parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
+parser.add_argument('--trace-memory', action='store_true',
+                    help='Observe native memory queries and physical allocations; no synthetic calls.')
 parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
 parser.add_argument('--sample-world', action='store_true',
@@ -58,7 +60,10 @@ if options.powerup_check and (not options.walk_check or options.slot != 'chillou
 ROOT = options.project.resolve(strict=True)
 REPOSITORY = Path(__file__).resolve().parents[4]
 RUN = output_path(REPOSITORY / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), REPOSITORY)
-GAME = output_path(options.game or ROOT / '.local/custom-maps-play', ROOT)
+# The original disc root is an input-only baseline; all runtime output roots
+# remain explicitly confined to RUN/CACHE below. Never copy the disc as a silo.
+GAME = (ROOT if options.game and options.game.resolve(strict=True) == ROOT
+        else output_path(options.game or ROOT / '.local/custom-maps-play', ROOT))
 CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
 if options.sample_draws and hashlib.sha256((EXE.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest() != 'c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c':
@@ -86,6 +91,10 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
 if options.trace_allocator:
     FUNCS[0x822c2058] = 'resource_compact'
     FUNCS[0x822c2480] = 'resource_move'
+if options.trace_memory:
+    # Retail XEX import ordinals C6 / BA / BD, resolved through its import records.
+    FUNCS.update({0x82723fa4: 'memory_statistics', 0x82723b64: 'physical_allocate',
+                  0x82723b94: 'physical_free'})
 kernel = C.WinDLL('kernel32', use_last_error=True)
 
 
@@ -98,6 +107,7 @@ def api(name, args, result=W.BOOL):
 open_process = api('OpenProcess', [W.DWORD, W.BOOL, W.DWORD], W.HANDLE)
 open_thread = api('OpenThread', [W.DWORD, W.BOOL, W.DWORD], W.HANDLE)
 close = api('CloseHandle', [W.HANDLE])
+query_virtual = api('VirtualQueryEx', [W.HANDLE, C.c_void_p, C.c_void_p, C.c_size_t], C.c_size_t)
 read_mem = api('ReadProcessMemory', [W.HANDLE, C.c_void_p, C.c_void_p, C.c_size_t, C.POINTER(C.c_size_t)])
 write_mem = api('WriteProcessMemory', [W.HANDLE, C.c_void_p, C.c_void_p, C.c_size_t, C.POINTER(C.c_size_t)])
 flush = api('FlushInstructionCache', [W.HANDLE, C.c_void_p, C.c_size_t])
@@ -205,7 +215,9 @@ def log(event, **values):
 log('input_map', path=str(GAME / 'maps' / (options.slot + '.map')),
     sha256=hashlib.sha256((GAME / 'maps' / (options.slot + '.map')).read_bytes()).hexdigest(),
     executable=str(EXE), seconds_limit=duration)
-proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
+creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory else 0)
+# DEBUG_ONLY_THIS_PROCESS installs observation before any guest startup allocations.
+proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=creation_flags)
 ph = open_process(0x1F0FFF, False, proc.pid)
 check(ph)
 breakpoints, entries, pending, stepping = {}, {}, {}, {}
@@ -223,6 +235,7 @@ draw_samples = 0
 guest_memory_base = None
 guest_r13 = None
 observer_sample_time = 0
+memory_sample_time = 0
 sampled_vertex_addresses = set()
 draw_stream = (RUN / 'draw-registers.bin').open('wb') if options.sample_draws else None
 
@@ -346,12 +359,36 @@ def sample_threads():
 
 try:
     # Skip normal startup's numerous lazy-memory first-chance exceptions.
-    time.sleep(35)
-    check(attach(proc.pid))
+    if not options.trace_memory:
+        time.sleep(35)
+        check(attach(proc.pid))
     attached = True
     check(kill_on_exit(False))
     while time.monotonic() - started < duration:
         now = time.monotonic()
+        if options.trace_memory and guest_memory_base and now-started >= 105 and now-memory_sample_time >= 5:
+            memory_sample_time = now
+            counts = {}
+            # MapViews aliases 0x90000000 to the XEX view and 0x7f000000 to
+            # physical memory: exclude both to avoid counting backing twice.
+            for label, low, high in (('virtual', 0, 0x7f000000), ('xex', 0x80000000, 0x90000000)):
+                cursor, total = guest_memory_base+low, 0
+                end = guest_memory_base+high
+                while cursor < end:
+                    mbi = C.create_string_buffer(48)
+                    check(query_virtual(ph, cursor, mbi, 48))
+                    base = struct.unpack_from('<Q', mbi, 0)[0]
+                    size = struct.unpack_from('<Q', mbi, 24)[0]
+                    state = struct.unpack_from('<I', mbi, 32)[0]
+                    if not size or base+size <= cursor:
+                        raise ValueError('Invalid guest memory query extent')
+                    limit = min(base+size, end)
+                    if state == 0x1000:
+                        total += limit-cursor
+                    cursor = limit
+                counts[label+'_committed_bytes'] = total
+            log('guest_virtual_commit', **counts,
+                accounting_scope='Unique guest virtual/XEX backing; physical aliases excluded; not host RSS')
         if (options.sample_observer and guest_memory_base and guest_r13
                 and now-started >= 105 and now-observer_sample_time >= 1):
             observer_sample_time = now
@@ -533,6 +570,9 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name in ('physical_allocate', 'physical_free'):
+                            extra['guest_arguments'] = [hex(v & 0xffffffff) for v in
+                                (regs[0], *struct.unpack('<5Q', read(rcx+32, 40))) ]
                         if name in ('resource_compact', 'resource_move'):
                             try:
                                 def gu(at): return struct.unpack('>I', read(rdx + (at & 0xffffffff), 4))[0]
@@ -621,6 +661,12 @@ try:
                         record = pending[(tid, address)].pop()
                         result = struct.unpack('<Q', read(record['ctx'], 8))[0]
                         extra = {}
+                        if record['name'] == 'memory_statistics' and result & 0xffffffff == 0:
+                            words = struct.unpack('>26I', read(record['memory']+record['argument'], 104))
+                            extra['statistics_words'] = list(words)
+                            extra['available_physical_bytes'] = words[3]*4096
+                            extra['heap_accounted_physical_bytes'] = (words[1]-words[2]-words[3])*4096
+                            extra['accounting_scope'] = 'Physical heap counters only; excludes independent virtual/XEX heaps'
                         if record['name'] == 'header_verify' and result & 0xFF == 0:
                             extra['failure_text'] = guest_string(record['memory'], record['stack'] - 0x120)
                         if record['name'] == 'hash_verify':

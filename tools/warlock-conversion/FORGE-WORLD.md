@@ -978,3 +978,74 @@ and final position (-56.125, -4.004, 45.456); no observer errors were recorded.
 No engine, water constants, geometry or simulation tuning changed in this fix.
 The preceding contained build is retained for rollback; the older normal-mip
 candidate is removed to keep only current and immediately previous candidates.
+
+
+### Guest allocation observer
+
+`trace_loading.py --trace-memory` resolves three original retail imports through
+the XEX import records: ordinal C6 / 0x82723FA4 (`MmQueryStatistics`), BA /
+0x82723B64 (`MmAllocatePhysicalMemoryEx`), BD / 0x82723B94 (`MmFreePhysicalMemory`).
+The installed runtime's hash guard still applies. Memory tracing now starts with
+DEBUG_ONLY_THIS_PROCESS so startup allocations are observed before guest code
+runs. The ordinary late-attach route remains unchanged for other diagnostics.
+Only the launched game process is inspected; no desktop input or engine patch.
+
+Successful statistics calls record the original returned words and derive the
+physical heap total from total pages minus kernel/available pages, following the
+runtime implementation. Placeholder title.physical_pages is not used. At five-
+second intervals after 105 seconds, VirtualQueryEx measures unique committed
+backing for guest virtual ranges 0..0x7F000000 and XEX 0x80000000..0x90000000.
+The 0x7F000000 GPU alias and 0x90000000 XEX alias are excluded, as are the three
+physical aliases and the precommitted physical arena. This is explicitly not
+Windows process RSS. Allocator event totals are diagnostic: an unmatched free
+must be treated as incomplete event accounting, not silently ignored as zero.
+
+
+The first complete startup trace is
+`.local/loading-traces/20261021-181003-19620` (135-second watchdog). It recorded
+58 successful statistics calls, physical heap peak 489,107,456 bytes and six
+stable gameplay-time virtual/XEX backing samples of 11,227,136 + 40,108,032
+bytes. There were no observed physical allocation/free calls after the final
+statistics snapshot at 37.421 seconds and no observed failed allocations.
+The combined components are 540,442,624 bytes, but include the runtime's
+16,777,216-byte physical writeback reservation and other runtime/debug support.
+The runtime's kernel allowance is itself a placeholder. This is not a retail
+budget failure/pass determination. A stock disc baseline is required.
+
+`summarize_guest_memory.py` preserves these scopes and emits an explicit false
+retail verification flag rather than promoting the totals to a console claim.
+It also reports one unmatched free in the event stream. Software breakpoint
+single-stepping can miss concurrent calls; event sums must not replace the native
+heap-counter snapshots. Occupancy inside the game's fixed resource pool remains
+a separate question.
+
+
+Stock disc Sandbox baseline `.local/loading-traces/20261021-181324-24996`
+completed at 135 seconds and produced exactly the same physical heap peak
+489,107,456 bytes and virtual/XEX backing 51,335,168 bytes as Forge Gulch.
+Both have 58 statistics samples, no later observed physical allocation calls,
+no observed failed physical allocations, and the same unmatched free event.
+The measured excess over 512 MiB is therefore also present in unchanged stock
+Sandbox under this runtime, rather than an increase introduced by Forge Gulch.
+This comparison establishes no increased backing allocation in the tested flow;
+it does not measure used space/fragmentation inside the fixed game resource pool
+or certify the console budget. No baseline installation copy was created: the
+original disc root was read directly, with all output/profile/cache paths kept
+inside the authorized project directories.
+
+During the baseline the user reported corrupted menu text. The main menu map
+and English font package in original/shared roots have identical SHA256 hashes.
+A normal late-attach capture run is checking the reported visual failure before
+attributing it to startup observer timing. Do not count the baseline's menu
+rendering as verified from successful loading/logs.
+
+
+Normal-run menu check `.local/loading-traces/20261021-181554-37316` uses the
+shared converted installation with ordinary late debugger attachment, not the
+startup memory observer. Native captures at 40000 and 73000 ms were both
+inspected: main menu and Custom Games / Sandbox lobby text are readable,
+including labels, player count, loading text and controller prompts. This does
+not reproduce the user's reported corruption and is not a claimed fix. Font
+package hash is 7ad74e0c5a97b2bc1654c629e2700c5a7d7d0cbd316a0bf47494769678db3296;
+mainmenu.map hash is d1a8ef6074c7be74579af4a70bbf9173496bf14bddde0d53af66fc88657081df
+in both original/shared roots. The affected menu/session is pending clarification.
