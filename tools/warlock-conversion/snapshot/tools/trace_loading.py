@@ -36,6 +36,8 @@ parser.add_argument('--forge-boundary-check', action='store_true',
                     help='Use the verified Forge lobby route, become monitor and strafe toward the Gulch split.')
 parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
+parser.add_argument('--forge-vehicle-check', action='store_true',
+                    help='Create the first stock vehicle (Banshee), drop it and attempt entry; inspect native captures.')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
 parser.add_argument('--sample-font-cache', action='store_true',
@@ -59,6 +61,8 @@ parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
+if options.forge_vehicle_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check or options.forge_palette_check or options.seconds < 165):
+    parser.error('--forge-vehicle-check requires Sandbox, 165+ seconds, and no other movement check')
 if options.forge_palette_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check):
     parser.error('--forge-palette-check requires Sandbox, scripted input, and no other movement check')
 if options.forge_boundary_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.seconds < 180):
@@ -147,7 +151,7 @@ env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-if options.forge_boundary_check or options.forge_palette_check:
+if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check:
     input_steps.insert(1, '45500:DOWN+220')
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
@@ -171,6 +175,12 @@ if options.forge_boundary_check:
                         '119900:LT+58100', '130000:LSLEFT+48000'])
 if options.forge_palette_check:
     input_steps.extend(['118000:UP+200', '121000:X+200'])
+if options.forge_vehicle_check:
+    # Original Sandbox scenario vehicle palette starts with the stock Banshee.
+    # Captures must establish actual category, placement and entry outcomes.
+    input_steps.extend(['118000:UP+200', '121000:X+200', '123000:RB+200',
+                        '127000:A+200', '129000:A+200', '131000:UP+200',
+                        '133000:LSUP+3000', '139000:RB+1800', '145000:LSUP+10000'])
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')

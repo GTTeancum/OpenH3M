@@ -1282,3 +1282,33 @@ the user's fixed-line report is still open; these captures do not establish
 that every feature is either authored rock structure or a conversion defect.
 Only the current detail-mip map and previous sky-animation map are retained;
 the older contained candidate is superseded. No engine or GPU changes.
+
+### Vertex fidelity and first vehicle check (2026-10-21)
+
+`audit_forge_vertex_payload.py` reads source and serialized candidate resources
+without invoking the converter. Across the two BSPs it checks 137+29 primary
+buffers / 120,027+25,985 vertices: position/UV bits are identical after endian
+decoding, and normal/tangent/binormal component error stays within half of one
+native quantization step (maximum 0.000978265). This excludes introduced UV
+changes in these streams; it does not certify source seams, shader evaluation,
+lightmap/PRT streams, or reconstructed water. Report:
+`work/forge-world/vertex-payload-audit.json`, with both map hashes.
+
+`trace_loading.py --forge-vehicle-check --seconds 165` adds a process-local
+route from Forge creation to attempted Banshee entry/flight. Original Sandbox's
+scenario vehicle palette starts with `objects/vehicles/banshee/banshee`.
+Run `20261021-210121-20500` on the deployed detail-mip candidate ended at its
+165-second watchdog. All three native captures were inspected sequentially:
+125000 ms shows a created Banshee and Forge budget 1480, 142000 ms shows the
+occupied Banshee in third-person at the cliff, and 160000 ms shows it flying
+over water facing the distant shore. Capture timing and observer wall-clock
+times are separate clocks; do not assume exact frame/sample correspondence.
+
+Observer samples move from approximately (-41.18,-196.06,2.70) at 140 seconds
+to (27.46,-191.54,23.25) at 164 seconds. This proves creation, entry and flight,
+not collision/containment acceptance: the seaward path after the cliff needs
+checking against source/converted collision before calling it valid. It did
+not approach the curved split at Y roughly -20 to -55. Resource occupancy
+remains 230,338,560 bytes, with 110,579,712 free bytes in the stable late
+samples. Two changing-heap samples were rejected, not treated as valid.
+Fixed rock lines, menu glyphs and full budget/containment acceptance remain open.
