@@ -11,6 +11,7 @@ out_directory_path = "generated/default"
 includes = []
 
 [entrypoint.functions]
+0x82724724 = { name = "custom_mapi_auth", size = 36, share_registers = true }
 0x8263D8F8 = { name = "sub_8263D8F8" }
 0x825E3858 = { name = "sub_825E3858" }
 0x8219ACC8 = { name = "sub_8219ACC8" }

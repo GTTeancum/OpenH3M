@@ -23,6 +23,17 @@ def build(payload, output):
     files = sorted(payload.iterdir())
     if not 1 <= len(files) <= 64:
         raise ValueError('Expected 1..64 flat files')
+    # Fail early instead of silently shipping the generic missing-preview icon.
+    for info in payload.glob('*.mapinfo'):
+        data = info.read_bytes()
+        if len(data) < 0x1044 or data[0x30:0x34] != b'levl':
+            raise ValueError(f'Unsupported mapinfo: {info.name}')
+        preview = data[0xF44:0x1044].split(b'\0')[0].decode('ascii')
+        if not preview or any(c in preview for c in '/\\:'):
+            raise ValueError(f'Invalid preview basename: {info.name}')
+        for suffix in ('', '_sm', '_clip', '_film', '_variant'):
+            if not (payload / (preview + suffix + '.blf')).is_file():
+                raise ValueError(f'Missing native preview {preview}{suffix}.blf; run build_dlc_previews.py')
     entries, count, directory = [], 1, bytearray(BLOCK)
     for index, path in enumerate(files):
         if not path.is_file() or path.is_symlink():

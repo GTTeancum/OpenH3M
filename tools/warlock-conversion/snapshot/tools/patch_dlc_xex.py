@@ -19,6 +19,13 @@ SOURCE_SHA256 = '18816c1da58b1371e440741fadab1df8e6e6ecca7c5b81952f2d23ceec79731
 PATCHES = (
     (0x821F6A68, '481cd201', '38600001', 'mapinfo signature call'),
     (0x821B111C, '4bffe025', '38600001', 'cache header RSA call; salted hash check retained'),
+    # Only the mapi reader may accept the native SHA1 EOF (type 2). Retail
+    # RSA previews and every non-mapi BLF retain their original validation.
+    (0x823C3FB8, '4bfffcb1', '4836076d', 'BLF auth dispatch to mapi-only SHA1 adapter'),
+    (0x82724724, '00' * 36,
+     '3d806d61618c70697c1a600040820014898600102c0c00024082000838e000024bc9f524',
+     'mapi tag and EOF type 2 guard; tail-call original verifier'),
+    (0x82000298, '24476900', '48476900', 'extend text section over verified zero padding adapter'),
 )
 
 
@@ -36,9 +43,10 @@ def patch(source, output):
     changed = []
     for address, before, after, purpose in PATCHES:
         offset = address - x.image_base
-        if image[offset:offset + 4] != bytes.fromhex(before):
+        size = len(bytes.fromhex(before))
+        if size != len(bytes.fromhex(after)) or image[offset:offset + size] != bytes.fromhex(before):
             raise ValueError(f'Call-site bytes do not match at {address:#x}')
-        image[offset:offset + 4] = bytes.fromhex(after)
+        image[offset:offset + size] = bytes.fromhex(after)
         changed.append(dict(address=hex(address), before=before, after=after, purpose=purpose))
     # Repack the original BASIC layout, preserving all zero-fill regions.
     packed = bytearray()
@@ -61,13 +69,13 @@ def patch(source, output):
     restored = bytearray(roundtrip)
     for address, before, _, _ in PATCHES:
         offset = address - x.image_base
-        restored[offset:offset+4] = bytes.fromhex(before)
+        restored[offset:offset+len(bytes.fromhex(before))] = bytes.fromhex(before)
     if roundtrip != image or restored != original:
         raise ValueError('Patch roundtrip or scope verification failed')
     return dict(source_sha256=SOURCE_SHA256,
                 output_sha256=hashlib.sha256(output.read_bytes()).hexdigest(),
                 patches=changed,
-                scope='Content signature call sites only; structural and salted-hash checks retained',
+                scope='Content signature call sites and mapi-only native SHA1 adapter; structural and salted-hash checks retained',
                 console_status='RGH/JTAG candidate; hardware execution untested')
 
 

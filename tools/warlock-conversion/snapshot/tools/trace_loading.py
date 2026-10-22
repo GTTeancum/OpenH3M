@@ -37,6 +37,8 @@ parser.add_argument('--dlc-map', choices=('warlock', 'resuscitation', 'prisoner'
                     help='Select a distinct DLC entry from the full stock-plus-custom map list.')
 parser.add_argument('--dlc-menu-check', action='store_true',
                     help='Stop the process-local route at the map list for DLC discovery inspection.')
+parser.add_argument('--dlc-preview-tour', action='store_true',
+                    help='Menu-only tour: Last Resort, Forge Gulch, Prisoner, Resuscitation, Warlock.')
 parser.add_argument('--trace-dlc-paths', action='store_true',
                     help='Trace native cache path resolution; verbose and slows timing runs.')
 parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
@@ -232,6 +234,15 @@ if options.dlc_menu_check:
     if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
         raise SystemExit('--dlc-menu-check requires a DLC payload or package')
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+if options.dlc_preview_tour:
+    if not options.dlc_menu_check:
+        raise SystemExit('--dlc-preview-tour requires --dlc-menu-check')
+    # Capture at 65000, 85000, 105000, 125000, 145000 ms. First picture
+    # checks the signed stock preview; subsequent pictures check custom artwork.
+    input_steps += [f'{70000+n*700}:UP+120' for n in range(7)]
+    input_steps += [f'{90000+n*700}:DOWN+120' for n in range(11)]
+    input_steps += [f'{110000+n*700}:DOWN+120' for n in range(2)]
+    input_steps += [f'{130000+n*700}:DOWN+120' for n in range(7)]
 if options.forge_boundary_check:
     # Native 20261021-173147 route probe confirms Forge / Sandbox. From the
     # +X spawn facing, left strafe travels +Y toward the curved split.

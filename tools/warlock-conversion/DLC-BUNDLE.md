@@ -13,14 +13,14 @@ system-link testing have not been performed; console memory certification is def
 All paths below are relative to this repository, except the authorized shared
 installation `C:/X360/ISOs/H3M` and the read-only reference ZIP.
 
-- LIVE package: `work/dlc/bundle/F798F5651E96A8D21CE55B7387C4FFC44F8EBAF1`
-- Size: 586,035,200 bytes / 558.89 MiB, containing four maps plus four mapinfos.
-- SHA256: `990d1ed8f0327c0e41c06d8adea34434fc9f9d1a25738d17245e46f47753fbd4`
+- LIVE package: `work/dlc/bundle/6FC853240E4EDADFD8B070FC105994E888EED40D`
+- Size: 586,350,592 bytes / 559.19 MiB, containing four maps, four mapinfos and 20 preview BLFs.
+- SHA256: `629abcf2af9240fbb8e4f62aec8a15ba026c8816e58f996a86c972d93b67598c`
 - Installed host content: `work/dlc/installed-current/0000000000000000/4D5307E6/00000002/`
 - Separate RGH/JTAG XEX candidate: `work/gamedata/default.xex`
-- XEX SHA256: `e46be03892b22ba356026369ba51fa557cdf988629ab35e1defd92151e6ec3af`
+- XEX SHA256: `0d73d4ef8544be05a4b08027255fa5ba246286018c1f1b92253113db04726940`
 - Host build: `work/rexglue-sdk/out/win-amd64/halo3mp.exe`
-- Host SHA256: `adf48d3fabd2262ea6ddde94e06b15e6b172a6b8e2c4918eedbff1e4a4957077`
+- Host SHA256: `e3f60b3d3efee1ff244bfa83e3be06112d4220808db6d356020a65fce5a3670c`
 - Private reports: `work/dlc/{payload-manifest,bundle-manifest,bundle-integrity}.json`.
 
 | Map | Distinct ID | Cache bytes | Previous replacement |
@@ -32,8 +32,10 @@ installation `C:/X360/ISOs/H3M` and the read-only reference ZIP.
 
 The bundle has no duplicate shared.map. All original disc maps remain available.
 Total package size is disk storage, not simultaneous RAM consumption.
-This is a test bundle: custom preview BLFs and release artwork are not included;
-the menu may show its generic missing-preview icon. Map names/descriptions are present.
+Each map has native preview artwork converted from its installed MCC source images.
+The base/small images are 463x152, film/clip 256x141, and variant 182x100,
+matching the Heroic reference. Film/clip/variant use the same map artwork without
+additional media-type overlays. Artwork is private and is not committed to Git.
 
 ## Format reference and validation
 
@@ -42,9 +44,9 @@ Its single LIVE container is 510,803,968 bytes, title 4D5307E6, marketplace type
 It contains 23 root entries: four caches, three mapinfos, 15 preview BLFs and
 spa.bin. Inventory and hash checks stream the ZIP without extracting its maps.
 
-The new package passes 142,221 data-block hashes and 843 hash tables, directory
+The new package passes 142,297 data-block hashes and 844 hash tables, directory
 and chain checks, and byte-for-byte comparison against staged payload files.
-The native SDK STFS reader independently compares all eight files, 582,531,652
+The native SDK STFS reader independently compares all 28 files, 582,806,521
 payload bytes (`work/dlc/native-container-check.txt`). These are integrity checks,
 not Microsoft signature verification. The LIVE signature is intentionally zero.
 
@@ -61,6 +63,7 @@ The tools refuse existing output/report paths; review prior outputs before rebui
 
 ```powershell
 python -B tools/warlock-conversion/snapshot/tools/build_dlc_payload.py --converted C:/X360/ISOs/H3M/.local/custom-maps-play/maps --stock C:/X360/ISOs/H3M/maps --output work/dlc/payload --report work/dlc/payload-manifest.json
+python -B tools/warlock-conversion/snapshot/tools/build_dlc_previews.py --workshop D:/SteamLibrary/steamapps/workshop/content/976730 --payload work/dlc/payload --report work/dlc/previews-manifest.json
 python -B tools/warlock-conversion/snapshot/tools/build_dlc_live.py --payload work/dlc/payload --output work/dlc/bundle/package.pending --report work/dlc/bundle-manifest.json
 ```
 
@@ -71,7 +74,7 @@ run 20261022-165142-41268 exposed stale header hashes in the first DLC staging.
 The container builder returns its actual extensionless output path in the report.
 
 ```powershell
-python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/F798F5651E96A8D21CE55B7387C4FFC44F8EBAF1 --payload work/dlc/payload --report work/dlc/bundle-integrity.json
+python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/6FC853240E4EDADFD8B070FC105994E888EED40D --payload work/dlc/payload --report work/dlc/bundle-integrity.json
 ```
 
 For the native check, put `work/rexglue-sdk/out/win-amd64` on PATH, then run
@@ -86,6 +89,11 @@ It creates a separate file and verifies the decrypted image differs only here:
 
 - 0x821F6A68: mapinfo signature call becomes `li r3,1`.
 - 0x821B111C: cache-header RSA call becomes `li r3,1`.
+- 0x823C3FB8: BLF authentication dispatches through a 36-byte adapter at
+  0x82724724, in verified unused text padding (section size extended accordingly).
+  Only `mapi` chunks with SHA1 EOF type 2 change the requested auth type to 2.
+  The original verifier still checks file bounds and digest; signed stock previews
+  and non-image BLFs retain their original authentication path.
 
 BLF structure, version/size checks and salted cache-header hashes remain enforced.
 The general cryptographic functions and gameplay/network code are unchanged.
@@ -189,5 +197,33 @@ All four captures were individually inspected. Final machine-readable evidence i
 `work/dlc/runtime-validation.json`; deployment hashes/configuration are in
 `work/dlc/deployment.json`. This is a bounded test-bundle pass, not exhaustive
 gameplay or audio testing. Console hardware and system-link remain untested.
-Custom preview artwork is a later release task; the current test menu uses a
-generic missing-preview icon. No game assets or captures are committed to Git.
+Custom artwork is now packaged; preview-menu validation is recorded below.
+No game assets or captures are committed to Git.
+
+
+## Preview validation (2026-10-22)
+
+Native menu tour `20261022-172757-39256` installed the rebuilt LIVE container.
+All five captures were individually inspected: signed Last Resort at 65s,
+Forge Gulch at 85s, Prisoner at 105s, Resuscitation at 125s, Warlock at 145s.
+Each shows the correct map name and actual map artwork, with no missing-image icon.
+The process exited through the normal 180-second watchdog. The exact tested host
+binary and native-installed content are deployed in the shared installation.
+No map cache bytes changed; gameplay validation above remains applicable.
+Film/clip/variant BLFs pass format/hash/JPEG checks but their separate media menus
+were not exercised. Console execution remains untested.
+
+Repeat the menu-only check with `trace_loading.py --project C:/X360/ISOs/H3M
+--game C:/X360/ISOs/H3M --exe work/rexglue-sdk/out/win-amd64/halo3mp.exe
+--expected-exe-sha256 CURRENT_SHA --dlc-installed-root work/dlc/installed-current
+--dlc-menu-check --dlc-preview-tour --capture
+--capture-times-ms 65000,85000,105000,125000,145000 --seconds 180`.
+The native captures live under `.local/loading-traces/RUN/`.
+
+The preview builder atomically replaces metadata/BLFs to preserve existing
+hardlinks. The LIVE builder refuses missing preview variants. Source paths and
+hashes are in `work/dlc/previews-manifest.json`; native visual evidence is in
+`work/dlc/preview-validation.json`. Only one current LIVE bundle is retained.
+The preceding installed package/header is in `work/dlc/rollback/content`, outside
+active discovery; unchanged map files share storage with staging. The older
+cleanup-blocked `work/dlc/installed` directory was not touched.

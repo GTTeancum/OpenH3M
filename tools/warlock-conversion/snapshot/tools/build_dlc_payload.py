@@ -80,8 +80,8 @@ def build(converted, stock, output):
             fixed(info, 0x44 + locale*64, 64, title, 'utf-16-be')
             fixed(info, 0x344 + locale*256, 256,
                   title + ' - custom Halo 3 map.', 'utf-16-be')
-        # Reuse existing stock preview initially; replace with native custom captures
-        # before release. This remains explicit in the output manifest.
+        # build_dlc_previews.py must supply the matching native BLFs before packaging.
+        fixed(info, 0xF44, 256, 'dlc_' + name)
         fixed(info, 0x1044, 256, name)
         # Preserve the retail EOF structure required by the mapinfo reader.
         # Signature bytes are explicitly zero, NOT a valid RSA signature. The
@@ -94,7 +94,7 @@ def build(converted, stock, output):
                                    original_slot=slot, original_id=old_id,
                                    bytes=dest.stat().st_size,
                                    sha256=digest,
-                                   preview='stock placeholder', authentication='RSA layout, unsigned zero signature'))
+                                   preview='dlc_' + name, authentication='RSA layout, unsigned zero signature'))
     return report
 
 
