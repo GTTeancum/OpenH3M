@@ -61,3 +61,8 @@
   complete text in individually inspected native captures. No causal fix was
   made. Retain as a monitored regression; do not repeat this checkpoint without
   new failure evidence. Results and limitations are in FORGE-WORLD.md.
+
+- 2026-10-22 follow-up: corrected-address font run 20261022-103051-32368
+  reproduced missing J/#/$ and budget text. CPU glyph pixels were populated
+  and stable at the correct address. Text glitch is active again; focus on
+  GPU upload/drawing rather than repeating the three-run readability check.

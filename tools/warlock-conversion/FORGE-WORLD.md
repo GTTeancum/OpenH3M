@@ -1655,3 +1655,31 @@ failing glyph draw still need diagnosis with the corrected address.
 
 The user has redirected active work to the text glitch; do not divert into
 memory-budget work while this investigation is active.
+
+
+### Text glitch reproduced with corrected pixel addressing (2026-10-22)
+
+One targeted font-probe run, `20261022-103051-32368`, sampled the corrected
+physical atlas 0x03EC7000 at 124.093 and 128.093 seconds. The native 129000-ms
+capture was inspected: Gulch Weapons palette is open, J is absent from OBJECT,
+# and dollar symbols are missing, and the budget text is absent. D in Done and
+numeral 8 are visible this time. This is a verified recurrence after the three
+clean runs, so the text issue is active, not merely a monitored regression.
+
+All sampled glyph keys match their hardware slots. At the CORRECT address, J,
+#, $, D, 8 and A have nonzero components and identical per-glyph hashes across
+both snapshots. J has 38 nonzero high-nibble pixels, # 73 and $ 72; the other
+three components cover their full glyph rectangles. Therefore an entirely blank
+CPU glyph rectangle does not explain this occurrence. No font package, map,
+executable or GPU DLL changed; six integrity checks passed and no diagnostic
+errors occurred. Local concise evidence:
+`.local/loading-traces/20261022-103051-32368/corrected-font-summary.json`.
+
+Source review identifies a candidate lost-invalidation window: shared-memory
+upload sets validity and enables CPU-write callbacks before copying data;
+texture-specific watches are registered later by CommitPreparedTextureLoad /
+MakeUpToDateAndWatch. A write between those operations needs to be tracked
+through page validity and texture dirty state. This is a hypothesis, NOT a
+confirmed cause, and no speculative engine patch was deployed. The next
+instrumentation must distinguish actual GPU atlas/upload contents from CPU
+contents and verify the missing glyph draw, using the corrected address.
