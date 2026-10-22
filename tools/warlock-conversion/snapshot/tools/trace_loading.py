@@ -38,6 +38,8 @@ parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
 parser.add_argument('--forge-vehicle-check', action='store_true',
                     help='Create the first stock vehicle (Banshee), drop it and attempt entry; inspect native captures.')
+parser.add_argument('--vehicle-boundary-flight', action='store_true',
+                    help='After verified Banshee entry, turn left and boost toward the split; observer samples determine coverage.')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
 parser.add_argument('--sample-font-cache', action='store_true',
@@ -61,6 +63,8 @@ parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
 options = parser.parse_args()
+if options.vehicle_boundary_flight and (not options.forge_vehicle_check or options.seconds < 180):
+    parser.error('--vehicle-boundary-flight requires --forge-vehicle-check and 180 seconds')
 if options.forge_vehicle_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check or options.forge_palette_check or options.seconds < 165):
     parser.error('--forge-vehicle-check requires Sandbox, 165+ seconds, and no other movement check')
 if options.forge_palette_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check):
@@ -180,7 +184,11 @@ if options.forge_vehicle_check:
     # Captures must establish actual category, placement and entry outcomes.
     input_steps.extend(['118000:UP+200', '121000:X+200', '123000:RB+200',
                         '127000:A+200', '129000:A+200', '131000:UP+200',
-                        '133000:LSUP+3000', '139000:RB+1800', '145000:LSUP+10000'])
+                        '133000:LSUP+3000', '139000:RB+1800'])
+    if options.vehicle_boundary_flight:
+        input_steps.extend(['142000:RSLEFT+500', '143000:LSUP+35000', '143000:LT+35000'])
+    else:
+        input_steps.append('145000:LSUP+10000')
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')

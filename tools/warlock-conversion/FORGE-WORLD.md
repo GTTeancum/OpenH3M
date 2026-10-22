@@ -1312,3 +1312,45 @@ not approach the curved split at Y roughly -20 to -55. Resource occupancy
 remains 230,338,560 bytes, with 110,579,712 free bytes in the stable late
 samples. Two changing-heap samples were rejected, not treated as valid.
 Fixed rock lines, menu glyphs and full budget/containment acceptance remain open.
+
+User confirmation, 2026-10-21: **rock lines are fixed** with the detail-mip
+candidate. This supersedes the earlier open visual-line observations. Keep
+the authored mip correction; no further rock-material alteration is needed
+for that report.
+
+`audit_forge_camera_collision.py` compares the recorded observer segments from
+140 seconds in run `20261021-210121-20500` against source and converted main
+BSP collision. In the path's XYZ bounds plus one unit, all 400 triangle
+positions match exactly, and neither mesh has a segment intersection. The
+earlier exploratory Y-only corridor contained 1,614 triangles; the repeatable
+audit uses tighter XYZ bounds. Report `banshee-camera-collision-audit.json`
+records map and trace hashes. This is evidence against lost main-BSP surfaces
+on that path, not proof about the vehicle's swept shape, center, or instance
+collision. Three analytic tests cover crossing from either side, missing the
+triangle while crossing its plane, parallel paths and paths too short to hit.
+
+### Boosted vehicle containment fails (2026-10-21)
+
+Run `20261021-210937-16988` used `--forge-vehicle-check
+--vehicle-boundary-flight --seconds 180` on the unchanged detail-mip candidate.
+The process-local route creates and enters the stock Banshee, turns at 142 s,
+then holds forward and boost from 143 to 178 s. The 180-second watchdog ended
+the run. Only the 160000 ms native capture was produced and inspected: it
+shows an occupied, boosting Banshee with surrounding terrain. The requested
+176000 ms capture is absent; it must not be counted as visual evidence.
+
+Observer samples independently establish a substantial crossing: at 165.281 s
+the Gulch margin is +11.55 units, at 170.297 s it is -41.73, and at 179.297 s
+it is -146.91 (position 71.30, 91.91, 41.30). This is far beyond third-person
+camera offset. **Vehicle containment fails.** The earlier monitor pushback
+check was not sufficient acceptance for the shared boundary. Late resource
+occupancy remains 230,338,560 bytes with 110,579,712 bytes free in the measured
+resource pool; that is not certification of the full console memory budget.
+
+Microsoft's [Halo 3 soft-ceiling guide](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/guides/softceilings)
+distinguishes pushback from hard collision. Its introductory vehicle wording
+is inconsistent with its later discussion, so it is not a reliable basis for
+assuming vehicle enforcement. Next investigate original-disc collision-only
+barriers and their native surface/physics setup before implementing the split
+as hard collision. Do not change stock Banshee behavior or engine physics to
+compensate. The rock-line issue remains closed by human confirmation.
