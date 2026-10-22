@@ -1,0 +1,8 @@
+include("${CMAKE_CURRENT_LIST_DIR}/font_upload_race.cmake")
+if(TARGET stfs_probe)
+  return()
+endif()
+add_executable(stfs_probe EXCLUDE_FROM_ALL "${CMAKE_CURRENT_LIST_DIR}/stfs_probe.cpp")
+target_link_libraries(stfs_probe PRIVATE rexruntime)
+target_include_directories(stfs_probe PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_features(stfs_probe PRIVATE cxx_std_23)

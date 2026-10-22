@@ -58,6 +58,35 @@ console memory use. Original disc maps and the shared test installation were
 not changed by packaging. Rollback of this checkpoint requires only removing
 the generated bundle and its two reports; the source payload remains reusable.
 
+### Native runtime reader check
+
+`snapshot/tools/stfs_probe.cpp` mounts the actual container through the existing
+ReXGlue `StfsContainerDevice`, validates LIVE/title/content-type fields, enumerates
+its root, and reads every file through the runtime's `File::ReadSync`. It compares
+all bytes against staging without extraction or another map copy. The run passed:
+8 files, 582,530,628 payload bytes. Evidence: `work/dlc/native-container-check.txt`.
+This independently checks the Python writer against the real runtime parser.
+It does not invoke the content installer, guest metadata validation, or gameplay.
+
+Reuse the existing SDK build (the hook retains the earlier font-test target):
+
+```powershell
+$env:TEMP = (Resolve-Path work/build-temp).Path
+$env:TMP = $env:TEMP
+$env:PATH = 'C:\Program Files\LLVM\bin;' + (Resolve-Path work/rexglue-sdk/out/win-amd64).Path + ';' + $env:PATH
+$hook = (Resolve-Path tools/warlock-conversion/snapshot/tools/stfs_probe.cmake).Path
+cmake -S work/rexglue-sdk -B work/rexglue-sdk/out/pacing-release "-DCMAKE_PROJECT_INCLUDE:FILEPATH=$hook"
+cmake --build work/rexglue-sdk/out/pacing-release --target stfs_probe -j 2
+& work/rexglue-sdk/out/pacing-release/stfs_probe.exe work/dlc/bundle/OpenH3M-Custom-Maps-Test.live work/dlc/payload
+```
+
+The native reader probe is excluded from normal builds, has no UI or input
+simulation, and uses only bounded read buffers. It changes no deployed runtime.
+The SDK installer itself extracts files and writes a sidecar content header;
+its presence is not proof that the current OpenH3M executable invokes it.
+An installer integration remains unverified and does not resolve the independent
+mapinfo authentication requirement described below.
+
 The current SDK's ContentManager::ListContent enumerates directories beneath
 `user_data_root/0000000000000000/4D5307E6/00000002/`. ContentPackage mounts a
 directory as a guest content device. InstallContent already parses STFS and
