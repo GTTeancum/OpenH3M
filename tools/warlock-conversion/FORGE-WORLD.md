@@ -1752,3 +1752,10 @@ not included in this renderer. One previous GPU DLL is retained in
 `.local/native-probes/renderer-before-font-fix.dll`; builds reuse the existing SDK
 tree. Deterministic defect coverage plus this inspected menu capture support the
 fix; they do not prove every intermittent text fault is eliminated.
+
+Repeatability check: `git -C work/rexglue-sdk apply --reverse --check
+../../halo3mp/patches/rexglue-sdk-texture-upload-invalidation.patch` succeeds
+against the current SDK source. The deployed renderer still matches the recorded
+SHA256. This is a read-only patch/source consistency check, not another gameplay
+run. A temporary-copy round-trip command was rejected by automatic approval
+review before execution; no temporary copies were created by that command.
