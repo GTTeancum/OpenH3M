@@ -25,6 +25,10 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--game', type=Path)
+parser.add_argument('--dlc-payload', type=Path,
+                    help='Repo-local payload exposed as one installed content bundle via hardlinks.')
+parser.add_argument('--dlc-menu-check', action='store_true',
+                    help='Stop the process-local route at the map list for DLC discovery inspection.')
 parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
 parser.add_argument('--capture', action='store_true')
 parser.add_argument('--capture-times-ms', help='Comma-separated native guest capture times for bounded route diagnostics.')
@@ -65,7 +69,7 @@ parser.add_argument('--sample-draws', action='store_true',
                     help='Read 1024 native GPU draw states after 110 seconds; no render-state changes.')
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
-parser.add_argument('--seconds', type=int, default=135, choices=range(135, 181))
+parser.add_argument('--seconds', type=int, default=135, choices=range(75, 181))
 options = parser.parse_args()
 if options.vehicle_boundary_flight and (not options.forge_vehicle_check or options.seconds < 180):
     parser.error('--vehicle-boundary-flight requires --forge-vehicle-check and 180 seconds')
@@ -117,6 +121,9 @@ if options.trace_memory:
     # Retail XEX import ordinals C6 / BA / BD, resolved through its import records.
     FUNCS.update({0x82723fa4: 'memory_statistics', 0x82723b64: 'physical_allocate',
                   0x82723b94: 'physical_free'})
+if options.dlc_payload:
+    # Verified original XEX type-1 import record 0x0100025c (xam ordinal 604).
+    FUNCS[0x82723d54] = 'content_enumerate'
 kernel = C.WinDLL('kernel32', use_last_error=True)
 
 
@@ -151,6 +158,15 @@ def check(ok):
 
 for name in ('temp', 'profile'):
     (RUN / name).mkdir(parents=True, exist_ok=True)
+if options.dlc_payload:
+    payload = options.dlc_payload.resolve(strict=True)
+    payload.relative_to(REPOSITORY)
+    package = RUN / '0000000000000000/4D5307E6/00000002/OpenH3MCustomMaps'
+    package.mkdir(parents=True)
+    for source in payload.iterdir():
+        if not source.is_file() or source.is_symlink():
+            raise SystemExit('DLC payload must contain ordinary flat files')
+        os.link(source, package / source.name)
 if options.shader_cache_seed:
     seed = options.shader_cache_seed.resolve(strict=True)
     seed.relative_to(ROOT)  # Project confinement applies to cache inputs too.
@@ -174,6 +190,10 @@ if options.slot == 'sandbox':
     # Native capture: four DOWNs reach Rat's Nest; fifth selects Sandbox.
     input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
+if options.dlc_menu_check:
+    if not options.dlc_payload:
+        raise SystemExit('--dlc-menu-check requires --dlc-payload')
+    input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
 if options.forge_boundary_check:
     # Native 20261021-173147 route probe confirms Forge / Sandbox. From the
     # +X spawn facing, left strafe travels +Y toward the curved split.
@@ -213,6 +233,8 @@ args = [str(EXE), f'--game_data_root={GAME}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
+if options.dlc_payload:
+    args += ['--log_level=debug', '--log_max_file_size_mb=5', '--log_max_files=4']
 if options.manual_input:
     args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
 if options.font_upload_probe:
@@ -256,7 +278,7 @@ def log(event, **values):
 log('input_map', path=str(GAME / 'maps' / (options.slot + '.map')),
     sha256=hashlib.sha256((GAME / 'maps' / (options.slot + '.map')).read_bytes()).hexdigest(),
     executable=str(EXE), seconds_limit=duration)
-creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory else 0)
+creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory or options.dlc_payload else 0)
 # DEBUG_ONLY_THIS_PROCESS installs observation before any guest startup allocations.
 proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=creation_flags)
 ph = open_process(0x1F0FFF, False, proc.pid)
@@ -405,7 +427,7 @@ def sample_threads():
 
 try:
     # Skip normal startup's numerous lazy-memory first-chance exceptions.
-    if not options.trace_memory:
+    if not (options.trace_memory or options.dlc_payload):
         time.sleep(35)
         check(attach(proc.pid))
     attached = True
@@ -638,7 +660,7 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
-                        if name in ('physical_allocate', 'physical_free'):
+                        if name in ('physical_allocate', 'physical_free', 'content_enumerate'):
                             extra['guest_arguments'] = [hex(v & 0xffffffff) for v in
                                 (regs[0], *struct.unpack('<5Q', read(rcx+32, 40))) ]
                         if name in ('resource_compact', 'resource_move'):
