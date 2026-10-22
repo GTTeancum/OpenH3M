@@ -1759,3 +1759,30 @@ against the current SDK source. The deployed renderer still matches the recorded
 SHA256. This is a read-only patch/source consistency check, not another gameplay
 run. A temporary-copy round-trip command was rejected by automatic approval
 review before execution; no temporary copies were created by that command.
+
+### Completion audit after text fix (2026-10-22)
+
+- Deployment: freshly hashed shared-install sandbox.map matches the accepted
+  hard-divider output (4656e4e...6f339), 138,272,768 bytes. Only this candidate
+  and the detail-mip rollback remain in work/forge-world.
+- Curved divider and collision/visibility: saved spatial audit has zero solid
+  or cluster mismatches. Its c56ad752... hash identifies the intermediate rebuilt
+  collision result, not sandbox.map; hard-divider-report.json records that result
+  and the final deployed map hash. Do not compare those two hashes as equivalent
+  artifacts. Original collision keys and stock palette policy remain documented.
+- Native behavior/visuals: retain the existing inspected terrain/Forge evidence
+  and explicit human acceptance of the occupied Banshee stop and rock fix. The
+  user closed divider testing; this audit adds no new flight or exhaustive claim.
+- Menu regression: host cache fix, deterministic before/after evidence and native
+  capture are recorded above. No further repeat run is justified without new
+  failure evidence.
+- Repeatability/cleanup: patch source consistency verified; one SDK/build tree,
+  one shared installation, one renderer rollback. No assets committed.
+- NOT ACHIEVED: original-console total-memory acceptance. Current resource report
+  explicitly excludes allocator overhead, simulation, render targets, executable
+  and streaming staging. Source reinspection of MmQueryStatistics_entry confirms
+  guessed kernel pages and placeholder physical/pool/stack/image/heap counters.
+  File size and PC resource occupancy cannot close this requirement. The user
+  has confirmed no console/devkit is available. The overall goal stays open;
+  do not label the port console-budget-certified or replace this gate with a
+  smaller resource-only criterion.
