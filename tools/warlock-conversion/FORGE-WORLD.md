@@ -1,6 +1,6 @@
 # Forge World / Sandbox conversion
 
-Status (2026-10-22): **Forge Gulch runs over Sandbox in the shared installation.**
+Status (2026-10-22): **Current Forge Gulch milestone complete over Sandbox in the shared installation.**
 Terrain visibility and rock detail are fixed; the user confirmed the divider
 stops an occupied Banshee and closed that check. Monitor pushback was previously
 verified. A host texture-cache lost-update fix is now deployed; deterministic regression checks and one native Forge-menu capture pass. See latest evidence below.
@@ -9,7 +9,7 @@ Deployed candidate: `sandbox-hard-divider.map`, 138,272,768 bytes (131.867 MiB),
 SHA256 `4656e4e708832f8ba876a7a7d16ae4750c5b09b73d4289379893db740746f339`.
 The detail-mip candidate is the single rollback. Original disc maps and other
 conversions remain intact. **Whole-console Xbox 360 memory acceptance remains
-unverified; this is not yet a completed budget-certified port.** Earlier failed
+unverified and explicitly deferred by the user for this milestone.** Earlier failed
 runs below are historical; current evidence and qualifications are at the end.
 
 ## Source and authorized scope
@@ -1786,3 +1786,21 @@ review before execution; no temporary copies were created by that command.
   has confirmed no console/devkit is available. The overall goal stays open;
   do not label the port console-budget-certified or replace this gate with a
   smaller resource-only criterion.
+
+### Human-directed closeout (2026-10-22)
+
+The user explicitly unblocked the goal and said they are not worried about
+console memory verification right now. This supersedes the previous audit's
+use of that verification as a current completion blocker. Certification remains
+false and is a deferred TODO; no budget limits or formats are relaxed.
+
+The current milestone is complete on the accepted scope: curved Gulch split,
+retained surrounding visuals, stock Halo 3 palette, corrected native collision
+and visibility, accepted player/vehicle/monitor containment, and the deployed
+font-cache fix. The evidence and limits are recorded in the preceding audit,
+including the user's closure of vehicle testing and inspected native captures.
+Final read-only checks confirm the deployed map and renderer still match their
+accepted SHA256 values and the saved deterministic font tests pass. No further
+build, gameplay run, or duplicate map installation was needed for closeout.
+DLC packaging, the complementary Forge World map, and deferred console-memory
+verification remain separate follow-up work.

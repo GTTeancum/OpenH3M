@@ -49,27 +49,13 @@
 
 ## Converted-map rendering regressions
 
-- [ ] Fix missing Forge menu glyphs on Forge Gulch. The 2026-10-21 process-local
-  palette check reproduces missing letters/symbols on Gulch while the identical
-  stock Sandbox route renders them correctly with the same runtime/font package.
-  See FORGE-WORLD.md for both native captures and the repeatable route. Investigate
-  conversion data/resource usage; do not treat the earlier readable main-menu
-  capture as coverage of this failure.
+- [x] Fix missing Forge menu glyphs on Forge Gulch. Deployed the host texture-cache
+  lost-invalidation fix (eb7df80). Actual SDK regression checks pass and native
+  capture 20261022-105203-19332 shows the complete letters/symbols and budget
+  amount. Historical investigation and reproduction steps are in FORGE-WORLD.md.
 
-- 2026-10-22 update to the Forge Gulch glyph issue: three requested automated
-  comparisons (palette-only, CPU-font probe, combined diagnostics) all showed
-  complete text in individually inspected native captures. No causal fix was
-  made. Retain as a monitored regression; do not repeat this checkpoint without
-  new failure evidence. Results and limitations are in FORGE-WORLD.md.
-
-- 2026-10-22 follow-up: corrected-address font run 20261022-103051-32368
-  reproduced missing J/#/$ and budget text. CPU glyph pixels were populated
-  and stable at the correct address. Text glitch is active again; focus on
-  GPU upload/drawing rather than repeating the three-run readability check.
-
-- 2026-10-22 text-fix update: deployed host texture-cache lost-invalidation fix.
-  Actual SDK regression test fails before the fix and passes after it, including
-  ordinary later writes and stable-cache behavior. Native run
-  20261022-105203-19332 shows the previously missing glyphs and budget amount.
-  Implementation and focused validation are complete; retain the issue for
-  recurrence monitoring rather than claiming exhaustive menu coverage.
+- [ ] Deferred: verify full Xbox 360 memory residency on suitable hardware or with
+  validated complete accounting. User explicitly deferred this acceptance gate
+  on 2026-10-22; it does not block the current Forge Gulch milestone. Preserve
+  original budgets/formats and keep retail_console_budget_verified false until
+  supported by evidence.
