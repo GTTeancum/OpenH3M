@@ -68,10 +68,19 @@ def snapshot(read, memory, r13, cache_address=None, include_atlas=False):
             width, height = struct.unpack('>HH', data(bitmap + 4, 4))
             pitch = ((fetch[0] >> 22) & 511) * 32
             fmt, tiled = fetch[1] & 63, fetch[0] >> 31
-            base = 0xa0000000 | (fetch[1] & 0x1ffff000)
+            encoded_base = fetch[1] & 0xfffff000
+            # The D3D header stores a guest virtual physical alias, not the
+            # final GPU fetch address. Retail 82155DB0..82155DC4 translates
+            # E-range allocations with a 4-KiB bias (SDK GetPhysicalAddress).
+            physical_base = (encoded_base & 0x1fffffff) + (
+                0x1000 if encoded_base >= 0xe0000000 else 0)
+            if physical_base + pitch * height * 2 > 0x20000000:
+                raise ValueError('Font atlas exceeds guest physical arena')
+            base = 0xa0000000 | physical_base
             atlas = {'texture': hex(texture), 'fetch': [hex(v) for v in fetch],
                      'width': width, 'height': height, 'pitch_pixels': pitch,
                      'format': fmt, 'tiled': tiled, 'cpu_address': hex(base),
+                     'encoded_base': hex(encoded_base), 'physical_base': hex(physical_base),
                      'endian_mode': (fetch[1] >> 6) & 3,
                      'swizzle': (fetch[3] >> 1) & 4095}
             if fmt != 15 or tiled or not 0 < width <= pitch <= 4096 or not 0 < height <= 4096:

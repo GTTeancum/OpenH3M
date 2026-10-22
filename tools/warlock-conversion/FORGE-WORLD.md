@@ -1626,3 +1626,32 @@ The whole-console gate still needs retail memory accounting: PC physical/virtual
 heap statistics have known placeholders and independent backing. Neither the
 near match above nor a successful PC run is a substitute for that gate. Current
 static results are in `work/forge-world/current-resource-footprint.json`.
+
+
+### Text-glitch investigation: corrected font alias address (2026-10-22)
+
+This supersedes the earlier CPU-atlas and "no font draws" conclusions. The
+original texture header contains encoded address 0xE3EC6000. Retail lock path
+82475BA8 -> 8217B810 -> 8217B8B8 -> 82155D10 translates it to physical
+0x03EC7000, not 0x03EC6000. Instructions 82155DB0..82155DC4 implement the bias;
+the SDK also explicitly applies a 4-KiB offset to E-range physical aliases.
+Read-only disassembly: `work/forge-world/native-font-lock.txt`.
+
+The CPU font probe incorrectly masked away the alias without applying its bias,
+reading one page before the glyph pixels. Nonzero-byte counts, glyph-region
+hashes and nibble histograms from those old probes therefore do NOT establish
+correct glyph pixels or alpha. Packed character data and hardware-slot records
+were independent reads and remain valid. The probe now translates the alias
+correctly and bounds the physical extent. Its five tests pass, including a
+fixture whose pixels exist only at the corrected address.
+
+Re-reading saved GPU records using physical 0x03EC7000 finds the font atlas
+bindings previously missed by the incorrect address filter. The 512x512,
+format-15 fetch has word 1 = 0x03EC704F. Corrected binding records are saved in
+`work/forge-world/font-address-correction.json`. Thus a new broad draw run is
+unnecessary. This fixes our diagnostic addressing, NOT the user's rendering
+fault. The three readable captures remain valid; GPU pixel contents and the
+failing glyph draw still need diagnosis with the corrected address.
+
+The user has redirected active work to the text glitch; do not divert into
+memory-budget work while this investigation is active.

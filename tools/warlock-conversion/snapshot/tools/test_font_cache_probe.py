@@ -48,12 +48,12 @@ class FontCacheProbeTests(unittest.TestCase):
     def test_atlas_rectangle_uses_native_width_height_and_pitch(self):
         self.word(0x70008, 0)
         struct.pack_into('>HH', self.memory, 0x41004, 128, 32)
-        struct.pack_into('>6I', self.memory, 0x4201c, 2 | (4 << 22), 15,
+        struct.pack_into('>6I', self.memory, 0x4201c, 2 | (4 << 22), 0xe0000000 | 15,
                          127 | (31 << 13), 0, 0, 0)
         regions = {
             0x827dc550: struct.pack('>II', 0x41000, 0x42000),
             0x827dc960: struct.pack('>4I2H', 0x10041, 0xabcd0000, 0x7000c, 0xffffffff, 1, 2),
-            0xa0000000: bytes([0x10, 0x2f]) * (128 * 32),
+            0xa0001000: bytes([0x10, 0x2f]) * (128 * 32),
         }
         def read(at, size):
             for base, raw in regions.items():
@@ -62,6 +62,8 @@ class FontCacheProbeTests(unittest.TestCase):
             return self.read(at, size)
         result = snapshot(read, 0, 0x10000, include_atlas=True)
         self.assertNotIn('error', result['atlas'])
+        self.assertEqual(result['atlas']['cpu_address'], '0xa0001000')
+        self.assertEqual(result['atlas']['physical_base'], '0x1000')
         self.assertEqual(result['characters'][0]['atlas_cpu_nonzero_bytes'], 8*6*2)
         self.assertEqual(result['characters'][0]['atlas_cpu_nibble_histograms'],
                          [[48 if value == nibble else 0 for value in range(16)]
