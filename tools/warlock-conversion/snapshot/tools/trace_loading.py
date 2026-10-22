@@ -42,6 +42,8 @@ parser.add_argument('--vehicle-boundary-flight', action='store_true',
                     help='After verified Banshee entry, turn left and boost toward the split; observer samples determine coverage.')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
+parser.add_argument('--font-upload-probe', action='store_true',
+                    help='Enable bounded font staging evidence with the diagnostic GPU plugin.')
 parser.add_argument('--sample-font-cache', action='store_true',
                     help='Read bounded original font-cache records at 124 and 128 seconds.')
 parser.add_argument('--powerup-check', action='store_true',
@@ -213,6 +215,10 @@ args = [str(EXE), f'--game_data_root={GAME}',
         '--input_script_keystrokes=false']
 if options.manual_input:
     args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
+if options.font_upload_probe:
+    args += [f'--d3d12_upload_probe_path={RUN / "font-uploads.bin"}',
+             '--d3d12_upload_probe_address=65826816',
+             '--d3d12_upload_probe_size=524288']
 if options.diagnostic_no_vsync:
     args += ['--vsync=false']
 capture = options.capture

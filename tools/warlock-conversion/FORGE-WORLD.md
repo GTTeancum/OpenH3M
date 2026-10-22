@@ -1683,3 +1683,37 @@ through page validity and texture dirty state. This is a hypothesis, NOT a
 confirmed cause, and no speculative engine patch was deployed. The next
 instrumentation must distinguish actual GPU atlas/upload contents from CPU
 contents and verify the missing glyph draw, using the corrected address.
+
+
+### Bounded staging-upload recorder (2026-10-22)
+
+`halo3mp/patches/rexglue-sdk-upload-probe.patch` adds disabled-by-default host
+D3D12 diagnostics. It records the exact staging bytes passed to CopyBufferRegion,
+clipped to a configured physical range (at most 1 MiB), capped at 32 MiB per
+process. It changes no game logic, map format or texture data. Records are four
+little-endian uint32 words (magic 0x31505546, sequence, address, length), followed
+by the submitted bytes. The native logger reports sequence/address/length and
+explicit write/limit failures. This is upload staging evidence, NOT GPU texture
+readback. Defaults generate no files.
+
+The harness's opt-in `--font-upload-probe` confines the output to the run folder
+and selects the verified 0x03EC7000 / 512-KiB font range. It requires the diagnostic
+GPU plugin; do not combine it with old-plugin hardcoded GPU draw addresses.
+Build used the existing SDK tree and `out/pacing-release` target `rexgpu-xenos`;
+only shared_memory.cpp recompiled. There was no separate game installation.
+
+Run `20261022-103802-27776` used a temporary diagnostic renderer and the existing
+process-local Forge palette route. The 129000-ms native capture was inspected:
+all menu letters/symbols are present. Twenty upload records cover the entire
+524,288-byte atlas. `compare_font_uploads.py` reconstructs overlapping uploads
+in order, checks record/range/rectangle bounds, and compares them with the last
+correctly addressed CPU glyph snapshot. All 81 comparable glyphs match exactly,
+including J/#/$/8/D/A. Report: `font-upload-comparison.json` in the run directory.
+This establishes a good-upload reference; the failure did not reproduce under
+this additional instrumentation and remains unfixed.
+
+The wrapper restored and SHA256-verified the normal GPU DLL in `finally`:
+`c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c`.
+After verifying the restored binary, its temporary backup was removed inside
+the repository. The map and executable were unchanged. The diagnostic plugin
+remains only in the existing build output for further focused investigation.
