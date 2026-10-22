@@ -1556,3 +1556,37 @@ were no observed failed physical allocations. Resource occupancy remains
 preserves incomplete-event/runtime-accounting qualifications; retail 512 MiB
 verification remains false. The diagnostic slowdown means this run is unsuitable
 for performance acceptance.
+
+
+### Three requested harness comparisons (2026-10-22)
+
+Exactly three automated runs completed on unchanged hard-divider map SHA256
+`4656e4e708832f8ba876a7a7d16ae4750c5b09b73d4289379893db740746f339`,
+using the same executable, GPU DLL and shared cache. Earlier harness behavior
+was reproduced through the existing options; no older engine/map was deployed.
+
+| Harness configuration | Native run | Capture | Result |
+| --- | --- | --- | --- |
+| Earlier palette-only, late attach | 20261022-061128-16468 | 124000 ms | Complete palette text |
+| Earlier CPU font probe, late attach | 20261022-061354-18916 | 129000 ms | Complete palette text |
+| Combined startup memory/font/resource/draw/thread diagnostics | 20261022-061643-34524 | 125000 ms | Complete palette text |
+
+All three `proof-loaded.png` captures were inspected individually in order.
+Each shows Gulch terrain, monitor HUD and the Weapons creation palette, with
+OBJECT, Done, Summary, #, $, and the numeral 8 present. First two watchdogs
+ended at 135 seconds with 6/6 hashes passing; combined ended at 180 seconds
+with 11/11 passing. Font runs each collected two snapshots; combined also
+collected 1,024 draw records, automatically compressed by the harness.
+
+Combined-run diagnostic exclusions: resource snapshot at 110.016 seconds changed
+while being read; snapshot at 115.110 reported unexpected capacity/unit; a
+thread read at 117.953 was partial. These are rejected measurements, not valid
+zero readings or proof of an actual game allocation failure. The first two
+runs logged no diagnostic errors. Local machine-readable comparison:
+`work/forge-world/three-harness-menu-check-20261022.json`.
+
+The historical missing-glyph fault did not reproduce in any of these three
+runs, including the earlier lighter harness settings. No rendering fix was
+introduced, so causation remains unknown. Stop repeating this menu checkpoint
+without new evidence of failure; preserve the historical issue as a monitored
+regression. These captures do not certify whole-console memory or performance.

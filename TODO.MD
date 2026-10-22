@@ -55,3 +55,9 @@
   See FORGE-WORLD.md for both native captures and the repeatable route. Investigate
   conversion data/resource usage; do not treat the earlier readable main-menu
   capture as coverage of this failure.
+
+- 2026-10-22 update to the Forge Gulch glyph issue: three requested automated
+  comparisons (palette-only, CPU-font probe, combined diagnostics) all showed
+  complete text in individually inspected native captures. No causal fix was
+  made. Retain as a monitored regression; do not repeat this checkpoint without
+  new failure evidence. Results and limitations are in FORGE-WORLD.md.
