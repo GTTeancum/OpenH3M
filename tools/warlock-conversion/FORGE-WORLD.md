@@ -3,8 +3,7 @@
 Status (2026-10-22): **Forge Gulch runs over Sandbox in the shared installation.**
 Terrain visibility and rock detail are fixed; the user confirmed the divider
 stops an occupied Banshee and closed that check. Monitor pushback was previously
-verified. Three requested automated Forge-menu checks show complete text; the
-historical missing-glyph issue is retained as a monitored regression.
+verified. A host texture-cache lost-update fix is now deployed; deterministic regression checks and one native Forge-menu capture pass. See latest evidence below.
 
 Deployed candidate: `sandbox-hard-divider.map`, 138,272,768 bytes (131.867 MiB),
 SHA256 `4656e4e708832f8ba876a7a7d16ae4750c5b09b73d4289379893db740746f339`.
@@ -1717,3 +1716,39 @@ The wrapper restored and SHA256-verified the normal GPU DLL in `finally`:
 After verifying the restored binary, its temporary backup was removed inside
 the repository. The map and executable were unchanged. The diagnostic plugin
 remains only in the existing build output for further focused investigation.
+
+### Font texture lost-update fix (2026-10-22)
+
+The earlier hypothesis is now a reproduced SDK defect. A CPU write between
+shared-memory upload and per-texture watch registration could lose its notification;
+MakeUpToDateAndWatch then marked stale texture contents clean indefinitely.
+`rexglue-sdk-texture-upload-invalidation.patch` checks source-page validity under
+that same global lock before clearing texture dirty state and installing watches.
+Invalidated textures retry on the next draw. Stable textures stay cached; scaled
+GPU resolves keep their existing behavior. Only the host renderer changes.
+
+The deterministic `font_upload_race` target uses the actual SDK SharedMemory and
+TextureCache classes, injecting the notification precisely in that gap. Old code
+failed with only one upload; patched code retries with two. Both the normal and
+injected paths also pass subsequent-write and unchanged-draw checks:
+
+```
+inject=0 first=1 second=1 stable=1 later=2 final=2 uploads=2
+inject=1 first=1 second=2 stable=2 later=3 final=3 uploads=3
+```
+
+Native validation run `20261022-105203-19332` followed the recorded process-local
+Forge palette route, with a 135-second watchdog and one capture at 129 seconds.
+Inspected `proof-loaded.png`: OBJECT includes J, # and $ are present, D/8 render,
+and $1500 is visible. The BUDGET heading is partly covered by the palette panel;
+this run does not establish a separate layout fix. Six file-integrity checks pass.
+The runtime still logs shader memexport-constant extraction errors during startup;
+this is not an error-free-runtime claim. No desktop input was used.
+
+Deployed GPU SHA256:
+`84bf67244e0c3ccc4b855bbf09d176da2e05caaf746f5f7175672087618ea2ea`.
+Executable and converted map remain unchanged. The bounded upload recorder is
+not included in this renderer. One previous GPU DLL is retained in
+`.local/native-probes/renderer-before-font-fix.dll`; builds reuse the existing SDK
+tree. Deterministic defect coverage plus this inspected menu capture support the
+fix; they do not prove every intermittent text fault is eliminated.

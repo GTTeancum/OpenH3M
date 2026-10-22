@@ -1,0 +1,64 @@
+--- a/include/rex/graphics/shared_memory.h
++++ b/include/rex/graphics/shared_memory.h
+@@ -78,6 +78,9 @@
+   // the range has been fully updated and is usable.
+   bool RequestRanges(const std::pair<uint32_t, uint32_t>* ranges, size_t count);
+   bool RequestRange(uint32_t start, uint32_t length);
++  // Must be checked under the same global lock used to install a texture
++  // watch, so a CPU write cannot be lost between validation and watching.
++  bool IsRangeValid(uint32_t start, uint32_t length) const;
+ 
+   // Marks the range and, if not exact_range, potentially its surroundings
+   // (to up to the first GPU-written page, as an access violation exception
+--- a/src/graphics/shared_memory.cpp
++++ b/src/graphics/shared_memory.cpp
+@@ -468,6 +468,22 @@
+   return UploadRanges(upload_ranges_);
+ }
+ 
++bool SharedMemory::IsRangeValid(uint32_t start, uint32_t length) const {
++  if (!length || start >= kBufferSize || length > kBufferSize - start) {
++    return false;
++  }
++  auto global_lock = rex::thread::global_critical_region::AcquireDirect();
++  const uint32_t first = start >> page_size_log2_;
++  const uint32_t last = (start + length - 1) >> page_size_log2_;
++  for (uint32_t block = first >> 6; block <= (last >> 6); ++block) {
++    uint64_t mask = UINT64_MAX;
++    if (block == first >> 6) mask &= UINT64_MAX << (first & 63);
++    if (block == last >> 6) mask &= UINT64_MAX >> (63 - (last & 63));
++    if ((system_page_flags_valid_[block] & mask) != mask) return false;
++  }
++  return true;
++}
++
+ bool SharedMemory::RequestRange(uint32_t start, uint32_t length) {
+   std::pair<uint32_t, uint32_t> range(start, length);
+   return RequestRanges(&range, 1);
+--- a/src/graphics/pipeline/texture/cache.cpp
++++ b/src/graphics/pipeline/texture/cache.cpp
+@@ -689,14 +689,22 @@
+ void TextureCache::Texture::MakeUpToDateAndWatch(
+     const std::unique_lock<std::recursive_mutex>& global_lock) {
+   SharedMemory& shared_memory = texture_cache().shared_memory();
+-  if (base_outdated_) {
++  if (base_outdated_ && !key().scaled_resolve &&
++      !shared_memory.IsRangeValid(key().base_page << 12, GetGuestBaseSize())) {
++    // A CPU write after RequestRanges may precede registration of this
++    // texture's watch. Preserve dirty state and retry on the next draw.
++    texture_cache_.texture_became_outdated_.store(true, std::memory_order_release);
++  } else if (base_outdated_) {
+     assert_not_zero(GetGuestBaseSize());
+     base_outdated_ = false;
+     base_watch_handle_ = shared_memory.WatchMemoryRange(
+         key().base_page << 12, GetGuestBaseSize(), TextureCache::WatchCallback, this, nullptr, 0);
+     outdated_mask_.fetch_and(~kOutdatedBitBase, std::memory_order_release);
+   }
+-  if (mips_outdated_) {
++  if (mips_outdated_ && !key().scaled_resolve &&
++      !shared_memory.IsRangeValid(key().mip_page << 12, GetGuestMipsSize())) {
++    texture_cache_.texture_became_outdated_.store(true, std::memory_order_release);
++  } else if (mips_outdated_) {
+     assert_not_zero(GetGuestMipsSize());
+     mips_outdated_ = false;
+     mips_watch_handle_ = shared_memory.WatchMemoryRange(

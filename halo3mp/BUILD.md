@@ -331,3 +331,31 @@ llvm-symbolizer --obj=halo3mp.exe 0x140000000+<rva>
 (export table + import ordinals), `genstubs.py`, `classify.py`, `dis.py`
 (PPC disassembly via the SDK's binutils), `findlongjmp.py`, `addfunc.py`,
 `autofix.sh`.
+
+## Host font texture invalidation fix
+
+Apply `patches/rexglue-sdk-texture-upload-invalidation.patch` to the existing
+rexglue SDK source root (check first with `git apply --check`). It preserves dirty
+texture state when CPU writes invalidate source pages before texture watches are
+registered. It changes no guest game code, maps or network protocol.
+
+From the OpenH3M repository root, reuse the existing configured SDK build:
+
+```powershell
+$env:TEMP = (Resolve-Path work/build-temp).Path
+$env:TMP = $env:TEMP
+$env:PATH = 'C:\Program Files\LLVM\bin;' + (Resolve-Path work/rexglue-sdk/out/win-amd64).Path + ';' + $env:PATH
+$hook = (Resolve-Path tools/warlock-conversion/snapshot/tools/font_upload_race.cmake).Path
+cmake -S work/rexglue-sdk -B work/rexglue-sdk/out/pacing-release "-DCMAKE_PROJECT_INCLUDE:FILEPATH=$hook"
+cmake --build work/rexglue-sdk/out/pacing-release --target font_upload_race rexgpu-xenos -j 2
+& work/rexglue-sdk/out/pacing-release/font_upload_race.exe
+```
+
+The optional test target is excluded from normal builds. Exit 0 requires both
+normal and deliberately interrupted uploads to refresh correctly and stable draws
+to remain cached. The fake upload backend uses the real SDK cache and invalidation
+code; it does not exercise D3D rendering. Complement with the recorded native
+Forge palette route and inspect its native capture (see FORGE-WORLD.md).
+Deploy only the rebuilt `out/win-amd64/rexgpu-xenos.dll` into the authorized shared
+installation with the game closed. Keep one rollback inside the repository.
+Old GPU-address-pinned draw probes must be remapped before using the new DLL.

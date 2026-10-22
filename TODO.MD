@@ -66,3 +66,10 @@
   reproduced missing J/#/$ and budget text. CPU glyph pixels were populated
   and stable at the correct address. Text glitch is active again; focus on
   GPU upload/drawing rather than repeating the three-run readability check.
+
+- 2026-10-22 text-fix update: deployed host texture-cache lost-invalidation fix.
+  Actual SDK regression test fails before the fix and passes after it, including
+  ordinary later writes and stable-cache behavior. Native run
+  20261022-105203-19332 shows the previously missing glyphs and budget amount.
+  Implementation and focused validation are complete; retain the issue for
+  recurrence monitoring rather than claiming exhaustive menu coverage.
