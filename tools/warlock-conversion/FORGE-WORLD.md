@@ -1215,3 +1215,35 @@ not certify the responsible host code or justify a speculative engine patch.
 The atlas probe adds one synthetic row-pitch/rectangle test; all five font-probe
 tests pass. Output contains hashes/counts/metadata, no exported font image or
 new installation. Current deployed map, runtime and GPU DLL remain unchanged.
+
+### Native resource residency comparison (2026-10-21)
+
+`trace_loading.py --sample-resource-cache` observes the original resource page
+table from compact/move calls and reads its LRU allocation list every five
+seconds from 105 seconds. `resource_heap_probe.py` maps fields from original
+XEX 822C2058 and 8229819C/822981D8; it does not import PC-build capacities.
+Bounds, datum salts, links, overlaps, cycles and changing heap headers are
+checked. Five focused tests pass, including fragmented free-space accounting.
+
+Gulch run `20261021-204234-34676` produced six valid samples: 1,180 allocations,
+230,277,120 occupied bytes (219.609 MiB). From 110 seconds its pool capacity is
+340,856,832 bytes (325.066 MiB), with 110,579,712 free bytes (105.457 MiB), all
+in one contiguous extent. The first sample has slightly less capacity/free
+space, but identical occupancy. This measures resident resource allocations,
+not the 460.8 MiB inventory of every referenced resource page.
+
+Original Sandbox run `20261021-204500-36868` reaches 237,494,272 occupied bytes
+(226.492 MiB), capacity 288,829,440 (275.449 MiB), and 51,335,168 free bytes
+(48.957 MiB) at 120/125/130 seconds. Its 115-second sample was rejected because
+the heap changed while reading; do not treat that sample as zero or valid.
+The 129-second native capture was inspected: original Sandbox architecture,
+first-person weapon and Slayer HUD are visible. Both runs ended at their
+135-second watchdogs. Gulch used the previously verified route without a new
+capture; these readings do not independently reverify its visuals.
+
+`work/forge-world/resource-residency-comparison.json` retains input map hashes,
+samples and the rejected sample. The new evidence rules out exhaustion and
+fragmentation of this resource pool in the measured Gulch starting scene.
+It does NOT certify total retail 512 MiB usage, all camera regions, vehicle
+loads, or a populated Forge budget. Existing total-backing comparison and this
+pool measurement are separate scopes. No map, runtime or GPU binary changed.

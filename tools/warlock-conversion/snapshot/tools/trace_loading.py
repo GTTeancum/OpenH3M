@@ -45,6 +45,8 @@ parser.add_argument('--powerup-check', action='store_true',
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
 parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
+parser.add_argument('--sample-resource-cache', action='store_true',
+                    help='Read native resource LRU occupancy after loading; not total console RAM.')
 parser.add_argument('--trace-memory', action='store_true',
                     help='Observe native memory queries and physical allocations; no synthetic calls.')
 parser.add_argument('--sample-threads', action='store_true',
@@ -94,7 +96,7 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
          0x821B1140: 'header_read_wrapper', 0x82204360: 'load_204360',
          0x82204DA8: 'load_204da8', 0x82205AC0: 'load_205ac0',
          0x82151DC8: 'hash_verify', 0x82241478: 'decal_sprite'}
-if options.trace_allocator:
+if options.trace_allocator or options.sample_resource_cache:
     FUNCS[0x822c2058] = 'resource_compact'
     FUNCS[0x822c2480] = 'resource_move'
 if options.sample_font_cache:
@@ -249,6 +251,8 @@ font_samples = 0
 font_r13 = None
 font_cache_address = None
 memory_sample_time = 0
+resource_sample_time = 0
+resource_wrappers = set()
 sampled_vertex_addresses = set()
 draw_stream = (RUN / 'draw-registers.bin').open('wb') if options.sample_draws else None
 
@@ -379,6 +383,14 @@ try:
     check(kill_on_exit(False))
     while time.monotonic() - started < duration:
         now = time.monotonic()
+        if options.sample_resource_cache and guest_memory_base and now-started >= 105 and now-resource_sample_time >= 5:
+            resource_sample_time = now
+            from resource_heap_probe import snapshot as resource_snapshot
+            for wrapper in sorted(resource_wrappers):
+                try:
+                    log('resource_heap', **resource_snapshot(read, guest_memory_base, wrapper))
+                except (OSError, ValueError) as error:
+                    log('resource_heap_error', wrapper=hex(wrapper), detail=str(error))
         if (options.sample_font_cache and guest_memory_base and font_r13
                 and font_samples < 2 and now-started >= 124+font_samples*4):
             font_samples += 1
@@ -601,6 +613,7 @@ try:
                             extra['guest_arguments'] = [hex(v & 0xffffffff) for v in
                                 (regs[0], *struct.unpack('<5Q', read(rcx+32, 40))) ]
                         if name in ('resource_compact', 'resource_move'):
+                            resource_wrappers.add(record['argument'])
                             try:
                                 def gu(at): return struct.unpack('>I', read(rdx + (at & 0xffffffff), 4))[0]
                                 wrapper = record['argument']
