@@ -384,7 +384,7 @@ try:
             font_samples += 1
             try:
                 from font_cache_probe import snapshot
-                log('font_cache', **snapshot(read, guest_memory_base, font_r13, font_cache_address))
+                log('font_cache', **snapshot(read, guest_memory_base, font_r13, font_cache_address, include_atlas=True))
             except (OSError, ValueError) as error:
                 log('font_cache_error', detail=str(error))
         if options.trace_memory and guest_memory_base and now-started >= 105 and now-memory_sample_time >= 5:

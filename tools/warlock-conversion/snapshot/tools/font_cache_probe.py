@@ -8,7 +8,7 @@ import hashlib
 import struct
 
 
-def snapshot(read, memory, r13, cache_address=None):
+def snapshot(read, memory, r13, cache_address=None, include_atlas=False):
     def data(address, size):
         # TLS and cache allocations may be in the guest user-virtual heap,
         # below the XEX/physical ranges. Null/low addresses remain rejected.
@@ -57,7 +57,43 @@ def snapshot(read, memory, r13, cache_address=None):
                            'packed_sha256': hashlib.sha256(payload).hexdigest(),
                            'pixel_nonzero_bytes': sum(v != 0 for v in payload)})
         handle = following
-    return {'frame': frame, 'cache': hex(cache), 'heap': hex(heap),
+    atlas = None
+    if include_atlas:
+        # Original 8246C1E4/8246C234 uses +1C for the D3D texture and +18
+        # for bitmap dimensions. 825BA490 reads texture fetch word 1 at +20.
+        try:
+            bitmap = word(0x827dc538 + 0x18)
+            texture = word(0x827dc538 + 0x1c)
+            fetch = struct.unpack('>6I', data(texture + 0x1c, 24))
+            width, height = struct.unpack('>HH', data(bitmap + 4, 4))
+            pitch = ((fetch[0] >> 22) & 511) * 32
+            fmt, tiled = fetch[1] & 63, fetch[0] >> 31
+            base = 0xa0000000 | (fetch[1] & 0x1ffff000)
+            atlas = {'texture': hex(texture), 'fetch': [hex(v) for v in fetch],
+                     'width': width, 'height': height, 'pitch_pixels': pitch,
+                     'format': fmt, 'tiled': tiled, 'cpu_address': hex(base)}
+            if fmt != 15 or tiled or not 0 < width <= pitch <= 4096 or not 0 < height <= 4096:
+                raise ValueError('Atlas is not the expected bounded linear 16-bit texture')
+            if (width, height) != ((fetch[2] & 8191)+1, ((fetch[2] >> 13) & 8191)+1):
+                raise ValueError('Atlas bitmap/fetch dimensions differ')
+            for character in characters:
+                if character['font'] != 1 or not character['hardware_record']:
+                    continue
+                raw = bytes.fromhex(character['hardware_record'])
+                character['hardware_key_matches'] = struct.unpack_from('>I', raw)[0] == int(character['key'], 16)
+                if not character['hardware_key_matches']:
+                    continue
+                x, y = struct.unpack_from('>HH', raw, 16)
+                glyph_width, glyph_height = character['metrics'][2:4]
+                if x+glyph_width > width or y+glyph_height > height:
+                    raise ValueError('Glyph rectangle outside font atlas')
+                raw_pixels = b''.join(data(base+((y+row)*pitch+x)*2, glyph_width*2)
+                                      for row in range(glyph_height))
+                character['atlas_cpu_sha256'] = hashlib.sha256(raw_pixels).hexdigest()
+                character['atlas_cpu_nonzero_bytes'] = sum(v != 0 for v in raw_pixels)
+        except (OSError, ValueError) as error:
+            atlas = dict(atlas or {}, error=str(error))
+    return {'frame': frame, 'cache': hex(cache), 'heap': hex(heap), 'atlas': atlas,
             'heap_header': heap_header.hex(), 'hash_table': hex(hash_table),
             'characters': characters,
             'scope': 'Live read may race updates; compare repeated samples before treating mismatches as corruption'}

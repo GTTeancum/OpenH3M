@@ -1189,3 +1189,29 @@ following a different thread context, the harness now retains the last nonnull
 cache address observed at insertion, separately from the general loader context.
 This final address-retention change needs native verification on the next run.
 No map, font package, executable or GPU DLL was changed. Four parser tests pass.
+
+### CPU atlas contains the missing glyph regions
+
+`font_cache_probe.py` now follows original texture references at hardware cache
+0x827DC538+0x18/+0x1C. Native upload code 0x8246C1E4..0x8246C3C0 establishes the
+bitmap dimensions, 16-bit linear row writes and texture-unlock path. The texture
+fetch fields are interpreted using the installed SDK's `xenos.h`; dimension,
+format, tiling, pitch and glyph-rectangle bounds are checked. It reads CPU-visible
+physical memory only, not host GPU texture contents. Hardware-slot keys must
+match the cached character key before a rectangle is measured.
+
+Run `.local/loading-traces/20261021-203304-22872` completed at 135 seconds. Both
+124.016 and 128.016 second snapshots succeeded with the pinned cache address
+0x82990800 and 329 character records. Atlas is a 512x512 linear format-15 texture,
+512-pixel pitch, CPU alias 0xA3EC6000, descriptor 0x4071A1D0. Font-1 #/$/7/8/A/B/D/
+J/O/f/u regions all have matching hardware keys and nonzero bytes; each region's
+SHA256 is identical across the two snapshots. Examples: J has 352 nonzero bytes,
+D 386, # 440, dollar 396. The 129-second native capture still lacks J/D/#/dollar
+and numeric 8 glyphs. Therefore the failure remains after CPU character data and
+CPU atlas population, pointing to synchronization/upload/drawing. Exact GPU
+contents and alpha-channel correctness have not yet been measured; this does
+not certify the responsible host code or justify a speculative engine patch.
+
+The atlas probe adds one synthetic row-pitch/rectangle test; all five font-probe
+tests pass. Output contains hashes/counts/metadata, no exported font image or
+new installation. Current deployed map, runtime and GPU DLL remain unchanged.
