@@ -1,5 +1,10 @@
 # Warlock conversion
 
+For the separate four-map LIVE bundle, native installation, authorized
+OpenH3M/RGH signature-check changes, and rollback, see [DLC-BUNDLE.md](DLC-BUNDLE.md).
+That experiment gives the custom maps their own identities beside stock maps.
+The replacement-map process below remains available as the earlier baseline.
+
 This pipeline converts the MCC Warlock map into retail Halo 3 Mythic cache
 structures in Blackout's slot. It changes map data only. OpenH3M, the original
 XEX, and the original disc maps are not modified. Generated assets stay private

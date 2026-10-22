@@ -1,5 +1,8 @@
 # Four-map DLC test bundle
 
+Status: OpenH3M test bundle built, installed and verified in gameplay for all four maps.
+The shared OpenH3M.exe is deployed; original disc maps remain alongside the DLC.
+
 Target: OpenH3M and RGH/JTAG. The user authorized narrow custom-content
 validation changes on 2026-10-22. Retail authentication is not a target.
 Gameplay, physics, simulation and networking code are unchanged. Hardware and
@@ -141,7 +144,7 @@ RGH/JTAG XEX candidate with a backed-up game installation. No hardware result is
 - 20261022-165537-29544: corrected package, Forge Gulch header/authentication pass;
   native gameplay capture shows terrain, rocks, grass, sky and HUD. Normal watchdog exit.
 
-Remaining checks are recorded below as completed. Do not infer completion from staging.
+The final native gameplay checks are recorded below.
 
 Cleanup limitation: automatic approval review blocked recursive removal of the obsolete
 `work/dlc/installed` tree with "blocked by policy". It was retained; the verified
@@ -154,3 +157,37 @@ run content hardlinks may also retain obsolete payload bytes. Logs identify thei
 
 Independent full-body XOR recomputation passed for all four staged caches after
 identity changes. The new salted header hashes also pass preflight.
+
+- 20261022-170213-9244: Prisoner selected and native header/authentication passed,
+  normal watchdog exit, but capture did not complete. No visual pass claimed.
+  Later runs allow a larger margin for the native capture thread.
+
+- 20261022-170539-33336: Resuscitation selected; header/authentication and resource
+  hashes passed, native gameplay capture shows textured rock/ground and normal HUD
+  after the short movement route. View is local, not an exhaustive arena inspection.
+
+Staged payload files now hardlink to byte-identical installed files, saving about
+556 MiB. Rebuild to new files and atomically replace them; never edit linked
+payload/installed files in place. One current LIVE package is retained.
+
+- 20261022-170850-23636: deployed Warlock loaded, but movement ended against a
+  surface; close-up capture was not accepted as an arena visual check.
+- 20261022-171217-44024: deployed Warlock stationary capture shows the recognizable
+  arena, pillars/platforms, foliage, effects and normal HUD. Eleven observed native
+  hash checks passed, zero failed; normal watchdog exit.
+
+An independent comparison against accepted replacement files found exactly one
+changed body word per map (scenario ID). The shared.map used by both installations
+is the same file. Original geometry, textures, objects and gameplay data are preserved.
+All rollback files retain the hashes recorded before atomic deployment.
+
+- 20261022-171517-43224: deployed Prisoner, recorded map-specific movement/fire
+  route, expected interior/lighting/HUD visible, ammo reduced from 32 to 30.
+  Eleven observed native hash checks passed, zero failed; normal watchdog exit.
+
+All four captures were individually inspected. Final machine-readable evidence is
+`work/dlc/runtime-validation.json`; deployment hashes/configuration are in
+`work/dlc/deployment.json`. This is a bounded test-bundle pass, not exhaustive
+gameplay or audio testing. Console hardware and system-link remain untested.
+Custom preview artwork is a later release task; the current test menu uses a
+generic missing-preview icon. No game assets or captures are committed to Git.

@@ -907,3 +907,8 @@ finally:
             raise ValueError('Draw evidence compression failed readback')
         raw_path.unlink()
     out.close()
+
+if capture:
+    requested = len(options.capture_times_ms.split(',')) if options.capture_times_ms else 1
+    if len(list(RUN.glob('proof-loaded*.png'))) != requested:
+        raise RuntimeError('Native capture incomplete before watchdog; visual validation is not established')
