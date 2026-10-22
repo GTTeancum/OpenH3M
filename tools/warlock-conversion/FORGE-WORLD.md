@@ -1354,3 +1354,46 @@ assuming vehicle enforcement. Next investigate original-disc collision-only
 barriers and their native surface/physics setup before implementing the split
 as hard collision. Do not change stock Banshee behavior or engine physics to
 compensate. The rock-line issue remains closed by human confirmation.
+
+### Original-disc hard-boundary research (2026-10-21)
+
+`audit_native_barriers.py` now records map SHA256, main collision surfaces,
+their render-triangle mapping counts, material indices, and reachable native
+physics keys. It validates native key/table bounds. Run against original
+`sandbox`, `shrine` (Valhalla), `sidewinder` (Avalanche), `zanzibar` (Last
+Resort), and `snowbound`; report `work/forge-world/stock-barrier-research.json`.
+The current candidate comparison is `gulch-barrier-research.json`.
+
+| Map | No render triangles and material index -1 |
+| --- | ---: |
+| Sandbox | 176 |
+| Valhalla | 1,722 |
+| Avalanche | 1,583 |
+| Last Resort | 191 |
+| Snowbound | 456 |
+| Current Gulch main BSP | 0 |
+
+Sandbox's large outer-wall/ceiling examples have surface flags 0, no render
+mapping, material -1, and physics keys of family 1 with subshapes 0 through 4.
+For example, surface 4 spans X -166.21..25.49, Y 132.53, Z -15.18..123.73;
+surface 7 is a ceiling at Z 123.73. Do not identify these through the
+`Invisible` flag: stock surfaces with that flag include ordinary material
+assignments, and the large shell surfaces do not have it. Avalanche and Last
+Resort also contain no-material surfaces using subshape 5. These are observed
+serialized layouts, not an assertion that every unmapped surface is a map
+boundary or that all subshape families are interchangeable.
+
+Native keys encode family in bits 29..31, subshape in bits 16..18, and surface
+or instance index in bits 0..15. Interpreting native keys using MCC's 26-bit
+index mask incorrectly mixes the subshape into the surface index. The audit
+uses the native layout. Cluster MOPPs contain instance indices in the sampled
+stock/candidate clusters; the root BSP MOPP contains surface and instance
+families. A main-mesh divider therefore needs matching root physics-tree
+coverage and zero render mappings, not merely additional collision polygons.
+
+The [TagTool collision MOPP generator](https://github.com/TheGuardians/TagTool/blob/master/TagTool/Havok/CollisionMoppGenerator.cs)
+provides the offline polygon compiler input format, but does not establish
+the runtime meaning/geometry of the root BSP's subshape families. That is the
+remaining implementation research before inserting a solid divider. No
+unverified boundary patch was deployed, and the current rock-fixed map stays
+installed. No engine, stock vehicle, or gameplay tuning was changed.
