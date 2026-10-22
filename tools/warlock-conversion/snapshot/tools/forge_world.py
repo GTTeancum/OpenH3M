@@ -1,4 +1,4 @@
-"""Forge World policy: original Sandbox Forge objects and a two-BSP static world."""
+"""Two-BSP world with Halo 3 gameplay assets and Gulch's Reach architecture."""
 import struct
 import xml.etree.ElementTree as ET
 from assemble_scenario import field, stage
@@ -40,8 +40,8 @@ def configure(i):
     i.stock_forge_palette = True
     i.always_loaded_bsps = True
     i.materials.opaque_prototype = r'objects\vehicles\scorpion\shaders\scorpion_guts'
-    return {'forge_palette':'Original Xbox 360 Sandbox, including native prices and limits',
-            'custom_forge_objects':'Removed; source palette is not imported',
+    return {'forge_palette':'Stock Halo 3 gameplay/utilities with Reach Forerunner scenery (human exception 2026-10-22)',
+            'custom_forge_objects':'Only original Reach Forerunner architecture retained; unrelated custom objects excluded',
             'weapons_vehicles':'Stock Halo 3 only; no placed source weapons or vehicles',
             'environment':'Authored two-BSP geometry, lighting, water and effects retained',
             'source_palette_counts': {cat:s.u(root+int(field(schema,'Map Variant '+cat+' Palette').get('offset'),0)) for cat in CATEGORIES}}
@@ -57,6 +57,9 @@ def stage_stock_palette(i):
         f = field(ds,name);stride=int(f.get('elementSize'),0)
         rows = c.block(root+int(f.get('offset'),0),stride)
         arrays[name] = len(rows), b''.join(c.data[r:r+stride] for r in rows)
+    if getattr(i, 'gulch_partition', None):
+        from forge_reach_scenery import scenery_array
+        arrays['Map Variant Scenery Palette'] = scenery_array(i)
     stage(b,{'arrays':arrays,'unresolved':[]},ds)
     # Preserve actual native Forge budget, rather than the MCC expanded budget.
     for f in ds:

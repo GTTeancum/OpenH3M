@@ -58,6 +58,8 @@ def convert_render_resource(source, water_buffers=None):
                     count, fmt = target_count, target_fmt
                 else:
                     data, target_stride = convert_vertices(source_payload(at + 20, size), count, fmt, stride)
+                    if fmt == 9:
+                        count = (count + 3) // 4
                 descriptor = bytearray(28)
                 struct.pack_into('>IHHI', descriptor, 0, count, fmt, target_stride, len(data))
                 pointer_offset = 20

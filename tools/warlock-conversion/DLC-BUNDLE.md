@@ -1,6 +1,9 @@
 # Four-map DLC test bundle
 
-Status: OpenH3M test bundle built, installed and verified in gameplay for all four maps.
+Status: updated texture/lighting/scenery bundle activated in the shared installation.
+This revision has native visual checks for Forge Gulch and Warlock; Prisoner and
+Resuscitation received data validation without a fresh gameplay run. Earlier
+four-map gameplay checks below apply to the preceding bundle.
 The shared OpenH3M.exe is deployed; original disc maps remain alongside the DLC.
 
 Target: OpenH3M and RGH/JTAG. The user authorized narrow custom-content
@@ -13,22 +16,22 @@ system-link testing have not been performed; console memory certification is def
 All paths below are relative to this repository, except the authorized shared
 installation `C:/X360/ISOs/H3M` and the read-only reference ZIP.
 
-- LIVE package: `work/dlc/bundle/6FC853240E4EDADFD8B070FC105994E888EED40D`
-- Size: 586,350,592 bytes / 559.19 MiB, containing four maps, four mapinfos and 20 preview BLFs.
-- SHA256: `629abcf2af9240fbb8e4f62aec8a15ba026c8816e58f996a86c972d93b67598c`
+- LIVE package: `work/dlc/bundle/640BA15753D5DFBAE694AC72F3B999A546706E52`
+- Size: 625,999,872 bytes / 597 MiB, containing four maps, four mapinfos and 20 preview BLFs.
+- SHA256: `123a1b30a14d03288fd4cd2c722f440f5ad87ce6c9f0d0d9997232ea86c8b4c8`
 - Installed host content: `work/dlc/installed-current/0000000000000000/4D5307E6/00000002/`
 - Separate RGH/JTAG XEX candidate: `work/gamedata/default.xex`
 - XEX SHA256: `0d73d4ef8544be05a4b08027255fa5ba246286018c1f1b92253113db04726940`
 - Host build: `work/rexglue-sdk/out/win-amd64/halo3mp.exe`
 - Host SHA256: `e3f60b3d3efee1ff244bfa83e3be06112d4220808db6d356020a65fce5a3670c`
-- Private reports: `work/dlc/{payload-manifest,bundle-manifest,bundle-integrity}.json`.
+- Current private reports: `work/dlc/final-lighting-{bundle,integrity,activation}.json`.
 
 | Map | Distinct ID | Cache bytes | Previous replacement |
 | --- | ---: | ---: | --- |
-| Warlock | 1520 | 182239232 | Blackout / lockout |
-| Resuscitation | 1030 | 151502848 | Last Resort / zanzibar |
-| Prisoner | 1600 | 110436352 | Cold Storage / chillout |
-| Forge Gulch | 1730 | 138272768 | Sandbox |
+| Warlock | 1520 | 189644800 | Blackout / lockout |
+| Resuscitation | 1030 | 156770304 | Last Resort / zanzibar |
+| Prisoner | 1600 | 115687424 | Cold Storage / chillout |
+| Forge Gulch | 1730 | 159764480 | Sandbox |
 
 The bundle has no duplicate shared.map. All original disc maps remain available.
 Total package size is disk storage, not simultaneous RAM consumption.
@@ -44,10 +47,10 @@ Its single LIVE container is 510,803,968 bytes, title 4D5307E6, marketplace type
 It contains 23 root entries: four caches, three mapinfos, 15 preview BLFs and
 spa.bin. Inventory and hash checks stream the ZIP without extracting its maps.
 
-The new package passes 142,297 data-block hashes and 844 hash tables, directory
+The current package passes 151,920 data-block hashes and 901 hash tables, directory
 and chain checks, and byte-for-byte comparison against staged payload files.
-The native SDK STFS reader independently compares all 28 files, 582,806,521
-payload bytes (`work/dlc/native-container-check.txt`). These are integrity checks,
+The native SDK STFS reader independently compares all 28 files, 622,222,329
+payload bytes (`work/dlc/final-lighting-native-check.txt`). These are integrity checks,
 not Microsoft signature verification. The LIVE signature is intentionally zero.
 
 Use the extensionless content-ID filename. Halo's resolver 0x822061D0 strips at
@@ -74,7 +77,7 @@ run 20261022-165142-41268 exposed stale header hashes in the first DLC staging.
 The container builder returns its actual extensionless output path in the report.
 
 ```powershell
-python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/6FC853240E4EDADFD8B070FC105994E888EED40D --payload work/dlc/payload --report work/dlc/bundle-integrity.json
+python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/640BA15753D5DFBAE694AC72F3B999A546706E52 --payload work/dlc/payload --report work/dlc/final-lighting-integrity.json
 ```
 
 For the native check, put `work/rexglue-sdk/out/win-amd64` on PATH, then run
@@ -143,6 +146,47 @@ For console testing, copy the LIVE file unchanged under
 RGH/JTAG XEX candidate with a backed-up game installation. No hardware result is claimed.
 
 ## Runtime evidence
+
+### Current texture, lighting and Reach scenery revision
+
+The update restores 215 existing textures' authored mip chains (2,053 levels
+independently decoded), corrects 280 older imported ambient-PRT buffers, and
+adds the requested 40 Reach architecture palette entries with English names.
+New Reach geometry is built with correct PRT packing directly. See
+[TEXTURE-MIPS.md](TEXTURE-MIPS.md) and [FORGE-WORLD.md](FORGE-WORLD.md) for
+reproduction, evidence, and the documented glass/grid shader limitations.
+
+- 20261022-191849-30796, native 135000-ms image: readable Reach palette labels
+  and visibly smoother grass/rock textures. Its later capture missed the watchdog.
+- 20261022-195111-40472: final LIVE container installed by the native installer;
+  Forge Gulch header and 11 observed resource hashes passed, zero failed. The
+  native 135000-ms capture shows Bank 1x1 held with panel details, green selection
+  indicator and $1496 budget. Normal 180-second watchdog completion.
+- 20261022-195412-25496: final Warlock header passed; fresh stationary native
+  110000-ms capture shows its recognizable arena, foliage, effects and HUD.
+  The watchdog's initial process cleanup timed out; the positively identified
+  test child was subsequently stopped. This is not recorded as a clean exit.
+- All 28 native-installed files were hashed against the verified payload before
+  activation. The package and matching header were moved into `installed-current`;
+  the preceding `6FC853...` content/header were moved into `rollback/content`.
+  The shared EXE/bootstrap and original disc assets were unchanged.
+
+No complete Forge-palette sweep or new Prisoner/Resuscitation gameplay run is
+claimed for this revision. The existing previews are byte-for-byte unchanged.
+
+Harness corrections: reuse only immutable installed content and header trees,
+never another run's captures, logs, profiles or caches. Reject pre-existing
+capture evidence. Warlock's generic walk ends against a wall, so its visual
+route is stationary; the harness now rejects that unsuitable walk combination.
+Earlier reused-run images are not accepted as new proof.
+
+Cleanup remains pending: automatic approval review rejected the attempted
+removal of obsolete candidate maps, test content trees and package BE84357...
+with "blocked by policy". No recursive-delete workaround was used. Obsolete
+candidate packages BE84357..., 372D125..., and 26824F... are not active; 6FC853...
+is the previous accepted package. Retain the current 640BA157... package.
+
+### Earlier bundle evidence
 
 - 20261022-163854-41704: native installation and all four custom IDs registered;
   native map-list capture showed Forge Gulch alongside stock maps, normal text.

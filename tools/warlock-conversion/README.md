@@ -4,6 +4,8 @@ For the separate four-map LIVE bundle, native installation, authorized
 OpenH3M/RGH signature-check changes, and rollback, see [DLC-BUNDLE.md](DLC-BUNDLE.md).
 That experiment gives the custom maps their own identities beside stock maps.
 The replacement-map process below remains available as the earlier baseline.
+For the 2026-10-22 sharp/grainy texture correction and repeatable incremental
+restoration of authored mip chains, see [TEXTURE-MIPS.md](TEXTURE-MIPS.md).
 
 This pipeline converts the MCC Warlock map into retail Halo 3 Mythic cache
 structures in Blackout's slot. It changes map data only. OpenH3M, the original

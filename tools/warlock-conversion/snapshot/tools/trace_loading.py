@@ -52,6 +52,10 @@ parser.add_argument('--forge-boundary-check', action='store_true',
                     help='Use the verified Forge lobby route, become monitor and strafe toward the Gulch split.')
 parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
+parser.add_argument('--forge-scenery-check', action='store_true',
+                    help='In Forge, open Scenery and place a Reach architecture piece.')
+parser.add_argument('--forge-scenery-index', type=int, default=4, choices=range(40),
+                    help='Reach palette row; default Bank 1x1 fits the camera, unlike the large Arena Wall at row 0.')
 parser.add_argument('--forge-vehicle-check', action='store_true',
                     help='Create the first stock vehicle (Banshee), drop it and attempt entry; inspect native captures.')
 parser.add_argument('--vehicle-boundary-flight', action='store_true',
@@ -83,6 +87,8 @@ parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
 parser.add_argument('--seconds', type=int, default=135, choices=range(75, 181))
 options = parser.parse_args()
+if options.dlc_map == 'warlock' and options.walk_check:
+    parser.error('Warlock requires the documented stationary visual route; the generic walk ends against a wall')
 if options.vehicle_boundary_flight and (not options.forge_vehicle_check or options.seconds < 180):
     parser.error('--vehicle-boundary-flight requires --forge-vehicle-check and 180 seconds')
 if options.forge_vehicle_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check or options.forge_palette_check or options.seconds < 165):
@@ -127,6 +133,8 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
 if options.trace_allocator or options.sample_resource_cache:
     FUNCS[0x822c2058] = 'resource_compact'
     FUNCS[0x822c2480] = 'resource_move'
+if options.forge_scenery_check:
+    FUNCS[0x822835E0] = 'forge_object_radius'
 if options.sample_font_cache:
     FUNCS[0x82201c50] = 'font_character_insert'
 if options.trace_memory:
@@ -179,7 +187,12 @@ if sum(bool(x) for x in (options.dlc_payload, options.dlc_package, options.dlc_i
 if options.dlc_installed_root:
     installed = options.dlc_installed_root.resolve(strict=True)
     installed.relative_to(REPOSITORY)
-    for source in installed.rglob('*'):
+    # Reuse immutable content only. Linking an entire previous run also links
+    # logs, captures and writable caches, corrupting the previous evidence.
+    content_roots = [installed / p for p in ('0000000000000000/4D5307E6/00000002',
+                                            '0000000000000000/4D5307E6/Headers/00000002',
+                                            '4D5307E6/Headers/00000002')]
+    for source in (p for root in content_roots for p in root.rglob('*')):
         if source.is_symlink():
             raise SystemExit('Installed content must not contain symlinks')
         if source.is_file():
@@ -203,7 +216,7 @@ env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check:
+if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check:
     input_steps.insert(1, '45500:DOWN+220')
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
@@ -228,6 +241,8 @@ if options.dlc_map:
     direction, steps = {'forge_gulch': ('UP', 7), 'prisoner': ('DOWN', 4),
                         'resuscitation': ('DOWN', 6), 'warlock': ('DOWN', 13)}[options.dlc_map]
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+    if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check:
+        input_steps.insert(1, '45500:DOWN+220')
     input_steps += [f'{58000 + n * 700}:{direction}+120' for n in range(steps)]
     input_steps += ['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250']
 if options.dlc_menu_check:
@@ -252,6 +267,13 @@ if options.forge_boundary_check:
                         '119900:LT+58100', '130000:LSLEFT+48000'])
 if options.forge_palette_check:
     input_steps.extend(['118000:UP+200', '121000:X+200'])
+if options.forge_scenery_check:
+    input_steps.extend(['118000:UP+200', '121000:X+200', '122000:RB+200',
+                        '123000:RB+200', '124000:RB+200'])
+    input_steps.extend(f'{125000+n*500}:DOWN+150' for n in range(options.forge_scenery_index))
+    create_time = max(130000, 126000+options.forge_scenery_index*500)
+    input_steps.extend([f'{create_time}:A+200',
+                        '160000:A+200', '162000:UP+200'])
 if options.forge_vehicle_check:
     # Original Sandbox scenario vehicle palette starts with the stock Banshee.
     # Captures must establish actual category, placement and entry outcomes.
@@ -299,6 +321,8 @@ if options.diagnostic_no_vsync:
 capture = options.capture
 duration = options.seconds
 if capture:
+    if list(RUN.glob('proof-loaded*.png')):
+        raise RuntimeError('Capture destination already contains evidence from another run')
     args += [f'--halo3mp_capture_guest_output_path={RUN / "proof-loaded.png"}']
     if not options.capture_times_ms:
         args += [f'--halo3mp_capture_guest_output_after_ms={(duration - 15) * 1000}']
@@ -329,6 +353,8 @@ def log(event, **values):
 
 
 expected_map = GAME / 'maps' / (options.slot + '.map')
+if options.dlc_map and options.dlc_payload:
+    expected_map = options.dlc_payload.resolve(strict=True) / (options.dlc_map + '.map')
 if options.dlc_map and options.dlc_installed_root:
     matches = list(options.dlc_installed_root.rglob(options.dlc_map + '.map'))
     if len(matches) != 1:
@@ -725,6 +751,11 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name == 'forge_object_radius':
+                            table = struct.unpack('>I', read(rdx+0x827f0f8c,4))[0]
+                            datum = record['argument']
+                            entry = read(rdx+table+(datum&65535)*8,8)
+                            extra.update(datum=hex(datum),tag_table=hex(table),entry=entry.hex())
                         if name == 'cache_path_resolve':
                             extra['path'] = read(rdx + record['argument'], 256).split(b'\0')[0].decode('ascii', errors='replace')
                         if name == 'mapinfo_register':

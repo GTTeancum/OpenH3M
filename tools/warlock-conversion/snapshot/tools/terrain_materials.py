@@ -67,6 +67,16 @@ class DiscMaterialImporter:
                 raise ValueError('Nondefault MCC-only hologram options require separate conversion')
             variant = '_' + '_'.join(str(value) for value in source_options[:7])
             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+        reach_grid = (group == 'rmhg' and s.name(datum & 65535) ==
+                      r'objects\levels\forge\ff_grid_object\shaders\ff_grid_object_depth')
+        if reach_grid:
+            if variant != '_2_10_1_0_0_2_0':
+                raise ValueError('Reach grid template changed; re-audit required')
+            # Original source rmdf: option 10 is multilayer four-change-color.
+            # Cold Storage option 8 retains the layers, depth and overlay maps,
+            # with an explicit color constant instead of the MCC color binding.
+            fallback = variant = '_2_8_1_0_0_2_0'
+            template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
         if variant not in donors:
             # Exact native shader variants are safe to discover by name; the
             # parameter/layout checks below still validate the actual binding.
@@ -125,7 +135,10 @@ class DiscMaterialImporter:
                     promote_layer_count = True
                 elif source_names != target_names:
                     omitted = set(source_names) - set(target_names)
-                    if fallback and offset == 72:
+                    if reach_grid and offset == 72 and [n for n in target_names if n != 'self_illum_color'] == source_names:
+                        float_indices = [source_names.index(n) if n in source_names else -1 for n in target_names]
+                        float_defaults = {j: 1.0 for j,n in enumerate(target_names) if n == 'self_illum_color'}
+                    elif fallback and offset == 72:
                         missing = set(target_names) - set(source_names)
                         allowed = ('diffuse_coefficient_m_', 'specular_coefficient_m_', 'specular_power_m_',
                                    'specular_tint_m_', 'fresnel_curve_steepness_m_', 'area_specular_contribution_m_',
@@ -267,7 +280,7 @@ class DiscMaterialImporter:
             if fallback:
                 count, pointer = struct.unpack_from('>II', payload, 16)
                 target_options = [int(v) for v in variant.split('_')[1:]]
-                if count != len(target_options):raise ValueError('Terrain fallback option count')
+                if count != len(target_options) and not (reach_grid and count == 9 and len(target_options) == 7):raise ValueError('Terrain fallback option count')
                 for n,value in enumerate(target_options):b.put(pointer+n*2,'h',value)
             if group == 'rmhg':
                 struct.pack_into('>I', payload, 16, 7)  # Two default MCC-only categories have no retail counterpart.

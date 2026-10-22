@@ -73,14 +73,15 @@ def convert_vertices(payload, count, fmt, stride):
         if unit:
             return raw.reshape(count, stride // unit, unit)[:, :, ::-1].tobytes(), stride
         if fmt == 9:
-            # MCC stores one float; retail stores an unsigned-normalized byte
-            # in a four-byte vertex slot (remaining components are padding).
+            # MCC stores one float per vertex. Retail packs four consecutive
+            # per-vertex bytes into each advertised four-byte buffer element.
+            # See VertexStreamXbox.ReadAmbientPrtData and the original Sandbox
+            # buffers: descriptor Count is ceil(primary vertex count / 4).
             values = np.frombuffer(payload, dtype='<f4')
             if not np.all(np.isfinite(values)) or np.any((values < 0) | (values > 1)):
                 raise ValueError('Ambient PRT coefficient outside normalized range')
-            out = np.zeros((count, 4), dtype=np.uint8)
-            out[:, 0] = np.rint(values * 255).astype(np.uint8)
-            return out.tobytes(), 4
+            out = np.rint(values * 255).astype(np.uint8).tobytes()
+            return out + bytes((-len(out)) % 4), 4
         if fmt in (6, 10):
             # StaticPerVertexColor (6) contains five packed colour-coefficient
             # vectors, not five floats. Like LinearPRT (10), each MCC vector

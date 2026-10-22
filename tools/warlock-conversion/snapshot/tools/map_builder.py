@@ -9,7 +9,10 @@ class MapBuilder:
   self.cache=Cache(path);self.original=self.cache.data[:];self.reserve=reserve
   assert reserve%0x10000==0
   self.base=self.cache.base-reserve;self.meta=bytearray(reserve)+bytearray(self.original[self.cache.start:self.cache.start+self.cache.u(0x490)])
-  self.used=0;self.raw=bytearray();self.debug=bytearray();self.header_updates={}
+  self.used=0;self.raw=bytearray();self.debug=bytearray();self.locale=bytearray();self.header_updates={}
+ def append_locale(self,payload):
+  self.locale.extend(bytes((-len(self.locale))%4096));at=len(self.locale);self.locale.extend(payload)
+  return self.cache.u(0x494)+self.cache.u(0x498)+at
  def append_debug(self,payload,align=4):
   self.debug.extend(bytes((-len(self.debug))%align));at=len(self.debug);self.debug.extend(payload)
   return (self.cache.u(0x47c)+self.cache.u(0x480)+at)&0xffffffff
@@ -32,7 +35,9 @@ class MapBuilder:
   if debug_growth:
    if debug_end>((c.u(0x484)+c.u(0x470))&0xffffffff) or debug_end>c.start:raise ValueError('Unsupported overlapping debug section')
    h[debug_end:debug_end]=self.debug
-  out=h+self.raw+self.meta+tail
+  self.locale.extend(bytes((-len(self.locale))%4096))
+  if self.locale and ((c.u(0x494)+c.u(0x478))&0xffffffff)+c.u(0x498)!=len(self.original):raise ValueError('Localization section is not final')
+  out=h+self.raw+self.meta+tail+self.locale
   def put(o,v):struct.pack_into('>I',out,o,v)
   put(8,len(out));put(0x18,c.u(0x18)+self.reserve);put(0x2e8,self.base);put(0x2f0,self.base);put(0x2f4,c.u(0x2f4)+self.reserve)
   put(0x480,c.u(0x480)+debug_growth);put(0x470,c.u(0x470)+debug_growth)
@@ -40,6 +45,7 @@ class MapBuilder:
   # as words. Both the tag and following localization section can move
   # backwards when unused basis resources are compacted away.
   put(0x488,c.u(0x488)+growth);put(0x474,(c.u(0x474)+growth+debug_growth)&0xffffffff);put(0x490,c.u(0x490)+self.reserve);put(0x478,(c.u(0x478)+growth+self.reserve+debug_growth)&0xffffffff)
+  put(0x498,c.u(0x498)+len(self.locale))
   for at,value in self.header_updates.items():put(at,value)
   assert self.base+c.u(0x18)+self.reserve==0xbfc00000
   put(0x2c4,int(np.bitwise_xor.reduce(np.frombuffer(out,dtype='>u4',offset=0x3000))))

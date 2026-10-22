@@ -1,5 +1,78 @@
 # Forge World / Sandbox conversion
 
+## Reach scenery and texture update, 2026-10-22
+
+The DLC candidate now restores 40 authored Reach architecture entries and their
+English Forge labels; it retains 20 original Halo 3 utility scenery entries.
+The earlier replacement build described below is historical. Current package
+and deployment evidence are maintained in [DLC-BUNDLE.md](DLC-BUNDLE.md).
+Texture filtering changes are documented in [TEXTURE-MIPS.md](TEXTURE-MIPS.md).
+
+For an incremental scenery restoration, run `snapshot/tools/restore_gulch_scenery.py`
+with `--source` pointing to the Workshop map below, `--basis` the accepted original
+Gulch DLC cache, `--xex C:/X360/ISOs/H3M/default.xex`, `--disc C:/X360/ISOs/H3M/maps`,
+and new repository-local `--output` and `--report` paths. The basis hash is pinned
+to prevent adding the palette twice. Apply `restore_authored_mips.py` afterward
+for accepted terrain textures. Full future conversions use the same scenery
+policy and retain supported mip chains during material import.
+
+Scenery restoration preserves existing terrain, collision and divider metadata.
+It does not rebuild either BSP. The two identical static residency manifests
+are updated together. The source has no placed gameplay objects; this restores
+the requested Forge architecture palette, not invented placed structures.
+
+The grid's MCC shader option `ml_add_four_change_color` has no exact original H3
+template. Its identical multilayer parameters are mapped to Cold Storage's
+native `multilayer_additive` template with a neutral white illumination color.
+The geometry, textures and depth behavior are retained; MCC four-change-color
+binding is not available. Other Reach pieces retain their converted materials.
+The grid has not received a separate in-game visual check.
+
+Native capture of Bank 1x1 exposed an overly dark result. The material audit
+also found a generic fallback that omitted authored shader parameters.
+The original-disc template inventory in `work/forge-world/reach-material-template-audit.json`
+found matching native variants for the Reach metal materials. These now retain
+their named base/detail/normal/reflection/emission parameters and source animations.
+The two source no-bump variants use native neutral normal maps with corresponding
+H3 shader combinations. Glass retains its alpha blend, main normal, specular mask
+and reflections, but the available native combination omits its secondary detail
+normal. The source vertical-noise reflection cubemap is preserved as six 64px
+ARGB faces; all six independently decode to the original bytes with TagTool.
+No new shader bytecode or runtime lighting patch is used.
+Restoring those parameters alone did not resolve the dark faces. The confirmed
+lighting cause was padded ambient-PRT coefficients: three inserted zero bytes
+per vertex. Original Sandbox and TagTool establish the packed-byte layout.
+Both the converter and affected older models are now corrected; see TEXTURE-MIPS.md.
+
+### Scenery spawn failure and correction
+
+Native diagnostic 20261022-190247-39736 showed `0xffffffff` reaching object-radius
+lookup 0x822835E0. This was not a mesh/physics crash: imported definitions had
+been appended after the stock simulation-definition table. Encoder 0x82425660
+binary-searches that table using comparator 0x8234D568 (signed 32-bit key minus
+element), so the new datums were missed and decoded as absent.
+
+Stock Sandbox and Cold Storage tables are sorted. `CacheRegistry` now sorts
+the complete live table, validates every entry with that native comparison,
+and enforces the 4095-entry limit imposed by its 12-bit encoded index-plus-one.
+Native run 20261022-191319-12460 received the correct datum `0x900028ec` and
+survived the placement instead of crashing. No engine or protocol patch is used.
+
+`forge_scenery_labels.py` copies the source's actual English text into the
+retail locale format and extends the Forge UI string group. Existing locale
+entries retain their indices; SHA1s and localization section bounds are rebuilt.
+Native capture 20261022-191849-30796 at 135000 ms verifies the readable names and
+visibly reduced terrain grain. That run's later capture missed the watchdog;
+it must not be counted as proof of visible placed geometry.
+
+The large Arena Wall has an authored bounding radius of 7.81425 world units;
+it fills/clips the fixed spawn camera when held. The repeatable visual harness
+therefore defaults to palette row 4, Bank 1x1 (radius 0.866025), with an optional
+`--forge-scenery-index` for targeted checks. The native held-wall capture is
+preserved separately as `work/forge-world/reach-arena-wall-held.png`.
+
+## Earlier replacement milestone
+
 Status (2026-10-22): **Current Forge Gulch milestone complete over Sandbox in the shared installation.**
 Terrain visibility and rock detail are fixed; the user confirmed the divider
 stops an occupied Banshee and closed that check. Monitor pushback was previously
@@ -20,9 +93,13 @@ runs below are historical; current evidence and qualifications are at the end.
 - Source inspection: zero squads, character entries, placed bipeds or scenario
   scripts; two BSPs, one zone with both active. No placed weapons, vehicles,
   equipment or crates. This is the non-AI blank Forge canvas.
-- User excludes custom Forge objects and Reach weapons/vehicles. Use the original
-  Xbox 360 Sandbox Forge palette, its prices, limits and Forge budget. It already
-  supplies the Halo 3 replacements without redundant Reach menu entries.
+- User clarification, 2026-10-22: Forge Gulch retains Reach Forerunner scenery
+  objects. Restore the 40 original Reach architecture entries from this source
+  (39 solid building pieces and the holographic grid), replacing the 44 Sandbox
+  architecture entries. Keep native Halo 3 utility objects, weapons, vehicles
+  and the original total Forge budget. Natural rocks/trees and unrelated custom
+  objects are outside this scenery exception. Earlier stock-palette statements
+  below describe the superseded build, not the current requested policy.
 - Retain authored terrain, water, lighting and environmental effects. Stock H3
   asset policy still applies. Do not raise engine limits, use a separate runtime,
   overwrite original disc maps, or remove collision to obtain a loadable map.

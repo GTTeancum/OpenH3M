@@ -135,7 +135,7 @@ class CacheRegistry:
         self.closed = True
 
     def stage_simulation_definitions(self):
-        """Keep live native definitions in order, then append converted definitions."""
+        """Keep definitions sorted for the original engine's binary-search encoder."""
         schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/plugins/scnr.xml').getroot()
         field = next(x for x in schema if x.get('name') == 'Simulation Definition Table')
         scenario = next(t['offset'] for t in self.cache.tags.values() if t['group'] == 'scnr')
@@ -152,5 +152,26 @@ class CacheRegistry:
                 datum = (salt << 16) | index
                 payload.extend(struct.pack('>I', datum))
                 self.simulation_added.append(datum)
-        if self.simulation_added:
+        values = sorted(set(struct.unpack('>' + 'I' * (len(payload) // 4), payload)))
+        if len(values) > 4095:
+            raise ValueError('Simulation definitions exceed the native 12-bit wire index')
+        # 82425660 searches with 8234D568: signed 32-bit (key - element).
+        # Check that exact comparison, including wraparound, for every entry.
+        for expected, key in enumerate(values):
+            lo, hi = 0, len(values)
+            while lo < hi:
+                mid = (lo + hi) // 2
+                delta = ((key - values[mid] + 0x80000000) & 0xffffffff) - 0x80000000
+                if delta == 0:
+                    break
+                if delta < 0:
+                    hi = mid
+                else:
+                    lo = mid + 1
+            else:
+                raise ValueError(f'Simulation datum {key:08x} fails native binary search')
+            if mid != expected:
+                raise ValueError('Simulation lookup returned the wrong wire index')
+        payload = b''.join(struct.pack('>I', value) for value in values)
+        if payload != original:
             self.builder.put(self.address(at), 'III', len(payload) // 4, self.builder.alloc(payload), 0)

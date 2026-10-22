@@ -55,7 +55,7 @@ class MaterialImporter:
                 self.done[key] = native
                 return native
         rows = s.block(s.tags[tag]['offset'] + 0x60, 0x38)
-        if len(rows) > 1 and all(s.unpack('H', row + 10)[0] == 2 for row in rows):
+        if rows and all(s.unpack('H', row + 10)[0] == 2 for row in rows) and key[1] != r'levels\multi\snowbound\bitmaps\cube_icecave_a_cubemap':
             from encode_bitmap import encode_cubemap_base
             root = bytearray(0xa4)
             struct.pack_into('>H', root, 4, 0x50)
@@ -84,8 +84,8 @@ class MaterialImporter:
             record, control, raw = encode_bitmap_base(self.bitmaps, tag, max_dimension=getattr(self, 'bitmap_size_overrides', {}).get(key[1], 512),
                 resize_blend=getattr(self, 'resize_blend_maps', False) and 'blend' in key[1],
                 zero_blue=key[1] in getattr(self, 'zero_blue_blend_maps', set()),
-                preserve_normal_mips=getattr(self, 'preserve_normal_mips', False),
-                preserve_bc_mips=key[1] in getattr(self, 'preserve_bc_mip_names', set()))
+                preserve_normal_mips=getattr(self, 'preserve_normal_mips', True),
+                preserve_bc_mips=getattr(self, 'preserve_bc_mips', True) or key[1] in getattr(self, 'preserve_bc_mip_names', set()))
         except ValueError as error:
             raise ValueError(f'bitm:{key[1]}: {error}') from error
         owner = self.bitmap_resource(record, control, raw)
@@ -152,6 +152,8 @@ class MaterialImporter:
         sky_template = None
         forge_sky_alias = None
         prisoner_template = False
+        reach_scenery_template = False
+        neutral_bump = False
         disabled_extra_environment = False
         if (getattr(self, 'prisoner_materials', False)
                 and key[1].startswith(r'custom\levels\multiplayer\prisoner\shaders' + '\\')):
@@ -203,6 +205,25 @@ class MaterialImporter:
                 suffix = aliases[suffix]
                 variants[:10] = [int(v) for v in suffix.split('_')[1:]]
             sky_template = source_template.rsplit('\\', 1)[0] + '\\' + suffix
+        if key[1].startswith('objects\\levels\\forge\\shaders\\'):
+            source_template = s.name(s.u(source_post + 12) & 65535)
+            variants = [int(v) for v in source_template.rsplit('\\',1)[-1].split('_')[1:]]
+            if len(variants) != 13 or any(variants[10:]):
+                raise ValueError('Reach scenery has non-default MCC-only shader options')
+            suffix = '_'+'_'.join(map(str,variants[:10]))
+            # Original disc inventory: retain material, reflection and blend
+            # options. Missing no-bump combinations use native neutral normals.
+            aliases = {
+                '_0_0_0_0_2_2_0_0_0_0': '_0_2_0_0_2_2_0_0_0_0',
+                '_7_0_0_1_2_1_0_0_0_0': '_7_1_0_1_2_1_0_0_0_0',
+                '_0_2_0_2_2_2_0_3_0_0': '_0_1_0_2_2_2_0_3_0_0',
+            }
+            if suffix in aliases:
+                neutral_bump = variants[1] == 0
+                suffix = aliases[suffix]
+                variants[:10] = [int(v) for v in suffix.split('_')[1:]]
+            sky_template = source_template.rsplit('\\',1)[0]+'\\'+suffix
+            reach_scenery_template = True
         if sky_template:
             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template)
             target_texture_names, target_constant_names = names
@@ -212,6 +233,10 @@ class MaterialImporter:
             constants = bytearray(b.read(pointer, count * 16))
         imported = []
         for index, name in enumerate(target_texture_names):
+            if neutral_bump and name in ('bump_map','bump_detail_map'):
+                flat = self.target_names['bitm', r'shaders\default_bitmaps\bitmaps\default_vector']
+                struct.pack_into('>I',textures,index*24+12,flat)
+                continue
             source_name = 'base_map' if name == 'alpha_test_map' and name not in texture_names else name
             if source_name not in texture_names:
                 continue
@@ -230,7 +255,7 @@ class MaterialImporter:
                 struct.pack_into('>4f', constants, index * 16, 0., 0., 0., 0.)
         suppressed_specular = []
         implicit_defaults = []
-        if prisoner_template and 'bump_detail_coefficient' in constant_names and 'bump_detail_coefficient' not in target_constant_names:
+        if (prisoner_template or reach_scenery_template) and 'bump_detail_coefficient' in constant_names and 'bump_detail_coefficient' not in target_constant_names and not (reach_scenery_template and variants[1] == 1):
             value = s.unpack('4f', source_constants[constant_names.index('bump_detail_coefficient')])
             if value != (1., 1., 1., 1.):
                 raise ValueError('Non-unit MCC bump-detail strength requires explicit conversion')
@@ -257,7 +282,7 @@ class MaterialImporter:
         converted_animations = 0
         authored_forge_sky = (getattr(self, 'forge_world_sky', False)
                               and '\\sky_halo\\shaders\\' in key[1])
-        if prisoner_template or authored_forge_sky:
+        if prisoner_template or authored_forge_sky or reach_scenery_template:
             # Donor programs are reusable; donor material animations are not.
             output_post[56:104] = bytes(48)
             if s.u(source_post + 92):
@@ -268,17 +293,19 @@ class MaterialImporter:
         b.put(address + 40, 'III', 1, b.alloc(output_post), 0)
         self.done[key] = owner
         self.report.append({'source': key[1], 'retail_template': struct.unpack_from('>I', output_post, 12)[0] & 65535,
-            'approximation': (not prisoner_template or bool(set(texture_names) - set(imported))
+            'approximation': (not (prisoner_template or reach_scenery_template) or bool(set(texture_names) - set(imported))
                               or bool(set(constant_names) - set(target_constant_names) - set(implicit_defaults))),
             'textures_imported': imported,
+            'reach_scenery_native_template': sky_template if reach_scenery_template else None,
+            'neutral_bump': neutral_bump,
             'converted_source_animations': converted_animations,
             'disabled_extra_environment': disabled_extra_environment,
             'implicit_native_defaults': implicit_defaults,
             'forge_sky_alias': forge_sky_alias,
             'native_sky_template': sky_template if not prisoner_template else None,
             'native_sky_donor': sky_donor if sky_template and not prisoner_template else None,
-            'native_material_template': sky_template if prisoner_template else None,
-            'native_material_donor': sky_donor if prisoner_template else None,
+            'native_material_template': sky_template if prisoner_template or reach_scenery_template else None,
+            'native_material_donor': sky_donor if prisoner_template or reach_scenery_template else None,
             'fallback_specular_suppressed': suppressed_specular,
             'unrepresented_textures': sorted(set(texture_names) - set(imported)),
             'unrepresented_constants': sorted(set(constant_names) - set(target_constant_names) - set(implicit_defaults))})

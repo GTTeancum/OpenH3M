@@ -112,7 +112,7 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
   pixels=pixels[mip_size(w,h,fmt):];w=max(1,w//2);h=max(1,h//2)
  if fmt in (0,1,10,11):pixels=expand_argb(pixels,w,h,fmt);fmt=11
  mip_count=1
- if ((preserve_normal_mips and fmt==33) or (preserve_bc_mips and fmt in (14,15,16))) and info['mips']-level>1:
+ if ((preserve_normal_mips and fmt==33) or (preserve_bc_mips and fmt in (14,15,16))) and info['mips']-level>1 and min(w,h)>=32 and not (w&(w-1) or h&(h-1)):
   from xbox_mip_chain import tile_chain
   mip_count=info['mips']-level
   tiled=tile_chain(pixels,w,h,mip_count,fmt)
@@ -134,8 +134,8 @@ def encode_cubemap_base(source, tag, index=0, max_dimension=64):
  info=source.info(tag)[index];c=source.c
  row=c.block(c.tags[tag]['offset']+0x60,0x38)[index]
  w,h,fmt=info['width'],info['height'],info['format']
- if c.unpack('H',row+10)[0]!=2 or w!=h or fmt not in (14,15,16):
-  raise ValueError('Cubemap requires square BC1/BC2/BC3 faces')
+ if c.unpack('H',row+10)[0]!=2 or w!=h or fmt not in (11,14,15,16):
+  raise ValueError('Cubemap requires square ARGB32/BC1/BC2/BC3 faces')
  levels=[];fw,fh=w,h
  for level in range(info['mips']):
   levels.append((fw,fh,mip_size(fw,fh,fmt)));fw=max(1,fw//2);fh=max(1,fh//2)

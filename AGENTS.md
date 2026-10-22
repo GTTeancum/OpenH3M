@@ -13,4 +13,6 @@
 
 - Forge World exception, user 2026-10-21: remove custom Forge objects and replace Reach weapons/vehicles with original Halo 3 assets. Sandbox is the selected replacement slot. The earlier full-custom-palette requirement applies to the previous conversions, not Forge World. Preserve original Xbox 360 budgets and core compatibility.
 
+- Forge Gulch scenery exception, user 2026-10-22: retain the original Reach Forerunner scenery objects in Forge Gulch, including its Forge scenery selection; do not replace those objects with Halo 3 equivalents. This supersedes the blanket stock-Sandbox scenery policy for those objects only. Halo 3 weapons/vehicles and the original Xbox 360 budget/core-compatibility constraints remain binding. Unrelated custom objects are not authorized by this exception.
+
 - DLC clarification, user 2026-10-22: target OpenH3M and RGH/JTAG. Narrow custom-content validation changes are authorized on both targets so the LIVE bundle and custom metadata can load. This supersedes the earlier retail-only/no-authentication-exception constraint for this bundle. Preserve original gameplay, physics, map formats and network semantics. Do not claim retail acceptance or tested system-link compatibility. Keep the four custom identities alongside stock maps.
