@@ -38,6 +38,8 @@ parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
+parser.add_argument('--sample-font-cache', action='store_true',
+                    help='Read bounded original font-cache records at 124 and 128 seconds.')
 parser.add_argument('--powerup-check', action='store_true',
                     help='Extend the Prisoner walk toward the ground-floor camo; inspect capture to assess result.')
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
@@ -95,6 +97,8 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
 if options.trace_allocator:
     FUNCS[0x822c2058] = 'resource_compact'
     FUNCS[0x822c2480] = 'resource_move'
+if options.sample_font_cache:
+    FUNCS[0x82201c50] = 'font_character_insert'
 if options.trace_memory:
     # Retail XEX import ordinals C6 / BA / BD, resolved through its import records.
     FUNCS.update({0x82723fa4: 'memory_statistics', 0x82723b64: 'physical_allocate',
@@ -241,6 +245,9 @@ draw_samples = 0
 guest_memory_base = None
 guest_r13 = None
 observer_sample_time = 0
+font_samples = 0
+font_r13 = None
+font_cache_address = None
 memory_sample_time = 0
 sampled_vertex_addresses = set()
 draw_stream = (RUN / 'draw-registers.bin').open('wb') if options.sample_draws else None
@@ -372,6 +379,14 @@ try:
     check(kill_on_exit(False))
     while time.monotonic() - started < duration:
         now = time.monotonic()
+        if (options.sample_font_cache and guest_memory_base and font_r13
+                and font_samples < 2 and now-started >= 124+font_samples*4):
+            font_samples += 1
+            try:
+                from font_cache_probe import snapshot
+                log('font_cache', **snapshot(read, guest_memory_base, font_r13, font_cache_address))
+            except (OSError, ValueError) as error:
+                log('font_cache_error', detail=str(error))
         if options.trace_memory and guest_memory_base and now-started >= 105 and now-memory_sample_time >= 5:
             memory_sample_time = now
             counts = {}
@@ -567,6 +582,12 @@ try:
                         guest_memory_base = rdx
                         guest_r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
                         guest, name = entries[address]
+                        if name == 'font_character_insert':
+                            font_tls = struct.unpack('>I', read(rdx+guest_r13, 4))[0]
+                            font_address = struct.unpack('>I', read(rdx+font_tls+0xf4, 4))[0]
+                            if font_address:
+                                font_r13 = guest_r13
+                                font_cache_address = font_address
                         regs = struct.unpack('<7Q', read(rcx, 56))
                         return_address = struct.unpack('<Q', read(rsp, 8))[0]
                         record = {'name': name, 'guest': hex(guest), 'ctx': rcx,

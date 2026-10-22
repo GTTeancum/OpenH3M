@@ -1145,3 +1145,47 @@ Reproduce Gulch with the normal shared installation; append
 `--capture --capture-times-ms 124000 --seconds 135` and the existing shared cache.
 Player/vehicle containment is still unverified: this check opens the creation
 palette only and does not spawn or drive a vehicle.
+
+### Font-cache investigation and limits of the menu comparison
+
+The serialized localization tail is identical between stock Sandbox and current
+Gulch: 1,208,320 bytes, SHA256
+`ee6c03113d078122c90be2cd8bb0946a1324adf5b0189d8345c46f058b567d56`.
+All 33 original `unic` tag roots (80 bytes each) are also unchanged. This rules
+out changed localized string content in those sections, not other runtime causes.
+
+A later Gulch run `20261021-202057-26640` rendered the complete Forge palette at
+129000 ms. Another run `20261021-202345-22260` had the same missing glyphs at both
+124000 and 129000 ms. Thus the issue is intermittent across runs; it is not
+proven to resolve simply by waiting, and the earlier stock comparison does not
+prove deterministic conversion corruption. Neither run is a fix.
+
+Original XEX code identifies the font cache at TLS+0xF4, with an LRU heap at
+cache+0xC and packed character arena at cache+0x10. Functions 0x82201C50,
+0x82201EC0 and 0x822C2058 establish the 24-byte nodes, shifted offsets, character
+header and empty/unavailable-character behavior. The related Halo Online
+reference was used only for orientation, not addresses or Xbox layout:
+https://github.com/twist84/ManagedDonkey/blob/main/game/source/text/font_cache.cpp
+
+`font_cache_probe.py` bounds reads, detects cycles/oversized payloads and reports
+character keys, metrics, packed-pixel hashes and hardware-block records. Four
+synthetic parser tests cover user-virtual storage, empty characters, cycles,
+allocation truncation and null pointers. Initial runtime attempts used the loader
+thread's TLS and returned a null font-cache pointer; they produced no character
+measurements and must not be treated as evidence about glyph contents. The
+harness now captures a separate TLS context at original character insertion.
+
+Character-insertion probe run `20261021-202645-30136` completed its 135-second
+watchdog. The 124-second snapshot read 329 character records; none had an empty
+packed payload. Font 1 characters #, $, 7, D, J, f and u all had nonempty metrics,
+packed bytes and assigned hardware-block records. The 129-second capture still
+shows missing J/D/#/$ and some numeric 8s, while f/u/7 are visible. This points
+toward upload/drawing state; it does not prove a specific GPU-cache defect because
+the snapshot and image are five seconds apart and CPU bytes have not yet been
+compared with actual GPU atlas contents.
+
+The second snapshot found TLS+F4 null after a later insertion callback. To avoid
+following a different thread context, the harness now retains the last nonnull
+cache address observed at insertion, separately from the general loader context.
+This final address-retention change needs native verification on the next run.
+No map, font package, executable or GPU DLL was changed. Four parser tests pass.
