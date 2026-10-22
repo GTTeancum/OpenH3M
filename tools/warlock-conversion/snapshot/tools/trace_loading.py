@@ -797,8 +797,11 @@ try:
                         fault_address=hex(fault), first_chance=False)
                 status = 0x80010001  # Preserve normal exception handling.
         elif code == 5:
-            log('exit', code=struct.unpack_from('<I', event, 16)[0])
+            exit_code = struct.unpack_from('<I', event, 16)[0]
+            log('exit', code=exit_code)
             continue_event(pid, tid, status)
+            if exit_code:
+                raise RuntimeError(f'Game exited with failure 0x{exit_code:08x}')
             break
         check(continue_event(pid, tid, status))
     else:

@@ -1,6 +1,9 @@
 # Four-map DLC test bundle
 
-Status: payload staged; native discovery under test. Not a completed STFS package.
+Status: one unsigned LIVE/STFS test container built and integrity-validated.
+Custom-map discovery, gameplay under DLC identities, and retail acceptance remain
+unverified. User instruction: work in LIVE containers for now; no authentication
+exceptions are authorized by that instruction.
 Console memory certification remains deferred by the user.
 
 ## Reference and existing support
@@ -12,6 +15,48 @@ entries include four map caches (including armory2), three mapinfo files,
 15 preview BLFs and spa.bin. No shared.map. Inventory is read directly from
 the archive with `snapshot/tools/inspect_dlc_reference.py`; no full extraction.
 Private report: `work/dlc/reference-inventory.json`.
+
+Read-only integrity validation is repeatable with `snapshot/tools/verify_dlc_stfs.py`
+and `--report work/dlc/reference-integrity.json`. It streams the ZIP without
+extracting another package copy. The Heroic reference passes header SHA1,
+123,961 data-block hashes, and 736 hash tables across three levels. Its header
+hash includes padding through the aligned 0xB000 boundary, not just the declared
+0xAD0E bytes. An in-memory one-byte corruption of data block 0 is rejected;
+the source ZIP stays unchanged. This tool verifies hash integrity only, not
+RSA signatures, licensing, directory semantics, or retail acceptance. It supports
+single-backing read-only STFS; other layouts are rejected explicitly.
+
+## LIVE container checkpoint (2026-10-22)
+
+Output: `work/dlc/bundle/OpenH3M-Custom-Maps-Test.live` (586,035,200 bytes,
+558.89 MiB). One container contains four maps and their four mapinfo files.
+No shared.map, duplicate game installation, or extracted reference copy is added.
+The new LIVE header identifies Halo 3 (4D5307E6), marketplace content type 2,
+and explicitly names the package as a test. Its signature field is zero;
+it does not reuse or claim the reference's Microsoft signature.
+
+Build from the existing payload, using a new output path only after reviewing
+the old artifact (the builder refuses overwrites):
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/build_dlc_live.py --payload work/dlc/payload --output work/dlc/bundle/OpenH3M-Custom-Maps-Test.live --report work/dlc/bundle-manifest.json
+python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/OpenH3M-Custom-Maps-Test.live --payload work/dlc/payload --report work/dlc/bundle-integrity.json
+```
+
+The verification passes all 142,221 data blocks and 843 hash tables, traverses
+the directory and file allocation chains, checks that no data is missing,
+duplicated or orphaned, and compares every payload byte with the staged files.
+All four cache SHA256 values match the earlier payload manifest. Package SHA256:
+`66979ec810f348d29e99d83db45fc39969244e21598e900f5282df5196275509`.
+Content ID: `6D134288C81D8F6488F48EFA74B0CC914D183ADC`.
+
+This checkpoint is not an installation or gameplay pass. The existing mapinfos
+still have None authentication and stock preview placeholders. There is no spa.bin
+or custom preview BLF in this checkpoint. Do not deploy it as finished retail DLC.
+The total bundle size is disk storage for four maps, not measured simultaneous
+console memory use. Original disc maps and the shared test installation were
+not changed by packaging. Rollback of this checkpoint requires only removing
+the generated bundle and its two reports; the source payload remains reusable.
 
 The current SDK's ContentManager::ListContent enumerates directories beneath
 `user_data_root/0000000000000000/4D5307E6/00000002/`. ContentPackage mounts a
@@ -76,6 +121,54 @@ user=0, device=1, content_type=1 (saved games), flags=0, count=151. Return is 0.
 This does NOT establish rejection of marketplace type 2 or unsigned mapinfo.
 Original XEX import ordinal 0x25c has thunk 0x82723d54, called through
 0x825b5d88. Aggregate enumerator ordinal 0x279 is absent from this XEX.
-Next investigate the game's marketplace discovery path rather than guessing
-at bundle filenames or weakening metadata checks. No host runtime changes have
-been made for DLC. Only the first discovery run captured an image.
+Only the first discovery run captured an image. Absence at that list position
+does not prove global absence: staged metadata currently retains stock map indices.
+
+## Discovery findings and console requirement
+
+User clarification: this DLC must also run on a real Xbox 360. The available
+test console is RGH, but the bundle must meet retail sideloading requirements.
+RGH is test hardware, not permission to bypass requirements. A host-only loader,
+modified game authentication checks, or RGH-only acceptance is not a solution.
+Research and establish the applicable retail custom-DLC sideloading route before
+choosing packaging or changing content checks. No authentication exception is
+authorized. Distinguish console acceptance of a container from Halo 3 acceptance
+of its custom map metadata; both need evidence for the proposed route.
+Console memory certification remains deferred, distinct from loading support.
+
+Initial retail-route research (2026-10-22): the Customs Creators Collective
+[FAQ](https://customscreatorscollective.wordpress.com/faq/) documents retail
+Rock Band 3 customs with specific disc/update requirements. This is evidence
+for that game's custom-content route, not Halo 3 cache acceptance. The
+[PeerPressure project](https://github.com/grimdoomer/Xbox360PeerPressure)
+describes a softmod; physical retail hardware running a softmod is not proof
+of acceptance with original checks intact. No Halo 3 retail route meeting
+the user's requirement has yet been established. Do not treat an unsuccessful
+search as proof that none exists.
+
+Original XEX disassembly in `work/dlc/mapinfo-disassembly.txt` establishes a
+second authentication layer inside the game, separate from the STFS container:
+the mapinfo reader requires an EOF chunk of size 0x111 at 0x821F6A40 and requests
+authentication type 3 at 0x821F6A54 before calling 0x823C3C68. Only successful
+validation reaches level registration at 0x821F6AA8. The staged None-authentication
+mapinfos do not meet this requirement. Changing container packaging alone does
+not resolve this. No custom metadata loader or authentication bypass is implemented.
+
+Host API corrections are saved in
+`halo3mp/patches/rexglue-sdk-enumeration-async-result.patch`:
+
+- Async enumeration wraps the underlying error in FUNCTION_FAILED while retaining
+  its extended HRESULT. Native tracing then advanced from saved games to DLC.
+- Missing content headers now take the directory-metadata fallback instead of
+  interpreting FILE_NOT_FOUND as success and exposing an uninitialized record.
+- Deferred content opening owns its root-name string instead of retaining a
+  view into a guest stack buffer.
+
+The last correction has compiled but has not been runtime-validated. These fixes
+do not establish custom-map discovery, gameplay, or real-console acceptance.
+The test harness now reports nonzero guest process exits as failures.
+
+Before declaring the bundle complete, verify both container handling and in-game
+mapinfo acceptance for the selected console configuration. Keep the four distinct
+map identities and stock maps together; do not substitute replacement-map loading
+as proof of DLC support.
