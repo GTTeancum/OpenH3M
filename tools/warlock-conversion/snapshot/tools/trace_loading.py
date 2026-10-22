@@ -57,6 +57,8 @@ parser.add_argument('--sample-threads', action='store_true',
                     help='Record bounded thread instruction/stack samples near the watchdog')
 parser.add_argument('--sample-world', action='store_true',
                     help='Read bounded gameplay table diagnostics at the first bullet impact.')
+parser.add_argument('--draw-after-seconds', type=int, default=110,
+                    help='Delay bounded GPU draw sampling until the target screen is open.')
 parser.add_argument('--sample-draws', action='store_true',
                     help='Read 1024 native GPU draw states after 110 seconds; no render-state changes.')
 parser.add_argument('--shader-cache-seed', type=Path)
@@ -473,7 +475,7 @@ try:
             if proc.poll() is not None:
                 break
             now = time.monotonic()
-            if options.sample_draws and draw_address and not draw_armed and now - started >= 110:
+            if options.sample_draws and draw_address and not draw_armed and now - started >= options.draw_after_seconds:
                 check(kernel.DebugBreakProcess(ph))
             if (options.sample_on_stall and stall_samples < 3 and now - stall_last_check >= 1
                     and now - started >= (60 if options.manual_input else 105)):
@@ -501,7 +503,7 @@ try:
         elif code == 4:
             thread_ids.discard(tid)
         status = 0x10002  # DBG_CONTINUE
-        if options.sample_draws and draw_address and not draw_armed and time.monotonic() - started >= 110:
+        if options.sample_draws and draw_address and not draw_armed and time.monotonic() - started >= options.draw_after_seconds:
             breakpoint(draw_address)
             draw_armed = True
             log('draw_trace_armed', address=hex(draw_address))

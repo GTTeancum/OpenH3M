@@ -1522,3 +1522,37 @@ this run is NOT menu reproduction or visual acceptance evidence. Physical
 controller values are present in the runtime input log. Do not label this as an
 automated menu pass or conclude that missing glyphs are fixed. GPU-side atlas
 contents and the actual failing menu draw remain unresolved.
+
+
+### Combined automated diagnostic run (2026-10-21)
+
+User requested consolidated diagnostics with process-local automated control,
+not a user-driven session. Run `20261021-215909-18632` combined the Forge palette
+route, startup allocation observation, resource/CPU-font snapshots, 1,024 GPU
+draw register records, bounded thread/stall samples and native capture. The
+new `--draw-after-seconds 130` option schedules draw sampling after palette open.
+All outputs remain local; draw registers are automatically compressed and the
+uncompressed copy removed after readback verification.
+
+The 125000-ms capture was inspected: the correct Weapons palette is open over
+Gulch, with OBJECT, Done, Summary, #, $, and 8 all visible. This is a readable
+menu under consolidated diagnostics, not proof of a fix. No map or executable
+changed. The requested 170000-ms capture is absent, so there is no later visual
+acceptance. The 180-second watchdog ended the child; all eleven tracked hashes
+passed. Two thread reads were partial and one resource snapshot changed during
+reading; these rejected observations are retained explicitly.
+
+Offline inspection of all 1,024 recorded draw states finds no texture fetch
+bound to the sampled CPU font-atlas base 0x03EC6000. Thus these draws do not
+establish GPU font contents. Future draw diagnostics must target the atlas
+binding rather than assume the first N scene draws include the menu. Do not
+repeat the same broad draw sampling. Summary:
+`.local/loading-traces/20261021-215909-18632/combined-diagnostic-summary.json`.
+
+Current-candidate startup statistics match the earlier stock Sandbox baseline:
+489,107,456 physical heap bytes and 51,335,168 unique virtual/XEX bytes. There
+were no observed failed physical allocations. Resource occupancy remains
+230,375,424 bytes. `work/forge-world/guest-memory-current-diagnostics.json`
+preserves incomplete-event/runtime-accounting qualifications; retail 512 MiB
+verification remains false. The diagnostic slowdown means this run is unsuitable
+for performance acceptance.
