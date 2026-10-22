@@ -6,6 +6,7 @@ import shutil
 import struct
 from pathlib import Path
 from cache_reader import Cache
+from build_scenario_checkpoint import resource_salt
 
 MAPS = [('lockout', 'warlock', 'Warlock', 1520),
         ('zanzibar', 'resuscitation', 'Resuscitation', 1030),
@@ -33,6 +34,7 @@ def build(converted, stock, output):
         if map_id in stock_ids:
             raise ValueError(f'Map ID {map_id} already used by stock content')
     output.mkdir(parents=True)
+    salt = resource_salt(stock.parent / 'default.xex')
     report = {'status': 'staged, not runtime validated or signed', 'maps': []}
     for slot, name, title, map_id in MAPS:
         source = converted / (slot + '.map')
@@ -54,6 +56,14 @@ def build(converted, stock, output):
             header = bytearray(stream.read(0x3000))
             fixed(header, 0x18C, 32, name)
             fixed(header, 0x1B0, 256, 'levels\\dlc\\' + name + '\\' + name)
+            # The only changed word outside the header is the scenario map ID.
+            checksum = struct.unpack_from('>I', header, 0x2C4)[0] ^ old_id ^ map_id
+            struct.pack_into('>I', header, 0x2C4, checksum)
+            normalized = bytearray(header)
+            for start, size in ((0x320,4),(0x328,8),(0x330,0x13c),(0x1c,0x100),
+                                (0x144,8),(0x16c,0x20),(0x49c,0x10)):
+                normalized[start:start+size] = bytes(size)
+            header[0x330:0x344] = hashlib.sha1(salt + normalized).digest()
             stream.seek(0)
             stream.write(header)
             stream.seek(scenario_offset + 8)
@@ -73,9 +83,10 @@ def build(converted, stock, output):
         # Reuse existing stock preview initially; replace with native custom captures
         # before release. This remains explicit in the output manifest.
         fixed(info, 0x1044, 256, name)
-        # Changed data cannot retain the stock RSA signature. Native BLF supports
-        # authentication type None; acceptance by this game is a required test.
-        info[0x4D80:] = struct.pack('>4sIHHIB', b'_eof', 17, 1, 1, 0x4D80, 0)
+        # Preserve the retail EOF structure required by the mapinfo reader.
+        # Signature bytes are explicitly zero, NOT a valid RSA signature. The
+        # version-checked custom-content build skips only this mapinfo auth call.
+        info[0x4D80:] = struct.pack('>4sIHHIB', b'_eof', 273, 1, 1, 0x4D80, 3) + bytes(256)
         (output / (name + '.mapinfo')).write_bytes(info)
         with dest.open('rb') as stream:
             digest = hashlib.file_digest(stream, 'sha256').hexdigest()
@@ -83,7 +94,7 @@ def build(converted, stock, output):
                                    original_slot=slot, original_id=old_id,
                                    bytes=dest.stat().st_size,
                                    sha256=digest,
-                                   preview='stock placeholder', authentication='none'))
+                                   preview='stock placeholder', authentication='RSA layout, unsigned zero signature'))
     return report
 
 

@@ -8,9 +8,10 @@ Format per ReXGlue src/system/xex_module.cpp:
       type 0 = variable/ordinal record, type 1 = thunk record; paired by ordinal.
 """
 import struct, os, sys
+from pathlib import Path
 import xexlib
 
-G = r"C:\Programming\GitHub\Halo-3-MP\work\gamedata"
+G = str(Path(__file__).resolve().parents[2] / 'work/gamedata')
 
 
 def load(path):

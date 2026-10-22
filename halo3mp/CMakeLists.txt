@@ -25,6 +25,11 @@ endif()
 
 rexglue_setup_target(halo3mp GPU_PLUGINS xenos)
 
+# The application uses SDK ImGui UI headers directly when sharing its source build.
+if(DEFINED REXGLUE_ROOT AND EXISTS "${REXGLUE_ROOT}/thirdparty/imgui/imgui.h")
+    target_include_directories(halo3mp PRIVATE "${REXGLUE_ROOT}/thirdparty/imgui")
+endif()
+
 if(WIN32)
     target_link_libraries(halo3mp PRIVATE windowscodecs ole32)
 endif()

@@ -24,11 +24,21 @@ from build_scenario_checkpoint import output_path
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--project', type=Path, required=True)
 parser.add_argument('--exe', type=Path, required=True)
+parser.add_argument('--expected-exe-sha256', default='ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406',
+                    help='Explicit pinned SHA256 for a newly rebuilt executable; mappings are read from its PE.')
 parser.add_argument('--game', type=Path)
 parser.add_argument('--dlc-payload', type=Path,
                     help='Repo-local payload exposed as one installed content bundle via hardlinks.')
+parser.add_argument('--dlc-package', type=Path,
+                    help='Install a repository-local LIVE container using the native installer before this run.')
+parser.add_argument('--dlc-installed-root', type=Path,
+                    help='Reuse a native-installed repository-local content tree through hardlinks.')
+parser.add_argument('--dlc-map', choices=('warlock', 'resuscitation', 'prisoner', 'forge_gulch'),
+                    help='Select a distinct DLC entry from the full stock-plus-custom map list.')
 parser.add_argument('--dlc-menu-check', action='store_true',
                     help='Stop the process-local route at the map list for DLC discovery inspection.')
+parser.add_argument('--trace-dlc-paths', action='store_true',
+                    help='Trace native cache path resolution; verbose and slows timing runs.')
 parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
 parser.add_argument('--capture', action='store_true')
 parser.add_argument('--capture-times-ms', help='Comma-separated native guest capture times for bounded route diagnostics.')
@@ -92,7 +102,7 @@ CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
 if options.sample_draws and hashlib.sha256((EXE.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest() != 'c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c':
     raise SystemExit('Draw diagnostic requires the verified GPU plugin.')
-if hashlib.sha256(EXE.read_bytes()).hexdigest() != 'ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406':
+if hashlib.sha256(EXE.read_bytes()).hexdigest() != options.expected_exe_sha256.lower():
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
 if not (GAME / 'maps' / (options.slot + '.map')).is_file():
     raise SystemExit('Missing staged map for selected slot')
@@ -121,9 +131,13 @@ if options.trace_memory:
     # Retail XEX import ordinals C6 / BA / BD, resolved through its import records.
     FUNCS.update({0x82723fa4: 'memory_statistics', 0x82723b64: 'physical_allocate',
                   0x82723b94: 'physical_free'})
-if options.dlc_payload:
+if options.dlc_payload or options.dlc_package or options.dlc_installed_root:
     # Verified original XEX type-1 import record 0x0100025c (xam ordinal 604).
     FUNCS[0x82723d54] = 'content_enumerate'
+    FUNCS[0x821f68e8] = 'mapinfo_read'
+    FUNCS[0x821f6f48] = 'mapinfo_register'
+    if options.trace_dlc_paths:
+        FUNCS[0x82206238] = 'cache_path_resolve'
 kernel = C.WinDLL('kernel32', use_last_error=True)
 
 
@@ -158,6 +172,18 @@ def check(ok):
 
 for name in ('temp', 'profile'):
     (RUN / name).mkdir(parents=True, exist_ok=True)
+if sum(bool(x) for x in (options.dlc_payload, options.dlc_package, options.dlc_installed_root)) > 1:
+    raise SystemExit('Use one DLC installation source per run')
+if options.dlc_installed_root:
+    installed = options.dlc_installed_root.resolve(strict=True)
+    installed.relative_to(REPOSITORY)
+    for source in installed.rglob('*'):
+        if source.is_symlink():
+            raise SystemExit('Installed content must not contain symlinks')
+        if source.is_file():
+            destination = RUN / source.relative_to(installed)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            os.link(source, destination)
 if options.dlc_payload:
     payload = options.dlc_payload.resolve(strict=True)
     payload.relative_to(REPOSITORY)
@@ -190,9 +216,21 @@ if options.slot == 'sandbox':
     # Native capture: four DOWNs reach Rat's Nest; fifth selects Sandbox.
     input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
+if options.dlc_map:
+    if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
+        raise SystemExit('--dlc-map requires DLC content')
+    # Full alphabetic stock-plus-DLC list; native capture establishes Last Resort
+    # as the initial selection, with Forge Gulch between Epitaph and Foundry.
+    # Include Longshore, registered between Last Resort and Narrows. The initial
+    # three-DOWN assumption selected Orbital and was rejected by map validation.
+    direction, steps = {'forge_gulch': ('UP', 7), 'prisoner': ('DOWN', 4),
+                        'resuscitation': ('DOWN', 6), 'warlock': ('DOWN', 13)}[options.dlc_map]
+    input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+    input_steps += [f'{58000 + n * 700}:{direction}+120' for n in range(steps)]
+    input_steps += ['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250']
 if options.dlc_menu_check:
-    if not options.dlc_payload:
-        raise SystemExit('--dlc-menu-check requires --dlc-payload')
+    if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
+        raise SystemExit('--dlc-menu-check requires a DLC payload or package')
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
 if options.forge_boundary_check:
     # Native 20261021-173147 route probe confirms Forge / Sandbox. From the
@@ -233,8 +271,12 @@ args = [str(EXE), f'--game_data_root={GAME}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
-if options.dlc_payload:
+if options.dlc_payload or options.dlc_package or options.dlc_installed_root:
     args += ['--log_level=debug', '--log_max_file_size_mb=5', '--log_max_files=4']
+if options.dlc_package:
+    package = options.dlc_package.resolve(strict=True)
+    package.relative_to(REPOSITORY)
+    args += [f'--halo3mp_install_content={package}']
 if options.manual_input:
     args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
 if options.font_upload_probe:
@@ -275,10 +317,22 @@ def log(event, **values):
         print(json.dumps(record), flush=True)
 
 
-log('input_map', path=str(GAME / 'maps' / (options.slot + '.map')),
-    sha256=hashlib.sha256((GAME / 'maps' / (options.slot + '.map')).read_bytes()).hexdigest(),
-    executable=str(EXE), seconds_limit=duration)
-creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory or options.dlc_payload else 0)
+expected_map = GAME / 'maps' / (options.slot + '.map')
+if options.dlc_map and options.dlc_installed_root:
+    matches = list(options.dlc_installed_root.rglob(options.dlc_map + '.map'))
+    if len(matches) != 1:
+        raise SystemExit('Expected exactly one installed custom map')
+    expected_map = matches[0]
+if options.dlc_map and options.dlc_package:
+    log('input_package', path=str(options.dlc_package), expected_map=options.dlc_map,
+        sha256=hashlib.sha256(options.dlc_package.read_bytes()).hexdigest(),
+        executable=str(EXE), seconds_limit=duration)
+else:
+    log('input_map', path=str(expected_map),
+        sha256=hashlib.sha256(expected_map.read_bytes()).hexdigest(),
+        executable=str(EXE), seconds_limit=duration)
+verified_maps = set()
+creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory or options.dlc_payload or options.dlc_package or options.dlc_installed_root else 0)
 # DEBUG_ONLY_THIS_PROCESS installs observation before any guest startup allocations.
 proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=creation_flags)
 ph = open_process(0x1F0FFF, False, proc.pid)
@@ -427,7 +481,7 @@ def sample_threads():
 
 try:
     # Skip normal startup's numerous lazy-memory first-chance exceptions.
-    if not (options.trace_memory or options.dlc_payload):
+    if not (options.trace_memory or options.dlc_payload or options.dlc_package or options.dlc_installed_root):
         time.sleep(35)
         check(attach(proc.pid))
     attached = True
@@ -660,6 +714,16 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name == 'cache_path_resolve':
+                            extra['path'] = read(rdx + record['argument'], 256).split(b'\0')[0].decode('ascii', errors='replace')
+                        if name == 'mapinfo_register':
+                            try:
+                                level = read(rdx + record['argument'], 0x54)
+                                extra['map_id'] = struct.unpack_from('>I', level, 12)[0]
+                                extra['map_title'] = level[20:84].decode('utf-16-be', errors='replace').split('\0')[0]
+                                extra['content_root'] = read(rdx + (regs[5] & 0xffffffff), 256).split(b'\0')[0].decode('ascii', errors='replace')
+                            except OSError as error:
+                                extra['metadata_read_error'] = str(error)
                         if name in ('physical_allocate', 'physical_free', 'content_enumerate'):
                             extra['guest_arguments'] = [hex(v & 0xffffffff) for v in
                                 (regs[0], *struct.unpack('<5Q', read(rcx+32, 40))) ]
@@ -744,6 +808,7 @@ try:
                                 h = read(rdx + record['argument'], 0x3000)
                                 extra = {'map': h[0x18C:0x1AC].split(b'\0')[0].decode('ascii', 'replace'),
                                          'header_magic': h[:4].hex()}
+                                record['map'] = extra['map']
                             except OSError:
                                 pass
                         if name != 'hash_verify':
@@ -760,6 +825,8 @@ try:
                             extra['accounting_scope'] = 'Physical heap counters only; excludes independent virtual/XEX heaps'
                         if record['name'] == 'header_verify' and result & 0xFF == 0:
                             extra['failure_text'] = guest_string(record['memory'], record['stack'] - 0x120)
+                        if record['name'] == 'header_verify' and result & 0xFF:
+                            verified_maps.add(record.get('map'))
                         if record['name'] == 'hash_verify':
                             hash_counts['passed' if result & 0xFF else 'failed'] += 1
                             if result & 0xFF == 0:
@@ -767,6 +834,9 @@ try:
                                     byte_count=record['bytes'])
                         else:
                             log('return', tid=tid, function=record['name'], result=hex(result), **extra)
+                        if (options.dlc_map and record['name'] == 'header_verify'
+                                and record.get('map') == options.dlc_map and not result & 0xFF):
+                            raise RuntimeError('Selected DLC map failed native header validation')
                     write(address, breakpoints[address])
                     struct.pack_into('<Q', ctx, 248, address)
                     flags = struct.unpack_from('<I', ctx, 68)[0]
@@ -806,6 +876,8 @@ try:
         check(continue_event(pid, tid, status))
     else:
         log('watchdog', seconds_limit=duration)
+    if options.dlc_map and not options.dlc_menu_check and options.dlc_map not in verified_maps:
+        raise RuntimeError('Expected DLC map never passed native header validation; inspect route/logs')
 except Exception as exc:
     log('error', detail=str(exc))
     raise

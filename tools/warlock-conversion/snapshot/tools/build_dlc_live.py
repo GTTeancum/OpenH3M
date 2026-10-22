@@ -118,12 +118,22 @@ def build(payload, output):
         integrity = verify(stream)
     with output.open('rb') as stream:
         package_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
+    # Halo uses the container filename as a mounted device name. A dot here
+    # is consumed by its first-extension stripping, truncating map paths.
+    # Follow the retail reference: an extensionless content-ID filename.
+    content_id = header[0x32C:0x340].hex().upper()
+    canonical = output.with_name(content_id)
+    if canonical != output:
+        if canonical.exists():
+            raise ValueError('Canonical package already exists')
+        output.rename(canonical)
+        output = canonical
     return dict(package=str(output), bytes=total_size, sha256=package_hash,
-                content_id=header[0x32C:0x340].hex().upper(), title_id='4D5307E6',
+                content_id=content_id, title_id='4D5307E6',
                 content_type=2, entries=entries, integrity=integrity,
                 signature='unsigned; zero signature field',
                 runtime_validation='not performed',
-                retail_acceptance='unresolved; this is a container-format test')
+                retail_acceptance='not targeted; OpenH3M and RGH/JTAG only')
 
 
 if __name__ == '__main__':
