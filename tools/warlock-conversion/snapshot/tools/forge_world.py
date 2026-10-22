@@ -26,6 +26,10 @@ def configure(i):
         raise ValueError('Forge World must use one zone with both BSPs always active')
     i.materials.resize_blend_maps = True
     i.materials.preserve_normal_mips = True
+    # Source cliff detail and stock Last Resort cliff detail both have ten
+    # authored levels. Keeping only the base exaggerates high-frequency detail.
+    i.materials.preserve_bc_mip_names = {
+        r'levels\multi\forge_halo\bitmaps\forge_halo_cliff_detail_detail'}
     i.materials.forge_world_sky = True
     i.materials.bitmap_size_overrides = {}
     for index, tag in s.tags.items():

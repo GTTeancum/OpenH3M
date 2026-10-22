@@ -1247,3 +1247,38 @@ fragmentation of this resource pool in the measured Gulch starting scene.
 It does NOT certify total retail 512 MiB usage, all camera regions, vehicle
 loads, or a populated Forge budget. Existing total-backing comparison and this
 pool measurement are separate scopes. No map, runtime or GPU binary changed.
+
+### Fixed rock lines: cliff-detail mip correction (2026-10-21)
+
+The user reports vertical lines fixed on rock faces and suspects detail rather
+than diffuse. Readback of candidate bitmap 10034 confirms that the BC1 base
+payload exactly matches source `forge_halo_cliff_detail_detail` (512 squared),
+but the previous candidate retained only one of its ten authored mip levels.
+Original Last Resort `zan_cliffs_detail_dif` is also 512 squared with ten levels;
+Cold Storage's comparable flood detail textures have eight/ten. The rock
+material's detail transform remains the source-authored (250,250,0,0).
+
+Forge conversion now opts that shared cliff-detail texture into the existing
+native packed BC mip encoder. No diffuse edits, new textures, transform changes
+or detail suppression are applied. `audit_forge_mips.py --include-cliff-detail`
+independently verifies all 274 levels across 29 textures against source bytes,
+using the pinned TagTool decoder. This includes the ten BC1 detail levels;
+the normal-only audit remains the default for older candidates.
+
+New candidate `work/forge-world/sandbox-detail-mips.map` is 138,252,288 bytes
+(32 KiB above the previous map), SHA256
+`f86e6ef34bc418b0aea1c3d7328034a3c57b213bac068f7b47572ed1a9c6d16a`.
+The detail resource grows from 131,072 to 192,512 resident bytes (60 KiB).
+Build verification checks 710 collision trees / 42,237 packed nodes; all 22
+focused Forge tests pass. This repairs a demonstrated sampling discrepancy;
+it does not by itself prove the reported fixed lines are gone.
+
+Native run `20261021-205614-3120` loaded the deployed detail-mip candidate and
+ended at its 140-second watchdog. Both 116000/134000 ms native captures were
+inspected sequentially: expected Gulch terrain, weapon/HUD and the changed
+camera position are visible; cliff detail appears less grainy, and terrain
+remains present after turning/walking. Vertical features remain visible, so
+the user's fixed-line report is still open; these captures do not establish
+that every feature is either authored rock structure or a conversion defect.
+Only the current detail-mip map and previous sky-animation map are retained;
+the older contained candidate is superseded. No engine or GPU changes.

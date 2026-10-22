@@ -1,4 +1,4 @@
-"""Compare serialized Forge normal mip chains with MCC via TagTool's decoder."""
+"""Compare Forge normal/optional cliff-detail mips using TagTool's decoder."""
 import argparse
 import hashlib
 import json
@@ -12,7 +12,7 @@ from mcc_bitmap_source import BitmapSource
 from resource_reader import Resource
 
 
-def audit(source_path, candidate_path):
+def audit(source_path, candidate_path, include_cliff_detail=False):
     repo = Path(__file__).resolve().parents[4]
     validator = repo/'work/forge-world/tools/mip-validator/Validate.dll'
     temp = repo/'work/forge-world/temp'
@@ -38,17 +38,20 @@ def audit(source_path, candidate_path):
             if tag['group'] != 'bitm':
                 continue
             infos = bitmaps.info(index)
-            if len(infos) != 1 or infos[0]['format'] != 33:
+            detail = include_cliff_detail and source.name(index) == r'levels\multi\forge_halo\bitmaps\forge_halo_cliff_detail_detail'
+            if len(infos) != 1 or (infos[0]['format'] != 33 and not detail):
                 continue
             info = infos[0]
+            bpb = 8 if info['format'] == 14 else 16
             data, offset, hashes = bitmaps.pixels(index), 0, []
             w, h = info['width'], info['height']
             for level in range(info['mips']):
-                length = ((w+3)//4)*((h+3)//4)*16
+                length = ((w+3)//4)*((h+3)//4)*bpb
                 if max(w, h) <= 512:
-                    block = np.frombuffer(data[offset:offset+length], dtype=np.uint8).reshape(-1, 16).astype(np.uint16)
-                    for column in (0, 1, 8, 9):
-                        block[:, column] = (block[:, column]+128) % 256
+                    block = np.frombuffer(data[offset:offset+length], dtype=np.uint8).reshape(-1, bpb).astype(np.uint16)
+                    if info['format'] == 33:
+                        for column in (0, 1, 8, 9):
+                            block[:, column] = (block[:, column]+128) % 256
                     hashes.append(hashlib.sha256(block.astype(np.uint8).tobytes()).hexdigest())
                 offset += length
                 w, h = max(1, w//2), max(1, h//2)
@@ -59,15 +62,24 @@ def audit(source_path, candidate_path):
             if tag['group'] != 'bitm' or candidate.name(index) is not None:
                 continue
             for row, entry in zip(candidate.block(tag['offset']+96, 48), candidate.block(tag['offset']+140, 8)):
-                if candidate.unpack('H', row+12)[0] != 33:
+                fmt = candidate.unpack('H', row+12)[0]
+                if fmt != 33 and not (include_cliff_detail and fmt == 14 and candidate.data[row+20] > 0):
                     continue
                 resource = Resource(candidate, candidate.u(entry), decoded_pages=pages)
                 w, h = resource.unpack('HH', 40)
+                if fmt == 14:
+                    # Other nameless BC1 tags can be native donor imports.
+                    # Select the authored detail by base content, then verify
+                    # every level with the independent decoder below.
+                    from xbox_bitmap import untile_base
+                    base_hash = hashlib.sha256(untile_base(resource.raw[0], w, h, fmt)).hexdigest()
+                    if base_hash not in expected or not expected[base_hash][0].endswith('forge_halo_cliff_detail_detail'):
+                        continue
                 count = resource.data[45]
                 if count <= 1 or count != candidate.data[row+20]+1 or resource.data[47] != 0:
-                    raise ValueError(f'Custom normal {index} does not retain a unified mip chain')
+                    raise ValueError(f'Custom bitmap {index} does not retain a unified mip chain')
                 gpu = resource.unpack('I', 48)[0]
-                if gpu != 0x1a215571:
+                if fmt == 33 and gpu != 0x1a215571:
                     raise ValueError('Non-native normal fetch format')
                 size = resource.unpack('I', 0)[0]
                 payload_path.write_bytes(resource.raw[0][:size])
@@ -82,6 +94,8 @@ def audit(source_path, candidate_path):
                                 'resident_bytes': size, 'sha256_per_mip': hashes})
         if not results:
             raise ValueError('No custom normal mip chains found')
+        if include_cliff_detail and not any(r['source'].endswith('forge_halo_cliff_detail_detail') for r in results):
+            raise ValueError('Cliff detail authored mip chain missing')
         return results
     finally:
         source.close()
@@ -94,7 +108,8 @@ if __name__ == '__main__':
     p.add_argument('--source', required=True)
     p.add_argument('--candidate', required=True)
     p.add_argument('--report', required=True, type=Path)
+    p.add_argument('--include-cliff-detail', action='store_true')
     args = p.parse_args()
-    result = audit(args.source, args.candidate)
+    result = audit(args.source, args.candidate, args.include_cliff_detail)
     args.report.write_text(json.dumps(result, indent=2))
-    print(f'Independent decoder verified {len(result)} normal textures / {sum(r["mips"] for r in result)} mips')
+    print(f'Independent decoder verified {len(result)} textures / {sum(r["mips"] for r in result)} mips')

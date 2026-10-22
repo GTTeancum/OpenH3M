@@ -81,9 +81,9 @@ def mcc_dxn_to_retail(payload):
  return blocks.tobytes()
 
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False):
- """Return retail bitmap record, resource control bytes and tiled base mip.
- By default retain one mip; Forge normal textures retain their authored chain.
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False,preserve_bc_mips=False):
+ """Return retail bitmap record, resource control bytes and tiled payload.
+ Default is one mip; opted-in BC textures retain their authored mip chain.
  """
  info=source.info(tag)[index];fmt=info['format'];w=info['width'];h=info['height']
  if fmt not in SUPPORTED_FORMATS:raise ValueError(f'Format {fmt} needs a dedicated encoder')
@@ -112,7 +112,7 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
   pixels=pixels[mip_size(w,h,fmt):];w=max(1,w//2);h=max(1,h//2)
  if fmt in (0,1,10,11):pixels=expand_argb(pixels,w,h,fmt);fmt=11
  mip_count=1
- if preserve_normal_mips and fmt==33 and info['mips']-level>1:
+ if ((preserve_normal_mips and fmt==33) or (preserve_bc_mips and fmt in (14,15,16))) and info['mips']-level>1:
   from xbox_mip_chain import tile_chain
   mip_count=info['mips']-level
   tiled=tile_chain(pixels,w,h,mip_count,fmt)
