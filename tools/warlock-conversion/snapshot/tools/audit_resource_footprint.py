@@ -35,6 +35,7 @@ def inspect(path):
         control = 0
         owners = {}
         resource_pages = {}
+        resource_required_pages = {}
         for index, resource in enumerate(resources):
             control += cache.u(resource + 24)
             location = cache.unpack('h', resource + 34)[0]
@@ -57,6 +58,8 @@ def inspect(path):
                 column[key] = value
                 owners.setdefault(key, set()).add(index)
                 resource_pages.setdefault(index, {})[key] = value
+                if column is required:
+                    resource_required_pages.setdefault(index, {})[key] = value
 
         def totals(collection):
             return {'pages': len(collection),
@@ -65,6 +68,9 @@ def inspect(path):
                     'shared_uncompressed_bytes': sum(v[0] for v in collection.values() if v[2])}
 
         manifests = []
+        required_manifest_pages = {}
+        required_manifest_base_pages = {}
+        streamed_manifest_pages = {}
         schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/plugins/zone.xml').getroot()
         for field in schema:
             if field.tag != 'tagblock' or 'Manifest' not in field.get('name', ''):
@@ -85,6 +91,12 @@ def inspect(path):
                     selected_pages = {}
                     for index in selected:
                         selected_pages.update(resource_pages.get(index, {}))
+                    if label == 'Required Resource Bits':
+                        required_manifest_pages.update(selected_pages)
+                        for index in selected:
+                            required_manifest_base_pages.update(resource_required_pages.get(index, {}))
+                    elif label == 'Streamed Resource Bits':
+                        streamed_manifest_pages.update(selected_pages)
                     masks[label] = {'resources': len(selected),
                                     'required_and_optional_page_inventory': totals(selected_pages)}
                 manifests.append({'name': field.get('name'), 'index': ordinal, 'resource_sets': masks})
@@ -99,6 +111,10 @@ def inspect(path):
                 'resource_control_bytes': control, 'required_pages': totals(required),
                 'optional_pages': totals(optional), 'all_referenced_pages': totals(union),
                 'manifests': manifests,
+                'all_manifest_required_page_union': totals(required_manifest_pages),
+                'all_manifest_required_base_page_union': totals(required_manifest_base_pages),
+                'all_manifest_streamed_page_union': totals(streamed_manifest_pages),
+                'manifest_union_scope': 'Deduplicated across every manifest, including alternatives; includes required and optional physical pages of selected resources. Not simultaneous residency.',
                 'largest_pages': [{'source': key[0], 'block': key[1], 'uncompressed_bytes': union[key][0],
                                    'owners': [{'index': i, 'owner_datum': hex(cache.u(resources[i] + 12)),
                                                'group': cache.tags.get(cache.u(resources[i] + 12) & 65535, {}).get('group'),

@@ -1,13 +1,17 @@
 # Forge World / Sandbox conversion
 
-Status (2026-10-21): **Forge Gulch loads over Sandbox; the disappearing terrain
-is fixed and verified in native captures before and after turning/walking.**
-Rock shading, player/vehicle/Forge containment and whole-console memory acceptance
-remain open. This is not a completed port. The shared installation contains
-`sandbox-sky-animation.map` (138,219,520 bytes; 131.8 MiB), SHA256
-`eac15748ad6057fbccdab6d57c42b059ea1aa7482b442124932432d05c9dcb41`.
-Original disc maps and the other conversions remain intact. Earlier failed runs
-below are historical; the latest native result is recorded at the end.
+Status (2026-10-22): **Forge Gulch runs over Sandbox in the shared installation.**
+Terrain visibility and rock detail are fixed; the user confirmed the divider
+stops an occupied Banshee and closed that check. Monitor pushback was previously
+verified. Three requested automated Forge-menu checks show complete text; the
+historical missing-glyph issue is retained as a monitored regression.
+
+Deployed candidate: `sandbox-hard-divider.map`, 138,272,768 bytes (131.867 MiB),
+SHA256 `4656e4e708832f8ba876a7a7d16ae4750c5b09b73d4289379893db740746f339`.
+The detail-mip candidate is the single rollback. Original disc maps and other
+conversions remain intact. **Whole-console Xbox 360 memory acceptance remains
+unverified; this is not yet a completed budget-certified port.** Earlier failed
+runs below are historical; current evidence and qualifications are at the end.
 
 ## Source and authorized scope
 
@@ -1590,3 +1594,35 @@ runs, including the earlier lighter harness settings. No rendering fix was
 introduced, so causation remains unknown. Stop repeating this menu checkpoint
 without new evidence of failure; preserve the historical issue as a monitored
 regression. These captures do not certify whole-console memory or performance.
+
+
+### Required versus optional resource demand (2026-10-22)
+
+Extended the existing offline footprint audit to union resource-page identities
+across every manifest. This deduplicates overlap between global/static/dynamic
+BSP manifests and separates required physical pages from optional physical pages
+of resources selected by required bitsets. Alternative manifests are included,
+so this remains a conservative inventory, not a simultaneous-residency claim.
+No assets, gameplay limits or runtime allocations were changed; no game rerun.
+
+| Map | Required-selected resources, required physical pages | Same resources including optional pages | Streamed-selected page union |
+| --- | ---: | ---: | ---: |
+| Current Gulch | 219.428 MiB | 329.506 MiB | 131.379 MiB |
+| Original Sandbox | 139.696 MiB | 274.943 MiB | 139.357 MiB |
+| Original Avalanche | 171.583 MiB | 303.952 MiB | 144.865 MiB |
+
+Columns overlap and MUST NOT be summed. Gulch's 219.428 MiB required-page
+inventory is close to the measured 219.703 MiB allocation occupancy, consistent
+with that starting scene holding the required pages plus allocation rounding.
+This is evidence against treating the entire 460.885 MiB reference inventory
+as required simultaneous residency. It is not proof of page-by-page residency.
+The 110.078 MiB difference to the second column is optional physical-page demand,
+not an additional mandatory allocation. The current 105.457 MiB free resource
+extent does not accommodate every such page at once; native streaming/eviction
+behavior remains relevant. Do not remove authored content or raise the pool to
+force that conservative inventory resident.
+
+The whole-console gate still needs retail memory accounting: PC physical/virtual
+heap statistics have known placeholders and independent backing. Neither the
+near match above nor a successful PC run is a substitute for that gate. Current
+static results are in `work/forge-world/current-resource-footprint.json`.
