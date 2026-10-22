@@ -1474,3 +1474,51 @@ The deployed candidate remains `sandbox-hard-divider.map` with the hash above.
 The rock lines are also human-confirmed fixed. Move on to the remaining menu
 rendering issue and whole-console memory accounting. Do not interpret this
 acceptance as an exhaustive survey of every boundary or worst-case Forge load.
+
+
+### Current candidate budget checkpoint after divider acceptance
+
+Refreshed `work/forge-world/current-resource-footprint.json` against original
+Sandbox and Avalanche. Current file size is 138,272,768 bytes (131.867 MiB),
+tag allocation 31,588,352 bytes (30.125 MiB, exactly 12 MiB above Sandbox), and
+all referenced uncompressed pages 483,273,176 bytes (460.885 MiB). The page
+inventory includes optional/streamed resources and must not be added as if it
+were simultaneous residency. It is not a whole-console memory total.
+
+The accepted user-driven run `20261021-214420-25492` has eleven valid resource
+samples, peak occupied 230,375,424 bytes (219.703 MiB), minimum free 109,727,744
+bytes, and all six final hash checks passing. Thus this flight did not exhaust
+the resource pool. Original Sandbox's previously measured occupancy is
+237,494,272 bytes; these are different workloads, not a worst-case guarantee.
+
+Source inspection reconfirms why the existing whole-memory observer cannot
+certify retail fit: `MmQueryStatistics_entry` in the host SDK supplies placeholder
+kernel/title counters and the host's virtual/XEX heaps have independent backing.
+`xmemory.cpp` also reserves 16 MiB for GPU writeback before title startup.
+Subtracting that reservation alone would be an unjustified console pass. Retain
+`retail_console_budget_verified: false` until accounting includes actual retail
+system overhead and the title's simultaneous allocations. No budgets or engine
+behavior were increased or changed to obtain these numbers.
+
+
+### Font pixel-component diagnostic (2026-10-21)
+
+The read-only font probe now records raw physical-order nibble histograms for
+format-15 (4:4:4:4) glyph rectangles, plus fetch endian and swizzle fields. This
+avoids treating nonzero RGB bytes as proof of nonzero alpha. Five parser tests
+pass, including asymmetric per-component values and native row-pitch handling.
+No image payload is exported by this probe and no engine binary changed.
+
+Run `20261021-215352-10124` completed at 135 seconds with six hash checks passing.
+At 124.078 and 128.078 seconds, the atlas had endian mode 1, swizzle 1546, and
+matching hardware keys. Raw component nonzero pixel counts were identical in
+both samples: J=(38,173,173,173), D=(81,191,191,191), #=(73,220,220,220),
+$=(72,198,198,198), 8=(81,192,192,192). These rule out an entirely zero component
+in those CPU rectangles at the sampled times, not a GPU upload/drawing failure.
+
+The single native capture `proof-loaded.png` was inspected and shows an occupied
+Ghost, terrain and HUD, not the requested Forge creation palette. Accordingly
+this run is NOT menu reproduction or visual acceptance evidence. Physical
+controller values are present in the runtime input log. Do not label this as an
+automated menu pass or conclude that missing glyphs are fixed. GPU-side atlas
+contents and the actual failing menu draw remain unresolved.

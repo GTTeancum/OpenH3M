@@ -71,7 +71,9 @@ def snapshot(read, memory, r13, cache_address=None, include_atlas=False):
             base = 0xa0000000 | (fetch[1] & 0x1ffff000)
             atlas = {'texture': hex(texture), 'fetch': [hex(v) for v in fetch],
                      'width': width, 'height': height, 'pitch_pixels': pitch,
-                     'format': fmt, 'tiled': tiled, 'cpu_address': hex(base)}
+                     'format': fmt, 'tiled': tiled, 'cpu_address': hex(base),
+                     'endian_mode': (fetch[1] >> 6) & 3,
+                     'swizzle': (fetch[3] >> 1) & 4095}
             if fmt != 15 or tiled or not 0 < width <= pitch <= 4096 or not 0 < height <= 4096:
                 raise ValueError('Atlas is not the expected bounded linear 16-bit texture')
             if (width, height) != ((fetch[2] & 8191)+1, ((fetch[2] >> 13) & 8191)+1):
@@ -91,6 +93,15 @@ def snapshot(read, memory, r13, cache_address=None, include_atlas=False):
                                       for row in range(glyph_height))
                 character['atlas_cpu_sha256'] = hashlib.sha256(raw_pixels).hexdigest()
                 character['atlas_cpu_nonzero_bytes'] = sum(v != 0 for v in raw_pixels)
+                # Preserve physical byte order: channel interpretation depends
+                # on fetch endian/swizzle. Counts distinguish populated color
+                # from a zero component without guessing which one is alpha.
+                character['atlas_cpu_nibble_histograms'] = [
+                    [sum(((raw_pixels[i] >> shift) & 15) == value
+                         for i in range(byte, len(raw_pixels), 2))
+                     for value in range(16)]
+                    for byte, shift in ((0, 4), (0, 0), (1, 4), (1, 0))]
+
         except (OSError, ValueError) as error:
             atlas = dict(atlas or {}, error=str(error))
     return {'frame': frame, 'cache': hex(cache), 'heap': hex(heap), 'atlas': atlas,

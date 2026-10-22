@@ -53,7 +53,7 @@ class FontCacheProbeTests(unittest.TestCase):
         regions = {
             0x827dc550: struct.pack('>II', 0x41000, 0x42000),
             0x827dc960: struct.pack('>4I2H', 0x10041, 0xabcd0000, 0x7000c, 0xffffffff, 1, 2),
-            0xa0000000: bytes([255]) * (128 * 32 * 2),
+            0xa0000000: bytes([0x10, 0x2f]) * (128 * 32),
         }
         def read(at, size):
             for base, raw in regions.items():
@@ -63,6 +63,9 @@ class FontCacheProbeTests(unittest.TestCase):
         result = snapshot(read, 0, 0x10000, include_atlas=True)
         self.assertNotIn('error', result['atlas'])
         self.assertEqual(result['characters'][0]['atlas_cpu_nonzero_bytes'], 8*6*2)
+        self.assertEqual(result['characters'][0]['atlas_cpu_nibble_histograms'],
+                         [[48 if value == nibble else 0 for value in range(16)]
+                          for nibble in (1, 0, 2, 15)])
 
 
 if __name__ == '__main__':
