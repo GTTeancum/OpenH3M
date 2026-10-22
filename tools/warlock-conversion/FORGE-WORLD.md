@@ -1397,3 +1397,80 @@ the runtime meaning/geometry of the root BSP's subshape families. That is the
 remaining implementation research before inserting a solid divider. No
 unverified boundary patch was deployed, and the current rock-fixed map stays
 installed. No engine, stock vehicle, or gameplay tuning was changed.
+
+### Hard-divider implementation (2026-10-21; occupied vehicle confirmed)
+
+Original `default.xex` SHA256
+`18816c1da58b1371e440741fadab1df8e6e6ecca7c5b81952f2d23ceec797313`
+resolves the physics-key question: at 0x822738B0..0x822738E4, family 1
+extracts bits 16..28 and compares them with the object collision-category
+mapping at 0x82270378. Value 5 skips that comparison. The equivalent gate
+appears at 0x821153C4..0x821153F8. Thus the observed 0..4/5 variants are
+category selectors in these gates, not evidence of five different polygon
+shapes. The family-1 surface lookup at 0x82113F84..0x821140D4 uses the low
+16-bit index. Read-only disassembly is retained locally as
+`reference/native-bsp-shape-filter.txt`.
+
+`forge_gulch_hard_boundary.py` adds 16 two-sided collision triangles along the
+same eight-segment curve, with no material or render-triangle mapping. Existing
+surface and edge indices remain stable. The collision tree is rebuilt and
+overlaid with authored visibility cells as before. The main physics MOPP keeps
+the existing subtree byte-for-byte and adds a conservative branch for the 16
+new surfaces using category 5. Overlapping Z splits cover the BSP's complete
+world-Z bounds, checked against the original MOPP coordinate domain. This
+adds up to 16 narrow-phase candidates per query; runtime cost and containment
+must be measured, not inferred from terminal-key coverage. The existing soft
+divider remains for gentle pushback.
+
+The offline TagTool builder rejected the first attempt due to its empty-leaf
+verifier: it initializes an empty leaf's reference index to UINT_MAX, then
+rejects it as out of range before its explicit empty-leaf check. The local
+compiler now includes hash-pinned builder source with one narrow correction:
+accept count 0/index UINT_MAX together. Other validation stays active. This
+changes the offline converter only, not OpenH3M or the original game. Source
+and diagnostic helper downloads remain ignored and hash-checked; diagnostic
+outputs stay beside the repo-local compiler.
+
+Focused tests cover crossing every divider segment in both directions at
+four elevations, the no-material assignment, old/new MOPP key preservation
+through retail translation, and rejection of uncovered MOPP coordinate bounds.
+Passing these does not prove vehicle/Forge containment, over/under/end escape
+prevention, or visual correctness. The native acceptance run is still required.
+
+Candidate `sandbox-hard-divider.map` is 138,272,768 bytes (20 KiB above the
+rock-fixed candidate), SHA256
+`4656e4e708832f8ba876a7a7d16ae4750c5b09b73d4289379893db740746f339`.
+The serialized audit finds exactly 16 new null-material/unrendered surfaces,
+each with category-5 physics keys, and still 2,152 instance keys. Rebuilt
+collision/visibility contains 65,635 nodes, 24,950 planes and 39,215 leaves.
+`hard-divider-spatial-audit.json` records 31,479 probes / 30,115 non-solid
+cluster checks, with no solid-space or cluster mismatches. All 28 focused
+Forge tests pass. This candidate is staged for native acceptance; the
+rock-fixed candidate remains the rollback.
+
+Native run `20261021-214014-26272` ended normally at the 180-second watchdog
+with all six tracked hash checks passing. Both 160000/169000 ms captures were
+inspected sequentially: occupied boosting Banshee over water, then at/below
+water level. The route descended and ended at (120.94,-80.83,0.67), still
+24.87 units inside the divider. **This is inconclusive for containment**,
+not a pass. Late measured resource occupancy was 230,375,424 bytes, with
+110,579,712 free bytes. The follow-up route turns farther toward +Y, climbs,
+then levels before the coast; it must reach the divider to be accepted.
+Only the hard-divider candidate and the human-confirmed detail-mip rollback
+are retained; the older sky-animation map was removed after a confinement
+check. No additional installation or engine build was created.
+
+
+### Human acceptance of the occupied-vehicle divider (2026-10-21)
+
+The user drove run `20261021-214420-25492` and explicitly confirmed:
+"It stopped the occupied Banshee." The user then closed this part of the task.
+This establishes the requested occupied-Banshee divider behavior; do not repeat
+that acceptance run or describe it as an automated flight. The sampled viewpoint
+approached the Y=-55 segment and stopped alongside it. Both native captures were
+inspected: the later captures show the player on foot, so the occupied-vehicle
+result is attributed to the human's direct observation, not those still images.
+The deployed candidate remains `sandbox-hard-divider.map` with the hash above.
+The rock lines are also human-confirmed fixed. Move on to the remaining menu
+rendering issue and whole-console memory accounting. Do not interpret this
+acceptance as an exhaustive survey of every boundary or worst-case Forge load.

@@ -7,6 +7,7 @@ from forge_visibility_overlay import overlay
 FORMATS=('Q','4f','BBHI','2H','3f2H','2H3h2B','6H','3fHh')
 ARCHIVE_SHA='1862575ec3453aef2dcc9d5ae544db8e6d54fafce1a621e4554c1b58d02175f2'
 DLL_SHA='0080eb49cc22dae4d0854c33db42863539b784776aea2124543fc90c96f68623'
+BUILDER_SHA='9224530adacb18d2258ed725da9de53c7570dfbf331e26b5c2e0be0f1deaf8ab'
 
 
 def read_result(path):
@@ -42,17 +43,51 @@ def compiler(repo,work):
     if hashlib.sha256(dll.read_bytes()).hexdigest()!=DLL_SHA:raise ValueError('Unverified collision builder assembly')
     dotnet=shutil.which('dotnet') or 'C:/Program Files/dotnet/dotnet.exe'
     temporary=repo/'.local/build-temp';temporary.mkdir(parents=True,exist_ok=True)
+    builder_source=work/'reference/CollisionBSPBuilder.cs'
+    if not builder_source.exists():
+        import urllib.request
+        data=urllib.request.urlopen('https://raw.githubusercontent.com/TheGuardians/TagTool/master/TagTool/Geometry/BspCollisionGeometry/Utils/CollisionBSPBuilder.cs',timeout=30).read()
+        if hashlib.sha256(data).hexdigest()!=BUILDER_SHA:raise ValueError('Unverified builder source')
+        builder_source.parent.mkdir(parents=True,exist_ok=True);builder_source.write_bytes(data)
+    if hashlib.sha256(builder_source.read_bytes()).hexdigest()!=BUILDER_SHA:raise ValueError('Builder source hash mismatch')
+    errors=work/'reference/ErrorGeometry.cs'
+    errors_hash='d6b80b663db7702fc70959e915996cdcb40ea3df2781e227433611c0ed921dd8'
+    if not errors.exists():
+        import urllib.request
+        data=urllib.request.urlopen('https://raw.githubusercontent.com/TheGuardians/TagTool/master/TagTool/Geometry/BspCollisionGeometry/Utils/ErrorGeometry.cs',timeout=30).read()
+        if hashlib.sha256(data).hexdigest()!=errors_hash:raise ValueError('Unverified builder diagnostics source')
+        errors.write_bytes(data)
+    if hashlib.sha256(errors.read_bytes()).hexdigest()!=errors_hash:raise ValueError('Builder diagnostics source hash mismatch')
+    # Upstream initializes empty leaves with UINT_MAX, but then rejects that
+    # sentinel in its range check before its explicit empty-leaf check. Allow
+    # precisely the declared empty representation; retain all other checks.
+    original=builder_source.read_text(encoding='utf-8-sig')
+    needle='var leaf = Bsp.Leaves[j];'
+    if original.count(needle)!=1:raise ValueError('Builder empty-leaf patch location changed')
+    fixed=original.replace(needle,needle+'\n                if (leaf.Bsp2dReferenceCount == 0 && leaf.FirstBsp2dReference == uint.MaxValue) continue;')
+    patched=temporary/'CollisionBSPBuilder.cs'
+    if not patched.exists() or patched.read_text()!=fixed:patched.write_text(fixed)
     env=dict(os.environ,TEMP=str(temporary),TMP=str(temporary),DOTNET_CLI_HOME=str(repo/'.local/dotnet'),NUGET_PACKAGES=str(repo/'.local/nuget'),DOTNET_CLI_TELEMETRY_OPTOUT='1',DOTNET_SKIP_FIRST_TIME_EXPERIENCE='1',DOTNET_GENERATE_ASPNET_CERTIFICATE='false')
     source=Path(__file__).parent/'rebuild_collision';out=work/'tools/rebuild';binary=out/'Rebuild.dll'
-    if not binary.exists() or any(p.stat().st_mtime>binary.stat().st_mtime for p in source.iterdir() if p.is_file()):
+    if not binary.exists() or patched.stat().st_mtime>binary.stat().st_mtime or any(p.stat().st_mtime>binary.stat().st_mtime for p in source.iterdir() if p.is_file()):
         with (work/'temp/compiler.log').open('w') as log:
-            subprocess.run([dotnet,'build',str(source/'Rebuild.csproj'),'-o',str(out),'-p:BaseIntermediateOutputPath='+str(temporary/'rebuild')+os.sep,'--nologo'],cwd=repo,env=env,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
+            subprocess.run([dotnet,'build',str(source/'Rebuild.csproj'),'-o',str(out),'-p:PatchedCollisionBuilder='+str(patched),'-p:CollisionBuilderErrors='+str(errors),'-p:BaseIntermediateOutputPath='+str(temporary/'rebuild')+os.sep,'--nologo'],cwd=repo,env=env,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
     return dotnet,binary,tool,env
 
 
 def rebuild(cache,tag,original,payloads,maps,report,required_planes):
     repo=Path(__file__).resolve().parents[4];work=repo/'work/forge-world';temp=work/'temp';temp.mkdir(parents=True,exist_ok=True)
     old=[list(struct.iter_unpack('>'+fmt,data)) for fmt,data in zip(FORMATS,payloads)]
+    # Discard tree-only planes before appending the divider, keeping every
+    # surface's original plane value and orientation.
+    from forge_gulch_hard_boundary import append_surfaces
+    retained=sorted({row[0]&32767 for row in old[5]})
+    compact={index:n for n,index in enumerate(retained)}
+    old[1]=[old[1][index] for index in retained]
+    old[5]=[(compact[row[0]&32767]|(row[0]&32768),*row[1:]) for row in old[5]]
+    divider=append_surfaces(old)
+    maps['hard_boundary']=divider
+    report['hard_boundary']=divider
     ids=sorted({row[0]&32767 for row in old[5]});plane_ids={v:i for i,v in enumerate(ids)}
     source_leaves=cache.block(tag['offset']+0x34,1);source_clusters=[cache.data[r] for r in source_leaves]
     input_path=temp/'collision.input'
@@ -65,7 +100,7 @@ def rebuild(cache,tag,original,payloads,maps,report,required_planes):
             f.write(struct.pack('<I',len(old[j])))
             for row in old[j]:f.write(struct.pack('<'+FORMATS[j],*row))
     signature=hashlib.sha256(input_path.read_bytes()+bytes(source_clusters)+str(original[0]).encode()+str(original[1]).encode())
-    for file in (Path(__file__),Path(__file__).with_name('forge_visibility_overlay.py'),Path(__file__).parent/'rebuild_collision/Program.cs'):
+    for file in (Path(__file__),Path(__file__).with_name('forge_visibility_overlay.py'),Path(__file__).with_name('forge_gulch_hard_boundary.py'),Path(__file__).parent/'rebuild_collision/Program.cs'):
         signature.update(file.read_bytes())
     key=signature.hexdigest();result_path=temp/'collision-overlaid.output';cluster_path=temp/'collision-clusters.bin';manifest=work/'rebuild-cache.json'
     cached=json.loads(manifest.read_text()) if manifest.exists() else {}

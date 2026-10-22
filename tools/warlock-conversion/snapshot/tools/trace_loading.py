@@ -186,7 +186,10 @@ if options.forge_vehicle_check:
                         '127000:A+200', '129000:A+200', '131000:UP+200',
                         '133000:LSUP+3000', '139000:RB+1800'])
     if options.vehicle_boundary_flight:
-        input_steps.extend(['142000:RSLEFT+500', '143000:LSUP+35000', '143000:LT+35000'])
+        # Aim toward +Y and climb before leveling over the coast. The earlier
+        # 500-ms turn relied on a cliff deflection and could dive into water.
+        input_steps.extend(['142000:RSLEFT+1600', '142000:RSUP+600',
+                            '150000:RSDOWN+600', '143000:LSUP+35000', '143000:LT+35000'])
     else:
         input_steps.append('145000:LSUP+10000')
 if options.walk_check:

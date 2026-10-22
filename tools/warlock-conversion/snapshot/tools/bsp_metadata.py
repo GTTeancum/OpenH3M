@@ -56,6 +56,11 @@ def convert_bsp_root(converter, at, schema, target, path):
                                for v in struct.iter_unpack('<' + source_fmt, data))
         except struct.error as exc:
             raise ValueError('BSP surface mapping exceeds retail limits') from exc
+        divider = partition[1].get('hard_boundary') if partition else None
+        if divider and src in (0, 24):
+            added = divider['surface_count' if src == 0 else 'edge_count']
+            payload += (bytes(4) if src == 0 else b'\xff'*4)*added
+            count += added
         struct.pack_into('>III', out, dst, count, converter.builder.alloc(payload), 0)
     if consumed != set(resource.fix):
         raise ValueError('Unconsumed BSP cache-file resource fixups')
@@ -161,6 +166,13 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
             instance_count = converter.source.u(root + 0x1c0)
             transform = lambda code: remap_surfaces(code, partition[1]['surfaces'],
                                                     surface_count, instance_count)
+            divider = partition[1].get('hard_boundary')
+            if divider:
+                from forge_gulch_hard_boundary import extend_mopp
+                original_transform = transform
+                transform = lambda code: extend_mopp(original_transform(code),
+                    converter.source.unpack('4f', at+16),
+                    converter.source.unpack('2f', root+0x50), divider)
         return convert_collision_block(converter, at, schema, target_schema, 'coll:' + path,
                                        mopp_transform=transform)
     if name != 'Clusters':

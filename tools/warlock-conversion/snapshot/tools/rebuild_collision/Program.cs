@@ -25,7 +25,7 @@ class Program {
    if(r.BaseStream.Position!=r.BaseStream.Length)throw new Exception("input trailing bytes");
   }
   Console.WriteLine($"Rebuilding {b.Surfaces.Count} surfaces, {b.Planes.Count} planes");
-  var type=typeof(CollisionGeometry).Assembly.GetType("TagTool.Geometry.BspCollisionGeometry.Utils.CollisionBSPBuilder",true);
+  var type=Assembly.GetExecutingAssembly().GetType("TagTool.Geometry.BspCollisionGeometry.Utils.CollisionBSPBuilder",true);
   var builder=Activator.CreateInstance(type,true);object[] call={b,false};
   if(!(bool)type.GetMethod("generate_bsp").Invoke(builder,call))throw new Exception("builder rejected geometry");
   b=(CollisionGeometry)call[0];
