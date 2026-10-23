@@ -159,6 +159,7 @@ class MaterialImporter:
               for part in ('upper_small', 'upper_big', 'lower_small', 'lower_big')],
         }
         neutral_bump = False
+        neutral_diffuse_specular_mask = False
         disabled_extra_environment = False
         if (getattr(self, 'prisoner_materials', False)
                 and key[1].startswith(r'custom\levels\multiplayer\prisoner\shaders' + '\\')):
@@ -227,6 +228,16 @@ class MaterialImporter:
                 neutral_bump = variants[1] == 0
                 suffix = aliases[suffix]
                 variants[:10] = [int(v) for v in suffix.split('_')[1:]]
+            if (key[1] == r'objects\levels\forge\shaders\for_forge_gen_panel_04_dark_nocc'
+                    and suffix == '_0_2_0_0_2_0_1_0_0_0'):
+                # Stock resupply_capsule has the same bump/detail, lighting and
+                # emission, plus diffuse-alpha specular masking. Its opaque
+                # material does not otherwise consume alpha. A private white
+                # alpha channel gives the source's unmasked specular exactly;
+                # keep RGB and all other users of the source bitmap unchanged.
+                suffix = '_0_2_0_1_2_0_1_0_0_0'
+                variants[3] = 1
+                neutral_diffuse_specular_mask = True
             sky_template = source_template.rsplit('\\',1)[0]+'\\'+suffix
             reach_scenery_template = not forge_environment_template
         if sky_template:
@@ -249,7 +260,15 @@ class MaterialImporter:
             bitmap_datum = s.u(row + 12)
             if bitmap_datum == 0xffffffff:
                 continue
-            struct.pack_into('>I', textures, index * 24 + 12, self.bitmap(bitmap_datum))
+            if neutral_diffuse_specular_mask and name == 'base_map':
+                opaque_key = ('opaque_specular_base', s.name(bitmap_datum & 65535))
+                if opaque_key not in self.done:
+                    self.done[opaque_key] = self.bitmap_resource(*encode_bitmap_base(
+                        self.bitmaps, bitmap_datum & 65535, opaque_alpha=True))
+                bitmap = self.done[opaque_key]
+            else:
+                bitmap = self.bitmap(bitmap_datum)
+            struct.pack_into('>I', textures, index * 24 + 12, bitmap)
             imported.append(source_name)
         for index, name in enumerate(target_constant_names):
             source_name = 'base_map' if name == 'alpha_test_map' and name not in constant_names else name
@@ -304,6 +323,7 @@ class MaterialImporter:
             'reach_scenery_native_template': sky_template if reach_scenery_template else None,
             'forge_environment_native_template': sky_template if forge_environment_template else None,
             'neutral_bump': neutral_bump,
+            'neutral_diffuse_specular_mask': neutral_diffuse_specular_mask,
             'converted_source_animations': converted_animations,
             'disabled_extra_environment': disabled_extra_environment,
             'implicit_native_defaults': implicit_defaults,

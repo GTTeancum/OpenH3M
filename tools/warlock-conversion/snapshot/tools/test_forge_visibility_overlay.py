@@ -16,6 +16,19 @@ def locate(nodes, planes, clusters, point):
 
 
 class VisibilityOverlayTests(unittest.TestCase):
+    def test_authored_solid_region_never_becomes_cluster_255(self):
+        # Rebuilt collision opened a cell spanning an original solid region.
+        # Retail seam traversal requires the original solid child sentinel.
+        refs = (0, 0, 1, 2)
+        nodes, planes, leaves, clusters, _ = overlay(
+            [[0, 0xffffff, 0x800000]], [(1., 0., 0., 0.)], [refs],
+            [[0, -1, -0x80000000]], [(0., 1., 0., 0.)],
+            [[-1, -0x80000000]], [2], ([-1., -1., -1.], [1., 1., 1.]))
+        self.assertEqual(locate(nodes, planes, clusters, (.5, -.5, 0.)), None)
+        self.assertEqual(locate(nodes, planes, clusters, (.5, .5, 0.)), 2)
+        self.assertNotIn(255, clusters)
+        self.assertEqual(leaves, [refs])
+
     def test_oblique_clip_conserves_volume_and_halfspaces(self):
         cube = hull(list(product((-1., 1.), repeat=3)))
         back, front = split(cube, (1., 2., 3., .25))

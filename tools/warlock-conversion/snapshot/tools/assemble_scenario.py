@@ -172,10 +172,14 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
         if len(powerup_adjustments) != 2:
             raise ValueError('Prisoner must have exactly two native powerup placements')
         prepared['arrays']['Equipment'] = count, bytes(payload)
+    island_start = []
+    if getattr(importer, 'forge_partition_side', None) == 'island':
+        from forge_island_spawn import relocate_marker
+        island_start = relocate_marker(importer, prepared, ds)
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved'],
-            'powerup_adjustments': powerup_adjustments}
+            'powerup_adjustments': powerup_adjustments, 'island_start': island_start}
 
 
 def stage_spawn_settings(importer):
@@ -206,6 +210,12 @@ def stage_spawn_settings(importer):
                 payload.extend(bytes(int(df.get('elementSize'), 0)))
             else:
                 payload.extend(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
+        if name == 'Player Starting Locations' and getattr(importer, 'forge_partition_side', None) == 'island':
+            from forge_island_spawn import FACING
+            if len(rows) != 1:
+                raise ValueError('Expected one Forge fallback start')
+            struct.pack_into('>3f', payload, int(field(df, 'Position').get('offset'), 0), *importer.forge_island_start)
+            struct.pack_into('>2f', payload, int(field(df, 'Facing').get('offset'), 0), FACING, 0.)
         arrays[name] = len(rows), bytes(payload)
     stage(importer.builder, {'arrays': arrays, 'unresolved': []}, ds)
     return {name: count for name, (count, _) in arrays.items()}

@@ -91,8 +91,11 @@ def main():
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
     parser.add_argument('--forge-gulch', action='store_true', help='Build the spatially partitioned Forge Gulch candidate over Sandbox')
+    parser.add_argument('--forge-island', action='store_true', help='Build the complementary Forge Island partition over the Sandbox basis')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
     args = parser.parse_args()
+    if args.forge_gulch and args.forge_island:
+        parser.error('Select one Forge partition')
     project = args.project.resolve(strict=True)
     output, report = (output_path(path, project) for path in (args.output, args.report))
     inputs = [path.resolve(strict=True) for path in
@@ -125,15 +128,15 @@ def main():
         state['source_sha256'] = file_hash(args.source)
         source = Cache(str(args.source), True)
         gulch_partition = None
-        if args.forge_gulch and args.slot != 'sandbox':
+        if (args.forge_gulch or args.forge_island) and args.slot != 'sandbox':
             raise ValueError('Forge Gulch requires the Sandbox slot')
         if args.slot == 'sandbox':
             from preflight_collision_budget import inspect
             stage = 'collision_budget_preflight'
             state['collision_budget'] = inspect(source)
-            if args.forge_gulch:
+            if args.forge_gulch or args.forge_island:
                 from partition_forge_collision import prepare
-                _, tables, maps, proof = prepare(source)
+                _, tables, maps, proof = prepare(source, 'island' if args.forge_island else 'gulch')
                 gulch_partition = tables, maps
                 state['gulch_collision'] = proof
                 state['limitations'].append('Development candidate: split containment and native validation pending.')
@@ -144,6 +147,7 @@ def main():
             args.sound_bank, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
         importer.gulch_partition = gulch_partition
+        importer.forge_partition_side = 'island' if args.forge_island else 'gulch'
         from native_assets import NativeAssets
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets
@@ -192,7 +196,7 @@ def main():
             state['multi_bsp_residency'] = finalize_residency(importer)
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
-        if args.forge_gulch:
+        if args.forge_gulch or args.forge_island:
             state['gulch_containment'] = importer.gulch_containment_report
         payload = builder.finish(salt)
         state.update(output_bytes=len(payload), output_sha256=hashlib.sha256(payload).hexdigest())

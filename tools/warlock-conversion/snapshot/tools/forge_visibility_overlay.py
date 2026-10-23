@@ -53,11 +53,19 @@ def overlay(nodes,planes,leaves,cluster_nodes,cluster_planes,cluster_children,so
             left=visibility(old,children[0],back);right=visibility(old,children[1],front)
             # Collapse identical references/cluster, even if produced through
             # different authored cuts. Dead temporary leaves are compacted later.
-            if left&right&0x800000 and clusters[left&0x7fffff]==clusters[right&0x7fffff]:return left
+            if left == right:return left
+            if left != 0xffffff and right != 0xffffff and left&right&0x800000 and clusters[left&0x7fffff]==clusters[right&0x7fffff]:return left
             pi=plane_ids.get(tuple(p))
             if pi is None:pi=len(planes);plane_ids[tuple(p)]=pi;planes.append(tuple(p))
             index=len(output_nodes);output_nodes.append([pi,left,right]);return index
-        return leaf(old,255 if n==-1 else source_clusters[n&0x7fffffff])
+        # Original solid cells have no render cluster. Never turn them into a
+        # nonsolid leaf carrying 255: retail visibility/seam traversal uses the
+        # leaf's byte as an actual cluster index. All 26 stock BSPs have only
+        # valid cluster bytes; solidity is represented by this child sentinel.
+        if n == -1:return 0xffffff
+        cluster = source_clusters[n&0x7fffffff]
+        if cluster == 255:raise ValueError('Authored nonsolid leaf has no render cluster')
+        return leaf(old,cluster)
     def collision(n,cell):
         nonlocal empty_cells
         if n==0xffffff:return n

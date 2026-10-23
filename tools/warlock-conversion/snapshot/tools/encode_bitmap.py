@@ -81,7 +81,7 @@ def mcc_dxn_to_retail(payload):
  return blocks.tobytes()
 
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False,preserve_bc_mips=False):
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False,preserve_bc_mips=False,opaque_alpha=False):
  """Return retail bitmap record, resource control bytes and tiled payload.
  Default is one mip; opted-in BC textures retain their authored mip chain.
  """
@@ -111,6 +111,10 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
    break
   pixels=pixels[mip_size(w,h,fmt):];w=max(1,w//2);h=max(1,h//2)
  if fmt in (0,1,10,11):pixels=expand_argb(pixels,w,h,fmt);fmt=11
+ if opaque_alpha:
+  if fmt!=11:raise ValueError('Opaque-alpha material adapter requires uncompressed color')
+  pixels=bytearray(pixels)
+  pixels[3::4]=bytes([255])*(len(pixels)//4)
  mip_count=1
  if ((preserve_normal_mips and fmt==33) or (preserve_bc_mips and fmt in (14,15,16))) and info['mips']-level>1 and min(w,h)>=32 and not (w&(w-1) or h&(h-1)):
   from xbox_mip_chain import tile_chain

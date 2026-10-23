@@ -19,6 +19,7 @@ SOURCES = {
     'resuscitation': '2898876653/images/resus-large.png',
     'prisoner': '2962955878/images/Prisoner.png',
     'forge_gulch': '3597611181/images/image large.png',
+    'forge_island': '3597611181/images/image large.png',
 }
 # Dimensions measured from every matching Heroic Map Pack preview variant.
 VARIANTS = {'': (463, 152), '_sm': (463, 152), '_clip': (256, 141),
@@ -41,10 +42,12 @@ def blf(jpeg):
     return data + struct.pack('>4sIHHIB', b'_eof', 273, 1, 1, len(data), 2) + hashlib.sha1(data).digest() + bytes(236)
 
 
-def build(workshop, payload):
+def build(workshop, payload, names=None, images=None):
     report = {'authentication': 'native SHA1 EOF; requires custom-content adapter', 'maps': []}
     for name, relative in SOURCES.items():
-        source = workshop / relative
+        if (names is not None and name not in names) or not (payload / (name + '.mapinfo')).exists():
+            continue
+        source = (images or {}).get(name, workshop / relative)
         with Image.open(source) as opened:
             original = opened.convert('RGB')
         files = []
@@ -74,4 +77,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     report = build(args.workshop, args.payload)
     atomic(args.report, (json.dumps(report, indent=2)+'\n').encode())
-    print('Built 20 native map previews for four maps.')
+    print(f"Built {sum(len(row['files']) for row in report['maps'])} native previews for {len(report['maps'])} maps.")

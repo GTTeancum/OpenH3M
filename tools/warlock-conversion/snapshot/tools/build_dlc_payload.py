@@ -12,6 +12,7 @@ MAPS = [('lockout', 'warlock', 'Warlock', 1520),
         ('zanzibar', 'resuscitation', 'Resuscitation', 1030),
         ('chillout', 'prisoner', 'Prisoner', 1600),
         ('sandbox', 'forge_gulch', 'Forge Gulch', 1730)]
+ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Forge Island', 1731)]
 
 
 def fixed(data, offset, length, text, encoding='ascii'):
@@ -22,7 +23,7 @@ def fixed(data, offset, length, text, encoding='ascii'):
     data[offset:offset+length] = value.ljust(length, b'\0')
 
 
-def build(converted, stock, output):
+def build(converted, stock, output, maps=MAPS, sources=None):
     if output.exists():
         raise ValueError('Output exists; review/remove old staging before rebuilding')
     stock_ids = set()
@@ -30,14 +31,14 @@ def build(converted, stock, output):
         data = path.read_bytes()
         if data[0x30:0x34] == b'levl':
             stock_ids.add(struct.unpack_from('>I', data, 0x3C)[0])
-    for _, _, _, map_id in MAPS:
+    for _, _, _, map_id in maps:
         if map_id in stock_ids:
             raise ValueError(f'Map ID {map_id} already used by stock content')
     output.mkdir(parents=True)
     salt = resource_salt(stock.parent / 'default.xex')
     report = {'status': 'staged, not runtime validated or signed', 'maps': []}
-    for slot, name, title, map_id in MAPS:
-        source = converted / (slot + '.map')
+    for slot, name, title, map_id in maps:
+        source = (sources or {}).get(name, converted / ((name if name == 'forge_island' else slot) + '.map'))
         with_source = Cache(source)
         try:
             scenarios = [t for t in with_source.tags.values() if t['group'] == 'scnr']
@@ -104,7 +105,14 @@ if __name__ == '__main__':
     parser.add_argument('--stock', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--report', required=True, type=Path)
+    parser.add_argument('--map', action='append', choices=[row[1] for row in MAPS + ADDITIONAL_MAPS],
+                        help='Stage only named maps; default retains the original four-map workflow')
+    parser.add_argument('--source-map', type=Path, help='Explicit converted source for one selected map')
     args = parser.parse_args()
-    report = build(args.converted, args.stock, args.output)
+    selected = [row for row in MAPS + ADDITIONAL_MAPS if row[1] in args.map] if args.map else MAPS
+    if args.source_map and len(selected) != 1:
+        parser.error('--source-map requires exactly one --map')
+    report = build(args.converted, args.stock, args.output, selected,
+                   {selected[0][1]: args.source_map} if args.source_map else None)
     args.report.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))

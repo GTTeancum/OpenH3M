@@ -6,7 +6,15 @@ from cache_reader import Cache
 
 def verify(cache):
     trees = nodes_checked = 0
+    bsp_leaves_checked = 0
     for index, tag in cache.tags.items():
+        if tag['group'] == 'sbsp' and not cache.mcc:
+            clusters = cache.u(tag['offset'] + 0xb4)
+            for row in cache.block(tag['offset'] + 0x30, 1):
+                cluster = cache.data[row]
+                if cluster >= clusters:
+                    raise ValueError(f'sbsp tag {index:#x}: leaf cluster {cluster} exceeds {clusters} clusters; solid regions must use solid child sentinels')
+                bsp_leaves_checked += 1
         if tag['group'] != 'coll':
             continue
         for region in cache.block(tag['offset'] + 0x20, 16):
@@ -45,7 +53,8 @@ def verify(cache):
                                           ((value >> 40) & 0xffffff, False)))
                     trees += 1
                     nodes_checked += len(nodes)
-    return {'collision_trees': trees, 'packed_nodes': nodes_checked}
+    return {'collision_trees': trees, 'packed_nodes': nodes_checked,
+            'bsp_leaves_checked': bsp_leaves_checked}
 
 
 if __name__ == '__main__':

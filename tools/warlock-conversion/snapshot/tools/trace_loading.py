@@ -33,7 +33,7 @@ parser.add_argument('--dlc-package', type=Path,
                     help='Install a repository-local LIVE container using the native installer before this run.')
 parser.add_argument('--dlc-installed-root', type=Path,
                     help='Reuse a native-installed repository-local content tree through hardlinks.')
-parser.add_argument('--dlc-map', choices=('warlock', 'resuscitation', 'prisoner', 'forge_gulch'),
+parser.add_argument('--dlc-map', choices=('warlock', 'resuscitation', 'prisoner', 'forge_gulch', 'forge_island'),
                     help='Select a distinct DLC entry from the full stock-plus-custom map list.')
 parser.add_argument('--dlc-menu-check', action='store_true',
                     help='Stop the process-local route at the map list for DLC discovery inspection.')
@@ -64,6 +64,8 @@ parser.add_argument('--vehicle-boundary-flight', action='store_true',
                     help='After verified Banshee entry, turn left and boost toward the split; observer samples determine coverage.')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
+parser.add_argument('--trace-bsp-seams', action='store_true',
+                    help='Read native scenario/BSP/cluster seam bindings when diagnosing a visibility fault.')
 parser.add_argument('--font-upload-probe', action='store_true',
                     help='Enable bounded font staging evidence with the diagnostic GPU plugin.')
 parser.add_argument('--sample-font-cache', action='store_true',
@@ -143,6 +145,8 @@ if options.trace_memory:
     # Retail XEX import ordinals C6 / BA / BD, resolved through its import records.
     FUNCS.update({0x82723fa4: 'memory_statistics', 0x82723b64: 'physical_allocate',
                   0x82723b94: 'physical_free'})
+if options.trace_bsp_seams:
+    FUNCS[0x820abe50] = 'bsp_seam_bind'
 if options.dlc_payload or options.dlc_package or options.dlc_installed_root:
     # Verified original XEX type-1 import record 0x0100025c (xam ordinal 604).
     FUNCS[0x82723d54] = 'content_enumerate'
@@ -233,14 +237,29 @@ if options.slot == 'sandbox':
     # Native capture: four DOWNs reach Rat's Nest; fifth selects Sandbox.
     input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
+island_present = False
+if options.dlc_map or options.dlc_preview_tour:
+    # Island sorts immediately after Gulch. Detect its presence instead of
+    # silently selecting the wrong map when testing older four-map bundles.
+    island_present = options.dlc_map == 'forge_island'
+    for directory in (options.dlc_payload, options.dlc_installed_root):
+        if directory and any(directory.rglob('forge_island.mapinfo')):
+            island_present = True
+    if options.dlc_package:
+        # Our flat LIVE layout puts all <=64 directory entries in data block 0.
+        from verify_dlc_stfs import data_block
+        with options.dlc_package.open('rb') as package:
+            package.seek(0x340)
+            base = (struct.unpack('>I', package.read(4))[0] + 4095) & ~4095
+            package.seek(base + data_block(0)*4096)
+            directory = package.read(4096)
+            island_present |= any(directory[n:n+40].split(b'\0')[0] == b'forge_island.mapinfo' for n in range(0,4096,64))
 if options.dlc_map:
     if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
         raise SystemExit('--dlc-map requires DLC content')
-    # Full alphabetic stock-plus-DLC list; native capture establishes Last Resort
-    # as the initial selection, with Forge Gulch between Epitaph and Foundry.
-    # Include Longshore, registered between Last Resort and Narrows. The initial
-    # three-DOWN assumption selected Orbital and was rejected by map validation.
-    direction, steps = {'forge_gulch': ('UP', 7), 'prisoner': ('DOWN', 4),
+    # Verified full alphabetic stock-plus-DLC list starts on Last Resort.
+    # Include Longshore between Last Resort and Narrows.
+    direction, steps = {'forge_gulch': ('UP', 7 + int(island_present)), 'forge_island': ('UP', 7), 'prisoner': ('DOWN', 4),
                         'resuscitation': ('DOWN', 6), 'warlock': ('DOWN', 13)}[options.dlc_map]
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
     if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check:
@@ -256,8 +275,8 @@ if options.dlc_preview_tour:
         raise SystemExit('--dlc-preview-tour requires --dlc-menu-check')
     # Capture at 65000, 85000, 105000, 125000, 145000 ms. First picture
     # checks the signed stock preview; subsequent pictures check custom artwork.
-    input_steps += [f'{70000+n*700}:UP+120' for n in range(7)]
-    input_steps += [f'{90000+n*700}:DOWN+120' for n in range(11)]
+    input_steps += [f'{70000+n*700}:UP+120' for n in range(7 + int(island_present))]
+    input_steps += [f'{90000+n*700}:DOWN+120' for n in range(11 + int(island_present))]
     input_steps += [f'{110000+n*700}:DOWN+120' for n in range(2)]
     input_steps += [f'{130000+n*700}:DOWN+120' for n in range(7)]
 if options.forge_water_check:
@@ -271,7 +290,10 @@ if options.forge_boundary_check:
     # Halo 3's original manual documents LT as monitor thrust. At ordinary
     # speed the 40-second probe travels only ~87 units of the ~184-unit gap.
     input_steps.extend(['118000:UP+200', '120000:RB+8000',
-                        '119900:LT+58100', '130000:LSLEFT+48000'])
+                        '119900:LT+58100',
+                        '130000:LSDOWN+48000' if options.dlc_map == 'forge_island' else '130000:LSLEFT+48000'])
+    # Island starts facing Sanctuary (+Y). Backward flight approaches its
+    # eastern divider while retaining a view of the island behind the player.
 if options.forge_palette_check:
     input_steps.extend(['118000:UP+200', '121000:X+200'])
 if options.forge_scenery_check:
@@ -592,6 +614,8 @@ try:
                 flags = [read(guest_memory_base+ceilings+j*12, 12).hex() for j in range(count)]
                 log('observer_position', position=position, location=data[12:16].hex(),
                     gulch_margin=float(boundary_y(position[0]))-position[1],
+                    selected_partition_margin=(position[1]-float(boundary_y(position[0]))) *
+                        (1 if options.dlc_map == 'forge_island' else -1),
                     forward=struct.unpack_from('>3f', data, 40), observer_bytes=data.hex(),
                     soft_ceiling_records=flags)
             except (OSError, ValueError) as error:
@@ -758,6 +782,31 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if name == 'bsp_seam_bind':
+                            try:
+                                def seam_word(at):
+                                    return struct.unpack('>I', read(rdx+(at & 0xffffffff), 4))[0]
+                                packed = regs[4] & 65535
+                                table = seam_word(0x827f0f8c)
+                                scenario = seam_word(table+(record['argument'] & 65535)*8+4)
+                                bsp_index, cluster_index = packed >> 8, packed & 255
+                                extra.update(packed=hex(packed), scenario=hex(scenario),
+                                             bsp_index=bsp_index, cluster_index=cluster_index)
+                                bsp_count, bsps = seam_word(scenario+20), seam_word(scenario+24)
+                                extra['bsp_count'] = bsp_count
+                                if bsp_index < bsp_count:
+                                    datum = seam_word(bsps+bsp_index*108+12)
+                                    bsp = seam_word(table+(datum & 65535)*8+4)
+                                    count, clusters = seam_word(bsp+180), seam_word(bsp+184)
+                                    extra.update(bsp=hex(bsp), bsp_datum=hex(datum), clusters=hex(clusters), cluster_count=count)
+                                    if cluster_index < count:
+                                        cluster = clusters+cluster_index*220
+                                        count, pointer = seam_word(cluster+160), seam_word(cluster+164)
+                                        extra.update(seam_count=count, seam_pointer=hex(pointer))
+                                        if count < 128:
+                                            extra['seams'] = read(rdx+pointer, count).hex()
+                            except OSError as error:
+                                extra['seam_read_error'] = str(error)
                         if name == 'forge_object_radius':
                             table = struct.unpack('>I', read(rdx+0x827f0f8c,4))[0]
                             datum = record['argument']

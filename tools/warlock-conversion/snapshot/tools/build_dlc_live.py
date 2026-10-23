@@ -78,10 +78,13 @@ def build(payload, output):
         if len(encoded) + 2 > length:
             raise ValueError('Metadata string too long')
         header[offset:offset + length] = encoded.ljust(length, b'\0')
+    titles = [p.read_bytes()[0x44:0x84].decode('utf-16-be').split('\0')[0]
+              for p in files if p.suffix == '.mapinfo']
+    description = ', '.join(titles) + '. Unsigned test package.'
     for locale in range(9):
         text(0x411 + locale * 256, 256, 'OpenH3M Custom Map Bundle - Test')
         text(0xD11 + locale * 256, 256,
-             'Warlock, Resuscitation, Prisoner, Forge Gulch. Unsigned test package.')
+             description)
     text(0x1611, 128, 'Custom map conversion')
     text(0x1691, 128, 'Halo 3')
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -13,14 +13,16 @@ from forge_collision_mesh import read_mesh, surface_loops, positions
 from forge_gulch_boundary import classify_bounds, BOUNDARY
 
 
-def prepare(cache):
+def prepare(cache, side='gulch'):
     """Prepare the Gulch partition while retaining authored BSP seam topology."""
     tag, arrays = read_mesh(cache)
     xyz = positions(arrays)
     loops = surface_loops(arrays)
     mins = np.array([xyz[loop].min(axis=0) for loop in loops])
     maxs = np.array([xyz[loop].max(axis=0) for loop in loops])
-    keep, _ = classify_bounds(mins, maxs)
+    if side not in ('gulch', 'island'):
+        raise ValueError('Unknown Forge partition')
+    keep = classify_bounds(mins, maxs)[side == 'island']
     selected_count = int(keep.sum())
     seam_edges = []
     for seam in cache.block(tag['offset'] + 0x10, 40):
@@ -38,10 +40,12 @@ def prepare(cache):
     if any(edge not in maps['edges'] for edge in seam_edges):
         raise ValueError('Partition lost a shared BSP seam')
     report.update(seam_support_surfaces=int(keep.sum()) - selected_count,
+                  partition_side=side,
                   authored_seam_edges_preserved=len(seam_edges))
-    if report['counts']['planes'] > 32768:
-        from rebuild_forge_collision import rebuild
-        payloads, maps, report = rebuild(cache, tag, arrays, payloads, maps, report, portals)
+    # The rebuild also inserts the solid, two-sided divider. It is required
+    # even when the retained tree already fits the signed plane-index limit.
+    from rebuild_forge_collision import rebuild
+    payloads, maps, report = rebuild(cache, tag, arrays, payloads, maps, report, portals)
     return tag, payloads, maps, report
 
 

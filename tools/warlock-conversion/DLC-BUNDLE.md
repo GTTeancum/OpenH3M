@@ -1,10 +1,10 @@
-# Four-map DLC test bundle
+# Five-map DLC test bundle
 
-Status: updated texture/lighting/scenery bundle activated in the shared installation.
-This revision has native visual checks for Forge Gulch and Warlock; Prisoner and
-Resuscitation received data validation without a fresh gameplay run. Earlier
-four-map gameplay checks below apply to the preceding bundle.
-The shared OpenH3M.exe is deployed; original disc maps remain alongside the DLC.
+Status: Forge Island is activated as the fifth DLC map. Its native Forge run,
+visual captures and monitor containment passed. The other four deployed maps
+are byte-for-byte unchanged from the preceding water-fix bundle. Earlier run
+records below describe their respective historical bundles.
+The shared OpenH3M.exe is unchanged; original disc maps remain alongside the DLC.
 
 Target: OpenH3M and RGH/JTAG. The user authorized narrow custom-content
 validation changes on 2026-10-22. Retail authentication is not a target.
@@ -16,22 +16,23 @@ system-link testing have not been performed; console memory certification is def
 All paths below are relative to this repository, except the authorized shared
 installation `C:/X360/ISOs/H3M` and the read-only reference ZIP.
 
-- LIVE package: `work/dlc/bundle/640BA15753D5DFBAE694AC72F3B999A546706E52`
-- Size: 625,999,872 bytes / 597 MiB, containing four maps, four mapinfos and 20 preview BLFs.
-- SHA256: `123a1b30a14d03288fd4cd2c722f440f5ad87ce6c9f0d0d9997232ea86c8b4c8`
+- LIVE package: `work/dlc/bundle/83666D12FEE8D3234F0010D50214FDFFC3F17E3D`
+- Size: 762,945,536 bytes, containing five maps, five mapinfos and 25 preview BLFs.
+- SHA256: `4c3aed19c8a61e50b8273eb0b61213e591559258e298df2876755324f3a73e43`
 - Installed host content: `work/dlc/installed-current/0000000000000000/4D5307E6/00000002/`
 - Separate RGH/JTAG XEX candidate: `work/gamedata/default.xex`
 - XEX SHA256: `0d73d4ef8544be05a4b08027255fa5ba246286018c1f1b92253113db04726940`
 - Host build: `work/rexglue-sdk/out/win-amd64/halo3mp.exe`
 - Host SHA256: `e3f60b3d3efee1ff244bfa83e3be06112d4220808db6d356020a65fce5a3670c`
-- Current private reports: `work/dlc/final-lighting-{bundle,integrity,activation}.json`.
+- Current private reports: `work/dlc/island-ready-bundle.json` and `work/dlc/island-activation.json`.
 
 | Map | Distinct ID | Cache bytes | Previous replacement |
 | --- | ---: | ---: | --- |
 | Warlock | 1520 | 189644800 | Blackout / lockout |
 | Resuscitation | 1030 | 156770304 | Last Resort / zanzibar |
 | Prisoner | 1600 | 115687424 | Cold Storage / chillout |
-| Forge Gulch | 1730 | 159764480 | Sandbox |
+| Forge Gulch | 1730 | 167149568 | Sandbox |
+| Forge Island | 1731 | 128659456 | Sandbox conversion basis; separate DLC |
 
 The bundle has no duplicate shared.map. All original disc maps remain available.
 Total package size is disk storage, not simultaneous RAM consumption.
@@ -47,10 +48,10 @@ Its single LIVE container is 510,803,968 bytes, title 4D5307E6, marketplace type
 It contains 23 root entries: four caches, three mapinfos, 15 preview BLFs and
 spa.bin. Inventory and hash checks stream the ZIP without extracting its maps.
 
-The current package passes 151,920 data-block hashes and 901 hash tables, directory
+The current package passes 185,157 data-block hashes and 1,098 hash tables, directory
 and chain checks, and byte-for-byte comparison against staged payload files.
-The native SDK STFS reader independently compares all 28 files, 622,222,329
-payload bytes (`work/dlc/final-lighting-native-check.txt`). These are integrity checks,
+The native SDK STFS reader independently compares all 35 files, 758,353,308
+payload bytes (`work/dlc/island-ready-native-stfs.txt`). These are integrity checks,
 not Microsoft signature verification. The LIVE signature is intentionally zero.
 
 Use the extensionless content-ID filename. Halo's resolver 0x822061D0 strips at
@@ -77,7 +78,7 @@ run 20261022-165142-41268 exposed stale header hashes in the first DLC staging.
 The container builder returns its actual extensionless output path in the report.
 
 ```powershell
-python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/640BA15753D5DFBAE694AC72F3B999A546706E52 --payload work/dlc/payload --report work/dlc/final-lighting-integrity.json
+python -B tools/warlock-conversion/snapshot/tools/verify_dlc_stfs.py work/dlc/bundle/83666D12FEE8D3234F0010D50214FDFFC3F17E3D --payload work/dlc/payload --report work/dlc/final-lighting-integrity.json
 ```
 
 For the native check, put `work/rexglue-sdk/out/win-amd64` on PATH, then run
@@ -284,3 +285,22 @@ All 28 package files and native extraction hashes verified. See
 `work/dlc/water-update-native-check.txt` for exact results.
 Waterfall flow was human-confirmed; ocean/shoreline captures inspected. Close-up
 logs remain visually unverified. Revised divider and grid correction are pending.
+
+## Forge Island addition (2026-10-22)
+
+See [FORGE-ISLAND.md](FORGE-ISLAND.md) for the complementary partition, spawn,
+Reach scenery policy, conversion commands, stock-map oracle investigation and
+accepted native run. Build the original four payloads with the default selection,
+then add Island explicitly with `--map forge_island --source-map` and its converted
+cache; the default four-map source directory does not contain Island.
+
+The final run `20261022-220533-12624` passed native Forge loading, inspected visual
+content, resource hashes and monitor containment. Activation at 22:09 on October
+22 verified all 35 payload files and preserved existing map and executable hashes.
+The previous valid bundle 455B40F76DD4B10B8D4D47435C04586AA9D98FB5 is retained
+under `work/dlc/rollback/content`. The active shared bootstrap points directly to
+`work/dlc/installed-current`. No separate launcher or runtime build is required.
+
+Superseded candidate cleanup was rejected by automatic approval review as
+“blocked by policy”; those files remain. The exact list is recorded in
+`work/forge-world/island-cleanup.json`.

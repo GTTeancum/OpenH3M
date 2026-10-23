@@ -20,7 +20,9 @@ def split_vertical_extent(original):
     return min(-40., float(low[2])-4.), max(160., float(high[2])+4.)
 
 
-def triangles(source, root):
+def triangles(source, root, side='gulch'):
+    if side not in ('gulch', 'island'):
+        raise ValueError('Unknown Forge partition')
     ceilings = source.block(root + 16, 20)
     if len(ceilings) != 1 or source.unpack('hh', ceilings[0] + 4) != (0, 0):
         raise ValueError('Expected one acceleration soft ceiling')
@@ -34,13 +36,15 @@ def triangles(source, root):
         # Normal points into Gulch (negative Y), matching the source ceiling's
         # inward-facing convention. Keep both triangles in the existing group.
         for vertices in ((a, c, d), (a, b, c)):
+            if side == 'island':
+                vertices = (vertices[0], vertices[2], vertices[1])
             p, q, r = vertices
             normal = np.cross(q-p, r-p)
             normal /= np.linalg.norm(normal)
             center = (p+q+r)/3
             radius = max(np.linalg.norm(v-center) for v in vertices)
-            if normal[1] >= 0:
-                raise ValueError('Boundary triangle faces out of Gulch')
+            if normal[1] * (1 if side == 'gulch' else -1) >= 0:
+                raise ValueError('Boundary triangle faces out of selected partition')
             result.append(tuple(normal) + (float(normal @ p),) + tuple(center)
                           + (float(radius),) + tuple(p) + tuple(q) + tuple(r))
     return result, len(original)
@@ -89,7 +93,7 @@ def compile_mopp(rows):
 
 def apply(importer, source_root, payload):
     """Replace only the design's soft-ceiling table/tree; keep water intact."""
-    rows, original_count = triangles(importer.source, source_root)
+    rows, original_count = triangles(importer.source, source_root, getattr(importer, 'forge_partition_side', 'gulch'))
     compiled = compile_mopp(rows)
     if len(compiled) < 48 or any(struct.unpack_from('<I', compiled, o)[0] for o in (0, 8, 12, 32)):
         raise ValueError('Unexpected compiler header/runtime pointers')
