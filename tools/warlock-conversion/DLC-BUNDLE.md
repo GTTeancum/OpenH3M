@@ -271,3 +271,16 @@ hashes are in `work/dlc/previews-manifest.json`; native visual evidence is in
 The preceding installed package/header is in `work/dlc/rollback/content`, outside
 active discovery; unchanged map files share storage with staging. The older
 cleanup-blocked `work/dlc/installed` directory was not touched.
+
+## Current water update (2026-10-22)
+
+Active LIVE: `455B40F76DD4B10B8D4D47435C04586AA9D98FB5` (633,430,016 bytes),
+SHA256 `622e05ec1f6c9c10764a40932b8175506ba619b6af70f9255b976663d07a426e`.
+Supersedes 640BA157... in installed-current; old content/header are in rollback.
+Only Forge Gulch changed: 167,149,568 bytes,
+SHA256 `f00aaf7e6304c94c85569fc7b5f0f8e185af744aacd140a0810711717933babb`.
+All 28 package files and native extraction hashes verified. See
+`work/dlc/water-update-{bundle,integrity,activation}.json` and
+`work/dlc/water-update-native-check.txt` for exact results.
+Waterfall flow was human-confirmed; ocean/shoreline captures inspected. Close-up
+logs remain visually unverified. Revised divider and grid correction are pending.

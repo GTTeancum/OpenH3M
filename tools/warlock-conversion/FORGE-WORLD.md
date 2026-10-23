@@ -1881,3 +1881,69 @@ accepted SHA256 values and the saved deterministic font tests pass. No further
 build, gameplay run, or duplicate map installation was needed for closeout.
 DLC packaging, the complementary Forge World map, and deferred console-memory
 verification remain separate follow-up work.
+
+### Revised human boundary — 2026-10-22 (source updated; deployment pending)
+
+The user's newly annotated top-down plot supersedes the original split. The
+western region is named **Forge Island**. Forge Gulch includes the beach cave
+and mainland shoreline facing the island; the island, Sanctuary and waterfall
+remain outside Gulch. Full background visuals remain unchanged.
+
+`forge_gulch_boundary.py` records a simplified polyline traced against that
+plot's axes. `work/forge-world/gulch-shoreline-boundary.png` was regenerated and
+visually compared with the annotation. The seven focused partition and hard
+boundary tests pass, including beach-cave inclusion, island exclusion and
+bidirectional divider crossings.
+
+This changes conversion inputs only: the installed LIVE bundle still has the
+old boundary. Before deployment, rebuild the expanded collision partition,
+its coupled leaf/cluster/seam/physics mappings and soft containment together;
+retain the accepted scenery, mipmap and ambient-PRT fixes. Grid rendering is
+also still unresolved. Do not describe either requested fix as deployed.
+
+### Water, waterfall and driftwood update — 2026-10-22
+
+Deployed candidate `work/forge-world/forge-gulch-water.map`: 167,149,568 bytes,
+SHA256 `f00aaf7e6304c94c85569fc7b5f0f8e185af744aacd140a0810711717933babb`.
+This is an incremental material update on the accepted lighting/scenery map;
+it does NOT include the revised shoreline divider or unresolved grid fix.
+
+Diagnosis: water overlays were validated but discarded by WaterImporter. Four
+waterfall materials used the generic opaque fallback, dropping five authored
+functions each and their alpha-blend shader option. Driftwood's diffuse-only
+source variant likewise inherited the generic prototype's specular behavior.
+Native inventory found matching waterfall and driftwood variants in bunkerworld
+and ghosttown (see `work/forge-world/waterfall-native-donors.json`).
+
+- Water retains 30 functions, waterfalls 20, remapped through the existing
+  native animation-register converter. Serialized function bytes and periods
+  were independently read back against source (`water-animation-readback.json`).
+- Waterfalls retain all source textures/constants with the native first-ten
+  options, including alpha blending. Driftwood uses the native diffuse variant.
+- Water uses its authored reflection faces, converted to existing budgeted
+  64-pixel native cubemaps, instead of unrelated native-map reflection images.
+- Native wave arrays and some water-template substitutions remain. This is not
+  a claim of exact Reach water rendering. Other maps' water conversion retains
+  its prior behavior.
+
+Reproduction: `snapshot/tools/patch_gulch_water.py` accepts basis/source/disc/xex,
+output and report; it pins the accepted basis, matches the two BSP material
+arrays, preserves existing material datums and refreshes their shared residency
+union. The baseline is `work/forge-world/forge_gulch-lighting.map`.
+
+Native evidence: `20261022-210403-33796` reached gameplay but faced a wall and
+was not water proof. `20261022-210720-42252` raised the monitor but had limited
+waterfall coverage. In `20261022-211135-34760`, captures at 135000/155000/165000ms
+show ocean, main falls and shoreline. The human moved the camera for the final
+view and explicitly confirmed that waterfalls were flowing. These are not a
+fixed-camera animation pair. Updated logs have shader-level validation, but no
+close-up native visual verification. All runs ended at their bounded watchdogs.
+No executable, gameplay or network behavior was changed.
+
+LIVE package `455B40F76DD4B10B8D4D47435C04586AA9D98FB5` is active. Its SHA256 is
+`622e05ec1f6c9c10764a40932b8175506ba619b6af70f9255b976663d07a426e`, size
+633,430,016 bytes. Hash-tree verification and the independent native STFS reader
+passed all 28 files (629,607,417 payload bytes). The native installer extracted
+it, all file hashes were checked, and content/header moved into installed-current.
+Previous content/header 640BA157... remain in rollback. Payload/forge_gulch.map
+now hardlinks the new map; no other map or menu preview changed.

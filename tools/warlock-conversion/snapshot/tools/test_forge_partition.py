@@ -12,11 +12,11 @@ class ForgePartitionTests(unittest.TestCase):
         points = np.array([[-55., -120., 5.], [0., -150., 10.],
                            [50., 50., 10.], [-23., -15., 10.]])
         gulch, world = classify_bounds(points, points)
-        self.assertEqual(gulch.tolist(), [True, True, False, False])
-        self.assertEqual(world.tolist(), [False, False, True, True])
+        self.assertEqual(gulch.tolist(), [True, True, False, True])
+        self.assertEqual(world.tolist(), [False, False, True, False])
 
     def test_crossing_box_is_kept_on_both_sides(self):
-        gulch, world = classify_bounds([[-40., -35., 0.]], [[-20., -10., 1.]])
+        gulch, world = classify_bounds([[-40., 65., 0.]], [[-20., 90., 1.]])
         self.assertTrue(gulch[0] and world[0])
 
     def test_cycle_is_rejected(self):

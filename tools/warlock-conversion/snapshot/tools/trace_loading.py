@@ -50,6 +50,8 @@ parser.add_argument('--walk-check', action='store_true',
                     help='Use process-local sticks to turn and walk briefly after loading.')
 parser.add_argument('--forge-boundary-check', action='store_true',
                     help='Use the verified Forge lobby route, become monitor and strafe toward the Gulch split.')
+parser.add_argument('--forge-water-check', action='store_true',
+                    help='Become monitor, rise above the canyon and face the water; process-local input only.')
 parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
 parser.add_argument('--forge-scenery-check', action='store_true',
@@ -216,7 +218,7 @@ env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check:
+if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check:
     input_steps.insert(1, '45500:DOWN+220')
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
@@ -241,7 +243,7 @@ if options.dlc_map:
     direction, steps = {'forge_gulch': ('UP', 7), 'prisoner': ('DOWN', 4),
                         'resuscitation': ('DOWN', 6), 'warlock': ('DOWN', 13)}[options.dlc_map]
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-    if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check:
+    if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check:
         input_steps.insert(1, '45500:DOWN+220')
     input_steps += [f'{58000 + n * 700}:{direction}+120' for n in range(steps)]
     input_steps += ['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250']
@@ -258,6 +260,11 @@ if options.dlc_preview_tour:
     input_steps += [f'{90000+n*700}:DOWN+120' for n in range(11)]
     input_steps += [f'{110000+n*700}:DOWN+120' for n in range(2)]
     input_steps += [f'{130000+n*700}:DOWN+120' for n in range(7)]
+if options.forge_water_check:
+    if options.slot != 'sandbox' or options.manual_input or options.walk_check or options.seconds < 180:
+        raise SystemExit('--forge-water-check requires scripted Sandbox and a 180-second watchdog')
+    input_steps.extend(['118000:UP+200', '120000:RB+8000',
+                        '120000:LT+8000', '145000:RSLEFT+800'])
 if options.forge_boundary_check:
     # Native 20261021-173147 route probe confirms Forge / Sandbox. From the
     # +X spawn facing, left strafe travels +Y toward the curved split.

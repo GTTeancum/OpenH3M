@@ -112,9 +112,12 @@ class WaterImporter:
                         if wave is None:raise ValueError('Native water wave array absent: '+key[1])
                         _, bitmap = native.import_tag(wave)
                     elif parameter == 'environment_map':
-                        donor_bitmap = donor.u(donor_textures[target_textures.index(parameter)] + 12)
-                        _, bitmap = native.import_tag(donor_bitmap)
-                        substitutions.append({'parameter': parameter, 'native_bitmap': donor.name(donor_bitmap & 65535)})
+                        if getattr(i, 'stock_forge_palette', False) and bitmap != 0xffffffff:
+                            bitmap = i.materials.bitmap(bitmap)
+                        else:
+                            donor_bitmap = donor.u(donor_textures[target_textures.index(parameter)] + 12)
+                            _, bitmap = native.import_tag(donor_bitmap)
+                            substitutions.append({'parameter': parameter, 'native_bitmap': donor.name(donor_bitmap & 65535)})
                     elif bitmap != 0xffffffff:
                         bitmap = i.materials.bitmap(bitmap)
                 else:
@@ -142,6 +145,10 @@ class WaterImporter:
                     raise ValueError(f'Water constant has no explicit default: {parameter}')
             struct.pack_into('>III', output, 16, len(target_textures), b.alloc(records), 0)
             struct.pack_into('>III', output, 28, len(target_constants), b.alloc(values), 0)
+            converted_animations = 0
+            if overlays and getattr(i, 'stock_forge_palette', False):
+                from material_animation import convert_material_animation
+                converted_animations = convert_material_animation(i.materials, post, output)
             struct.pack_into('>I', output, 52, s.u(post + 52))
             struct.pack_into('>III8h', output, 104, *s.unpack('III8h', post + 104))
             # Queryable constants are indices; update those shifted by remapping.
@@ -166,9 +173,11 @@ class WaterImporter:
             self.done[datum] = 'rmw ', owner
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': name,
                 'native_donor': filename, 'approximation': True, 'texture_substitutions': substitutions,
-                'difference': 'Static authored wave/UV values; original-disc reflection cubemap; pure water uses uniform bank opacity; unused extra foam contribution disabled.',
+                'difference': ('Authored animations and reflection faces retained; native wave arrays and template defaults remain.'
+                               if getattr(i, 'stock_forge_palette', False) else
+                               'Static authored wave/UV values; original-disc reflection cubemap; pure water uses uniform bank opacity; unused extra foam contribution disabled.'),
                 'omitted_constants': sorted(set(source_constants)-set(target_constants)),
-                'frozen_overlays': len(overlays)})
+                'frozen_overlays': len(overlays)-converted_animations, 'converted_source_animations': converted_animations})
             return self.done[datum]
         except Exception:
             i.failed = True

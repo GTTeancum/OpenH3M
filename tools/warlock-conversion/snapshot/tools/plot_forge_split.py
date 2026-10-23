@@ -8,6 +8,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source', required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--no-divider', action='store_true', help='Blank planning copy for drawing a new boundary')
     args = p.parse_args()
     repo = Path(__file__).resolve().parents[4]
     output = args.output.resolve()
@@ -42,8 +43,9 @@ def main():
         from forge_gulch_boundary import BOUNDARY
         boundary = np.asarray(BOUNDARY)
         ax.plot(-boundary[:, 1], boundary[:, 0], color='red', linewidth=2,
-                label='Forge Gulch boundary draft (user sketch)')
-        ax.legend(loc='upper left')
+                label='Forge Gulch boundary draft (user sketch)', visible=not args.no_divider)
+        if not args.no_divider:
+            ax.legend(loc='upper left')
         ax.autoscale_view()
         ax.set_aspect('equal')
         ax.set_xlabel('Source -Y'); ax.set_ylabel('Source X')
