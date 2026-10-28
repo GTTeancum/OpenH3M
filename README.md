@@ -1,8 +1,10 @@
-# Open Halo 3 Mythic
+# Spartan
 
-**OpenH3M** is a native Windows x64 static recompilation of the Halo 3 Mythic multiplayer disc included with Halo 3: ODST. Beta 0.8 brings the complete 3D menu presentation, Custom Games, local split screen, and Forge to PC through the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
+**Spartan** (formerly **OpenH3M**) is a native Windows x64 static recompilation of the Halo 3 Mythic multiplayer disc included with Halo 3: ODST. Beta 0.8 brings the complete 3D menu presentation, Custom Games, local split screen, and Forge to PC through the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
-OpenH3M does not distribute game data. You must supply files extracted from a legally obtained Halo 3: ODST Multiplayer Disc (Disc 2).
+Spartan does not distribute game data. You must supply files extracted from a legally obtained Halo 3: ODST Multiplayer Disc (Disc 2).
+
+The project is now named **Spartan**. Its repository URL remains [GTTeancum/OpenH3M](https://github.com/GTTeancum/OpenH3M).
 
 ## Screenshots
 
@@ -35,13 +37,15 @@ The game targets its original 30 FPS cap. The current build displays measured FP
 
 ## Install
 
+The existing Beta 0.8 release retains its original `OpenH3M` archive and executable names; the instructions below match that release.
+
 1. Download `OpenH3M-beta-0.8-win-x64.zip` from the GitHub Releases page and extract it.
 2. Create a folder named `game` beside `OpenH3M.exe`.
 3. Extract the disc's filesystem into `game` with an Xbox/XDVDFS extraction tool, preserving its directory structure.
 4. Confirm that `game\default.xex` and `game\maps\` exist.
 5. Run `OpenH3M.exe`.
 
-OpenH3M automatically uses the adjacent `game` folder and starts windowed at 1280x720 with the validated Direct3D 12 settings. No launcher script or command-line arguments are required.
+Spartan automatically uses the adjacent `game` folder and starts windowed at 1280x720 with the validated Direct3D 12 settings. No launcher script or command-line arguments are required.
 
 ## Controls
 
@@ -72,8 +76,8 @@ Run those commands from the `halo3mp` directory.
 
 ## Acknowledgments
 
-OpenH3M is powered by the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk). Thank you to the ReXGlue team for building and maintaining the Xbox 360 recompilation toolkit that makes this project possible.
+Spartan is powered by the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk). Thank you to the ReXGlue team for building and maintaining the Xbox 360 recompilation toolkit that makes this project possible.
 
 ## Legal
 
-OpenH3M is an independent preservation and compatibility project. It is not affiliated with or endorsed by Microsoft, Xbox, Bungie, or 343 Industries. Halo and all related trademarks and game assets belong to their respective owners. No copyrighted game data is included.
+Spartan is an independent preservation and compatibility project. It is not affiliated with or endorsed by Microsoft, Xbox, Bungie, or 343 Industries. Halo and all related trademarks and game assets belong to their respective owners. No copyrighted game data is included.
