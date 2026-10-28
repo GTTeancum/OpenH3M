@@ -3,9 +3,7 @@
 **Spartan** (formerly **OpenH3M**) is a native Windows x64 static recompilation of the Halo 3 Mythic multiplayer disc included with Halo 3: ODST. Beta 0.8 brings the complete 3D menu presentation, Custom Games, local split screen, and Forge to PC through the [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk).
 
 Spartan does not distribute game data. You must supply files extracted from a legally obtained Halo 3: ODST Multiplayer Disc (Disc 2).
-
-The project is now named **Spartan**. Its repository URL remains [GTTeancum/OpenH3M](https://github.com/GTTeancum/OpenH3M).
-
+  
 ## Screenshots
 
 [![Halo 3 Mythic Custom Games menu](docs/images/mythic-menu.png)](docs/images/mythic-menu.png)
