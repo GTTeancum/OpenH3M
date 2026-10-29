@@ -359,3 +359,10 @@ Forge palette route and inspect its native capture (see FORGE-WORLD.md).
 Deploy only the rebuilt `out/win-amd64/rexgpu-xenos.dll` into the authorized shared
 installation with the game closed. Keep one rollback inside the repository.
 Old GPU-address-pinned draw probes must be remapped before using the new DLL.
+
+## Host input focus (2026-10-28)
+
+Apply `patches/rexglue-sdk-input-focus.patch` after the existing SDK input patches.
+Rebuild the runtime and app together with `tools/input-focus/build.ps1` from the
+repository root. This also runs the process-local focus check. See
+`tools/input-focus/README.md` for coverage and the in-game testing boundary.
