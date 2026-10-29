@@ -1,3 +1,9 @@
+# Git workflow
+
+- User instruction, 2026-10-28: always work on and push to `main`.
+- Do not create or use another branch unless the user explicitly requests one.
+- Merge existing branches into `main`; preserve uncommitted work when switching.
+
 # Map conversion instructions
 
 ## Binding Halo 3 asset policy � user instruction, 2026-10-20
