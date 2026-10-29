@@ -1,0 +1,16 @@
+--- a/src/kernel/xam/xam_user.cpp
++++ b/src/kernel/xam/xam_user.cpp
+@@ -387,6 +387,13 @@
+   }
+   *xuid_ptr = xuid;
+   return result;
++}
++
++// Existing OpenH3M local-user fast path; preserve sign-in/activation behavior
++// without the diagnostic call-count/logging work on each hot-path query.
++u32 XamUserGetSigninState_direct(u32 user_index) {
++  PollLocalUserActivation();
++  return user_index < 4 ? LocalUserSigninState(user_index) : 0;
+ }
+ 
+ u32 XamUserGetSigninState_entry(u32 user_index) {

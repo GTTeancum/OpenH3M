@@ -1,0 +1,98 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -28,6 +28,19 @@
+ REXCVAR_DEFINE_INT32(host_guest_output_fps, 30, "UI/Presenter",
+                     "Host guest-output pacing rate; 0 disables pacing")
+     .range(0, 360);
++
++#if REX_PLATFORM_WIN32
++REXCVAR_DECLARE(bool, d3d12_log_present_timing);
++namespace {
++std::mutex image_sequence_mutex;
++std::map<const void*, std::array<uint64_t, 3>> image_sequences;
++}
++extern "C" uint64_t RexHostGuestImageSequence(const void* presenter, uint32_t mailbox) {
++  std::lock_guard<std::mutex> lock(image_sequence_mutex);
++  auto it = image_sequences.find(presenter);
++  return it != image_sequences.end() && mailbox < 3 ? it->second[mailbox] : 0;
++}
++#endif
+ 
+ // Stable native diagnostic accessor; does not modify guest or presenter state.
+ extern "C" uint64_t RexHostGuestOutputCount(const rex::ui::Presenter* presenter) {
+@@ -330,6 +343,12 @@
+ }
+ 
+ Presenter::~Presenter() {
++#if REX_PLATFORM_WIN32
++  {
++    std::lock_guard<std::mutex> lock(image_sequence_mutex);
++    image_sequences.erase(this);
++  }
++#endif
+   // No intrusive lifetime management must be performed from UI drawers - defer
+   // it if needed.
+   assert_false(is_executing_ui_drawers_);
+@@ -624,6 +643,16 @@
+     }
+     guest_output_active_last_refresh_ = false;
+   }
++
++#if REX_PLATFORM_WIN32
++  if (REXCVAR_GET(d3d12_log_present_timing)) {
++    // This mailbox is exclusively producer-owned until the release below.
++    // Consumers read the sequence while holding the mailbox consumer lock.
++    std::lock_guard<std::mutex> lock(image_sequence_mutex);
++    image_sequences[this][guest_output_mailbox_writable_] =
++        is_active ? guest_output_frame_count() : 0;
++  }
++#endif
+ 
+   // Make the new image the next to present on the host (the "ready" one),
+   // replacing the one already specified as the next (dropping it instead of
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -35,6 +35,8 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_log_present_timing, false, "UI/D3D12",
+                     "Log DXGI delivery statistics from 110-155 seconds after first present");
++
++extern "C" uint64_t RexHostGuestImageSequence(const void* presenter, uint32_t mailbox);
+ 
+ namespace rex::ui::d3d12 {
+ 
+@@ -588,6 +590,7 @@
+ 
+   // Draw the guest output.
+ 
++  uint64_t painted_image_sequence = 0;
+   GuestOutputProperties guest_output_properties;
+   GuestOutputPaintConfig guest_output_paint_config;
+   Microsoft::WRL::ComPtr<ID3D12Resource> guest_output_resource;
+@@ -595,6 +598,9 @@
+     uint32_t guest_output_mailbox_index;
+     std::unique_lock<std::mutex> guest_output_consumer_lock(ConsumeGuestOutput(
+         guest_output_mailbox_index, &guest_output_properties, &guest_output_paint_config));
++    if (REXCVAR_GET(d3d12_log_present_timing)) {
++      painted_image_sequence = RexHostGuestImageSequence(this, guest_output_mailbox_index);
++    }
+     if (guest_output_mailbox_index != UINT32_MAX) {
+       guest_output_resource = guest_output_resources_[guest_output_mailbox_index].second;
+     }
+@@ -1187,14 +1193,14 @@
+       // than treating zeroed statistics as successful display delivery.
+       REXLOG_INFO("[host-present] qpc={} frequency={} elapsed_ms={:.3f} call_ms={:.3f} "
+                   "present_hr={:08X} stats_hr={:08X} count_hr={:08X} submitted={} "
+-                  "displayed={} refresh={} sync_refresh={} sync_qpc={} guest_observed={}",
++                  "displayed={} refresh={} sync_refresh={} sync_qpc={} guest_observed={} guest_painted={}",
+                   timing_begin.QuadPart, timing_frequency.QuadPart, elapsed_ms,
+                   double(timing_end.QuadPart - timing_begin.QuadPart) * 1000.0 /
+                       double(timing_frequency.QuadPart),
+                   uint32_t(present_result), uint32_t(statistics_result), uint32_t(count_result),
+                   last_present_count, statistics.PresentCount, statistics.PresentRefreshCount,
+                   statistics.SyncRefreshCount, statistics.SyncQPCTime.QuadPart,
+-                  guest_output_frame_count());
++                  guest_output_frame_count(), painted_image_sequence);
+     }
+   }
+   // Even if presentation has failed, work might have been enqueued anyway

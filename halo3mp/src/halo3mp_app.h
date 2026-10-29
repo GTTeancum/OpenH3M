@@ -32,6 +32,9 @@
 #include <rex/logging/macros.h>
 #include <rex/rex_app.h>
 #include <rex/runtime.h>
+#include <rex/filesystem/devices/stfs_container_device.h>
+#include <rex/system/kernel_state.h>
+#include <rex/system/xam/content_manager.h>
 #include <rex/system/interfaces/graphics.h>
 #include <rex/system/gpu_plugin.h>
 #include <rex/ui/imgui_drawer.h>
@@ -57,6 +60,8 @@ REXCVAR_DEFINE_STRING(halo3mp_smoke_expected_state, "", "Halo3MP",
                       "Expected state for an automated smoke route, included in FPS logs");
 REXCVAR_DEFINE_UINT32(halo3mp_smoke_players, 0, "Halo3MP",
                       "Expected local player count for an automated smoke route");
+REXCVAR_DEFINE_STRING(halo3mp_install_content, "", "Halo3MP",
+                     "Install a Halo 3 LIVE package into the configured user-data root before launch");
 
 class Halo3mpApp : public rex::ReXApp {
  public:
@@ -126,6 +131,28 @@ class Halo3mpApp : public rex::ReXApp {
   void OnPostLaunchModule(rex::system::XThread* thread) override {
     (void)thread;
     StartHostTools();
+  }
+
+  void OnPreLaunchModule() override {
+    const auto package = REXCVAR_GET(halo3mp_install_content);
+    if (package.empty()) return;
+    auto path = std::filesystem::u8path(package);
+    const auto filename = path.filename().string();
+    const bool canonical_name = filename.size() == 40 &&
+        filename.find_first_not_of("0123456789abcdefABCDEF") == std::string::npos;
+    auto header = rex::filesystem::StfsContainerDevice::ReadPackageHeader(path);
+    if (!header || header->header.magic != rex::filesystem::XContentPackageType::kLive ||
+        header->metadata.execution_info.title_id != 0x4D5307E6 ||
+        header->metadata.content_type != rex::system::XContentType::kMarketplaceContent ||
+        !canonical_name) {
+      throw std::runtime_error("DLC installation requires a Halo 3 LIVE package named with its extensionless content ID");
+    }
+    const auto result = runtime()->kernel_state()->content_manager()->InstallContent(path);
+    if (result != 0) {
+      REXLOG_ERROR("DLC installation failed: {} result={:#x}", package, result);
+      throw std::runtime_error("DLC installation failed; guest launch stopped");
+    }
+    REXLOG_INFO("DLC installation completed: {} (container install only; not a gameplay pass)", package);
   }
 
   void OnShutdown() override {

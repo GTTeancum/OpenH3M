@@ -1,0 +1,28 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -32,6 +32,10 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_allow_variable_refresh_rate_and_tearing, true, "UI/D3D12",
+                     "Allow variable refresh rate and tearing");
++
++REXCVAR_DEFINE_UINT32(d3d12_host_sync_interval, 0, "UI/D3D12",
++                      "Host presentation synchronization interval; 0 keeps immediate presentation")
++    .range(0, 4);
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_log_present_timing, false, "UI/D3D12",
+                     "Log DXGI delivery statistics from 110-155 seconds after first present");
+@@ -1170,9 +1174,11 @@
+     QueryPerformanceCounter(&timing_begin);
+     QueryPerformanceFrequency(&timing_frequency);
+   }
+-  HRESULT present_result = paint_context_.swap_chain->Present(
+-      0, DXGI_PRESENT_RESTART |
+-             (paint_context_.swap_chain_allows_tearing ? DXGI_PRESENT_ALLOW_TEARING : 0));
++  const UINT host_sync_interval = REXCVAR_GET(d3d12_host_sync_interval);
++  const UINT host_present_flags = host_sync_interval ? 0 :
++      (DXGI_PRESENT_RESTART |
++       (paint_context_.swap_chain_allows_tearing ? DXGI_PRESENT_ALLOW_TEARING : 0));
++  HRESULT present_result = paint_context_.swap_chain->Present(host_sync_interval, host_present_flags);
+   if (log_present_timing) {
+     QueryPerformanceCounter(&timing_end);
+     // Diagnostic state is thread-local: no public class layout or guest changes.

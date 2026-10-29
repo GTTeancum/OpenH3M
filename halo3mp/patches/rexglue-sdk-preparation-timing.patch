@@ -1,0 +1,60 @@
+--- a/src/graphics/d3d12/pipeline_cache.cpp
++++ b/src/graphics/d3d12/pipeline_cache.cpp
+@@ -14,6 +14,7 @@
+ #include <algorithm>
+ #include <atomic>
+ #include <cinttypes>
++#include <chrono>
+ #include <cmath>
+ #include <cstring>
+ #include <deque>
+@@ -62,7 +63,33 @@
+ REXCVAR_DEFINE_BOOL(d3d12_tessellation_wireframe, false, "GPU/D3D12",
+                     "Render tessellation as wireframe");
+ 
++REXCVAR_DEFINE_UINT32(d3d12_slow_preparation_ms, 0, "GPU/D3D12",
++                       "Log shader/pipeline preparation above this duration; 0 disables");
++
+ namespace rex::graphics::d3d12 {
++namespace {
++class PreparationTimer {
++ public:
++  PreparationTimer(const char* kind, uint64_t shader)
++      : kind_(kind), shader_(shader), threshold_(REXCVAR_GET(d3d12_slow_preparation_ms)) {
++    if (threshold_) start_ = std::chrono::steady_clock::now();
++  }
++  ~PreparationTimer() {
++    if (!threshold_) return;
++    const double ms = std::chrono::duration<double, std::milli>(
++        std::chrono::steady_clock::now() - start_).count();
++    if (ms >= threshold_) {
++      REXGPU_INFO("[preparation] kind={} shader={:016X} elapsed_ms={:.3f}", kind_, shader_, ms);
++    }
++  }
++ private:
++  const char* kind_;
++  uint64_t shader_;
++  uint32_t threshold_;
++  std::chrono::steady_clock::time_point start_{};
++};
++}  // namespace
++
+ 
+ // Generated with `xb buildshaders`.
+ namespace shaders {
+@@ -1060,6 +1087,7 @@
+                                             IDxbcConverter* dxbc_converter, IDxcUtils* dxc_utils,
+                                             IDxcCompiler* dxc_compiler) {
+   D3D12Shader& shader = static_cast<D3D12Shader&>(translation.shader());
++  PreparationTimer timer("shader", shader.ucode_data_hash());
+ 
+   // Perform translation.
+   // If this fails the shader will be marked as invalid and ignored later.
+@@ -2677,6 +2705,7 @@
+ 
+ ID3D12PipelineState* PipelineCache::CreateD3D12Pipeline(
+     const PipelineRuntimeDescription& runtime_description) {
++  PreparationTimer timer("pipeline", runtime_description.vertex_shader->shader().ucode_data_hash());
+   const PipelineDescription& description = runtime_description.description;
+ 
+   if (runtime_description.pixel_shader != nullptr) {

@@ -1,0 +1,48 @@
+# Rebuild host runtime and GPU support; reuse the shared game executable and maps.
+param([switch]$GpuDiagnostics)
+$ErrorActionPreference = 'Stop'
+$repo = (Resolve-Path (Join-Path $PSScriptRoot '../../../..')).Path
+$sdk = Join-Path $repo 'work/rexglue-sdk'
+if (-not (Test-Path (Join-Path $sdk '.git'))) { throw 'SDK source checkout is missing; see FRAME-PACING.md.' }
+$sdkCommit = git -C $sdk rev-parse HEAD
+if ($sdkCommit -ne 'c94f5ebdcb3c9d1a460ca48e04f9758448f8d518') { throw 'Unexpected SDK revision.' }
+$oldTemp = $env:TEMP; $oldTmp = $env:TMP; $oldPath = $env:PATH
+Push-Location $repo
+try {
+    $env:TEMP = Join-Path $repo 'work/build-temp'
+    $env:TMP = $env:TEMP
+    New-Item -ItemType Directory -Force $env:TEMP | Out-Null
+    $env:PATH = 'C:\Program Files\LLVM\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;' + $oldPath
+    $patches = @('d3d12-index-buffer-cache', 'd3d12-vertex-residency', 'input-script',
+        'local-users', 'local-user-direct', 'memexport-performance', 'presenter-host-tools',
+        'windows-mspack-path', 'host-frame-pacing', 'portable-bootstrap', 'halo3-virtual-adapter',
+        'input-state-replay')
+    if ($GpuDiagnostics) { $patches += 'preparation-timing' }
+    $patches += 'pipeline-prewarm'
+    $patches += 'present-timing'
+    $patches += 'present-image-identity'
+    $patches += 'host-present-sync'
+    $patches += 'queue-wait-timing'
+    $patches += 'output-phase-timing'
+    $patches += 'waitable-presentation'
+    $patches += 'presentation-capacity'
+    $patches += 'display-phase-pacing'
+    $patchFiles = @($patches | ForEach-Object { Join-Path $repo "halo3mp/patches/rexglue-sdk-$_.patch" })
+    & python -B (Join-Path $PSScriptRoot 'apply_sdk_patch_stack.py') --sdk $sdk `
+        --index (Join-Path $repo 'work/build-temp/sdk-patch-index') @patchFiles
+    if ($LASTEXITCODE -ne 0) { throw 'SDK patch-stack validation failed.' }
+    cmake -S $sdk -B "$sdk/out/pacing-release" -G Ninja -DCMAKE_BUILD_TYPE=Release `
+        -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ `
+        -DCMAKE_C_FLAGS=-march=x86-64-v2 -DCMAKE_CXX_FLAGS=-march=x86-64-v2 `
+        -DREXGLUE_ENABLE_TRACY=OFF -DREXGLUE_BUILD_TESTS=OFF -DREXGLUE_USE_VULKAN=ON `
+        -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON "-DCMAKE_INSTALL_PREFIX=$sdk/out/install-pacing" `
+        *> work/runtime-configure.log
+    if ($LASTEXITCODE -ne 0) { throw 'Configuration failed; see work/runtime-configure.log.' }
+    cmake --build "$sdk/out/pacing-release" --target rexruntime --parallel 4 *> work/runtime-build.log
+    if ($LASTEXITCODE -ne 0) { throw 'Build failed; see work/runtime-build.log.' }
+    cmake --build "$sdk/out/pacing-release" --target rexgpu-xenos --parallel 4 *> work/gpu-build.log
+    if ($LASTEXITCODE -ne 0) { throw 'GPU build failed; see work/gpu-build.log.' }
+} finally {
+    $env:TEMP = $oldTemp; $env:TMP = $oldTmp; $env:PATH = $oldPath
+    Pop-Location
+}

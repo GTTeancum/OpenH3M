@@ -1,0 +1,22 @@
+--- a/src/core/cvar.cpp
++++ b/src/core/cvar.cpp
+@@ -20,6 +20,7 @@
+ #include <CLI/CLI.hpp>
+ 
+ #include <rex/cvar.h>
++#include <rex/filesystem.h>
+ #include <rex/logging.h>
+ #include <rex/platform/env.h>
+ 
+@@ -632,6 +633,11 @@
+     std::lock_guard lock(GetRegistryMutex());
+     GetPendingValuesStorage()[name].cmdline = std::move(value);
+   }
++  // Optional portable-install configuration must be read before consumers
++  // resolve game/user/cache paths. CLI values retain their higher priority.
++  auto bootstrap_path = rex::filesystem::GetExecutablePath();
++  bootstrap_path.replace_extension(".bootstrap.toml");
++  if (std::filesystem::exists(bootstrap_path)) LoadConfig(bootstrap_path);
+   g_init_done = true;
+   return positional;
+ }

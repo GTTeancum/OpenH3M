@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x70">
+	<!-- Automatically generated plugin -->
+	<revisions>
+		<revision author="Assembly" version="1">Generated plugin from scratch.</revision>
+		<revision author="DeadCanadian" version="2">named some tags</revision>
+		<revision author="Lord Zedd" version="3">Updated and copypasted.</revision>
+	</revisions>
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="Do Not Apply Old Content Upscaling" index="0" />
+		<bit name="Override Template Flags" index="1" />
+		<bit name="Enable Animation Debugging" index="2" />
+		<bit name="Submenu List" index="3" />
+		<bit name="Horizontal List" index="4" />
+		<bit name="List Wraps" index="5" />
+		<bit name="Selection Visible Without Focus" index="6" />
+		<bit name="Non-Interactive" index="7" />
+	</flags32>
+	<stringId name="Name" offset="0x4" visible="true" />
+	<enum16 name="Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0x0" />
+		<option name="Centered" value="0x1" />
+		<option name="Top Edge" value="0x2" />
+		<option name="Bottom Edge" value="0x3" />
+		<option name="Left Edge" value="0x4" />
+		<option name="Right Edge" value="0x5" />
+		<option name="Top-Left Corner" value="0x6" />
+		<option name="Top-Right Corner" value="0x7" />
+		<option name="Bottom-Right Corner" value="0x8" />
+		<option name="Bottom-Left Corner" value="0x9" />
+	</enum16>
+	<int16 name="Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Widescreen Bounds" offset="0xC" visible="true" />
+	<rect16 name="Standard Bounds" offset="0x14" visible="true" />
+	<tagRef name="Animation Collection" offset="0x1C" visible="true" />
+	<stringid name="Data Source Name" offset="0x2C" visible="true" />
+	<tagRef name="Skin" offset="0x30" visible="true" />
+	<int32 name="Rows" offset="0x40" visible="true" />
+	<tagblock name="Items" offset="0x44" visible="true" elementSize="0x30">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="Do Not Apply Old Content Upscaling" index="0" />
+			<bit name="Override Template Flags" index="1" />
+			<bit name="Enable Animation Debugging" index="2" />
+		</flags32>
+		<stringId name="Name" offset="0x4" visible="true" />
+		<enum16 name="Scaled Positioning" offset="0x8" visible="true">
+			<option name="UNUSED" value="0x0" />
+			<option name="Centered" value="0x1" />
+			<option name="Top Edge" value="0x2" />
+			<option name="Bottom Edge" value="0x3" />
+			<option name="Left Edge" value="0x4" />
+			<option name="Right Edge" value="0x5" />
+			<option name="Top-Left Corner" value="0x6" />
+			<option name="Top-Right Corner" value="0x7" />
+			<option name="Bottom-Right Corner" value="0x8" />
+			<option name="Bottom-Left Corner" value="0x9" />
+		</enum16>
+		<int16 name="Render Depth Bias" offset="0xA" visible="true" />
+		<rect16 name="Widescreen Bounds" offset="0xC" visible="true" />
+		<rect16 name="Standard Bounds" offset="0x14" visible="true" />
+		<tagRef name="Animation Collection" offset="0x1C" visible="true" />
+		<stringid name="Item Label" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagRef name="Previous Indicator Bitmap" offset="0x50" visible="true" />
+	<tagRef name="Next Indicator Bitmap" offset="0x60" visible="true" />
+</plugin>

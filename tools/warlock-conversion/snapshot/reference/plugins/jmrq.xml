@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Automatically generated plugin -->
+	<revisions>
+		<revision author="Assembly" version="1">Generated plugin from scratch.</revision>
+		<revision author="DeadCanadian" version="2">named a few things</revision>
+	</revisions>
+	<comment title="Incremental Value Type">Used by shape sizes in the sandbox, it is defined by 2 elements, where the first is minimum and second is maximum.</comment>
+	<tagblock name="Property Values" offset="0x0" visible="true" elementSize="0x10">
+		<stringId name="Property Name" offset="0x0" visible="true" />
+		<tagblock name="Allowed Values" offset="0x4" visible="true" elementSize="0x14">
+			<flags8 name="Flags" offset="0x0" visible="true">
+				<bit name="Default Setting" index="0" />
+			</flags8>
+			<enum8 name="Parameter Type" offset="0x1" visible="true">
+				<option name="Integer Index" value="0x0" />
+				<option name="String ID" value="0x1" />
+				<option name="Real Range" value="0x2" tooltip="Used by shape sizes in the sandbox, it is defined by 2 elements, where the first is minimum and second is maximum." />
+			</enum8>
+			<int16 name="Unknown" offset="0x2" visible="false" />
+			<int32 name="Integer Value" offset="0x4" visible="true" />
+			<stringid name="String ID Value" offset="0x8" visible="true" />
+			<stringId name="Label" offset="0xC" visible="true" />
+			<stringId name="Description" offset="0x10" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

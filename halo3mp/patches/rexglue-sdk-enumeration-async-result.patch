@@ -1,0 +1,53 @@
+diff --git a/src/kernel/xam/xam_content.cpp b/src/kernel/xam/xam_content.cpp
+index 1fb1e16..0e889d6 100644
+--- a/src/kernel/xam/xam_content.cpp
++++ b/src/kernel/xam/xam_content.cpp
+@@ -141,7 +141,8 @@ u32 xeXamContentCreate(u32 user_index, mapped_string root_name, mapped_void cont
+     *disposition_ptr = 0;
+   }
+ 
+-  auto run = [content_manager, xuid, root_name = root_name.value(), flags, content_data,
++  // The guest commonly passes a stack buffer. Own it across deferred execution.
++  auto run = [content_manager, xuid, root_name = std::string(root_name.value()), flags, content_data,
+               disposition_ptr,
+               license_mask_ptr](uint32_t& extended_error, uint32_t& length) -> X_RESULT {
+     X_RESULT result = X_ERROR_INVALID_PARAMETER;
+diff --git a/src/kernel/xam/xam_enum.cpp b/src/kernel/xam/xam_enum.cpp
+index 9dcab94..c6829b7 100644
+--- a/src/kernel/xam/xam_enum.cpp
++++ b/src/kernel/xam/xam_enum.cpp
+@@ -63,7 +63,14 @@ uint32_t xeXamEnumerate(uint32_t handle, uint32_t flags, mapped_void buffer_ptr,
+     return result;
+   } else if (overlapped_ptr) {
+     assert_true(!items_returned);
+-    REX_KERNEL_STATE()->CompleteOverlappedDeferredEx(run, overlapped_ptr);
++    // Async enumeration reports a Win32 wrapper status, with the actual error
++    // in the extended HRESULT. Halo 3 uses this pair to recognize end-of-list
++    // and advance from saved-game enumeration to marketplace content.
++    REX_KERNEL_STATE()->CompleteOverlappedDeferredEx(
++        [run](uint32_t& extended_error, uint32_t& length) -> X_RESULT {
++          const X_RESULT result = run(extended_error, length);
++          return result == X_ERROR_SUCCESS ? X_ERROR_SUCCESS : X_ERROR_FUNCTION_FAILED;
++        }, overlapped_ptr);
+     return X_ERROR_IO_PENDING;
+   } else {
+     assert_always();
+diff --git a/src/system/xam/content_manager.cpp b/src/system/xam/content_manager.cpp
+index bd6c797..0f39aaa 100644
+--- a/src/system/xam/content_manager.cpp
++++ b/src/system/xam/content_manager.cpp
+@@ -155,9 +155,11 @@ std::vector<XCONTENT_AGGREGATE_DATA> ContentManager::ListContent(uint32_t device
+       continue;
+     }
+ 
+-    XCONTENT_AGGREGATE_DATA content_data;
+-    if (XSUCCEEDED(ReadContentHeaderFile(rex::path_to_utf8(file_info.name), xuid, title_id,
+-                                         content_type, content_data))) {
++    XCONTENT_AGGREGATE_DATA content_data{};
++    // This API returns Win32 errors, not NTSTATUS. FILE_NOT_FOUND must take
++    // the directory-metadata fallback, never expose an uninitialized record.
++    if (ReadContentHeaderFile(rex::path_to_utf8(file_info.name), xuid, title_id,
++                              content_type, content_data) == X_ERROR_SUCCESS) {
+       result.emplace_back(std::move(content_data));
+     } else {
+       content_data.device_id = device_id;

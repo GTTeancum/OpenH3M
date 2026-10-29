@@ -1,0 +1,252 @@
+"""Import a dependency graph into a scratch retail cache registry.
+
+Any failure invalidates the importer; discard its builder. Resource and opaque
+data handlers remain explicit so unsupported content cannot become a partial map.
+"""
+from pathlib import Path
+import xml.etree.ElementTree as ET
+from string_ids import StringTable, WritableStringTable
+from tag_metadata import MetadataConverter
+from resource_reader import Resource
+from render_resource import convert_render_resource
+from material_importer import MaterialImporter
+import struct
+
+
+class TagImporter:
+    def __init__(self, source, registry, bindings=None, sound_bank=None, disc_maps=None):
+        self.source, self.registry = source, registry
+        self.builder = registry.builder
+        self.reference = Path(__file__).resolve().parents[1] / 'reference'
+        self.source_strings = StringTable(source)
+        self.target_strings = WritableStringTable(self.builder)
+        self.resolved = {(t['group'], registry.cache.name(i)): (t['group'], (t['salt'] << 16) | i)
+                         for i, t in registry.cache.tags.items()}
+        self.resolved.update(bindings or {})
+        self.added = []
+        self.materials = MaterialImporter(source, registry)
+        self.materials.target_strings = self.target_strings
+        self.terrain = self.water = None
+        if disc_maps is not None:
+            from native_effect_post import NativeEffectPost
+            from terrain_materials import DiscMaterialImporter
+            from water_materials import WaterImporter
+            self.materials.native_effect_post = NativeEffectPost(self, disc_maps)
+            self.terrain = DiscMaterialImporter(self, disc_maps)
+            self.water = WaterImporter(self, disc_maps)
+        self.failed = False
+        self.sounds = None
+        if sound_bank is not None:
+            from sound_importer import SoundImporter
+            self.sounds = SoundImporter(self, sound_bank, disc_maps)
+            self.materials.native_bitmaps = self.sounds.native
+
+    def import_tag(self, datum):
+        if self.failed:
+            raise ValueError('Importer failed previously; discard this scratch build')
+        try:
+            return self._import(datum)
+        except Exception:
+            self.failed = True
+            raise
+
+    def _import(self, datum):
+        source = self.source
+        tag = source.tags[datum & 65535]
+        if tag['salt'] != datum >> 16:
+            raise ValueError(f'Source tag salt mismatch: {datum:#x}')
+        key = tag['group'], source.name(datum & 65535)
+        if key in self.resolved:
+            return self.resolved[key]
+        group, name = key
+        native = getattr(self, 'native_assets', None)
+        if native is not None and group not in ('scnr', 'sbsp', 'sLdT', 'zone', 'play', 'matg', 'ugh!'):
+            result = native.import_named(key)
+            if result is not None:
+                return result
+        if group == 'lens' and getattr(self, 'gulch_partition', None):
+            from forge_sun_flare import NAME, import_flare
+            if name == NAME:
+                return import_flare(self, datum)
+        if group in ('rmtr', 'rmhg', 'rmw '):
+            specialized = self.water if group == 'rmw ' else self.terrain
+            if specialized is None:
+                raise ValueError(f'{group}:{name}: native shader import requires disc_maps')
+            result = specialized.shader(datum)
+            self.resolved[key] = result
+            return result
+        if group == 'snd!':
+            if self.sounds is None:
+                raise ValueError(f'{group}:{name}: new sound requires an explicit sound bank/decoder')
+            result = self.sounds.import_sound(datum)
+            self.resolved[key] = result
+            return result
+        if group in ('rmsh', 'rmfl'):
+            result = self.materials.shader(datum)
+            self.resolved[key] = result
+            return result
+        if group == 'bitm':
+            result = ('bitm', self.materials.bitmap(datum))
+            self.resolved[key] = result
+            return result
+        # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
+        # verified absent MCC overrides belong here; a missing local download
+        # must not silently select a different layout.
+        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc', 'trak', 'cddf', 'pmov'}
+        source_folder = 'plugins' if group in shared_schemas else 'mcc'
+        if not (self.reference / source_folder / f'{group.strip()}.xml').is_file():
+            raise ValueError(f'{group}:{name}: missing {source_folder} metadata schema')
+        ss = ET.parse(self.reference / source_folder / f'{group.strip()}.xml').getroot()
+        ds = ET.parse(self.reference / 'plugins' / f'{group.strip()}.xml').getroot()
+        compatibility_notes = []
+        from tag_metadata import ITEM_UI
+        if group in ('weap', 'eqip') and self.sounds and self.sounds.native and f'{group}:{name}' not in ITEM_UI:
+            donor_ui = self.sounds.native.item_ui.get((group, name))
+            if donor_ui:
+                ITEM_UI[f'{group}:{name}'] = donor_ui[0]
+                compatibility_notes.append('Retail pickup-message index and sort order from ' + donor_ui[1])
+        if group == 'cfxs':
+            # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
+            # Ignore only authored default/inactive extensions, not active FX.
+            grading_active = any(
+                source.u(row) & 1
+                for node in ss if node.tag == 'tagblock' and 0xFC <= int(node.get('offset'), 0) < 0x144
+                for row in source.block(tag['offset'] + int(node.get('offset'), 0),
+                                        int(node.get('elementSize'), 0)))
+            for offset in (0xE4, 0xF4, 0x144):
+                flags = source.u(tag['offset'] + offset)
+                if not flags & 1 and flags & 2 and not (offset == 0xF4 and not grading_active):
+                    raise ValueError(f'{name}: active MCC camera extension at {offset:#x}')
+            for node in list(ss):
+                if node.get('offset') is None or int(node.get('offset'), 0) < 0xE4:
+                    continue
+                if node.tag == 'tagblock' and grading_active:
+                    raise ValueError(f'{name}: active MCC camera grading block')
+                ss.remove(node)
+            compatibility_notes.append('MCC default/inactive SSAO/grading/lightshaft extensions omitted; disabled grading rows omitted; retail exposure and bloom retained.')
+        if group == 'perf':
+            block = next(node for node in ss if node.tag == 'tagblock')
+            anisotropy = next(node for node in block if node.get('name') == 'Anisotropy Level')
+            for row in source.block(tag['offset'], int(block.get('elementSize'), 0)):
+                if source.unpack('f', row + int(anisotropy.get('offset'), 0))[0] != 1.0:
+                    raise ValueError(f'{name}: nondefault MCC anisotropy override')
+            block.remove(anisotropy)
+            compatibility_notes.append('MCC anisotropy level 1 omitted; retail uses native sampler filtering.')
+        size = int(ds.get('baseSize'), 0)
+        owner, address = self.registry.newtag(group, bytes(size))
+        # Reserve before recursion so legitimate cyclic references resolve.
+        self.resolved[key] = (group, owner)
+
+        def resource(path, resource_datum):
+            if group == 'jmad' and path.endswith('/[zone] Asset Datum'):
+                from animation_resource import convert_animation_resource
+                payload = convert_animation_resource(Resource(source, resource_datum),
+                    lambda value: self.source_strings.translate(value, self.target_strings))
+                return self.registry.add_resource(owner, 'model_animation_tag_resource', payload)
+            if group not in ('mode', 'pmdf') or not path.endswith('/[zone] Asset Datum'):
+                raise ValueError(f'{path}: resource type requires a dedicated importer')
+            payload = convert_render_resource(Resource(source, resource_datum))
+            return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
+
+        def data(path, cache, at):
+            if ((group == 'mode' and '/Per Mesh MOPP[' in path and path.endswith('/MOPP Code'))
+                    or (group == 'phmo' and path.endswith('/MOPP Codes'))):
+                from collision_physics import convert_packed_mopp
+                size = cache.u(at)
+                pointer = cache.pointer(cache.u(at + 12))
+                if pointer + size > len(cache.data):
+                    raise ValueError('Packed mesh MOPP extends outside source cache')
+                return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
+            if (('/Functions[' in path and path.endswith('/Default Function'))
+                    or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad', 'cntl', 'ltvl', 'drdf', 'lens', 'sefc', 'beam', 'pmov') and path.endswith('Function'))):
+                size = cache.u(at)
+                payload = cache.pointer(cache.u(at + 12))
+                from tag_functions import convert_function
+                try:
+                    return convert_function(bytes(cache.data[payload:payload + size]))
+                except ValueError as error:
+                    raise ValueError(f'{path}: {error}') from error
+            # The observed model PRT-info descriptor is five 32-bit words.
+            # Gate the exact header/layout; other user payloads remain unsupported.
+            if group == 'mode' and '/User Data[' in path and path.endswith('/User Data'):
+                kind, count, stride = cache.unpack('BBH', at - 4)
+                size = cache.u(at)
+                if (kind, count, stride, size) == (0, 1, 20, 20):
+                    payload = cache.pointer(cache.u(at + 12))
+                    return struct.pack('>5I', *cache.unpack('5I', payload))
+            raise ValueError(f'{path}: opaque data format not implemented')
+
+        converter = MetadataConverter(source, self.builder, self.source_strings,
+                                      self.target_strings, self.import_tag,
+                                      data_reference=data,
+                                      resource_reference=resource,
+                                      special_block=lambda at, ss, ds, path:
+                                          self.materials.particle_post(at, group)
+                                          if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam', 'rmd ') and ss.get('name') == 'Postprocess' else None)
+        payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
+        if group == 'sddt' and getattr(self, 'gulch_partition', None):
+            from forge_gulch_containment import apply
+            payload = apply(self, tag['offset'], payload)
+            compatibility_notes.append('Retained original outer soft ceilings; added compiled Forge Gulch split boundary. Native containment unverified.')
+        if group == 'prt3':
+            payload = self.materials.particle_root(tag['offset'], payload)
+        elif group == 'decs':
+            payload = self.materials.decal_root(tag['offset'], payload)
+        if group == 'bloc' and name == r'levels\multi\warlock\fx\teleporter_reciever\teleporter_reciever':
+            # This custom receiver omitted the retail hum attachment entirely.
+            # Restore it using the native marker/teleporter_active scale binding.
+            c = self.registry.cache
+            donor = self.resolved['bloc', r'objects\multi\teleporter_reciever\teleporter_reciever'][1]
+            attachments = next(field for field in ds if field.get('name') == 'Attachments')
+            at = int(attachments.get('offset'), 0)
+            stride = int(attachments.get('elementSize'), 0)
+            native = [row for row in c.block(c.tags[donor & 65535]['offset'] + at, stride)
+                      if c.data[row:row + 4] == b'lsnd']
+            if len(native) != 1:
+                raise ValueError('Expected one retail teleporter hum attachment')
+            count, pointer = struct.unpack_from('>II', payload, at)
+            existing = self.builder.read(pointer, count * stride) if count else b''
+            if any(existing[j:j + 4] == b'lsnd' for j in range(0, len(existing), stride)):
+                raise ValueError('Custom receiver already has a sound attachment')
+            payload = bytearray(payload)
+            combined = existing + c.data[native[0]:native[0] + stride]
+            struct.pack_into('>III', payload, at, count + 1, self.builder.alloc(combined), 0)
+            compatibility_notes.append('Restored native receiver hum with effect marker and teleporter_active scale.')
+        if len(payload) != size:
+            raise ValueError('Converted tag root size mismatch')
+        offset = address - self.builder.base
+        self.builder.meta[offset:offset + size] = payload
+        entry = {'source': name, 'group': group, 'datum': hex(owner)}
+        from tag_metadata import ITEM_UI
+        if group == 'eqip' and f'{group}:{name}' in ITEM_UI:
+            compatibility_notes.extend([
+                'Retail equipment pickup index 0 replaces MCC Unicode pickup icons.',
+                'Retail-only collision sound is null; legacy item scales are zero.'])
+        elif f'{group}:{name}' in ITEM_UI:
+            compatibility_notes.extend([
+                'Native weapon-family pickup index replaces MCC Unicode pickup icons.',
+                'Ordinary first-person offset replaces MCC centered-crosshair override.',
+                'Retail-only collision sound and aged-weapon references are null.'])
+        if compatibility_notes:
+            entry['compatibility_notes'] = compatibility_notes
+        if group == 'vehi' and name == r'objects\equipment\autoturret\autoturret':
+            entry.setdefault('compatibility_notes', []).append('Retail-only integrated light toggle is null.')
+        if group == 'weap' and ('smg_silenced' in name or 'plasma_rifle_red' in name):
+            entry.setdefault('compatibility_notes', []).append(
+                'Damage statistics use the corresponding retail SMG or Plasma Rifle category.')
+        if group == 'weap' and name == r'objects\weapons\pistol\automag\automag':
+            entry['compatibility_notes'] = [
+                'Retail magnum pickup-message index and sort order replace MCC Unicode icons.',
+                'Retail normal crosshair uses the ordinary weapon offset; MCC centered override is omitted.',
+                'Automag damage statistics use the retail Magnum category.',
+                'Retail-only collision sound and aged-weapon references are null.']
+        self.added.append(entry)
+        return group, owner
+
+    def finalize(self, bsp_index=0):
+        if self.failed:
+            raise ValueError('Cannot finalize an incomplete dependency graph')
+        if self.sounds is not None:
+            self.sounds.stage()
+        self.target_strings.stage()
+        self.registry.finalize(bsp_index)

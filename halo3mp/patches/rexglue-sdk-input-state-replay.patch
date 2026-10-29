@@ -1,0 +1,132 @@
+--- a/src/kernel/xam/xam_input.cpp
++++ b/src/kernel/xam/xam_input.cpp
+@@ -22,6 +22,9 @@
+ #pragma GCC diagnostic ignored "-Wunused-parameter"
+ 
+ #include <chrono>
++#include <algorithm>
++#include <array>
++#include <fstream>
+ #include <cstring>
+ #include <string>
+ #include <vector>
+@@ -37,6 +40,9 @@
+ #endif
+ #include <windows.h>
+ #endif
++
++REXCVAR_DEFINE_STRING(input_state_replay, "", "Input",
++                      "Diagnostic H3IR controller-state replay file; user 0, process-local only");
+ 
+ // REXGLUE_INPUT_SCRIPT
+ REXCVAR_DEFINE_STRING(input_script, "", "Input",
+@@ -285,6 +291,64 @@
+                                   .count());
+ }
+ 
++// Opt-in test input; never sends OS input and never merges live controller drift.
++struct ReplayFrame {
++  uint32_t ms;
++  uint16_t buttons;
++  int16_t lx, ly, rx, ry;
++  uint8_t lt, rt;
++};
++
++u32 ReplayUserZero(ppc_ptr_t<X_INPUT_STATE> state) {
++  const uint32_t ms = ScriptElapsedMs();
++  static const auto frames = [] {
++    std::ifstream file(REXCVAR_GET(input_state_replay), std::ios::binary);
++    std::array<uint8_t, 8> header{};
++    if (!file.read(reinterpret_cast<char*>(header.data()), header.size()) ||
++        std::memcmp(header.data(), "H3IR", 4) != 0) REX_FATAL("Invalid input replay header");
++    auto u16 = [](const uint8_t* p) { return uint16_t(p[0] | (uint16_t(p[1]) << 8)); };
++    auto u32 = [](const uint8_t* p) {
++      return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24);
++    };
++    const uint32_t count = u32(header.data() + 4);
++    if (!count || count > 100000) REX_FATAL("Invalid input replay count");
++    std::vector<ReplayFrame> result;
++    result.reserve(count);
++    for (uint32_t i = 0; i < count; ++i) {
++      std::array<uint8_t, 16> b{};
++      if (!file.read(reinterpret_cast<char*>(b.data()), b.size())) REX_FATAL("Truncated input replay");
++      ReplayFrame f{u32(b.data()), u16(b.data() + 4),
++          static_cast<int16_t>(u16(b.data() + 6)), static_cast<int16_t>(u16(b.data() + 8)),
++          static_cast<int16_t>(u16(b.data() + 10)), static_cast<int16_t>(u16(b.data() + 12)), b[14], b[15]};
++      if (f.ms > 3600000 || (!result.empty() && f.ms < result.back().ms))
++        REX_FATAL("Invalid input replay timestamps");
++      result.push_back(f);
++    }
++    if (file.peek() != std::ifstream::traits_type::eof()) REX_FATAL("Trailing input replay bytes");
++    REXKRNL_INFO("[input-replay] loaded {} frames, last_ms={}; live user-0 input excluded",
++                result.size(), result.back().ms);
++    return result;
++  }();
++  if (!state) return X_ERROR_SUCCESS;
++  const auto next = std::upper_bound(frames.begin(), frames.end(), ms,
++      [](uint32_t time, const ReplayFrame& f) { return time < f.ms; });
++  const uint32_t packet = static_cast<uint32_t>(next - frames.begin()) + 1;
++  const ReplayFrame f = next == frames.begin() ? ReplayFrame{} : *(next - 1);
++  std::memset(state, 0, sizeof(X_INPUT_STATE));
++  state->packet_number = packet;
++  state->gamepad.buttons = f.buttons;
++  state->gamepad.thumb_lx = f.lx; state->gamepad.thumb_ly = f.ly;
++  state->gamepad.thumb_rx = f.rx; state->gamepad.thumb_ry = f.ry;
++  state->gamepad.left_trigger = f.lt; state->gamepad.right_trigger = f.rt;
++  static thread_local uint32_t last_packet = 0;
++  if (packet != last_packet) {
++    REXKRNL_INFO("[input-replay] t={}ms frame={} buttons={} lx={} ly={} rx={} ry={} lt={} rt={}",
++        ms, packet - 1, f.buttons, f.lx, f.ly, f.rx, f.ry, f.lt, f.rt);
++    last_packet = packet;
++  }
++  return X_ERROR_SUCCESS;
++}
++
+ bool HasReachedScriptFor(uint32_t user) {
+   const uint32_t ms = ScriptElapsedMs();
+   for (const auto& step : ParsedScript()) {
+@@ -466,7 +530,8 @@
+ }
+ 
+ bool HasSyntheticInput(uint32_t user) {
+-  return HasReachedScriptFor(user) || (REXCVAR_GET(keyboard_controller) && user == 0);
++  return (user == 0 && !REXCVAR_GET(input_state_replay).empty()) ||
++      HasReachedScriptFor(user) || (REXCVAR_GET(keyboard_controller) && user == 0);
+ }
+ 
+ ScriptedState MergedSyntheticFor(uint32_t user) {
+@@ -531,6 +596,10 @@
+   if ((actual_user_index & 0xFF) == 0xFF || (flags & XINPUT_FLAG_ANY_USER)) {
+     // Always pin user to 0.
+     actual_user_index = 0;
++  }
++
++  if (actual_user_index == 0 && !REXCVAR_GET(input_state_replay).empty()) {
++    return ReplayUserZero(input_state);
+   }
+ 
+   auto* is = input_system();
+@@ -602,6 +671,7 @@
+   }
+ 
+   (void)unk;  // Unused in this implementation
++  if (actual_user_index == 0 && !REXCVAR_GET(input_state_replay).empty()) return X_ERROR_SUCCESS;
+   auto* is = input_system();
+   return is->SetState(actual_user_index, vibration);
+ }
+@@ -633,6 +703,7 @@
+     return X_ERROR_SUCCESS;
+   }
+ 
++  if (actual_user_index == 0 && !REXCVAR_GET(input_state_replay).empty()) return X_ERROR_EMPTY;
+   auto* is = input_system();
+   return is->GetKeystroke(actual_user_index, flags, keystroke);
+ }
+@@ -663,6 +734,7 @@
+     return X_ERROR_SUCCESS;
+   }
+ 
++  if (user_index == 0 && !REXCVAR_GET(input_state_replay).empty()) return X_ERROR_EMPTY;
+   auto* is = input_system();
+   auto result = is->GetKeystroke(user_index, flags, keystroke);
+   if (XSUCCEEDED(result)) {

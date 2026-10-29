@@ -12,9 +12,10 @@ rex::runtime::ResolveIndirectFunction, which queries the global dispatcher
 across every loaded module. That is exactly the behaviour we want.
 """
 import re, glob, os, sys
+from pathlib import Path
 import resolve_imports as ri
 
-PROJ = r"C:\Programming\GitHub\Halo-3-MP\halo3mp"
+PROJ = str(Path(__file__).resolve().parents[1])
 GEN = os.path.join(PROJ, "generated")
 SRC = os.path.join(PROJ, "src")
 G = ri.G

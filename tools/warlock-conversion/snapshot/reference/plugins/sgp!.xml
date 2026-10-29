@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x48">
+	<!-- Automatically generated plugin -->
+	<revisions>
+		<revision author="Assembly" version="1">Generated plugin from scratch.</revision>
+		<revision author="Lord Zedd" version="2">Woo</revision>
+	</revisions>
+	<comment title="Underwater Propagation Globals" />
+	<tagRef name="Sound Environment" offset="0x0" visible="true" />
+	<tagRef name="Background Sound" offset="0x10" visible="true" />
+	<float32 name="Background Sound Gain" offset="0x20" visible="true" tooltip="scale for fog background sound" />
+	<float32 name="Environment Ducking" offset="0x24" visible="true" tooltip="scales the surrounding background sound by this much" />
+	<tagRef name="Entry Sound" offset="0x28" visible="true" />
+	<tagRef name="Exit Sound" offset="0x38" visible="true" />
+</plugin>

@@ -1,0 +1,32 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -34,6 +34,10 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_allow_variable_refresh_rate_and_tearing, true, "UI/D3D12",
+                     "Allow variable refresh rate and tearing");
++
++REXCVAR_DEFINE_UINT32(d3d12_host_maximum_frame_latency, 1, "UI/D3D12",
++                      "Maximum queued host frames with waitable presentation")
++    .range(1, 2).lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_host_waitable_presentation, false, "UI/D3D12",
+                     "Wait for host presentation capacity before drawing")
+@@ -483,7 +487,7 @@
+     // From now on, in case of any failure, DestroySwapChain must be called
+     // before returning.
+     if (REXCVAR_GET(d3d12_host_waitable_presentation)) {
+-      if (FAILED(paint_context_.swap_chain->SetMaximumFrameLatency(1))) {
++      if (FAILED(paint_context_.swap_chain->SetMaximumFrameLatency(REXCVAR_GET(d3d12_host_maximum_frame_latency)))) {
+         REXLOG_ERROR("Failed to configure waitable host presentation");
+         paint_context_.DestroySwapChain();
+         return SurfacePaintConnectResult::kFailure;
+@@ -498,7 +502,8 @@
+         std::lock_guard<std::mutex> lock(latency_handles_mutex);
+         latency_handles.emplace(paint_context_.swap_chain.Get(), latency);
+       }
+-      REXLOG_INFO("Waitable host presentation enabled with maximum latency 1");
++      REXLOG_INFO("Waitable host presentation enabled with maximum latency {}",
++                  REXCVAR_GET(d3d12_host_maximum_frame_latency));
+     }
+     paint_context_.swap_chain_width = new_swap_chain_width;
+     paint_context_.swap_chain_height = new_swap_chain_height;

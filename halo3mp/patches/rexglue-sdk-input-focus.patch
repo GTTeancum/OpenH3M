@@ -1,0 +1,345 @@
+--- a/include/rex/input/input_driver.h
++++ b/include/rex/input/input_driver.h
+@@ -45,6 +45,8 @@
+                                       X_INPUT_KEYSTROKE* out_keystroke) = 0;
+ 
+   virtual void OnWindowAvailable(rex::ui::Window* /*window*/) {}
++  // UI thread notification. Implementations synchronize with guest polling.
++  virtual void OnInputFocusChanged(bool /*focused*/) {}
+ 
+   void set_is_active_callback(std::function<bool()> is_active_callback) {
+     is_active_callback_ = is_active_callback;
+--- a/include/rex/input/input_system.h
++++ b/include/rex/input/input_system.h
+@@ -10,6 +10,7 @@
+  * @modified    Tom Clay, 2026 - Adapted for ReXGlue runtime
+  */
+ 
++#include <atomic>
+ #include <memory>
+ #include <vector>
+ 
+@@ -18,6 +19,7 @@
+ #include <rex/input/input_driver.h>
+ #include <rex/input/state_merge.h>
+ #include <rex/system/interfaces/input.h>
++#include <rex/ui/window_listener.h>
+ 
+ namespace rex::ui {
+ class Window;
+@@ -25,7 +27,7 @@
+ 
+ namespace rex::input {
+ 
+-class InputSystem : public system::IInputSystem {
++class InputSystem : public system::IInputSystem, public ui::WindowListener {
+  public:
+   explicit InputSystem(rex::ui::Window* window);
+   ~InputSystem() override;
+@@ -38,6 +40,10 @@
+   void AddDriver(std::unique_ptr<InputDriver> driver);
+   void AttachWindow(rex::ui::Window* window);
+   void SetActiveCallback(std::function<bool()> callback);
++  bool IsActive() const;
++  void OnLostFocus(ui::UISetupEvent&) override;
++  void OnGotFocus(ui::UISetupEvent&) override;
++  void OnClosing(ui::UIEvent&) override;
+ 
+   /// Replaces any previous assignment. Call before the guest starts polling.
+   void SetDeviceAssignment(std::unique_ptr<DeviceAssignment> assignment);
+@@ -54,7 +60,12 @@
+   InputDriver* DriverForDevice(DeviceId id);
+   const DeviceInfo* DeviceInfoFor(DeviceId id) const;
+ 
++  void SetWindowFocused(bool focused);
++  void DetachWindow();
+   rex::ui::Window* window_ = nullptr;
++  std::atomic<bool> focused_{true};
++  std::atomic<uint32_t> focus_generation_{0};
++  std::function<bool()> active_callback_;
+ 
+   std::vector<std::unique_ptr<InputDriver>> drivers_;
+ 
+--- a/include/rex/input/mnk/mnk_input_driver.h
++++ b/include/rex/input/mnk/mnk_input_driver.h
+@@ -33,6 +33,7 @@
+   ~MnkInputDriver() override;
+ 
+   X_STATUS Setup() override;
++  void OnInputFocusChanged(bool) override;
+ 
+   void EnumerateDevices(std::vector<DeviceInfo>& out) override;
+   X_RESULT GetDeviceState(DeviceId id, X_INPUT_STATE* out_state) override;
+--- a/include/rex/input/sdl/sdl_input_driver.h
++++ b/include/rex/input/sdl/sdl_input_driver.h
+@@ -33,6 +33,7 @@
+   ~SDLInputDriver() override;
+ 
+   X_STATUS Setup() override;
++  void OnInputFocusChanged(bool) override;
+ 
+   void EnumerateDevices(std::vector<DeviceInfo>& out) override;
+   X_RESULT GetDeviceState(DeviceId id, X_INPUT_STATE* out_state) override;
+--- a/include/rex/input/xinput/xinput_input_driver.h
++++ b/include/rex/input/xinput/xinput_input_driver.h
+@@ -26,6 +26,7 @@
+   ~XinputInputDriver() override;
+ 
+   X_STATUS Setup() override;
++  void OnInputFocusChanged(bool) override { discard_keystrokes_.store(0xF); }
+ 
+   void EnumerateDevices(std::vector<DeviceInfo>& out) override;
+   X_RESULT GetDeviceState(DeviceId id, X_INPUT_STATE* out_state) override;
+@@ -36,6 +37,8 @@
+                               X_INPUT_KEYSTROKE* out_keystroke) override;
+ 
+  private:
++  // One bit per native slot; drain on the guest thread after either transition.
++  std::atomic<uint32_t> discard_keystrokes_{0};
+   void* module_;
+   void* XInputGetCapabilities_;
+   void* XInputGetState_;
+--- a/src/input/input_system.cpp
++++ b/src/input/input_system.cpp
+@@ -41,13 +41,14 @@
+ 
+ InputSystem::InputSystem(rex::ui::Window* window) : window_(window) {}
+ 
+-InputSystem::~InputSystem() = default;
++InputSystem::~InputSystem() { DetachWindow(); }
+ 
+ X_STATUS InputSystem::Setup() {
+   return X_STATUS_SUCCESS;
+ }
+ 
+ void InputSystem::Shutdown() {
++  DetachWindow();
+   // device_owners_ holds raw driver pointers.
+   devices_.clear();
+   device_owners_.clear();
+@@ -55,20 +56,54 @@
+ }
+ 
+ void InputSystem::AddDriver(std::unique_ptr<InputDriver> driver) {
++  driver->set_is_active_callback([this] { return IsActive(); });
+   drivers_.push_back(std::move(driver));
+ }
+ 
+ void InputSystem::AttachWindow(rex::ui::Window* window) {
++  DetachWindow();
+   window_ = window;
++  if (window_) {
++    window_->AddListener(this);
++    SetWindowFocused(window_->HasFocus());
++  }
+   for (auto& driver : drivers_) {
+     driver->OnWindowAvailable(window);
+   }
+ }
+ 
+ void InputSystem::SetActiveCallback(std::function<bool()> callback) {
+-  for (auto& driver : drivers_) {
+-    driver->set_is_active_callback(callback);
+-  }
++  active_callback_ = std::move(callback);
++}
++
++bool InputSystem::IsActive() const {
++  return focused_.load(std::memory_order_acquire) &&
++         (!active_callback_ || active_callback_());
++}
++
++void InputSystem::SetWindowFocused(bool focused) {
++  if (focused_.load(std::memory_order_acquire) == focused) return;
++  // Close the gate before clearing queues, and reopen only after clearing.
++  focused_.store(false, std::memory_order_release);
++  for (auto& driver : drivers_) driver->OnInputFocusChanged(focused);
++  focus_generation_.fetch_add(1, std::memory_order_acq_rel);
++  focused_.store(focused, std::memory_order_release);
++}
++
++void InputSystem::OnLostFocus(ui::UISetupEvent&) { SetWindowFocused(false); }
++void InputSystem::OnGotFocus(ui::UISetupEvent&) { SetWindowFocused(true); }
++void InputSystem::OnClosing(ui::UIEvent&) {
++  SetWindowFocused(false);
++  DetachWindow();
++}
++
++void InputSystem::DetachWindow() {
++  if (!window_) return;
++  auto* window = window_;
++  window->app_context().CallInUIThreadSynchronous([this, window] {
++    window->RemoveListener(this);
++    window_ = nullptr;
++  });
+ }
+ 
+ void InputSystem::SetDeviceAssignment(std::unique_ptr<DeviceAssignment> assignment) {
+@@ -233,7 +268,7 @@
+     if (driver->GetDeviceState(id, &state) != X_ERROR_SUCCESS) {
+       continue;
+     }
+-    active_devices_.Observe(user_index, id, state.gamepad);
++    if (IsActive()) active_devices_.Observe(user_index, id, state.gamepad);
+     if (!any) {
+       merged = state;
+       any = true;
+@@ -245,6 +280,10 @@
+   if (!any) {
+     return X_ERROR_DEVICE_NOT_CONNECTED;
+   }
++  // Keep devices connected, but release every guest button/axis in background.
++  if (!IsActive()) merged.gamepad = {};
++  // A focus transition changes the returned state even if the pad is held still.
++  merged.packet_number = uint32_t(merged.packet_number) + focus_generation_.load();
+   if (out_state) {
+     *out_state = merged;
+   }
+@@ -310,6 +349,10 @@
+       continue;
+     }
+     X_RESULT result = driver->GetDeviceKeystroke(id, flags, out_keystroke);
++    if (result == X_ERROR_SUCCESS && !IsActive()) {
++      any_connected = true;
++      continue;
++    }
+     if (result == X_ERROR_SUCCESS) {
+       out_keystroke->user_index = static_cast<uint8_t>(user_index);
+       return result;
+--- a/src/input/mnk/mnk_input_driver.cpp
++++ b/src/input/mnk/mnk_input_driver.cpp
+@@ -167,6 +167,7 @@
+       std::lock_guard lock(state_mutex_);
+       attached_window_ = window;
+     }
++    has_focus_ = window->HasFocus();
+     window->AddInputListener(this, window_z_order());
+     window->AddListener(this);
+   }
+@@ -264,6 +265,7 @@
+   QueueMouseCaptureUpdate(IsEnabled() && REXCVAR_GET(mnk_mouse) && IsMouseLookActive() &&
+                           has_focus_ && is_active());
+ 
++  std::lock_guard lock(state_mutex_);
+   if (!is_active() || !has_focus_) {
+     if (out_state) {
+       std::memset(out_state, 0, sizeof(*out_state));
+@@ -271,8 +273,6 @@
+     }
+     return X_ERROR_SUCCESS;
+   }
+-
+-  std::lock_guard lock(state_mutex_);
+ 
+   uint16_t buttons = 0;
+   if (IsBindPressed(key_down_, REXCVAR_GET(keybind_a)))
+@@ -375,7 +375,7 @@
+     return X_ERROR_DEVICE_NOT_CONNECTED;
+   }
+   std::lock_guard lock(state_mutex_);
+-  if (keystroke_queue_.empty()) {
++  if (!is_active() || !has_focus_ || keystroke_queue_.empty()) {
+     return X_ERROR_EMPTY;
+   }
+   if (out_keystroke) {
+@@ -419,7 +419,8 @@
+   if (!window) {
+     return;
+   }
+-  bool should_capture = mouse_capture_requested_.load(std::memory_order_relaxed);
++  bool should_capture = mouse_capture_requested_.load(std::memory_order_relaxed) &&
++                        has_focus_ && is_active();
+   if (should_capture == mouse_captured_) {
+     return;
+   }
+@@ -558,17 +559,20 @@
+   }
+ }
+ 
++void MnkInputDriver::OnInputFocusChanged(bool) {
++  std::lock_guard lock(state_mutex_);
++  std::memset(key_down_, 0, sizeof(key_down_));
++  mouse_dx_ = mouse_dy_ = 0.0f;
++  keystroke_queue_ = {};
++  ++packet_number_;
++}
++
+ void MnkInputDriver::OnLostFocus(rex::ui::UISetupEvent&) {
+   has_focus_ = false;
+   // Withdraw the request too, or an update queued before the focus loss grabs
+   // the cursor straight back.
+   mouse_capture_requested_.store(false, std::memory_order_relaxed);
+-  {
+-    std::lock_guard lock(state_mutex_);
+-    std::memset(key_down_, 0, sizeof(key_down_));
+-    mouse_dx_ = 0.0f;
+-    mouse_dy_ = 0.0f;
+-  }
++  OnInputFocusChanged(false);
+   if (attached_window_) {
+     ReleaseMouseCaptureFromUIThread(attached_window_);
+   }
+--- a/src/input/sdl/sdl_input_driver.cpp
++++ b/src/input/sdl/sdl_input_driver.cpp
+@@ -138,6 +138,11 @@
+     }
+     attached_window_ = nullptr;
+   }
++}
++
++void SDLInputDriver::OnInputFocusChanged(bool) {
++  auto guard = DrainAndLock();
++  for (auto& controller : controllers_) controller.keystroke = {};
+ }
+ 
+ void SDLInputDriver::OnLostFocus(rex::ui::UISetupEvent&) {}
+@@ -319,6 +324,14 @@
+                    AnalogToKeyfield(controller->state.gamepad))
+                 : uint64_t(0);
+   KeystrokeState& last = controller->keystroke;
++  if (!is_active) {
++    last = {};
++    return X_ERROR_EMPTY;
++  }
++  // Release wins over repeat, including a release received while unfocused.
++  if (!(curr_butts & (uint64_t(1) << last.repeat_butt_idx))) {
++    last.repeat_state = RepeatState::Idle;
++  }
+ 
+   // Handle repeating
+   auto guest_now = rex::chrono::Clock::QueryGuestUptimeMillis();
+--- a/src/input/xinput/xinput_input_driver.cpp
++++ b/src/input/xinput/xinput_input_driver.cpp
+@@ -271,6 +271,18 @@
+ 
+   XINPUT_KEYSTROKE native_keystroke;
+   auto xigk = (decltype(&XInputGetKeystroke))XInputGetKeystroke_;
++  const uint32_t slot_bit = 1u << user_index;
++  const bool discard = (discard_keystrokes_.fetch_and(~slot_bit) & slot_bit) != 0;
++  if (discard || !is_active()) {
++    // Native XInput queues events even while the game is in the background.
++    // Bound the drain: some XInput implementations keep returning SUCCESS
++    // after a disconnect. Retain the discard bit if the queue did not empty.
++    for (unsigned count = 0; count < 256; ++count) {
++      if (xigk(user_index, 0, &native_keystroke) != ERROR_SUCCESS) return X_ERROR_EMPTY;
++    }
++    discard_keystrokes_.fetch_or(slot_bit);
++    return X_ERROR_EMPTY;
++  }
+   result = xigk(user_index, 0, &native_keystroke);
+   if (result) {
+     return result;
+--- a/src/kernel/xam/xam_input.cpp
++++ b/src/kernel/xam/xam_input.cpp
+@@ -477,7 +477,10 @@
+ 
+ ScriptedState KeyboardControllerFor(uint32_t user) {
+   ScriptedState st{0, 0, 0, 0, 0, 0, 0, false};
+-  if (!REXCVAR_GET(keyboard_controller) || user != 0) {
++  // This legacy keyboard path bypasses the device drivers. Apply the same
++  // window/host-UI gate before polling any global keyboard state.
++  const auto* input = static_cast<rex::input::InputSystem*>(input_system());
++  if (!REXCVAR_GET(keyboard_controller) || user != 0 || !input || !input->IsActive()) {
+     return st;
+   }
+ #if defined(_WIN32)

@@ -1,0 +1,72 @@
+--- a/src/graphics/d3d12/shared_memory.cpp
++++ b/src/graphics/d3d12/shared_memory.cpp
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <cstring>
++#include <fstream>
+ #include <utility>
+ #include <vector>
+ 
+@@ -23,6 +24,16 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_tiled_shared_memory, true, "GPU/D3D12",
+                     "Use tiled shared memory on D3D12")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++
++REXCVAR_DEFINE_STRING(d3d12_upload_probe_path, "", "GPU/D3D12",
++                      "Optional bounded CPU-to-GPU upload evidence file; disabled when empty")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++REXCVAR_DEFINE_UINT32(d3d12_upload_probe_address, 0, "GPU/D3D12",
++                      "Physical start address for upload evidence")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++REXCVAR_DEFINE_UINT32(d3d12_upload_probe_size, 0, "GPU/D3D12",
++                      "Upload evidence range, at most one MiB")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+ 
+ namespace rex::graphics::d3d12 {
+@@ -327,6 +338,44 @@
+       std::memcpy(upload_buffer_mapping,
+                   memory().TranslatePhysical(upload_range_start << page_size_log2()),
+                   upload_buffer_size);
++      // Record exactly the staging bytes submitted below, not a later CPU
++      // reread. GPU-thread-only state; at most 32 MiB per process. This does
++      // not claim to capture the converted GPU texture or its shader output.
++      if (!REXCVAR_GET(d3d12_upload_probe_path).empty()) {
++        static uint32_t probe_bytes = 0, probe_sequence = 0;
++        static bool probe_failed = false;
++        const uint64_t probe_begin = REXCVAR_GET(d3d12_upload_probe_address);
++        const uint64_t probe_size = REXCVAR_GET(d3d12_upload_probe_size);
++        const uint64_t upload_begin = uint64_t(upload_range_start) << page_size_log2();
++        const uint64_t begin = std::max(probe_begin, upload_begin);
++        const uint64_t end = std::min(probe_begin + probe_size,
++                                     upload_begin + upload_buffer_size);
++        if (!probe_failed && probe_size && probe_size <= 1048576 &&
++            probe_begin + probe_size <= 0x20000000 && end > begin) {
++          const uint32_t length = uint32_t(end - begin);
++          if (probe_bytes + length + 16 > 32 * 1048576) {
++            REXGPU_WARN("[upload-probe] recording limit reached");
++            probe_failed = true;
++          } else {
++            std::ofstream evidence(REXCVAR_GET(d3d12_upload_probe_path),
++                std::ios::binary | (probe_sequence ? std::ios::app : std::ios::trunc));
++            const uint32_t record[4] = {0x31505546, probe_sequence, uint32_t(begin), length};
++            evidence.write(reinterpret_cast<const char*>(record), sizeof(record));
++            evidence.write(reinterpret_cast<const char*>(upload_buffer_mapping +
++                (begin - upload_begin)), length);
++            evidence.close();
++            if (!evidence) {
++              REXGPU_ERROR("[upload-probe] evidence write failed");
++              probe_failed = true;
++            } else {
++              REXGPU_INFO("[upload-probe] sequence={} address={:08X} bytes={}",
++                          probe_sequence, uint32_t(begin), length);
++              probe_bytes += length + 16;
++              ++probe_sequence;
++            }
++          }
++        }
++      }
+       command_list.D3DCopyBufferRegion(buffer_, upload_range_start << page_size_log2(),
+                                        upload_buffer, UINT64(upload_buffer_offset),
+                                        UINT64(upload_buffer_size));

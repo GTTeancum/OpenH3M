@@ -1,0 +1,133 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -13,6 +13,8 @@
+ #include <climits>
+ #include <cmath>
+ #include <memory>
++#include <map>
++#include <mutex>
+ #include <utility>
+ 
+ #include <rex/assert.h>
+@@ -33,6 +35,10 @@
+ REXCVAR_DEFINE_BOOL(d3d12_allow_variable_refresh_rate_and_tearing, true, "UI/D3D12",
+                     "Allow variable refresh rate and tearing");
+ 
++REXCVAR_DEFINE_BOOL(d3d12_host_waitable_presentation, false, "UI/D3D12",
++                    "Wait for host presentation capacity before drawing")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++
+ REXCVAR_DEFINE_UINT32(d3d12_host_sync_interval, 0, "UI/D3D12",
+                       "Host presentation synchronization interval; 0 keeps immediate presentation")
+     .range(0, 4);
+@@ -43,6 +49,24 @@
+ extern "C" uint64_t RexHostGuestImageSequence(const void* presenter, uint32_t mailbox);
+ 
+ namespace rex::ui::d3d12 {
++namespace {
++std::mutex latency_handles_mutex;
++std::map<IDXGISwapChain3*, HANDLE> latency_handles;
++HANDLE FindLatencyHandle(IDXGISwapChain3* chain) {
++  std::lock_guard<std::mutex> lock(latency_handles_mutex);
++  auto it = latency_handles.find(chain);
++  return it != latency_handles.end() ? it->second : nullptr;
++}
++void CloseLatencyHandle(IDXGISwapChain3* chain) {
++  std::lock_guard<std::mutex> lock(latency_handles_mutex);
++  auto it = latency_handles.find(chain);
++  if (it != latency_handles.end()) {
++    CloseHandle(it->second);
++    latency_handles.erase(it);
++  }
++}
++}  // namespace
++
+ 
+ // Generated with `xb buildshaders`.
+ namespace shaders {
+@@ -65,6 +89,7 @@
+   // From most likely the latest to most likely the earliest to be signaled, so
+   // just one sleep will likely be needed.
+   paint_context_.AwaitSwapChainUsageCompletion();
++  CloseLatencyHandle(paint_context_.swap_chain.Get());
+   guest_output_resource_refresher_submission_tracker_.Shutdown();
+   ui_submission_tracker_.Shutdown();
+ #if defined(REX_HAS_FIDELITYFX_RUNTIME) && REX_HAS_FIDELITYFX_RUNTIME
+@@ -359,7 +384,7 @@
+   if (paint_context_.swap_chain) {
+     if (was_paintable && paint_context_.swap_chain_width == new_swap_chain_width &&
+         paint_context_.swap_chain_height == new_swap_chain_height) {
+-      is_vsync_implicit_out = false;
++      is_vsync_implicit_out = FindLatencyHandle(paint_context_.swap_chain.Get()) != nullptr;
+       return SurfacePaintConnectResult::kSuccessUnchanged;
+     }
+     paint_context_.AwaitSwapChainUsageCompletion();
+@@ -372,7 +397,8 @@
+     }
+     bool swap_chain_resized = SUCCEEDED(paint_context_.swap_chain->ResizeBuffers(
+         0, UINT(new_swap_chain_width), UINT(new_swap_chain_height), DXGI_FORMAT_UNKNOWN,
+-        paint_context_.swap_chain_allows_tearing ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0));
++        (paint_context_.swap_chain_allows_tearing ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0) |
++        (FindLatencyHandle(paint_context_.swap_chain.Get()) ? DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT : 0)));
+     if (swap_chain_resized) {
+       for (uint32_t i = 0; i < PaintContext::kSwapChainBufferCount; ++i) {
+         if (FAILED(paint_context_.swap_chain->GetBuffer(
+@@ -416,7 +442,8 @@
+             : DXGI_SCALING_STRETCH;
+     swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+     swap_chain_desc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
+-    swap_chain_desc.Flags = 0;
++    swap_chain_desc.Flags = REXCVAR_GET(d3d12_host_waitable_presentation)
++        ? DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT : 0;
+     if (REXCVAR_GET(d3d12_allow_variable_refresh_rate_and_tearing) && dxgi_supports_tearing_) {
+       // Allow tearing in borderless fullscreen to support variable refresh
+       // rate.
+@@ -455,6 +482,24 @@
+     }
+     // From now on, in case of any failure, DestroySwapChain must be called
+     // before returning.
++    if (REXCVAR_GET(d3d12_host_waitable_presentation)) {
++      if (FAILED(paint_context_.swap_chain->SetMaximumFrameLatency(1))) {
++        REXLOG_ERROR("Failed to configure waitable host presentation");
++        paint_context_.DestroySwapChain();
++        return SurfacePaintConnectResult::kFailure;
++      }
++      HANDLE latency = paint_context_.swap_chain->GetFrameLatencyWaitableObject();
++      if (!latency) {
++        REXLOG_ERROR("Waitable host presentation handle is unavailable");
++        paint_context_.DestroySwapChain();
++        return SurfacePaintConnectResult::kFailure;
++      }
++      {
++        std::lock_guard<std::mutex> lock(latency_handles_mutex);
++        latency_handles.emplace(paint_context_.swap_chain.Get(), latency);
++      }
++      REXLOG_INFO("Waitable host presentation enabled with maximum latency 1");
++    }
+     paint_context_.swap_chain_width = new_swap_chain_width;
+     paint_context_.swap_chain_height = new_swap_chain_height;
+     paint_context_.swap_chain_allows_tearing =
+@@ -557,6 +602,7 @@
+   for (Microsoft::WRL::ComPtr<ID3D12Resource>& swap_chain_buffer_ref : swap_chain_buffers) {
+     swap_chain_buffer_ref.Reset();
+   }
++  CloseLatencyHandle(swap_chain.Get());
+   swap_chain.Reset();
+   swap_chain_allows_tearing = false;
+   swap_chain_height = 0;
+@@ -564,6 +610,15 @@
+ }
+ 
+ Presenter::PaintResult D3D12Presenter::PaintAndPresentImpl(bool execute_ui_drawers) {
++  if (HANDLE latency = FindLatencyHandle(paint_context_.swap_chain.Get())) {
++    // Keep the UI responsive on occlusion/device loss. No queue work is held.
++    const DWORD wait_result = WaitForSingleObjectEx(latency, 100, FALSE);
++    if (wait_result != WAIT_OBJECT_0) {
++      REXLOG_WARN("Host presentation capacity wait returned {}", wait_result);
++      return PaintResult::kNotPresented;
++    }
++  }
++
+   // Begin the command list with the command allocator not currently potentially
+   // used on the GPU.
+   UINT64 current_paint_submission = paint_context_.paint_submission_tracker.GetCurrentSubmission();

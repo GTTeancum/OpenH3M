@@ -25,6 +25,11 @@ endif()
 
 rexglue_setup_target(halo3mp GPU_PLUGINS xenos)
 
+# The application uses SDK ImGui UI headers directly when sharing its source build.
+if(DEFINED REXGLUE_ROOT AND EXISTS "${REXGLUE_ROOT}/thirdparty/imgui/imgui.h")
+    target_include_directories(halo3mp PRIVATE "${REXGLUE_ROOT}/thirdparty/imgui")
+endif()
+
 if(WIN32)
     target_link_libraries(halo3mp PRIVATE windowscodecs ole32)
 endif()
@@ -38,3 +43,9 @@ foreach(_rexmod l360 q10)
             ${CMAKE_CURRENT_SOURCE_DIR}/src/${_rexmod}_import_stubs.cpp)
     endif()
 endforeach()
+
+if(TARGET rex::runtime AND WIN32)
+    add_executable(input_focus_check EXCLUDE_FROM_ALL ../tools/input-focus/test_focus.cpp)
+    target_include_directories(input_focus_check PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../work/input-focus")
+    target_link_libraries(input_focus_check PRIVATE rex::runtime)
+endif()

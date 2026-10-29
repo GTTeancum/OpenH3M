@@ -1,0 +1,1322 @@
+# Frame pacing investigation
+
+Status: periodic frame-cadence fix implemented, deployed and validated on the
+Beelink SER8. Final direct launch at `C:\X360\ISOs\H3M\OpenH3M.exe` showed
+1,347/1,347 measured consecutive game-image transitions at exactly two display
+refreshes, no missing image IDs, and no >60ms output gaps. Host rendering follows
+29.97FPS on the measured59.94Hz display; guest vblank remains60Hz. Shared maps,
+saves and cache are reused. Source patches and tools are committed locally.
+
+Stock Cold Storage's recorded walk was99.1% evenly spaced and retained one
+65.58ms output gap. This is not a claim that every future performance hitch is
+eliminated. The historical0.35-0.66s pauses did not recur; their cause is unproven.
+Other hardware, system-link operation and the rare adapter repair path have not
+been tested. The user authorized host-runtime changes while preserving360 core
+compatibility; EXE, translated guest modules and map assets are unchanged.
+
+Closeout remains blocked by automatic approval review rejecting duplicate
+staging/cache deletion. The rejected directories remain; do not bypass the
+rejection through another tool. See final audit below. Older dated entries are
+historical, and later evidence supersedes their pending statuses.
+
+## Capture tools
+
+`snapshot/tools/check_frame_pacing.py` runs the unchanged installed executable
+with the existing process-local route to Cold Storage/Prisoner. It has a
+165-second watchdog, uses the shared cache, and keeps logs, saves and temporary
+files under the project's `.local/pacing` directory. `--stock` reads original
+disc maps directly without replacing the installed conversion. `--capture`
+requests native guest-output PNGs at 52 and 145 seconds; it does not capture or
+drive the desktop. `--effects-route` adds gameplay movement, shots and grenades.
+
+`--native-timing` uses `native_frame_timing.py` to locate the existing completed
+guest-frame counter. One debugger breakpoint at the exported presenter entry
+discovers its instance before measurement; the instruction and instruction
+pointer are restored and the debugger detaches. With `--guest-vblank-timing`,
+a second restored discovery breakpoint locates the guest vblank counter.
+Measurement subsequently only
+reads the counter roughly every 1ms. No engine files, guest code or game data
+are modified by the default sampler. Host runtime patches are built separately.
+The native counter accessor or known counter instruction is checked; unsupported
+layouts fail. This is not a per-frame debugger breakpoint or screenshot loop.
+
+Timestamps use Windows QueryPerformanceCounter through `time.perf_counter`.
+This Python installation's `time.monotonic` uses 15.625ms GetTickCount64; the first
+native timing trial (`20261020-172005-baseline`) is therefore invalid for detailed
+timing analysis and must not be used to establish a fix.
+
+The optional presentation measurements use the official standalone
+[PresentMon 2.6.0](https://github.com/GameTechDev/PresentMon/releases/tag/v2.6.0)
+console executable at `.local/tools/PresentMon-2.6.0-x64.exe`, PID-filtered to the
+owned game with input tracking disabled. There is no overlay, hotkey, screen
+takeover or persistent system setting. Window occlusion changes display delivery;
+the native counter is needed to measure game-frame production independently.
+PresentMon is a private diagnostic dependency, not part of the engine or Git.
+
+From the conversion repository:
+
+```powershell
+python -B tools/warlock-conversion/snapshot/tools/check_frame_pacing.py --project ../.. --exe D:/Programming/GitHub/H3M/OpenH3M.exe --mode baseline --native-timing
+python -B tools/warlock-conversion/snapshot/tools/summarize_frame_pacing.py ../pacing/RUN-DIRECTORY
+```
+
+The summary uses samples from 125 seconds onward; it does not verify the scene. It reports skipped
+counter increments and polling gaps rather than concealing sampling uncertainty.
+Native timing by itself does not prove visual correctness, simulation speed or
+smooth display delivery. Inspect native output and compare equivalent routes.
+
+## Evidence so far
+
+- Prisoner is candidate 10, SHA256
+  `c14c7d8fe5f810bdec1873e620caadd11803702d6c120bee4de053456609e460`.
+- `20261020-171311-baseline`: inspected native PNG confirms Prisoner gameplay.
+  Host presentations occur about 90 times/sec while new game output is about
+  30/sec. Host presents alone are not a measure of unique game frames.
+- `20261020-171635-no-tearing`: native gameplay image inspected; disabling
+  `d3d12_allow_variable_refresh_rate_and_tearing` did not establish a pacing fix.
+  Display results were affected by composed presentation/occlusion.
+- `20261020-172315-baseline`: first valid high-resolution native capture.
+  898 settled-gameplay intervals, zero skipped frames, mean 33.390ms,
+  standard deviation 14.924ms, p05 14.305ms, p50 33.176ms, p95 51.969ms.
+  Maximum observed polling gap was 25.363ms; inspect raw polling gaps when
+  interpreting individual outliers. Hundreds of short/long intervals motivate
+  the investigation, rather than a single slow sample.
+- `20261020-172642-ui-thread`: `host_present_from_non_ui_thread=false` did
+  not resolve the irregularity: 898 intervals, mean 33.314ms, standard deviation
+  14.385ms, p05 14.301ms, p95 51.952ms, zero skipped frames, maximum observation
+  gap 4.364ms. No production default has changed. The setting is documented in the
+  [runtime presenter source](https://github.com/rexglue/rexglue-sdk/blob/main/src/ui/presenter.cpp).
+- The harness also supports an `honor-timers` experiment: disable the owned
+  child's `PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION` policy through
+  [SetProcessInformation](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessinformation).
+  This honors existing timer requests even when Windows occludes the game. It
+  does not request a global timer change, change game speed, or persist beyond
+  the process. This experiment has not yet established a fix.
+
+Remaining acceptance: compare native timings with stock Cold Storage, identify
+a repeatable improvement without changing the engine or game simulation, inspect
+the resulting native output, and document/deploy only the validated settings.
+
+
+## Subsequent experiments and route failures
+
+- Original Cold Storage run `20261020-172944-stock-baseline`: native image
+  verified. 900 intervals, mean 33.332ms, standard deviation 11.317ms,
+  p05 15.539ms, p95 51.644ms; no skipped frames, max polling gap 2.642ms.
+  Irregularity exists with original disc assets, not just converted maps.
+- `20261020-173248-honor-timers`: honoring the child's timer resolution while
+  occluded did not fix pacing (mean 33.463ms, deviation 13.012ms).
+- `vsync=false` changes virtual-vblank delivery and GPU waits. It is diagnostic
+  only; simulation speed and scene must be checked independently.
+- `20261020-173547-vblank-unthrottled` lacked a native content capture.
+  Its apparent improvement is withdrawn: subsequent runs reached File Share.
+- Native keystroke-only navigation was not consumed. 40ms button pulses failed
+  too: `20261020-174539-9380` showed Matchmaking selected at 52 seconds and
+  File Share at 135 seconds. Both native images were inspected.
+- An extra A at 30 seconds failed in `20261020-174941-36136`: its native
+  52-second image showed the Matchmaking lobby selector. The owned run was
+  stopped, and that speculative startup press was removed.
+- No no-vsync route is validated. Do not launch further full timing runs until
+  its starting state and navigation are established. No production fix applied.
+- Loading tracer supports project-local shared cache reuse, bounded multiple
+  native captures, and candidate game-time globals at bullet impacts. Candidate
+  layout matches initialized=1, rate=30, length=1/30, speed=1; tick deltas must
+  validate the candidate before drawing simulation-speed conclusions.
+
+## Recorded working route and limits
+
+The original button-state route remains in both scripts. It reached native-
+image-verified Prisoner and stock Cold Storage with default vsync. It is timed,
+not state-aware, and has not been validated under changed virtual-vblank timing.
+
+| Script time | Process-local input |
+| --- | --- |
+| 45s | Down (120ms pacing runner / 220ms loading tracer) |
+| 46s | A (250ms) |
+| 55s | Up (120ms pacing runner / 220ms loading tracer) |
+| 56s | A (250ms) |
+| 58-67s | Up once per second (120ms each), top of map list |
+| 68s | Down (120ms), Cold Storage follows Blackout |
+| 70s, 72s | A (250ms each) |
+| 74s | Down (220ms) |
+| 95s | A (250ms), launch match |
+
+Required destination: Custom Games, Cold Storage (Prisoner replacement).
+Matchmaking, File Share, and other map slots invalidate the test. Input logs
+alone do not establish menu state. Verify native content before gameplay
+measurement and stop an owned run when the route is wrong. No desktop input.
+
+
+### Short route probes (2026-10-20)
+
+`probe_native_route.py` confines each short native run and captures to `.local`,
+reuses the shared cache, checks the executable hash, refuses concurrent games,
+and kills its owned child at its watchdog. It uses only the existing native
+input script and guest-output capture. No timing claims come from this tool.
+
+- `20261020-175245-route-probe`: connect the synthetic controller at startup
+  with a 1ms right-stick pulse, then original Down/A at 45/46 seconds. Native
+  captures at 40 and 52 seconds both remained on main-menu Matchmaking.
+- `20261020-175411-route-probe`: native captures showed the Bungie intro at
+  18 and 22 seconds, then main menu at 26 seconds. Inputs during intro cannot
+  be treated as menu navigation.
+- `20261020-175456-route-probe`: Down held for one second at 35 seconds left
+  Matchmaking selected (37-second capture); A at 38 seconds entered its lobby
+  (42-second capture).
+- `20261020-175554-route-probe`: analog left-stick Down at 30 seconds also
+  left Matchmaking selected (32-second capture); A at 34 seconds entered its
+  lobby (38-second capture).
+
+All above probes used vsync=false. These captures disqualify that setting as
+an accepted fix: navigation behavior has not been preserved. Startup controller
+connection and shorter/longer digital pulses did not correct it. Stop guessing
+full routes under this option. Current focus is settings retaining normal vblank.
+
+Explicit SDL_TIMER_RESOLUTION=1 had not actually been measured previously;
+assuming its default was active is insufficient. A bounded normal-vblank trial
+now tests this separately from the earlier honor-existing-timer policy trial.
+New pacing captures include both the early lobby and final scene so a route
+failure can be detected before measurement completes.
+
+
+### Explicit timer-resolution result
+
+`20261020-175715-sdl-timer` reached the Custom Games lobby at 52 seconds and
+Prisoner gameplay at 145 seconds; both native images were inspected. The normal
+recorded route was unchanged. SDL_TIMER_RESOLUTION=1 did not fix pacing:
+899 intervals, no skips, mean 33.312ms, deviation 14.778ms, p05 15.114ms,
+p95 51.701ms, p99 52.540ms. There were 320 intervals below 25ms and 319 above
+41.667ms. Maximum polling gap was only 1.910ms, substantially below the observed
+variation. A read-only NtQueryTimerResolution during the run reported 1ms current
+system resolution; that query alone does not prove per-process timer behavior.
+
+No settings have been adopted for production. No engine or disc assets changed.
+Remaining work: locate the source of short/long frame delivery under normal
+vblank and validate a compatible fix; current tools measure output production,
+not simulation or physical-display smoothness by themselves.
+
+
+### GPU progress discovery (2026-10-20)
+
+`20261020-180209-baseline`: native captures verified Custom Games lobby and
+Prisoner gameplay. Guest output remained uneven: 899 intervals, mean 33.334ms,
+standard deviation 14.626ms, p05 14.727ms, p95 51.962ms, zero missed increments.
+
+The second discovery breakpoint observed the installed GPU worker at RVA
+0x1552b (`inc dword ptr [rax+0x78]`). It was restored before measurement. The
+counter advanced roughly 90 times/second, not 60. Inspection established it is
+shared GPU progress: the swap path also increments it (installed RVA 0x1a7f3).
+The upstream [command processor implementation](https://github.com/rexglue/rexglue-sdk/blob/main/src/graphics/command_processor.cpp)
+likewise increments counter_ after IssueSwap and writes it for EVENT_WRITE_SHD.
+This is NOT evidence of a 90Hz virtual display or an irregular vblank timer.
+
+The raw discovery file retains its original `vblank.csv` name for provenance;
+its regenerated summary explicitly labels the combined metric. New captures use
+`--gpu-progress-timing` and `gpu-progress.csv`. The tool checks the GPU DLL hash
+and instruction signature before discovery and polls read-only during timing.
+No pure-vblank or simulation-tick conclusion is justified by this counter.
+
+Next diagnosis must separate the virtual clock from the swap increments or
+validate an existing compatible video-mode setting. Do not adopt no-vsync or
+change engine code based on this mixed counter.
+
+
+### Fractional refresh and offline clock estimate
+
+`20261020-180652-ntsc-refresh` used the existing
+`--video_mode_refresh_rate=59.94` setting with vsync enabled. Native captures
+verified Custom Games and Prisoner. This did not fix pacing: 898 intervals,
+mean 33.385ms, deviation 14.727ms, p05 14.205ms, p95 51.987ms; zero missed
+increments, maximum polling gap 1.942ms. Production refresh is unchanged.
+
+An exploratory offline subtraction on `20261020-180209-baseline` matched all
+900 output events to a GPU-progress increment within 3ms. Subtracting those
+left 1799 residual events, mean spacing 16.6668ms, deviation 0.8517ms,
+p05 15.262ms and p95 18.186ms. Saved as `exploratory-residual.json` in that run.
+This suggests the virtual clock itself is substantially steadier than output,
+but matching/subtraction is not a direct vblank trace and cannot prove causality.
+
+The installed guest interrupt wrapper at executable RVA 0x44d4510 has its own
+atomic counter (RVA 0x4611c40), but logs show it combines source=0 and source=1
+interrupts. It therefore cannot replace the mixed GPU counter as a pure-vblank
+measurement. The wrapper calls the original translated callback at RVA
+0x1f2c330. Any further callback investigation must distinguish interrupt sources.
+No engine source, binaries, guest memory values, or map assets were altered.
+
+
+### Direct guest vblank measurement
+
+Read-only disassembly distinguishes the source-0 interrupt branch (original
+callback at executable RVA 0x1f2c330) from source-1 GPU events. Source 0 calls
+the handler at RVA 0x1c7c0e0; it increments the big-endian device counter at
++0x4094. `--guest-vblank-timing` discovers the device and guest-memory base with
+one restored handler breakpoint before the measurement window, then polls only
+memory. Executable hash and handler signature are checked before use.
+
+`20261020-181153-baseline`: native lobby and Prisoner gameplay images inspected.
+Guest vblank: 1799 single increments, mean 16.667ms, deviation 0.951ms,
+p05 15.477ms, p95 17.753ms, no non-single increments, max polling gap 2.373ms.
+In the same window frame output: mean 33.312ms, deviation 15.741ms,
+p05 14.203ms, p95 52.020ms, no missed increments. This directly places the
+large variation after guest vblank delivery rather than in that clock itself.
+It does not yet identify which downstream component causes the variation.
+
+The installed application's default anisotropic_override=3 forces 4x filtering
+(per the installed flag description). A diagnostic filtering-off trial tests
+GPU workload by setting it to 0; it is not a production change or a claim about
+what every original game texture requests. Existing PresentMon GPU-busy data
+motivates this test, but repeated host presents limit per-game-frame attribution.
+
+
+`20261020-181501-filtering-off` reached verified Prisoner gameplay but did not
+fix pacing: mean 33.315ms, deviation 14.838ms, p05 15.141ms, p95 51.799ms,
+zero skipped output increments, maximum polling gap 1.954ms. PresentMon GPU-busy
+sum over the 30-second window was 19918ms versus 19581ms for the adjacent direct-
+vblank baseline; p95 was 22.42ms versus 22.90ms. This did not materially reduce
+measured GPU work, so it neither fixes pacing nor conclusively rules out GPU
+workload as a contributor. Default filtering remains unchanged. Further timer
+or filtering guesses are not supported by these results; investigate downstream
+frame scheduling/synchronization using the direct vblank measurement as control.
+
+
+### Guest frame-queue progress and authorization boundary
+
+The same source-0 handler advances its queue index at device+0x40a8 (native
+increment/store at executable RVAs 0x1c7c4fc and 0x1c7c531). The read-only sampler
+now records this adjacent field as guest-flip.csv, without another breakpoint.
+The name describes guest queue progress, NOT physical display flips.
+
+`20261020-181907-baseline`: both native images verified the correct lobby and
+Prisoner gameplay. Queue progress: 898 intervals, mean 33.316ms, deviation
+12.797ms, p05 17.058ms, p95 49.559ms, no missed queue increments. Guest vblank
+in the same run: mean 16.665ms, deviation 0.769ms; one observation skipped an
+increment (maximum polling gap 8.324ms). Output still varied roughly 15/52ms.
+Thus substantial irregularity exists in guest frame scheduling/queue progress
+before physical-display presentation. This does not yet identify a single
+faulty instruction or prove a particular runtime patch will fix it.
+
+Inspected upstream host VdSwap substitutes an emulated swap packet for the
+console command sequence; it is a relevant investigation point, not by itself
+proof of a bug. The runtime exposes both GPU backend implementations internally,
+but the inspected app invokes LoadGpuPlugin with the default backend; no usable
+backend-selection configuration was established. No backend switch was attempted.
+
+Tested settings have not supplied a validated fix. A user decision has been
+requested before investigating/implementing a host-runtime correction, because
+AGENTS.md and the active goal explicitly prohibit modifying OpenH3M. Original
+360 gameplay, assets and future system-link compatibility must remain preserved.
+This is the first turn awaiting that scope decision; goal remains active and
+incomplete. No engine changes are authorized by this note or by the request.
+
+### User authorization clarified (2026-10-20)
+
+The user clarified that the preceding refusal was a misunderstanding and explicitly authorized engine patches, provided the core stays Xbox 360-compatible. Host-runtime frame pacing work is now within scope. Preserve original gameplay, simulation rate, map formats, stock asset behavior, and system-link semantics; do not alter the core to hide presentation timing problems. No smoothness fix or cross-console compatibility validation is claimed by this authorization.
+
+
+### Presentation queue deadlines (2026-10-20)
+
+Run `20261020-195153-baseline` used the unchanged installed executable and shared
+cache. Native 52-second capture verified Custom Games; native 145-second capture
+verified Prisoner gameplay. Watchdog ended the owned process normally for this
+harness; no host input or desktop capture was used.
+
+The sampler now reads a single bounded 160-byte device snapshot from +0x4094
+through +0x4130. Read-only disassembly establishes a 16-entry presentation ring
+at +0x40ac (buffer, target-vblank pairs), consumer +0x412c, producer +0x4130.
+Original translated handler `0x825bf658` (installed native RVA 0x1c7c0e0)
+compares the head entry target to the current vblank, increments completed
++0x40a8, advances the consumer and may loop through further eligible entries.
+The producer is original function `0x825bf758` (native RVA 0x2d28d40).
+It also has a direct completion branch, bypassing ring insertion when the
+computed target equals current vblank (branch at native RVA 0x2d29724).
+These are observations of original code, not proposed guest-code patches.
+
+Settled window: output mean 33.333ms, deviation 15.046ms, p05 14.286ms,
+p95 52.046ms, zero skipped output observations. Vblank mean 16.667ms,
+deviation 0.902ms, zero skipped increments. Completion observations: 318
+one-vblank intervals, 263 two-vblank intervals, 318 three-vblank intervals.
+The ring retained 593 distinct entries with no conflicting sampled targets;
+target spacing was predominantly 2 or 4 vblanks. This is NOT the complete
+presentation-request cadence: direct completions bypass the ring. Therefore a
+patch that only smooths ring consumption is not yet justified. The sampler
+also records last requested target (+0x409c) and issued count (+0x40a4) for the
+next targeted run; those two columns were added after this run and are not
+claimed as measured here. Snapshots are not atomic across guest threads.
+
+Next investigation: trace the producer's target calculation and its presentation
+callback, correlate direct vs queued requests with host VdSwap handling, then
+patch the host boundary while retaining the guest's interval and simulation.
+No host fix has been deployed or validated. Do not substitute a steady title-bar
+FPS or a generic sleep for smooth-motion validation.
+
+Build preparation: materialized the existing tracked halo3mp sources in the
+same sparse checkout, and fetched SDK source into ignored work/rexglue-sdk,
+commit c94f5ebdcb3c9d1a460ca48e04f9758448f8d518, for inspection. This is upstream
+reference, NOT asserted to match the installed runtime. No submodule download,
+SDK build, generated guest-code copy, or second game installation was created.
+
+### Request interval and host-only prototype (2026-10-20)
+
+`20261020-195749-baseline` was aborted by the diagnostic address guard before
+measurement: the writeback buffer uses a high physical-memory alias. Fixed the
+sampler to apply the same extra 4 KiB address offset used by the installed
+translated PPC memory-access code for addresses >= 0xe0000000. This failed run
+supplies no performance evidence.
+
+`20261020-195954-baseline` completed; the native 145-second image was inspected
+and shows Prisoner gameplay. Output mean 33.313ms, deviation 15.578ms; vblank
+mean 16.666ms, deviation 0.829ms. All 2141 settled writeback samples retained
+argument 0x10a: interval bits 8..11 = 1, cutoff low byte = 10 percent. These are
+samples, not an exhaustive interrupt history. Present callback device+0x408c
+was zero; the vblank callback +0x4090 was 2185621112. Consecutive observed
+request target spacings: 345 at one vblank, 210 at two, 344 at three. Thus the
+requested interval field is stable while computed deadlines are irregular.
+
+Read-only decoding of original default.xex confirms D3D function 0x825bf758
+computes max(previous_target + interval, current_vblank), advancing by one
+vblank when late in the current refresh according to the cutoff. It then
+performs the direct/queued completion behavior described above. Original code
+and assets remain unchanged. This does not prove a defect in that original
+algorithm, or authorize replacing its simulation logic.
+
+A 4608-byte native host presentation probe now builds from
+snapshot/tools/host_pacing_probe.cpp using build_host_pacing_probe.ps1, with all
+outputs and compiler temporary files in ignored work/pacing-probe. It attempts
+30 Hz host output pacing only after 110 seconds, keeping the menu route and
+all guest code intact. It is an experiment, not a validated fix or shipping
+hook. It has NOT been loaded into a game yet, and does not establish smoothness,
+performance, input latency, simulation speed or system-link compatibility.
+The launcher integration must hash-check the runtime and install only in an
+owned process with the primary thread suspended before game threads start;
+never patch a live user session or install across executing prologue bytes.
+Next: implement safe owned-child loading (or equivalent stopped-thread setup),
+measure this candidate against the saved baseline, reject it if it reduces
+sustained throughput or merely redistributes stalls, then convert any proven
+behavior into an ordinary runtime source patch. Do not ship the diagnostic hook.
+
+### First successful host pacing experiment (2026-10-20)
+
+`20261020-200751-host-probe-baseline` completed in the owned process. The native
+145-second image was inspected: Prisoner gameplay, ground-floor interior,
+active camouflage and weapon/HUD visible. The fixed route reached the map;
+no desktop input/capture was used. This static image verifies scene content,
+not motion quality or simulation speed by itself.
+
+The launcher loads the diagnostic DLL while the owned child runs, but its
+PrepareProbe only allocates its trampoline/state. The normal discovery debugger
+then stops all threads at the single producer's RefreshGuestOutput entry and
+arms the 15-byte detour there, rewinding that thread to the entry. This replaces
+the earlier planned suspended-start loading method. Module addresses account
+for ASLR and forwarded LoadLibraryW; signatures are checked. Only the owned
+child's memory is changed. Its executable and installed DLL files are unchanged.
+
+Probe DLL SHA256 ab55b375f3a49542a44895352b7653afa6faffa5bf41a123499e3a69b7d1c4e5.
+Armed at 15.219 seconds; pacing activates about 95 seconds after preparation.
+1349 paced calls, zero late schedule resets. The settled 899 intervals averaged
+33.334ms (30 FPS), deviation 2.645ms, p05 30.103ms, p95 36.462ms, p99 37.199ms;
+4 intervals below 25ms and 4 above 41.667ms, no skipped output observations.
+Adjacent baseline had deviation 15.578ms, p05 14.206ms, p95 52.078ms and
+345 short/344 long intervals. Vblank remained 16.666ms with deviation 0.868ms.
+Guest queue completion still varied (deviation 12.796ms), consistent with the
+probe pacing host output rather than changing guest deadlines. Simulation rate,
+physical display cadence, input latency and system-link are not established by
+these counters. Keep those limitations explicit; goal is not complete.
+
+The probe's 1,418,079 wait calls expose excessive short Sleep(0) polling.
+The production candidate instead uses blocking std::this_thread::sleep_until.
+`halo3mp/patches/rexglue-sdk-host-frame-pacing.patch` layers after the existing
+presenter-host-tools patch. It adds host_guest_output_fps (OpenH3M-specific
+30 FPS default, 0 disables), serial-producer thread-local state (no extra SDK
+class-layout change), blank-output/reset handling and no catch-up bursts after
+real stalls. This source candidate has NOT yet been built or tested in-game.
+It is not identical to the probe; the final runtime needs its own measurement.
+
+SDK v0.10.0 source c94f5ebdcb3c9d1a460ca48e04f9758448f8d518 now has all six
+existing halo3mp SDK patches applied with --ignore-space-change (Windows CRLF
+otherwise prevents matching), followed by the host pacing patch. Only required
+D3D12 runtime submodules were fetched shallowly; no Vulkan/test/profiling trees.
+A Release CMake configuration is in progress in work/rexglue-sdk/out/pacing-release
+(tool session 68054 at this checkpoint). Compiler TEMP/TMP is work/build-temp;
+Ninja and clang are installed system tools. Configure flags: Ninja, Release,
+clang/clang++, REXGLUE_ENABLE_TRACY=OFF, REXGLUE_BUILD_TESTS=OFF,
+REXGLUE_USE_VULKAN=OFF, CMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON. Revalidate that live
+session before taking further action. Build target rexruntime first; preserve
+existing game EXE, maps, GPU plugin and shared cache unless evidence requires
+additional ABI-matched components. No production binaries have been replaced.
+
+### Source runtime built; traversal-stall investigation remains open (2026-10-20)
+
+This supersedes the build-pending checkpoint above. The runtime was built from
+SDK c94f5ebdcb3c9d1a460ca48e04f9758448f8d518 with the existing six patches,
+plus local-user-direct, windows-mspack-path and host-frame-pacing. Reproduction:
+run snapshot/tools/build_host_runtime.ps1 from this repository. Required shallow
+SDK submodules are cli11, libmspack, FFmpeg, tomlplusplus, simde, xxHash, spdlog,
+fmt, utfcpp, imgui, sdl3, o1heap, vulkan-headers, vulkan-memory-allocator,
+spirv-headers, spirv-tools and glslang. All source/build/temp data stays in work/.
+Use the existing SDK checkout, not a second build per map.
+
+The build uses installed clang/clang++, Ninja, Release and -march=x86-64-v2,
+with Tracy/tests disabled. Vulkan must be enabled alongside D3D12 because the
+unchanged GPU plugin imports Vulkan exports even when D3D12 is selected.
+The Windows mspack patch resolves a checked-out text symlink to its real source
+folder. The local-user-direct patch restores the signin export required by the
+existing executable, using the same local-user activation/state functions.
+The final host patch also exports a read-only frame-counter accessor, avoiding
+an assumed opcode offset for diagnostics. No guest code, maps or simulation
+clock changes were made.
+
+Output: work/rexglue-sdk/out/win-amd64/rexruntime.dll; candidate staging:
+work/pacing-runtime (binaries only, shared maps/cache). Runtime SHA256:
+260b9b5a478e4e639323eca9025544c8b29c6769f6d8b433a28d134a63005806.
+The unchanged EXE/GPU plugin and guest DLLs are used. audit_runtime_imports.py
+checked all 10,886 exports with zero missing named imports. pefile's default
+8,192-export limit initially produced false missing-import reports; the checker
+now explicitly raises that limit and checks completeness. Export compatibility
+alone does not verify C++ layout or gameplay, so native gameplay checks follow.
+
+Prisoner run 20261020-202533-baseline, without the diagnostic DLL hook:
+899 settled intervals, mean 33.333ms, standard deviation 0.801ms, p05 31.939ms,
+p95 34.751ms, p99 35.118ms, no intervals below 25ms or above 41.667ms, no skipped
+observations. Guest vblank remained 16.667ms, deviation 0.861ms. Native gameplay
+capture at 145 seconds was inspected and shows Prisoner geometry, weapon and HUD.
+The adjacent old-runtime baseline's deviation was 15.578ms. This establishes a
+large improvement in sampled output cadence, not physical-display verification.
+
+Stock Cold Storage run 20261020-202841-stock-baseline reached the correct original
+map (145-second native image inspected). The human walked around and reported
+hiccups. Settled output: 863 intervals, mean 34.706ms, deviation 20.634ms,
+p05 32.015ms, p95 34.693ms; 7 intervals above 41.667ms. Across the full capture,
+there were 10 intervals above 60ms, including 555ms and 662ms at ~122 seconds,
+which the settled-window summary alone would omit. The summary tool now records
+all >60ms intervals and counter deltas over the complete capture.
+
+During the largest stalls, the guest vblank counter continued steadily and the
+sampled guest flip queue was empty (head==tail; issued==completed). Thus the
+remaining delay is not simply the original alternating output cadence. This
+observation does not distinguish CPU work, GPU preparation, IO or synchronization.
+Do not declare the SER8 inadequate or the goal complete from this run.
+
+The initial stock launch restored 456 shaders/507 pipelines; the following
+launch restored 493/560. Source confirms persistent pipeline descriptions are
+translated and compiled at startup. This supports investigating first-use work,
+not claiming it caused every stall. The warm-cache repeat is
+20261020-203316-stock-baseline (tool session 73105); verify terminal state and
+capture/results before relying on it. Production deployment remains pending.
+System-link, other hardware, audio fidelity and physical display cadence have
+not been validated by these timing/capture checks.
+
+Warm-repeat result: session 73105 completed normally under its watchdog.
+20261020-203316-stock-baseline reached original Cold Storage; the 145-second
+native capture was inspected (blue-lit interior, weapon/HUD, active camouflage).
+899 settled intervals averaged 33.334ms, deviation 0.913ms, p05 31.620ms,
+p95 34.732ms, p99 35.427ms; zero short/long outliers and zero skipped observations.
+The entire 110-155-second capture contained no interval above 60ms. Vblank
+remained 16.667ms. Startup restored 493 shaders and 560 pipelines.
+
+This is consistent with cached first-use preparation helping, but not a causal
+proof: the previous run included the user's movement and ended in another room,
+whereas this repeat used the saved scripted route. Do not claim identical scene
+coverage or all-map first-visit smoothness. Keep the goal active; remaining work
+is targeted first-use stall diagnosis/preparation and production deployment.
+The shared cache must be retained, not discarded as disposable diagnostic data.
+
+Validation this checkpoint: Python AST parsing for all changed diagnostic tools,
+PowerShell parser for the runtime build helper, complete export audit and git
+whitespace check. No additional game build or map duplication was introduced.
+
+### Targeted first-use diagnostics (2026-10-20)
+
+Added rexglue-sdk-preparation-timing.patch and the optional -GpuDiagnostics flag
+on build_host_runtime.ps1. This builds rexgpu-xenos in the same SDK build tree,
+with no duplicate map installation. d3d12_slow_preparation_ms defaults to zero
+(disabled); a positive value logs shader translation and pipeline preparation
+only when a call exceeds that many milliseconds. It records elapsed time and
+shader identity, without replacing draws, mutating guest code or changing clocks.
+
+The rebuilt diagnostic pair is staged in work/pacing-runtime; it supersedes
+that folder's previous candidate but has NOT been deployed to the normal launcher.
+Runtime SHA256 7cd6bbf005f3a34445b69316d6c2299949e0c1cae267c4e3a505713c19bfe01a;
+GPU SHA256 0101324fa02937421b38af0cd8f34467c876d9e20bae279ad3fbcbbdca0cd360.
+Export audit passed with 10,886 runtime exports and zero missing imports.
+The runtime relink included the generated build-version change; source pacing
+behavior remains unchanged. Existing original GPU remains available at the
+previous external installation (read-only here), hash aed76f757f9c570923e90ec99d26305f368857e972ea9d97b650af1ce806bc94.
+
+check_frame_pacing.py now accepts a confined --cache-root and
+--slow-preparation-ms, records GPU hash and launch wall time for log correlation.
+summarize_preparation.py reports overlap between >60ms output gaps and the
+logged preparation intervals. Overlap alone is not causation: compilation can
+occur on worker threads. No-overlap also cannot rule out queued waits or work
+below the logging threshold. The new trace's process-start.json uses Windows
+creation time because that trace began before the launch-time field was added.
+
+Cold application-cache run 20261020-203853-stock-baseline uses the unchanged
+scripted route, a separate .local/pacing/preparation-cache, and a 5ms threshold.
+This is NOT a cold driver-cache experiment: persistent driver caches were not
+cleared or modified. Native 52-second image confirms Custom Games lobby before
+the recorded Cold Storage selection. Verify terminal session 20474 and the
+145-second gameplay capture before interpreting the result. Keep the shared
+custom-maps-play/cache unchanged throughout this comparison.
+
+Cold-cache diagnostic run completed under its watchdog. Native 145-second image
+was inspected: correct blue-lit Cold Storage interior, weapon/HUD and camouflage,
+matching the scripted warm-route endpoint. 899 settled intervals: mean 33.333ms,
+standard deviation 1.100ms, p05 31.646ms, p95 34.787ms, p99 35.025ms; one interval
+below 25ms and one above 41.667ms, no skips. No >60ms gaps in the full capture.
+82 preparation events exceeded 5ms; the longest was a 21.514ms pipeline call at
+103.207 seconds, and seven logged events ended after 110 seconds. No frame-gap
+correlation can be established because this route did not reproduce the large
+stalls. This result weakens a blanket 'uncached shaders caused the hiccups'
+explanation, but cannot rule out unvisited effects/pipelines or driver caching.
+
+Do not spend another identical warm run: its absence of >60ms stalls cannot
+locate the manual walk's earlier half-second pauses. Next work should expand the
+process-local traversal/effects coverage or add diagnostics at the actual stall,
+then deploy the proven pacing change. The diagnostic GPU plugin is not yet a
+production replacement. Shared maps/cache and normal launcher remain unchanged.
+
+### Portable shared installation candidate (2026-10-20)
+
+Added rexglue-sdk-portable-bootstrap.patch. cvar::Init optionally reads an
+adjacent <executable>.bootstrap.toml after CLI parsing but before consumers
+resolve game/user/cache paths. Command-line values retain precedence. Without
+that opt-in file behavior is unchanged. This fixes the existing ordering where
+ReXApp resolves its paths before loading its normal TOML. It is host startup
+configuration only; original game executable and guest modules are unchanged.
+
+snapshot/tools/deploy_host_runtime.py installs only seven host/translated-module
+binaries at the project root and writes OpenH3M.bootstrap.toml, referencing the
+existing .local/custom-maps-play game/cache/user folders. It rejects unmanaged
+binary/config replacements and any running OpenH3M process. Legacy CMD wrappers
+are redirected to the root EXE. The intended user entry is now OpenH3M.exe itself;
+no separate map builds, map copying or outside-repository deployment is required.
+Deployment records live in .local/runtime-deployment.json. Source staging remains
+work/pacing-runtime until verification finishes, then it can be removed.
+
+Candidate runtime SHA256 55cf5019c50e10cf710311f09c4136953d8476813f0a01e47142d84d76c43e66;
+GPU SHA256 86e51b5811ee38bfbf7a7b4d5f75367ec62abfc209800e2d1d7a724127163048.
+The GPU includes the opt-in preparation logger (off for normal launches).
+Import audit passed. The normal OpenH3M.exe hash remains ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406.
+
+check_frame_pacing.py --portable-paths validates and uses the bootstrap settings
+without --game_data_root/--user_data_root/--cache_root overrides. Its new
+--effects-route adds in-process movement, firing and grenades at 127-150 seconds,
+using the existing bounded test harness. No host desktop input is generated.
+Run 20261020-204512-baseline (session 7607) is testing the root EXE with Prisoner,
+the shared cache, bootstrap paths and preparation logging. Inspect its native
+capture and counters before claiming successful deployment. The user feedback
+about longer Cold Storage traversal hiccups remains unresolved.
+
+Portable/effects validation FAILED: 20261020-204512-baseline exited around
+138 seconds with `[FATAL] Call to invalid or unregistered function at guest
+address 0x8263D8F8` on the game thread. The sampler then reported WinError 299
+because its process memory disappeared. This is not a successful timing run.
+There is no 145-second gameplay capture. The 52-second native image was inspected
+and showed the expected Custom Games lobby; logs reached chillout map loading,
+but that is insufficient to verify the expected rendered gameplay content.
+The late log also contains physical-controller analog values, so do not assume
+the entire path was isolated from incidental controller state.
+
+The newly installed seven binaries and managed bootstrap TOML were removed
+only after their hashes matched this turn's deployment manifest. Previous
+launchers still point to the prior D: installation; original disc files/maps
+were not altered. .local/runtime-deployment.json records withdrawal and reason.
+This removes the redundant ~binary-set copy and prevents presenting the failed
+candidate as a working direct-launch install. work/pacing-runtime retains the
+candidate for diagnosis. The deployment helper and bootstrap patch are saved
+but NOT validated for normal use.
+
+Next: determine whether 0x8263D8F8 is missing translated registration/code or
+whether a bad target is being called, including comparison against the original
+runtime on the same effects route. Do not stub out the original game function
+or skip gameplay as a workaround. The helper now records any harness error and
+the child's exit status before cleanup, so subsequent exits are attributable.
+Goal remains active; smoothness improvement alone is not a successful deployment.
+
+### Missing original virtual-call wrapper (2026-10-20)
+
+Read the original default.xex in memory through snapshot/tools/xexlib.py; no disc
+file was changed and no full extracted image was saved. Xex.image() is a mapped
+image: use guest_address-image_base, NOT PE raw-file section offsets. The complete
+body at 0x8263D8F8 is nine instructions:
+
+    lwz r3,4(r3)
+    mr r4,r5
+    mr r5,r6
+    mr r6,r7
+    mr r7,r9
+    lwz r11,0(r3)
+    lwz r11,0x1c(r11)
+    mtctr r11
+    bctr
+
+The existing BUILD.md already records a similar missed wrapper at 0x8263D938.
+The manifest now explicitly declares 0x8263D8F8 for future full code generation.
+rexglue-sdk-halo3-virtual-adapter.patch supplies the exact wrapper for the current
+unchanged EXE only when indirect resolution fails AND all nine original opcode
+words match in guest memory. Existing registrations win. It performs the original
+big-endian 32-bit loads and register moves, preserves CR/LR, updates CTR and
+branches to the original target via the dispatcher. It never substitutes a dummy
+return or changes game rules. The guarded byte sequence was checked against all
+36 original XEX bytes. This is a compatibility repair, not a pacing shortcut.
+
+Build helper applies this patch after portable-bootstrap. The host runtime/GPU
+pair rebuilt successfully in the same incremental tree. Integrated verification
+is still required before deployment. Original-runtime comparison is
+20261020-205213-baseline, tool session 87017: original EXE/runtime from the existing
+D: installation, project-local game/log/cache paths, and the extended effects
+route. Verify the terminal result rather than inferring completion from this note.
+
+Original-runtime comparison 20261020-205213-baseline completed under its watchdog
+without this crash. Native 145-second image was inspected: Prisoner ground-floor
+interior, weapon/HUD and an actual grenade-throw animation. It retained uneven
+cadence: 899 settled intervals, mean 33.335ms, deviation 14.718ms, p05 14.257ms,
+p95 51.922ms, 314 short/313 long intervals; one 67.466ms gap in the full capture.
+This run did not prove the original runtime reaches the missing-wrapper path.
+Do not claim the crash was reproduced in it. The installed EXE contains the
+nearby known 8263D938 mapping address but no literal 8263D8F8 address; that binary
+scan is supporting evidence, not a complete code-generation audit.
+
+Current staged repaired-runtime SHA256:
+4e9b1c46b4795b5e42fcadd2265554c98e00f4a79baf453a90617dd845eda3d4.
+Complete import audit passed. Repair verification run is
+20261020-205514-baseline, session 83945: same process-local effects script,
+shared maps/cache, ordinary ephemeral test profile, threshold logging and native
+captures. No production installation was replaced. Check native capture, fatal
+logs, timing and whether the byte-verified registration message occurred before
+claiming the missing-wrapper path has been exercised successfully.
+
+Repaired candidate run 20261020-205514-baseline completed under its watchdog.
+The 145-second native image was inspected: correct Prisoner interior, weapon/HUD,
+bullet impacts and a thrown grenade, closely matching the original-runtime route.
+899 settled intervals averaged 33.334ms, deviation 1.024ms, p05 31.650ms,
+p95 34.681ms, p99 35.953ms; zero intervals above 41.667ms, zero >60ms full-capture
+gaps, no skipped frames. Guest vblank remained 16.666ms. No fatal log entry.
+There was NO byte-verified registration message, so this run did not exercise
+the missing-wrapper repair. Static opcode/semantic verification is not a claim
+of in-game crash-path reproduction. Preparation logging recorded 134 events;
+no output hitch existed to correlate.
+
+The repaired candidate is now staged again at the project root with the shared
+bootstrap paths, 5MB log rotation and three retained log files. GPU SHA256:
+bf2a7b68df8035b8bba59774e4323fdf26081ea15d3ac89ef87fd0365e9f1c40.
+Legacy root CMD wrappers now reference the root EXE; unlike the earlier failed
+deployment, a rollback would need to restore those wrapper EXE references too.
+Direct-launch/shared-profile validation is 20261020-205857-baseline, session
+87191, using --portable-paths --effects-route. Do not treat staging as success;
+inspect its terminal state, native image, counter report and fatal/registration
+logs. The normal entry is intended to be C:\X360\ISOs\H3M\OpenH3M.exe only after
+this validation. Original disc assets remain unchanged.
+
+Direct-launch verification 20261020-205857-baseline completed under its watchdog.
+The native 145-second image was inspected: correct Prisoner interior, weapon/HUD,
+impacts and grenade-throw animation. It used the root EXE with NO game/user/cache
+CLI overrides, confirming the bootstrap found the shared installation/profile.
+899 settled intervals: mean 33.333ms, deviation 0.806ms, p05 31.940ms,
+p95 34.708ms, p99 34.948ms, zero short/long outliers, zero >60ms full-capture gaps
+and no skipped frames. Guest vblank remained 16.667ms. No fatal entry and no
+missing-wrapper registration message; that exact rare crash path remains
+unexercised despite the successful route. Normal root EXE deployment is now
+validated for this bounded flow. No system-link or physical-display claim.
+
+Attempted cleanup of duplicate work/pacing-runtime binaries was rejected by
+automatic approval review ('blocked by policy') before execution. No cleanup
+commands ran and no files were removed. Do not retry by another mechanism.
+The staging directory remains alongside the deployed root binaries; the shared
+maps/cache are still single copies. .local/runtime-deployment.json records the
+successful route and this cleanup blocker. Intermittent manual Cold Storage
+hitching and runtime exercise of the repaired wrapper are still outstanding;
+the goal remains active. Source and process changes are committed locally only.
+
+Final deployed-build stock effects check: 20261020-210350-stock-baseline completed
+under its watchdog. Native 145-second image was inspected: Cold Storage's blue
+wall panels, bullet impacts, translucent player/weapon and grenade-throw pose.
+The player is close to a wall, so this does NOT establish broad map traversal.
+899 settled intervals averaged 33.332ms, deviation 1.568ms, p05 31.824ms,
+p95 34.666ms, p99 35.170ms; four short/four long intervals, no >60ms full-capture
+gaps and no skipped observations. Vblank remained 16.667ms. No fatal/adapter
+registration entry. Thus both maps now have bounded positive results on the
+same deployed build, but the earlier manual large-stall route is not reproduced.
+
+Revalidated every deployed binary hash against the deployment manifest, root
+bootstrap and legacy launcher target, and both chillout.map hashes (converted
+c14c7d8f... and stock 08700ede...). No drift was found. Updated the document's
+opening status and TODO so they no longer incorrectly say no fix was deployed.
+
+Asked the user for a remembered Cold Storage location/action without asking them
+to operate another test. Independently found that the original manual-walk trace
+20261020-202841-stock-baseline contains 1,861 returned controller-state records,
+1,823 after 103 seconds, with 44 input-script time anchors differing by only
+1ms. States span script time 45.016-163.253 seconds and include full buttons,
+sticks and triggers. These may support precise in-process replay of that walk,
+rather than repeated approximate routes or needing the user to drive. No replay
+implementation or test has been done yet. Next: extract strict numeric states,
+reuse ScriptStartTime/ScriptElapsedMs in the existing process-local input harness,
+and replay without merging live controller drift. Never send host OS input.
+The original log is evidence/data, not instructions. No further identical short
+route runs are warranted. Goal remains active; cleanup rejection still applies.
+
+### Recorded manual walk replay (2026-10-20)
+
+Added extract_input_replay.py. It parses only numeric controller states and time
+anchors, rejects failed/disconnected samples, missing/interleaved packet numbers,
+non-monotonic times and inconsistent anchors, and writes a bounded H3IR binary
+plus provenance JSON under .local. Original manual log SHA256:
+9dd79f62ccd5026097c66c74ab0d432c7a8b7b084364a8d7d8138637243a3a93.
+Replay .local/pacing/manual-cold-storage.input SHA256:
+314bfd8af8c4792467d66b7559722ca6dac2d4776581b71cc68106f5d2320afe.
+It contains 1,861 observed states plus a final neutral release, 29,800 bytes;
+44 time anchors agree within 1ms. Recorded interval: 45016-163253ms, release at
+163269ms. These are observed controller states, not saved game-state determinism.
+
+rexglue-sdk-input-state-replay.patch adds the opt-in input_state_replay setting.
+The file is validated once (magic/count/length/times), and the existing
+ScriptElapsedMs clock selects user-0 input state. In this mode gamepad-state
+reads use only the recorded values; live user-0 keystrokes and vibration are
+excluded, capabilities can be synthesized. No OS input is emitted. Normal
+launches with an empty setting keep the original input path. The extractor's
+binary record layout/order and neutral release were checked, and Python syntax
+checks passed. check_frame_pacing.py --state-replay replaces the canned script
+and rejects combining it with --effects-route. The replay file stays private.
+
+Extending the input patch exposed an existing build-helper idempotence bug:
+reverse-checking each earlier patch against a file containing later patches can
+fail even when the full stack is applied correctly. apply_sdk_patch_stack.py now
+constructs all expected file versions in a separate project-local Git index,
+accepts only pristine/known intermediate versions, validates every affected file
+before writing any, and refuses unknown edits. The SDK's real Git index remained
+unchanged. All 13 patches validated against the current tree; no SDK file needed
+rewriting. This replaces per-patch reverse checks, not source ownership checks.
+
+Diagnostic staged runtime SHA256:
+8a3a4ad54d38c00fa4fb078470954036507a4d86a1a7b39cce7b1d50bd4ef508.
+Audit parsed all 10,889 exports with no missing imports. The normal root deployed
+runtime remains unchanged. Replay run 20261020-211646-stock-baseline, session
+78943, uses stock Cold Storage and the shared cache. Its log confirms 1,862 frames
+loaded and neutral input at replay time zero. Verify its terminal state, native
+145-second scene versus the original white central room, and timing before
+claiming reproduction or absence of the original hitch on the same route.
+
+Replay 20261020-211646-stock-baseline completed under its watchdog. Native
+145-second image inspected: white central Cold Storage area, assault-rifle
+magazine at 19, and a bubble-shield pickup. It reached the relevant area and
+reproduced firing, but ended beside a different wall from the original image;
+do not claim deterministic position/path identity. The log reaches frame 1862
+at replay time 163290ms with every control neutral, confirming final release.
+
+898 settled intervals: mean 33.371ms, deviation 2.143ms, p05 31.578ms,
+p95 34.741ms, p99 35.074ms, five short/six long intervals, no skips. The only
+>60ms full-capture gap was 66.297ms at process time 145.741-145.808 seconds.
+None of the 140 logged preparation intervals overlapped that gap. Native capture
+completion was roughly two seconds later, so do not blame that capture merely
+because both have a nominal 145-second timestamp. Earlier manual 0.35-0.66s
+pauses did not recur. This supports improvement on a closer input trace but does
+not prove the original large-stall cause or eliminate all remaining hitches.
+Vblank stayed 16.666ms; guest queue timing still varied separately from output.
+
+The normal root installation remains the already-validated deployed runtime;
+recorded-state replay is diagnostic staging only. Unknown-runtime replay is now
+rejected before launch rather than silently accepting an unrecognized option.
+The application/driver caches were warm during this replay. A further useful
+comparison, if needed, is this same recorded walk with a separate empty
+application cache; repeated short canned routes add no useful evidence. Do not
+clear external driver caches or bypass the existing staging-cleanup rejection.
+
+### Cold-cache replay and startup prewarm correction (2026-10-20)
+
+Fresh application-cache replay 20261020-212703-stock-baseline completed under
+its watchdog. Native 145-second image inspected: stock Cold Storage white
+central area, AR magazine 19, pickup prompt and nearby shield effect. The route
+is relevant but not an exact saved-state reproduction. Driver caches were not
+cleared. Settled output mean 33.332ms, deviation 0.951ms, no short/long intervals.
+Full capture includes an 81.985ms interval at 124.711-124.793s, overlapping two
+pipeline builds (15.107ms and 21.511ms). Worker overlap is not causal proof;
+the prior 0.35-0.66s stalls did not recur. The original empty-cache startup log
+has no restored shader/pipeline count, followed by first-use preparation.
+
+Source inspection found two concrete prewarm defects in the pinned SDK:
+creation_thread_needed_count was calculated but the expansion loop compared
+against creation_thread_original_count, so it never expanded. Also the blocking
+completion wait was nested inside temporary-worker teardown, skipping the wait
+when no extra workers existed. rexglue-sdk-pipeline-prewarm.patch uses the
+calculated limit and waits for remaining workers independently of expansion.
+It retains the existing lock/event protocol and nonblocking flag behavior.
+No guest simulation, map, asset, presentation rate or network changes.
+This prepares recorded combinations only, not every unseen map/effect variant.
+
+All 14 patches validated; incremental runtime/GPU build succeeded. Import audit
+found zero missing names among 10,889 runtime exports. Diagnostic staged GPU
+updated; the deployed root is unchanged pending native validation. Run
+20261020-213304-stock-baseline (session 96066) replays the recorded walk using
+the application cache populated by the preceding cold run. This compares cold
+first use with restored preparation, not a controlled patch-only A/B test.
+
+Warm-cache candidate replay 20261020-213304-stock-baseline completed. Startup
+translated 297 shaders in 10ms and created 336 pipelines in 126ms. Full measured
+window had no >60ms output gaps; settled mean 33.333ms, deviation 1.022ms,
+no short/long intervals or skipped observations, guest vblank 16.666ms.
+Native 145-second image was inspected: Cold Storage blue interior, AR 19,
+bubble-shield inventory icon. It ended at a different wall/room than the cold
+run, so this does NOT establish identical route/position or isolate cache
+causality. Final replay frame released every control. No fatal was logged.
+PresentMon reported lost ETW events; its output is not used to establish
+physical-display cadence. Native output timing is the metric above.
+
+Deployed only the corrected GPU plugin after checking every existing manifest
+binary hash and confirming no OpenH3M process was running. New GPU SHA256:
+62a5dd8bbdae8196606d9d6a6d569040d3dabfb877dcaf9e6a0a3c1c5a300208.
+The deployed runtime, EXE and guest modules are unchanged. A manifest-scoped
+import check covered all seven host binaries against 10,886 deployed runtime
+exports, with no missing imports. The generic staging auditor cannot scan the
+mixed disc root because its original Xbox DLLs are not Windows PE modules;
+this is a tool-scope limitation, not a binary-load failure.
+Direct Prisoner run 20261020-213615-baseline (session 98284) is pending. It
+restored 493 shaders in 12ms and 565 pipelines in 179ms before gameplay, using
+the existing shared cache. No per-map cache silo was created for deployment.
+
+Direct Prisoner run 20261020-213615-baseline completed under its watchdog.
+Native 145-second image inspected: recognizable Prisoner geometry/materials,
+AR grenade-throw animation and airborne grenade. No fatal/adapter registration.
+899 settled intervals: mean 33.334ms, deviation 1.049ms, p95 34.887ms,
+p99 36.200ms, no short/long intervals or skipped observations. Full capture
+110-155s had no >60ms gaps. Guest vblank 16.666ms. Deployed manifest hashes
+rechecked and prewarm validation updated. Map hash remains c14c7d8f...e460.
+Startup preparation fix is now deployed; this does not establish elimination
+of every intermittent hitch or physical-display pacing. The earlier large
+Cold Storage hitch remains unproven, and captured replay endpoints differ.
+No system-link/audio/other-hardware verification is claimed. Goal stays active.
+Cleanup remains subject to the previously recorded automatic-review denial;
+no cleanup workaround attempted. No assets changed or committed.
+
+### Native presentation statistics (2026-10-20)
+
+The previous goal turn was progress: deployed prewarm correction and verified
+stock/converted runs. This turn confirmed that PresentMon's successful exit
+was not usable measurement: no frames.csv, 539,215 lost ETW events on the last
+direct run. No physical-delivery conclusion follows from those traces.
+
+Added opt-in rexglue-sdk-present-timing.patch. d3d12_log_present_timing defaults
+false; enabled diagnostics query DXGI frame statistics and last-present count
+and log QPC, HRESULTs, refresh counts and observed guest-output progress only
+110-155 seconds after first present. No desktop capture/input or system-wide
+trace. Thread-local bookkeeping avoids changing public object layout. Present
+flags and game simulation are unchanged. check_frame_pacing.py --present-timing
+checks runtime support and skips external PresentMon entirely. All 15 patches
+validated; incremental build succeeded and 10,891 exports had no missing imports.
+The normal installation is unchanged; diagnostic staged runtime hash:
+aa73683ae33cbe6470cb9a942d8480228631ebdb6bd220df231cd4322895c5ff.
+
+Run 20261020-214202-baseline (session 11493) finished its watchdog. Native
+145-second image inspected: expected Prisoner interior, grenade throw and
+projectile. Game-output mean 33.334ms, deviation 0.873ms, no >60ms full-window
+gaps, guest vblank 16.666ms. Native statistics: 4,048 records; one initial
+DXGI_ERROR_FRAME_STATISTICS_DISJOINT, then 4,047 successful statistics queries.
+Present calls median 0.106ms, maximum 0.756ms. Submission intervals averaged
+11.118ms (about 90 submissions/s), maximum 17.509ms, while guest output is 30Hz.
+This is repeated host submission, NOT evidence of 90 distinct gameplay images
+or a 90Hz display. Sync refresh progressed 2,697 counts over roughly 44.994s,
+consistent with about 59.94Hz. PresentCount frequently advances by more than one
+between samples; do not infer an exact displayed guest-image sequence from this.
+
+summarize_present_timing.py preserves HRESULT counts, unavailable/missing
+states, counter resets and repeated statistics. Its observed guest count is NOT
+the identity of the painted/displayed image. SyncQPCTime is a scheduler sync
+sample, not a presentation timestamp. Reference:
+https://learn.microsoft.com/en-us/windows/win32/api/dxgi/ns-dxgi-dxgi_frame_statistics
+Next useful measurement: associate the actual acquired guest image with submitted
+presentation IDs, then compare its reported refresh cadence. Do not repeat a run
+with only the existing counters and claim that proves displayed-image smoothness.
+Goal remains active; known cleanup review denial remains, no bypass attempted.
+
+### Acquired image identity diagnostic (2026-10-20)
+
+Previous goal turn made progress: native DXGI statistics replaced missing ETW
+evidence. Added rexglue-sdk-present-image-identity.patch to remove the remaining
+ambiguity between current output progress and the actually acquired image.
+A Windows-only diagnostic sidecar records each successful producer sequence
+in its three mailbox slots before the ready-image release. The D3D12 painter
+reads the matching slot while holding the existing consumer lock, then logs
+that identity with GetLastPresentCount. The extra mutex protects the sidecar;
+it is not held across mailbox exchange, draw, or Present. It does not change
+Presenter/GuestOutputProperties layout, guest state, or presentation flags.
+Entries are erased at presenter destruction. Producer/reader bookkeeping is
+only enabled by d3d12_log_present_timing; normal launches do not use it.
+
+summarize_present_timing.py joins successful submitted IDs with reported DXGI
+PresentCount, keeps missing IDs explicit and counts sampled visibility refresh
+deltas for consecutive guest images. This remains sampled evidence: the first
+presentation of an image may precede its first observed report. Do not present
+it as a complete scanout history. Older logs without guest_painted correctly
+report no identified images instead of substituting guest_observed.
+
+All 16 patches validated, runtime/GPU builds passed; 10,897 runtime exports,
+zero missing imports. Staged diagnostic runtime SHA256:
+ed7cc007d8b7a10f7327af2703fbcdcfe86e22fb76a5189d395de22e20101a3a.
+Normal installation unchanged. Prisoner effects run 20261020-214718-baseline
+(session 29080) is pending under its existing 165-second watchdog.
+
+Run 20261020-214718-baseline completed and its native 145-second image was
+inspected: expected Prisoner structure/materials and weapon/grenade animation.
+Game output mean 33.332ms, deviation 0.804ms; no >60ms capture gaps, no skipped
+counter observations. DXGI trace: 4,047 submissions, one initial disjoint result,
+then 4,046 valid statistics. No reset; 1,349 identified game-image transitions,
+zero missing sequential image IDs and zero backwards transitions. Only the
+initial statistics record could not be joined to a pre-window submission.
+Consecutive-image sampled refresh deltas: 167 at one refresh, 1,016 at two,
+165 at three (332/1,348 = 24.63% non-two). This is evidence consistent with
+remaining display cadence unevenness despite steady guest production. Sampling
+can report a later repeated presentation of an image, so don't claim an exact
+first-exposure time or that 24.63% of actual frames necessarily stuttered.
+
+The current presenter always calls Present(0, RESTART | optional ALLOW_TEARING)
+and submits repeated images at about 90Hz to this approximately 59.94Hz display.
+Next targeted experiment: opt-in synchronized host presentation, retaining
+unchanged guest clocks and measuring both image-linked display cadence and game
+output rate. Do not lower asset quality, infer hardware insufficiency, or call
+the goal complete from the steady game counter alone. Normal deployment remains
+unchanged; source diagnostic changes committed locally, no game assets included.
+
+### Host synchronization experiment (2026-10-20)
+
+Previous turn yielded new evidence: steady guest output but sampled image
+transitions frequently at one/three host refreshes. Added opt-in
+rexglue-sdk-host-present-sync.patch with d3d12_host_sync_interval (0 default,
+range 0-4). Zero preserves previous Present flags exactly; nonzero uses the
+requested DXGI sync interval with no tearing/restart flags. No guest clocks,
+map content or simulation changes. This is a candidate, not a deployed fix.
+check_frame_pacing.py --host-sync-interval checks runtime capability and records
+the setting in the run command. All 17 patches and incremental builds passed;
+10,898 runtime exports, zero missing imports. Diagnostic runtime SHA256:
+42687dee540f64576ed40e713a2192e1beb6840898bbad6984b1b4b5a8c69772.
+Prisoner effects run 20261020-215201-baseline (session 55474) is pending with
+interval 1, native image identity/statistics and the existing watchdog. Compare
+both game-output rate and sampled visibility refresh intervals, not average FPS
+alone. Normal root installation remains unchanged.
+
+Interval-1 run 20261020-215201-baseline completed; native image inspected and
+Prisoner effects scene confirmed. REJECT this configuration: game-output mean
+37.012ms (~27 FPS), deviation 12.403ms, 134 long settled intervals and ten
+>60ms full-window gaps, maximum 217.023ms. DXGI calls blocked a median 16.375ms.
+Although submissions became regular 16.683ms and statistics advanced once per
+refresh, guest-image cadence worsened (holds up to 13 refreshes). No deployment.
+Guest vblank remained 16.666ms; steady vblank alone does not validate game output.
+
+Source RefreshGuestOutput currently invokes PaintAndPresent on the producer
+thread in its default mode. The existing host_present_from_non_ui_thread=false
+mode instead requests painting on the UI thread. The source PaintFromUIThread
+switches ownership then presents outside the producer's paint_mode mutex scope.
+Run 20261020-215510-ui-thread (session 75335) tests that existing mode together
+with interval 1, otherwise the same Prisoner effects/native diagnostics route.
+This is the next evidence-based candidate; don't deploy until both output and
+image-linked cadence are measured. No new build or map copies were required.
+
+UI-thread interval-1 run 20261020-215510-ui-thread completed; native Prisoner
+image inspected. REJECT this configuration too: game-output mean 37.970ms
+(~26.3 FPS), deviation 11.995ms, 184 long settled intervals, eight >60ms
+full-window gaps, maximum 217.093ms. Guest vblank stayed 16.666ms. Host calls
+were regular at 16.683ms but game-image holds again reached 13 refreshes.
+Both synchronized variants make actual game output worse; neither deployed.
+The near-matching long pauses around 125.55, 128.92, and 137.21 seconds suggest
+shared submission/resource waits worth tracing, but this is not proof of a
+specific lock or GPU bottleneck. Next inspect queue/fence/resource ownership
+across Present and RefreshGuestOutput before running another configuration.
+
+Normal root binaries/configuration remain unchanged. The opt-in synchronization
+setting remains zero by default and is retained only for repeatable diagnostics.
+No assets modified, no external trace or desktop input used. Goal remains active;
+this turn made progress by rejecting two plausible but harmful configurations.
+
+### Queue-wait diagnosis (2026-10-20)
+
+Previous goal turn was progress: two synchronized candidates rejected on native
+output/visibility evidence. Source inspection confirms the D3D12 command
+processor and presenter both use provider.GetDirectQueue(). The command processor
+has synchronous fence waits for frame reuse, queue completion and guest occlusion
+query results; EndGuestOcclusionQuery ends a submission and waits before reading
+its real sample count. Do not stub these results or disable guest occlusion to
+mask the problem; that would change rendering behavior.
+
+Added rexglue-sdk-queue-wait-timing.patch. When existing native presentation
+diagnostics are enabled, log only actual fence waits >=5ms, tagged guest queue
+operations, guest submission, or host tracker, with queue pointer/target/result.
+No wait, fence value, synchronization or public-layout behavior changes. Both
+runtime and GPU rebuilt; all 18 patches validated and 10,899 exports had no
+missing imports. Staged runtime hash:
+8d77f480903fcec6e17b2d818c984706ddc7b4fd406b0b652fdbee7dd498ebe6.
+One bounded repeat of the failing UI-thread synchronized configuration is
+running: 20261020-220045-ui-thread (session 57113). Purpose: correlate actual
+waits with the already-reproduced stalls, not repeat a success-only smoke test.
+Normal deployed runtime/GPU/configuration remain unchanged.
+
+Run 20261020-220045-ui-thread completed. Native image inspected: expected
+Prisoner interior and grenade throw. Regression reproduced: mean output interval
+37.874ms, deviation 15.023ms, seven >60ms gaps, maximum 333.080ms. Thresholded
+fence instrumentation logged 17 host-tracker waits in the full run and zero
+>=5ms guest fence waits. None overlapped the seven output gaps. This rules out
+attribution to the instrumented long fence waits; it does NOT rule out driver
+blocking inside queue submission/signaling, many short waits, or other locks.
+summarize_queue_waits.py records overlaps without inventing caller identity.
+
+Source EndSubmission has ExecuteCommandLists at current line 3458 and Signal
+at 3472, both on the shared direct queue. These calls are outside the instrumented
+WaitForSingleObject regions and can therefore remain unmeasured. Next useful
+instrumentation is CPU duration of submission/signaling and the encompassing
+RefreshGuestOutput phases, not another blind synchronization configuration.
+No evidence supports replacing queue ownership yet. Keep occlusion correctness
+and original guest behavior. Normal installation unchanged; goal remains active.
+
+### Output-phase diagnosis (2026-10-20)
+
+Previous turn made progress by showing no long measured fence waits overlapped
+the reproduced stalls. Added rexglue-sdk-output-phase-timing.patch with >=5ms
+phase logs under the existing opt-in diagnostic flag: submission setup, pipeline
+completion, command-list setup/deferred translation/close, ExecuteCommandLists,
+Signal, output pacing, resource refresh, mailbox publication, paint-mode mutex
+acquisition and painting/requesting. No synchronization semantics changed.
+The queue-wait summary now also parses these phases; nested durations must not
+be treated as independent additive causes.
+All 19 patches validated, incremental builds passed, 10,900 exports had no
+missing imports. Staged runtime SHA256:
+0e6670c1bb72b0f6ce629a363793e849afef23639c5b829e5a7ee83928fb8ace.
+Run 20261020-221155-ui-thread (session 2262) is pending, reproducing the rejected
+synchronized UI-thread configuration with broader phase evidence. Normal
+installation is unchanged; all output remains in the project.
+
+Run 20261020-221155-ui-thread completed; native 145-second image inspected,
+expected Prisoner scene and grenade animation confirmed. Threshold phase counts:
+6,171 queue-execute, 2,580 output-refresh (nested), 596 output-pacing,
+36 queue-signal, 47 host-tracker. No >=5ms pipeline-completion or paint-mode-lock
+phase appeared. All twelve >60ms output gaps overlap queue-execute waits, often
+about 16ms, but these account for only part of each long gap. Example: the
+150.225ms interval at 128.912-129.062s overlaps one 15.957ms queue-execute call.
+Do not claim the entire large hitch is explained or sum nested refresh times.
+This establishes CPU blocking in ExecuteCommandLists under this synchronized
+configuration, rather than assuming it from shared queue ownership.
+
+Before splitting queues (which would require correct cross-queue image fences),
+inspect DXGI swap-chain frame-latency waiting: waiting for available presentation
+capacity outside driver submission may avoid blocking inside Present while it
+serializes the shared queue. Current swap-chain creation uses flip-discard and
+optional tearing only; no frame-latency waitable flag or explicit frame-latency
+wait exists. Any candidate must preserve producer 30Hz, image correctness and
+shutdown/resize behavior, and must be opt-in until measured. Root installation
+unchanged. Goal active; this turn produced source instrumentation and new evidence.
+
+### Waitable presentation candidate (2026-10-20)
+
+Added opt-in rexglue-sdk-waitable-presentation.patch. DXGI swap-chain creation
+uses FRAME_LATENCY_WAITABLE_OBJECT, sets maximum latency 1, obtains the waitable
+handle once, and waits before rendering including the first frame. Resize keeps
+the creation flag. A sidecar avoids public class-layout changes and closes the
+handle on swap-chain destruction and presenter teardown. Wait is bounded to
+100ms; timeout/failure is logged and returns not-presented without queue work.
+The setting requires restart and defaults false. Waiting implies UI-thread
+presentation so the producer doesn't itself perform the capacity wait.
+Reference: https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_3/nf-dxgi1_3-idxgiswapchain2-getframelatencywaitableobject
+
+All 20 patches validated and build passed. Import audit: 10,907 exports, zero
+missing imports. Diagnostic staged runtime SHA256:
+f225716350f6748e5321335de64793820a4f8ec7787894a18a3aa04aa00ad14a.
+Run 20261020-221722-ui-thread (session 69232) tests interval 1 + capacity wait,
+with native game-image identity and queue/output-phase tracing. No normal
+installation change. Must verify game-output rate, image-linked cadence and
+absence of wait failures before promoting. Resize/shutdown paths are source
+reviewed, not interactively exercised; no desktop input is permitted.
+
+Waitable run 20261020-221722-ui-thread completed. Native 145-second Prisoner
+image inspected (expected room/weapon/grenade pose). No fatal or capacity timeout.
+Output restored to mean 33.334ms, deviation 0.956ms, no >60ms gaps. No >=5ms
+queue-execute, queue-signal, output-refresh or fence-wait events: only intended
+output-pacing sleeps. Present calls median 0.122ms, maximum 0.586ms. This fixes
+the synchronized candidate's blocking regression, not the overall smoothness goal.
+
+Image-linked cadence still uneven: 1,350 observed images, no missing IDs or
+backwards transitions; consecutive refresh deltas 199 at one, 954 at two,
+196 at three (395/1,349 = 29.28% non-two). Host submissions averaged 18.525ms,
+including 268 two-refresh submission intervals. Do NOT deploy as a smoothness
+solution. Native capture confirms gameplay, not subjective motion quality.
+
+Checked the suspected UI double-wait: AreUITicksNeededFromUIThread already
+returns false when surface_paint_connection_has_implicit_vsync_ is true, which
+the candidate sets. Thus WaitForUITickFromUIThread returns immediately; no fix
+there is justified. Next useful hypothesis is insufficient presentation queue
+headroom at maximum latency 1: permit a bounded two-frame capacity comparison,
+measure image cadence and latency tradeoff, and retain 30Hz guest behavior.
+Do not switch queues or change simulation based on unsupported speculation.
+Normal installation unchanged; opt-in candidate/documentation committed locally.
+
+### Two-frame capacity comparison (2026-10-20)
+
+Added bounded opt-in d3d12_host_maximum_frame_latency (1 or 2, default 1) and
+harness --presentation-capacity. Existing flags remain disabled by default.
+All 21 patches and incremental builds passed; import audit 10,908 exports,
+zero missing imports. Staged runtime SHA256:
+8c6f703d7360e9e2e80788f7b8cc0af94237ee947bf082f4620f192ae5adb4db.
+
+Prisoner run 20261020-222306-ui-thread completed and native scene inspected:
+expected Prisoner geometry, camouflaged weapon and grenade animation. Mean output
+33.333ms, deviation 1.079ms; no short/long settled intervals and no >60ms gaps.
+No queue-execute/output-refresh >=5ms events; two host-tracker events outside
+any long output gap. Image-linked cadence: 1,349 observed identities, zero missing
+IDs, 31 one-refresh / 1,289 two-refresh / 28 three-refresh transitions. Non-two
+fraction 4.38%, versus 24.63% unsynchronized and 29.28% capacity 1. All 2,695
+adjacent successful presentation statistics advanced exactly one refresh.
+Median submission-to-first-sampled-report age 33.363ms versus 16.658ms at
+capacity 1 (roughly one extra refresh). This includes sampling delay and is NOT
+an input-latency measurement. Guest vblank remains 16.667ms.
+
+Stock comparison 20261020-222624-stock-ui-thread (session 78967) is pending with
+the same settings/effects route. No normal installation change yet. This is a
+strong bounded cadence improvement, not evidence that every future hitch or
+all hardware/display combinations are solved.
+
+Stock run 20261020-222624-stock-ui-thread completed; native 145-second image
+inspected: Cold Storage blue interior, bullet impacts and camouflaged grenade
+throw. Output mean 33.335ms, deviation 1.206ms, no >60ms gaps. Display identity
+sequence has no missing IDs, 36 one-refresh / 1,278 two-refresh / 34 three-refresh
+transitions (5.19% non-two). Every adjacent valid presentation statistic advanced
+one refresh. Median sampled submission/report age 33.363ms. Guest vblank16.666ms;
+guest queue progress still varied independently (13.283ms deviation), so output
+metrics must not be confused with uniform internal queue behavior.
+
+Deployed tested runtime/GPU through deploy_host_runtime.py
+--synchronized-presentation. Bootstrap now selects UI-thread, interval 1,
+waitable presentation, capacity 2, retaining host output 30 and shared maps/cache.
+Detailed presentation diagnostics remain false by default. Manifest now preserves
+cleanup history but clears stale direct-validation status when replacing binaries.
+All seven deployed hashes and both stock/converted chillout.map hashes verified.
+Root runtime8c6f703d...adb4db; GPUc9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c.
+EXE/guest modules unchanged. Direct-bootstrap run remains pending; goal active
+because occasional display cadence variation and the manual large hitch remain.
+No further one-frame capacity or plain blocking-vsync repeats are warranted.
+
+### Direct deployment and remaining phase drift (2026-10-20)
+
+Direct root run 20261020-223045-baseline completed using bootstrap paths and
+saved presentation settings, without sync/capacity CLI overrides. Native image
+inspected: correct Prisoner gameplay/effects. Output mean 33.335ms, deviation
+0.811ms, no >60ms gaps. 1,350 observed images, no missing IDs; refresh deltas
+21 one /1,310 two /18 three (2.89% non-two). Sampled report-age median33.369ms.
+All deployed hashes rechecked; manifest direct-validation status now updated.
+Normal game behavior and original assets retained; detailed logs are opt-in.
+
+Analysis of earlier two-frame trace found short/long pairs clustered around
+image indices ~469-500, consistent with producer/display phase drift rather
+than sustained output slowdown. This is an inference, not proof of physical
+scanout timing. One targeted comparison now tests interval2 with capacity1:
+20261020-223357-baseline (session6680), same root EXE/route, CLI-only overrides.
+It holds each submitted image for two display refreshes on the measured59.94Hz
+display, preserving the producer's30Hz and guest clocks. No build or persistent
+setting change. Check duplicate/missing image IDs as well as refresh intervals;
+regular submissions alone must not hide repeated or skipped game images.
+
+Interval2/capacity1 run 20261020-223357-baseline completed, native Prisoner image
+inspected. Output mean33.334ms, deviation0.846ms, no >60ms output gaps. However,
+REJECT promotion: regular33.366ms submissions hid20 unobserved game-image IDs,
+with1,330 identified transitions and six four-refresh holds among consecutive
+IDs. Every valid adjacent PresentCount advanced by one and two refreshes, so
+this trace is not sparse presentation sampling in the way interval0 was.
+Missing IDs therefore expose mailbox/display handoff loss rather than merely
+an apparently improved average. Sampled report age median33.367ms. No saved
+settings changed; direct-validated interval1/capacity2 remains installed.
+
+The remaining problem involves independently paced producer/latest-image
+mailbox consumption crossing refresh boundaries. Further arbitrary sync/capacity
+sweeps are not justified. Next inspect bounded image buffering or host-only
+phase alignment, retaining guest clocks/gameplay and explicitly measuring any
+latency or skipped-image tradeoff. Goal not complete; the original large manual
+Cold Storage hitch also remains unproven. This turn verified direct deployment
+and rejected a misleading regular-submission candidate. No desktop input used.
+
+### Host-only display-phase candidate (2026-10-20)
+
+Previous turn verified deployment and rejected interval2 image loss. Added
+opt-in host_output_display_phase, default false. DXGI scheduler sync samples
+provide a host refresh clock measured over at least32 refreshes. The producer
+waits to a midpoint between refresh boundaries at the nearest compatible
+integer refresh/output ratio. Only ratios within1% of the requested host output
+rate qualify; stale (>1s), unavailable, invalid or incompatible timing falls back
+to the existing host pacing. At59.94Hz this intentionally renders29.97FPS rather
+than drifting an exact30FPS producer across refresh boundaries. Guest timers,
+vblank interrupts, simulation rate and assets are not changed. No interpolation,
+synthetic frames or hidden quality reduction. Shared state is external to public
+class layout; mutex held only for clock snapshot/update, never during sleep.
+
+All22 patches/build passed; 10,913 exports, zero missing imports. Diagnostic
+runtime SHA256 f0ea64b4b24abcaa2ed228f9a514bfeda451e037b33ed31a4749bd511530ffac.
+Run20261020-224017-ui-thread (session51158) tests phase alignment with the
+validated interval1/capacity2 configuration. Native image identity must establish
+cadence and missing/duplicate behavior, and guest vblank must remain unchanged.
+Normal installation remains at the previously validated configuration.
+
+Phase-aligned Prisoner run20261020-224017-ui-thread completed, native image
+inspected: correct Prisoner gameplay/materials and grenade animation. All1,347
+consecutive identified-image transitions span exactly two refreshes; zero
+missing IDs or backwards transitions. All2,697 adjacent presentation statistics
+advanced one refresh, all queries successful. Two initial unmatched reports
+refer to submissions before the measurement window. Output mean33.364ms,
+deviation0.866ms, no >60ms gaps; guest vblank16.667ms. Median sampled report
+age33.364ms, so phase alignment adds no measured queue-delay increase relative
+to the installed interval1/capacity2 configuration. Display clock59.9404Hz.
+
+Stock recorded-walk confirmation20261020-224351-stock-ui-thread (session19498)
+is running with the same settings and existing shared cache. It reuses the
+recorded input rather than another short approximation. Native endpoints still
+need inspection because input replay does not restore deterministic game state.
+Deployment helper now includes phase alignment when synchronized presentation
+is selected and rejects a runtime lacking that flag. Not yet deployed.
+
+Stock recorded-walk phase run20261020-224351-stock-ui-thread completed. Native
+145-second image inspected: stock Cold Storage interior, AR19 and bubble-shield
+inventory icon; endpoint differs from original manual walk, so no deterministic
+path identity is claimed. Replay released all controls at163288ms. No fatal or
+capacity timeout.1,347 observed game images, zero missing IDs. Refresh deltas:
+6 one /1,334 two /5 three /1 four (99.11% two). One65.580ms output gap at127.716s;
+phase logs show only intentional pacing sleeps, not a long pipeline/queue wait.
+Thus periodic phase judder improved strongly, but this stock run is not hitch-free.
+The previous0.35-0.66s manual pauses did not recur; their original cause remains
+unproven. Mean output33.404ms; guest vblank16.666ms. No claim about all hardware,
+system-link testing, or subjective input latency.
+
+Deployed the tested phase-aligned runtime with the validated waitable settings.
+Detailed diagnostics remain off by default. All seven deployed binary hashes,
+saved bootstrap settings/shared paths, and stock/converted chillout hashes were
+verified. Final direct-bootstrap check20261020-224815-baseline (session61192)
+is pending. Existing original EXE and translated guest modules are unchanged.
+
+### Final implementation audit and cleanup blocker (2026-10-20)
+
+Direct phase-aligned run20261020-224815-baseline completed under watchdog with
+no fatal or capacity timeout. Native image inspected: correct Prisoner interior,
+weapon and grenade throw.1,348 identified images; all1,347 consecutive intervals
+two refreshes, zero missing/backwards IDs. Output mean33.366ms, deviation0.904ms,
+no >60ms gaps. Guest vblank16.666ms. Sampled report-age median33.365ms. Native
+output polling had a4.304ms maximum observation gap, separate from frame timing.
+
+Requirements/evidence:
+- Actual delivery: native DXGI presentation IDs joined to acquired mailbox image
+  identities; final presentation-summary.json reports even transitions, not merely
+  FPS or successful draw calls. Scene independently inspected in native capture.
+- Stock comparison:20261020-224351-stock-ui-thread;99.1% regular image transitions,
+  zero missing IDs, one65.58ms output gap explicitly retained as a limitation.
+- Installed fix: final run uses root EXE/bootstrap with no phase/sync/capacity
+  overrides; all seven deployed binary hashes rechecked against manifest.
+- Compatibility boundary: host-only pacing/presentation changes; source pipeline
+  waits/real occlusion results preserved. EXE/translated guest hashes unchanged,
+  original stock and converted chillout hashes rechecked. No system-link test claim.
+- Process: all artifacts inside project, process-local input/native capture only,
+  shared installation/cache, no map-specific build. Tools/patch stack reproduce it.
+- Documentation/roadmap: this evidence and TODO record measured tradeoffs, broader
+  hardware optimization and quality-menu work. No assets included in Git.
+- Mandatory cleanup: NOT COMPLETE. Automatic approval review previously rejected
+  removing work/pacing-runtime with "blocked by policy" and the older
+  .local/loading-traces/20261020-173958-27920/cache. Both remain, confirmed read-only.
+  Staging contains seven now-deployed host binaries plus import-audit.json
+  (~104.6MB decimal). This same blocker has persisted across multiple goal turns;
+  no alternate deletion mechanism was attempted. It requires external action.
+
+Regular cadence implementation/validation is finished on the requested machine;
+no additional configuration sweeps are justified. Do not mark the whole goal
+complete while mandatory cleanup remains blocked. Keep isolated stock performance
+spikes visible in the broader optimization backlog rather than claiming hitch-free
+operation or requiring exhaustive tests contrary to the user's stated scope.

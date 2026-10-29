@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x28">
+	<!-- Automatically generated plugin -->
+	<revisions>
+		<revision author="-DeToX-" version="1">Created layout of plugin</revision>
+		<revision author="Lord Zedd" version="2">Done</revision>
+	</revisions>
+	<comment title="Applying Collision Damage">for things that want to cause more or less collision damage</comment>
+	<float32 name="Apply Damage Scale" offset="0x0" visible="true" />
+	<float32 name="Apply Recoil Damage Scale" offset="0x4" visible="true" />
+	<rangef name="Damage Acceleration" offset="0x8" visible="true" />
+	<rangef name="Damage Scale" offset="0x10" visible="true" />
+	<rangef name="Recoil Damage Acceleration" offset="0x18" visible="true" />
+	<rangef name="Recoil Damage Scale" offset="0x20" visible="true" />
+</plugin>

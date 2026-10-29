@@ -1,0 +1,116 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -29,7 +29,75 @@
+                     "Host guest-output pacing rate; 0 disables pacing")
+     .range(0, 360);
+ 
++REXCVAR_DEFINE_BOOL(host_output_display_phase, false, "UI/Presenter",
++                    "Align host output to a compatible display refresh phase; guest clocks unchanged");
+ #if REX_PLATFORM_WIN32
++namespace {
++struct DisplayPhaseClock {
++  const void* owner = nullptr;
++  uint64_t sample_qpc = 0, anchor_qpc = 0, frequency = 0;
++  uint32_t sample_refresh = 0, anchor_refresh = 0;
++  double tick = 0;
++};
++std::mutex display_phase_mutex;
++DisplayPhaseClock display_phase;
++}
++extern "C" void RexHostUpdateDisplayPhase(const void* owner, uint64_t qpc, uint32_t refresh) {
++  if (!qpc) return;
++  LARGE_INTEGER frequency;
++  QueryPerformanceFrequency(&frequency);
++  std::lock_guard<std::mutex> lock(display_phase_mutex);
++  auto& c = display_phase;
++  if (c.owner != owner || qpc < c.anchor_qpc || refresh < c.anchor_refresh) {
++    c = {};
++    c.owner = owner;
++  }
++  if (!c.sample_qpc) {
++    c.sample_qpc = qpc;
++    c.sample_refresh = refresh;
++  } else if (refresh - c.sample_refresh >= 32) {
++    const double tick = double(qpc - c.sample_qpc) / double(refresh - c.sample_refresh);
++    if (tick > double(frequency.QuadPart) / 360.0 && tick < double(frequency.QuadPart) / 20.0) {
++      if (!c.tick) REXLOG_INFO("Host display phase clock acquired at {:.4f} Hz", double(frequency.QuadPart) / tick);
++      c.tick = tick;
++    } else {
++      c.tick = 0;
++    }
++    c.sample_qpc = qpc;
++    c.sample_refresh = refresh;
++  }
++  c.anchor_qpc = qpc;
++  c.anchor_refresh = refresh;
++  c.frequency = uint64_t(frequency.QuadPart);
++}
++namespace {
++bool PaceDisplayPhase(const void* owner, int rate) {
++  if (!REXCVAR_GET(host_output_display_phase)) return false;
++  DisplayPhaseClock c;
++  {
++    std::lock_guard<std::mutex> lock(display_phase_mutex);
++    c = display_phase;
++  }
++  LARGE_INTEGER now;
++  QueryPerformanceCounter(&now);
++  if (c.owner != owner || !c.tick || !c.frequency || uint64_t(now.QuadPart) < c.anchor_qpc ||
++      uint64_t(now.QuadPart) - c.anchor_qpc > c.frequency) return false;
++  const int multiple = int(std::llround(double(c.frequency) / (c.tick * rate)));
++  if (multiple < 1 || multiple > 16) return false;
++  const double output_rate = double(c.frequency) / (c.tick * multiple);
++  // Only match near-integral ratios (including 59.94/29.97). Never force a
++  // materially different output rate on incompatible monitors such as 144Hz.
++  if (std::abs(output_rate / rate - 1.0) > 0.01) return false;
++  const double period = c.tick * multiple;
++  const double anchor = double(c.anchor_qpc) - (c.anchor_refresh % multiple) * c.tick + c.tick * 0.5;
++  const double steps = std::floor((double(now.QuadPart) - anchor) / period) + 1.0;
++  const double wait_seconds = (anchor + steps * period - double(now.QuadPart)) / c.frequency;
++  if (wait_seconds > 0.0 && wait_seconds < 0.1) {
++    std::this_thread::sleep_for(std::chrono::duration<double>(wait_seconds));
++  }
++  return true;
++}
++}
+ REXCVAR_DECLARE(bool, d3d12_log_present_timing);
+ namespace {
+ std::mutex image_sequence_mutex;
+@@ -63,6 +131,12 @@
+     state = {};
+     return;
+   }
++#if REX_PLATFORM_WIN32
++  if (PaceDisplayPhase(presenter, rate)) {
++    state = {};
++    return;
++  }
++#endif
+   const auto period = std::chrono::duration_cast<Clock::duration>(
+       std::chrono::duration<double>(1.0 / rate));
+   auto now = Clock::now();
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -50,6 +50,8 @@
+ REXCVAR_DEFINE_BOOL(d3d12_log_present_timing, false, "UI/D3D12",
+                     "Log DXGI delivery statistics from 110-155 seconds after first present");
+ 
++REXCVAR_DECLARE(bool, host_output_display_phase);
++extern "C" void RexHostUpdateDisplayPhase(const void* owner, uint64_t qpc, uint32_t refresh);
+ extern "C" uint64_t RexHostGuestImageSequence(const void* presenter, uint32_t mailbox);
+ 
+ namespace rex::ui::d3d12 {
+@@ -1239,6 +1241,13 @@
+       (DXGI_PRESENT_RESTART |
+        (paint_context_.swap_chain_allows_tearing ? DXGI_PRESENT_ALLOW_TEARING : 0));
+   HRESULT present_result = paint_context_.swap_chain->Present(host_sync_interval, host_present_flags);
++  if (REXCVAR_GET(host_output_display_phase)) {
++    DXGI_FRAME_STATISTICS phase_statistics{};
++    if (SUCCEEDED(paint_context_.swap_chain->GetFrameStatistics(&phase_statistics))) {
++      RexHostUpdateDisplayPhase(this, uint64_t(phase_statistics.SyncQPCTime.QuadPart),
++                                phase_statistics.SyncRefreshCount);
++    }
++  }
+   if (log_present_timing) {
+     QueryPerformanceCounter(&timing_end);
+     // Diagnostic state is thread-local: no public class layout or guest changes.
