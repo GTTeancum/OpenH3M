@@ -89,8 +89,8 @@ on users 1-3 after gameplay has loaded so they can join in progress, then drives
 all four users with left-stick, right-stick, and right-trigger input. It is
 log-only by default and emits one-second XamUser summaries for bottleneck
 analysis.
-Automated launches run the game at Below Normal CPU priority so long smoke tests
-remain background-friendly while the desktop is in use.
+Automated launches keep the game at Normal CPU priority and hide the game window.
+The earlier request for Below Normal priority applied to the Codex app, not OpenH3M.
 Add `-Capture` to write
 `out/build/win-amd64-release/halo3mp_smoke_splitscreen_stress.png` from the
 internal guest-output presenter. Use `-ExtraArgs` to append cvars for A/B
@@ -125,6 +125,66 @@ so routes can be recreated:
 - Q/E: LB/RB
 
 The window title shows host-measured guest-output FPS, outside the in-game HUD.
+
+For a bounded real-console System Link discovery probe:
+
+```bash
+.\run_windowed.ps1 -SystemLinkProbe
+```
+
+The probe uses synthetic controller input to open a fresh System Link Custom
+Games host lobby, runs visibly for three minutes, and then exits. It writes only
+bounded socket metadata to
+`out/build/win-amd64-release/system_link_probe/system_link_probe.log`; packet
+payloads are neither logged nor persisted. Add `-Capture` only for an internal
+guest-output PNG checkpoint. The probe disables the keyboard-controller bridge
+before launch, so its synthetic controls do not consume foreground keyboard
+input. Add `-Headless` only when an explicitly hidden run is required.
+
+Use `-SystemLinkProbeRole Find` to enter the System Link game browser instead.
+
+`-RawSystemLink` opts into the Npcap-backed console transport. It opens the
+selected Ethernet adapter non-promiscuously with a kernel BPF filter limited to
+Xbox System Link IPv4 traffic from `0.0.0.1` on UDP port 3074. Packet payloads
+are processed only in memory and never written to the log. The transport now
+authenticates and decrypts retail Xbox XSP discovery broadcasts into Halo's UDP
+sockets, and wraps Halo-generated discovery traffic with the title's XEX LAN
+key for transmission to consoles. Only matching title IDs and exact Halo title
+versions are delivered. Real-console discovery remains experimental until the
+finder/host paths are validated end to end.
+
+`-ReflectSystemLinkBeacon` is a diagnostic companion to `-RawSystemLink`. It
+reflects one matching, authenticated, version-compatible beacon directly to
+the console MAC that sent it. It does not forge authentication, broadcast the
+frame to other devices, or persist its payload.
+
+The `Find` probe path generates Halo's native broadcast discovery query and
+records only bounded transport metadata; `Host` remains the default.
+
+For an explicitly authorized console, append an address with
+`-ExtraArgs '--xnet_system_link_probe_address=<console-ip>'` to duplicate that
+same title-generated query to the console's UDP 3074 endpoint. This diagnostic
+does not replace the authenticated raw transport required by retail consoles.
+
+Run and validate a complete hidden, title-generated local discovery exchange
+with:
+
+```bash
+.\tools\smoke_system_link_exchange.ps1
+```
+
+The smoke starts isolated host and finder instances, writes no captures, and
+then runs `tools/analyze_system_link_exchange.ps1` over their bounded logs.
+
+After the probe exits, summarize and validate its bounded diagnostics with:
+
+```bash
+.\tools\analyze_system_link_probe.ps1 -RequireConsoleDatagram
+```
+
+Exit code 2 means the OpenH3M host was ready but no console datagram reached its
+owned UDP socket. The report lists only source address/port, packet counts, and
+transport state.
 
 Historical note from the earlier handoff follows.
 

@@ -2,6 +2,12 @@ param(
     [switch]$SmokeTest,
     [switch]$OnePlayerStress,
     [switch]$SplitScreenStress,
+    [switch]$SystemLinkProbe,
+    [ValidateSet("Host", "Find")]
+    [string]$SystemLinkProbeRole = "Host",
+    [switch]$RawSystemLink,
+    [switch]$ReflectSystemLinkBeacon,
+    [switch]$Headless,
     [switch]$Capture,
     [switch]$NoCapture,
     [switch]$TraceXamUser,
@@ -18,6 +24,8 @@ param(
     [switch]$NoJoinStarts,
     [switch]$FastLocalUserState,
     [switch]$FastLocalUserStateCompare,
+    [ValidateRange(30, 900)]
+    [int]$SystemLinkProbeDurationSec = 180,
     [string]$LaunchRouteOverride = "",
     [string[]]$ExtraArgs = @()
 )
@@ -36,9 +44,11 @@ if (-not (Test-Path -LiteralPath $gameDataRoot)) {
     throw "Missing game data root: $gameDataRoot"
 }
 
-if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress) | Where-Object { $_ }).Count -gt 1) {
-    throw "Choose only one of -SmokeTest, -OnePlayerStress, or -SplitScreenStress."
+if ((@($SmokeTest, $OnePlayerStress, $SplitScreenStress, $SystemLinkProbe) | Where-Object { $_ }).Count -gt 1) {
+    throw "Choose only one of -SmokeTest, -OnePlayerStress, -SplitScreenStress, or -SystemLinkProbe."
 }
+
+$automatedRun = $SmokeTest -or $OnePlayerStress -or $SplitScreenStress -or $SystemLinkProbe
 
 $freshCustomGamesRoute = @(
     "46000:A+250",
@@ -98,6 +108,24 @@ $splitCustomGamesRoute = @(
     "68000:A+250"
 )
 
+$systemLinkHostRoute = @(
+    "46000:A+250",
+    "54000:UP+120",
+    "54600:UP+120",
+    "55200:UP+120",
+    "56500:A+250",
+    "59000:UP+150",
+    "60300:A+250",
+    "65000:A+250"
+)
+
+$systemLinkFindRoute = $systemLinkHostRoute + @(
+    "67500:A+250",
+    "68200:RIGHT+180",
+    "68800:DOWN+180",
+    "69500:A+250"
+)
+
 function Clear-SmokeUserDataRoot {
     param([string]$Path)
 
@@ -110,6 +138,50 @@ function Clear-SmokeUserDataRoot {
         Remove-Item -LiteralPath $resolved -Recurse -Force
     }
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
+}
+
+function Close-HiddenProcessWindows {
+    param([int]$ProcessId)
+
+    if (-not ("OpenH3M.NativeWindow" -as [type])) {
+        Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+namespace OpenH3M {
+    public static class NativeWindow {
+        private const uint WmClose = 0x0010;
+        private delegate bool EnumWindowsCallback(IntPtr window, IntPtr parameter);
+
+        [DllImport("user32.dll")]
+        private static extern bool EnumWindows(EnumWindowsCallback callback, IntPtr parameter);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PostMessage(IntPtr window, uint message, IntPtr wParam,
+                                               IntPtr lParam);
+
+        public static int PostCloseToProcess(uint processId) {
+            int count = 0;
+            EnumWindows((window, parameter) => {
+                uint ownerProcessId;
+                GetWindowThreadProcessId(window, out ownerProcessId);
+                if (ownerProcessId == processId && PostMessage(window, WmClose, IntPtr.Zero,
+                                                                IntPtr.Zero)) {
+                    ++count;
+                }
+                return true;
+            }, IntPtr.Zero);
+            return count;
+        }
+    }
+}
+"@
+    }
+
+    return [OpenH3M.NativeWindow]::PostCloseToProcess([uint32]$ProcessId)
 }
 
 $splitScreenJoinInGameRoute = @(
@@ -196,10 +268,23 @@ $args = @(
     "--gamma_render_target_as_unorm16=false",
     "--readback_memexport=false",
     "--gpu_allow_invalid_fetch_constants=true",
-    "--halo3mp_title_fps=true",
-    "--keyboard_controller=true",
-    "--keyboard_controller_log=true"
+    "--halo3mp_title_fps=true"
 )
+
+if ($automatedRun) {
+    $args += @(
+        "--no-keyboard_controller",
+        "--no-keyboard_controller_log"
+    )
+    if ($Headless) {
+        $args += "--window_start_hidden"
+    }
+} else {
+    $args += @(
+        "--keyboard_controller",
+        "--keyboard_controller_log"
+    )
+}
 
 if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenStress)) {
     $smokeUserDataRoot = Join-Path (Split-Path -Parent $exe) "smoke_user_data"
@@ -207,12 +292,72 @@ if ($CleanSmokeUserData -and ($SmokeTest -or $OnePlayerStress -or $SplitScreenSt
     $args += @("--user_data_root=$smokeUserDataRoot")
 }
 
+if ($SystemLinkProbe) {
+    $probeName = if ($SystemLinkProbeRole -eq "Find") {
+        "system_link_find_probe"
+    } else {
+        "system_link_probe"
+    }
+    $probeRoot = Join-Path (Split-Path -Parent $exe) $probeName
+    $probeUserDataRoot = Join-Path $probeRoot "user_data"
+    $probeLogPath = Join-Path $probeRoot "system_link_probe.log"
+    New-Item -ItemType Directory -Path $probeRoot -Force | Out-Null
+    Clear-SmokeUserDataRoot -Path $probeUserDataRoot
+    if (Test-Path -LiteralPath $probeLogPath) {
+        Remove-Item -LiteralPath $probeLogPath -Force
+    }
+    $defaultRoute = if ($SystemLinkProbeRole -eq "Find") {
+        $systemLinkFindRoute
+    } else {
+        $systemLinkHostRoute
+    }
+    $launchRoute = Get-LaunchRoute -DefaultRoute $defaultRoute
+    $routeName = if ($SystemLinkProbeRole -eq "Find") { "system-link-find-probe" } else { "system-link-host-probe" }
+    $expectedState = if ($SystemLinkProbeRole -eq "Find") { "system_link_game_browser" } else { "system_link_host_lobby" }
+    $args += @(
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=true",
+        "--input_script_keystrokes_until_ms=68000",
+        "--xnet_metadata_log=true",
+        "--xgi_session_log=true",
+        "--halo3mp_smoke_route=$routeName",
+        "--halo3mp_smoke_expected_state=$expectedState",
+        "--halo3mp_smoke_players=1",
+        "--user_data_root=$probeUserDataRoot",
+        "--log_file=$probeLogPath",
+        "--input_script=$($launchRoute -join ',')"
+    )
+
+    if ($Capture -and -not $NoCapture) {
+        $captureName = if ($SystemLinkProbeRole -eq "Find") {
+            "system_link_find.png"
+        } else {
+            "system_link_host.png"
+        }
+        $capturePath = Join-Path $probeRoot $captureName
+        $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 69000 }
+        $args += @(
+            "--halo3mp_capture_guest_output_after_ms=$effectiveCaptureAfterMs",
+            "--halo3mp_capture_guest_output_path=$capturePath"
+        )
+    }
+}
+
+if ($RawSystemLink) {
+    $args += "--xnet_system_link_raw_transport=true"
+}
+
+if ($ReflectSystemLinkBeacon) {
+    if (-not $RawSystemLink) {
+        throw "-ReflectSystemLinkBeacon requires -RawSystemLink."
+    }
+    $args += "--xnet_system_link_raw_reflect_beacon=true"
+}
+
 if ($SmokeTest) {
     $capturePath = Join-Path (Split-Path -Parent $exe) "halo3mp_smoke_zanzibar.png"
     $effectiveCaptureAfterMs = if ($CaptureAfterMs -gt 0) { $CaptureAfterMs } else { 152000 }
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -239,8 +384,6 @@ if ($OnePlayerStress) {
     $launchRoute = Get-LaunchRoute -DefaultRoute $(if ($CleanSmokeUserData) { $freshCustomGamesRoute } else { $customGamesRoute })
     $script = $launchRoute + $onePlayerStressRoute
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -275,8 +418,6 @@ if ($SplitScreenStress) {
         (Select-RouteForPlayers -Route $splitScreenStressRoute -PlayerCount $SplitPlayers)
     $activationMs = @("0", "90000", "90200", "90400") | Select-Object -First $SplitPlayers
     $args += @(
-        "--keyboard_controller=false",
-        "--keyboard_controller_log=false",
         "--input_script_button_state=true",
         "--input_script_keystrokes=true",
         "--input_script_keystrokes_until_ms=65000",
@@ -313,5 +454,28 @@ if ($FastLocalUserStateCompare) {
 
 $args += $ExtraArgs
 
-$process = Start-Process -FilePath $exe -ArgumentList $args -WorkingDirectory (Split-Path -Parent $exe) -PassThru
-$process.PriorityClass = "BelowNormal"
+$startProcessArgs = @{
+    FilePath = $exe
+    ArgumentList = $args
+    WorkingDirectory = (Split-Path -Parent $exe)
+    PassThru = $true
+}
+if ($Headless) {
+    $startProcessArgs.WindowStyle = "Hidden"
+}
+
+$process = Start-Process @startProcessArgs
+$process.PriorityClass = "Normal"
+
+if ($SystemLinkProbe) {
+    if (-not $process.WaitForExit($SystemLinkProbeDurationSec * 1000)) {
+        $windowsClosed = Close-HiddenProcessWindows -ProcessId $process.Id
+        if ($windowsClosed -eq 0) {
+            $null = $process.CloseMainWindow()
+        }
+        if (-not $process.WaitForExit(5000)) {
+            Stop-Process -Id $process.Id -Force
+            $process.WaitForExit()
+        }
+    }
+}

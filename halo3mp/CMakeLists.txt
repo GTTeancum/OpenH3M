@@ -15,6 +15,7 @@ set(HALO3MP_SOURCES
     src/main.cpp
     src/fiber_switch.cpp
     src/local_user_hotpath.cpp
+    src/system_link.cpp
 )
 
 if(WIN32)
@@ -31,7 +32,7 @@ if(DEFINED REXGLUE_ROOT AND EXISTS "${REXGLUE_ROOT}/thirdparty/imgui/imgui.h")
 endif()
 
 if(WIN32)
-    target_link_libraries(halo3mp PRIVATE windowscodecs ole32)
+    target_link_libraries(halo3mp PRIVATE windowscodecs ole32 iphlpapi ws2_32)
 endif()
 
 # Cross-module (guest->guest) import thunks.
