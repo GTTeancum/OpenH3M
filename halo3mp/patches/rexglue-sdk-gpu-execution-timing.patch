@@ -1,0 +1,103 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -1776,6 +1776,13 @@
+   ui::d3d12::util::ReleaseAndNull(submission_fence_);
+   submission_open_ = false;
+   submission_current_ = 1;
++  if (gpu_timing_mapping_) gpu_timing_readback_->Unmap(0, nullptr);
++  gpu_timing_mapping_ = nullptr;
++  gpu_timing_heap_.Reset();
++  gpu_timing_readback_.Reset();
++  gpu_timing_slots_ = {};
++  gpu_timing_attempted_ = false;
++  gpu_timing_frequency_ = 0;
+   submission_completed_ = 0;
+ 
+   if (fence_completion_event_) {
+@@ -3130,6 +3137,45 @@
+   return true;
+ }
+ 
++int D3D12CommandProcessor::PrepareGpuTiming() {
++  if (!REXCVAR_GET(d3d12_log_present_timing)) return -1;
++  if (!gpu_timing_attempted_) {
++    gpu_timing_attempted_ = true;
++    auto* device = GetD3D12Provider().GetDevice();
++    D3D12_QUERY_HEAP_DESC desc = {};
++    desc.Type = D3D12_QUERY_HEAP_TYPE_TIMESTAMP;
++    desc.Count = 512;
++    D3D12_RESOURCE_DESC buffer;
++    ui::d3d12::util::FillBufferResourceDesc(buffer, 512 * sizeof(uint64_t), D3D12_RESOURCE_FLAG_NONE);
++    if (FAILED(device->CreateQueryHeap(&desc, IID_PPV_ARGS(&gpu_timing_heap_))) ||
++        FAILED(device->CreateCommittedResource(&ui::d3d12::util::kHeapPropertiesReadback,
++            D3D12_HEAP_FLAG_NONE, &buffer, D3D12_RESOURCE_STATE_COPY_DEST, nullptr,
++            IID_PPV_ARGS(&gpu_timing_readback_))) ||
++        FAILED(GetD3D12Provider().GetDirectQueue()->GetTimestampFrequency(&gpu_timing_frequency_))) {
++      REXGPU_WARN("GPU timing diagnostic initialization failed");
++      return -1;
++    }
++    D3D12_RANGE range = {0, 512 * sizeof(uint64_t)};
++    void* mapping = nullptr;
++    if (FAILED(gpu_timing_readback_->Map(0, &range, &mapping))) return -1;
++    gpu_timing_mapping_ = static_cast<uint64_t*>(mapping);
++  }
++  if (!gpu_timing_mapping_ || !gpu_timing_frequency_) return -1;
++  const uint64_t completed = submission_fence_->GetCompletedValue();
++  if (completed == UINT64_MAX) return -1;
++  for (uint32_t i = 0; i < gpu_timing_slots_.size(); ++i) {
++    auto& slot = gpu_timing_slots_[i];
++    if (!slot.submission || slot.submission > completed) continue;
++    const auto begin = gpu_timing_mapping_[i * 2], end = gpu_timing_mapping_[i * 2 + 1];
++    if (end >= begin) REXGPU_INFO("[gpu-execution] submission={} frame={} closes_frame={} elapsed_ms={:.3f}",
++        slot.submission, slot.frame, slot.closes_frame,
++        double(end - begin) * 1000.0 / double(gpu_timing_frequency_));
++    slot = {};
++  }
++  const uint32_t index = uint32_t(submission_current_ % gpu_timing_slots_.size());
++  return gpu_timing_slots_[index].submission ? -1 : int(index);
++}
++
+ void D3D12CommandProcessor::CheckSubmissionFence(uint64_t await_submission) {
+   const auto wait_for_fence = [&](const char* kind) {
+     const bool trace = REXCVAR_GET(d3d12_log_present_timing);
+@@ -3493,7 +3539,18 @@
+     command_allocator->Reset();
+     command_list_->Reset(command_allocator, nullptr);
+     trace_phase("command-list-setup");
++    const int timing_index = PrepareGpuTiming();
++    if (timing_index >= 0) command_list_->EndQuery(gpu_timing_heap_.Get(),
++        D3D12_QUERY_TYPE_TIMESTAMP, uint32_t(timing_index) * 2);
+     deferred_command_list_.Execute(command_list_, command_list_1_);
++    if (timing_index >= 0) {
++      command_list_->EndQuery(gpu_timing_heap_.Get(), D3D12_QUERY_TYPE_TIMESTAMP,
++                             uint32_t(timing_index) * 2 + 1);
++      command_list_->ResolveQueryData(gpu_timing_heap_.Get(), D3D12_QUERY_TYPE_TIMESTAMP,
++          uint32_t(timing_index) * 2, 2, gpu_timing_readback_.Get(),
++          uint64_t(timing_index) * 2 * sizeof(uint64_t));
++      gpu_timing_slots_[timing_index] = {submission_current_, frame_current_, is_closing_frame};
++    }
+     trace_phase("deferred-commands");
+     command_list_->Close();
+     ID3D12CommandList* execute_command_lists[] = {command_list_};
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -311,6 +311,19 @@
+   // the submission to await to simply check status, or pass submission_current_
+   // to wait for all queue operations to be completed.
+   void CheckSubmissionFence(uint64_t await_submission);
++  // Diagnostic-only timestamps; harvest only completed fences, never wait.
++  int PrepareGpuTiming();
++  struct GpuTimingSlot {
++    uint64_t submission = 0, frame = 0;
++    bool closes_frame = false;
++  };
++  std::array<GpuTimingSlot, 256> gpu_timing_slots_{};
++  Microsoft::WRL::ComPtr<ID3D12QueryHeap> gpu_timing_heap_;
++  Microsoft::WRL::ComPtr<ID3D12Resource> gpu_timing_readback_;
++  uint64_t* gpu_timing_mapping_ = nullptr;
++  uint64_t gpu_timing_frequency_ = 0;
++  bool gpu_timing_attempted_ = false;
++
+   // If is_guest_command is true, a new full frame - with full cleanup of
+   // resources and, if needed, starting capturing - is opened if pending (as
+   // opposed to simply resuming after mid-frame synchronization). Returns

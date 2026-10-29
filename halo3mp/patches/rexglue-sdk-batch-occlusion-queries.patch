@@ -1,0 +1,81 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -38,6 +38,10 @@
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_async_occlusion_readback, false, "GPU/D3D12",
+     "Publish completed visibility query results without blocking command production")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++
++REXCVAR_DEFINE_BOOL(d3d12_batch_occlusion_queries, false, "GPU/D3D12",
++    "Batch asynchronous visibility queries until a normal submission or guest wait")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_readback_memexport, false, "GPU/D3D12",
+@@ -2287,8 +2291,14 @@
+   EndSubmission(true);
+ }
+ 
++void D3D12CommandProcessor::PrepareForWait() {
++  if (submission_open_ && pending_occlusion_submission_ >= submission_current_)
++    EndSubmission(false);
++}
++
+ void D3D12CommandProcessor::OnPrimaryBufferEnd() {
+-  if (REXCVAR_GET(d3d12_submit_on_primary_buffer_end) && submission_open_ &&
++  if ((REXCVAR_GET(d3d12_submit_on_primary_buffer_end) ||
++       pending_occlusion_submission_ >= submission_current_) && submission_open_ &&
+       CanEndSubmissionImmediately()) {
+     EndSubmission(false);
+   }
+@@ -5137,12 +5147,12 @@
+       occlusion_query_heap_.Get(), D3D12_QUERY_TYPE_OCCLUSION, host_index, 1,
+       occlusion_query_readback_.Get(), sizeof(uint64_t) * host_index);
+ 
+-  if (!EndSubmission(false)) {
+-    return false;
+-  }
+-
+-  uint64_t query_submission = submission_current_ ? submission_current_ - 1 : 0;
+-  if (REXCVAR_GET(d3d12_async_occlusion_readback) && StartOcclusionWorker()) {
++  const bool asynchronous = REXCVAR_GET(d3d12_async_occlusion_readback) && StartOcclusionWorker();
++  const bool batch = asynchronous && REXCVAR_GET(d3d12_batch_occlusion_queries);
++  if (!batch && !EndSubmission(false)) return false;
++  const uint64_t query_submission = batch ? submission_current_ : submission_current_ - 1;
++  if (asynchronous) {
++    pending_occlusion_submission_ = query_submission;
+     completed_segments.push_back(host_index);
+     const uint64_t scale = texture_cache_ ? uint64_t(texture_cache_->draw_resolution_scale_x()) *
+         texture_cache_->draw_resolution_scale_y() : 1;
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -214,6 +214,7 @@
+                  uint32_t frontbuffer_height) override;
+ 
+   void OnPrimaryBufferEnd() override;
++  void PrepareForWait() override;
+ 
+   Shader* LoadShader(xenos::ShaderType shader_type, uint32_t guest_address,
+                      const uint32_t* host_address, uint32_t dword_count) override;
+@@ -681,6 +682,7 @@
+   std::thread occlusion_worker_;
+   std::atomic<bool> occlusion_worker_stop_{false};
+   HANDLE occlusion_worker_event_ = nullptr;
++  uint64_t pending_occlusion_submission_ = 0;
+   bool StartOcclusionWorker();
+   void StopOcclusionWorker();
+ 
+--- a/src/graphics/command_processor.cpp
++++ b/src/graphics/command_processor.cpp
+@@ -1030,9 +1030,11 @@
+         break;
+     }
+     if (!matched) {
++      // Flush work needed by the condition even for a short polling wait.
++      // Deferred GPU queries must be submitted before polling their result.
++      PrepareForWait();
+       // Wait.
+       if (wait >= 0x100) {
+-        PrepareForWait();
+         if (!REXCVAR_GET(vsync)) {
+           // User wants it fast and dangerous.
+           rex::thread::MaybeYield();

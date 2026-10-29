@@ -1,0 +1,33 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -208,11 +208,15 @@
+     if (!BeginGuestOcclusionQuery(sample_count_addr)) {
+       return write_fallback_result();
+     }
++    // Guest D3D subtracts its BEGIN snapshot from a distinct END snapshot.
++    // Host queries already return the interval, so publish a zero baseline.
++    std::memset(sample_counts, 0, sizeof(xenos::xe_gpu_depth_sample_counts));
+     return true;
+   }
+ 
+-  if (!active_occlusion_query_.valid ||
+-      active_occlusion_query_.sample_count_address != sample_count_addr) {
++  // BEGIN and END addresses are different in Halo 3 (observed END = BEGIN - 32).
++  // Match the active interval, not the destination snapshot address.
++  if (!active_occlusion_query_.valid) {
+     DisableHostOcclusionQueries();
+     return write_fallback_result();
+   }
+@@ -4998,6 +5002,12 @@
+   }
+ 
+   uint64_t samples = occlusion_query_readback_mapping_[host_index];
++  static bool logged_hidden = false, logged_visible = false;
++  bool& logged = samples ? logged_visible : logged_hidden;
++  if (!logged) {
++    logged = true;
++    REXGPU_INFO("Occlusion interval resolved: end={:08X}, samples={}", sample_count_address, samples);
++  }
+   samples = NormalizeOcclusionSamples(samples);
+   WriteGuestOcclusionResult(sample_counts, samples);
+   return true;

@@ -16,6 +16,8 @@ set(HALO3MP_SOURCES
     src/fiber_switch.cpp
     src/local_user_hotpath.cpp
     src/system_link.cpp
+    src/video_quality.cpp
+    src/video_quality_settings.cpp
 )
 
 if(WIN32)
@@ -44,6 +46,16 @@ foreach(_rexmod l360 q10)
             ${CMAKE_CURRENT_SOURCE_DIR}/src/${_rexmod}_import_stubs.cpp)
     endif()
 endforeach()
+
+# Small process-local check for the temporary F4 video controls.
+if(TARGET rex::runtime AND DEFINED REXGLUE_ROOT AND EXISTS "${REXGLUE_ROOT}/src/ui/overlay/video_options.h")
+    add_executable(video_settings_check EXCLUDE_FROM_ALL ../tools/video-options/test_settings.cpp)
+    target_include_directories(video_settings_check PRIVATE "${REXGLUE_ROOT}/src/ui/overlay" "${REXGLUE_ROOT}/thirdparty/imgui")
+    target_sources(video_settings_check PRIVATE src/video_quality_settings.cpp)
+    target_include_directories(video_settings_check PRIVATE src)
+    target_include_directories(halo3mp PRIVATE "${REXGLUE_ROOT}/src/ui/overlay")
+    target_link_libraries(video_settings_check PRIVATE rex::runtime)
+endif()
 
 if(TARGET rex::runtime AND WIN32)
     add_executable(input_focus_check EXCLUDE_FROM_ALL ../tools/input-focus/test_focus.cpp)

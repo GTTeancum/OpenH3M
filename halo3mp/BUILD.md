@@ -426,3 +426,34 @@ Apply `patches/rexglue-sdk-input-focus.patch` after the existing SDK input patch
 Rebuild the runtime and app together with `tools/input-focus/build.ps1` from the
 repository root. This also runs the process-local focus check. See
 `tools/input-focus/README.md` for coverage and the in-game testing boundary.
+
+### Heavy-map host performance (2026-10-26)
+
+The shared SDK checkout contains the validated performance changes. Build with
+`tools/video-options/build.ps1`; it rebuilds the runtime/GPU/game and runs the
+settings and pacing checks. The deployed configuration enables
+`d3d12_async_occlusion_readback=true`; generic SDK default remains false.
+
+Preserved incremental deltas, in order on the established SDK baseline:
+
+1. `patches/rexglue-sdk-heavy-map-pacing.patch`
+2. `patches/rexglue-sdk-gpu-execution-timing.patch`
+3. `patches/rexglue-sdk-async-occlusion-readback.patch`
+4. `patches/rexglue-sdk-draw-stage-timing.patch` (optional diagnostic only)
+
+Keep the earlier occlusion-query-snapshots and upload-coherency changes.
+`rexglue-sdk-batch-occlusion-queries.patch` records a rejected experiment and
+must not be applied. The older build_host_runtime.ps1 patch list is not a
+complete reconstruction of the current SDK baseline; do not use it to replace
+this working checkout. Clean-checkout reconstruction remains to be consolidated.
+See `tools/video-options/PERFORMANCE-2026-10-26.md` for measured results and
+repeatable process-local test commands. Diagnostics are off during normal play.
+
+## Native video quality and timing (2026-10-28)
+
+Apply `patches/rexglue-sdk-video-quality-metrics.patch` after the existing
+video-options and GPU-execution-timing patches. Rebuild the runtime, GPU plugin
+and app together using `tools/video-options/build.ps1`. Native quality hooks
+are in `src/video_quality.cpp`; their cvars and pure scaling math are separate
+for the focused settings check. See `tools/video-options/QUALITY-IMPLEMENTATION.md`
+for the combined in-game run, persistence fix and precise evidence limits.

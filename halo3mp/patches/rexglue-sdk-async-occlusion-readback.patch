@@ -1,0 +1,198 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -34,6 +34,10 @@
+ #include <rex/ui/d3d12/d3d12_util.h>
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_bindless, true, "GPU/D3D12", "Use bindless resources where available")
++    .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
++
++REXCVAR_DEFINE_BOOL(d3d12_async_occlusion_readback, false, "GPU/D3D12",
++    "Publish completed visibility query results without blocking command production")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_readback_memexport, false, "GPU/D3D12",
+@@ -4985,8 +4989,62 @@
+   return true;
+ }
+ 
++bool D3D12CommandProcessor::StartOcclusionWorker() {
++  if (occlusion_worker_.joinable()) return true;
++  occlusion_worker_event_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
++  if (!occlusion_worker_event_) return false;
++  occlusion_worker_stop_.store(false);
++  occlusion_worker_ = std::thread([this]() {
++    uint32_t published = 0;
++    bool saw_hidden = false, saw_visible = false;
++    while (true) {
++      PendingOcclusion pending;
++      {
++        std::unique_lock<std::mutex> lock(occlusion_pending_mutex_);
++        occlusion_pending_cv_.wait(lock, [this]() {
++          return occlusion_worker_stop_.load() || !occlusion_pending_.empty();
++        });
++        if (occlusion_pending_.empty()) break;
++        pending = std::move(occlusion_pending_.front());
++        occlusion_pending_.pop_front();
++      }
++      uint64_t completed = submission_fence_->GetCompletedValue();
++      if (completed < pending.submission &&
++          SUCCEEDED(submission_fence_->SetEventOnCompletion(pending.submission, occlusion_worker_event_))) {
++        while (!occlusion_worker_stop_.load() &&
++               WaitForSingleObject(occlusion_worker_event_, 100) == WAIT_TIMEOUT) {}
++        completed = submission_fence_->GetCompletedValue();
++      }
++      if (completed != UINT64_MAX && completed >= pending.submission) {
++        uint64_t samples = 0;
++        for (uint32_t index : pending.indices) samples += occlusion_query_readback_mapping_[index];
++        samples = (samples + (pending.scale >> 1)) / pending.scale;
++        WriteGuestOcclusionResult(pending.destination, samples);
++        bool& seen = samples ? saw_visible : saw_hidden;
++        if (++published <= 4 || !seen) REXGPU_INFO("Async occlusion result published: samples={} segments={}",
++                                                  samples, pending.indices.size());
++        seen = true;
++      } else {
++        REXGPU_WARN("Visibility result unavailable at fence {}", pending.submission);
++      }
++      for (uint32_t index : pending.indices) occlusion_reserved_[index].store(false);
++    }
++  });
++  return true;
++}
++
++void D3D12CommandProcessor::StopOcclusionWorker() {
++  occlusion_worker_stop_.store(true);
++  occlusion_pending_cv_.notify_one();
++  if (occlusion_worker_.joinable()) occlusion_worker_.join();
++  if (occlusion_worker_event_) CloseHandle(occlusion_worker_event_);
++  occlusion_worker_event_ = nullptr;
++  for (auto& reserved : occlusion_reserved_) reserved.store(false);
++}
++
+ void D3D12CommandProcessor::ShutdownOcclusionQueryResources() {
+   DisableHostOcclusionQueries();
++  StopOcclusionWorker();
+ 
+   if (occlusion_query_readback_ && occlusion_query_readback_mapping_) {
+     occlusion_query_readback_->Unmap(0, nullptr);
+@@ -4997,20 +5055,22 @@
+ }
+ 
+ bool D3D12CommandProcessor::AcquireOcclusionQueryIndex(uint32_t& host_index_out) {
+-  if (occlusion_query_cursor_ >= kMaxOcclusionQueries) {
+-    occlusion_query_cursor_ = 0;
+-  }
+-  if (std::find(active_occlusion_query_.completed_segments.begin(),
+-                active_occlusion_query_.completed_segments.end(), occlusion_query_cursor_) !=
+-      active_occlusion_query_.completed_segments.end()) {
+-    REXGPU_ERROR("Occlusion query exceeded the host segment capacity");
+-    return false;
+-  }
+-  host_index_out = occlusion_query_cursor_++;
+-  return true;
++  for (uint32_t attempt = 0; attempt < kMaxOcclusionQueries; ++attempt) {
++    uint32_t index = occlusion_query_cursor_++ % kMaxOcclusionQueries;
++    bool available = false;
++    if (occlusion_reserved_[index].compare_exchange_strong(available, true)) {
++      host_index_out = index;
++      return true;
++    }
++  }
++  REXGPU_ERROR("All visibility query slots are still in flight");
++  return false;
+ }
+ 
+ void D3D12CommandProcessor::DisableHostOcclusionQueries() {
++  auto canceled = active_occlusion_query_.completed_segments;
++  if (active_occlusion_query_.valid && active_occlusion_query_.host_index != UINT32_MAX)
++    canceled.push_back(active_occlusion_query_.host_index);
+   if (active_occlusion_query_.valid && occlusion_query_heap_ &&
+       active_occlusion_query_.host_index != UINT32_MAX) {
+     uint32_t host_index = active_occlusion_query_.host_index;
+@@ -5025,6 +5085,7 @@
+   } else {
+     active_occlusion_query_ = {};
+   }
++  for (uint32_t index : canceled) occlusion_reserved_[index].store(false);
+   occlusion_query_cursor_ = 0;
+   occlusion_query_resources_available_ = false;
+ }
+@@ -5081,6 +5142,18 @@
+   }
+ 
+   uint64_t query_submission = submission_current_ ? submission_current_ - 1 : 0;
++  if (REXCVAR_GET(d3d12_async_occlusion_readback) && StartOcclusionWorker()) {
++    completed_segments.push_back(host_index);
++    const uint64_t scale = texture_cache_ ? uint64_t(texture_cache_->draw_resolution_scale_x()) *
++        texture_cache_->draw_resolution_scale_y() : 1;
++    {
++      std::lock_guard<std::mutex> lock(occlusion_pending_mutex_);
++      occlusion_pending_.push_back({query_submission, std::max(uint64_t(1), scale),
++                                   sample_counts, std::move(completed_segments)});
++    }
++    occlusion_pending_cv_.notify_one();
++    return true;
++  }
+   CheckSubmissionFence(query_submission);
+   if (submission_completed_ < query_submission) {
+     return false;
+@@ -5107,6 +5180,8 @@
+     logged = true;
+     REXGPU_INFO("Occlusion interval resolved: end={:08X}, samples={}", sample_count_address, samples);
+   }
++  occlusion_reserved_[host_index].store(false);
++  for (uint32_t index : completed_segments) occlusion_reserved_[index].store(false);
+   samples = NormalizeOcclusionSamples(samples);
+   WriteGuestOcclusionResult(sample_counts, samples);
+   return true;
+@@ -5133,12 +5208,13 @@
+   uint32_t clamped = samples > uint64_t(UINT32_MAX) ? UINT32_MAX : uint32_t(samples);
+   sample_counts->Total_A = clamped;
+   sample_counts->Total_B = 0;
++  sample_counts->StencilFail_A = 0;
++  sample_counts->StencilFail_B = 0;
++  sample_counts->ZFail_A = 0;
++  sample_counts->ZFail_B = 0;
++  std::atomic_thread_fence(std::memory_order_release);
+   sample_counts->ZPass_A = clamped;
+   sample_counts->ZPass_B = 0;
+-  sample_counts->ZFail_A = 0;
+-  sample_counts->ZFail_B = 0;
+-  sample_counts->StencilFail_A = 0;
+-  sample_counts->StencilFail_B = 0;
+ }
+ 
+ void D3D12CommandProcessor::WriteGammaRampSRV(bool is_pwl,
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -15,6 +15,9 @@
+ #include <array>
+ #include <atomic>
+ #include <deque>
++#include <condition_variable>
++#include <thread>
++#include <mutex>
+ #include <memory>
+ #include <optional>
+ #include <string>
+@@ -666,6 +669,21 @@
+   Microsoft::WRL::ComPtr<ID3D12Resource> occlusion_query_readback_;
+   uint64_t* occlusion_query_readback_mapping_ = nullptr;
+   uint32_t occlusion_query_cursor_ = 0;
++  struct PendingOcclusion {
++    uint64_t submission = 0, scale = 1;
++    xenos::xe_gpu_depth_sample_counts* destination = nullptr;
++    std::vector<uint32_t> indices;
++  };
++  std::array<std::atomic<bool>, kMaxOcclusionQueries> occlusion_reserved_{};
++  std::mutex occlusion_pending_mutex_;
++  std::condition_variable occlusion_pending_cv_;
++  std::deque<PendingOcclusion> occlusion_pending_;
++  std::thread occlusion_worker_;
++  std::atomic<bool> occlusion_worker_stop_{false};
++  HANDLE occlusion_worker_event_ = nullptr;
++  bool StartOcclusionWorker();
++  void StopOcclusionWorker();
++
+   bool occlusion_query_resources_available_ = false;
+   struct ActiveOcclusionQuery {
+     uint32_t sample_count_address = 0;

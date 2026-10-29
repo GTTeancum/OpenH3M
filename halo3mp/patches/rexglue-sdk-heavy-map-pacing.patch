@@ -1,0 +1,84 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -21,6 +21,7 @@
+ #include <rex/logging.h>
+ #include <rex/platform.h>
+ #include <rex/ui/presenter.h>
++#include <rex/ui/host_output_schedule.h>
+ #include <rex/ui/window.h>
+ 
+ // OpenH3M host policy: match its original 30 FPS render cadence without changing
+@@ -90,8 +91,12 @@
+   if (std::abs(output_rate / rate - 1.0) > 0.01) return false;
+   const double period = c.tick * multiple;
+   const double anchor = double(c.anchor_qpc) - (c.anchor_refresh % multiple) * c.tick + c.tick * 0.5;
+-  const double steps = std::floor((double(now.QuadPart) - anchor) / period) + 1.0;
+-  const double wait_seconds = (anchor + steps * period - double(now.QuadPart)) / c.frequency;
++  // Keep the deadline assigned to this frame. Selecting the next display slot
++  // from arrival time on every call penalizes a slightly late frame with an
++  // entire extra period (30 -> 15 FPS under otherwise manageable workloads).
++  static thread_local rex::ui::HostOutputSchedule schedule;
++  const double wait_seconds = (schedule.Advance(owner, rate, double(now.QuadPart),
++      anchor, period) - double(now.QuadPart)) / c.frequency;
+   if (wait_seconds > 0.0 && wait_seconds < 0.1) {
+     std::this_thread::sleep_for(std::chrono::duration<double>(wait_seconds));
+   }
+@@ -704,8 +709,6 @@
+     if (elapsed >= 5.0) REXLOG_INFO("[host-phase] kind={} elapsed_ms={:.3f}", name, elapsed);
+     phase_start = now;
+   };
+-  PaceHostOutput(this, frontbuffer_width != 0 && frontbuffer_height != 0);
+-  trace_phase("output-pacing");
+   GuestOutputProperties& writable_properties =
+       guest_output_properties_[guest_output_mailbox_writable_];
+   writable_properties.frontbuffer_width = frontbuffer_width;
+@@ -723,6 +726,11 @@
+       return false;
+     }
+     trace_phase("output-refresh");
++    // Submit rendering before waiting for the output deadline. Sleeping before
++    // the refresher delayed the final GPU work and made readiness depend on
++    // variable rendering time after the nominal presentation phase.
++    PaceHostOutput(this, true);
++    trace_phase("output-pacing");
+     guest_output_frame_count_.fetch_add(1, std::memory_order_relaxed);
+     guest_output_active_last_refresh_ = true;
+   } else {
+@@ -731,6 +739,7 @@
+     if (!guest_output_active_last_refresh_) {
+       return false;
+     }
++    PaceHostOutput(this, false);
+     guest_output_active_last_refresh_ = false;
+   }
+ 
+--- /dev/null
++++ b/include/rex/ui/host_output_schedule.h
+@@ -0,0 +1,27 @@
++#pragma once
++#include <cmath>
++namespace rex::ui {
++// Host-only deadlines. Units may be QPC ticks or seconds; guest time is untouched.
++struct HostOutputSchedule {
++  const void* owner = nullptr;
++  int rate = 0;
++  double next = 0, period = 0;
++  double Advance(const void* new_owner, int new_rate, double now,
++                 double anchor, double new_period) {
++    if (owner != new_owner || rate != new_rate ||
++        std::abs(period / new_period - 1.0) > 0.01) {
++      *this = {new_owner, new_rate,
++          anchor + (std::floor((now - anchor) / new_period) + 1.0) * new_period,
++          new_period};
++    }
++    // Retain the assigned slot while following updated DXGI phase samples.
++    // Accumulating estimated periods without rebasing slowly loses phase.
++    next = anchor + std::round((next - anchor) / new_period) * new_period;
++    if (now - next > new_period) next = now;
++    const double target = next;
++    next += new_period;
++    period = new_period;
++    return target;
++  }
++};
++}

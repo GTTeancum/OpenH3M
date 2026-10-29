@@ -1,0 +1,211 @@
+diff --git a/include/rex/graphics/flags.h b/include/rex/graphics/flags.h
+index 2cf24c4..574496c 100644
+--- a/include/rex/graphics/flags.h
++++ b/include/rex/graphics/flags.h
+@@ -48,6 +48,7 @@ REXCVAR_DECLARE(bool, direct_host_resolve);
+ REXCVAR_DECLARE(bool, gpu_allow_invalid_fetch_constants);
+ REXCVAR_DECLARE(bool, gpu_3d_to_2d_texture);
+ REXCVAR_DECLARE(int32_t, anisotropic_override);
++REXCVAR_DECLARE(int32_t, texture_detail_reduction);
+ REXCVAR_DECLARE(int32_t, texture_cache_memory_limit_render_to_texture);
+ REXCVAR_DECLARE(int32_t, texture_cache_memory_limit_soft);
+ REXCVAR_DECLARE(int32_t, texture_cache_memory_limit_hard);
+diff --git a/include/rex/ui/overlay/settings_overlay.h b/include/rex/ui/overlay/settings_overlay.h
+index 5b80eac..87c561f 100644
+--- a/include/rex/ui/overlay/settings_overlay.h
++++ b/include/rex/ui/overlay/settings_overlay.h
+@@ -27,6 +27,7 @@ class SettingsDialog : public ImGuiDialog {
+ 
+  private:
+   std::filesystem::path config_path_;
++  bool video_page_ = true;
+   char search_buf_[128] = {};
+   std::string selected_category_;
+   std::string capturing_bind_name_;
+diff --git a/src/core/cvar.cpp b/src/core/cvar.cpp
+index 228728d..8e53830 100644
+--- a/src/core/cvar.cpp
++++ b/src/core/cvar.cpp
+@@ -692,10 +698,8 @@ bool IsFinalized() {
+ 
+ void SaveConfig(const std::filesystem::path& config_path) {
+   std::string content = SerializeToTOML();
+-  if (content.empty()) {
+-    REXLOG_DEBUG("SaveConfig: no modified flags to save");
+-    return;
+-  }
++  // An empty configuration still needs to replace the old file when the
++  // user restores defaults; otherwise the next launch reloads stale values.
+ 
+   try {
+     std::ofstream file(config_path);
+diff --git a/src/graphics/d3d12/texture_cache.cpp b/src/graphics/d3d12/texture_cache.cpp
+index 2be0e8e..1b28406 100644
+--- a/src/graphics/d3d12/texture_cache.cpp
++++ b/src/graphics/d3d12/texture_cache.cpp
+@@ -986,6 +986,16 @@ D3D12TextureCache::SamplerParameters D3D12TextureCache::GetSamplerParameters(
+     parameters.min_linear = min_filter == xenos::TextureFilter::kLinear;
+     parameters.mip_linear = mip_filter == xenos::TextureFilter::kLinear;
+   }
++  // Only tiled, filtered 2D surfaces. Leave atlas/UI, cubemaps, base-map
++  // fetches and point-sampled data alone. Existing sampler key includes MinLOD,
++  // so changing this setting creates/reuses the correct cached descriptor.
++  if (fetch.dimension == xenos::DataDimension::k2DOrStacked && !fetch.stacked && has_mips && !mip_base_map &&
++      min_mag_linear && mip_filter_bilinear_or_trilinear &&
++      fetch_clamp_x == xenos::ClampMode::kRepeat &&
++      fetch_clamp_y == xenos::ClampMode::kRepeat) {
++    parameters.mip_min_level = std::min(mip_max_level,
++        mip_min_level + uint32_t(std::clamp(REXCVAR_GET(texture_detail_reduction), 0, 2)));
++  }
+   parameters.mip_base_map = mip_base_map;
+ 
+   return parameters;
+diff --git a/src/graphics/pipeline/texture/cache.cpp b/src/graphics/pipeline/texture/cache.cpp
+index 76f5600..9752519 100644
+--- a/src/graphics/pipeline/texture/cache.cpp
++++ b/src/graphics/pipeline/texture/cache.cpp
+@@ -49,6 +49,11 @@ REXCVAR_DEFINE_BOOL(gpu_3d_to_2d_texture, true, "GPU",
+                     "Sample problematic 3D textures through 2D-compatible wrappers")
+     .lifecycle(rex::cvar::Lifecycle::kHotReload);
+ 
++REXCVAR_DEFINE_INT32(texture_detail_reduction, 0, "GPU",
++                     "Surface texture detail reduction: 0 original, 1 medium, 2 low. D3D12 only; keeps render resolution.")
++    .range(0, 2)
++    .lifecycle(rex::cvar::Lifecycle::kHotReload);
++
+ REXCVAR_DEFINE_INT32(anisotropic_override, 3, "GPU",
+                      "Forces anisotropic filtering for eligible textures.\n"
+                      "Higher values keep textures sharper at oblique angles, but increase texture "
+diff --git a/src/ui/overlay/settings_overlay.cpp b/src/ui/overlay/settings_overlay.cpp
+index 4ede107..420c2ea 100644
+--- a/src/ui/overlay/settings_overlay.cpp
++++ b/src/ui/overlay/settings_overlay.cpp
+@@ -15,6 +15,7 @@
+ #include <rex/string/numeric.h>
+ #include <rex/ui/keybinds.h>
+ #include <imgui.h>
++#include "video_options.h"
+ 
+ #include <algorithm>
+ #include <map>
+@@ -206,6 +207,18 @@ void SettingsDialog::OnDraw(ImGuiIO& /*io*/) {
+     return;
+   }
+ 
++  if (ImGui::Button(video_page_ ? "Advanced settings" : "Video / Performance"))
++    video_page_ = !video_page_;
++  ImGui::Separator();
++  if (video_page_) {
++    DrawVideoOptions();
++    ImGui::Separator();
++    if (ImGui::Button("Save video settings")) rex::cvar::SaveConfig(config_path_);
++    ImGui::TextDisabled("F4 closes this menu.");
++    ImGui::End();
++    return;
++  }
++
+   // Search bar at the top (full width).
+   ImGui::SetNextItemWidth(-1.0f);
+   ImGui::InputText("##search", search_buf_, sizeof(search_buf_));
+diff --git a/src/ui/rex_app.cpp b/src/ui/rex_app.cpp
+index b94fe9e..96879d8 100644
+--- a/src/ui/rex_app.cpp
++++ b/src/ui/rex_app.cpp
+@@ -51,6 +51,9 @@ REXCVAR_DEFINE_STRING(gpu_plugin, "", "GPU",
+                       "GPU emulation")
+     .lifecycle(rex::cvar::Lifecycle::kInitOnly);
+ 
++REXCVAR_DEFINE_BOOL(show_settings_on_startup, false, "UI",
++    "Open the F4 settings panel at startup (native UI validation)");
++
+ namespace rex {
+ 
+ // --- ReXApp ---
+@@ -424,6 +427,8 @@ void ReXApp::SetupOverlays(rex::ui::Presenter* presenter, rex::ui::ImmediateDraw
+     }
+   });
+ 
++  if (REXCVAR_GET(show_settings_on_startup))
++    settings_overlay_ = std::make_unique<ui::SettingsDialog>(imgui_drawer_.get(), config_path_);
+   OnCreateDialogs(imgui_drawer_.get());
+ }
+ 
+diff --git a/src/ui/overlay/video_options.h b/src/ui/overlay/video_options.h
+new file mode 100644
+--- /dev/null
++++ b/src/ui/overlay/video_options.h
+@@ -0,0 +1,74 @@
++#pragma once
++#include <rex/cvar.h>
++#include <imgui.h>
++#include <string>
++#include <vector>
++#include <utility>
++namespace rex::ui {
++// Curated video controls use the same cvars and persistence as Advanced settings.
++static void VideoChoice(const char* label, const char* flag,
++                        const std::vector<std::pair<const char*, const char*>>& choices) {
++  auto current = rex::cvar::GetFlagByName(flag);
++  const char* preview = "Custom";
++  for (auto& choice : choices) if (current == choice.second) preview = choice.first;
++  if (ImGui::BeginCombo(label, preview)) {
++    for (auto& choice : choices) {
++      if (ImGui::Selectable(choice.first, current == choice.second))
++        {
++          rex::cvar::SetFlagByName(flag, choice.second);
++          if (std::string(flag) == "resolution_scale") {
++            rex::cvar::SetFlagByName("draw_resolution_scale_x", choice.second);
++            rex::cvar::SetFlagByName("draw_resolution_scale_y", choice.second);
++          }
++        }
++    }
++    ImGui::EndCombo();
++  }
++}
++static void ApplySurfacePreset(int index) {
++  const char* details[] = {"2", "1", "0"};
++  const char* filters[] = {"0", "2", "-1"};
++  rex::cvar::SetFlagByName("texture_detail_reduction", details[index]);
++  rex::cvar::SetFlagByName("anisotropic_override", filters[index]);
++}
++static void DrawVideoOptions() {
++  ImGui::TextUnformatted("Video / Performance");
++  ImGui::TextWrapped("Quality and resolution are independent. Save below to keep changes.");
++  const auto detail = rex::cvar::GetFlagByName("texture_detail_reduction");
++  const auto filter = rex::cvar::GetFlagByName("anisotropic_override");
++  const char* preset = detail == "2" && filter == "0" ? "Performance" :
++                       detail == "1" && filter == "2" ? "Balanced" :
++                       detail == "0" && filter == "-1" ? "Original" : "Custom";
++  if (ImGui::BeginCombo("Surface quality preset [live]", preset)) {
++    const char* names[] = {"Performance", "Balanced", "Original"};
++    for (int i = 0; i < 3; ++i) if (ImGui::Selectable(names[i])) {
++      ApplySurfacePreset(i);
++    }
++    ImGui::EndCombo();
++  }
++  VideoChoice("Surface textures [live]", "texture_detail_reduction",
++              {{"Original", "0"}, {"Medium", "1"}, {"Low", "2"}});
++  VideoChoice("Texture filtering [live]", "anisotropic_override",
++              {{"Game default", "-1"}, {"Off", "0"}, {"2x", "2"}, {"4x", "3"}, {"8x", "4"}, {"16x", "5"}});
++  ImGui::TextWrapped("Lower texture detail softens nearby tiled surfaces while keeping resolution.");
++  VideoChoice("Extra edge smoothing [restart]", "swap_post_effect",
++              {{"Off", "none"}, {"FXAA", "fxaa"}, {"Strong FXAA", "fxaa_extreme"}});
++  ImGui::TextWrapped("Extra smoothing can soften jagged edges, with additional GPU cost.");
++  ImGui::Separator();
++  VideoChoice("Display mode [restart]", "resolution",
++              {{"Game default", ""}, {"720p", "720p"}, {"1080p", "1080p"}, {"1440p", "1440p"}, {"2160p", "4k"}});
++  VideoChoice("Internal render scale [restart]", "resolution_scale",
++              {{"1x", "1"}, {"2x (4x pixels)", "2"}, {"3x (9x pixels)", "3"}});
++  ImGui::TextWrapped("Display mode and internal rendering are separate. Higher render scales cost more GPU time. Restart after saving resolution changes.");
++  ImGui::Separator();
++  if (ImGui::Button("Restore video defaults")) {
++    for (auto& entry : rex::cvar::GetRegistry()) {
++      if (entry.name == "texture_detail_reduction" || entry.name == "anisotropic_override" ||
++          entry.name == "swap_post_effect" || entry.name == "resolution" || entry.name == "resolution_scale" ||
++          entry.name == "draw_resolution_scale_x" || entry.name == "draw_resolution_scale_y")
++        rex::cvar::SetFlagByName(entry.name, entry.default_value);
++    }
++  }
++}
++
++}
