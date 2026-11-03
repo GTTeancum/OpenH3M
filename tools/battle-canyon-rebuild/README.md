@@ -2,6 +2,25 @@
 
 ## Current status - 2026-11-03
 
+**User walkthrough rejected final-lighting-02 visual quality (2026-11-03).**
+The user reports dusk-level darkness at default brightness and a rock-like band
+in the sky. The supplied screenshot shows severely dark terrain/buildings and
+a broad gray textured strip across the sky opening. This supersedes any
+implication that the installed final bake has acceptable lighting.
+
+Read-only comparison in `reference/user-darkness-sky-audit.json` confirms the
+compiled and renamed native scenario bind the converted camera: flags 20,
+exposure 0, bounds 0..1.8, target -3.321928, sensitivity 1. The older Workshop
+port brightness profile does not target this rebuilt cache. Matching values
+establish transport only, not correct brightness or functioning adaptation.
+The active sky is the original beavercreek_sky model with 13 material slots;
+compiled/native nodes and compression bounds agree. Source sky materials
+include rocks, mountains and multiple cloud layers. A material name does not
+identify the visible faulty strip; geometry/UV/alpha/texture and exposure
+behavior still need tracing. No speculative sky removal, new bake, automated
+game run or map replacement was performed for this assessment.
+
+
 Final Medium lighting dataset 115 and official compilation succeeded after the
 documented checkpoint recovery. Installed for user testing, not final acceptance.
 The single authorized native test is complete. No further tests or bakes are queued.
