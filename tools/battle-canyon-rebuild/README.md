@@ -2957,3 +2957,14 @@ atomically replaces only battle_canyon.map and hashes every other bundle file
 unchanged. Concurrent map changes cause rejection. Runtime/settings, preview
 BLFs, mapinfo, other maps and stock Last Resort are preserved. This is deployment
 for user review, not final visual or performance acceptance.
+
+
+The queued sky-exposure-01 installation completed after PID 5704 exited.
+The installed file was independently rehashed as
+`3de8ee1d1a18b76b5a7306aac087d3ae267bd6897df440afff30dbc46883a585`;
+the installer reports all other bundle files unchanged. Following the user's
+standing launch request, a plain game process was opened with no arguments,
+input harness, capture or watchdog. Its launch record is
+`work/battle-canyon/rebuild/sky-exposure-01-user-play/launch.json`.
+Brightness, sky appearance, traversal and performance acceptance remain pending;
+installation and process startup do not prove those requirements.
