@@ -1,6 +1,6 @@
 {
-  "selected_candidate": 103,
-  "selected_sha256": "3eeff3526e736edb9efe616ed9a8ac255e2aaccdd799d7d194ca461a316d8551",
+  "selected_candidate": 114,
+  "selected_sha256": "9c601414c73c0b1b4e707b356ef06b164d3a69d08e21e3cb81402d8609fd123d",
   "terrain_material": "levels\\multi\\s3d_powerhouse\\shaders\\30_settlement_040_ground_new",
   "target_material_index": 9517,
   "bsp_material_slot": 192,
@@ -51,7 +51,11 @@
     "All117 retained mips across13 terrain textures match selected source blocks after required signed-DXN conversion; this is cache verification, not live GPU fetch proof.",
     "Native draw trace110 recorded zero p_lightmap_compress_constant_0 and _1 on the affected static-per-pixel terrain draws (samples301/998, index_count15678), with the expected eight-layer lightprobe and two-layer dominant textures bound.",
     "Read-only native-code tracing identified lightprobe upload case0x82183d2c in function0x821835d0. It requires a resolved bitmap with image depth8 and loads nine scale floats at BSP offsets8+24*i into device vectors9376/9392/9408.",
-    "Candidate103 and stock Zanzibar pass the native BSP checksum, geometry mesh-count and eight-layer upload prerequisites. Candidate nonzero scale inputs remain present. Execution of this upload path and subsequent device-to-GPU propagation are not yet established."
+    "Candidate103 and stock Zanzibar pass the native BSP checksum, geometry mesh-count and eight-layer upload prerequisites. Candidate nonzero scale inputs remain present. Execution of this upload path and subsequent device-to-GPU propagation are not yet established.",
+    "Trace112 shows correct CPU-side scale vectors and GPU transitions from correct values to zero before terrain drawing. Trace113 observes a 16-word type-0 packet covering pixel c208..c211 at the zeroing transition.",
+    "The opaque-grate albedo material allocated c208/c209. Native four-register material uploads overwrite persistent lightmap c210/c211 with padding. Reserving c208..c215 moves these parameters to c233/c234 without changing material semantics.",
+    "Private candidate114 visibly restores ground texture and lighting in the matched native view. All1024 observed draws retain the expected scale vectors; affected static-per-pixel draw480 matches the CPU scales. Eleven native hash checks pass.",
+    "Candidate114 preserves1951 vertex buffers,453 index buffers and42 existing lens tags exactly against its101 basis. Twelve interfaces match and all13 shaders reproduce with the corrected recipe."
   ],
   "incomplete_runs": [
     {
@@ -63,8 +67,8 @@
       "reason": "Capture did not complete before180-second watchdog; no visual result. Successful109b supersedes it."
     }
   ],
-  "scope": "Material-path isolation, not a production correction or full-map acceptance. All substitutions are private diagnostics and must never be installed.",
-  "next": "Observe native lightprobe upload execution and device vectors9376/9392/9408, then trace propagation to pixel constants210/211. Do not change map flags or substitute shaders without causal evidence.",
+  "scope": "Focused terrain regression corrected in a private candidate; broader map acceptance remains incomplete.",
+  "next": "Apply complete lightmap register-block protection to other custom shader profiles, preserve their interfaces/semantics, and validate native views before broader gameplay-area traversal. Keep flare decision gate intact.",
   "evidence": [
     "work/powerhouse/terrain-material-comparison-108.json",
     "work/powerhouse/terrain-root-state-108.json",
@@ -73,7 +77,14 @@
     "work/powerhouse/terrain-live-draws-110.json",
     "work/powerhouse/draw-symbol-110.json",
     "work/powerhouse/lightmap-upload-inputs-111.json",
-    "work/powerhouse/lightmap-upload-stock-111.json"
+    "work/powerhouse/lightmap-upload-stock-111.json",
+    "work/powerhouse/lightmap-upload-summary-112.json",
+    "work/powerhouse/lightmap-register-writes-113.json",
+    "work/powerhouse/lightmap-transition-shaders-113.json",
+    "work/powerhouse/lightmap-register-guard-114.json",
+    "work/powerhouse/lightmap-register-profile-audit-114.json",
+    "work/powerhouse/lightmap-upload-summary-114.json",
+    "work/powerhouse/terrain-correction-evidence-114.json"
   ],
   "native_draw_trace": {
     "run": ".local/loading-traces/20261103-085611-29280",
@@ -81,5 +92,51 @@
     "matching_terrain_draws": 15,
     "new_screenshots": 0,
     "scope": "Observed register state; not a corrected visual result."
+  },
+  "baseline_candidate": 103,
+  "baseline_sha256": "3eeff3526e736edb9efe616ed9a8ac255e2aaccdd799d7d194ca461a316d8551",
+  "focused_correction": {
+    "candidate": 114,
+    "candidate_sha256": "9c601414c73c0b1b4e707b356ef06b164d3a69d08e21e3cb81402d8609fd123d",
+    "baseline": 103,
+    "run": ".local\\loading-traces\\20261103-092225-22068",
+    "harness_exit_code": 0,
+    "termination": "180-second watchdog; no natural game exit claimed",
+    "native_hash_passes": 11,
+    "native_hash_failures": 0,
+    "captures_created": 1,
+    "captures_individually_inspected": [
+      "proof-loaded.png"
+    ],
+    "baseline_capture_individually_inspected": ".local/loading-traces/20261103-083907-6096/proof-loaded.png",
+    "finding": "Previously black ground beside and behind the opaque grate is visibly textured and lit. Grate, grass and concrete remain visible in the matched stationary view.",
+    "draws": 1024,
+    "terrain_static_per_pixel_samples": [
+      480
+    ],
+    "lightmap_scales_stable_across_observed_draws": true,
+    "geometry_audit": {
+      "geometry": {
+        "vertex": {
+          "buffers": 1951,
+          "bytes": 36978576,
+          "bit_exact": true
+        },
+        "index": {
+          "buffers": 453,
+          "bytes": 3609120,
+          "bit_exact": true
+        }
+      },
+      "existing_lens_tags_byte_exact": 42
+    },
+    "shader_interface_checks": 12,
+    "shader_programs_reproduced": 13,
+    "remaining": [
+      "Other custom shader profiles contain material routes within c208..c215 and require the same protection plus native checks.",
+      "Single stationary view does not prove whole-map lighting, traversal, audio, gameplay, Forge, performance or console/System Link compatibility.",
+      "Full rebuild remains gated by pending flare-layout decision."
+    ],
+    "installation": "None; private candidate only"
   }
 }

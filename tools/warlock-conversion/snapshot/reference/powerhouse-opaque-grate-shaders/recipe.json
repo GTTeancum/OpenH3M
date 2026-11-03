@@ -1,0 +1,93 @@
+{
+  "reviewed_candidate": 114,
+  "reserve_lightmap_upload_blocks": true,
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_default_ps",
+    "/Dcalc_albedo_vs=calc_albedo_default_vs",
+    "/Dcalc_bumpmap_ps=calc_bumpmap_detail_ps",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_detail_vs",
+    "/Dcalc_alpha_test_ps=calc_alpha_test_off_ps",
+    "/Dcalc_specular_mask_ps=calc_specular_mask_no_specular_mask_ps",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_none_ps",
+    "/Dcalc_parallax_ps=calc_parallax_off_ps",
+    "/Dcalc_parallax_vs=calc_parallax_off_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dmaterial_type=diffuse_only",
+    "/Denvmap_type=none",
+    "/Dblend_type=opaque",
+    "/Dbitmap_rotation=0"
+  ],
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "microcode_sha256": "f0df190f8226fc1dd137be523a63fee5e09b36597fb187734b6ed28697637a62"
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "microcode_sha256": "5f911391c215da2b3407cb7ae846ef18cb74277f6bb4c3aa830577e61b1cde8e"
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "microcode_sha256": "6910467be81bc62afd17cb7c08408687de5b0d98be42503c03973bb1ab894842"
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "microcode_sha256": "8d53ef0890ccc4b2063358fc77e3c67e2208ea88d2022e721e0ace452071ff3e"
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "microcode_sha256": "b319221fc876ae6bf53e4b8ea08e521ce236a27e89fc97ba1ea5627190ba45a8"
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "microcode_sha256": "b319221fc876ae6bf53e4b8ea08e521ce236a27e89fc97ba1ea5627190ba45a8"
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "microcode_sha256": "b319221fc876ae6bf53e4b8ea08e521ce236a27e89fc97ba1ea5627190ba45a8"
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "microcode_sha256": "0ae29800443e7d02f9e4b2b9610e91e53153209349f218c2ef32473f094a8c76"
+    },
+    {
+      "entry": 10,
+      "name": "shadow_generate",
+      "microcode_sha256": "ef1baed471e39f57afcc8d11a0113fdc9e78b9ccd0555b8522456f5133db484c"
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "microcode_sha256": "693ae53d2581f3ca2a3ba3d6e0dfc281b3e27727f03e99b7f6525584a7aae08d"
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "microcode_sha256": "fa04994ea83a270592d635be21f212ab0bff86534b16be6b273520b2333825ce"
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "microcode_sha256": "0e3ca849d1c415d65319fff3954f252f15a4d77854681e7457557a3b53e53ad0"
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "microcode_sha256": "c5e0d2ff249d13304865eedbfbbb2b7d76d85559f22201929bab08626930dc07"
+    }
+  ]
+}

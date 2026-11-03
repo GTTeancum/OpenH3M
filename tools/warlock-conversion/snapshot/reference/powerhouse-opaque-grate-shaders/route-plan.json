@@ -1,0 +1,1849 @@
+{
+  "names": {
+    "0": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "bump_detail_map"
+    ],
+    "4": [
+      "base_map",
+      "detail_map",
+      "albedo_color",
+      "bump_map",
+      "bump_detail_map",
+      "bump_detail_coefficient"
+    ],
+    "5": [],
+    "6": [
+      "no_dynamic_lights"
+    ]
+  },
+  "externs": {
+    "albedo_texture": [
+      7,
+      1,
+      0,
+      0
+    ],
+    "normal_texture": [
+      7,
+      2,
+      0,
+      0
+    ],
+    "lightprobe_texture_array": [
+      7,
+      11,
+      0,
+      0
+    ],
+    "dominant_light_intensity_map": [
+      7,
+      12,
+      0,
+      0
+    ],
+    "shadow_depth_map_1": [
+      7,
+      4,
+      0,
+      0
+    ],
+    "dynamic_light_gel_texture": [
+      7,
+      38,
+      0,
+      0
+    ],
+    "scene_ldr_texture": [
+      7,
+      45,
+      0,
+      0
+    ]
+  },
+  "persistent": {
+    "camera_position_ps": [
+      2,
+      16,
+      1
+    ],
+    "hdr_gamma2": [
+      0,
+      15,
+      1
+    ],
+    "ldr_gamma2": [
+      0,
+      14,
+      1
+    ],
+    "g_exposure": [
+      2,
+      0,
+      1
+    ],
+    "p_lightmap_compress_constant_0": [
+      2,
+      210,
+      1
+    ],
+    "p_lightmap_compress_constant_1": [
+      2,
+      211,
+      1
+    ],
+    "p_tiling_vpos_offset": [
+      2,
+      108,
+      1
+    ],
+    "simple_light_count_int": [
+      1,
+      0,
+      1
+    ],
+    "simple_lights": [
+      2,
+      18,
+      80
+    ],
+    "p_lighting_constant_0": [
+      2,
+      1,
+      1
+    ],
+    "p_lighting_constant_1": [
+      2,
+      2,
+      1
+    ],
+    "p_lighting_constant_2": [
+      2,
+      3,
+      1
+    ],
+    "p_lighting_constant_3": [
+      2,
+      4,
+      1
+    ],
+    "p_lighting_constant_4": [
+      2,
+      5,
+      1
+    ],
+    "p_lighting_constant_5": [
+      2,
+      6,
+      1
+    ],
+    "p_lighting_constant_6": [
+      2,
+      7,
+      1
+    ],
+    "p_lighting_constant_7": [
+      2,
+      8,
+      1
+    ],
+    "p_lighting_constant_8": [
+      2,
+      9,
+      1
+    ],
+    "p_lighting_constant_9": [
+      2,
+      10,
+      1
+    ],
+    "dynamic_light_shadowing": [
+      0,
+      13,
+      1
+    ],
+    "p_dynamic_light_gel_xform": [
+      2,
+      5,
+      1
+    ],
+    "k_ps_active_camo_factor": [
+      2,
+      232,
+      1
+    ],
+    "texture_size": [
+      2,
+      14,
+      1
+    ],
+    "p_render_debug_mode": [
+      2,
+      94,
+      1
+    ]
+  },
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "shader": 0,
+      "registers": [
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 98,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 99,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 233,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 234,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ],
+          [
+            3,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            98,
+            2,
+            0
+          ],
+          [
+            99,
+            0,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            1,
+            0
+          ],
+          [
+            233,
+            4,
+            0
+          ],
+          [
+            234,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": []
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "shader": 1,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "p_lightmap_compress_constant_0",
+          "set": 2,
+          "register": 210,
+          "count": 1
+        },
+        {
+          "name": "p_lightmap_compress_constant_1",
+          "set": 2,
+          "register": 211,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "lightprobe_texture_array",
+          "set": 3,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "dominant_light_intensity_map",
+          "set": 3,
+          "register": 13,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            12,
+            11,
+            0
+          ],
+          [
+            13,
+            12,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset",
+        "p_lightmap_compress_constant_0",
+        "p_lightmap_compress_constant_1"
+      ]
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "shader": 3,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "shader": 2,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "shader": 5,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "shader": 6,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "shader": 7,
+      "registers": [
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "shader": 4,
+      "registers": [
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            0,
+            4,
+            0
+          ],
+          [
+            1,
+            38,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "shader": 8,
+      "registers": [
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "k_ps_active_camo_factor",
+          "set": 2,
+          "register": 232,
+          "count": 1
+        },
+        {
+          "name": "scene_ldr_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            10,
+            45,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "texture_size",
+        "k_ps_active_camo_factor"
+      ]
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "shader": 10,
+      "registers": [
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_render_debug_mode",
+          "set": 2,
+          "register": 94,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 98,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 99,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            98,
+            3,
+            0
+          ],
+          [
+            99,
+            4,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_render_debug_mode"
+      ]
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "shader": 9,
+      "registers": [
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights"
+      ]
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "shader": 11,
+      "registers": [
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            0,
+            4,
+            0
+          ],
+          [
+            1,
+            38,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    }
+  ],
+  "unresolved": []
+}
