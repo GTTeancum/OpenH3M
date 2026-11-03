@@ -1,0 +1,44 @@
+{
+  "credit": "Sky Bridge from Halo Online; upstream Halo 3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified. This project supplies Xbox 360/OpenH3M adaptation.",
+  "requirements": [
+    {
+      "requirement": "Correct unintended panel material substitutions while preserving authored screen animation and window behavior",
+      "status": "Implementation and binary checks pass; appearance unverified",
+      "evidence": "candidate-29-emitted-programs.json: 48 exact bytecode/reflection/GPR checks; source interface audits",
+      "remaining": "Human indoor/courtyard/left-corridor panel, transparency and animation report"
+    },
+    {
+      "requirement": "Correct roughly 20 FPS while preserving original gameplay and Xbox 360 formats",
+      "status": "Bounded host performance improved; broader acceptance incomplete",
+      "evidence": "Latest 110-165 seconds: 29.93385327672671 FPS; native hashes 11 passed; real camera movement",
+      "remaining": "Human traversal beyond the 3.4-world-unit local route; physical console/network behavior not tested"
+    },
+    {
+      "requirement": "Verify affected visuals and exposure",
+      "status": "Missing required human observation",
+      "evidence": "No image inspection allowed and no human result received",
+      "remaining": "Pending human playtest availability/text report"
+    },
+    {
+      "requirement": "Update LIVE DLC after acceptance",
+      "status": "Private candidate built and native-installed; release promotion pending",
+      "evidence": "candidate29-live-default-summary.json; seven exact extracted files; STFS header/data/hash-tree checks; current container SHA256 rechecked",
+      "remaining": "Visual acceptance before replacing existing release"
+    },
+    {
+      "requirement": "Keep all work in repository; no desktop control or image imports; preserve unrelated edits",
+      "status": "Observed constraints maintained",
+      "evidence": "Repo-local work/cache/profile paths, process-local replay only, narrow commits, no captures or image tools"
+    },
+    {
+      "requirement": "Keep goal open until user authorizes closing",
+      "status": "Active, not complete",
+      "evidence": "No closure authorization received"
+    }
+  ],
+  "completion_proven": false,
+  "game_running": false,
+  "package_sha256": "0f29a9e3be5a014c4b36ce45d315e135f8fb769daa9acd8403fed71881852a73",
+  "human_launcher": "human-playtest.ps1 (validated without -Run)",
+  "next_required_input": "Human readiness or visual report; do not infer acceptance from no reply"
+}

@@ -292,3 +292,24 @@ full-map visual/traversal acceptance. Human text feedback has been requested
 for the panels, animations and exposure. Candidate remains unreleased; no
 change to the existing LIVE release or goal closure. Audio, physical console
 and network verification remain outside the evidence gathered so far.
+
+## Human playtest preparation and acceptance audit
+
+human-playtest.ps1 validates all 19 runtime files and seven candidate payload
+files against the tested manifests before doing anything. Preparation completed
+successfully without -Run and started no process. -Run uses the existing native
+trace helper in manual-input mode: no replay, no captures, no timing-instrumented
+command replay, original user controls, private repository-local profile/cache,
+and a 170-second watchdog. The user selects Custom Games, Sky Bridge, Slayer.
+This is ready for the pending human-availability answer; do not launch repeatedly
+without an observer or infer visual acceptance from silence. Payload bytes are
+identical to those already tested through native LIVE installation.
+
+candidate29-acceptance-audit.json checks the full objective against current
+artifacts, including current container SHA256, emitted-program evidence, and
+latest native motion/hash/timing results. Completion is not proven: affected
+visuals and broader human traversal remain unverified, and release promotion
+waits for that acceptance. The goal remains open. The previous turn made
+progress through a new diagnostic and non-reproduction evidence; this turn
+prepared the concrete manual check and recorded the remaining acceptance gap.
+No further unchanged unattended launch is warranted while awaiting that input.
