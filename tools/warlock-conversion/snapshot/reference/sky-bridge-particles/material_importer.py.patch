@@ -1,0 +1,40 @@
+--- tools\warlock-conversion\snapshot\tools\material_importer.py
++++ tools\warlock-conversion\snapshot\tools\material_importer.py
+@@ -12,6 +12,7 @@
+ 
+ # Explicit, reported proof-of-concept substitutions for absent disc variants.
+ PARTICLE_ALIASES = {
++    '_3_8_0_0_1_1_0_0_0_0': ('_3_8_0_0_1_1_1_0_0_0', 'neutral_black_point', 'Native snow shader with verified constant-zero black point; authored LDR rendering and depth fade retained'),
+     '_1_3_0_0_0_0_0_1_0_0': ('_1_3_0_0_0_0_1_1_0_0', 'neutral_black_point', 'Native black-point support with verified constant-zero emitter values; authored alpha/fog retained'),
+     '_0_10_0_0_1_0_1_1_0_0': ('_0_10_0_0_0_0_1_1_0_0', 'render_targets', 'LDR-only becomes LDR and HDR'),
+     '_1_10_0_0_0_1_1_1_0_0': ('_1_3_0_0_0_1_1_1_0_0', 'blend_mode', 'Premultiplied alpha becomes alpha blend'),
+@@ -1223,6 +1224,10 @@
+         aliases = DECAL_ALIASES if group == 'decs' else PARTICLE_ALIASES if group == 'prt3' else {}
+         alias = aliases.get(template_name.rsplit('\\', 1)[-1])
+         target_template = template_name.rsplit('\\', 1)[0] + '\\' + alias[0] if alias else template_name
++        sky_bridge_ldr = (group=='prt3' and template_name==r'shaders\particle_templates\_0_8_0_0_1_0_0_0_0_0'
++                          and str(s.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'))
++        if sky_bridge_ldr:
++            target_template=r'shaders\particle_templates\_0_8_0_0_0_0_0_0_0_0'
+         post = None
+         for tag in c.tags.values():
+             tag_group = tag['group']
+@@ -1414,6 +1419,9 @@
+             converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
+                              + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, block))
+         output = bytearray(native_output if native_output is not None else c.data[post:post + 132])
++        if sky_bridge_ldr:
++            from sky_bridge_particle import bind_ldr
++            output=bind_ldr(self,output)
+         native_blend_flags = bytes(output[104:108])
+         if group == 'decs' and not s.u(source_post + 92):
+             # Static authored decals must not inherit the donor's animations.
+@@ -1456,7 +1464,7 @@
+             b.put(pointer + index * 16, '4I', *c.unpack('4I', native))
+         self.report.append({'particle_template': template_name, 'retail_template': target_template,
+                             'render_method_group': group,
+-                            'native_shader_donor': native_donor,
++                            'native_shader_donor': native_donor, 'sky_bridge_ldr_shader': sky_bridge_ldr,
+                             'combined_alpha_mode': combined_alpha_mode,
+                             'constant_overrides': constant_overrides,
+                             'baked_color_scale': color_scale,
