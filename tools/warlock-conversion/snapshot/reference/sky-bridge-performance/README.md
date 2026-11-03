@@ -28,3 +28,11 @@ viewing. Its map ID, mapinfo identity, header name, body XOR checksum and salted
 header SHA1 pass. Existing release and installed payloads are unchanged.
 No LIVE release was regenerated. Visual verification and performance correction
 remain required; retain the full active goal.
+
+The bounded-timing.py preparation step completed without launching a game.
+Private copies of game assets and candidate-29 DLC, private user/profile/cache
+paths, binary-hash guards, payload-hash guard, existing-process check, and a
+170-second watchdog are ready. No symlinks/junctions point the game data outside
+the repository. The first run uses a fresh cache and must be labeled cold.
+Execution remains pending the user's answer about resuming tests after the
+explicit handoff instruction to keep the game closed during deeper work.
