@@ -1,0 +1,5464 @@
+{
+  "animation-audit": {
+    "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+    "names": {
+      "0": [
+        "base_map",
+        "detail_map",
+        "self_illum_map"
+      ],
+      "4": [
+        "base_map",
+        "detail_map",
+        "albedo_color",
+        "self_illum_map",
+        "self_illum_color",
+        "self_illum_intensity",
+        "primary_change_color_blend"
+      ],
+      "5": [],
+      "6": [
+        "no_dynamic_lights"
+      ]
+    },
+    "functions": [
+      {
+        "index": 0,
+        "kind": 6,
+        "input": "",
+        "range": "",
+        "period": 10.0,
+        "bytes": 52,
+        "source_hex": "0834000000002041000000000000000000000000000000000000000014000000010000000400003fffff7f7f000080bf0000803f",
+        "converted_hex": "0834000041200000000000000000000000000000000000000000000000000014000000010400003f7f7fffffbf8000003f800000",
+        "sha256": "a18e9da57c8272e9e5bfcb4bcdae142ba62935847044a8c8a5c384b940fee845"
+      },
+      {
+        "index": 1,
+        "kind": 6,
+        "input": "",
+        "range": "",
+        "period": 5.0,
+        "bytes": 32,
+        "source_hex": "0034000000008040000000000000000000000000000000000000000000000000",
+        "converted_hex": "0034000040800000000000000000000000000000000000000000000000000000",
+        "sha256": "2dde6257c762fe4c4edaa858d94b8942f9dc62880dc8b90761a473203ad98ca8"
+      },
+      {
+        "index": 2,
+        "kind": 0,
+        "input": "",
+        "range": "",
+        "period": 1.0,
+        "bytes": 52,
+        "source_hex": "0334000000000c42000020420000000000000000000000000000000014000000090000000000803f00000000000000000000803f",
+        "converted_hex": "03340000420c0000422000000000000000000000000000000000000000000014090000003f80000000000000000000003f800000",
+        "sha256": "556672efafd0b1b76376b16b232fb1c58aff130bd92a40803b220e7520e5a20e"
+      }
+    ],
+    "consumers": [
+      {
+        "entry": 1,
+        "usage": 2,
+        "route": 0,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "usage": 2,
+        "route": 1,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "usage": 2,
+        "route": 2,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "usage": 2,
+        "route": 3,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "usage": 2,
+        "route": 4,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "usage": 2,
+        "route": 5,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "usage": 2,
+        "route": 6,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "usage": 2,
+        "route": 7,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "usage": 2,
+        "route": 8,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "usage": 2,
+        "route": 9,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "usage": 2,
+        "route": 10,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "usage": 2,
+        "route": 11,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "usage": 2,
+        "route": 12,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "usage": 2,
+        "route": 13,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "usage": 2,
+        "route": 14,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "usage": 2,
+        "route": 15,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "usage": 2,
+        "route": 16,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "usage": 2,
+        "route": 17,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "usage": 2,
+        "route": 18,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 9,
+        "usage": 2,
+        "route": 19,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 14,
+        "usage": 2,
+        "route": 20,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      },
+      {
+        "entry": 14,
+        "usage": 2,
+        "route": 21,
+        "register": 28933,
+        "function": 1,
+        "constant": 3,
+        "name": "self_illum_map",
+        "flags": 0
+      },
+      {
+        "entry": 14,
+        "usage": 2,
+        "route": 22,
+        "register": 28932,
+        "function": 2,
+        "constant": 5,
+        "name": "self_illum_intensity",
+        "flags": 0
+      },
+      {
+        "entry": 17,
+        "usage": 2,
+        "route": 23,
+        "register": 28929,
+        "function": 0,
+        "constant": 0,
+        "name": "base_map",
+        "flags": 0
+      }
+    ],
+    "animated_parameters": [
+      "base_map",
+      "self_illum_intensity",
+      "self_illum_map"
+    ],
+    "primary_change_color_blend": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "zero_blend_specialization_safe": true
+  },
+  "animation-route-audit": {
+    "checks": [
+      {
+        "source": {
+          "entry": 1,
+          "usage": 2,
+          "route": 0,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 3,
+          "usage": 2,
+          "route": 1,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 3,
+          "usage": 2,
+          "route": 2,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 3,
+          "usage": 2,
+          "route": 3,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 4,
+          "usage": 2,
+          "route": 4,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 4,
+          "usage": 2,
+          "route": 5,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 4,
+          "usage": 2,
+          "route": 6,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 5,
+          "usage": 2,
+          "route": 7,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 5,
+          "usage": 2,
+          "route": 8,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 5,
+          "usage": 2,
+          "route": 9,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 6,
+          "usage": 2,
+          "route": 10,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 6,
+          "usage": 2,
+          "route": 11,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 6,
+          "usage": 2,
+          "route": 12,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 7,
+          "usage": 2,
+          "route": 13,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 7,
+          "usage": 2,
+          "route": 14,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 7,
+          "usage": 2,
+          "route": 15,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 8,
+          "usage": 2,
+          "route": 16,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 8,
+          "usage": 2,
+          "route": 17,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 8,
+          "usage": 2,
+          "route": 18,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 9,
+          "usage": 2,
+          "route": 19,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 14,
+          "usage": 2,
+          "route": 20,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      },
+      {
+        "source": {
+          "entry": 14,
+          "usage": 2,
+          "route": 21,
+          "register": 28933,
+          "function": 1,
+          "constant": 3,
+          "name": "self_illum_map",
+          "flags": 0
+        },
+        "target_register": 106
+      },
+      {
+        "source": {
+          "entry": 14,
+          "usage": 2,
+          "route": 22,
+          "register": 28932,
+          "function": 2,
+          "constant": 5,
+          "name": "self_illum_intensity",
+          "flags": 0
+        },
+        "target_register": 105
+      },
+      {
+        "source": {
+          "entry": 17,
+          "usage": 2,
+          "route": 23,
+          "register": 28929,
+          "function": 0,
+          "constant": 0,
+          "name": "base_map",
+          "flags": 0
+        },
+        "target_register": 188
+      }
+    ],
+    "function_count": 3,
+    "all_consumers_mapped": true
+  },
+  "native-interface-audit": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [],
+      "native_gprs": 5,
+      "native_max_reg": 4
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6_centroid r4.xy",
+        "dcl_texcoord7 r5.xyz",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6_centroid r4.xy",
+        "dcl_texcoord7 r5.xyz",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "dominant_light_intensity_map",
+          "expected": [
+            "s",
+            13,
+            1
+          ],
+          "actual": [
+            "s",
+            13,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "lightprobe_texture_array",
+          "expected": [
+            "s",
+            12,
+            1
+          ],
+          "actual": [
+            "s",
+            12,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_lightmap_compress_constant_0",
+          "expected": [
+            "c",
+            210,
+            1
+          ],
+          "actual": [
+            "c",
+            210,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_lightmap_compress_constant_1",
+          "expected": [
+            "c",
+            211,
+            1
+          ],
+          "actual": [
+            "c",
+            211,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 16,
+      "native_max_reg": 15
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5",
+        "dcl_texcoord6 r6",
+        "dcl_texcoord7 r7",
+        "dcl_texcoord8 r8.xyz",
+        "dcl_color_centroid r9.xyz",
+        "dcl_color1_centroid r10.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5",
+        "dcl_texcoord6 r6",
+        "dcl_texcoord7 r7",
+        "dcl_texcoord8 r8.xyz",
+        "dcl_color_centroid r9.xyz",
+        "dcl_color1_centroid r10.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 13,
+      "native_max_reg": 12
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "native_inputs": [
+        "dcl_texcoord r0.xyz",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_color_centroid r5.xyz",
+        "dcl_color1_centroid r6.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xyz",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_color_centroid r5.xyz",
+        "dcl_color1_centroid r6.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 10,
+      "native_max_reg": 9
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 9,
+      "native_max_reg": 8
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 9,
+      "native_max_reg": 8
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord3 r1.xyz",
+        "dcl_texcoord4 r2.xyz",
+        "dcl_texcoord5 r3.xyz",
+        "dcl_texcoord6 r4.xyz",
+        "dcl_texcoord7 r5",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "no_dynamic_lights",
+          "expected": [
+            "b",
+            1,
+            1
+          ],
+          "actual": [
+            "b",
+            1,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 9,
+      "native_max_reg": 8
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            4
+          ],
+          "actual": [
+            "c",
+            18,
+            4
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 7,
+      "native_max_reg": 6
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "native_inputs": [
+        "dcl_texcoord r0",
+        "dcl_texcoord1 r1"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0",
+        "dcl_texcoord1 r1"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "scene_ldr_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 3,
+      "native_max_reg": 2
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xy",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xy",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 6,
+      "native_max_reg": 5
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5.xyz",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5.xyz",
+        "dcl_color_centroid r6.xyz",
+        "dcl_color1_centroid r7.xyz"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_light_count_int",
+          "expected": [
+            "i",
+            0,
+            1
+          ],
+          "actual": [
+            "i",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            80
+          ],
+          "actual": [
+            "c",
+            18,
+            80
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 9,
+      "native_max_reg": 8
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "native_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5"
+      ],
+      "compiled_inputs": [
+        "dcl_texcoord r0.xy",
+        "dcl_texcoord1 r1.xyz",
+        "dcl_texcoord2 r2.xyz",
+        "dcl_texcoord3 r3.xyz",
+        "dcl_texcoord4 r4.xyz",
+        "dcl_texcoord5 r5"
+      ],
+      "inputs_match": true,
+      "fixed_register_checks": [
+        {
+          "name": "camera_position_ps",
+          "expected": [
+            "c",
+            16,
+            1
+          ],
+          "actual": [
+            "c",
+            16,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "hdr_gamma2",
+          "expected": [
+            "b",
+            15,
+            1
+          ],
+          "actual": [
+            "b",
+            15,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "ldr_gamma2",
+          "expected": [
+            "b",
+            14,
+            1
+          ],
+          "actual": [
+            "b",
+            14,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "albedo_texture",
+          "expected": [
+            "s",
+            10,
+            1
+          ],
+          "actual": [
+            "s",
+            10,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "g_exposure",
+          "expected": [
+            "c",
+            0,
+            1
+          ],
+          "actual": [
+            "c",
+            0,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "normal_texture",
+          "expected": [
+            "s",
+            11,
+            1
+          ],
+          "actual": [
+            "s",
+            11,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "expected": [
+            "c",
+            108,
+            1
+          ],
+          "actual": [
+            "c",
+            108,
+            1
+          ],
+          "equal": true
+        },
+        {
+          "name": "simple_lights",
+          "expected": [
+            "c",
+            18,
+            4
+          ],
+          "actual": [
+            "c",
+            18,
+            4
+          ],
+          "equal": true
+        }
+      ],
+      "native_gprs": 7,
+      "native_max_reg": 6
+    }
+  ],
+  "route-plan": {
+    "names": {
+      "0": [
+        "base_map",
+        "detail_map",
+        "self_illum_map"
+      ],
+      "4": [
+        "base_map",
+        "detail_map",
+        "albedo_color",
+        "self_illum_map",
+        "self_illum_color",
+        "self_illum_intensity",
+        "primary_change_color_blend"
+      ],
+      "5": [],
+      "6": [
+        "no_dynamic_lights"
+      ]
+    },
+    "externs": {
+      "albedo_texture": [
+        7,
+        1,
+        0,
+        0
+      ],
+      "normal_texture": [
+        7,
+        2,
+        0,
+        0
+      ],
+      "lightprobe_texture_array": [
+        7,
+        11,
+        0,
+        0
+      ],
+      "dominant_light_intensity_map": [
+        7,
+        12,
+        0,
+        0
+      ],
+      "shadow_depth_map_1": [
+        7,
+        4,
+        0,
+        0
+      ],
+      "dynamic_light_gel_texture": [
+        7,
+        38,
+        0,
+        0
+      ],
+      "scene_ldr_texture": [
+        7,
+        45,
+        0,
+        0
+      ],
+      "depth_map": [
+        7,
+        3,
+        0,
+        0
+      ]
+    },
+    "persistent": {
+      "camera_position_ps": [
+        2,
+        16,
+        1
+      ],
+      "hdr_gamma2": [
+        0,
+        15,
+        1
+      ],
+      "ldr_gamma2": [
+        0,
+        14,
+        1
+      ],
+      "actually_calc_albedo": [
+        0,
+        0,
+        1
+      ],
+      "g_alt_exposure": [
+        2,
+        12,
+        1
+      ],
+      "g_exposure": [
+        2,
+        0,
+        1
+      ],
+      "p_lightmap_compress_constant_0": [
+        2,
+        210,
+        1
+      ],
+      "p_lightmap_compress_constant_1": [
+        2,
+        211,
+        1
+      ],
+      "p_tiling_vpos_offset": [
+        2,
+        108,
+        1
+      ],
+      "simple_light_count_int": [
+        1,
+        0,
+        1
+      ],
+      "simple_lights": [
+        2,
+        18,
+        80
+      ],
+      "p_lighting_constant_0": [
+        2,
+        1,
+        1
+      ],
+      "p_lighting_constant_1": [
+        2,
+        2,
+        1
+      ],
+      "p_lighting_constant_2": [
+        2,
+        3,
+        1
+      ],
+      "p_lighting_constant_3": [
+        2,
+        4,
+        1
+      ],
+      "p_lighting_constant_4": [
+        2,
+        5,
+        1
+      ],
+      "p_lighting_constant_5": [
+        2,
+        6,
+        1
+      ],
+      "p_lighting_constant_6": [
+        2,
+        7,
+        1
+      ],
+      "p_lighting_constant_7": [
+        2,
+        8,
+        1
+      ],
+      "p_lighting_constant_8": [
+        2,
+        9,
+        1
+      ],
+      "p_lighting_constant_9": [
+        2,
+        10,
+        1
+      ],
+      "dynamic_light_shadowing": [
+        0,
+        13,
+        1
+      ],
+      "p_dynamic_light_gel_xform": [
+        2,
+        5,
+        1
+      ],
+      "k_ps_active_camo_factor": [
+        2,
+        232,
+        1
+      ],
+      "texture_size": [
+        2,
+        14,
+        1
+      ],
+      "p_render_debug_mode": [
+        2,
+        94,
+        1
+      ]
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "shader": 0,
+        "registers": [
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": []
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "shader": 1,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "p_lightmap_compress_constant_0",
+            "set": 2,
+            "register": 210,
+            "count": 1
+          },
+          {
+            "name": "p_lightmap_compress_constant_1",
+            "set": 2,
+            "register": 211,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          },
+          {
+            "name": "lightprobe_texture_array",
+            "set": 3,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "dominant_light_intensity_map",
+            "set": 3,
+            "register": 13,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ],
+            [
+              12,
+              11,
+              0
+            ],
+            [
+              13,
+              12,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset",
+          "p_lightmap_compress_constant_0",
+          "p_lightmap_compress_constant_1"
+        ]
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "shader": 3,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "shader": 2,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_0",
+            "set": 2,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_1",
+            "set": 2,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_2",
+            "set": 2,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_3",
+            "set": 2,
+            "register": 4,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_4",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_5",
+            "set": 2,
+            "register": 6,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_6",
+            "set": 2,
+            "register": 7,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_7",
+            "set": 2,
+            "register": 8,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_8",
+            "set": 2,
+            "register": 9,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_9",
+            "set": 2,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "p_lighting_constant_0",
+          "p_lighting_constant_1",
+          "p_lighting_constant_2",
+          "p_lighting_constant_3",
+          "p_lighting_constant_4",
+          "p_lighting_constant_5",
+          "p_lighting_constant_6",
+          "p_lighting_constant_7",
+          "p_lighting_constant_8",
+          "p_lighting_constant_9",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "shader": 5,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_0",
+            "set": 2,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_1",
+            "set": 2,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_2",
+            "set": 2,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_3",
+            "set": 2,
+            "register": 4,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_4",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_5",
+            "set": 2,
+            "register": 6,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_6",
+            "set": 2,
+            "register": 7,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_7",
+            "set": 2,
+            "register": 8,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_8",
+            "set": 2,
+            "register": 9,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_9",
+            "set": 2,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "p_lighting_constant_0",
+          "p_lighting_constant_1",
+          "p_lighting_constant_2",
+          "p_lighting_constant_3",
+          "p_lighting_constant_4",
+          "p_lighting_constant_5",
+          "p_lighting_constant_6",
+          "p_lighting_constant_7",
+          "p_lighting_constant_8",
+          "p_lighting_constant_9",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "shader": 6,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_0",
+            "set": 2,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_1",
+            "set": 2,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_2",
+            "set": 2,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_3",
+            "set": 2,
+            "register": 4,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_4",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_5",
+            "set": 2,
+            "register": 6,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_6",
+            "set": 2,
+            "register": 7,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_7",
+            "set": 2,
+            "register": 8,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_8",
+            "set": 2,
+            "register": 9,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_9",
+            "set": 2,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "p_lighting_constant_0",
+          "p_lighting_constant_1",
+          "p_lighting_constant_2",
+          "p_lighting_constant_3",
+          "p_lighting_constant_4",
+          "p_lighting_constant_5",
+          "p_lighting_constant_6",
+          "p_lighting_constant_7",
+          "p_lighting_constant_8",
+          "p_lighting_constant_9",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "shader": 7,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "no_dynamic_lights",
+            "set": 0,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_0",
+            "set": 2,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_1",
+            "set": 2,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_2",
+            "set": 2,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_3",
+            "set": 2,
+            "register": 4,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_4",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_5",
+            "set": 2,
+            "register": 6,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_6",
+            "set": 2,
+            "register": 7,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_7",
+            "set": 2,
+            "register": 8,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_8",
+            "set": 2,
+            "register": 9,
+            "count": 1
+          },
+          {
+            "name": "p_lighting_constant_9",
+            "set": 2,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [
+            [
+              1,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "p_lighting_constant_0",
+          "p_lighting_constant_1",
+          "p_lighting_constant_2",
+          "p_lighting_constant_3",
+          "p_lighting_constant_4",
+          "p_lighting_constant_5",
+          "p_lighting_constant_6",
+          "p_lighting_constant_7",
+          "p_lighting_constant_8",
+          "p_lighting_constant_9",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "shader": 4,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "dynamic_light_shadowing",
+            "set": 0,
+            "register": 13,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_dynamic_light_gel_xform",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 4
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "shadow_depth_map_1",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "dynamic_light_gel_texture",
+            "set": 3,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [
+            [
+              2,
+              4,
+              0
+            ],
+            [
+              3,
+              38,
+              0
+            ],
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "dynamic_light_shadowing",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "g_exposure",
+          "p_dynamic_light_gel_xform",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      },
+      {
+        "entry": 12,
+        "name": "active_camo",
+        "shader": 8,
+        "registers": [
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "k_ps_active_camo_factor",
+            "set": 2,
+            "register": 232,
+            "count": 1
+          },
+          {
+            "name": "scene_ldr_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            [
+              10,
+              45,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "g_exposure",
+          "texture_size",
+          "k_ps_active_camo_factor"
+        ]
+      },
+      {
+        "entry": 13,
+        "name": "lightmap_debug_mode",
+        "shader": 10,
+        "registers": [
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_render_debug_mode",
+            "set": 2,
+            "register": 94,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "g_exposure",
+          "p_render_debug_mode"
+        ]
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "shader": 9,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "simple_light_count_int",
+            "set": 1,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "g_alt_exposure",
+            "set": 2,
+            "register": 12,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 80
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "self_illum_intensity",
+            "set": 2,
+            "register": 105,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map_xform",
+            "set": 2,
+            "register": 106,
+            "count": 1
+          },
+          {
+            "name": "self_illum_color",
+            "set": 2,
+            "register": 107,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "self_illum_map",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              105,
+              5,
+              0
+            ],
+            [
+              106,
+              3,
+              0
+            ],
+            [
+              107,
+              4,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [
+            [
+              10,
+              1,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "simple_light_count_int",
+          "g_exposure",
+          "g_alt_exposure",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights"
+        ]
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "shader": 11,
+        "registers": [
+          {
+            "name": "actually_calc_albedo",
+            "set": 0,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "dynamic_light_shadowing",
+            "set": 0,
+            "register": 13,
+            "count": 1
+          },
+          {
+            "name": "LDR_gamma2",
+            "set": 0,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "HDR_gamma2",
+            "set": 0,
+            "register": 15,
+            "count": 1
+          },
+          {
+            "name": "g_exposure",
+            "set": 2,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "p_dynamic_light_gel_xform",
+            "set": 2,
+            "register": 5,
+            "count": 1
+          },
+          {
+            "name": "texture_size",
+            "set": 2,
+            "register": 14,
+            "count": 1
+          },
+          {
+            "name": "Camera_Position_PS",
+            "set": 2,
+            "register": 16,
+            "count": 1
+          },
+          {
+            "name": "simple_lights",
+            "set": 2,
+            "register": 18,
+            "count": 4
+          },
+          {
+            "name": "detail_map_xform",
+            "set": 2,
+            "register": 104,
+            "count": 1
+          },
+          {
+            "name": "p_tiling_vpos_offset",
+            "set": 2,
+            "register": 108,
+            "count": 1
+          },
+          {
+            "name": "base_map_xform",
+            "set": 2,
+            "register": 188,
+            "count": 1
+          },
+          {
+            "name": "albedo_color",
+            "set": 2,
+            "register": 189,
+            "count": 1
+          },
+          {
+            "name": "base_map",
+            "set": 3,
+            "register": 0,
+            "count": 1
+          },
+          {
+            "name": "detail_map",
+            "set": 3,
+            "register": 1,
+            "count": 1
+          },
+          {
+            "name": "shadow_depth_map_1",
+            "set": 3,
+            "register": 2,
+            "count": 1
+          },
+          {
+            "name": "dynamic_light_gel_texture",
+            "set": 3,
+            "register": 3,
+            "count": 1
+          },
+          {
+            "name": "albedo_texture",
+            "set": 3,
+            "register": 10,
+            "count": 1
+          },
+          {
+            "name": "normal_texture",
+            "set": 3,
+            "register": 11,
+            "count": 1
+          }
+        ],
+        "usages": [
+          [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          [
+            [
+              104,
+              1,
+              0
+            ],
+            [
+              188,
+              0,
+              0
+            ],
+            [
+              189,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [
+            [
+              2,
+              4,
+              0
+            ],
+            [
+              3,
+              38,
+              0
+            ],
+            [
+              10,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              0
+            ]
+          ],
+          [],
+          [],
+          [],
+          []
+        ],
+        "persistent": [
+          "actually_calc_albedo",
+          "dynamic_light_shadowing",
+          "ldr_gamma2",
+          "hdr_gamma2",
+          "g_exposure",
+          "p_dynamic_light_gel_xform",
+          "texture_size",
+          "camera_position_ps",
+          "simple_lights",
+          "p_tiling_vpos_offset"
+        ]
+      }
+    ],
+    "unresolved": []
+  },
+  "compilation": {
+    "defines": [
+      "/Dmaybe_calc_albedo=1",
+      "/DPIXEL_SHADER=1",
+      "/Dentry_point=static_per_pixel",
+      "/Dvertex_type=s_world_vertex",
+      "/Ddeform=deform_world",
+      "/DSHADER_30=1",
+      "/DDX_VERSION=9",
+      "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+      "/Dcalc_albedo_ps=calc_albedo_default_ps",
+      "/Dcalc_albedo_vs=calc_albedo_default_vs",
+      "/Dcalc_bumpmap_ps=calc_bumpmap_off_ps",
+      "/Dcalc_bumpmap_vs=calc_bumpmap_off_vs",
+      "/Dcalc_alpha_test_ps=calc_alpha_test_off_ps",
+      "/Dcalc_specular_mask_ps=calc_specular_mask_no_specular_mask_ps",
+      "/Dcalc_self_illumination_ps=calc_self_illumination_times_diffuse_ps",
+      "/Dcalc_parallax_ps=calc_parallax_off_ps",
+      "/Dcalc_parallax_vs=calc_parallax_off_vs",
+      "/Ddistort_proc_ps=distort_off_ps",
+      "/Dmaterial_type=diffuse_only",
+      "/Denvmap_type=none",
+      "/Dblend_type=additive",
+      "/Dbitmap_rotation=0"
+    ],
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "969e3325dd550a3dfce9029841b0a344552501db4a2d9244a78a147ee8a6ef7d"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4392d9d6eae37a6b452fd34cf7fcf835a17e96d7067e5daa5cbdb80a582fd9d4"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "07a794f98b81aa32cfef5722c8835262843166244085ac06cc75fafe693bca42"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7cf6476e70b26e2bd6350c080d60d47f2c75e8a0c37c6671a8d646b20e868394"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7cf6476e70b26e2bd6350c080d60d47f2c75e8a0c37c6671a8d646b20e868394"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7cf6476e70b26e2bd6350c080d60d47f2c75e8a0c37c6671a8d646b20e868394"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 10,
+        "name": "shadow_generate",
+        "stage": "ps",
+        "success": true,
+        "sha256": "52f8869b6ee9a7ba8b6bc0a5c1ab2031ad6e3e71c573f0f46b87803035f614d7"
+      },
+      {
+        "entry": 12,
+        "name": "active_camo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4be0d0e5acfcbb420bad90e4c1a07fadd11507b183e008b8d766de15b0724b8e"
+      },
+      {
+        "entry": 13,
+        "name": "lightmap_debug_mode",
+        "stage": "ps",
+        "success": true,
+        "sha256": "540b2fe60942f4a2f40e6fd4fbb8116e6959548cdcb4f7858120adedc1ff6a67"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "af7280cafd7a94cb87b1f158916e27aacf1ec16701e9f6aaad272189fa5e3b36"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "source_hashes": {
+      "active_camo.fx": "65f6dab3645cfb1c759110a5d7b86ca10b2501e98bed983b0df27d540843f85b",
+      "add.hlsl": "d0bf9f66b2fd667c36be09f3c70201d216f7c91103b9525c6a92506b6ecf13f1",
+      "add_downsampled.hlsl": "8f7aff2e68eb92d9166d6720e5becced93b25fbd6967eda97ae63e2a90f60e5d",
+      "albedo.fx": "0ecb56acbd1288e7b2c05d7b40e4130fff1c9f6ba6602dc4c42c00d1d388bcd9",
+      "albedo_custom.fx": "b4610d4cfd1f5414fa44560e5a702a88a7fc26a059acdfe85205b9adb727d0eb",
+      "albedo_pass.fx": "5fc9cc3a111a3aeb8b8996bc73f98e8e1e9ca24c0a41e85d2c07e089e07664ea",
+      "alpha_test.fx": "a615c6607e8c043d52fab615e7c0653c5b6e13165705dc5a17e79bf0cdd428ba",
+      "alpha_test_custom.fx": "367f9468a97cb9693c79dbc00c3f557887ff127b368d83b792712badf4e141de",
+      "alpha_test_explicit.hlsl": "e7f5bf1872a117b8541086d5cb5198a874fd927e70655af04096f6febd84b998",
+      "apply_bloom_curve.hlsl": "ea7c14b1194e4b1e912d28159581232bcda5f2ae88de045c4da303e9d50a8c90",
+      "apply_color_matrix.hlsl": "368945a8c526d9b24e0a0a79abbac86c01f35243d0e214d5be6f6295bd53b0a8",
+      "apply_color_matrix_registers.fx": "cdee9c5870d41b2b10292629438118fcaab1d9b4303b72a7513a4083215aec22",
+      "apply_color_matrix_registers.h": "48c4db49fe151fe365a6eeedf20bf47bf2ff26f13abe41beda32a99cf953eaf0",
+      "area_specular.fx": "eedd22f616f87fb2a8766eaa5328bb75bce82700d2c43d10e7a5ec0c1b52a557",
+      "atmosphere.fx": "146fae3160830879e86ba58ea33b72bfb9888a38e9034bc07c0970550ac4191e",
+      "au2_playlist_rating.hlsl": "42f3702d197d7811a29ea12f820385055792b80011857632f38f5ec20616ca6c",
+      "au2_playlist_rating_registers.fx": "fa54f20c93714798ff882c927fcd76df72011ed35b2b96a0e8fcca56aff6e909",
+      "au2_playlist_rating_registers.h": "5f9fecce05b3a052c1455d8824089d3f9ff5cb763cda66d5e41603af302fab19",
+      "au2_rank_tray.hlsl": "4688346d8d7845df9cc7e4b664e461526656dc455bfc7bf38dc27fd623e038d6",
+      "beam.fx": "b7ec523245d3c107dfae24d44447513204ad49620fa7d2f1e92a50beff4162f1",
+      "beam_common.fx": "0c69a18e774a0c97c0a9a3b2df21811d9f5deaeb3a5cbfdf1c52195485c75131",
+      "beam_profile_pack.fx": "a059f91d2eb25808b8f3c06446383da237d49ce2203497f9e1b22f67663a134f",
+      "beam_profile_state.fx": "f46b2163e0929332334b03707c1cf5f18f7c48e70a74d66e864f9d1fb1d60d9f",
+      "beam_property.fx": "64b5e9e32dcf51b781286ebca505ac7ddd31c65d1529c17b580c5f7b2fbd7338",
+      "beam_registers.fx": "ae608c9f78784e51ac6deeeba088cd97b8867e21681dfb86f6eb5e3f229b2255",
+      "beam_registers.h": "4f30bf3609b7b4d3d85875c22e9a7a9068fd9ad426b126a957972b5554b51068",
+      "beam_state_list.fx": "179d56d470486d0acd11d5846dba0a81f160fe0eb876af806d609a70ff6ff90e",
+      "beam_strip.fx": "9480fd7e300bfbac97cd740f15feec8dcf7d0eef305a69c74c56a8a240a57938",
+      "beam_update.hlsl": "905005b38426fd1abfb35ff3e130192c0dbef3b05787ef22ae2db3e9f79cbc82",
+      "black.fx": "fef1e629f54b10f501bc7c3ad5b4c68f78319cf890cc46f210fde7e9ff8752e5",
+      "black_fx.fx": "0b977248f7aa1fe287e554d97ff7c804822108b3be1677b4d8242581617d9b2c",
+      "blend.fx": "b90e7fa7775ec0455b5c858be861606836ba64adc85c24667c2a85931453e46e",
+      "blend3.hlsl": "78c489271c505e15f8a4c1dc30693db93a9b035a8fe670ca85847939bcf97521",
+      "bloom_add_alpha1.hlsl": "73df94e0851dc8caa06959f0d13de9e18c71f071835636d07db3dbc733a7ba96",
+      "blur_11_horizontal.hlsl": "7c552811b7afde3b3dee3dff88fc58baafe54c56f5ecec87f2f7b4891f50c741",
+      "blur_11_vertical.hlsl": "82d0184be75892076426e6914ef83ac2b77c53a255b4fc40d572b604ed04e292",
+      "bspline_resample.hlsl": "0805f38d06678814c8520a894a7ffcd85688399ad1b86f44f8c05a8880ce9c33",
+      "bspline_resample_registers.fx": "0205a34187db67034cf2fc928dc24e1c0ee5d3a29e09641ef0de1c56e9a30a82",
+      "bspline_resample_registers.h": "f542e3797af6d3cf4ee06546b6ffa51dba0817b4e22af4e0f4fe7fdbc5d2e857",
+      "bump_mapping.fx": "3ec38757a10768e10ccebe05108aad828137de9cc0a6783ba63638ba8343419e",
+      "bump_mapping_util.fx": "e676da7269c339ab4f5ef05ffb446af34ba46cda90575122227c20db341bab2c",
+      "chud_cortana_camera.hlsl": "afa942ec0fa89b83576401963511dc4da4c15f146eb169bbb0cdd9a9606f7317",
+      "chud_cortana_composite.hlsl": "f5b9aff148a97820f24998e3c33da5782c0de9487d22d9ed5e145c24f2baa5b6",
+      "chud_cortana_offscreen.hlsl": "3bb79365a48e13fbf6ccf784ca1e53ab068919ee7863e4a0528090e4f3b15337",
+      "chud_cortana_screen.hlsl": "b86b2a117fb9b9d589107884087f4eeccbf0650fe8c3a25a4760b92e490e9d5b",
+      "chud_cortana_screen_final.hlsl": "dec145ecdd22a565ebbf15ebe7bf2b1264605780e5f09ecb2205eb3ed09bebf9",
+      "chud_crosshair.hlsl": "f201cca05bf942997f1134bafa4c0755228cafada19bb100023fc6a82c87ed53",
+      "chud_directional_damage.hlsl": "cd28a448e70e8220770d07b5aa47538ce1dbfc6866c86ba87358227ff79f9c3a",
+      "chud_directional_damage_apply.hlsl": "6ccc42dbf8d1a4a27e8fea74ff758b196bd1c470f5df91ec8ade7b77c86a34d7",
+      "chud_emblem.hlsl": "e6119f66e27b8b5e81d76bfd638f3012bb13a585da13d135d3c2f237ffc1d280",
+      "chud_medal.hlsl": "b5abe14924acd13ba7324f3b87e346d0ea0bb89a2275213ba5c2ac5b6b583a43",
+      "chud_meter.hlsl": "eb6994a9f6629e6d087902a16ea3e110d2393db3afdfa58ba5a2ad07d81cd3da",
+      "chud_meter_chapter.hlsl": "63bbd1b3ad3d794973392293e56878daaf077ae70a0d2efb464916d8ac680ac4",
+      "chud_meter_double_gradient.hlsl": "262ba3f1e4db49ad92826778a68533a6a59e2a61e6167fd173ac45e464161913",
+      "chud_meter_gradient.hlsl": "4a9f09a355cc23d69957b694bb159f9fb1d8065e2ebd3de6a57d740b0c3c06f0",
+      "chud_meter_radial_gradient.hlsl": "a79dc4c3c456acc40f22013fc4c01188446f50586e8e6407a7620da99921e0db",
+      "chud_meter_shield.hlsl": "2faea2c7e252803b97567b48c504093ae8c3e049fe49fb9dafc8b0e1891bb209",
+      "chud_meter_single_color.hlsl": "0ba72f0d54ab8577a2da46c0023d21e80d5861850c8d2918e9e6dd1c1091d465",
+      "chud_navpoint.hlsl": "cb27c9940713542c443fd61a745bb35e55ee38401204f9eb23b1bbb8225f5ee6",
+      "chud_overlay_blend.hlsl": "6ad84c6ce0df49bc46e9974f66710902aac5c7466ed42c6c489b0690018cef08",
+      "chud_really_simple.hlsl": "903e5780ba055397d4c69958d3c104f882d1a083ace358fe686f387896f9a7d1",
+      "chud_registers.fx": "bb64021b3ee2934a7452c4de10e09816cd0e7ab5143f0d7cf1958746212fa635",
+      "chud_registers.h": "cce1c0588d63bfa783d944d55cbed2bb699f48788cfde948746b584d8c208f4f",
+      "chud_sensor.hlsl": "f2dfb2464a43cc138661444cfb21a2afb7d5e966d71022a002e0abe64d016b59",
+      "chud_simple.hlsl": "f6d31bd302ae9f13e7932d05ce8955becc16cd6c899a76a59a27473b66a77417",
+      "chud_solid.hlsl": "f18377c3d17ffcf2584654256da19b33c97cc1cb8b36c97fb1d8fddecbe6bc54",
+      "chud_texture_cam.hlsl": "5331fe79640f087ac1e04610361205bcc06bed9f0978b8480dfd78acd6bcd26c",
+      "chud_text_simple.hlsl": "6f44684bfe6af7fd7dc9bee270ad350400593edf0cbfeffa3b73936681d1680f",
+      "chud_turbulence.hlsl": "8df00f69b9c92b194ea2445794cf88b1e9d7059a3538273ad9108e4c51888991",
+      "chud_util.fx": "42f62cef7855cb9d75c33879cff7f6c0be16e51d4b640c35a2cb90f3cce0dcaf",
+      "clamp.hlsl": "02796e984d826d59ab82f167b06a0d878f40ef9df8d4b202a3ec5dd74cf976e8",
+      "clear_letterbox.hlsl": "6bb678d8e760e1da2b540f9561f5889bc574c1e07e2fd8e8dc397a6ca80e384f",
+      "clip_plane.fx": "df31f9bf3c87d97238cb5bdb935f5fa6479c47aba0ef77a9394ec2117dee80d6",
+      "common.fx": "c304056622e18a558d7cc378d55ef5fe5274a7462d147db1adf8984e3ba9f018",
+      "constant_color.hlsl": "1a239b3b643061b6f199a2b7e789cb483a300570544b39dec0d9b9bbf4a70b45",
+      "contrail.fx": "f34c505028ee1fb43dc9dc66ee7d256ca7b4ae6ebb885b69b7762762609c07aa",
+      "contrail_common.fx": "38ae8b5edb1a5a2f8b7a854a351734ba2469d51a57b48858197d213a5ef72434",
+      "contrail_profile.fx": "cba49eda0e6db6c9a996f97d27cb107b2236d6eb4fb6e8e489a3bd2e47ea8a70",
+      "contrail_profile_pack.fx": "b0c11459e44a3ae6f1e39f414b4682e1c703c41ca081c0bd731f3e5f342ba0bc",
+      "contrail_property.fx": "4d502f17fc58bc1cbfcade9b45f0e1d4245c6c8e96e37cf82299f9089ff1c3b6",
+      "contrail_registers.fx": "992f9a41692c3f27d05c58d51f03450281a65adeed5f255cdf522e0225de1ac6",
+      "contrail_registers.h": "dae2ca502231d72cad9c843ed95fba375a2f23e87fc19f4b6c5a8882cccbe975",
+      "contrail_render.hlsl": "e36b61ebebf385bb43384d1bad06261c0e1fb5d8bb354385c74223807d4b2a8b",
+      "contrail_render_registers.fx": "dfd8fdc54ec3aba4497fe47f1fa6b7da06a5c1239b7d4acfd2948741c4732b64",
+      "contrail_render_registers.h": "4e4698a9dd6b00ffbc8600c3c26e56ce071d9c3728f09c27bca01984a33f5e9c",
+      "contrail_spawn.hlsl": "58ff0152f2ffa1b7f78c37e04054ebac738ddc5e0d7284cdc7b0abf774e762bb",
+      "contrail_spawn_registers.fx": "11664e2765951c3a2fe4510c53848f79dfd665f2ea2fddb0ce8d601620df31e5",
+      "contrail_spawn_registers.h": "7411fcb9498e97611c9a1e8b9b9b13455a21cf09ff03f710d45385dca953989f",
+      "contrail_state.fx": "5adcd03c456aa5ae157211c1af797a901867248b93d01457707ea8c0b7b8de9e",
+      "contrail_strip.fx": "b0389b254ec6df5bcaa27380130f3f200bd46f76caddf34147cebe89688d5c4b",
+      "contrail_update.hlsl": "8ca27eb20c8beb076c06845874e4b35d39970b1da90b742793c3a3091b73d9b2",
+      "contrail_update_registers.fx": "cc90a0627427ea2c175d66810a6e7e939655aa205a758132755f48d961851473",
+      "contrail_update_registers.h": "69a9bedb5752b7a9932d36600ccce23ec139d2a73b12453925783356300d4da9",
+      "cook_torrance.fx": "9a925ff5cdf0b4a40ef459deed4cdb7a195f8af4a63c3fc3810f9c157f30d569",
+      "cook_torrance_reach.fx": "2388c8292c08516be2f85225d634f8c60a628f8e8ff91f092792028d11aa8ed9",
+      "copy.hlsl": "fdc145306735d9fffdfdab4747448bcdffc498cd5a707bb4ef3c0fdcc8c40c58",
+      "copy_depth.hlsl": "e33f46771b4dc743b583c2b91affb49b561f6cff8d226ba6ca17dcdd1ead949f",
+      "copy_rgbe_to_rgb.hlsl": "83d6d276226773c1c2e5f4663cf526927d4f77fa4c139b1b45528050138d90f3",
+      "copy_rgb_to_rgbe.hlsl": "34b4455174324d512b2b4b61ba32d65a84ec2ed3cda8d52999981a8b087a6874",
+      "copy_surface.hlsl": "0260db74fe3b7cb7b0a86048950cd5fbc65d22ead4200b204fd08415bd10bb97",
+      "copy_target.hlsl": "d3c7d112113a8a3989bbf9a76af882a0e1e9de752a0e9c5b89b48a91f9ea47a0",
+      "copy_target_registers.fx": "17217be02b3f9d2d7711c8c3d1682e8921972b8803c0a1e58a585b66b763c444",
+      "copy_target_registers.h": "e34fddce8c130f0733bd25579066e8342a9d2d3e81db269bae4b51397f502cf0",
+      "cortana.fx": "6eec7f73a1d33486a2e153a057da0017594d6fa675b0063c6753c6e96b8fcbe6",
+      "crop.hlsl": "bfdda02877dc2ec2ab81a6b5ae11dd4efe969d14600d43804eab6d73f949e775",
+      "crop_registers.fx": "33583d48f0b7369c448e8c6c9ca641551a6a9ddad57c1638946661110ed9c76e",
+      "crop_registers.h": "aecde34a3869bd4fa37270967b457466b36227cb2b23f12e4c59b859a5c5fe94",
+      "cubemap_clamp.hlsl": "4711d319c2dd40271bbef781235730f59f7d54e18258db90b556e4f982664ce1",
+      "cubemap_copy.hlsl": "ff9e81e6eeeddae354f0d04a2cf26cecf054aa343157b7cdf7980d0fd0ef3669",
+      "cubemap_divide.hlsl": "864cc2da9ffb2db14f7ca6571f2007f0bc1733a0ea86d8900c486e9d4da6644a",
+      "cubemap_phi_blur.hlsl": "626b3005b46cffd38b59049bc9873e2a1cd9ce769d2b0ad9e13d445865ee2962",
+      "cubemap_registers.fx": "38a55a906d358084d43446df55094f5ac979ac7e5e67b476c758dd7af3cbd6ac",
+      "cubemap_registers.h": "c02ee35f62583d8d72c3390808a2cfb391e3d687f81feb45cd236bf0eab46127",
+      "cubemap_rgbw_to_rgb.hlsl": "79d122d874ae416c86121c69479f94015faf0c3a3f1e10ee70410ab0b436f3cd",
+      "cubemap_theta_blur.hlsl": "700985180d5f9de4e901ee4097aace520a1d5b95ad112bde85164af4dd424953",
+      "custom.fx": "63db88afb38a08065380430278048a87dc35a535fe19faaba61006b9e06690f6",
+      "custom_gamma_correct.hlsl": "b2b77a93b2b3dbfdd42eb3ccf1a58a8aadc4ce3cead58c1f6ad3a7402b803290",
+      "custom_gamma_correct_registers.fx": "48e123bb8e6dd87f03dafac5fa88b65d8b7110d31e3b9dfbcc0fa650dc6e23be",
+      "custom_gamma_correct_registers.h": "b171b0519f74b09c35e286a49297abaee0a0eb74cd50dc31c658ecd38f9f6d28",
+      "custom_specular.fx": "609dcfeb76eb7b8d925b8e3c2b0c4e288d90aa33d9428fb416c3f293916094a6",
+      "custom_specular_fx.fx": "a9cbc5405edff20259d243dfaec73e85982ada34308e2382ea03aa628e3973db",
+      "debug.hlsl": "e70f4bab52eb06daa3321cef56de083e12f6e8a6625071014d61d68f51c48632",
+      "debug2d.hlsl": "c9c43ae79cfe44a3c5c73f714ad0b32c68f046d9899fba84f52f886dd12426bc",
+      "debug_2d_registers.fx": "7254c1e902c8502848116714ca4b4b75096fbbf599fabf6f2891a7479283f1cc",
+      "debug_2d_registers.h": "1f1a852a5873f57391a06bc379dc766ccee8ddc2d647c7a58d7f6a3a6c31560c",
+      "debug_modes.fx": "ad481690783a3b46d21a6ca10c29695bbfaebb2c25f32dcc1b03e406f13579c7",
+      "decal.fx": "8ff9237bacc64350a19b122b860ee0e8760a0e58a8479e9840b78152a49a7bfb",
+      "decal_registers.fx": "a7d9a04274777cebf7647d1a3334ad0e72a244c30f6302b83f5d585e867397f3",
+      "decal_registers.h": "beb9b36638fd8eb9df41746796903ea987e5afd68ab6d19ba161940aacfdfd54",
+      "decorators.h": "fa3d6c4865b2a07aa9b5458c6b7c5bee7d74461e0a81b3cf310c3fa136436dcf",
+      "decorators.hlsl": "fcbc8ca3813522b13a99e85ed645ce635e4d70749b05042bdf0fe818df925385",
+      "decorators_registers.fx": "160a9ef8c29043bd136275babed558295bbda1f37b10a077e737512ef374ecd0",
+      "decorators_registers.h": "ff286ab00969245ac652a4b174716d90d58442cc93b0dcb1c0b2db9db2a551be",
+      "decorator_default.hlsl": "b645c26792f4c3c01cf2076d03435a3f79276e7fbebd207c55bb2f6b1fd050fd",
+      "decorator_edit.hlsl": "15aaf830cc57d6a72d3e95eaee8fd5cd9a5c5f7425950b5b8b8daf85a82ca9f7",
+      "decorator_no_wind.hlsl": "6a5dd164459f3445cef7fc5905151d08ddbda03236583a7701d46d599e1171c2",
+      "decorator_shaded.hlsl": "5021fce93f9b6f3fb4fffc3d6f4a51970c1d3009a921e0b36e67cfe3fdf70289",
+      "decorator_static.hlsl": "ca2a45d6231c5e18a8b67fc8a759e37a4bf5294592b40ec82753738a95dfaabc",
+      "decorator_sun.hlsl": "f6437ae4bd3aa6780756b4dd24728b5fc7446ed3ad591f08a4d2ed091b836177",
+      "decorator_wavy.hlsl": "ef771b0f12437f86d1ae1ea5560cb0c1898161ccc2a348a42fc3f59aebe55a6a",
+      "deform.fx": "9f88cf9677ed1734b9e27aec66ad91080df281e9815240ab089ac02df88df056",
+      "diffuse_only.fx": "13dc67735d39785f53503133249ec0ff5bd216fa3df4fd20a665adb471301d62",
+      "displacement.hlsl": "dbda1ea9748e04923ea321fca20497483268fd86eeb05f0231ad86cc2e3b9d0d",
+      "displacement_motion_blur.hlsl": "db9cfe8de0e05bbc9b6efa76cee162fcf910caa44b58fc549251cf7530c5b8b5",
+      "displacement_registers.fx": "6595706ab7ebb00ae8e425c47243e3888d6298a8f7d6d8e49f97578dcf40955c",
+      "displacement_registers.h": "6d7817f70a6318dae0695c98933cd99667b8d07539ffacc49caacda332b4f955",
+      "distortion.fx": "96802ab95c98c47fdfdc6d4864f356ffd186bebc1e5a90f37a98317379dc987f",
+      "dof_filter.fx": "dffc8f3704ffe7258200bad3a1f00c073d6e26a23da3dde8e6def338cc388be9",
+      "double_gradient.hlsl": "73bf440ee971f04d7259477bdf8516b0fb94e729989b51aa9b405afe123bedc4",
+      "downsample_2x2.hlsl": "cc64f96d2d8fcf6dde0a9f32d42e67169b58c4a4ba937fc9405721e2f11466a6",
+      "downsample_4x4_block.hlsl": "3b53204de4d8ac980062a9155beef74dfec6f719ff3c2f4af75e1b62a128ff46",
+      "downsample_4x4_block_bloom.hlsl": "fa47c990df15a5a70a6a3956aa8aa3951ade53e751da9fbb9a0574d1066e8254",
+      "downsample_4x4_block_bloom_ldr.hlsl": "6e604d8c8dcfb846e3360aa0da19332f7122a0b61dda1baa7fe7bc340f0ec50b",
+      "downsample_4x4_bloom_dof.hlsl": "cf90f0da863453e934613e8162c3a9250247be95e35674535897038c187202aa",
+      "downsample_4x4_gaussian.hlsl": "5b364d7dd8456551526a8fee595e4e6e7b22d4cfda4e3fc497ba770a66f01a8f",
+      "downsample_4x4_gaussian_bloom.hlsl": "1807bafb03b9814c6f41ac22981c576ec816289820d633b388b41479e1b37448",
+      "downsample_4x4_gaussian_bloom_ldr.hlsl": "8e5ac3cb139fd3e065617cb0caef8c13df200550bf3c8162c92e963cc839e080",
+      "downsample_registers.fx": "7db489bac5ec5ee122fa75fe332aebbbf6cc9353d2f11adf36579200ae52d4fe",
+      "downsample_registers.h": "fb8330a36b7764ae57acf1dce3f7437d9e26d2344ad7314385c949352b68f274",
+      "downsize_2x_target.hlsl": "959feb1f514d92b629869c1e0485dfdd61cbc814718e33aa948bc351a33bd492",
+      "downsize_2x_target_with_curve.hlsl": "8799817acc1e1fdc519c0b08032e7de713ee093c9a394311d8be5e9def0baedc",
+      "downsize_2x_to_bloom.hlsl": "8ec2f28fed574fa470ffefe8a738fbe100c5cb2574bc13574861df7dc2f3a5e9",
+      "dynamic_light_clip.fx": "7e8240638ac4f2ab41bbfe99cf6ca1257b3df035883eafeaf97426a88b1738fa",
+      "edge_aa_fxaa_opt.fx": "7cb10ff01dfb1dbb2efb4c76ba4a7c7386ede53a5701406d961cb56c51762795",
+      "edge_aa_vsout.fx": "2ffdc9ad9597683a23ae887a12396cb37c0fd6f6a41e1783d86f3e87723d7537",
+      "entry.fx": "f9b63f883744a56e55931a87142e64a47cafd480eb648852bced170980b6e244",
+      "entry_points.fx": "ab2007e14ef2c40079113844471ae075226be3a2fd63d901bf3b6b408f811505",
+      "environment_mapping.fx": "f4c91fe5feac0beb3d7c0de6d4fabf3fb1f5a389388341dd75d4c925abab5e3e",
+      "exposure_downsample.hlsl": "9675ed7a786a4763a308c10b540c4a3de9cbc7916044d322449c367ba8c545d6",
+      "extended_bump_mapping.fx": "fbd3df4940718aa1f8996a0e4a31a391d797367415aec47e923e34c021f65ffd",
+      "final_composite.hlsl": "0a87a3297283a96d400d30c219eca661a84bdbee071940baa7c4ab83ccfcce16",
+      "final_composite_base.hlsl": "9f0ff38a9b5e8017061e971ae124717616609b3cf1577e96906502f228ae6df9",
+      "final_composite_debug.hlsl": "9e9915fa1f355369e5226d64b1d959394b9dc4dc28d29b2261338d5ac35dddaa",
+      "final_composite_dof.hlsl": "bbb7cbd474f605270afeb6888770f4dee931a49dca87ce0f460d42f9b71bcd90",
+      "final_composite_registers.fx": "b310c3d0603bb58e7c634a34791c219cf94db08beb8a3f27edb35fc52c38c47d",
+      "final_composite_registers.h": "c2d17ee2a3833404e003b62357a08421acd96d188d65c48c483fc5c785c4de91",
+      "final_composite_zoom.hlsl": "c47872bef992a10d64c11506ff82873aa5bc2c342b27f69608c7bd4bf79663e0",
+      "foliage.fx": "0dee1eab8296fc0c3e6c6c96c2145922c97d859203f09dbee990e1e4a3d91247",
+      "foliage_material.fx": "8336fb72963cd44c5f35dd336c59c07fa0acbf0c3778a79bed63a3eae81ae0a1",
+      "function.fx": "04062bd49e56e9c3d78ad3a5693cc5fdca5d57f03f61f3acc38b00c82c5bef28",
+      "function_definition.fx": "d7ba071e44a7bce3c5c181c06cf18ab216336de27dc206765415579434f352f7",
+      "function_utilities.fx": "7ef2ceb48d5619fb43ea9f625420836159fb61317e97fa1fe1dbb1504cfbb994",
+      "fxaa.hlsl": "ec6556bc9cec0635943f7f63259c51d3b3a481f3bd15917d6de670e0492c1f64",
+      "fxaa3_11.fx": "dc0b281ff1e60ac4fd217c3cf7db5ed9a3e1c36f06f10cbfa796badf65027121",
+      "fxaa_registers.fx": "8f8585b76f8f327d74fea4939dcb69e60fa375f00ac819f291eda350f51d3020",
+      "fxaa_registers.h": "41bac3a687d85be78084af24d8376e2e1e950ecdaeb62a6b012e0368b0c99981",
+      "gamma_correct.hlsl": "90892e77efb67476e9d59598b2af76430e07b412dd8b1df7dfed6e68acc757e3",
+      "gamma_correct_registers.fx": "52543fa47bb536a202c498d83d423d124486b35767390633aed92076eb5aba35",
+      "gamma_correct_registers.h": "cae4fdd1826a2f41a03fff25fd924c0b24796b6486e71c05b57cb70f41e053c4",
+      "glass.fx": "a9783806505fc6920a07045851eac38ca2028fb2a62085126cf54132253bedf3",
+      "glass_material.fx": "e56890803b0243d9bda313dc7a7e6dac162ecce61d3f09694714d632ec422c95",
+      "global.fx": "820c35bdfa2dbf7377c641e52d2e937f44d473263c15a55667aef921c3bdec3f",
+      "global_cbuffer.fx": "80559fe4cb5c6d83926b1f078c7f2413650f2fdd03cbb261782109bd3981f17e",
+      "global_localsampler.fx": "c0ce2ab9ee1da559374c234592367aa8152edc40e76721171db4d59e155891bb",
+      "global_parameters.fx": "9a5199b7dde81ce7497e707bc9009232ef06c8040d517954725cde984e96466e",
+      "global_systemvalue.fx": "f3f05aeabbd364c9bd718b78028fe38ccd4f9eaf0c6948875e1379fcfd7f10a7",
+      "global_texture.fx": "9da2fd20f95e5f3ada183125b915755b09f83fb7ba6885f411530c4575728476",
+      "gradient.hlsl": "5333bc4fb652613115272c2ca5536d9a90df7024e087191b183779ed1fb14b92",
+      "hair_material.fx": "53c2877961b31c4134f6ee3a0521b5fdb4a1434ce2b69b5be763e59e1a37c8d9",
+      "hair_material_fx.fx": "c0a089d966dd9663ee2dcb39d2d7426c7c63fd39cfd4580ca688a28721d51900",
+      "halogram.fx": "bb1fe47432536538d20a86110ccec3535e1c20f2d2b1886eb1258cf8a8a61cac",
+      "hdr_retrieve.hlsl": "163d9bfac3441e72513fe0772f6d2520b274fb85cfee7a83ba39b75876bf4a76",
+      "hlsl_constant_mapping.fx": "ced230084c4f0c74da74828b2b9d3a86803b1195eb9c3af45fcfdd428f214e23",
+      "hlsl_constant_mapping.h": "7adf3b606430631fd9483cdf695d7a9dcef08f0ada06cc13addf00a2a99c3db8",
+      "hlsl_constant_oneshot.fx": "5ec51277d69d3347d02202aab3d8429c574099fdcd90360274a0ed7d014cb960",
+      "hlsl_constant_oneshot.h": "8ed061058b4fd0a1c72270510ec901e6849c68d6e677b8ef38a87e4f4ef9be2f",
+      "hlsl_constant_persist.fx": "990aeb996f8fdefab193fc2ab461c43996c3291e62fdced882d3ca7554a958b4",
+      "hlsl_constant_persist.h": "a44c55167e1718e12ad1a6522f6176d7a3746dc5b7ebc80cd5340084304f5ccf",
+      "hlsl_vertex_types.fx": "86b58b3930fc4aafaa186f81669b8fc7830965c0f784d9887289106927ade0a6",
+      "hlsl_vertex_types.h": "17cf2121e1dd0920d0af70b8f1a23827744054201404b005159079591f7378d5",
+      "horizontal_gaussian_blur.hlsl": "c28d6ba0c73af65988f3cd5f87585135c231e104020c809144564dc245ab9977",
+      "implicit_hill.hlsl": "6fd410221e96c07a4314f6d75da720b29d7ec8c605e099ed35b3c003ae7119cc",
+      "implicit_hill_registers.fx": "f7518d9e246753c054e0f5c0e14e8384af4bf63ebd458c083aee6db2ed5361e4",
+      "implicit_hill_registers.h": "4cd25286ecf5fb8071efeaa03226ce8f12fd7deaa7a751d77893a97c7b90193f",
+      "kernel_5.hlsl": "44d127265685ee4d9dd9316642209fde00961c29edb167d564a30c76caf5f030",
+      "kernel_5_registers.fx": "64089f872df8fef9295d473a165f4ca84123f95601a5e3af34c72b29e2927874",
+      "kernel_5_registers.h": "a099f05e3728faf364ecb0a555509c0f199e6c2a9bb2081f61a3283455a691c1",
+      "legacy_hud_bitmap.hlsl": "95430c3792ddadcf007d91e052edc537275bdf5cf375b77b518940a8e98ecf67",
+      "legacy_meter.hlsl": "eb4a1e37573c264614e0b6ea3b2625e4b9bda8f8b123fd01763478e1993893bc",
+      "legacy_meter_registers.fx": "b4a30c475adba80dec6eb0523ffd8bbff44a89b521554f72c3783eba310c7efa",
+      "legacy_meter_registers.h": "f6bf88e66546c24fefe8deafde565a2901be5578a4cef40559ec737529d62cbc",
+      "lens_flare.hlsl": "30b3f56ddc31b57758e85b36619e258f23a1c4ccedab20c269a553b0fe4b8233",
+      "lens_flare_registers.fx": "9087a3465d7f544f10d677e790aa639e4ecf368b6e68e895307b1f4aaff6d2a7",
+      "lens_flare_registers.h": "7b3016086e49d3de531770a0697dcbfb6e923f68384bcbe18d5261e46adcc726",
+      "lightmap_sampling.fx": "ed58b8e6ba9a47232c402dfcaecff32ba613b22bc1a25d56c64402582fa77ed3",
+      "lightmap_sampling_old.fx": "8cf3507520e8124d9569b60eb3225db966704063ca6ab1a3fee8424378b8f54b",
+      "lightshafts.hlsl": "1dc6549546095850f2a270aa10d6914d9d4d2deadc26808bfe0ae726b49e84b9",
+      "lightshafts_registers.fx": "6a2e5c690767b5498a73decebd2d2808dbd66cfa31b9c9ffb0aa8f0305d5d126",
+      "lightshafts_registers.h": "e991133de83e9232c7785ef3e8703b6e48bba5a161d3314fc720648c12a0c43e",
+      "light_volume.fx": "5b961edb182899b5978fb9d2aabf86b8510a3a7aaf40bd91fe7dd7746903cbb3",
+      "light_volume_common.fx": "0cc1a900276df226af8aea21eda541afa21b4320e774a4ee52f45b678af428ff",
+      "light_volume_profile.fx": "170731a297e2424587f2b8ad9e706ee2c4c34adb06117f95d37499bef3effc97",
+      "light_volume_profile_pack.fx": "190238b26286a6c1f3ae40ddfa292278c6c178dae0f2b26c1891b7ce8e0996aa",
+      "light_volume_property.fx": "ad1121b0744eab40f6860d6e69698a4d95b49379827093246f60fcbdea48ebe5",
+      "light_volume_registers.fx": "b20b4d7da86ebe4652e6332bec7154318cd38995fa8378827003c0784c2fcfad",
+      "light_volume_registers.h": "ecb85f30a71650631f612279796548637041fe49e2f4c980946e51fafcc59c9a",
+      "light_volume_state.fx": "3e2db4b29eb5739219e300d9df08e3de19c628735192f7f508e70d0b9353269e",
+      "light_volume_strip.fx": "d868e4c58cdb6473a4d8de06a557a329e704ff922f1726c1298227df36b6c67f",
+      "light_volume_update.hlsl": "52caa076f051129c2621e39c92b4283e6c38f6116b574d1badaddc1acf77358f",
+      "material_models.fx": "9e611ea94daa5e2439038d77800a98be2a339e65aa8f461912edbfed3bbfed0c",
+      "material_model_none.fx": "8cdd567038701aaeb99fcd524cd660732e89d86eb32127a687879a45fe763a4b",
+      "misc_attr_animation.fx": "b33942fc86c8d4c8740a8257d01078fee21830eadad853756a6b6df0951932c9",
+      "organism_material.fx": "c20bd1f6ea63f100e5720da703441546b315602fcabaab0babde5ba2722f7fa4",
+      "overhead_map_geometry.hlsl": "bc0b84c745a231eaf0363c312e1599efa01a546a887a3bb193eebd4646da21ff",
+      "overhead_map_geometry_registers.fx": "b5810f30f20f73d52efa3d66df7fca9f4faca764602c2a1141b5e7ebab7b26b6",
+      "overhead_map_geometry_registers.h": "87d4b206b2f7e1b5229c0eb2ea5e6b6b9d6f3126b61e1165e93f818812c10091",
+      "overlays.fx": "6b68bf23f6c36ca18a61e577cea66a33adeec468a5b612be121e850c145acab1",
+      "packed_vector.fx": "3265d2c060a1e5336773a9eddd37754f057f335816880979acdb02d7655cb9bd",
+      "parallax.fx": "8d2fcf168eec28384b7102d6ecec4e4bcfef0f2e8077782967b6615b944f4ea6",
+      "particle.fx": "a8900ab189df2b6f534b5057cbc4f6cb25272f3e7c41dbd17c6655896ff23c32",
+      "particle_common.fx": "9036f95ed6a744303c4bd351381631c157c261c9bf8463d3f9f3313b2440b68b",
+      "particle_index_registers.fx": "103ac09c07074bbf4fcddb42c4c44140cc831fdb41358fb42be72c4b9d19cad3",
+      "particle_index_registers.h": "f02c13938c41d9324f15b6238a616973334d3dd8a65f5938f4129b9bad34ae19",
+      "particle_pack.fx": "f33631b4369d4fd99f407c4e6d15ff6028fc7a6f01860de383465f90c0671ce1",
+      "particle_property.fx": "9d8ece1b79d33004f320605b480bdfeae9d861779b0d2f45f17c15850e42bd8f",
+      "particle_render.hlsl": "99cf6ecf70bce656e147caca2f2382b0274600710a0a648182efe93e65826551",
+      "particle_render_registers.fx": "143b6554bf39728a5c951970f275b147f71158dd2b8a0e240983d431580e8868",
+      "particle_render_registers.h": "77d5945beea00db5470a7cd247bcc19ffc7ff9cf921e38cf8f84d8bb787545ea",
+      "particle_render_state.fx": "288cad83255aae1bde79d8ee6ca6eeecc1cce3fb675b7ea4a12f112ed4311274",
+      "particle_spawn.hlsl": "7ca11e767d1fe8f08c5fe5baf3b627c6d1aee7fc15234ed755654602949ab37c",
+      "particle_spawn_registers.fx": "81fe7112ffba5ba53026b2b9709569f09a89276e28a097c1c7aa3c5cee7c47f1",
+      "particle_spawn_registers.h": "4405b2998447685c79c0b6cba685e6d06b6236aff3389037f3a1eb3246522151",
+      "particle_state.fx": "a40f401e4075085e1877604d7b9017f1656d019b30e3a07d914843acdaa3ebd9",
+      "particle_state_buffer.fx": "30bf382295b1621fbca245826d4e3b6615fd2e846daf83b7b7cf6862974923cf",
+      "particle_state_buffer.h": "d7b66d19fde4dbe863d142941e7ca755900d3199d259247ed07121348f91deb8",
+      "particle_state_list.fx": "99b7192b9ff3c99017b0e6741225af8890cc8c50faabe897abdb5541a9ca1b6a",
+      "particle_update.hlsl": "a0b9d28208fe54092c40376da7b6753dc3fce22c501277a52e5655377209208a",
+      "particle_update_registers.fx": "33b56f75c67b169222c1e14c0dd6eb0d5ddc0b7b51a40e484fabdc989267e958",
+      "particle_update_registers.h": "88c15b3f6205b604c2b57bdfdc462ebf306cdf0bcdb98a7480eb1e6377bccf38",
+      "particle_update_state.fx": "65fd3ebbb9ee1c0b0273428c37ef3861efae2df6aa5c0ac7614acbfc4d280e95",
+      "patchy_fog.hlsl": "568b4548f29ba7274fcfa72679a7d7fe71d26fab32ef0f0df15d73181d6433e5",
+      "patchy_fog_registers.fx": "108b496a010f3d310b3e0e54887f1a55517027c69bfd0efa7b6744e18163d930",
+      "patchy_fog_registers.h": "0ab764c9ccfdbd9a0ba33e43afad7c6ea602a17921dc7f98f84041a101baf9a2",
+      "pixel_copy.hlsl": "62a4ad1d13e3f750ca1cabc17c88dd4f3704d337039b17a7a61a84b0e9f3f292",
+      "player_emblem.fx": "64bf7c5edfe047dd286c369a28aa8c890ffe32e0cf2b9883b13ababfdea2ba42",
+      "player_emblem_registers.fx": "35e0ffad1842fb0c81bb3406ef20ab2874a10412a801e61ee9d17ed78175d23c",
+      "player_emblem_registers.h": "65a0bfd39943e1a2d122e098267e418eb5f760124d2c79eb3851f4a7ee1c3213",
+      "player_emblem_screen.hlsl": "60e0da32aed43147b590431795a9c6f57237f14bbc51afd33f2952bfe12a1e82",
+      "player_emblem_world.hlsl": "e15f0006539a3c15f8bc0e92bd21ee41cc0986f608c8d307452cad0916986c44",
+      "postprocess.fx": "41750e25ead60cce499094b2d294e43fb6d5b55a639711b89a6961dcb3f73c1a",
+      "postprocess_registers.fx": "82611814d165f370c3c587b3c33a72c0e9b6f4d2e1f70fc4a2e015e6c7bb1d3d",
+      "postprocess_registers.h": "422f69b83b15393c4f35a69c8ab12b763182a82a82cd1fe69f53cb25b1e0a5f4",
+      "quaternions.fx": "d01e5efa78bdd2b29ec6d289bfd1305ff7fde0dc0c26781449cbcfe043924872",
+      "radial_blur.hlsl": "964ce44d9c13dc9c07b6d7c0c113efbd28c0dffee0e375aa8492ea80029a550c",
+      "radial_blur_registers.fx": "09ae0af4748c5511b366a6dbefcdc1ff07d901276172b4dbc0091702cfbcd42a",
+      "radial_blur_registers.h": "4777398ce040abb526b8a4cbcce76c1a30c416f56202a7a9711a873851e696e5",
+      "raw_beam_profile_state.fx": "0142ec7ac880c20d5326eb25dc20d3138ce9e12984efeb3837c3c3734dc05d28",
+      "raw_contrail_profile.fx": "f2aa1a1fc32f6c66b31e3f94f04c7fbe0f652a0e97f886c7574b9e213f06567c",
+      "raw_light_volume_profile.fx": "ef1c9b5481bc066df44d11ef05a0d27bcdf7ce59bd0cc5a9830b164e5ee8f985",
+      "raw_particle_state.fx": "08539507503ba69f9b4cd77653c43d7050f2e4e5aaf993a9bd9b6cba2712ba29",
+      "register_group.fx": "9e936b71b7aab504a03f6fc53e7c2d8d974ac127338a35e14e1dd2810842bc9a",
+      "render_target.fx": "5a4aff16b6dfaaea17e5caf6a19b87b8cb16fabbb1c3b6d83f2110fd6623090b",
+      "restore_ldr_hdr_depth.hlsl": "508c43b2cdd360b62eb5a611153ec1e53ff19d9a85cb5ea53491ed27677e0aa2",
+      "ripple.fx": "e842a642cd18c5da6932e119298e3faccca0af01394941b74e1acbf75c021446",
+      "rotate_2d.hlsl": "c80541e96d76b23da8d42a93fd0ff6762af35b503cd4609029155353efbc9c37",
+      "rotate_2d_registers.fx": "b7b3f4fd995dd6afe6a953cbef7baed0b5c5fecbcaa1e67208ef3810b900a062",
+      "rotate_2d_registers.h": "707ea40930da5065fee570c92db0c22996b6d1ab03c9b4e2a45dd23b3104ee1e",
+      "screen.fx": "3efbf0c49124a4c4214af2053af7229e74ddf3e35fe774919f8ce75427c81667",
+      "screen.hlsl": "c3622f12008513f3172a266b01b591312a4f56bf76de1811b4e438fad1063e3a",
+      "screenshot_combine.hlsl": "dffdb1c95b3a1cf4a572ab663089a5db83540866cf36ea82a56b330310dad904",
+      "screenshot_combine_dof.hlsl": "e42b01940a1e50928ccbd442fbc4f565b1d50bc96f82d991977e53c85a7af1c2",
+      "screenshot_display.hlsl": "cb4f6f541f1e65b4b0625f6f84ffc3214b63cc29d482e7f26f07ca3abab2b572",
+      "screenshot_display_registers.fx": "ce79c28d6130cf455fd14a5d012803cc6ae6bacb2c2ab9f1151649a26a3968d4",
+      "screenshot_display_registers.h": "12c09b7c987145cb4644fdc6968013690c2b9a9b80f56a2b83200ac5b85c5d13",
+      "screenshot_memexport.hlsl": "f8ee61daba44223154aec8ce11ec631e79e52d376ea3ffa2c7c415b4e2539c5b",
+      "screenshot_memexport_registers.fx": "45a2e104685018d24a9f1af163b8f1dd1c4abad725e959cf6d7f41969211ba13",
+      "screenshot_memexport_registers.h": "7c8d22d6ddf3111b4a33bea14f45627d3ab42d43e6012384a0a1988af6bb17e7",
+      "screen_fx.fx": "28a06d2d2eee43fd1a29d84102e33731e81f627cd9824fd8540cccf3e9c8a39c",
+      "screen_registers_fx.fx": "b9417a9bdcee4ada246f34123f7b3829d10ecb25f6d7c239dbb64acfcd3a7b11",
+      "screen_registers_h.fx": "65b99df3ba4e0b79afff8348a1caa94c7ca5dd3bc51c54f778d853da3ae39a8d",
+      "self_illumination.fx": "28758920a59cef9556f9a613fb38da436939373d5ef5e6e5f1083f66be7e7093",
+      "self_illumination_halogram.fx": "a43c7e78df2cb58abdc3f87087d6eccfa26c26a684e9bfdfcdef624f1606996d",
+      "shader.fx": "e878f7f6309da34eb83e51f19c11d187dbe5bfe9ecd24ff9d2846a278f96c80a",
+      "shadow_apply.hlsl": "1743a3d89ad45cc710c91aa49af36dc311940fe43d05000dc203759c7373e85c",
+      "shadow_apply_bilinear.hlsl": "7c0280ca935f416756559f21aab0cef5d3d9b912fa2641478704245c579bc2fc",
+      "shadow_apply_fancy.hlsl": "e13a5df75a5c149a5ca3f1ad3bbe0cf2c98c6bada7f3635a76488c4720e54fbe",
+      "shadow_apply_faster.hlsl": "c4a827c34cd0e2865fd7cecbb843a01fc0147a49174d2bcd6d54aa5a39ba607c",
+      "shadow_apply_point.hlsl": "f316b8e924398a09de96ce0834da85297191517a91ebf54f70ffaa4bf41da130",
+      "shadow_apply_registers.fx": "16a1f80533a40df5dfdf13e079de73d00a337ab97d1dd1901d3bbe724111b3ce",
+      "shadow_apply_registers.h": "27bf286267d50a0a58affc88638b049c4f880783dcb6913fe9c3e4d33a88c49e",
+      "shadow_generate.fx": "867a8fafa3ef83d8292163082b0a93dbfc0ecd4985ddc4372e75b947c8090cd6",
+      "shadow_geometry.hlsl": "df115611fe8963a9e84de0c535310424d939cc1dc7db43bd67881ac612533a8e",
+      "shadow_geometry_registers.fx": "9e645722a2a12b29fa974186755081c7a1ca6c81762e36a732d1e6099c32e004",
+      "shadow_geometry_registers.h": "a384b30c4021bad655abf02e7782513910ec59f2895d614f15af1d610513e3d2",
+      "shared_specular_reach.fx": "fd91c6d7fa58646b2ba447d68aa0dabef6cba05a0425017cbe8027867c576d35",
+      "shield_impact.hlsl": "440c70fc12d116323587d37ee3b83c62f3541af16a3938c99fd100ffafd3b87b",
+      "shield_impact_registers.fx": "151e21ef5fdc8be07af9fec3eb99f3562c6ec9f673f69090d49c1a8297721921",
+      "shield_impact_registers.h": "84f6d65216111d402de119652364c0cafca1d3aaeaf4ab6c070862279689b23e",
+      "shield_meter.hlsl": "c4dce17ee5628acb308e65ce0025e8dc5d47c9c814552a2e8eac2c1da9e7073e",
+      "shield_meter_registers.fx": "f371acc19945e020758145dcd3ce92e5006c027eae8bff2ec69cc4ebc8af8cc3",
+      "shield_meter_registers.h": "8f2ef2b519fcb2875bd3eef8cbbc862c85557d350d4e2d5b5f157ec92c3feedd",
+      "sh_glossy.fx": "63496ef012d4ee0d8190ce1a5eb074c7fa292e5075e75ddbd78aeb4dcaef563d",
+      "simple.hlsl": "c6ae09d0dd15023b57278b825b50f72bbd5250922ac3ddb63299ac58b029c839",
+      "simple_lights.fx": "7ac957f13aad2bff777b6bb5a69f0cccd850327ae2248384764b493a32932e8b",
+      "simple_specular.fx": "a57875d1502558891032f217b43d9926b6ef166b7c6c8fafeffdc7976fe628b6",
+      "single_lobe_phong.fx": "5f6c032fd7c8885321d82425885423c51f193affcb012eeff5f2e5e565aaf4c4",
+      "skin.fx": "b5eb7322c26fc2d297552785ed68b4bd6d7aa5b0a6e828d76954f952f933c9c4",
+      "sky_dome_simple.hlsl": "2a8c3bf4b0946306c19e9862d7c7defdc31832476bb46fb26f00c6f2ed14b2ab",
+      "smirnov.hlsl": "b41d989d57350b826a27aa94622f80d02c45c4cf3084c90a70646cc741dea2f5",
+      "sniper_scope.hlsl": "d7af378abdc82c6c6a0feb2a1cee1716491102f9fc480d9fbf010aeb328f0bcd",
+      "sniper_scope_registers.fx": "debcf720ce5c94d0f637e88e387facf857b1a5fbaa0d8168ccea2de757526285",
+      "sniper_scope_registers.h": "39bfc98f8bafddf4017db76c13eab9071cd0048382d4c7078ceb01421b4298ae",
+      "sniper_scope_stencil_pc.hlsl": "07c0a793b30c63341ec826a9230900da894cd0dbf7b279d259632e3c6694659b",
+      "specular_mask.fx": "479cbc586fe1bde30a8348cc01d631f7f3414a1b0ad84e1f3ab4ce6f11e61bb0",
+      "spherical_harmonics.fx": "83018ee1877f84dafa89c513510a5d97db20f2486b09983e1598b2ba191fe356",
+      "spike_blur_horizontal.hlsl": "e01e6df881ff651fe1b44b574d612088ee510b4da2d5a0e15b4e655fd72a5ffc",
+      "spike_blur_registers.fx": "52966891001c2b3d5225bc4c00104331a1d4351899f40f1eb8d8b8309ce970fe",
+      "spike_blur_registers.h": "cfde68574d75e21f115bde8247f9d3912591b0263ad5121bf3d62cbd53e4e13d",
+      "spike_blur_vertical.hlsl": "71ffeec5402df93f8ca09c41fe64ce1ea62f331692fc5c5810a04aa0eaf35885",
+      "ssao.hlsl": "461e0d1ca353affcaaae1c9b6680779d73240365ff00f43723aa9ebbfde06873",
+      "ssao_blur.hlsl": "6651704c8bc2119a76757936c7cd0726f8830f5f5e87767ff344aa8854b58118",
+      "ssao_registers.fx": "7c5d1a1f6c5750a7093da3cc167a155bdefb012d6885f8e44b5bf934dfdf3738",
+      "ssao_registers.h": "6610fbced56485cfe08053d2671b1de30e94ab42cc5ed1ff5632901d7235b40a",
+      "stencil_stipple.hlsl": "6264499f5c6d8c67444d71a8678ecafc8d6cd41523918f993d08a003cc7037b8",
+      "stencil_stipple_registers.fx": "a7c56ec7c8b0bddd3abe9d4221b53dd5e6eb701f913854de6e660e959cf61758",
+      "stencil_stipple_registers.h": "4ca0e6d207b28f3aea6dee375b370ba06489f46cabec5d9fb076f0ff90b47ee7",
+      "terrain.fx": "ea180fbdede6cf5574d4a84a86f0a0fb11c89d64db48249328424a27619a4a95",
+      "terrain_new.fx": "e8f1c16977b155c87a859195922df7fe786e2d0a58cf3f7b5ce847281ead6f0a",
+      "terrain_shadow_generate.fx": "122de08833c1c1a8164907f8b790bec6abd8eee06b83d179b33cc7c45332207c",
+      "texture.fx": "edefe5727f1f462981ac46cd27e0729c605371ba157e15727ae95c8a8c7303cc",
+      "texture_xform.fx": "08a5e3d8e67961761fb1681c7951749e4353ff19fb6bd01d75cfdee9a74cb28e",
+      "transparent.hlsl": "315e71f5af0a97d0f42058c0b31df3c16b884c70963f32baa60d0fe1a3924461",
+      "two_lobe_phong.fx": "090dd94271dda1e3972621e2ac5878b4640918f39626a50e4ca43de56e218fca",
+      "two_lobe_phong_reach.fx": "68468be2bd47598c80b174ee41b875897f9de982c8deb3b909562d6ec318e82a",
+      "unused.hlsl": "5142bedcd1eaa93b27167225b264a2742f879f31d736e054ad698e061a770daa",
+      "update_persistence.hlsl": "63ad2915e83f1edbc456f378bb94bac157a3d7ab6f133f0a1ea33fe9350ac2e6",
+      "utilities.fx": "0d091e93aa9ad95e1f78f575ee1d4181afc0b3b16ec7d468d763a602fb8d16a3",
+      "vertical_gaussian_blur.hlsl": "a5c4a2919f788971292f95fd1f296c9aae3ce59b498ecc6cae6e554f5ab83776",
+      "vmf_util.fx": "c7cc19eba8edc5d436402485b7bc2473286bf88e3e1aae995b04f8692fb1e346",
+      "warp.fx": "42c17fb10fc549728f72b28f03e149913caa524d9b916d4cfd7cead28612e103",
+      "water.fx": "5743f2f000778f73eab6f0bc2d1fd75e25dce7c5c6fb1d33cea80fbb2c4fe75d",
+      "water_interaction.hlsl": "d1e6ff4dee8b882bdec793d032291491105526af3a0b0649beaba1926e9f35a3",
+      "water_registers.fx": "2f4f40b83d268b7f026839c6c29fe80646a1c4072a0720d11da7569589f7d7bd",
+      "water_registers.h": "c5aaae4ca5bab5bbe426206c1776d8a93bd8b7471ba9ac90c3c7669f4b1cf37e",
+      "water_ripple.hlsl": "f96bf4aa437fe35c7d68e79a557f81c815163b4a44eb6941098171eabc26410b",
+      "water_shading.fx": "9431880850dc0a94a61beeac88f7e79e3b9b47db7c2af50243c212ab622c3f04",
+      "water_shading_reach.fx": "ed79aff584491cab135e97890d22b3b9fc751958d8c1f54e8980e0530dfb30f7",
+      "water_tessellation.fx": "cb8d4f00e3f3508155dacd5ef2b10abea142c6caafd18a8814f9edccd6aa19ff",
+      "wind.fx": "e66de7f5abb5c52ee29e5de4befdc88d95c22fe7ba228034c280d7547da7892b",
+      "wind_registers.fx": "f7786122d685b331ed5be9e787c45d9a3de045723e01eb2d3d1446eba553c91b",
+      "wind_registers.h": "1e24511e5a1e02e619179aadf640b49894eb4c260f25d17f527ac882b71c8ac0",
+      "write_depth.hlsl": "c1d16f35e188036f2715b7af188dc7d99bc36d13a398916b58dd437abc940828",
+      "yuv_to_rgb.hlsl": "acf693ddcd33e7ecbb833f8f26fb06cdd72adc074fd3f9f655c51290ce11a3cb",
+      "yuv_to_rgb_registers.fx": "3cf4a5df5129217172453001143d65823e305e2f9ddcf3d6a24e30b55e48f208",
+      "yuv_to_rgb_registers.h": "b0d9aa7d89f9944ea9e69d290344bc0518dde5056be6b70054e244be11103940",
+      "zonly.fx": "bd9bd1271980dddd44570e8e56df7db1a4f6a2f0ea577dd9849ef0b2081430db"
+    }
+  }
+}
