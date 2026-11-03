@@ -1,0 +1,63 @@
+--- tools\warlock-conversion\snapshot\tools\forge_sun_flare.py
++++ tools\warlock-conversion\snapshot\tools\forge_sun_flare.py
+@@ -18,13 +18,14 @@
+ EXPECTED_REFLECTIONS = {NAME: 18, POWERHOUSE: 27, POWERHOUSE_SECONDARY: 2}
+ 
+ 
+-def import_flare(i, datum):
++def import_flare(i, datum, *, native_placement=False, expected_reflections=None):
+     s, b = i.source, i.builder
+     name = s.name(datum & 65535)
+     root = s.tags[datum & 65535]['offset']
+     rows = s.block(root + 0x44, 156)
+     occlusion = s.unpack('i', root + 8)[0]
+-    if name not in EXPECTED_REFLECTIONS or len(rows) != EXPECTED_REFLECTIONS[name] or not 0 <= occlusion < len(rows):
++    expected = EXPECTED_REFLECTIONS.get(name) if expected_reflections is None else expected_reflections
++    if len(rows) != expected or (not native_placement and not 0 <= occlusion < len(rows)):
+         raise ValueError('Forge sun flare changed; review required')
+     bitmap_root = bytearray(164)
+     struct.pack_into('>H', bitmap_root, 4, 0x50)
+@@ -47,7 +48,7 @@
+ 
+     def reflection(row):
+         flags, pad, image_index, pad2 = s.unpack('4H', row)
+-        if pad or pad2 or any(s.unpack('6I', row+32)):
++        if pad or pad2 or any(s.unpack('4I' if native_placement else '6I', row+(40 if native_placement else 32))):
+             raise ValueError('Unexpected sun-flare reflection fields')
+         bitmap = s.u(row+20)
+         if bitmap == 0xffffffff and name == POWERHOUSE_SECONDARY:
+@@ -71,8 +72,8 @@
+         scales = [math.sqrt(x[k]*y[k]) for k in range(2)]
+         scale = scales[1]
+         approximations.append({'radius_curve': kind, 'brightness_curve': bkind,
+-                               'source_scale_xy': [x[0], y[0]], 'retail_scale': scale, 'scale_endpoints': scales, 'animated_scale_endpoint_approximation': animated_scale})
+-        if s.unpack('f', row+28)[0] != 0.0:
++                               'source_scale_xy': [x[0], y[0]], 'retail_scale': scale, 'scale_endpoints': scales, 'animated_scale_endpoint_approximation': animated_scale, 'source_axis_offset': s.unpack('f', row+28)[0], 'source_offset_bounds': s.unpack('2f', row+32)})
++        if not native_placement and s.unpack('f', row+28)[0] != 0.0:
+             raise ValueError('MCC sun-flare axis offset has no verified retail representation')
+         # Original H3 reads bitmap index at +4 and rotation at +8.
+         return struct.pack('>H2xH2x10f', flags & ~4096, images[key],
+@@ -81,9 +82,9 @@
+                            *s.unpack('3f', row+136), s.unpack('f', row+152)[0])
+ 
+     converted = [reflection(row) for row in rows]
+-    # H3 tests the first reflection. Move the authored occlusion element first;
+-    # retain every reflection, with the changed feedback order reported below.
+-    ordered = [converted[occlusion]] + [v for j,v in enumerate(converted) if j != occlusion]
++    # H3 tests the first reflection. Native-placement mode retains source order.
++    # Existing map conversions move their selected occlusion element first.
++    ordered = converted if native_placement else [converted[occlusion]] + [v for j,v in enumerate(converted) if j != occlusion]
+     b.put(bitmap_address+96, 'III', len(images), b.alloc(records), 0)
+     b.put(bitmap_address+140, 'III', len(images), b.alloc(hardware), 0)
+     ss = copy.deepcopy(ET.parse(i.reference/'mcc/lens.xml').getroot())
+@@ -109,8 +110,9 @@
+     i.added.append({'source': name, 'group': 'lens', 'datum': hex(owner),
+                     'reflection_count': len(rows), 'bitmap_images': len(images),
+                     'approximation': True, 'native_visuals_verified': False,
++                    'native_placement': native_placement, 'source_occlusion_index': occlusion,
+                     'differences': ['Curves reduced to endpoint ranges',
+                                     'Anisotropic scales use equal-area circular scale',
+-                                    'Authored occlusion reflection moved first; feedback order changes'],
++                                    ('Original H3 placement and first-reflection occlusion; source order retained' if native_placement else 'Authored occlusion reflection moved first; feedback order changes')],
+                     'reflection_conversion': approximations})
+     return 'lens', owner

@@ -1,0 +1,10 @@
+--- tools\warlock-conversion\snapshot\tools\material_importer.py
++++ tools\warlock-conversion\snapshot\tools\material_importer.py
+@@ -12,6 +12,7 @@
+ 
+ # Explicit, reported proof-of-concept substitutions for absent disc variants.
+ PARTICLE_ALIASES = {
++    '_1_8_0_0_1_1_0_0_0_0': ('_1_8_0_0_1_1_1_0_0_0', 'neutral_black_point', 'Native soft-smoke LDR/depth-fade shader with verified constant-zero black point'),
+     '_3_8_0_0_1_1_0_0_0_0': ('_3_8_0_0_1_1_1_0_0_0', 'neutral_black_point', 'Native snow shader with verified constant-zero black point; authored LDR rendering and depth fade retained'),
+     '_1_3_0_0_0_0_0_1_0_0': ('_1_3_0_0_0_0_1_1_0_0', 'neutral_black_point', 'Native black-point support with verified constant-zero emitter values; authored alpha/fog retained'),
+     '_0_10_0_0_1_0_1_1_0_0': ('_0_10_0_0_0_0_1_1_0_0', 'render_targets', 'LDR-only becomes LDR and HDR'),

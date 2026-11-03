@@ -1,0 +1,21 @@
+--- tools\warlock-conversion\snapshot\tools\tag_metadata.py
++++ tools\warlock-conversion\snapshot\tools\tag_metadata.py
+@@ -228,6 +228,18 @@
+                     covered.update(range(at, at + width))
+                     continue
+                 machine_defaults = {
++                    r'mach:objects\gear\human\industrial\krane_01\krane_01': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\search_light_1\\search_light_1': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_04_anim_01\\sbr_envelope_04_anim_01': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_04_anim_02\\sbr_envelope_04_anim_02': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_06_anim_01\\sbr_envelope_06_anim_01': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_06_anim_02\\sbr_envelope_06_anim_02': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_01\\sbr_panel_fabric_01_anim_01': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_02\\sbr_panel_fabric_01_anim_02': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_03\\sbr_panel_fabric_01_anim_03': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_b_anim_01\\sbr_panel_fabric_b_anim_01': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_b_anim_02\\sbr_panel_fabric_b_anim_02': 2,
++                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_lift_cabin_01\\sbr_lift_cabin_01': 1,
+                     r'mach:objects\gear\human\residential\y_set_fan_small_a\y_set_fan_small_a': 2,
+                     r'mach:objects\gear\human\industrial\elongation_conveyor\elongation_conveyor': 0,
+                     r'mach:objects\levels\solo\020_base\security_red_light\security_red_light': 2,

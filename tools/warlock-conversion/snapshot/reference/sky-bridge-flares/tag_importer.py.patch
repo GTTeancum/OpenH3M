@@ -1,0 +1,12 @@
+--- tools\warlock-conversion\snapshot\tools\tag_importer.py
++++ tools\warlock-conversion\snapshot\tools\tag_importer.py
+@@ -69,6 +69,9 @@
+             if result is not None:
+                 return result
+         if group == 'lens':
++            from sky_bridge_flare import COUNTS, import_sky_bridge_flare
++            if name in COUNTS and str(self.source.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map'):
++                return import_sky_bridge_flare(self, datum)
+             from forge_sun_flare import NAME, POWERHOUSE, POWERHOUSE_SECONDARY, import_flare
+             if name in (POWERHOUSE, POWERHOUSE_SECONDARY) or (name == NAME and getattr(self, 'gulch_partition', None)):
+                 return import_flare(self, datum)
