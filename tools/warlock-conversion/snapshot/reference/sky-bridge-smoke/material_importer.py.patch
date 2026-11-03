@@ -1,0 +1,33 @@
+--- tools\warlock-conversion\snapshot\tools\material_importer.py
++++ tools\warlock-conversion\snapshot\tools\material_importer.py
+@@ -12,6 +12,7 @@
+ 
+ # Explicit, reported proof-of-concept substitutions for absent disc variants.
+ PARTICLE_ALIASES = {
++    '_5_10_0_2_0_1_0_1_0_0': ('_5_10_0_2_0_1_1_1_0_0', 'neutral_black_point', 'Native lit soft smoke with verified constant-zero black point'),
+     '_1_8_0_0_1_1_0_0_0_0': ('_1_8_0_0_1_1_1_0_0_0', 'neutral_black_point', 'Native soft-smoke LDR/depth-fade shader with verified constant-zero black point'),
+     '_3_8_0_0_1_1_0_0_0_0': ('_3_8_0_0_1_1_1_0_0_0', 'neutral_black_point', 'Native snow shader with verified constant-zero black point; authored LDR rendering and depth fade retained'),
+     '_1_3_0_0_0_0_0_1_0_0': ('_1_3_0_0_0_0_1_1_0_0', 'neutral_black_point', 'Native black-point support with verified constant-zero emitter values; authored alpha/fog retained'),
+@@ -1229,6 +1230,10 @@
+                           and str(s.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'))
+         if sky_bridge_ldr:
+             target_template=r'shaders\particle_templates\_0_8_0_0_0_0_0_0_0_0'
++        sky_bridge_smoke = (group=='prt3' and template_name==r'shaders\particle_templates\_5_10_0_0_0_1_0_1_0_0'
++                            and str(s.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'))
++        if sky_bridge_smoke:
++            target_template=r'shaders\particle_templates\_5_10_0_1_0_1_1_1_0_0'
+         post = None
+         for tag in c.tags.values():
+             tag_group = tag['group']
+@@ -1420,9 +1425,9 @@
+             converted.extend((b'bitm' if bitmap != 0xffffffff else b'\xff'*4) + bytes(8)
+                              + struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, block))
+         output = bytearray(native_output if native_output is not None else c.data[post:post + 132])
+-        if sky_bridge_ldr:
++        if sky_bridge_ldr or sky_bridge_smoke:
+             from sky_bridge_particle import bind_ldr
+-            output=bind_ldr(self,output)
++            output=bind_ldr(self,output, 'particle-smoke-01' if sky_bridge_smoke else 'particle-ldr-01')
+         native_blend_flags = bytes(output[104:108])
+         if group == 'decs' and not s.u(source_post + 92):
+             # Static authored decals must not inherit the donor's animations.

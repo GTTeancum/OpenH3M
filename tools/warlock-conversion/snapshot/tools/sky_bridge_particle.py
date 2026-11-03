@@ -2,11 +2,11 @@
 import hashlib,json,re,struct
 from pathlib import Path
 
-def bind_ldr(materials, post):
-    directory=Path(__file__).resolve().parents[4]/'work/sky-bridge/particle-ldr-01'
+def bind_ldr(materials, post, profile='particle-ldr-01'):
+    directory=Path(__file__).resolve().parents[4]/'work/sky-bridge'/profile
     audit=json.loads((directory/'audit.json').read_text())
     raw=(directory/'default.bin').read_bytes();assembly=(directory/'default.asm').read_text()
-    if hashlib.sha256(raw).hexdigest()!=audit['sha256'] or not audit['inputs_match'] or 'PsExportColorCount=1' not in assembly:
+    if hashlib.sha256(raw).hexdigest()!=audit['sha256'] or not audit['inputs_match'] or ('PsExportColorCount='+str(audit['color_exports'])) not in assembly:
         raise ValueError('LDR particle program changed')
     b,registry=materials.builder,materials.registry
     def address(datum):return struct.unpack_from('>I',registry.tags,(datum&65535)*8+4)[0]

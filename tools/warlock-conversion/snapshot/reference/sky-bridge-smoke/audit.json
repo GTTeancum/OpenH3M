@@ -1,0 +1,62 @@
+{
+  "sha256": "d79ba0a6e54342ce324ed63012bf55a26528b9124df0a40a2986ff91e9852ca4",
+  "registers": [
+    {
+      "name": "ldr_gamma2",
+      "register": 14,
+      "count": 1,
+      "set": 0
+    },
+    {
+      "name": "hdr_gamma2",
+      "register": 15,
+      "count": 1,
+      "set": 0
+    },
+    {
+      "name": "g_exposure",
+      "register": 0,
+      "count": 1,
+      "set": 2
+    },
+    {
+      "name": "depth_fade_range",
+      "register": 100,
+      "count": 1,
+      "set": 2
+    },
+    {
+      "name": "depth_constants",
+      "register": 201,
+      "count": 1,
+      "set": 2
+    },
+    {
+      "name": "base_map",
+      "register": 0,
+      "count": 1,
+      "set": 3
+    },
+    {
+      "name": "palette",
+      "register": 1,
+      "count": 1,
+      "set": 3
+    },
+    {
+      "name": "alpha_map",
+      "register": 2,
+      "count": 1,
+      "set": 3
+    },
+    {
+      "name": "depth_buffer",
+      "register": 11,
+      "count": 1,
+      "set": 3
+    }
+  ],
+  "inputs_match": true,
+  "color_exports": 2,
+  "donor": "armory.map:shaders/particle_templates/_5_10_0_1_0_1_1_1_0_0"
+}

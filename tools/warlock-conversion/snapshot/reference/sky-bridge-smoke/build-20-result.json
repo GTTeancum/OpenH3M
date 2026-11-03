@@ -1,0 +1,377 @@
+{
+  "status": "failed",
+  "basis_sha256": "224a8f7cf0e6f0c230a9ae843b0e9ba84d42c8b3447819d437d3b88c029ea921",
+  "historical_seed_used": false,
+  "limitations": [
+    "Map conversion POC; unsupported content fails explicitly.",
+    "Per-material approximations and converted animations are listed in the materials report.",
+    "Native gameplay and system-link behavior unverified."
+  ],
+  "stages": {
+    "player_animations": [
+      {
+        "player": "objects\\characters\\masterchief\\masterchief",
+        "added_modes": [
+          "banshee_b_d",
+          "banshee_d",
+          "behemoth_d",
+          "behemoth_g",
+          "chopper_b_b",
+          "chopper_b_f",
+          "chopper_d",
+          "hornet_b_d_l",
+          "hornet_b_d_r",
+          "hornet_b_p_l",
+          "hornet_b_p_r",
+          "hornet_d",
+          "hornet_p_l",
+          "hornet_p_r",
+          "mauler_b_d",
+          "mauler_b_p_l",
+          "mauler_b_p_r",
+          "mauler_d",
+          "mauler_g",
+          "mauler_g_b_l",
+          "mauler_g_b_r",
+          "mauler_p_l",
+          "mauler_p_r",
+          "wraith_b_b",
+          "wraith_b_l",
+          "wraith_b_r",
+          "wraith_d",
+          "wraith_g"
+        ],
+        "source_modes_not_in_donor": [],
+        "graph": "0x90002407"
+      },
+      {
+        "player": "objects\\characters\\elite\\elite",
+        "added_modes": [
+          "banshee_b_d",
+          "banshee_d",
+          "behemoth_d",
+          "behemoth_g",
+          "chopper_b_b",
+          "chopper_b_f",
+          "chopper_d",
+          "hornet_b_d_l",
+          "hornet_b_d_r",
+          "hornet_b_p_l",
+          "hornet_b_p_r",
+          "hornet_d",
+          "hornet_p_l",
+          "hornet_p_r",
+          "mauler_b_d",
+          "mauler_b_p_l",
+          "mauler_b_p_r",
+          "mauler_d",
+          "mauler_g",
+          "mauler_g_b_l",
+          "mauler_g_b_r",
+          "mauler_p_l",
+          "mauler_p_r",
+          "wraith_b_b",
+          "wraith_b_l",
+          "wraith_b_r",
+          "wraith_d",
+          "wraith_g"
+        ],
+        "source_modes_not_in_donor": [],
+        "graph": "0x90002408"
+      }
+    ],
+    "runtime": {
+      "Script Expressions": 3301,
+      "Scripts": 57,
+      "Globals": 8,
+      "Script References": 3,
+      "Scenario Resources": 1,
+      "Trigger Volumes": 19,
+      "Scenario Kill Triggers": 18,
+      "Scenario Safe Zone Triggers": 1,
+      "Soft Ceilings": 2,
+      "Zone Set Potentially Visible Sets": 1,
+      "Zone Set Audibility": 1,
+      "Zone Sets": 1,
+      "Scripting Data": 1,
+      "AI User Hint Data": 1,
+      "Zone Debugger": 1,
+      "Soft Surfaces": 1,
+      "Editor Folders": 6,
+      "Device Groups": 0,
+      "Cutscene Flags": 0,
+      "Cutscene Camera Points": 2,
+      "Biped Palette": 0,
+      "Character Palette": 0,
+      "Flock Palette": 0,
+      "Creatures Palette": 0,
+      "Lighting Zone Sets": 0,
+      "Bipeds": 0,
+      "Terminals": 0,
+      "Terminal Palette": 0,
+      "Controls": 0,
+      "Control Palette": 0,
+      "Giants": 0,
+      "Giant Palette": 0,
+      "Player Starting Profile": 0,
+      "Zone Set Switch Trigger Volumes": 0,
+      "Enemy Forbid Influence": 0,
+      "Enemy Bias Influence": 0,
+      "Ally Bias Influence": 0,
+      "Selected Ally Bias Influence": 0,
+      "Dead Teammate Influence": 0,
+      "Weapon Spawn Influencers": 0,
+      "Vehicle Spawn Influencers": 0,
+      "Projectile Spawn Influencers": 0,
+      "Equipment Spawn Influencers": 0,
+      "KOTH Hill Influencer": 0,
+      "Oddball Influencer": 0,
+      "CTF Flag Away Influencer": 0,
+      "Territories Ally Influencer": 0,
+      "Territories Enemy Influencer": 0,
+      "Infection Safe Zone Human Influencer": 0,
+      "Infection Safe Zone Zombie Influencer": 0,
+      "VIP Influencer": 0,
+      "Style Palette": 0,
+      "Squad Groups": 0,
+      "Squads": 0,
+      "Zones": 0,
+      "Cutscene Titles": 0,
+      "Unit Seats Mapping": 0,
+      "Triggers": 0,
+      "Weather Palette": 0,
+      "Camera FX Palette": 0,
+      "Flocks": 0,
+      "Mission Dialogue": 0,
+      "Interpolators": 0,
+      "Reference Frames": 0,
+      "AI Objectives": 0,
+      "Designer Zones": 0,
+      "Cinematics": 0,
+      "Cinematic Lighting": 0,
+      "Override Player Representations": 0,
+      "Campaign Metagame": 0,
+      "Cortana Effects": 0,
+      "Budget References": 0
+    },
+    "geometry": {
+      "bsp": {
+        "source": "levels\\multi\\s3d_sky_bridgenew\\s3d_sky_bridgenew",
+        "group": "sbsp",
+        "datum": "0x90002409",
+        "resources": [
+          {
+            "field": "[zone] Asset Datum 1",
+            "datum": "0x91001535",
+            "raw_bytes": 0,
+            "source_binding": null
+          },
+          {
+            "field": "[zone] Asset Datum 2",
+            "datum": "0x91001536",
+            "raw_bytes": 52988262,
+            "source_binding": {
+              "bsp_index": 0,
+              "bsp_datum": "0x912728e7",
+              "lightmap_datum": "0xff2b1db5",
+              "resource_datum": "0xef6f0e0c",
+              "reconstructed_water_buffers": 0,
+              "ambient_quarter_stops": 0,
+              "powerhouse_room_fill": null
+            }
+          },
+          {
+            "field": "[zone] Tag Resources Asset Datum",
+            "datum": "0x91001537",
+            "raw_bytes": 6002129,
+            "source_binding": null
+          }
+        ],
+        "source_geometry": true,
+        "native_collision_materials": [],
+        "collision_only_materials": [
+          {
+            "shader": "levels\\shared\\shaders\\multi\\checker_bright",
+            "physical_material": "default_material",
+            "native_index": 0,
+            "reason": "collision-only optional render reference"
+          },
+          {
+            "shader": "levels\\shared\\shaders\\multi\\checker",
+            "physical_material": "default_material",
+            "native_index": 0,
+            "reason": "collision-only optional render reference"
+          },
+          {
+            "shader": "levels\\solo\\s3d_tutorial\\shaders\\unsc_ship_06",
+            "physical_material": "hard_metal_solid",
+            "native_index": 89,
+            "reason": "collision-only optional render reference"
+          },
+          {
+            "shader": "levels\\shared\\shaders\\multi\\mp_metal",
+            "physical_material": "hard_metal_thick",
+            "native_index": 69,
+            "reason": "collision-only optional render reference"
+          },
+          {
+            "shader": "levels\\multi\\s3d_turf\\shaders\\checker",
+            "physical_material": "default_material",
+            "native_index": 0,
+            "reason": "collision-only optional render reference"
+          },
+          {
+            "shader": "levels\\multi\\s3d_waterfall\\shaders\\wtf_metal_01",
+            "physical_material": "hard_metal_solid",
+            "native_index": 89,
+            "reason": "collision-only optional render reference"
+          }
+        ],
+        "shared_visibility_tree_count": 485
+      },
+      "bsps": [
+        {
+          "source": "levels\\multi\\s3d_sky_bridgenew\\s3d_sky_bridgenew",
+          "group": "sbsp",
+          "datum": "0x90002409",
+          "resources": [
+            {
+              "field": "[zone] Asset Datum 1",
+              "datum": "0x91001535",
+              "raw_bytes": 0,
+              "source_binding": null
+            },
+            {
+              "field": "[zone] Asset Datum 2",
+              "datum": "0x91001536",
+              "raw_bytes": 52988262,
+              "source_binding": {
+                "bsp_index": 0,
+                "bsp_datum": "0x912728e7",
+                "lightmap_datum": "0xff2b1db5",
+                "resource_datum": "0xef6f0e0c",
+                "reconstructed_water_buffers": 0,
+                "ambient_quarter_stops": 0,
+                "powerhouse_room_fill": null
+              }
+            },
+            {
+              "field": "[zone] Tag Resources Asset Datum",
+              "datum": "0x91001537",
+              "raw_bytes": 6002129,
+              "source_binding": null
+            }
+          ],
+          "source_geometry": true,
+          "native_collision_materials": [],
+          "collision_only_materials": [
+            {
+              "shader": "levels\\shared\\shaders\\multi\\checker_bright",
+              "physical_material": "default_material",
+              "native_index": 0,
+              "reason": "collision-only optional render reference"
+            },
+            {
+              "shader": "levels\\shared\\shaders\\multi\\checker",
+              "physical_material": "default_material",
+              "native_index": 0,
+              "reason": "collision-only optional render reference"
+            },
+            {
+              "shader": "levels\\solo\\s3d_tutorial\\shaders\\unsc_ship_06",
+              "physical_material": "hard_metal_solid",
+              "native_index": 89,
+              "reason": "collision-only optional render reference"
+            },
+            {
+              "shader": "levels\\shared\\shaders\\multi\\mp_metal",
+              "physical_material": "hard_metal_thick",
+              "native_index": 69,
+              "reason": "collision-only optional render reference"
+            },
+            {
+              "shader": "levels\\multi\\s3d_turf\\shaders\\checker",
+              "physical_material": "default_material",
+              "native_index": 0,
+              "reason": "collision-only optional render reference"
+            },
+            {
+              "shader": "levels\\multi\\s3d_waterfall\\shaders\\wtf_metal_01",
+              "physical_material": "hard_metal_solid",
+              "native_index": 89,
+              "reason": "collision-only optional render reference"
+            }
+          ],
+          "shared_visibility_tree_count": 485
+        }
+      ],
+      "lightmap": {
+        "group": "sLdT",
+        "datum": "0x90002677",
+        "source": "levels\\multi\\s3d_sky_bridgenew\\s3d_sky_bridgenew_faux_lightmap",
+        "bsp_count": 1,
+        "probe_counts": {
+          "Airprobes": 10,
+          "Scenery Probes": 130,
+          "Device Machine Probes": 26
+        },
+        "source_lightmap_arrays": true,
+        "textures": [
+          {
+            "bsp": 0,
+            "role": "lightprobe",
+            "source": "levels\\multi\\s3d_sky_bridgenew\\s3d_sky_bridgenew_lightmap_s3d_sky_bridgenew_16f_lp_array_dxt5",
+            "datum": "0x90002675",
+            "width": 1536,
+            "height": 1536,
+            "layers": 8,
+            "tiled_bytes": 18874368,
+            "powerhouse_room_atlas_fill": null
+          },
+          {
+            "bsp": 0,
+            "role": "dominant",
+            "source": "levels\\multi\\s3d_sky_bridgenew\\s3d_sky_bridgenew_lightmap_s3d_sky_bridgenew_16f_lp_array_intensity_dxt5",
+            "datum": "0x90002676",
+            "width": 1536,
+            "height": 1536,
+            "layers": 2,
+            "tiled_bytes": 4718592,
+            "powerhouse_room_atlas_fill": null
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": "fb96270202d9e8330928727ad4e2aba862f3d40ec4d2cba8005a314bccda93ad",
+  "powerhouse_room_fill": 0.0,
+  "powerhouse_ambient_quarter_stops": 0,
+  "sky_bridge_collision": {
+    "references": 33059,
+    "source_nodes": 42706,
+    "rebuilt_nodes": 29940,
+    "source_sha256": "fb96270202d9e8330928727ad4e2aba862f3d40ec4d2cba8005a314bccda93ad",
+    "output_sha256": "d5bf3978c65bb2b287e09e4ed10703983aee215613262926fbf351f8c0bfff4b",
+    "membership_differences": [],
+    "status": "accepted"
+  },
+  "sound_banks": [
+    "D:\\SteamLibrary\\steamapps\\workshop\\content\\976730\\3003239190\\halo3\\fmod\\pc\\sfx.fsb",
+    "D:\\SteamLibrary\\steamapps\\common\\Halo The Master Chief Collection\\halo3\\fmod\\pc\\sfx.fsb"
+  ],
+  "script_conversion": {
+    "scripts": 57,
+    "globals": 8,
+    "active_expressions": 2475,
+    "opcode_changes": 1084
+  },
+  "stage_seconds": {
+    "runtime": 0.41,
+    "geometry": 37.86
+  },
+  "failed_stage": "objects",
+  "error": "No exact native effect donor: prt3:shaders\\particle_templates\\_5_10_0_2_0_1_0_1_0_0",
+  "metadata_used": 5726180,
+  "metadata_reserved": 12582912,
+  "seconds": 66.09
+}
