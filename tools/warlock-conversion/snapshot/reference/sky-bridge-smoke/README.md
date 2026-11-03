@@ -7,3 +7,5 @@ Use the per-pixel-lighting native donor _5_10_0_1_0_1_1_1_0_0 vertex graph; its 
 Source: Sky Bridge, Halo Online; General Heed / Priception, Halo Online Map Pack For Halo 3: https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190. This project supplies Xbox 360/OpenH3M adaptation.
 
 Build20 passed the unlit-smoke importer and reached soft_smoke_large_n2. Its _5_10_0_2_0_1_0_1_0_0 variant reuses native _5_10_0_2_0_1_1_1_0_0 only after the existing verifier proves every source emitter black point is zero. This preserves native per-vertex lighting. Build21 uses both conversions and the corrected unlit donor.
+
+Build21 passes both smoke variants using the final donor selection. Next failure is cloud bitmap sly_clouds_r_01, format28 (A16B16G16R16), unsupported by encode_bitmap. Preserve 16-bit texture precision through a native encoder; no format reduction or texture omission applied. The full map and single native launch remain outstanding.
