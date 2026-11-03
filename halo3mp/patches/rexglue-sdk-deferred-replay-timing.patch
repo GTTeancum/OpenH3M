@@ -1,0 +1,68 @@
+--- a/src/graphics/d3d12/deferred_command_list.cpp
++++ b/src/graphics/d3d12/deferred_command_list.cpp
+@@ -9,12 +9,17 @@
+  * @modified    Tom Clay, 2026 - Adapted for ReXGlue runtime
+  */
+ 
++#include <chrono>
++#include <rex/cvar.h>
++#include <rex/logging.h>
+ #include <rex/assert.h>
+ #include <rex/dbg.h>
+ #include <rex/graphics/d3d12/command_processor.h>
+ #include <rex/graphics/d3d12/deferred_command_list.h>
+ #include <rex/graphics/flags.h>
+ #include <rex/math.h>
++
++REXCVAR_DECLARE(bool, d3d12_log_present_timing);
+ 
+ namespace rex::graphics::d3d12 {
+ 
+@@ -36,10 +41,21 @@
+   const uintmax_t* stream = command_stream_.data();
+   size_t stream_remaining = command_stream_.size();
+   ID3D12PipelineState* current_pipeline_state = nullptr;
++  // Diagnostic-only wall time; a long call can include thread descheduling.
++  // Keep logging outside the replay loop so it cannot inflate the next call.
++  const bool trace_commands = REXCVAR_GET(d3d12_log_present_timing);
++  using TraceClock = std::chrono::steady_clock;
++  const auto batch_start = trace_commands ? TraceClock::now() : TraceClock::time_point{};
++  size_t traced_count = 0;
++  double maximum_call_ms = 0.0;
++  int slowest_command = -1;
++  double call_total_ms = 0.0;
++
+   while (stream_remaining != 0) {
+     const CommandHeader& header = *reinterpret_cast<const CommandHeader*>(stream);
+     stream += kCommandHeaderSizeElements;
+     stream_remaining -= kCommandHeaderSizeElements;
++    const auto call_start = trace_commands ? TraceClock::now() : TraceClock::time_point{};
+     switch (header.command) {
+       case Command::kD3DClearDepthStencilView: {
+         auto& args = *reinterpret_cast<const ClearDepthStencilViewHeader*>(stream);
+@@ -272,8 +288,25 @@
+         assert_unhandled_case(header.command);
+         break;
+     }
++    if (trace_commands) {
++      const double call_ms = std::chrono::duration<double, std::milli>(TraceClock::now() - call_start).count();
++      ++traced_count;
++      call_total_ms += call_ms;
++      if (call_ms > maximum_call_ms) {
++        maximum_call_ms = call_ms;
++        slowest_command = static_cast<int>(header.command);
++      }
++    }
+     stream += header.arguments_size_elements;
+     stream_remaining -= header.arguments_size_elements;
++  }
++  if (trace_commands) {
++    const double batch_ms = std::chrono::duration<double, std::milli>(TraceClock::now() - batch_start).count();
++    if (batch_ms >= 5.0) {
++      REXLOG_INFO("[deferred-replay] commands={} bytes={} batch_ms={:.3f} calls_ms={:.3f} max_call_ms={:.3f} slowest_command={}",
++          traced_count, command_stream_.size() * sizeof(uintmax_t), batch_ms,
++          call_total_ms, maximum_call_ms, slowest_command);
++    }
+   }
+ }
+ 

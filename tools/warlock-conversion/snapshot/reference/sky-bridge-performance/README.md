@@ -263,3 +263,32 @@ Next performance investigation should attribute time inside deferred-command
 execution rather than repeating the same unchanged route or suppressing real
 fence waits. Evidence: candidate29-quiet-movement-summary.json. No sustained
 full-map 30 FPS, visual/audio acceptance, console, or network claim is made.
+
+## Deferred-command diagnostic and non-reproduction
+
+Previous turn was progress: movement confirmed and a remaining 44.880 ms
+replay batch localized. Added optional per-command wall-clock timing under
+existing d3d12_log_present_timing, with logging only after batches >=5 ms.
+No graphics command or ordering changed. Normal play does not take per-command
+timestamps. Narrow SDK snapshot: rexglue-sdk-deferred-replay-timing.patch;
+reverse-apply check passed against the live source. Build passed; GPU backup,
+log, and binary manifest: work/sky-bridge/deferred-timing-build. Numeric command
+IDs are captured from the matching enum in deferred-command-ids.json.
+
+Same authorized native movement route, .local/loading-traces/20261103-174001-9228:
+11 hash checks passed, no failures or observer errors, 3.408 world units local
+motion, 198.497 degrees yaw. Process ended at 170.297 seconds and is closed.
+Full 110-165 window averaged 29.934 FPS; 110-155 averaged 29.926 FPS, p95
+33.736 ms, maximum 66.588 ms. Later 115-155 averaged 29.958 FPS, p95 33.728,
+maximum 50.497 ms. No replay batch >=5 ms was logged. The previous slow batch
+did not reproduce, so this does not identify a defective D3D call or justify
+changing draw/barrier behavior. Instrumentation and run variability prevent
+attributing this improvement to the diagnostic itself. Keep the probe available
+for recurrence; avoid repeated unchanged tests or speculative graphics changes.
+See candidate29-deferred-diagnostic-summary.json and analyze-deferred-replay.py.
+
+This establishes near-30 host timing over a bounded local movement route, not
+full-map visual/traversal acceptance. Human text feedback has been requested
+for the panels, animations and exposure. Candidate remains unreleased; no
+change to the existing LIVE release or goal closure. Audio, physical console
+and network verification remain outside the evidence gathered so far.
