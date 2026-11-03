@@ -1,0 +1,175 @@
+{
+  "performance-candidate29-01": {
+    "summary": {
+      "scope": "Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.",
+      "present_interval_ms": {
+        "n": 276,
+        "median": 200.1299999999901,
+        "p95": 259.2630000000063,
+        "maximum": 366.95800000001327
+      },
+      "nonconsecutive_frame_transitions": 0,
+      "gpu_ms_per_observed_frame": {
+        "n": 277,
+        "median": 28.804000000000002,
+        "p95": 55.606,
+        "maximum": 82.319
+      },
+      "submissions_per_observed_frame": {
+        "n": 277,
+        "median": 28,
+        "p95": 28,
+        "maximum": 29
+      },
+      "wait_ms_by_caller": {
+        "occlusion-readback": {
+          "n": 3053,
+          "median": 9.585,
+          "p95": 34.245,
+          "maximum": 69.369
+        },
+        "resolve-cache-miss": {
+          "n": 160,
+          "median": 9.642,
+          "p95": 17.179,
+          "maximum": 30.384
+        }
+      },
+      "wait_total_ms_by_caller": {
+        "occlusion-readback": 38791.834,
+        "resolve-cache-miss": 1644.638
+      },
+      "first_sample": [
+        110001.968,
+        1681
+      ],
+      "last_sample": [
+        164940.223,
+        1957
+      ],
+      "map_log_evidence": [
+        "[2026-11-03 17:04:07.866] [warning] [krnl] [t12072] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq_sky_bri_BBBBBBBB.temp' -> 0xc000000f"
+      ],
+      "caveats": [
+        "Waits under 5ms are not logged.",
+        "GPU timings and CPU waits overlap; do not add them.",
+        "Map/autosave log records alone do not verify visible gameplay."
+      ]
+    },
+    "completion": {
+      "exit_code": 1,
+      "seconds": 170.53200000000652
+    },
+    "launch": {
+      "pid": 18968,
+      "command": [
+        "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp.exe",
+        "--game_data_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-01\\game",
+        "--user_data_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-01\\user",
+        "--cache_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-01\\cache",
+        "--log_file=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-01\\runtime.log",
+        "--log_level=info",
+        "--log_max_file_size_mb=20",
+        "--log_max_files=6",
+        "--d3d12_log_present_timing=true",
+        "--d3d12_present_timing_end_ms=165000",
+        "--d3d12_async_occlusion_readback=false",
+        "--input_script=45000:DOWN+220,46000:A+250,55000:UP+220,56000:A+250,58000:DOWN+120,58700:DOWN+120,59400:DOWN+120,60100:DOWN+120,60800:DOWN+120,61500:DOWN+120,62200:DOWN+120,70000:A+250,72000:A+250,74000:DOWN+220,95000:A+250",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=false"
+      ],
+      "binary_hashes": {
+        "halo3mp.exe": "54c8e03981b06d319f3c81a0b52f1741bb88f4876b894cbec94ca9efa9a55326",
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "rexgpu-xenos.dll": "4d0f852671b025d42c6f188f66fd3f04c587908e38531eba91831c0d934925be",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      }
+    }
+  },
+  "performance-candidate29-async02": {
+    "summary": {
+      "scope": "Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.",
+      "present_interval_ms": {
+        "n": 1085,
+        "median": 50.0570000000007,
+        "p95": 66.5,
+        "maximum": 115.78599999999278
+      },
+      "nonconsecutive_frame_transitions": 0,
+      "gpu_ms_per_observed_frame": {
+        "n": 1086,
+        "median": 33.568,
+        "p95": 35.117999999999995,
+        "maximum": 52.336
+      },
+      "submissions_per_observed_frame": {
+        "n": 1086,
+        "median": 28.0,
+        "p95": 28,
+        "maximum": 29
+      },
+      "wait_ms_by_caller": {
+        "resolve-cache-miss": {
+          "n": 1086,
+          "median": 21.134,
+          "p95": 23.539,
+          "maximum": 35.473
+        }
+      },
+      "wait_total_ms_by_caller": {
+        "resolve-cache-miss": 23037.724
+      },
+      "first_sample": [
+        110000.583,
+        2576
+      ],
+      "last_sample": [
+        164971.831,
+        3661
+      ],
+      "map_log_evidence": [
+        "[2026-11-03 17:07:36.769] [warning] [krnl] [t24372] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq_sky_bri_BBBBBBBB.temp' -> 0xc000000f"
+      ],
+      "caveats": [
+        "Waits under 5ms are not logged.",
+        "GPU timings and CPU waits overlap; do not add them.",
+        "Map/autosave log records alone do not verify visible gameplay."
+      ]
+    },
+    "completion": {
+      "exit_code": 1,
+      "seconds": 170.31299999999464
+    },
+    "launch": {
+      "pid": 31300,
+      "command": [
+        "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp.exe",
+        "--game_data_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-async02\\game",
+        "--user_data_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-async02\\user",
+        "--cache_root=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-01\\cache",
+        "--log_file=C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\performance-candidate29-async02\\runtime.log",
+        "--log_level=info",
+        "--log_max_file_size_mb=20",
+        "--log_max_files=6",
+        "--d3d12_log_present_timing=true",
+        "--d3d12_present_timing_end_ms=165000",
+        "--d3d12_async_occlusion_readback=true",
+        "--input_script=45000:DOWN+220,46000:A+250,55000:UP+220,56000:A+250,58000:DOWN+120,58700:DOWN+120,59400:DOWN+120,60100:DOWN+120,60800:DOWN+120,61500:DOWN+120,62200:DOWN+120,70000:A+250,72000:A+250,74000:DOWN+220,95000:A+250",
+        "--input_script_button_state=true",
+        "--input_script_keystrokes=false"
+      ],
+      "binary_hashes": {
+        "halo3mp.exe": "54c8e03981b06d319f3c81a0b52f1741bb88f4876b894cbec94ca9efa9a55326",
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "rexgpu-xenos.dll": "4d0f852671b025d42c6f188f66fd3f04c587908e38531eba91831c0d934925be",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      }
+    }
+  }
+}

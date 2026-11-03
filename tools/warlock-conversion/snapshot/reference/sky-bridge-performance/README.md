@@ -45,3 +45,28 @@ gap between pre-import shader audits and the actual emitted cache. It does not
 supply runtime appearance or performance evidence. No launch record exists for
 the prepared timing run and no halo3mp process was running at this check.
 The user's answer about resuming runtime testing is still pending.
+
+## Authorized bounded runtime measurements
+
+The user explicitly authorized resuming bounded text-only runtime tests.
+Two candidate-29 runs completed and the watchdog closed each process within
+171 seconds. No captures or desktop input occurred. Both logs contain Sky Bridge
+autosave activity; this does not verify visible gameplay. The first wrapper
+reported its expected TimeoutExpired after cleanup; the second catches that
+expected watchdog exception. Neither exit code 1 is evidence of a game crash.
+
+Synchronous occlusion, cold private cache: median observed interval 200.13 ms;
+GPU sum 28.80 ms/frame; 3053 logged occlusion waits totaling 38.79 seconds in
+the 110-165 second window. Async occlusion, reused shader cache: median interval
+50.057 ms (about 20 FPS), p95 66.5 ms, GPU sum 33.568 ms/frame. No logged
+occlusion waits; 1086 resolve-cache-miss waits for 1086 observed frames, median
+21.134 ms. These runs share executable/DLL hashes but cache warmth differs.
+Do not claim a controlled speedup or 30 FPS acceptance.
+
+Next: distinguish resolve misses caused by missing buffers/size from pending
+GPU submissions. Inspect guest feedback address/length and required completion
+semantics before changing readback. Keep native exposure/bloom and actual GPU
+visibility results. Simply disabling readback or fabricating samples is not a fix.
+A logging-only quiet-visibility-query patch is prepared (not applied) because
+16172 of 40395 first-run log lines were per-query begin/end chatter.
+The actual visual fix and traversal/console performance remain unverified.

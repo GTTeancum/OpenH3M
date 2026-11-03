@@ -6,10 +6,11 @@ def digest(p):
  with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');parser.add_argument('--async-occlusion',action='store_true');parser.add_argument('--warm-cache',action='store_true');parser.add_argument('--run-name',default='performance-candidate29-01');args=parser.parse_args()
+ if not __import__('re').fullmatch(r'performance-candidate29-[a-z0-9-]+',args.run_name):raise ValueError('Invalid run name')
  root=Path.cwd().resolve()
  assert root==Path('C:/X360/ISOs/H3M/.local/OpenH3M-source').resolve()
- run=root/'work/sky-bridge/performance-candidate29-01';run.mkdir(exist_ok=True)
+ run=root/'work/sky-bridge'/args.run_name;run.mkdir(exist_ok=True)
  for name in ('temp','profile','cache','game'):(run/name).mkdir(exist_ok=True)
  source=Path('C:/X360/ISOs/H3M/.local/custom-maps-play')
  game=run/'game'
@@ -21,6 +22,7 @@ def main():
   content=run/'user/0000000000000000/4D5307E6/00000002/SkyBridge';content.mkdir(parents=True,exist_ok=True)
   for p in payload.iterdir():shutil.copyfile(p,content/p.name)
   (run/'prepared.json').write_text(json.dumps(dict(game=str(game),payload_sha256=digest(content/'sky_bridge.map'),cache='fresh private cache; cold run'),indent=2))
+ cache=(root/'work/sky-bridge/performance-candidate29-01/cache') if args.warm_cache else run/'cache'
  expected=json.loads((root/'work/sky-bridge/wait-attribution-build/after-hashes.json').read_text())
  bindir=root/'work/rexglue-sdk/out/win-amd64'
  for name,value in expected.items():
@@ -28,12 +30,12 @@ def main():
  old=json.loads((root/'work/sky-bridge/performance-baseline-01/launch.json').read_text())['command']
  steps=next(x for x in old if x.startswith('--input_script='))
  cmd=[str(bindir/'halo3mp.exe'),f'--game_data_root={game}',f'--user_data_root={run/"user"}',
-      f'--cache_root={run/"cache"}',f'--log_file={run/"runtime.log"}','--log_level=info',
+      f'--cache_root={cache}',f'--log_file={run/"runtime.log"}','--log_level=info',
       '--log_max_file_size_mb=20','--log_max_files=6','--d3d12_log_present_timing=true',
-      '--d3d12_present_timing_end_ms=165000','--d3d12_async_occlusion_readback=false',
+      '--d3d12_present_timing_end_ms=165000','--d3d12_async_occlusion_readback='+str(args.async_occlusion).lower(),
       steps,'--input_script_button_state=true','--input_script_keystrokes=false']
  assert not any('capture' in arg for arg in cmd)
- (run/'prepared-command.json').write_text(json.dumps(dict(command=cmd,binary_hashes=expected,
+ (run/'prepared-command.json').write_text(json.dumps(dict(command=cmd,binary_hashes=expected,cache_reused=args.warm_cache,
   controls='Process-local menu input only. No captures. 170-second watchdog, then terminate/kill.'),indent=2))
  if not args.run:
   print('Prepared only; no process launched.');return
@@ -53,6 +55,8 @@ def main():
   (run/'launch.json').write_text(json.dumps(dict(pid=process.pid,command=cmd,binary_hashes=expected),indent=2))
   try:
    process.wait(timeout=170)
+  except subprocess.TimeoutExpired:
+   pass  # Expected watchdog expiry; cleanup below still enforces the limit.
   finally:
    if process.poll() is None:
     process.terminate()
