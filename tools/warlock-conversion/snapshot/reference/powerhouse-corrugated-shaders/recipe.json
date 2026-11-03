@@ -1,0 +1,108 @@
+{
+  "reviewed_candidate": 124,
+  "validation_status": "Private candidate124: source/interface checks pass; revised shared-register allocation awaits native testing.",
+  "reserve_lightmap_upload_blocks": true,
+  "profile_compatibility_patch": true,
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_default_ps",
+    "/Dcalc_albedo_vs=calc_albedo_default_vs",
+    "/Dcalc_bumpmap_ps=calc_bumpmap_default_ps",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_default_vs",
+    "/Dcalc_alpha_test_ps=calc_alpha_test_off_ps",
+    "/Dcalc_specular_mask_ps=calc_specular_mask_color_texture_ps",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_simple_ps",
+    "/Dcalc_parallax_ps=calc_parallax_off_ps",
+    "/Dcalc_parallax_vs=calc_parallax_off_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dmaterial_type=cook_torrance",
+    "/Denvmap_type=per_pixel",
+    "/Dblend_type=opaque",
+    "/Dbitmap_rotation=0"
+  ],
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "microcode_sha256": "d4e4b902f07ffbfb979f401e238f63fe24e00315f16878bacdc7f0e7e054dc37"
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "microcode_sha256": "993f35a42f9983af4da61b569f6936d57db61bb1a11b95e806f62bd0aba86fe3"
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "microcode_sha256": "4da9dbed4921ecf9968ac6d74b3eb57367845cb4006adafcbab9c380b70f6a79"
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "microcode_sha256": "0d82ea966827f94dacac3b2feb2d8c4917fa1ea0ed78b6c987a15a65f760b44f"
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "microcode_sha256": "addbee66cdc12a4339083cd6c42f79738a29b71450abc9829675396722a0bf43"
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "microcode_sha256": "addbee66cdc12a4339083cd6c42f79738a29b71450abc9829675396722a0bf43"
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "microcode_sha256": "addbee66cdc12a4339083cd6c42f79738a29b71450abc9829675396722a0bf43"
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "microcode_sha256": "d77ec82b63565475996ebf5a0f8d4d9ab262468e0beaf9a3b98d2dd1938bde8d"
+    },
+    {
+      "entry": 10,
+      "name": "shadow_generate",
+      "microcode_sha256": "ef1baed471e39f57afcc8d11a0113fdc9e78b9ccd0555b8522456f5133db484c"
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "microcode_sha256": "693ae53d2581f3ca2a3ba3d6e0dfc281b3e27727f03e99b7f6525584a7aae08d"
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "microcode_sha256": "651c1ac1103206052ed2f467b0f6cc1ec2a5fdee9febb05b82cb92e5de823b0c"
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "microcode_sha256": "b1258676f8d45189c58896e4bbdf344031d9f3076a69c2adb3024e7df1eec0b3"
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "microcode_sha256": "e6aa14bda51691bbdad7750874444b9e3c36714402ae05980c88dd9339baa4a6"
+    }
+  ],
+  "source_attribution": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "reserve_shared_upload_blocks": true
+}

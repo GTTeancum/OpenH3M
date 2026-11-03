@@ -1,0 +1,32 @@
+--- xenos-source/self_illumination.fx
++++ xenos-source/self_illumination.fx
+@@ -14,7 +14,17 @@
+ 
+ PARAM_SAMPLER_2D(self_illum_map);
+ PARAM(float4, self_illum_map_xform);
+-PARAM(float4, self_illum_color);
++PIXEL_CONSTANT(float4, self_illum_color, c102);
++PIXEL_CONSTANT(float4, p_external_upload_padding_11, c11);
++PIXEL_CONSTANT(float4, p_external_upload_padding_13, c13);
++PIXEL_CONSTANT(float4, p_external_upload_padding_98, c98);
++PIXEL_CONSTANT(float4, p_external_upload_padding_99, c99);
++PIXEL_CONSTANT(float4, p_external_upload_padding_100, c100);
++PIXEL_CONSTANT(float4, p_external_upload_padding_101, c101);
++PIXEL_CONSTANT(float4, p_external_upload_padding_103, c103);
++PIXEL_CONSTANT(float4, p_external_upload_padding_233, c233);
++PIXEL_CONSTANT(float4, p_external_upload_padding_234, c234);
++PIXEL_CONSTANT(float4, p_external_upload_padding_235, c235);
+ 
+ float3 calc_self_illumination_simple_ps(
+ 	in float2 texcoord,
+--- xenos-source/material_models.fx
++++ xenos-source/material_models.fx
+@@ -76,7 +76,7 @@
+ PARAM(bool, use_material_texture);
+ #endif
+ PARAM(bool, order3_area_specular);
+-PARAM(bool, no_dynamic_lights);
++PIXEL_CONSTANT(bool, no_dynamic_lights, b2);
+ 
+ 
+ //*****************************************************************************

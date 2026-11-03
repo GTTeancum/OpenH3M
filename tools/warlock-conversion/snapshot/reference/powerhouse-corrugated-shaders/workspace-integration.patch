@@ -1,0 +1,146 @@
+--- a/tools/warlock-conversion/snapshot/tools/powerhouse_compiled_concrete.py
++++ b/tools/warlock-conversion/snapshot/tools/powerhouse_compiled_concrete.py
+@@ -10,8 +10,8 @@
+ from pathlib import Path
+ 
+ 
+-def bind_compiled_concrete(materials, post, names, directory, *, blend_mode=0, river=False, grate=False, window=False, opaque_grate=False):
+-    if sum((river, grate, window, opaque_grate)) > 1:
++def bind_compiled_concrete(materials, post, names, directory, *, blend_mode=0, river=False, grate=False, window=False, opaque_grate=False, corrugated=False):
++    if sum((river, grate, window, opaque_grate, corrugated)) > 1:
+         raise ValueError('Choose one reviewed material profile')
+     if blend_mode != (3 if river else 0):
+         raise ValueError('Reviewed compiled material blend mode changed')
+@@ -55,6 +55,19 @@
+     if opaque_grate:
+         added_constants = ['bump_detail_coefficient']
+         added_textures = []
++    if corrugated:
++        added_constants = ['specular_mask_texture', 'self_illum_map', 'self_illum_intensity']
++        added_textures = ['specular_mask_texture', 'self_illum_map']
++        from lightmap_register_reservations import require_safe_material_routes, require_safe_shared_float_uploads
++        require_safe_material_routes(plan)
++        require_safe_shared_float_uploads(plan)
++        for program in plan['programs']:
++            if any(100 <= route[0] < 104 for route in program['usages'][4]):
++                raise ValueError('Corrugated material overlaps fourth-color upload block')
++            color = [r for r in program['registers'] if r['name'] == 'self_illum_color']
++            if color and (color != [dict(name='self_illum_color', set=2, register=102, count=1)]
++                          or [102, 18, 0] not in program['usages'][10]):
++                raise ValueError('Corrugated fourth-color external binding changed')
+     if textures + added_textures != plan['names']['0'] or constants + added_constants != plan['names']['4']:
+         raise ValueError('Compiled concrete donor parameter names changed')
+     for offset,expected in ((108,textures),(72,constants)):
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -77,7 +77,8 @@
+             owner, address = self.registry.newtag('bitm', root)
+             records, resources = bytearray(), bytearray()
+             for index in range(len(rows)):
+-                record, control, raw = encode_cubemap_base(self.bitmaps, tag, index)
++                record, control, raw = encode_cubemap_base(self.bitmaps, tag, index,
++                    preserve_mips=(key[1] == r'levels\multi\s3d_powerhouse\bitmaps\d_cubemap_vertical_noise'))
+                 resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
+                     {'control': control, 'raw': raw, 'root': 52,
+                      'fixups': [(12, 0x40000000), (52, 0x20000000)], 'interops': [(0x20000034, 2)]})
+@@ -773,6 +774,17 @@
+             variants = [1, 2, 0, 2, 2, 1, 0, 0, 0, 0]
+             sky_template = r'shaders\shader_templates\_1_2_0_2_2_0_0_0_0_0'
+             prisoner_template = True
++        compiled_corrugated_directory = os.environ.get('OPENH3M_POWERHOUSE_CORRUGATED_SHADER_DIR')
++        powerhouse_compiled_corrugated = bool(compiled_corrugated_directory and source_filename == 's3d_powerhouse.map'
++            and key == ('rmsh', r'levels\multi\s3d_powerhouse\shaders\m30_metal_corrugated_sheet'))
++        compiled_corrugated_evidence = None
++        if powerhouse_compiled_corrugated:
++            if (not s.name(s.u(source_post + 12) & 65535).endswith('_0_1_0_3_1_1_9_0_0_0_0_0_0')
++                    or s.u(source_post + 52) or s.u(source_post + 92)):
++                raise ValueError('Powerhouse corrugated options changed; re-audit required')
++            variants = [0, 1, 0, 3, 1, 1, 9, 0, 0, 0]
++            sky_template = r'shaders\shader_templates\_0_1_0_1_1_1_0_0_0_0'
++            prisoner_template = True
+         compiled_splash_directory = os.environ.get('OPENH3M_POWERHOUSE_SPLASH_SHADER_DIR')
+         compiled_window_directory = os.environ.get('OPENH3M_POWERHOUSE_WINDOW_SHADER_DIR')
+         powerhouse_compiled_window = bool(compiled_window_directory and source_filename == 's3d_powerhouse.map'
+@@ -856,6 +868,8 @@
+                 donor_options = dict(preferred_map='docks.map')
+             if powerhouse_compiled_window or powerhouse_compiled_opaque_grate:
+                 donor_options = dict(preferred_map='bunkerworld.map')
++            if powerhouse_compiled_corrugated:
++                donor_options = dict(preferred_map='construct.map')
+             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
+             if powerhouse_compiled_concrete:
+                 from powerhouse_compiled_concrete import bind_compiled_concrete
+@@ -877,6 +891,10 @@
+                 from powerhouse_compiled_concrete import bind_compiled_concrete
+                 native_sky_post, names, compiled_opaque_grate_evidence = bind_compiled_concrete(
+                     self, native_sky_post, names, compiled_opaque_grate_directory, opaque_grate=True)
++            if powerhouse_compiled_corrugated:
++                from powerhouse_compiled_concrete import bind_compiled_concrete
++                native_sky_post, names, compiled_corrugated_evidence = bind_compiled_concrete(
++                    self, native_sky_post, names, compiled_corrugated_directory, corrugated=True)
+             if powerhouse_compiled_splash:
+                 from powerhouse_compiled_splash import bind_compiled_splash
+                 native_sky_post, names, compiled_splash_evidence = bind_compiled_splash(
+@@ -1149,6 +1167,7 @@
+             'powerhouse_compiled_concrete': compiled_concrete_evidence,
+             'powerhouse_compiled_river': compiled_river_evidence,
+             'powerhouse_compiled_grate': compiled_grate_evidence,
++            'powerhouse_compiled_corrugated': compiled_corrugated_evidence,
+             'powerhouse_compiled_window': compiled_window_evidence,
+             'powerhouse_compiled_opaque_grate': compiled_opaque_grate_evidence,
+             'powerhouse_compiled_splash': compiled_splash_evidence,
+--- a/tools/warlock-conversion/snapshot/tools/build_powerhouse_water_shaders.py
++++ b/tools/warlock-conversion/snapshot/tools/build_powerhouse_water_shaders.py
+@@ -31,7 +31,7 @@
+ 
+ def build(source, output, compiler, kind="water"):
+     reference = REFERENCE.parent / f"powerhouse-{kind}-shaders"
+-    extended = kind in ('concrete', 'grate', 'window', 'opaque-grate')
++    extended = kind in ('concrete', 'grate', 'window', 'opaque-grate', 'corrugated')
+     route_name = 'route-plan.json' if extended else 'splash-route-plan.json'
+     program_prefix = 'concrete-' if extended else 'splash-'
+     source, output = confined(source), confined(output)
+@@ -47,6 +47,8 @@
+               reference / 'recipe.json', reference / route_name,
+               reference / 'native-interface-audit.json', Path(__file__),
+               Path(lightmap_register_reservations.__file__)]
++    if recipe.get('profile_compatibility_patch'):
++        inputs.append(reference / 'profile-compatibility.patch')
+     fingerprint = digest(b''.join(path.read_bytes() for path in inputs))
+     marker = output / 'build-manifest.json'
+     if marker.is_file():
+@@ -79,14 +81,24 @@
+     if recipe.get('reserve_lightmap_upload_blocks'):
+         header = adapted / 'hlsl_constant_persist.fx'
+         header.write_text(lightmap_register_reservations.reserve_source(header.read_text()))
++    if recipe.get('profile_compatibility_patch'):
++        for name in re.findall(r'^\+\+\+ xenos-source/(\S+)$', (reference / 'profile-compatibility.patch').read_text(), re.M):
++            target = confined(adapted / name)
++            target.write_text(target.read_text(), newline='\n')
++        subprocess.run(['git', 'apply', '--whitespace=nowarn',
++                        '--directory=' + adapted.relative_to(REPOSITORY).as_posix(),
++                        str(reference / 'profile-compatibility.patch')],
++                       cwd=REPOSITORY, env=env, check=True, timeout=30)
+     wrapper = output / 'water-xenos.fx'
+-    wrapper.write_text(('#define H3_MATERIAL_TEXTURE_FLOAT 1\n' if kind in ('water', 'grate', 'window', 'opaque-grate') else '') +
++    wrapper.write_text(('#define H3_MATERIAL_TEXTURE_FLOAT 1\n' if kind in ('water', 'grate', 'window', 'opaque-grate', 'corrugated') else '') +
+                        'float4 v_squish_params;\nbool v_mesh_squished;\n'
+                        '#define BUMP_GET_CHANNELS(BM) ((BM).rg)\n'
+                        '#include "xenos-source/shader.fx"\n')
+     plan = json.loads((reference / route_name).read_text())
+     if recipe.get('reserve_lightmap_upload_blocks'):
+         lightmap_register_reservations.require_safe_material_routes(plan)
++    if recipe.get('reserve_shared_upload_blocks'):
++        lightmap_register_reservations.require_safe_shared_float_uploads(plan)
+     expected_registers = {p['entry']: p['registers'] for p in plan['programs']}
+     results = []
+     for program in recipe['programs']:
+@@ -132,7 +144,7 @@
+ if __name__ == '__main__':
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--source', default='work/powerhouse/shader-toolchain/reference/halo_online_shaders')
+-    parser.add_argument('--kind', choices=('water', 'splash', 'concrete', 'grate', 'window', 'opaque-grate'), default='water')
++    parser.add_argument('--kind', choices=('water', 'splash', 'concrete', 'grate', 'window', 'opaque-grate', 'corrugated'), default='water')
+     parser.add_argument('--output')
+     parser.add_argument('--compiler', type=Path,
+                         default=Path(os.environ.get('XEDK', r'C:\Program Files (x86)\Microsoft Xbox 360 SDK')) / 'bin/win32/fxc.exe')

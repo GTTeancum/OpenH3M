@@ -41,3 +41,34 @@ def require_safe_material_routes(plan):
     collisions = material_collisions(plan)
     if collisions:
         raise ValueError('Material routes overlap persistent lightmap upload blocks: ' + str(collisions))
+
+
+def shared_float_upload_collisions(plan):
+    """Check material uploads against rounded blocks used by reflected globals.
+
+    Union all programs because engine constants can persist across draw passes.
+    This covers globals present in the plan, not unobserved engine registers.
+    """
+    blocks = {}
+    for program in plan['programs']:
+        fixed = set(program.get('persistent', []))
+        external = {route[0] for route in program['usages'][10]}
+        for value in program['registers']:
+            if value['set'] != 2:
+                continue
+            start, count = value['register'], value['count']
+            if value['name'].lower() not in fixed and not any(start <= r < start + count for r in external):
+                continue
+            for register in range(start // 4 * 4, (start + count + 3) // 4 * 4):
+                blocks.setdefault(register, set()).add(value['name'].lower())
+    return [dict(entry=program['entry'], name=program['name'], register=register,
+                 parameter=parameter, shared=sorted(blocks[register]))
+            for program in plan['programs']
+            for register, parameter, flags in program['usages'][4]
+            if register in blocks]
+
+
+def require_safe_shared_float_uploads(plan):
+    collisions = shared_float_upload_collisions(plan)
+    if collisions:
+        raise ValueError('Material uploads overlap shared float blocks: ' + str(collisions))

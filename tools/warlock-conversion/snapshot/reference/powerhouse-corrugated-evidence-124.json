@@ -1,0 +1,568 @@
+{
+  "source": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "latest_private_candidate": 124,
+  "latest_sha256": "6b9e73c9a2d41494de64708dc5f2b8f6dccbd7978780049959bb0fc624dcc040",
+  "basis": 115,
+  "bsp_slots": [
+    110
+  ],
+  "source_constants_exact": true,
+  "source_booleans_preserved": true,
+  "source_2d_texture_mips": {
+    "candidate": "work\\powerhouse\\zanzibar-124.map",
+    "source": "D:\\SteamLibrary\\steamapps\\workshop\\content\\976730\\3003239190\\maps\\s3d_powerhouse.map",
+    "passed": true,
+    "checks": [
+      {
+        "texture": "base_map",
+        "width": 512,
+        "height": 512,
+        "format": 16,
+        "source_base_mip": 0,
+        "native_mips": 10,
+        "exact_mips": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "texture": "detail_map",
+        "width": 320,
+        "height": 320,
+        "format": 16,
+        "source_base_mip": 1,
+        "native_mips": 1,
+        "exact_mips": [
+          true
+        ]
+      },
+      {
+        "texture": "bump_map",
+        "width": 320,
+        "height": 320,
+        "format": 33,
+        "source_base_mip": 1,
+        "native_mips": 1,
+        "exact_mips": [
+          true
+        ]
+      },
+      {
+        "texture": "specular_mask_texture",
+        "width": 320,
+        "height": 320,
+        "format": 16,
+        "source_base_mip": 1,
+        "native_mips": 1,
+        "exact_mips": [
+          true
+        ]
+      },
+      {
+        "texture": "material_texture",
+        "width": 512,
+        "height": 512,
+        "format": 16,
+        "source_base_mip": 0,
+        "native_mips": 10,
+        "exact_mips": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "texture": "self_illum_map",
+        "width": 320,
+        "height": 320,
+        "format": 16,
+        "source_base_mip": 1,
+        "native_mips": 1,
+        "exact_mips": [
+          true
+        ]
+      }
+    ],
+    "scope": "All retained BC blocks after required DXN conversion; not a live GPU fetch check.",
+    "excluded": "environment_map is a cube and requires separate face-aware verification"
+  },
+  "source_cube_face_mips": {
+    "source": "D:\\SteamLibrary\\steamapps\\workshop\\content\\976730\\3003239190\\maps\\s3d_powerhouse.map",
+    "candidate": "work\\powerhouse\\zanzibar-124.map",
+    "source_bitmap": 9191,
+    "target_bitmap": 10683,
+    "width": 64,
+    "mip_count": 7,
+    "checks": [
+      {
+        "face": 0,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 0,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 1,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 2,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 3,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 4,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 0,
+        "bytes": 16384,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 1,
+        "bytes": 4096,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 2,
+        "bytes": 1024,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 3,
+        "bytes": 256,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 4,
+        "bytes": 64,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 5,
+        "bytes": 16,
+        "exact": true
+      },
+      {
+        "face": 5,
+        "mip": 6,
+        "bytes": 4,
+        "exact": true
+      }
+    ],
+    "passed": true,
+    "scope": "Decoded source/native cube payload comparison; does not prove live sampling."
+  },
+  "geometry_and_lens": {
+    "geometry": {
+      "vertex": {
+        "buffers": 1951,
+        "bytes": 36978576,
+        "bit_exact": true
+      },
+      "index": {
+        "buffers": 453,
+        "bytes": 3609120,
+        "bit_exact": true
+      }
+    },
+    "existing_lens_tags_byte_exact": 42
+  },
+  "programs_reproduced": 13,
+  "native_interfaces_passed": 12,
+  "shared_float_collisions_latest": 0,
+  "superseded_allocation_collisions": 45,
+  "native_runs": [
+    {
+      "test": 121,
+      "candidate": 121,
+      "run": ".local\\loading-traces\\20261103-100316-29688",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Corrugated panels visibly render; first version retained only base cube mip, superseded.",
+      "hash_summary": [
+        {
+          "seconds": 180.36,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog"
+    },
+    {
+      "test": 123,
+      "candidate": 123,
+      "run": ".local\\loading-traces\\20261103-100753-9848",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Full cube-mip candidate visibly renders corrugated panels; no obvious regression against matched baseline122.",
+      "hash_summary": [
+        {
+          "seconds": 180.328,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog"
+    },
+    {
+      "test": 122,
+      "candidate": 115,
+      "run": ".local\\loading-traces\\20261103-101113-27176",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Matched baseline view of prior material; no major stationary appearance difference observed.",
+      "hash_summary": [
+        {
+          "seconds": 180.406,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog"
+    }
+  ],
+  "gpu_evidence_123": {
+    "draw_count": 4096,
+    "matched_draws": 15,
+    "lighting_groups": [
+      {
+        "entry": 4,
+        "index_count": 408,
+        "fourth_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "intensity": [
+          8.0,
+          8.0,
+          8.0,
+          8.0
+        ],
+        "environment_fetch": {
+          "register": 1,
+          "words": [
+            "0x80824802",
+            "0x1ba46086",
+            "0x1407e03f",
+            "0xa80c14",
+            "0x183",
+            "0x1ba5ee18"
+          ],
+          "type": 2,
+          "pitch": 64,
+          "tiled": 1,
+          "format": 6,
+          "base": "0x1ba46000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1546,
+          "mip_min": 0,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x1ba5e000"
+        }
+      },
+      {
+        "entry": 4,
+        "index_count": 1224,
+        "fourth_color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "intensity": [
+          8.0,
+          8.0,
+          8.0,
+          8.0
+        ],
+        "environment_fetch": {
+          "register": 1,
+          "words": [
+            "0x80824802",
+            "0x1ba46086",
+            "0x1407e03f",
+            "0xa80c14",
+            "0x183",
+            "0x1ba5ee18"
+          ],
+          "type": 2,
+          "pitch": 64,
+          "tiled": 1,
+          "format": 6,
+          "base": "0x1ba46000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1546,
+          "mip_min": 0,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x1ba5e000"
+        }
+      }
+    ],
+    "lightmap_scales_stable": true
+  },
+  "other_profile_overlap_counts": {
+    "concrete": 46,
+    "grate": 47,
+    "window": 7,
+    "water": 48,
+    "splash": 49
+  },
+  "remaining": [
+    "Candidate124 revised register allocation needs native visual and draw validation;123 findings do not prove124.",
+    "Apply reflected shared-block protection to other custom profiles and revalidate.",
+    "Water detail, splash, moving parallax and broader gameplay/audio/Forge/console/System Link remain incomplete.",
+    "Full rebuild still gated by flare-layout decision; no installation or push."
+  ]
+}
