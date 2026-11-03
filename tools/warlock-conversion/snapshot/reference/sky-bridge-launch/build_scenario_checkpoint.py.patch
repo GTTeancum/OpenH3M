@@ -1,0 +1,12 @@
+--- tools\warlock-conversion\snapshot\tools\build_scenario_checkpoint.py
++++ tools\warlock-conversion\snapshot\tools\build_scenario_checkpoint.py
+@@ -210,7 +210,8 @@
+                 state['limitations'].append('Development candidate: split containment and native validation pending.')
+             elif not state['collision_budget']['conversion_ready']:
+                 raise ValueError('Forge World needs an offline large-collision BSP rebuild/partition before retail conversion; see collision_budget in report. No engine limits may be raised.')
+-        builder = MapBuilder(str(args.basis), 0xc00000 if args.slot != 'lockout' else 0x800000)
++        metadata_reserve = 0x1000000 if args.source.name == 's3d_sky_bridgenew.map' else (0xc00000 if args.slot != 'lockout' else 0x800000)
++        builder = MapBuilder(str(args.basis), metadata_reserve)
+         bank_paths = [args.sound_bank, *args.additional_sound_bank]
+         state['sound_banks'] = [str(path.resolve(strict=True)) for path in bank_paths]
+         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBanks(
