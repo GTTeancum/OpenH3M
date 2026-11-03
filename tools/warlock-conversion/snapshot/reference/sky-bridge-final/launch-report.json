@@ -1,0 +1,38 @@
+{
+  "map": "Sky Bridge",
+  "candidate": 27,
+  "map_sha256": "91727b856e5f0b9bf12509faf989c55910cda89d39cfa1f428f6be918de337f0",
+  "result": "launch passed",
+  "mode": "Slayer",
+  "runtime": "OpenH3M",
+  "run": ".local\\loading-traces\\20261103-150807-11988",
+  "seconds": 180,
+  "termination": "bounded watchdog; harness exit0",
+  "hash_checks": {
+    "passed": 11,
+    "failed": 0
+  },
+  "captures": [
+    {
+      "path": ".local\\loading-traces\\20261103-150807-11988\\proof-loaded_145137ms.png",
+      "sha256": "7e72f563d067d103a3f71414e7b2ba3a5b321d5c6e7b02a4f960aaf63db6adbc",
+      "inspected": true
+    },
+    {
+      "path": ".local\\loading-traces\\20261103-150807-11988\\proof-loaded_170137ms.png",
+      "sha256": "5631247f6e051451d95c079df8c6eae63ee3df4bae240c6414396ae7e2f7bede",
+      "inspected": true
+    }
+  ],
+  "observed": "Both captures show the authored spawn area with textured architectural geometry, illuminated welcome signage, corridors, assault rifle and HUD. Player remains in-game through second capture.",
+  "limitations": [
+    "Launch check only; not a full traversal, audio, Forge-menu or system-link test.",
+    "Not tested on physical Xbox 360.",
+    "Small dark seams/speckles visible on some surfaces remain for user playtest feedback."
+  ],
+  "conversion_choices": [
+    "Original Halo3 flare placement and circular scaling, preserving flare images.",
+    "Original Halo3 camera effects; newer SSAO and screen-space sun shafts omitted by user choice."
+  ],
+  "previous_failure": "Candidate26 crashed initializing aliased vertex shader runtime headers; candidate27 gives each shader a private header and preserves all3841 program hashes."
+}
