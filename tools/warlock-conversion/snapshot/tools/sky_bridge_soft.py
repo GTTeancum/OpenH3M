@@ -163,6 +163,23 @@ def bind_soft_vertices(materials, definition, directory):
         struct.pack_into('>III',row,40,len(registers),b.alloc(reflection),0);row[56:68]=bytes(12)
         gprs=int(re.search(r'VsMaxReg=(\d+)',assembly).group(1))+1
         struct.pack_into('>II',row,72,gprs,b.alloc(info));programs[item['shader']]=row
+    # H3 initializes every glvs header in place, clearing its original +16
+    # code pointer. Unchanged rows in this cloned tag still need private
+    # headers; sharing them with the donor causes a second initialization.
+    replaced = {item['shader'] for item in plan}
+    for index, original_row in enumerate(programs):
+        if index in replaced:
+            continue
+        row = bytearray(original_row)
+        pointer = struct.unpack_from('>I', row, 76)[0]
+        if not pointer:
+            continue
+        magic, debug_size, code_size = struct.unpack('>III', b.read(pointer + 0x368, 12))
+        if magic >> 16 != 0x102a or debug_size < 28 or not code_size:
+            raise ValueError('Invalid unchanged vertex header')
+        private = b.alloc(b.read(pointer, 0x368 + debug_size))
+        struct.pack_into('>I', row, 76, private)
+        programs[index] = row
     struct.pack_into('>III',vertex,16,len(programs),b.alloc(b''.join(programs)),0)
     datum,_=registry.newtag('glvs',vertex);struct.pack_into('>I',root,80,datum)
     datum,_=registry.newtag('rmdf',root)
