@@ -1,0 +1,16 @@
+--- tools\warlock-conversion\snapshot\tools\xbox_mip_chain.py
++++ tools\warlock-conversion\snapshot\tools\xbox_mip_chain.py
+@@ -51,10 +51,10 @@
+ 
+ 
+ def tile_chain(payload, width, height, count, fmt):
+-    if fmt not in (11, 14, 15, 16, 22, 26, 33):
++    if fmt not in (11, 14, 15, 16, 22, 26, 28, 33):
+         raise ValueError('Packed mip encoder requires BC1/2/3/5')
+-    bpb = 2 if fmt == 22 else 4 if fmt in (11,26) else 8 if fmt == 14 else 16
+-    rows, size = layout(width, height, count, bpb, 1 if fmt in (11,22,26) else 4)
++    bpb = 2 if fmt == 22 else 4 if fmt in (11,26) else 8 if fmt in (14,28) else 16
++    rows, size = layout(width, height, count, bpb, 1 if fmt in (11,22,26,28) else 4)
+     if len(payload) != sum(n for _, n in rows):
+         raise ValueError('Authored mip chain length mismatch')
+     out = np.zeros(size, dtype=np.uint8)

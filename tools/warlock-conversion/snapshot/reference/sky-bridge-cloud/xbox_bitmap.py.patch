@@ -1,0 +1,24 @@
+--- tools\warlock-conversion\snapshot\tools\xbox_bitmap.py
++++ tools\warlock-conversion\snapshot\tools\xbox_bitmap.py
+@@ -15,8 +15,8 @@
+  return ((v&~255)<<4)|((v&224)<<3)|(bank<<11)|(pipe<<6)|((v&16)<<1)|((y&1)<<4)|(v&15)
+ 
+ def tile_base(payload,width,height,fmt):
+- if fmt not in (11,14,15,16,22,26,33):raise ValueError(f'Unsupported block format {fmt}')
+- wb=width if fmt in (11,22,26) else (width+3)//4;hb=height if fmt in (11,22,26) else (height+3)//4;bpb=4 if fmt in (11,26) else 2 if fmt==22 else (8 if fmt==14 else 16)
++ if fmt not in (11,14,15,16,22,26,28,33):raise ValueError(f'Unsupported block format {fmt}')
++ wb=width if fmt in (11,22,26,28) else (width+3)//4;hb=height if fmt in (11,22,26,28) else (height+3)//4;bpb=4 if fmt in (11,26) else 2 if fmt==22 else (8 if fmt in (14,28) else 16)
+  n=wb*hb*bpb
+  if len(payload)<n:raise ValueError('Base mip truncated')
+  pos=addresses(wb,hb,bpb).reshape(-1)
+@@ -30,8 +30,8 @@
+  return out.tobytes()
+ 
+ def untile_base(payload,width,height,fmt):
+- if fmt not in (11,14,15,16,22,26,33):raise ValueError(f'Unsupported block format {fmt}')
+- wb=width if fmt in (11,22,26) else (width+3)//4;hb=height if fmt in (11,22,26) else (height+3)//4;bpb=4 if fmt in (11,26) else 2 if fmt==22 else (8 if fmt==14 else 16)
++ if fmt not in (11,14,15,16,22,26,28,33):raise ValueError(f'Unsupported block format {fmt}')
++ wb=width if fmt in (11,22,26,28) else (width+3)//4;hb=height if fmt in (11,22,26,28) else (height+3)//4;bpb=4 if fmt in (11,26) else 2 if fmt==22 else (8 if fmt in (14,28) else 16)
+  pos=addresses(wb,hb,bpb).reshape(-1)
+  data=np.frombuffer(payload,dtype=np.uint8)[pos[:,None]+np.arange(bpb)]
+  swap=4 if fmt in (11,26) else 2
