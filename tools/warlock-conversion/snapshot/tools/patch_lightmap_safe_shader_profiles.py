@@ -1,7 +1,8 @@
 """Patch exact baseline shader identities in a private cache; never install.
 
-Only matched pixel programs, their reflection and matching template route tables
-may change. Original metadata outside those fields is checked byte-for-byte.
+Only matched pixel programs, their reflection, matching template route tables
+and dependent animation register destinations may change. Original metadata
+outside those fields is checked byte-for-byte.
 """
 import argparse
 import hashlib
@@ -14,6 +15,7 @@ from build_powerhouse_water_shaders import confined
 from build_scenario_checkpoint import resource_salt
 from lightmap_register_reservations import require_safe_material_routes, require_safe_shared_float_uploads
 from map_builder import MapBuilder
+from material_animation_registers import animation_register_updates
 from string_ids import StringTable
 
 
@@ -98,6 +100,7 @@ def patch(source, output, profiles, xex):
         assert matches, 'No exact shader profiles matched'
         assert {v[0] for v in matches.values()} == {v[0] for v in known.values()}, 'Some requested profiles did not match'
         templates = []
+        animation_templates = {}
         for index, tag in c.tags.items():
             if tag['group'] != 'rmt2':
                 continue
@@ -133,8 +136,12 @@ def patch(source, output, profiles, xex):
                     payload.extend(b''.join(struct.pack('>HBB', *v) for v in values))
                 replace(row, data)
             replace(tag['offset'] + 60, struct.pack('>III', len(payload) // 4, b.alloc(payload), 0))
+            animation_templates[index] = updates
             templates.append(dict(template_tag=index, pixel_tag=pixel, profile=directory.name))
         assert set(matches) == {r['pixel_tag'] for r in templates}, 'Matched shader has no template'
+        animation_edits, animation_audit = animation_register_updates(c, set(animation_templates), animation_templates)
+        for offset, register in animation_edits.items():
+            replace(offset, struct.pack('>H', register))
         original = bytearray(c.data[c.start:c.start + c.u(0x490)])
         updated = bytearray(b.meta[b.reserve:])
         for offset, size in allowed:
@@ -144,9 +151,10 @@ def patch(source, output, profiles, xex):
         output.write_bytes(result)
         return dict(source=str(source), output=str(output), sha256=digest(result),
                     pixels=changed, templates=templates, allocated_metadata=b.used,
+                    animation_register_edits=len(animation_edits), animation_routes=animation_audit,
                     unchanged_original_metadata_outside_shader_fields=True,
                     raw_asset_payload_unchanged=not b.raw.strip(b'\0'),
-                    scope='Private shader-only patch. No geometry, placements, materials values or flare changes. Native validation pending.')
+                    scope='Private shader and animation-register patch. No geometry, placements, material values, animation functions or flare changes. Native validation pending.')
     finally:
         b.close()
 

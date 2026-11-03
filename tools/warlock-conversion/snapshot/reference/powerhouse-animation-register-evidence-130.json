@@ -1,0 +1,1816 @@
+{
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "finding": "Shader relocation patched pixl and rmt2 but left rmsh animation GPU destinations stale. Function data survival alone was insufficient. Resolve each animation by template pass, stage and constant index, preserving function index.",
+  "verification": {
+    "125": {
+      "routes": 150,
+      "stale": 150
+    },
+    "130": {
+      "routes": 150,
+      "stale": 0
+    },
+    "131": {
+      "routes": 150,
+      "stale": 0
+    }
+  },
+  "repair": {
+    "source": "work\\powerhouse\\zanzibar-125.map",
+    "candidate": "work\\powerhouse\\zanzibar-130.map",
+    "sha256": "35afe123f2f6ddd7b0407cb9be599426fbd25664ce1afa01d56b6b2baabedef6",
+    "unique_register_edits": 150,
+    "checked_routes": 150,
+    "remaining_mismatches": 0,
+    "unchanged_metadata_outside_animation_destinations": true,
+    "routes": [
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899264,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899268,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899272,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899276,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899280,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 1,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899284,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899288,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899292,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899296,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899300,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899304,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 3,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899308,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899336,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899340,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899344,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899348,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899352,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 4,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899356,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899312,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899316,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899320,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899324,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899328,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 5,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899332,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899384,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899388,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899392,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899396,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899400,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 6,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899404,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899408,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899412,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899416,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899420,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899424,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 7,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899428,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899432,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899436,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899440,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899444,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899448,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 8,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899452,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899360,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899364,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899368,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899372,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899376,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 9,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899380,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 13,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899464,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 13,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899468,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 13,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899472,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 13,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899476,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 14,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899456,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 14,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899460,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 0,
+        "parameter": 1,
+        "offset": 204899480,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 204899484,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 2,
+        "parameter": 3,
+        "offset": 204899488,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 3,
+        "parameter": 3,
+        "offset": 204899492,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 4,
+        "parameter": 4,
+        "offset": 204899496,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9950,
+        "template": 9947,
+        "entry": 17,
+        "usage": 2,
+        "function": 5,
+        "parameter": 4,
+        "offset": 204899500,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 1,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959712,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 1,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959716,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 1,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959720,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 1,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959724,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 3,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959728,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 3,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959732,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 3,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959736,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 3,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959740,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 4,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959760,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 4,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959764,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 4,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959768,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 4,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959772,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 5,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959744,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 5,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959748,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 5,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959752,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 5,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959756,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 6,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959792,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 6,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959796,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 6,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959800,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 6,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959804,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 7,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959808,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 7,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959812,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 7,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959816,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 7,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959820,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 8,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959824,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 8,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959828,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 8,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959832,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 8,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959836,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 9,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959776,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 9,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959780,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 9,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959784,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 9,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959788,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 13,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959840,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 13,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959844,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 13,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959848,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 13,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959852,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 17,
+        "usage": 2,
+        "function": 0,
+        "parameter": 3,
+        "offset": 204959856,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 17,
+        "usage": 2,
+        "function": 1,
+        "parameter": 3,
+        "offset": 204959860,
+        "old_register": 188,
+        "new_register": 105
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 17,
+        "usage": 2,
+        "function": 2,
+        "parameter": 4,
+        "offset": 204959864,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9953,
+        "template": 9952,
+        "entry": 17,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 204959868,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 1,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013728,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 1,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013732,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 1,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013736,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 1,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013740,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 1,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013744,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 3,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013748,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 3,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013752,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 3,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013756,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 3,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013760,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 3,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013764,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 4,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013788,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 4,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013792,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 4,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013796,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 4,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013800,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 4,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013804,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 5,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013768,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 5,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013772,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 5,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013776,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 5,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013780,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 5,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013784,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 6,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013828,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 6,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013832,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 6,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013836,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 6,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013840,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 6,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013844,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 7,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013848,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 7,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013852,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 7,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013856,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 7,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013860,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 7,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013864,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 8,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013868,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 8,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013872,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 8,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013876,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 8,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013880,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 8,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013884,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 9,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013808,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 9,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013812,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 9,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013816,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 9,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013820,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 9,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013824,
+        "old_register": 208,
+        "new_register": 107
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 13,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013900,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 13,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013904,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 14,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013888,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 14,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013892,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 14,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013896,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 17,
+        "usage": 2,
+        "function": 0,
+        "parameter": 0,
+        "offset": 205013908,
+        "old_register": 98,
+        "new_register": 189
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 17,
+        "usage": 2,
+        "function": 1,
+        "parameter": 1,
+        "offset": 205013912,
+        "old_register": 99,
+        "new_register": 188
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 17,
+        "usage": 2,
+        "function": 2,
+        "parameter": 2,
+        "offset": 205013916,
+        "old_register": 189,
+        "new_register": 104
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 17,
+        "usage": 2,
+        "function": 3,
+        "parameter": 4,
+        "offset": 205013920,
+        "old_register": 209,
+        "new_register": 106
+      },
+      {
+        "material": 9959,
+        "template": 9955,
+        "entry": 17,
+        "usage": 2,
+        "function": 4,
+        "parameter": 5,
+        "offset": 205013924,
+        "old_register": 208,
+        "new_register": 107
+      }
+    ],
+    "native_verified": false
+  },
+  "source_constants_and_functions": [
+    {
+      "material_tag": 9950,
+      "template_tag": 9947,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9953,
+      "template_tag": 9952,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9959,
+      "template_tag": 9955,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "detail_map2",
+        "detail_map_overlay",
+        "bump_map",
+        "bump_detail_map"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "e33e57482e90a610fb4ad9e56b5e949792e08deade5324fb766e3795c098dab2",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 1
+    }
+  ],
+  "patched_pipeline_matches_direct_repair_byte_for_byte": true,
+  "native_runs": [
+    {
+      "run": ".local\\loading-traces\\20261103-103511-19944",
+      "candidate": 125,
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.328,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "errors": [],
+      "captures": [
+        {
+          "file": "proof-loaded.png",
+          "sha256": "0e72cc2c8eae07681a5952ca8947291919261885ac0dde2de69230580d21b40b"
+        }
+      ],
+      "review": "Forge overhead view shows textured yellow-green river between rocks. Static distant visibility only; no motion acceptance."
+    },
+    {
+      "run": ".local\\loading-traces\\20261103-103844-5704",
+      "candidate": 125,
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.39,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "errors": [],
+      "captures": [
+        {
+          "file": "proof-loaded_138137ms.png",
+          "sha256": "8a9f606942606d9f4bc45b013643f701ee17d2f9b90cf64c61bae963e764ab51"
+        },
+        {
+          "file": "proof-loaded_143137ms.png",
+          "sha256": "e8cd1f5922f39e23f001e6687bd74ddd76dcadbeb51132c63ed10c9913d8636f"
+        }
+      ],
+      "review": "Both images individually inspected in time order: first shows close rock/water surface during movement; second shows rocks and waterfall. Camera changes substantially; splash animation not verified."
+    }
+  ],
+  "remaining": [
+    "Candidate130 is privately repaired and statically verified, not natively accepted.",
+    "Next: stationary native water/splash motion views on candidate130; moving parallax and broader gameplay/audio/Forge/console/System Link remain open.",
+    "Do not use candidate125 static appearance as proof of its animation behavior.",
+    "Full rebuild remains gated by flare-layout decision; nothing installed or pushed."
+  ]
+}
