@@ -36,3 +36,12 @@ paths, binary-hash guards, payload-hash guard, existing-process check, and a
 the repository. The first run uses a fresh cache and must be labeled cold.
 Execution remains pending the user's answer about resuming tests after the
 explicit handoff instruction to keep the game closed during deeper work.
+
+Final emitted-program verification passed 48 checks: twelve screen and twelve
+window programs in both the checkpoint and staged DLC map. Reconstructed debug
+plus microcode bytes match audited compiler outputs and manifest SHA256 values
+exactly; reflection names/types/slots and GPR counts match too. This closes the
+gap between pre-import shader audits and the actual emitted cache. It does not
+supply runtime appearance or performance evidence. No launch record exists for
+the prepared timing run and no halo3mp process was running at this check.
+The user's answer about resuming runtime testing is still pending.
