@@ -1,0 +1,939 @@
+{
+  "candidate": 139,
+  "sha256": "07283740da2a1d543fee4a51507833b046bb3c6dcc03b425b23c20a1ebbfe355",
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "run": ".local/loading-traces/20261103-115621-17000",
+  "terminal_exit_code": 0,
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "hash_summary": {
+    "seconds": 180.344,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "captures": [
+    {
+      "file": "proof-loaded_140137ms.png",
+      "sha256": "d00d808047b192d0ff11a1b31325b9e2077c4f822e4f204f0eb0b6b11f8d752b",
+      "individually_inspected": true
+    },
+    {
+      "file": "proof-loaded_144137ms.png",
+      "sha256": "50bd5e58949650d10afc55d6b0b9a2c146428486f24c9baa8df472befd5ef0cc",
+      "individually_inspected": true
+    }
+  ],
+  "manual_inspection": "Both native frames inspected individually in chronological order. Pale rippled inlet and nearby mist remain visible. Fine water pattern changes between frames while the camera and surrounding rocks hold still. No black or missing inlet surface in these views. This focused observation is not whole-map water acceptance.",
+  "focused_inlet_appearance_verified": true,
+  "focused_inlet_motion_verified": true,
+  "temporal": {
+    "camera": {
+      "seconds": 179.11,
+      "event": "observer_position",
+      "position": [
+        156.1551971435547,
+        266.3136901855469,
+        38.25739669799805
+      ],
+      "location": "000e7b29",
+      "gulch_margin": -323.86619914661753,
+      "selected_partition_margin": -323.86619914661753,
+      "forward": [
+        0.06048377975821495,
+        0.15544429421424866,
+        -0.9859911799430847
+      ],
+      "observer_bytes": "431c27bb4385282742190793000e7b290000000000000000000000008000000080000000800000003d77bdd73e1f2ccabf7c69eb3eb70f673f6b3bdb3e2accd13f9c61aa00000000000000000000000000000000000000003faaaaab3f800000",
+      "soft_ceiling_records": [
+        "0000000100003ebe00000000",
+        "0000000100003ebf00020000"
+      ]
+    },
+    "stationary_interval": [
+      152.11,
+      179.11
+    ],
+    "identical_pose_observations": 19,
+    "regions": {
+      "inlet_upper": {
+        "bounds": [
+          945,
+          255,
+          955,
+          265
+        ],
+        "mae": 11.036666666666667,
+        "changed_pixels": 100
+      },
+      "inlet_middle": {
+        "bounds": [
+          775,
+          345,
+          785,
+          355
+        ],
+        "mae": 15.85,
+        "changed_pixels": 100
+      },
+      "inlet_lower": {
+        "bounds": [
+          675,
+          385,
+          685,
+          395
+        ],
+        "mae": 15.236666666666666,
+        "changed_pixels": 100
+      },
+      "cliff_control": {
+        "bounds": [
+          845,
+          305,
+          855,
+          315
+        ],
+        "mae": 7.753333333333333,
+        "changed_pixels": 99
+      },
+      "left_cliff_control": {
+        "bounds": [
+          395,
+          195,
+          405,
+          205
+        ],
+        "mae": 0.4,
+        "changed_pixels": 77
+      }
+    },
+    "scope": "Supplement to individual visual inspection and source/GPU checks; not acceptance from metrics alone."
+  },
+  "gpu_projection": {
+    "sample": 517,
+    "seconds": 150.282,
+    "matrix": [
+      [
+        1.3138887882232666,
+        -0.5115172266960144,
+        0.001540593453682959,
+        -69.00537872314453
+      ],
+      [
+        0.8961990475654602,
+        2.303246259689331,
+        0.4180889427661896,
+        -769.3282470703125
+      ],
+      [
+        -4.614550164205866e-08,
+        -1.1859468429520348e-07,
+        7.522522196268255e-07,
+        0.007822515442967415
+      ],
+      [
+        0.06048378720879555,
+        0.15544430911540985,
+        -0.9859912991523743,
+        -13.12042236328125
+      ]
+    ],
+    "camera": [
+      156.15530395507812,
+      266.31414794921875,
+      38.25739669799805,
+      0.0
+    ]
+  },
+  "geometry_first_hits": {
+    "(950, 260)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "depth": 43.82300200375364,
+      "position": [
+        176.69568098260982,
+        268.5678859873156,
+        -0.38794751790717896
+      ]
+    },
+    "(780, 350)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "depth": 40.18804210622731,
+      "position": [
+        167.1459482172857,
+        267.4658856313114,
+        -0.38137353116347583
+      ]
+    },
+    "(680, 390)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "depth": 39.08047603951573,
+      "position": [
+        161.93404169079864,
+        267.4109009898223,
+        -0.3778811141897833
+      ]
+    },
+    "(400, 200)": {
+      "mesh": 22,
+      "instance": 62,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\30_settlement_030_new_cliff",
+      "depth": 16.404020426226598,
+      "position": [
+        154.77546923157226,
+        272.2018125960183,
+        23.008847537102106
+      ]
+    }
+  },
+  "gpu_draws": {
+    "total": 1024,
+    "matching": 8,
+    "scope": "Matching water shader bytecode, bound inputs and normal-map scale/offsets support material fidelity. All eight samples are from a short draw interval; these samples alone do not establish temporal animation.",
+    "shared_input_bindings": {
+      "pixel_hash": "0xda0650d8a6d044f5",
+      "constants": {
+        "g_exposure": [
+          1.2662267684936523,
+          128.0,
+          1.0,
+          1.0
+        ],
+        "texture_size": [
+          1152.0,
+          640.0,
+          -1.1162676304485205e-37,
+          -1.7999757246966277e-37
+        ],
+        "dynamic_environment_blend": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "camera_position_ps": [
+          156.15530395507812,
+          266.31414794921875,
+          38.25739669799805,
+          0.0
+        ],
+        "detail_map_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "bump_map_xform": [
+          4.0,
+          77.0,
+          0.589506208896637,
+          0.652778148651123
+        ],
+        "bump_detail_map_xform": [
+          4.0,
+          88.0,
+          0.5158731937408447,
+          0.652778148651123
+        ],
+        "bump_detail_coefficient": [
+          3.0,
+          3.0,
+          3.0,
+          3.0
+        ],
+        "p_tiling_vpos_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diffuse_coefficient": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "specular_coefficient": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ],
+        "area_specular_contribution": [
+          0.2800000011920929,
+          0.2800000011920929,
+          0.2800000011920929,
+          0.2800000011920929
+        ],
+        "analytical_specular_contribution": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ],
+        "environment_map_specular_contribution": [
+          6.0,
+          6.0,
+          6.0,
+          6.0
+        ],
+        "material_texture_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "use_material_texture": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fresnel_color": [
+          0.501960813999176,
+          0.501960813999176,
+          0.501960813999176,
+          1.0
+        ],
+        "roughness": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "albedo_blend": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "specular_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "analytical_anti_shadow_control": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "env_tint_color": [
+          0.6549019813537598,
+          0.6549019813537598,
+          0.6549019813537598,
+          1.0
+        ],
+        "env_roughness_scale": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "base_map_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "albedo_color": [
+          0.6274510025978088,
+          0.6274510025978088,
+          0.6274510025978088,
+          3.0
+        ],
+        "p_lightmap_compress_constant_0": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0
+        ],
+        "p_lightmap_compress_constant_1": [
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0
+        ]
+      },
+      "textures": {
+        "base_map": {
+          "register": 0,
+          "words": [
+            "0x81000002",
+            "0x12c25054",
+            "0x3fe03f",
+            "0xa80d10",
+            "0x243",
+            "0x12c35a18"
+          ],
+          "type": 2,
+          "pitch": 128,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x12c25000",
+          "stacked": false,
+          "width": 64,
+          "height": 512,
+          "depth": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 9,
+          "dimension": 1,
+          "mip_base": "0x12c35000"
+        },
+        "dynamic_environment_map_0": {
+          "register": 1,
+          "words": [
+            "0x810248fe",
+            "0x8f1e075",
+            "0x1407e03f",
+            "0xa80d10",
+            "0x187",
+            "0x8f1ee18"
+          ],
+          "type": 2,
+          "pitch": 128,
+          "tiled": 1,
+          "format": 53,
+          "base": "0x8f1e000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 1,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x8f1e000"
+        },
+        "dynamic_environment_map_1": {
+          "register": 2,
+          "words": [
+            "0x810248fe",
+            "0x8f1e075",
+            "0x1407e03f",
+            "0xa80d10",
+            "0x187",
+            "0x8f1ee18"
+          ],
+          "type": 2,
+          "pitch": 128,
+          "tiled": 1,
+          "format": 53,
+          "base": "0x8f1e000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 1,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x8f1e000"
+        },
+        "detail_map": {
+          "register": 3,
+          "words": [
+            "0x804000fe",
+            "0x8f630b2",
+            "0x0",
+            "0xa80c14",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 50,
+          "base": "0x8f63000",
+          "stacked": false,
+          "width": 1,
+          "height": 1,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1546,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "bump_map": {
+          "register": 4,
+          "words": [
+            "0x820002aa",
+            "0x12c5e071",
+            "0x1fe0ff",
+            "0xa80d10",
+            "0x203",
+            "0x12c6ea18"
+          ],
+          "type": 2,
+          "pitch": 256,
+          "tiled": 1,
+          "format": 49,
+          "base": "0x12c5e000",
+          "stacked": false,
+          "width": 256,
+          "height": 256,
+          "depth": 1,
+          "signs": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 8,
+          "dimension": 1,
+          "mip_base": "0x12c6e000"
+        },
+        "bump_detail_map": {
+          "register": 5,
+          "words": [
+            "0x820002aa",
+            "0x12c5e071",
+            "0x1fe0ff",
+            "0xa80d10",
+            "0x203",
+            "0x12c6ea18"
+          ],
+          "type": 2,
+          "pitch": 256,
+          "tiled": 1,
+          "format": 49,
+          "base": "0x12c5e000",
+          "stacked": false,
+          "width": 256,
+          "height": 256,
+          "depth": 1,
+          "signs": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 8,
+          "dimension": 1,
+          "mip_base": "0x12c6e000"
+        },
+        "material_texture": {
+          "register": 6,
+          "words": [
+            "0x804000fe",
+            "0x8b3e04a",
+            "0x6003",
+            "0xa80400",
+            "0x83",
+            "0xa18"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 10,
+          "base": "0x8b3e000",
+          "stacked": false,
+          "width": 4,
+          "height": 4,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 512,
+          "mip_min": 0,
+          "mip_max": 2,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "g_sampler_cc0236": {
+          "register": 7,
+          "words": [
+            "0x80424956",
+            "0x90c305d",
+            "0x3e01f",
+            "0x280d11",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 29,
+          "base": "0x90c3000",
+          "stacked": false,
+          "width": 32,
+          "height": 32,
+          "depth": 1,
+          "signs": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "g_sampler_dd0236": {
+          "register": 8,
+          "words": [
+            "0x80424956",
+            "0x92ed05d",
+            "0x3e01f",
+            "0x280d11",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 29,
+          "base": "0x92ed000",
+          "stacked": false,
+          "width": 32,
+          "height": 32,
+          "depth": 1,
+          "signs": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "albedo_texture": {
+          "register": 10,
+          "words": [
+            "0x890248fe",
+            "0x44b00b2",
+            "0x4fe47f",
+            "0x280c14",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1152,
+          "tiled": 1,
+          "format": 50,
+          "base": "0x44b0000",
+          "stacked": false,
+          "width": 1152,
+          "height": 640,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1546,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "normal_texture": {
+          "register": 11,
+          "words": [
+            "0x89024802",
+            "0x4a50097",
+            "0x4fe47f",
+            "0xd11",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1152,
+          "tiled": 1,
+          "format": 23,
+          "base": "0x4a50000",
+          "stacked": false,
+          "width": 1152,
+          "height": 640,
+          "depth": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "lightprobe_texture_array": {
+          "register": 12,
+          "words": [
+            "0x8c024802",
+            "0x15be7454",
+            "0x1cbfe5ff",
+            "0x280d10",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1536,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x15be7000",
+          "stacked": true,
+          "width": 1536,
+          "height": 1536,
+          "depth": 8,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "dominant_light_intensity_map": {
+          "register": 13,
+          "words": [
+            "0x8c000002",
+            "0x16de7454",
+            "0x4bfe5ff",
+            "0x280d10",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1536,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x16de7000",
+          "stacked": true,
+          "width": 1536,
+          "height": 1536,
+          "depth": 2,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        }
+      }
+    },
+    "draw_groups": [
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          517
+        ],
+        "seconds": 150.282,
+        "index_count": 6
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          518
+        ],
+        "seconds": 150.282,
+        "index_count": 12
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          524,
+          526,
+          527
+        ],
+        "seconds": 150.282,
+        "index_count": 3
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          525
+        ],
+        "seconds": 150.297,
+        "index_count": 9
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          533
+        ],
+        "seconds": 150.297,
+        "index_count": 273
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          548
+        ],
+        "seconds": 150.297,
+        "index_count": 18
+      }
+    ]
+  },
+  "source_parameter_function_audit": [
+    {
+      "material_tag": 9950,
+      "template_tag": 9947,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9953,
+      "template_tag": 9952,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9959,
+      "template_tag": 9955,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "detail_map2",
+        "detail_map_overlay",
+        "bump_map",
+        "bump_detail_map"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "e33e57482e90a610fb4ad9e56b5e949792e08deade5324fb766e3795c098dab2",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 1
+    }
+  ],
+  "animation_register_audit": {
+    "candidate": 139,
+    "route_uses": 150,
+    "stale_routes": 0,
+    "register_changes_required": 0
+  },
+  "diagnostic_fixture": {
+    "diagnostic_only": true,
+    "never_install": true,
+    "candidate": 139,
+    "target_mesh": null,
+    "target_instance": null,
+    "position_facing": [
+      152.4137420654297,
+      253.39468383789062,
+      36.58488082885742,
+      1.2,
+      0.0,
+      0.0
+    ],
+    "relocated_spawn_markers": 114
+  },
+  "limitations": [
+    "GPU projection sample is at150.282seconds and differs from settled camera by about0.00047world unit; directions are unchanged. Geometry rays use the settled camera origin and captured projection directions.",
+    "The near-edge cliff patch at850,310 also changes and is not used as a stationary control; the left cliff patch at400,200 is separately ray-identified and changes only0.4 mean channel value.",
+    "Native run ends through180-second watchdog, not a natural game exit. No installation or push."
+  ],
+  "remaining": [
+    "River-bottom motion still needs focused validation after the register repair.",
+    "Broader gameplay, collision, lighting, audio, Forge and performance requirements remain incomplete.",
+    "Full rebuild awaits flare-placement clarification; console/System Link remain untested."
+  ]
+}

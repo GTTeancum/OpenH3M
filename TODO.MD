@@ -184,6 +184,7 @@ The cause is unconfirmed. This remains deferred: the user requested a TODO note 
 - [ ] Validate water detail, animated splash and moving parallax with useful native views; river127 only shows an overlook. Continue broader gameplay/audio/Forge checks. Full rebuild remains gated by flare-layout decision. See powerhouse-shared-register-evidence-125.json.
 
 - [x] Candidate130 focused splash appearance/motion verified in native run133: both frames inspected, stationary camera, four geometry rays identify splash. All1788 rmsh animation-route uses align; source bindings/functions and1951 vertex/453 index buffers plus42 flare records preserved. See powerhouse-splash-motion-evidence-133.json.
-- [ ] Finish water bottom/inlet motion and broader gameplay/audio/Forge validation. Full rebuild remains gated by flare-placement clarification.
+- [x] Candidate139 focused inlet appearance/motion verified in native147: both frames inspected, stationary camera, three rays identify inlet and eight matching GPU draws retain water inputs. Source functions/constants and150 animation routes verified. See powerhouse-inlet-motion-evidence-147.json.
+- [ ] Finish river-bottom motion and broader gameplay/audio/Forge validation. Full rebuild remains gated by flare-placement clarification.
 
 - [x] Candidate139 focused window parallax verified in native143/145: three frames individually inspected; GPU-projection surface registration measures2px versus source prediction1.8px and non-parallax metal control0.25px. Authored height scale/texel preserved. See powerhouse-window-parallax-evidence-145.json.
