@@ -2876,3 +2876,84 @@ final gather, merge, finish and texture processing. Previous successful farm
 stages remain intact; failed gather logs are archived. The exact continuation
 for candidate final-lighting-02 performs the single authorized native test.
 Recovery is not accepted until the official stages and compiler succeed.
+
+
+### User-review correction: lost sky vertex colors (2026-11-03)
+
+The source Reach sky mesh carries vertex RGB. The installed blam-tags JMS
+exporter's `read_vertex` unconditionally sets `color: None`, and its JMS writer
+serializes that as zero RGB. The old H3 model consequently has zero colors on
+all 6,577 vertices. This is an established conversion loss, not a judgment that
+the authored rock or cloud layers should be removed. The remaining gray-band
+appearance still requires visual review after this correction.
+
+`restore_sky_vertex_colors.py` stages a repaired JMS from the original Reach
+raw vertices. Every one of 34,911 exported corners was matched by position,
+normal and UV; all 11,637 triangle/material assignments were checked. Only RGB
+lines changed: 21,654 corners become nonzero. Geometry, material bindings and
+101 authored sky lights retain their original text. The generic exporter fix
+is preserved in `blam-tags-jms-vertex-colors.patch`; `git apply --check` passes
+against the installed source checkout. It has not been applied or rebuilt;
+the checked JMS repair uses the installed tools and is the implemented route.
+
+The repaired JMS was copied into the isolated H3EK data directory
+`levels/mod_levels/bc_sky_rgb_repair/beavercreek_sky/render/beavercreek_sky.JMS`.
+Official command, from the H3EK directory with repository-local TEMP/TMP:
+`tool_fast.exe render-sky levels\mod_levels\bc_sky_rgb_repair\beavercreek_sky`.
+`verify_sky_vertex_colors.py` matches all 6,577 compiled vertices to original
+Reach geometry and RGB, accounting for compiler vertex reordering. All 3,683
+nonzero source vertices are restored; maximum RGB error is 5.83e-11. Nodes,
+material references, compression bounds, meshes, index stream and 101 sky-light
+records are identical to the previous H3 model.
+
+Reproduction, from the repository (Python -B, TEMP/TMP within rebuild/temp):
+
+1. Run `restore_sky_vertex_colors.py`, copy its staged JMS to the isolated
+   directory above, and run the official render-sky command.
+2. Run `verify_sky_vertex_colors.py`.
+3. Run `compile_forge_candidate.py --stage-directory
+   work/battle-canyon/rebuild/forge/sky-color-01 --restored-sky-colors`.
+   Explicit staging directories must be fresh. This overlays only the verified
+   render model in addition to the normal combined-scenario inputs, then restores
+   the prior kit tags/cache. There is no lighting option and no new bake.
+4. Run `build_native.ps1 -Candidate sky-color-01 -Source
+   work/battle-canyon/rebuild/forge/sky-color-01/battle_canyon.map`.
+5. Run `verify_native_sky_colors.py --compiled
+   work/battle-canyon/rebuild/forge/sky-color-01/battle_canyon.map --native
+   work/battle-canyon/rebuild/native/sky-color-01.map --report
+   work/battle-canyon/rebuild/sky-color-repair/native-verification.json`.
+6. For the separate brightness candidate, run `prepare_exposure_candidate.py
+   --source work/battle-canyon/rebuild/native/sky-color-01.map --output
+   work/battle-canyon/rebuild/native/sky-exposure-01.map`, then the existing
+   build_dlc_payload.py workflow for Battle Canyon ID 1733.
+
+The corrected official compile passed in 288.8 seconds with the same three
+stock animation-node warnings. Both final baked lightmap bitmap payloads are
+identical to final-lighting-02. Actual native GPU RGB (format 14) matches every
+compiled float for all 6,577 vertices; 3,683 are nonzero. Evidence lives under
+`work/battle-canyon/rebuild/sky-color-repair`, with compile evidence under
+`forge/sky-color-01`. No new game or control harness was run.
+
+Brightness remains a calibration candidate: `prepare_exposure_candidate.py`
+raises only this map's adaptation ceiling from 1.8 to 4 stops. Minimum 0,
+log2 target -3.321928, sensitivity, speed, bloom and all baked resources remain
+unchanged. Full file comparison allows only the ceiling word and its checksum/
+header-authentication updates. This does not establish that exposure was at
+its ceiling during the user's screenshot, or prove the darkness resolved.
+
+| Candidate | SHA256 |
+|---|---|
+| Corrected official cache | `09cda89e33d1a5e745dced64713b7fc3ba8a8fd9fd20260ed158871aab9bac28` |
+| Sky RGB native candidate | `9104e8d211234cebfcc7dfb02542427a76a589aab93d41852a99cb3de204ffb1` |
+| Sky RGB + exposure native candidate | `b3fb0afed54b3dd74e10e05d979dcea1b9f9f5e2a9988443b1e6d7c5c2b61c55` |
+| DLC user-test payload, 158855168 bytes | `3de8ee1d1a18b76b5a7306aac087d3ae267bd6897df440afff30dbc46883a585` |
+
+A file-only installer is queued on the current human game process (PID 5704).
+It does not control, stop or relaunch the game. Consult
+`native/sky-exposure-01-installation.json` for actual status; a queued installer
+is not deployment. Once the game exits, it requires the previous installed hash
+`0ffce7a1effe86d1b1ad15f52f03a304fcf52dcc2269f831ebfd556e169940b1`, backs it up,
+atomically replaces only battle_canyon.map and hashes every other bundle file
+unchanged. Concurrent map changes cause rejection. Runtime/settings, preview
+BLFs, mapinfo, other maps and stock Last Resort are preserved. This is deployment
+for user review, not final visual or performance acceptance.
