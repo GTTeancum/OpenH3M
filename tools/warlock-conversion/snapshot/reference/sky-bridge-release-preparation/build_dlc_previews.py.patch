@@ -1,0 +1,10 @@
+--- tools\warlock-conversion\snapshot\tools\build_dlc_previews.py
++++ tools\warlock-conversion\snapshot\tools\build_dlc_previews.py
+@@ -15,6 +15,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[4]
+ SOURCES = {
++    'sky_bridge': '3003239190/images/skybridge.png',
+     'boarding_action': '2962955878/images/boardingaction.png',
+     'powerhouse': '3003239190/images/powerhousesmall.png',
+     'rodentia': '3500400217/images/rodentia_big.png',

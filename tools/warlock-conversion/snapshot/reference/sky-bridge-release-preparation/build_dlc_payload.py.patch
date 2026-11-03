@@ -1,0 +1,12 @@
+--- tools\warlock-conversion\snapshot\tools\build_dlc_payload.py
++++ tools\warlock-conversion\snapshot\tools\build_dlc_payload.py
+@@ -20,7 +20,8 @@
+                    ('zanzibar', 'lockout_classic', 'Lockout', 1738),
+                    ('zanzibar', 'elongation', '3longation', 1739),
+                    ('zanzibar', 'sanctuary', 'Sanctuary', 1742),
+-                   ('zanzibar', 'powerhouse', 'Powerhouse', 1746)]
++                   ('zanzibar', 'powerhouse', 'Powerhouse', 1746),
++                   ('zanzibar', 'sky_bridge', 'Sky Bridge', 1747)]
+ 
+ 
+ def fixed(data, offset, length, text, encoding='ascii'):
