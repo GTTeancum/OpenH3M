@@ -1,0 +1,245 @@
+{
+  "candidate": 115,
+  "sha256": "0d913ca99912706b917b05fe19b43b22dd3ee4d95e02a7ace72c04948dbdb51c",
+  "source": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "patch": {
+    "source": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\powerhouse\\zanzibar-114.map",
+    "output": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\powerhouse\\zanzibar-115.map",
+    "sha256": "0d913ca99912706b917b05fe19b43b22dd3ee4d95e02a7ace72c04948dbdb51c",
+    "pixels": [
+      {
+        "pixel_tag": 9360,
+        "profile": "concrete"
+      },
+      {
+        "pixel_tag": 9398,
+        "profile": "grate"
+      },
+      {
+        "pixel_tag": 9426,
+        "profile": "grate"
+      },
+      {
+        "pixel_tag": 9946,
+        "profile": "water"
+      },
+      {
+        "pixel_tag": 9951,
+        "profile": "water"
+      },
+      {
+        "pixel_tag": 9954,
+        "profile": "splash"
+      },
+      {
+        "pixel_tag": 10658,
+        "profile": "window"
+      }
+    ],
+    "templates": [
+      {
+        "template_tag": 9361,
+        "pixel_tag": 9360,
+        "profile": "concrete"
+      },
+      {
+        "template_tag": 9399,
+        "pixel_tag": 9398,
+        "profile": "grate"
+      },
+      {
+        "template_tag": 9427,
+        "pixel_tag": 9426,
+        "profile": "grate"
+      },
+      {
+        "template_tag": 9947,
+        "pixel_tag": 9946,
+        "profile": "water"
+      },
+      {
+        "template_tag": 9952,
+        "pixel_tag": 9951,
+        "profile": "water"
+      },
+      {
+        "template_tag": 9955,
+        "pixel_tag": 9954,
+        "profile": "splash"
+      },
+      {
+        "template_tag": 10659,
+        "pixel_tag": 10658,
+        "profile": "window"
+      }
+    ],
+    "allocated_metadata": 323616,
+    "unchanged_original_metadata_outside_shader_fields": true,
+    "raw_asset_payload_unchanged": true,
+    "scope": "Private shader-only patch. No geometry, placements, materials values or flare changes. Native validation pending."
+  },
+  "profiles": {
+    "concrete": {
+      "programs_compiled": 13,
+      "interfaces_passed": 12,
+      "removed_material_route_collisions": 26,
+      "remaining_collisions": 0
+    },
+    "grate": {
+      "programs_compiled": 13,
+      "interfaces_passed": 12,
+      "removed_material_route_collisions": 26,
+      "remaining_collisions": 0
+    },
+    "splash": {
+      "programs_compiled": 13,
+      "interfaces_passed": 12,
+      "removed_material_route_collisions": 26,
+      "remaining_collisions": 0
+    },
+    "water": {
+      "programs_compiled": 13,
+      "interfaces_passed": 12,
+      "removed_material_route_collisions": 26,
+      "remaining_collisions": 0
+    },
+    "window": {
+      "programs_compiled": 13,
+      "interfaces_passed": 12,
+      "removed_material_route_collisions": 2,
+      "remaining_collisions": 0
+    }
+  },
+  "native_views": [
+    {
+      "view": "terrain",
+      "run": ".local/loading-traces/20261103-093302-1892",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Adjacent ground is visibly textured and lit; circular grate and concrete remain visible.",
+      "draw_count": 1024,
+      "lightmap_values_stable": true,
+      "hash_checks_passed": 11,
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog",
+      "gpu_lightmap_transitions": [
+        {
+          "sample": 0,
+          "index_count": 1,
+          "pixel_hash": "0xf02d6f85a35a4965",
+          "gpu_c210_212": [
+            13.297135353088379,
+            16.948671340942383,
+            13.005691528320312,
+            0.0,
+            4.938193321228027,
+            42.491249084472656,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "trace_errors": []
+    },
+    {
+      "view": "window",
+      "run": ".local/loading-traces/20261103-093725-32056",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Rooftop and background visible, intended window outside frame. Window appearance remains unverified.",
+      "hash_checks_passed": 11,
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog",
+      "next_replay_steps": [
+        "105000:RSDOWN+200",
+        "119000:LSUP+300",
+        "132000:RSDOWN+100"
+      ],
+      "draw_count": 1024,
+      "gpu_lightmap_transitions": [
+        {
+          "sample": 0,
+          "index_count": 980,
+          "pixel_hash": "0xf25d98256edb87b2",
+          "gpu_c210_212": [
+            13.297135353088379,
+            16.948671340942383,
+            13.005691528320312,
+            0.0,
+            4.938193321228027,
+            42.491249084472656,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "trace_errors": []
+    },
+    {
+      "view": "water_and_splash",
+      "run": ".local/loading-traces/20261103-094042-4172",
+      "capture": null,
+      "individually_inspected": false,
+      "finding": "Reached intended area; capture did not finish before watchdog. No visual validation.",
+      "hash_checks_passed": 11,
+      "harness_exit_code": 1,
+      "termination": "180-second watchdog",
+      "process_absent_after_run": true,
+      "draw_count": 1024,
+      "gpu_lightmap_transitions": [
+        {
+          "sample": 0,
+          "index_count": 4,
+          "pixel_hash": "0xf02d6f85a35a4965",
+          "gpu_c210_212": [
+            13.297135353088379,
+            16.948671340942383,
+            13.005691528320312,
+            0.0,
+            4.938193321228027,
+            42.491249084472656,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "trace_errors": []
+    }
+  ],
+  "status": "Private broader candidate; production recipe promotion deferred pending focused visual checks.",
+  "limitations": [
+    "Static frames do not verify animation, parallax movement, audio, traversal, Forge, performance or console/System Link.",
+    "Full rebuild still gated by pending flare-layout decision.",
+    "No installation or push."
+  ],
+  "route_remap_checks": "Named local offsets and source fields preserved; global register and extent changes rejected.",
+  "next_steps": [
+    "Retest window using recovered downward/forward input sequence.",
+    "Retest water/splash with a capture that finishes within watchdog; avoid concurrent draw sampling if it delays readback.",
+    "Promote remaining recipes only after required native visual evidence.",
+    "Continue gameplay-area materials, including corrugated metal."
+  ]
+}
