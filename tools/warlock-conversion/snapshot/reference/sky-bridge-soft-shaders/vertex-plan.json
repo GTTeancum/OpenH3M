@@ -1,0 +1,506 @@
+[
+  {
+    "type": 0,
+    "entry": 9,
+    "shader": 4,
+    "name": "dynamic_light",
+    "kind": "world",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 0,
+    "entry": 14,
+    "shader": 9,
+    "name": "static_per_vertex_color",
+    "kind": "world",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_extra",
+        "register": 15,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_0",
+        "register": 233,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_1",
+        "register": 234,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_2",
+        "register": 235,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_3",
+        "register": 236,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_4",
+        "register": 237,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_5",
+        "register": 238,
+        "count": 1,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 0,
+    "entry": 17,
+    "shader": 10,
+    "name": "dynamic_light_cinematic",
+    "kind": "world",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 1,
+    "entry": 9,
+    "shader": 15,
+    "name": "dynamic_light",
+    "kind": "rigid",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 3,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 1,
+    "entry": 14,
+    "shader": 20,
+    "name": "static_per_vertex_color",
+    "kind": "rigid",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_extra",
+        "register": 15,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 3,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_0",
+        "register": 233,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_1",
+        "register": 234,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_2",
+        "register": 235,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_3",
+        "register": 236,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_4",
+        "register": 237,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_5",
+        "register": 238,
+        "count": 1,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 1,
+    "entry": 17,
+    "shader": 21,
+    "name": "dynamic_light_cinematic",
+    "kind": "rigid",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 3,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 2,
+    "entry": 9,
+    "shader": 26,
+    "name": "dynamic_light",
+    "kind": "skinned",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 210,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 2,
+    "entry": 14,
+    "shader": 31,
+    "name": "static_per_vertex_color",
+    "kind": "skinned",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_extra",
+        "register": 15,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 210,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_0",
+        "register": 233,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_1",
+        "register": 234,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_2",
+        "register": 235,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_3",
+        "register": 236,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_4",
+        "register": 237,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "v_atmosphere_constant_5",
+        "register": 238,
+        "count": 1,
+        "set": 2
+      }
+    ],
+    "differences": []
+  },
+  {
+    "type": 2,
+    "entry": 17,
+    "shader": 32,
+    "name": "dynamic_light_cinematic",
+    "kind": "skinned",
+    "registers": [
+      {
+        "name": "view_projection",
+        "register": 0,
+        "count": 4,
+        "set": 2
+      },
+      {
+        "name": "camera_position",
+        "register": 7,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_scale",
+        "register": 12,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "position_compression_offset",
+        "register": 13,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "uv_compression_scale_offset",
+        "register": 14,
+        "count": 1,
+        "set": 2
+      },
+      {
+        "name": "nodes",
+        "register": 16,
+        "count": 210,
+        "set": 2
+      },
+      {
+        "name": "shadow_projection",
+        "register": 240,
+        "count": 4,
+        "set": 2
+      }
+    ],
+    "differences": []
+  }
+]

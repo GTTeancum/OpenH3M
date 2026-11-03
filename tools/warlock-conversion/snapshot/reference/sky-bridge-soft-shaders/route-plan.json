@@ -1,0 +1,2206 @@
+{
+  "names": {
+    "0": [
+      "base_map",
+      "detail_map",
+      "self_illum_map",
+      "overlay_map"
+    ],
+    "4": [
+      "base_map",
+      "detail_map",
+      "albedo_color",
+      "self_illum_map",
+      "self_illum_color",
+      "self_illum_intensity",
+      "edge_fade_edge_tint",
+      "edge_fade_center_tint",
+      "edge_fade_power",
+      "overlay_map",
+      "overlay_tint",
+      "overlay_intensity",
+      "soft_fresnel_power",
+      "soft_z_range"
+    ],
+    "5": [],
+    "6": [
+      "use_soft_fresnel",
+      "use_soft_z"
+    ]
+  },
+  "externs": {
+    "normal_texture": [
+      7,
+      2,
+      0,
+      0
+    ],
+    "albedo_texture": [
+      7,
+      1,
+      0,
+      0
+    ],
+    "shadow_depth_map_1": [
+      7,
+      4,
+      0,
+      0
+    ],
+    "dynamic_light_gel_texture": [
+      7,
+      38,
+      0,
+      0
+    ],
+    "depth_map": [
+      7,
+      3,
+      0,
+      0
+    ]
+  },
+  "persistent": {
+    "hdr_gamma2": [
+      0,
+      15,
+      1
+    ],
+    "ldr_gamma2": [
+      0,
+      14,
+      1
+    ],
+    "actually_calc_albedo": [
+      0,
+      0,
+      1
+    ],
+    "g_alt_exposure": [
+      2,
+      12,
+      1
+    ],
+    "g_exposure": [
+      2,
+      0,
+      1
+    ],
+    "p_tiling_vpos_offset": [
+      2,
+      108,
+      1
+    ],
+    "camera_position_ps": [
+      2,
+      16,
+      1
+    ],
+    "dynamic_light_shadowing": [
+      0,
+      13,
+      1
+    ],
+    "p_dynamic_light_gel_xform": [
+      2,
+      5,
+      1
+    ],
+    "simple_lights": [
+      2,
+      18,
+      80
+    ],
+    "simple_light_count_int": [
+      1,
+      0,
+      1
+    ],
+    "texture_size": [
+      2,
+      14,
+      1
+    ]
+  },
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "shader": 0,
+      "registers": [
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": []
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "shader": 1,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "shader": 3,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "shader": 2,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "shader": 5,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "shader": 6,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "shader": 7,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "overlay_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "overlay_tint",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "overlay_intensity",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_center_tint",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_edge_tint",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "edge_fade_power",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "overlay_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            4,
+            0
+          ],
+          [
+            105,
+            9,
+            0
+          ],
+          [
+            106,
+            10,
+            0
+          ],
+          [
+            107,
+            11,
+            0
+          ],
+          [
+            112,
+            7,
+            0
+          ],
+          [
+            113,
+            6,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            3,
+            0
+          ],
+          [
+            189,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "shader": 8,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "use_soft_fresnel",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "use_soft_z",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "soft_fresnel_power",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "soft_z_range",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "self_illum_map",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "depth_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            5,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            107,
+            4,
+            0
+          ],
+          [
+            112,
+            12,
+            0
+          ],
+          [
+            113,
+            13,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            3,
+            3,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights"
+      ]
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "shader": 4,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "use_soft_fresnel",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "use_soft_z",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "soft_fresnel_power",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "soft_z_range",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "depth_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            12,
+            0
+          ],
+          [
+            106,
+            13,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            2,
+            4,
+            0
+          ],
+          [
+            3,
+            38,
+            0
+          ],
+          [
+            4,
+            3,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "shader": 9,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "use_soft_fresnel",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "use_soft_z",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "soft_fresnel_power",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "soft_z_range",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "depth_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            12,
+            0
+          ],
+          [
+            106,
+            13,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            2,
+            4,
+            0
+          ],
+          [
+            3,
+            38,
+            0
+          ],
+          [
+            4,
+            3,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,68 @@
+--- a/tools/warlock-conversion/snapshot/tools/terrain_materials.py
++++ b/tools/warlock-conversion/snapshot/tools/terrain_materials.py
+@@ -76,8 +76,9 @@
+             fallback = variant = '_0_1_1_2_2_0'
+             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+         donors = DONORS if group == 'rmtr' else self.hologram_donors
++        sky_bridge_soft = (s.name(datum & 65535) == r'levels\multi\s3d_sky_bridgenew\shaders\lighting\fx_lightvolume_building_bridge_rb' and source_options == [0,1,1,0,0,1,1,0,1])
+         if group == 'rmhg':
+-            if len(source_options) != 9 or any(source_options[7:]):
++            if not sky_bridge_soft and (len(source_options) != 9 or any(source_options[7:])):
+                 raise ValueError('Nondefault MCC-only hologram options require separate conversion: ' + s.name(datum & 65535) + ' ' + str(source_options))
+             variant = '_' + '_'.join(str(value) for value in source_options[:7])
+             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+@@ -128,7 +129,7 @@
+                 raise ValueError('Multiply-detail mapping requires audited static constants')
+             fallback = variant = '_0_5_1_0_0_0_1'
+             template_name = template_name.rsplit('\\',1)[0] + '\\' + variant
+-        neutral_detail = (group == 'rmhg' and variant == '_0_1_1_0_0_1_1'
++        neutral_detail = (not sky_bridge_soft and group == 'rmhg' and variant == '_0_1_1_0_0_1_1'
+                           and s.name(datum & 65535).startswith('levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\'))
+         if neutral_detail:
+             if s.u(post+80) or s.u(post+92):
+@@ -161,6 +162,10 @@
+             if s.name(datum & 65535).rsplit('\\',1)[-1] not in allowed or s.u(post+92):
+                 raise ValueError('Sky Bridge lamp specialization changed')
+             fallback = variant = '_2_8_0_0_0_1_0'
++            template_name = 'shaders\\halogram_templates\\' + variant
++            donors[variant] = 'sandbox.map'
++        if sky_bridge_soft:
++            fallback = variant = '_0_1_1_0_0_0_1'
+             template_name = 'shaders\\halogram_templates\\' + variant
+             donors[variant] = 'sandbox.map'
+         output_group = 'rmsh' if native_sky_shader else group
+@@ -214,6 +219,13 @@
+             for offset in (72, 84, 96, 108):
+                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
+                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
++                if sky_bridge_soft:
++                    target_names += {72:['overlay_map','overlay_tint','overlay_intensity','soft_fresnel_power','soft_z_range'],84:[],96:['use_soft_fresnel','use_soft_z'],108:['overlay_map']}[offset]
++                    if set(source_names)!=set(target_names):raise ValueError('Soft fade parameters changed')
++                    if offset==72:float_indices=[source_names.index(n) for n in target_names]
++                    elif offset==108:texture_indices=[source_names.index(n) for n in target_names]
++                    elif source_names!=target_names:raise ValueError('Soft fade boolean order changed')
++                    continue
+                 if sky_bridge_lamp and offset in (72,108):
+                     target_names += ['base_map','detail_map']
+                     if set(source_names) != set(target_names):
+@@ -406,6 +418,11 @@
+                 from sky_bridge_lamp import bind_lamp_template
+                 template,lamp_evidence=bind_lamp_template(i.materials,template,
+                     Path(__file__).resolve().parents[4]/'work/sky-bridge/lamp-native-01')
++            if sky_bridge_soft:
++                from sky_bridge_soft import bind_soft_template, bind_soft_vertices
++                directory=Path(__file__).resolve().parents[4]/'work/sky-bridge/soft-native-01'
++                template,lamp_evidence=bind_soft_template(i.materials,template,directory)
++                definition=bind_soft_vertices(i.materials,definition,directory)
+             output = bytearray(132)
+             output[:16] = b'rmt2' + bytes(8) + struct.pack('>I', template)
+             overlays = s.block(post + 92, 36)
+@@ -593,7 +610,7 @@
+             if native_light_marker and any(s.unpack('h', row + 24)[0]
+                                            for row in s.block(post + 16, 28)):
+                 raise ValueError('Light-marker sampler animation needs explicit range conversion')
+-            if (computer_overlay or lightvolume or neutral_edge or neutral_warp or native_sky_shader or native_unlit_sky or native_light_marker) and overlays:
++            if (sky_bridge_soft or computer_overlay or lightvolume or neutral_edge or neutral_warp or native_sky_shader or native_unlit_sky or native_light_marker) and overlays:
+                 from material_animation import convert_material_animation
+                 converted_animations = convert_material_animation(i.materials, post, output)
+             ss = ET.parse(i.reference / 'mcc' / f'{group}.xml').getroot()

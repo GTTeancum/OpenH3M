@@ -1,0 +1,159 @@
+{
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_default_ps",
+    "/Dcalc_albedo_vs=calc_albedo_default_vs",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_off_vs",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_simple_ps",
+    "/Dcalc_parallax_ps=calc_parallax_off_ps",
+    "/Dcalc_parallax_vs=calc_parallax_off_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dblend_type=additive",
+    "/Dbitmap_rotation=0",
+    "/Dcalc_overlay_ps=calc_overlay_additive_ps",
+    "/Dcalc_edge_fade_ps=calc_edge_fade_simple_ps",
+    "/DSKY_BRIDGE_SOFT_DEPTH=1",
+    "/Dapply_soft_fade=apply_soft_fade_on",
+    "/Dmaybe_calc_albedo=1"
+  ],
+  "programs": [
+    {
+      "stage": "ps",
+      "name": "albedo",
+      "success": true,
+      "entry": 1,
+      "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+    },
+    {
+      "stage": "ps",
+      "name": "static_per_pixel",
+      "success": true,
+      "entry": 3,
+      "sha256": "21ae6109d80d4ae05b336fcaf43f5d66316b2bbe14166f52514e4c2516cec987"
+    },
+    {
+      "stage": "ps",
+      "name": "static_per_vertex",
+      "success": true,
+      "entry": 4,
+      "sha256": "fcf6d65c44cb37fbd50f4ce8f9636402e4ca90087a2429bcf931040d948aeced"
+    },
+    {
+      "stage": "ps",
+      "name": "static_sh",
+      "success": true,
+      "entry": 5,
+      "sha256": "1952182c13003393093659adaf5514b6e2ec9354a5ceeb7d0cac525cdb13cebb"
+    },
+    {
+      "stage": "ps",
+      "name": "static_prt_ambient",
+      "success": true,
+      "entry": 6,
+      "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+    },
+    {
+      "stage": "ps",
+      "name": "static_prt_linear",
+      "success": true,
+      "entry": 7,
+      "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+    },
+    {
+      "stage": "ps",
+      "name": "static_prt_quadratic",
+      "success": true,
+      "entry": 8,
+      "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+    },
+    {
+      "stage": "ps",
+      "name": "static_per_vertex_color",
+      "success": true,
+      "entry": 14,
+      "sha256": "5150b8343a049499b524509f9e9aa48e181f9c8741939ba3cfddb121f1f1aeeb"
+    },
+    {
+      "stage": "ps",
+      "name": "dynamic_light",
+      "success": true,
+      "entry": 9,
+      "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+    },
+    {
+      "stage": "ps",
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "entry": 17,
+      "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+    },
+    {
+      "stage": "vs-world",
+      "name": "static_per_vertex_color",
+      "success": true,
+      "entry": 14,
+      "sha256": "c461ade9c4c42369d78093197dffd7eca33876f1c7f5b1a601a7f23d699f613d"
+    },
+    {
+      "stage": "vs-world",
+      "name": "dynamic_light",
+      "success": true,
+      "entry": 9,
+      "sha256": "5d05082a083a4ea37b9133665983a89e4af92bfd76c623244df17dc38fde22e9"
+    },
+    {
+      "stage": "vs-world",
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "entry": 17,
+      "sha256": "5d05082a083a4ea37b9133665983a89e4af92bfd76c623244df17dc38fde22e9"
+    },
+    {
+      "stage": "vs-rigid",
+      "name": "static_per_vertex_color",
+      "success": true,
+      "entry": 14,
+      "sha256": "429a40cb4bbc606d24579dc4c32337f35ecb4927c87d44d5b59e5becc5911081"
+    },
+    {
+      "stage": "vs-rigid",
+      "name": "dynamic_light",
+      "success": true,
+      "entry": 9,
+      "sha256": "21a1204c190df34bb4a0edb1cea9bc8ac96c32ab19d1e112399dc26805fd4988"
+    },
+    {
+      "stage": "vs-rigid",
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "entry": 17,
+      "sha256": "21a1204c190df34bb4a0edb1cea9bc8ac96c32ab19d1e112399dc26805fd4988"
+    },
+    {
+      "stage": "vs-skinned",
+      "name": "static_per_vertex_color",
+      "success": true,
+      "entry": 14,
+      "sha256": "935a12893ebc2804a2ff3f28bbff27a19d989a03aac77020c790d9ddf94373f2"
+    },
+    {
+      "stage": "vs-skinned",
+      "name": "dynamic_light",
+      "success": true,
+      "entry": 9,
+      "sha256": "1b223413e725b6248ee3e97d4bd80f58f0db161052d0a14afcc52eb8c2840131"
+    },
+    {
+      "stage": "vs-skinned",
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "entry": 17,
+      "sha256": "1b223413e725b6248ee3e97d4bd80f58f0db161052d0a14afcc52eb8c2840131"
+    }
+  ]
+}
