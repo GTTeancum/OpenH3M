@@ -1,0 +1,51 @@
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -864,6 +864,16 @@
+             variants = [6, 2, 0, 1, 2, 2, 0, 1, 0, 0]
+             sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
+             prisoner_template = True
++        window_directory = os.environ.get('OPENH3M_SKY_WINDOW_SHADER_DIR')
++        sky_window = bool(window_directory and source_filename == 's3d_sky_bridgenew.map'
++            and key == ('rmsh', r'levels\multi\s3d_sky_bridgenew\shaders\sbr_window_01'))
++        sky_window_evidence = None
++        if sky_window:
++            if s.name(s.u(source_post+12)&65535) != r'shaders\shader_templates\_0_0_0_0_1_2_0_3_0_0_0_0_0':
++                raise ValueError('Sky window source permutation changed')
++            variants = [0,0,0,0,1,2,0,3,0,0]
++            sky_template = r'shaders\shader_templates\_0_2_0_1_1_2_0_3_0_0'
++            prisoner_template = True
+         screen_directory = os.environ.get('OPENH3M_SKY_SCREEN_SHADER_DIR')
+         sky_screen = bool(screen_directory and source_filename == 's3d_sky_bridgenew.map'
+             and key == ('rmsh', r'levels\multi\s3d_sky_bridgenew\shaders\screen_lines'))
+@@ -902,9 +912,14 @@
+                 donor_options = dict(preferred_map='bunkerworld.map')
+             if powerhouse_compiled_corrugated:
+                 donor_options = dict(preferred_map='construct.map')
++            if sky_window:
++                donor_options = dict(preferred_map='armory.map')
+             if sky_screen:
+                 donor_options = dict(preferred_map='zanzibar.map')
+             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
++            if sky_window:
++                from sky_bridge_window import bind_window
++                native_sky_post, names, sky_window_evidence = bind_window(self, native_sky_post, names, window_directory)
+             if sky_screen:
+                 from sky_bridge_screen import bind_screen
+                 native_sky_post, names, screen_evidence = bind_screen(self, native_sky_post, names, screen_directory)
+@@ -1042,7 +1057,7 @@
+                 bitmap = self.bitmap(bitmap_datum)
+             struct.pack_into('>I', textures, index * 24 + 12, bitmap)
+             if prisoner_template and (getattr(self, 'boarding_action', False) or
+-                    source_filename == 's3d_powerhouse.map' or sky_screen):
++                    source_filename == 's3d_powerhouse.map' or sky_screen or sky_window):
+                 # Exact shader programs do not imply identical material sampling.
+                 # Preserve authored image/address/filter/external selection while
+                 # retaining the donor's name-matched constant transform index.
+@@ -1201,6 +1216,7 @@
+                 if autoturret_emission else None),
+             'native_neutral_emission_detail': lockout_neutral_emission_detail,
+             'powerhouse_screen_inert_specular_mask': powerhouse_screen,
++            'sky_bridge_compiled_window': sky_window_evidence,
+             'sky_bridge_compiled_screen': screen_evidence,
+             'powerhouse_compiled_concrete': compiled_concrete_evidence,
+             'powerhouse_compiled_river': compiled_river_evidence,

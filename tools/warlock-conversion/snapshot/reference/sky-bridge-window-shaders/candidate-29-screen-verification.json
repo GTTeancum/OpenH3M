@@ -1,0 +1,25 @@
+{
+  "target_material": 9742,
+  "animations": 3,
+  "animation_routes": 24,
+  "source_constants_exact": true,
+  "animation_consumers_exact": true,
+  "source_function_payloads_endian_exact": true,
+  "sampler_controls_exact": true,
+  "blend_mode": 1,
+  "textures": [
+    {
+      "source": "objects\\bitmaps\\screen_maps\\screen_line_01",
+      "target": 9741
+    },
+    {
+      "source": "shaders\\default_bitmaps\\bitmaps\\default_detail",
+      "target": 19
+    },
+    {
+      "source": "objects\\bitmaps\\screen_maps\\screen_line_01",
+      "target": 9741
+    }
+  ],
+  "limitation": "Structural evidence only; runtime appearance and performance unverified"
+}

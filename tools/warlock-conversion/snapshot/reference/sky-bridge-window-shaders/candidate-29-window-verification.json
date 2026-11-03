@@ -1,0 +1,28 @@
+{
+  "target_material": 9242,
+  "source_float_constants_exact": true,
+  "source_booleans_exact": true,
+  "material_texture_float_enabled": true,
+  "sampler_controls_exact": true,
+  "no_bump_sampler": true,
+  "blend_mode": 3,
+  "native_program_route_checks": 12,
+  "textures": [
+    {
+      "name": "base_map",
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_window_01",
+      "target": 9240
+    },
+    {
+      "name": "detail_map",
+      "source": "shaders\\default_bitmaps\\bitmaps\\default_detail",
+      "target": 19
+    },
+    {
+      "name": "material_texture",
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_window_01_material_texture",
+      "target": 9241
+    }
+  ],
+  "limitation": "No visual or runtime verification; no performance claim"
+}
