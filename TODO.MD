@@ -179,3 +179,6 @@ The cause is unconfirmed. This remains deferred: the user requested a TODO note 
 - [ ] Support System Link between a PC and an Xbox 360.
 - [ ] Support mixed sessions with multiple PCs and/or Xbox 360 consoles.
 - [ ] Support hosting and joining from either platform using native Halo 3 network behavior.
+
+- [x] Candidate125 extends shared-register protection to six other custom profiles; all seven reproduce (91 programs/84 interfaces). Focused corrugated and formerly black terrain captures pass; GPU lightmap scales remain stable.
+- [ ] Validate water detail, animated splash and moving parallax with useful native views; river127 only shows an overlook. Continue broader gameplay/audio/Forge checks. Full rebuild remains gated by flare-layout decision. See powerhouse-shared-register-evidence-125.json.

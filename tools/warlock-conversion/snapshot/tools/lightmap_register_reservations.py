@@ -72,3 +72,22 @@ def require_safe_shared_float_uploads(plan):
     collisions = shared_float_upload_collisions(plan)
     if collisions:
         raise ValueError('Material uploads overlap shared float blocks: ' + str(collisions))
+
+
+def reserve_shared_source(source):
+    """Reserve gaps in native exposure, simple-light, change-color and camo blocks.
+
+    For profiles without a separately declared fourth-color constant. Corrugated
+    has its own explicit c102 declaration and equivalent per-profile padding.
+    """
+    source = reserve_source(source)
+    padding = (11, 13, 98, 99, 100, 101, 102, 103, 233, 234, 235)
+    missing = []
+    for register in padding:
+        declaration = f'   PIXEL_CONSTANT(float4, p_shared_upload_padding_{register}, c{register});'
+        if declaration not in source:
+            missing.append(declaration)
+    if not missing:
+        return source
+    anchor = re.search(r'(?m)^\s*PIXEL_CONSTANT\(float4,\s*p_lightmap_compress_constant_0,\s*c210\);', source)
+    return source[:anchor.start()] + '\n// Reserve complete shared native upload blocks.\n' + '\n'.join(missing) + '\n' + source[anchor.start():]

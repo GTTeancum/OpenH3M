@@ -1,0 +1,14 @@
+--- a/tools/warlock-conversion/snapshot/tools/build_powerhouse_water_shaders.py
++++ b/tools/warlock-conversion/snapshot/tools/build_powerhouse_water_shaders.py
+@@ -78,7 +78,10 @@
+                     '--directory=' + adapted.relative_to(REPOSITORY).as_posix(),
+                     str(patch)],
+                    cwd=REPOSITORY, env=env, check=True, timeout=30)
+-    if recipe.get('reserve_lightmap_upload_blocks'):
++    if recipe.get('reserve_shared_upload_blocks') and not recipe.get('shared_padding_from_profile'):
++        header = adapted / 'hlsl_constant_persist.fx'
++        header.write_text(lightmap_register_reservations.reserve_shared_source(header.read_text()))
++    elif recipe.get('reserve_lightmap_upload_blocks'):
+         header = adapted / 'hlsl_constant_persist.fx'
+         header.write_text(lightmap_register_reservations.reserve_source(header.read_text()))
+     if recipe.get('profile_compatibility_patch'):

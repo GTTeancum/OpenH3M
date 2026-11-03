@@ -12,7 +12,7 @@ import struct
 
 from build_powerhouse_water_shaders import confined
 from build_scenario_checkpoint import resource_salt
-from lightmap_register_reservations import require_safe_material_routes
+from lightmap_register_reservations import require_safe_material_routes, require_safe_shared_float_uploads
 from map_builder import MapBuilder
 from string_ids import StringTable
 
@@ -34,6 +34,7 @@ def patch(source, output, profiles, xex):
         old = json.loads((directory / 'baseline' / plan_name).read_text())
         new = json.loads((directory / plan_name).read_text())
         require_safe_material_routes(new)
+        require_safe_shared_float_uploads(new)
         assert not new['unresolved'] and old['names'] == new['names']
         signature = []
         for program in sorted(old['programs'], key=lambda p: p['shader']):

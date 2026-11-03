@@ -1,0 +1,30 @@
+--- a/tools/warlock-conversion/build-powerhouse.ps1
++++ b/tools/warlock-conversion/build-powerhouse.ps1
+@@ -15,6 +15,7 @@
+ $oldGrateShaders = $env:OPENH3M_POWERHOUSE_GRATE_SHADER_DIR
+ $oldWindowShaders = $env:OPENH3M_POWERHOUSE_WINDOW_SHADER_DIR
+ $oldOpaqueGrateShaders = $env:OPENH3M_POWERHOUSE_OPAQUE_GRATE_SHADER_DIR
++$oldCorrugatedShaders = $env:OPENH3M_POWERHOUSE_CORRUGATED_SHADER_DIR
+ $env:TEMP = Join-Path $repo '.local/build-temp'
+ $env:TMP = $env:TEMP
+ $python = 'C:\Users\smmel\AppData\Local\Programs\Python\Python312\python.exe'
+@@ -50,6 +51,11 @@
+   if ($LASTEXITCODE -ne 0) { throw 'Powerhouse opaque grate shader preparation failed; see compiler output.' }
+   $env:OPENH3M_POWERHOUSE_OPAQUE_GRATE_SHADER_DIR = Join-Path $repo 'work/powerhouse/native-opaque-grate-shaders'
+  }
++ if (-not $env:OPENH3M_POWERHOUSE_CORRUGATED_SHADER_DIR) {
++  & $python -B tools/warlock-conversion/snapshot/tools/build_powerhouse_water_shaders.py --kind corrugated
++  if ($LASTEXITCODE -ne 0) { throw 'Powerhouse corrugated shader preparation failed; see compiler output.' }
++  $env:OPENH3M_POWERHOUSE_CORRUGATED_SHADER_DIR = Join-Path $repo 'work/powerhouse/native-corrugated-shaders'
++ }
+  & $python -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py `
+  --project C:/X360/ISOs/H3M --slot zanzibar `
+  --powerhouse-ambient-quarter-stops $AmbientQuarterStops `
+@@ -68,6 +74,7 @@
+  $env:OPENH3M_POWERHOUSE_GRATE_SHADER_DIR = $oldGrateShaders
+  $env:OPENH3M_POWERHOUSE_WINDOW_SHADER_DIR = $oldWindowShaders
+  $env:OPENH3M_POWERHOUSE_OPAQUE_GRATE_SHADER_DIR = $oldOpaqueGrateShaders
++ $env:OPENH3M_POWERHOUSE_CORRUGATED_SHADER_DIR = $oldCorrugatedShaders
+  $env:TEMP = $oldTemp
+  $env:TMP = $oldTmp
+ }

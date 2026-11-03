@@ -1,0 +1,3291 @@
+{
+  "candidate": "work/powerhouse/zanzibar-125.map",
+  "sha256": "b4293dda6091548b20631b0e8d428d2c70d2dffefa52bd0b0f844894d7c8a481",
+  "credits": {
+    "original": "Halo: Reach \u2014 Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M adaptation"
+  },
+  "patch": {
+    "source": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\powerhouse\\zanzibar-124.map",
+    "output": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\powerhouse\\zanzibar-125.map",
+    "sha256": "b4293dda6091548b20631b0e8d428d2c70d2dffefa52bd0b0f844894d7c8a481",
+    "pixels": [
+      {
+        "pixel_tag": 9360,
+        "profile": "concrete"
+      },
+      {
+        "pixel_tag": 9398,
+        "profile": "grate"
+      },
+      {
+        "pixel_tag": 9426,
+        "profile": "grate"
+      },
+      {
+        "pixel_tag": 9946,
+        "profile": "water"
+      },
+      {
+        "pixel_tag": 9951,
+        "profile": "water"
+      },
+      {
+        "pixel_tag": 9954,
+        "profile": "splash"
+      },
+      {
+        "pixel_tag": 10658,
+        "profile": "window"
+      },
+      {
+        "pixel_tag": 10666,
+        "profile": "opaque-grate"
+      }
+    ],
+    "templates": [
+      {
+        "template_tag": 9361,
+        "pixel_tag": 9360,
+        "profile": "concrete"
+      },
+      {
+        "template_tag": 9399,
+        "pixel_tag": 9398,
+        "profile": "grate"
+      },
+      {
+        "template_tag": 9427,
+        "pixel_tag": 9426,
+        "profile": "grate"
+      },
+      {
+        "template_tag": 9947,
+        "pixel_tag": 9946,
+        "profile": "water"
+      },
+      {
+        "template_tag": 9952,
+        "pixel_tag": 9951,
+        "profile": "water"
+      },
+      {
+        "template_tag": 9955,
+        "pixel_tag": 9954,
+        "profile": "splash"
+      },
+      {
+        "template_tag": 10659,
+        "pixel_tag": 10658,
+        "profile": "window"
+      },
+      {
+        "template_tag": 10667,
+        "pixel_tag": 10666,
+        "profile": "opaque-grate"
+      }
+    ],
+    "allocated_metadata": 347652,
+    "unchanged_original_metadata_outside_shader_fields": true,
+    "raw_asset_payload_unchanged": true,
+    "scope": "Private shader-only patch. No geometry, placements, materials values or flare changes. Native validation pending."
+  },
+  "six_profile_summary": {
+    "concrete": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 46,
+      "remaining_overlaps": 0
+    },
+    "grate": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 47,
+      "remaining_overlaps": 0
+    },
+    "window": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 7,
+      "remaining_overlaps": 0
+    },
+    "water": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 48,
+      "remaining_overlaps": 0
+    },
+    "splash": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 49,
+      "remaining_overlaps": 0
+    },
+    "opaque-grate": {
+      "programs": 13,
+      "interfaces": 12,
+      "removed_overlaps": 6,
+      "remaining_overlaps": 0
+    }
+  },
+  "reproduction": {
+    "profiles": [
+      "concrete",
+      "grate",
+      "window",
+      "water",
+      "splash",
+      "opaque-grate",
+      "corrugated"
+    ],
+    "programs": 91,
+    "native_interfaces": 84,
+    "log": "work/powerhouse/reproduce-all-shared-125.log",
+    "corrugated_log": "work/powerhouse/reproduced-corrugated-125.log",
+    "remaining_reflected_shared_upload_collisions": 0
+  },
+  "capture_reviews": [
+    {
+      "file": ".local/loading-traces/20261103-102230-32612/proof-loaded.png",
+      "sha256": "abd34ab6aa0c37ab4b56218601202b96c17dfccaee396834aedcc70997d8be47",
+      "review": "Corrugated panels visibly rendered; focused static view passes."
+    },
+    {
+      "file": ".local/loading-traces/20261103-102610-25688/proof-loaded.png",
+      "sha256": "2d8c1f36e612626b5fdae5904eb70a87d28987db836e07ec6e20c0be932628af",
+      "review": "Terrain beside opaque grate visibly lit/textured; focused regression view passes."
+    },
+    {
+      "file": ".local/loading-traces/20261103-102948-3544/proof-loaded.png",
+      "sha256": "b4594dbbb067ea6937f5d92618159a92a8a32b6d77990d2be7e9cf006d60e636",
+      "review": "Rocky overlook with rifle HUD. Intended river detail not reached or not demonstrated; validation incomplete."
+    }
+  ],
+  "terrain_gpu": {
+    "run": ".local\\loading-traces\\20261103-102610-25688",
+    "draw_count": 1024,
+    "snapshots": [
+      {
+        "sample": 0,
+        "index_count": 8,
+        "pixel_hash": "0xf02d6f85a35a4965",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 209,
+        "index_count": 15678,
+        "pixel_hash": "0xf03ce7eaa2209238",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 480,
+        "index_count": 15678,
+        "pixel_hash": "0xac7e04bc54dbee40",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 905,
+        "index_count": 15678,
+        "pixel_hash": "0xf03ce7eaa2209238",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      }
+    ],
+    "gpu_transitions": [
+      {
+        "sample": 0,
+        "index_count": 8,
+        "pixel_hash": "0xf02d6f85a35a4965",
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "errors": [],
+    "exits": [],
+    "hash_summary": [
+      {
+        "seconds": 180.391,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      }
+    ],
+    "scope": "Summarize observed CPU lightmap vectors and GPU pixel constants in a draw trace.\n\nCPU preparation and GPU submission are asynchronous. Their simultaneous snapshots\nare not a per-command correspondence. Transitions refer to GPU draw order only."
+  },
+  "corrugated_gpu": {
+    "run": ".local\\loading-traces\\20261103-102230-32612",
+    "draw_count": 4096,
+    "matching_draws": 15,
+    "native_programs": [
+      {
+        "entry": 1,
+        "index": 0,
+        "hash": "0x5d8b612640ec130f",
+        "constants": [
+          [
+            "detail_map_xform",
+            104,
+            1,
+            2
+          ],
+          [
+            "bump_map_xform",
+            105,
+            1,
+            2
+          ],
+          [
+            "base_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "albedo_color",
+            189,
+            1,
+            2
+          ],
+          [
+            "base_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "detail_map",
+            2,
+            1,
+            3
+          ],
+          [
+            "bump_map",
+            3,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 3,
+        "index": 1,
+        "hash": "0x47e7390a4e7fedb9",
+        "constants": [
+          [
+            "order3_area_specular",
+            1,
+            1,
+            0
+          ],
+          [
+            "no_dynamic_lights",
+            2,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "simple_light_count_int",
+            0,
+            1,
+            1
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "g_alt_exposure",
+            12,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            80,
+            2
+          ],
+          [
+            "self_illum_color",
+            102,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            104,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            105,
+            1,
+            2
+          ],
+          [
+            "specular_coefficient",
+            106,
+            1,
+            2
+          ],
+          [
+            "area_specular_contribution",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            112,
+            1,
+            2
+          ],
+          [
+            "environment_map_specular_contribution",
+            113,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            114,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            115,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            116,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            117,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            118,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            119,
+            1,
+            2
+          ],
+          [
+            "analytical_anti_shadow_control",
+            120,
+            1,
+            2
+          ],
+          [
+            "env_tint_color",
+            121,
+            1,
+            2
+          ],
+          [
+            "self_illum_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "self_illum_intensity",
+            189,
+            1,
+            2
+          ],
+          [
+            "p_lightmap_compress_constant_0",
+            210,
+            1,
+            2
+          ],
+          [
+            "p_lightmap_compress_constant_1",
+            211,
+            1,
+            2
+          ],
+          [
+            "self_illum_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "environment_map",
+            1,
+            1,
+            3
+          ],
+          [
+            "specular_mask_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            3,
+            1,
+            3
+          ],
+          [
+            "g_sampler_cc0236",
+            4,
+            1,
+            3
+          ],
+          [
+            "g_sampler_dd0236",
+            5,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ],
+          [
+            "lightprobe_texture_array",
+            12,
+            1,
+            3
+          ],
+          [
+            "dominant_light_intensity_map",
+            13,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 4,
+        "index": 3,
+        "hash": "0xb4e1d35e6d19b531",
+        "constants": [
+          [
+            "no_dynamic_lights",
+            2,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "simple_light_count_int",
+            0,
+            1,
+            1
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "g_alt_exposure",
+            12,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            80,
+            2
+          ],
+          [
+            "self_illum_color",
+            102,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            104,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            105,
+            1,
+            2
+          ],
+          [
+            "specular_coefficient",
+            106,
+            1,
+            2
+          ],
+          [
+            "area_specular_contribution",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            112,
+            1,
+            2
+          ],
+          [
+            "environment_map_specular_contribution",
+            113,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            114,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            115,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            116,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            117,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            118,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            119,
+            1,
+            2
+          ],
+          [
+            "analytical_anti_shadow_control",
+            120,
+            1,
+            2
+          ],
+          [
+            "env_tint_color",
+            121,
+            1,
+            2
+          ],
+          [
+            "self_illum_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "self_illum_intensity",
+            189,
+            1,
+            2
+          ],
+          [
+            "self_illum_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "environment_map",
+            1,
+            1,
+            3
+          ],
+          [
+            "specular_mask_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            3,
+            1,
+            3
+          ],
+          [
+            "g_sampler_cc0236",
+            4,
+            1,
+            3
+          ],
+          [
+            "g_sampler_dd0236",
+            5,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 5,
+        "index": 2,
+        "hash": "0x110370919ecbc741",
+        "constants": [
+          [
+            "order3_area_specular",
+            1,
+            1,
+            0
+          ],
+          [
+            "no_dynamic_lights",
+            2,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "simple_light_count_int",
+            0,
+            1,
+            1
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_0",
+            1,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_1",
+            2,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_2",
+            3,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_3",
+            4,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_4",
+            5,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_5",
+            6,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_6",
+            7,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_7",
+            8,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_8",
+            9,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_9",
+            10,
+            1,
+            2
+          ],
+          [
+            "k_ps_dominant_light_direction",
+            11,
+            1,
+            2
+          ],
+          [
+            "g_alt_exposure",
+            12,
+            1,
+            2
+          ],
+          [
+            "k_ps_dominant_light_intensity",
+            13,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            80,
+            2
+          ],
+          [
+            "self_illum_color",
+            102,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            104,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            105,
+            1,
+            2
+          ],
+          [
+            "specular_coefficient",
+            106,
+            1,
+            2
+          ],
+          [
+            "area_specular_contribution",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            112,
+            1,
+            2
+          ],
+          [
+            "environment_map_specular_contribution",
+            113,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            114,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            115,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            116,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            117,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            118,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            119,
+            1,
+            2
+          ],
+          [
+            "analytical_anti_shadow_control",
+            120,
+            1,
+            2
+          ],
+          [
+            "env_tint_color",
+            121,
+            1,
+            2
+          ],
+          [
+            "self_illum_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "self_illum_intensity",
+            189,
+            1,
+            2
+          ],
+          [
+            "self_illum_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "environment_map",
+            1,
+            1,
+            3
+          ],
+          [
+            "specular_mask_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            3,
+            1,
+            3
+          ],
+          [
+            "g_sampler_cc0236",
+            4,
+            1,
+            3
+          ],
+          [
+            "g_sampler_dd0236",
+            5,
+            1,
+            3
+          ],
+          [
+            "g_sampler_c78d78",
+            6,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 8,
+        "index": 7,
+        "hash": "0x96ece72ee714d99d",
+        "constants": [
+          [
+            "order3_area_specular",
+            1,
+            1,
+            0
+          ],
+          [
+            "no_dynamic_lights",
+            2,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "simple_light_count_int",
+            0,
+            1,
+            1
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_0",
+            1,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_1",
+            2,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_2",
+            3,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_3",
+            4,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_4",
+            5,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_5",
+            6,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_6",
+            7,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_7",
+            8,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_8",
+            9,
+            1,
+            2
+          ],
+          [
+            "p_lighting_constant_9",
+            10,
+            1,
+            2
+          ],
+          [
+            "k_ps_dominant_light_direction",
+            11,
+            1,
+            2
+          ],
+          [
+            "g_alt_exposure",
+            12,
+            1,
+            2
+          ],
+          [
+            "k_ps_dominant_light_intensity",
+            13,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            80,
+            2
+          ],
+          [
+            "self_illum_color",
+            102,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            104,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            105,
+            1,
+            2
+          ],
+          [
+            "specular_coefficient",
+            106,
+            1,
+            2
+          ],
+          [
+            "area_specular_contribution",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            112,
+            1,
+            2
+          ],
+          [
+            "environment_map_specular_contribution",
+            113,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            114,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            115,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            116,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            117,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            118,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            119,
+            1,
+            2
+          ],
+          [
+            "analytical_anti_shadow_control",
+            120,
+            1,
+            2
+          ],
+          [
+            "env_tint_color",
+            121,
+            1,
+            2
+          ],
+          [
+            "self_illum_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "self_illum_intensity",
+            189,
+            1,
+            2
+          ],
+          [
+            "self_illum_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "environment_map",
+            1,
+            1,
+            3
+          ],
+          [
+            "specular_mask_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            3,
+            1,
+            3
+          ],
+          [
+            "g_sampler_cc0236",
+            4,
+            1,
+            3
+          ],
+          [
+            "g_sampler_dd0236",
+            5,
+            1,
+            3
+          ],
+          [
+            "g_sampler_c78d78",
+            6,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 9,
+        "index": 4,
+        "hash": "0xbaf88250c6750643",
+        "constants": [
+          [
+            "dynamic_light_shadowing",
+            13,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "p_dynamic_light_gel_xform",
+            5,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            4,
+            2
+          ],
+          [
+            "specular_coefficient",
+            104,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            105,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            106,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            112,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            113,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            114,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            115,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            188,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            189,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture",
+            0,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "shadow_depth_map_1",
+            3,
+            1,
+            3
+          ],
+          [
+            "dynamic_light_gel_texture",
+            4,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 12,
+        "index": 8,
+        "hash": "0x4ed30e93da606c1e",
+        "constants": [
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "k_ps_active_camo_factor",
+            232,
+            1,
+            2
+          ],
+          [
+            "scene_ldr_texture",
+            10,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 13,
+        "index": 10,
+        "hash": "0xd778099bcfa2ff20",
+        "constants": [
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "p_render_debug_mode",
+            94,
+            1,
+            2
+          ],
+          [
+            "bump_map_xform",
+            189,
+            1,
+            2
+          ],
+          [
+            "bump_map",
+            0,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 14,
+        "index": 9,
+        "hash": "0x80e2ed2a051268",
+        "constants": [
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "simple_light_count_int",
+            0,
+            1,
+            1
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "g_alt_exposure",
+            12,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            80,
+            2
+          ],
+          [
+            "self_illum_color",
+            102,
+            1,
+            2
+          ],
+          [
+            "self_illum_map_xform",
+            188,
+            1,
+            2
+          ],
+          [
+            "self_illum_intensity",
+            189,
+            1,
+            2
+          ],
+          [
+            "self_illum_map",
+            0,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "entry": 17,
+        "index": 11,
+        "hash": "0x4e0ef4f17a80b471",
+        "constants": [
+          [
+            "dynamic_light_shadowing",
+            13,
+            1,
+            0
+          ],
+          [
+            "ldr_gamma2",
+            14,
+            1,
+            0
+          ],
+          [
+            "hdr_gamma2",
+            15,
+            1,
+            0
+          ],
+          [
+            "g_exposure",
+            0,
+            1,
+            2
+          ],
+          [
+            "p_dynamic_light_gel_xform",
+            5,
+            1,
+            2
+          ],
+          [
+            "texture_size",
+            14,
+            1,
+            2
+          ],
+          [
+            "camera_position_ps",
+            16,
+            1,
+            2
+          ],
+          [
+            "simple_lights",
+            18,
+            4,
+            2
+          ],
+          [
+            "specular_coefficient",
+            104,
+            1,
+            2
+          ],
+          [
+            "analytical_specular_contribution",
+            105,
+            1,
+            2
+          ],
+          [
+            "material_texture_xform",
+            106,
+            1,
+            2
+          ],
+          [
+            "use_material_texture",
+            107,
+            1,
+            2
+          ],
+          [
+            "p_tiling_vpos_offset",
+            108,
+            1,
+            2
+          ],
+          [
+            "fresnel_color",
+            112,
+            1,
+            2
+          ],
+          [
+            "roughness",
+            113,
+            1,
+            2
+          ],
+          [
+            "albedo_blend",
+            114,
+            1,
+            2
+          ],
+          [
+            "specular_tint",
+            115,
+            1,
+            2
+          ],
+          [
+            "diffuse_coefficient",
+            188,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture_xform",
+            189,
+            1,
+            2
+          ],
+          [
+            "specular_mask_texture",
+            0,
+            1,
+            3
+          ],
+          [
+            "material_texture",
+            2,
+            1,
+            3
+          ],
+          [
+            "shadow_depth_map_1",
+            3,
+            1,
+            3
+          ],
+          [
+            "dynamic_light_gel_texture",
+            4,
+            1,
+            3
+          ],
+          [
+            "albedo_texture",
+            10,
+            1,
+            3
+          ],
+          [
+            "normal_texture",
+            11,
+            1,
+            3
+          ]
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "entry": 1,
+        "program": 0,
+        "pixel_hash": "0x5d8b612640ec130f",
+        "samples": [
+          546,
+          547,
+          548,
+          549,
+          3132,
+          3133,
+          3134,
+          3135
+        ],
+        "seconds": 158.281,
+        "index_count": 408,
+        "textures": {
+          "base_map": {
+            "register": 0,
+            "words": [
+              "0x84000002",
+              "0x1b9a1054",
+              "0x3fe1ff",
+              "0xa80d10",
+              "0x243",
+              "0x1b9e1a18"
+            ],
+            "type": 2,
+            "pitch": 512,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9a1000",
+            "stacked": false,
+            "width": 512,
+            "height": 512,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 9,
+            "dimension": 1,
+            "mip_base": "0x1b9e1000"
+          },
+          "detail_map": {
+            "register": 2,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "bump_map": {
+            "register": 3,
+            "words": [
+              "0x830002aa",
+              "0x1ba22071",
+              "0x27e13f",
+              "0x280d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 49,
+            "base": "0x1ba22000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          }
+        },
+        "constants": {
+          "detail_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "bump_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "base_map_xform": [
+            2.0,
+            2.0,
+            0.0,
+            0.0
+          ],
+          "albedo_color": [
+            0.960784375667572,
+            0.960784375667572,
+            0.960784375667572,
+            1.0
+          ]
+        },
+        "vertex_head": "b3d7be47edbb0000b9843793000d1adb004929a37fffffffb3d7be47fffe0000b9cb3ba3000d1adb01a929a37fffe3fae8a8f161edbb0000efcc378b000d1adb016929a37fffebfce8a8f161fffe0000f0563ba3000d1adb014929a37fffebfc",
+        "state_flags": {
+          "0x2000": "0x120004b0",
+          "0x2001": "0x10260",
+          "0x2104": "0xff",
+          "0x2105": "0x0",
+          "0x2200": "0x708667",
+          "0x2201": "0x10001",
+          "0x2208": "0x4"
+        }
+      },
+      {
+        "entry": 1,
+        "program": 0,
+        "pixel_hash": "0x5d8b612640ec130f",
+        "samples": [
+          762,
+          3348
+        ],
+        "seconds": 158.391,
+        "index_count": 1224,
+        "textures": {
+          "base_map": {
+            "register": 0,
+            "words": [
+              "0x84000002",
+              "0x1b9a1054",
+              "0x3fe1ff",
+              "0xa80d10",
+              "0x243",
+              "0x1b9e1a18"
+            ],
+            "type": 2,
+            "pitch": 512,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9a1000",
+            "stacked": false,
+            "width": 512,
+            "height": 512,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 9,
+            "dimension": 1,
+            "mip_base": "0x1b9e1000"
+          },
+          "detail_map": {
+            "register": 2,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "bump_map": {
+            "register": 3,
+            "words": [
+              "0x830002aa",
+              "0x1ba22071",
+              "0x27e13f",
+              "0x280d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 49,
+            "base": "0x1ba22000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          }
+        },
+        "constants": {
+          "detail_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "bump_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "base_map_xform": [
+            2.0,
+            2.0,
+            0.0,
+            0.0
+          ],
+          "albedo_color": [
+            0.960784375667572,
+            0.960784375667572,
+            0.960784375667572,
+            1.0
+          ]
+        },
+        "vertex_head": "96d33da1edbc0000b9843793000d1adb004929a37fffffff96d33da1fffe0000b9cb3ba3000d1adb01a929a37fffe3faa67c4e2eedbc0000efcc378b000d1adb016929a37fffebfca67c4e2efffe0000f0563ba3000d1adb014929a37fffebfc",
+        "state_flags": {
+          "0x2000": "0x120004b0",
+          "0x2001": "0x10260",
+          "0x2104": "0xff",
+          "0x2105": "0x0",
+          "0x2200": "0x708667",
+          "0x2201": "0x10001",
+          "0x2208": "0x4"
+        }
+      },
+      {
+        "entry": 4,
+        "program": 3,
+        "pixel_hash": "0xb4e1d35e6d19b531",
+        "samples": [
+          1704,
+          1705,
+          1706,
+          1707
+        ],
+        "seconds": 158.859,
+        "index_count": 408,
+        "textures": {
+          "self_illum_map": {
+            "register": 0,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "environment_map": {
+            "register": 1,
+            "words": [
+              "0x80824802",
+              "0x1ba46086",
+              "0x1407e03f",
+              "0xa80c14",
+              "0x183",
+              "0x1ba5ee18"
+            ],
+            "type": 2,
+            "pitch": 64,
+            "tiled": 1,
+            "format": 6,
+            "base": "0x1ba46000",
+            "stacked": false,
+            "width": 64,
+            "height": 64,
+            "depth": 6,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1546,
+            "mip_min": 0,
+            "mip_max": 6,
+            "dimension": 3,
+            "mip_base": "0x1ba5e000"
+          },
+          "specular_mask_texture": {
+            "register": 2,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "material_texture": {
+            "register": 3,
+            "words": [
+              "0x84000002",
+              "0x1b9a1054",
+              "0x3fe1ff",
+              "0xa80d10",
+              "0x243",
+              "0x1b9e1a18"
+            ],
+            "type": 2,
+            "pitch": 512,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9a1000",
+            "stacked": false,
+            "width": 512,
+            "height": 512,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 9,
+            "dimension": 1,
+            "mip_base": "0x1b9e1000"
+          },
+          "g_sampler_cc0236": {
+            "register": 4,
+            "words": [
+              "0x80424956",
+              "0x90c305d",
+              "0x3e01f",
+              "0x280d11",
+              "0x3",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 32,
+            "tiled": 1,
+            "format": 29,
+            "base": "0x90c3000",
+            "stacked": false,
+            "width": 32,
+            "height": 32,
+            "depth": 1,
+            "signs": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "g_sampler_dd0236": {
+            "register": 5,
+            "words": [
+              "0x80424956",
+              "0x92ed05d",
+              "0x3e01f",
+              "0x280d11",
+              "0x3",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 32,
+            "tiled": 1,
+            "format": 29,
+            "base": "0x92ed000",
+            "stacked": false,
+            "width": 32,
+            "height": 32,
+            "depth": 1,
+            "signs": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "albedo_texture": {
+            "register": 10,
+            "words": [
+              "0x890248fe",
+              "0x44b00b2",
+              "0x4fe47f",
+              "0xc14",
+              "0x0",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 1152,
+            "tiled": 1,
+            "format": 50,
+            "base": "0x44b0000",
+            "stacked": false,
+            "width": 1152,
+            "height": 640,
+            "depth": 1,
+            "signs": [
+              3,
+              3,
+              3,
+              0
+            ],
+            "swizzle": 1546,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "normal_texture": {
+            "register": 11,
+            "words": [
+              "0x89024802",
+              "0x4780087",
+              "0x4fe47f",
+              "0xd10",
+              "0x0",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 1152,
+            "tiled": 1,
+            "format": 7,
+            "base": "0x4780000",
+            "stacked": false,
+            "width": 1152,
+            "height": 640,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          }
+        },
+        "constants": {
+          "g_exposure": [
+            5.868990421295166,
+            128.0,
+            1.0,
+            1.0
+          ],
+          "g_alt_exposure": [
+            0.27884379029273987,
+            1.6365315914154053,
+            0.0,
+            0.0
+          ],
+          "texture_size": [
+            1152.0,
+            640.0,
+            2.366811752319336,
+            -1.0842021724855044e-19
+          ],
+          "camera_position_ps": [
+            134.71499633789062,
+            243.5070037841797,
+            40.034210205078125,
+            0.0
+          ],
+          "self_illum_color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "specular_mask_texture_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "diffuse_coefficient": [
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ],
+          "specular_coefficient": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "area_specular_contribution": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "p_tiling_vpos_offset": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "analytical_specular_contribution": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "environment_map_specular_contribution": [
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ],
+          "material_texture_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "use_material_texture": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "fresnel_color": [
+            0.501960813999176,
+            0.501960813999176,
+            0.501960813999176,
+            1.0
+          ],
+          "roughness": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "albedo_blend": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specular_tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "analytical_anti_shadow_control": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "env_tint_color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "self_illum_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "self_illum_intensity": [
+            8.0,
+            8.0,
+            8.0,
+            8.0
+          ]
+        },
+        "vertex_head": null,
+        "state_flags": {
+          "0x2000": "0x120004b0",
+          "0x2001": "0x10260",
+          "0x2104": "0xff",
+          "0x2105": "0x0",
+          "0x2200": "0x708663",
+          "0x2201": "0xe0001",
+          "0x2208": "0x4"
+        }
+      },
+      {
+        "entry": 4,
+        "program": 3,
+        "pixel_hash": "0xb4e1d35e6d19b531",
+        "samples": [
+          1920
+        ],
+        "seconds": 158.969,
+        "index_count": 1224,
+        "textures": {
+          "self_illum_map": {
+            "register": 0,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "environment_map": {
+            "register": 1,
+            "words": [
+              "0x80824802",
+              "0x1ba46086",
+              "0x1407e03f",
+              "0xa80c14",
+              "0x183",
+              "0x1ba5ee18"
+            ],
+            "type": 2,
+            "pitch": 64,
+            "tiled": 1,
+            "format": 6,
+            "base": "0x1ba46000",
+            "stacked": false,
+            "width": 64,
+            "height": 64,
+            "depth": 6,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1546,
+            "mip_min": 0,
+            "mip_max": 6,
+            "dimension": 3,
+            "mip_base": "0x1ba5e000"
+          },
+          "specular_mask_texture": {
+            "register": 2,
+            "words": [
+              "0x83000002",
+              "0x1b9fe054",
+              "0x27e13f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 384,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9fe000",
+            "stacked": false,
+            "width": 320,
+            "height": 320,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 1,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "material_texture": {
+            "register": 3,
+            "words": [
+              "0x84000002",
+              "0x1b9a1054",
+              "0x3fe1ff",
+              "0xa80d10",
+              "0x243",
+              "0x1b9e1a18"
+            ],
+            "type": 2,
+            "pitch": 512,
+            "tiled": 1,
+            "format": 20,
+            "base": "0x1b9a1000",
+            "stacked": false,
+            "width": 512,
+            "height": 512,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 9,
+            "dimension": 1,
+            "mip_base": "0x1b9e1000"
+          },
+          "g_sampler_cc0236": {
+            "register": 4,
+            "words": [
+              "0x80424956",
+              "0x90c305d",
+              "0x3e01f",
+              "0x280d11",
+              "0x3",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 32,
+            "tiled": 1,
+            "format": 29,
+            "base": "0x90c3000",
+            "stacked": false,
+            "width": 32,
+            "height": 32,
+            "depth": 1,
+            "signs": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "g_sampler_dd0236": {
+            "register": 5,
+            "words": [
+              "0x80424956",
+              "0x92ed05d",
+              "0x3e01f",
+              "0x280d11",
+              "0x3",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 32,
+            "tiled": 1,
+            "format": 29,
+            "base": "0x92ed000",
+            "stacked": false,
+            "width": 32,
+            "height": 32,
+            "depth": 1,
+            "signs": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "albedo_texture": {
+            "register": 10,
+            "words": [
+              "0x890248fe",
+              "0x44b00b2",
+              "0x4fe47f",
+              "0xc14",
+              "0x0",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 1152,
+            "tiled": 1,
+            "format": 50,
+            "base": "0x44b0000",
+            "stacked": false,
+            "width": 1152,
+            "height": 640,
+            "depth": 1,
+            "signs": [
+              3,
+              3,
+              3,
+              0
+            ],
+            "swizzle": 1546,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          },
+          "normal_texture": {
+            "register": 11,
+            "words": [
+              "0x89024802",
+              "0x4780087",
+              "0x4fe47f",
+              "0xd10",
+              "0x0",
+              "0x218"
+            ],
+            "type": 2,
+            "pitch": 1152,
+            "tiled": 1,
+            "format": 7,
+            "base": "0x4780000",
+            "stacked": false,
+            "width": 1152,
+            "height": 640,
+            "depth": 1,
+            "signs": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "swizzle": 1672,
+            "mip_min": 0,
+            "mip_max": 0,
+            "dimension": 1,
+            "mip_base": "0x0"
+          }
+        },
+        "constants": {
+          "g_exposure": [
+            5.868990421295166,
+            128.0,
+            1.0,
+            1.0
+          ],
+          "g_alt_exposure": [
+            0.27884379029273987,
+            1.6365315914154053,
+            0.0,
+            0.0
+          ],
+          "texture_size": [
+            1152.0,
+            640.0,
+            2.366811752319336,
+            -1.0842021724855044e-19
+          ],
+          "camera_position_ps": [
+            134.71499633789062,
+            243.5070037841797,
+            40.034210205078125,
+            0.0
+          ],
+          "self_illum_color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "specular_mask_texture_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "diffuse_coefficient": [
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ],
+          "specular_coefficient": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "area_specular_contribution": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "p_tiling_vpos_offset": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "analytical_specular_contribution": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "environment_map_specular_contribution": [
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ],
+          "material_texture_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "use_material_texture": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "fresnel_color": [
+            0.501960813999176,
+            0.501960813999176,
+            0.501960813999176,
+            1.0
+          ],
+          "roughness": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "albedo_blend": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specular_tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "analytical_anti_shadow_control": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "env_tint_color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "self_illum_map_xform": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "self_illum_intensity": [
+            8.0,
+            8.0,
+            8.0,
+            8.0
+          ]
+        },
+        "vertex_head": null,
+        "state_flags": {
+          "0x2000": "0x120004b0",
+          "0x2001": "0x10260",
+          "0x2104": "0xff",
+          "0x2105": "0x0",
+          "0x2200": "0x708663",
+          "0x2201": "0xe0001",
+          "0x2208": "0x4"
+        }
+      }
+    ],
+    "unmatched_hashes": {
+      "0xf02d6f85a35a4965": 2,
+      "0x2e372ea28cc404b7": 318,
+      "0x1ec4dae277c2a60b": 30,
+      "0x87a63254e5dec5f9": 2,
+      "0x43a59e77a4b66b05": 52,
+      "0x5a3b52f6f89bd2b0": 4,
+      "0x65a5da6b20330a35": 6,
+      "0x590d488f392a8d47": 4,
+      "0x5c0dc547bc434c59": 2,
+      "0xaef0aa99532085fb": 4,
+      "0x856266c4d6e536e1": 4,
+      "0x544e0e9059867ddc": 136,
+      "0x8a248ed720537121": 30,
+      "0xc547f235af626947": 102,
+      "0x8d25cbec42b86802": 182,
+      "0x87ec1a05aa2c9796": 32,
+      "0x76d46ee93c3f6d61": 98,
+      "0x9807fe2e1566ee30": 32,
+      "0x72a62f32be9a7ed5": 2,
+      "0x281662cf5ead5434": 2,
+      "0x4d899d5739f9238c": 16,
+      "0xf03ce7eaa2209238": 8,
+      "0x8f31c370c1ac1db3": 160,
+      "0x47f2a0182a106ef9": 208,
+      "0x885c432a2e1e2894": 6,
+      "0xd465bc2362f8a148": 26,
+      "0xa6620d148ed18223": 2,
+      "0xf526dcf37f5617d9": 90,
+      "0xc1fc1e147c4ff88a": 40,
+      "0x3e9728552cb19a19": 28,
+      "0xe2cee52ce162b3d4": 12,
+      "0xdec9e762fe46367c": 10,
+      "0x7d6824587b2e62c9": 4,
+      "0x75be0eae0be3a95e": 12,
+      "0x724f7e84cf2a2fb3": 2,
+      "0x212b0c097fccd2b6": 4,
+      "0xc0001f370986d592": 16,
+      "0xbc78474be96e4253": 40,
+      "0x7ce83452e46c73d3": 12,
+      "0x64f5ef6b8a55f89b": 96,
+      "0xf2b8568025ce582d": 10,
+      "0x9acfc7ba909a0470": 40,
+      "0x58c24bb7ddb4f91e": 4,
+      "0xe0bd3fcc3c6d1c43": 30,
+      "0xa1a3083b7e387ce1": 4,
+      "0xd370ebca75c8f666": 4,
+      "0xae1ecea9fad990af": 14,
+      "0x564744e1b84bdfdb": 8,
+      "0xe0cc9593d03778be": 6,
+      "0xd4074902e5882206": 2,
+      "0x78958dea7f823784": 12,
+      "0x14a0b3fb46706836": 4,
+      "0xfd8330be9e3147d8": 12,
+      "0x47c282581cf61c49": 4,
+      "0x76f4f5fdf1b50390": 2,
+      "0x4943e05ee6acac09": 2,
+      "0xc23e914fc09db432": 198,
+      "0x614a5da84dc2aa34": 16,
+      "0xb3f5953153c21801": 200,
+      "0xfc3ab123f241739": 82,
+      "0xf1e9de5fa2286345": 104,
+      "0xbe0f9fae8559c97f": 12,
+      "0x592953a15edfeae1": 42,
+      "0x1fbcd5e75c0609b": 2,
+      "0x6a9cce8a3240f718": 6,
+      "0x568314098069d5d0": 12,
+      "0xc58fb4afa335e78d": 12,
+      "0x989dad75569e249f": 6,
+      "0x30a56a551a76d3e3": 6,
+      "0xd77888d085751fb5": 6,
+      "0x3718ab11dd58df": 6,
+      "0x69b08029db497fcf": 12,
+      "0xc51ff1b7254d0d7a": 16,
+      "0x11abf2e1e95ba856": 16,
+      "0xa3042208551b9468": 4,
+      "0xc4812f49bdf24bb4": 19,
+      "0x5b66c8b5c533a327": 15,
+      "0xcada9245de5e2ea7": 34,
+      "0x9afa72f73864598e": 2,
+      "0xfc163a96056b72ed": 2,
+      "0x5ef9aceb861c2ef2": 52,
+      "0x343d8480473f57e8": 7,
+      "0xcdd23278a00858dd": 4,
+      "0xaf48a17c5f890a5f": 60,
+      "0x88ebb3ee5100dd3d": 103,
+      "0xad85d458718fcb0b": 72,
+      "0xfb51be577f8b9d03": 3,
+      "0xaddbf858fb0683a4": 4,
+      "0x331994f4fabb7caf": 15,
+      "0x53cccb32f9bc018e": 2,
+      "0x4e9ef7c201fd0dc1": 33,
+      "0xf8f205bc546703d2": 34,
+      "0xc15ec18e446e0bac": 14,
+      "0x250bbe458f2c9c66": 44,
+      "0x192aa60d112b1b60": 10,
+      "0x192dd534590ba2c9": 9,
+      "0x772ae069030383ab": 4,
+      "0xc1c9198221cfd9d1": 2,
+      "0xa7119188bdd4c9d0": 2,
+      "0x798b13d40e4cd4a0": 2,
+      "0xfed186e34aee40c7": 7,
+      "0x3a7d522544cbfee1": 15,
+      "0x59ff7b1074d996a6": 4,
+      "0x5d538a5fa00262ab": 34,
+      "0x2bc48bcd7e73a128": 16,
+      "0x27455f602ecf8c86": 11,
+      "0x9667aa105d4978ed": 9,
+      "0x9853d66882fb334": 24,
+      "0xca4c184abadaaf29": 14,
+      "0xbc06e7e7950819af": 8,
+      "0x8b55bbb20e89e7b": 22,
+      "0x3bd2cdd2f0c12fe2": 8,
+      "0x5cdba67d052e7dd3": 43,
+      "0x60f644b7b3093fa2": 39,
+      "0x245108629ee262d1": 10,
+      "0x8742d59a6591fc33": 2,
+      "0xf1688b7733bf363a": 11,
+      "0x90473ebc3b019e0a": 15,
+      "0x5bb75a9ff2a39956": 21,
+      "0xcb4dd4bbc81ed870": 2,
+      "0xbab446d02c4a24e6": 4,
+      "0x3e402b8ae3442222": 1,
+      "0xdcab15e99d597183": 2,
+      "0x26c37e8e45d19b23": 12,
+      "0x176c1942cd491560": 2,
+      "0x8b9e5b80b85af193": 2,
+      "0x6834202f6dc90384": 2,
+      "0x560fb0cb47d9b3ef": 1,
+      "0xde4ae8aa544c5c9e": 6,
+      "0xbd9306fc5e94915f": 4,
+      "0x8ce64d73ebd8261f": 4,
+      "0x2cd711bdc4eade57": 3,
+      "0x7f4c0bf1de47f12d": 2,
+      "0x1b17217a28a2e7f1": 1,
+      "0x18103d63094564d7": 6,
+      "0xa495e11f33541991": 1,
+      "0xb915a76c7d5b16f8": 1,
+      "0xac7e04bc54dbee40": 1,
+      "0xdaf2f521144d09f7": 2,
+      "0xe1a5fe6c7c4ec0ff": 1,
+      "0x4b0b54ad62cb4fc0": 2,
+      "0xd162dd02265af31": 1,
+      "0xfedaa3c40610f33": 5,
+      "0xf519fd6429304ca3": 1,
+      "0x24f44fe73cffa1b1": 1,
+      "0xd5098cb8b5707b19": 1,
+      "0x15e296d751a2ddac": 1,
+      "0x42e66768a583d57e": 4,
+      "0xbbdfe5f5fe381bf": 1,
+      "0x2d43de82b02cc07d": 3,
+      "0x9db19f54a1e0e54c": 161,
+      "0x8dd9598be9b2fa55": 9,
+      "0xbfa9dbf632a4dc0e": 5,
+      "0x1b09aa21be06fc2": 11,
+      "0x251a86cec9748c08": 1,
+      "0xc2654164f0205299": 2,
+      "0xfb5d4ef08a3fdac0": 1,
+      "0x89bc4063512c122c": 6,
+      "0x5b82c5efa548c321": 1,
+      "0x52365385b28a10ab": 1,
+      "0x8e5059bc4a51f792": 1,
+      "0xb02c12f978705701": 1,
+      "0x800a30257a072a34": 3,
+      "0x21fda207af969d21": 3,
+      "0xcba2e39806343cf3": 5,
+      "0x6e99114c45efaea6": 9,
+      "0x887c5b043f14a3b8": 11,
+      "0x7bd19cfec6841536": 1,
+      "0xcd3db7436caf5839": 3,
+      "0x5413eb068bf721a9": 2,
+      "0xccdb38b75706c56f": 1,
+      "0x735299b751f9dc37": 2,
+      "0x65365450650e116f": 1,
+      "0x7596adedd0f9b075": 1,
+      "0xb79ef1403fa80c0a": 1,
+      "0x8f5b410e10561ba2": 2,
+      "0x9d28adaf2789152f": 2,
+      "0x44ff5368bd47effe": 5,
+      "0x8525ec23a7dc47c8": 2,
+      "0x54411a1fd7924873": 4,
+      "0xe6d576cba62829f9": 1,
+      "0x798b2d8292d071": 2,
+      "0xbeb287bbccc6c17c": 1,
+      "0x56ff468371bdc825": 1,
+      "0x55ddb8e018f286ac": 2,
+      "0x795ad70a77f21798": 2,
+      "0xf25d98256edb87b2": 1,
+      "0xec078132027b606f": 1,
+      "0x7467fd02ad03c6a1": 4,
+      "0x528d547a16011af4": 1,
+      "0x223e5436894147c": 4,
+      "0xec87c34c8fc8d573": 2,
+      "0x7685cd08977fa353": 1,
+      "0xdd47d4b1ec7d41a5": 3,
+      "0x5c92609c9d92351a": 14,
+      "0x784f3ad55cdab39c": 2,
+      "0xcc244f1ab30bda61": 6,
+      "0x4fd050fce052135b": 10,
+      "0x3cd1ca08e4aab3a5": 4,
+      "0xfac7cb14fd426074": 3,
+      "0xf8f9cd2b74e93486": 2,
+      "0x87021cca423d6960": 1,
+      "0xfaffcf50fd589163": 4,
+      "0xba5f1ed5dad93aec": 2,
+      "0x5d737758786bbf80": 2,
+      "0x4213572c7b3f00dd": 2,
+      "0x375dbb4908fd9427": 4,
+      "0x74c0f136c37a54d6": 2,
+      "0xdfa41e42e5522c2a": 6,
+      "0x4fb83182953ebc48": 6,
+      "0x2dda763868c08fe0": 2,
+      "0x9ff9b8a8dd19edc9": 2,
+      "0x373e65d9adcf4380": 1,
+      "0x82aea9abbaa021d7": 6,
+      "0xe67bc412feef3839": 2,
+      "0xa4fd23d3c45eb41": 10,
+      "0xec94f99e0f211966": 8,
+      "0x8d8afd132e83aecf": 1,
+      "0x5b3d81fbcc7989a4": 1,
+      "0x4adc4b7c9ad73866": 1
+    },
+    "scope": "Matching shader bytecode identities and observed GPU registers. Shared terrain variants may occur on several materials; use named constants/textures and geometry to identify the affected draw."
+  },
+  "limits": [
+    "Only reflected globals and explicitly reserved native blocks audited; not all engine registers.",
+    "River127 trace files are empty and the process is no longer live; terminal exit and hash checks not recovered. Capture is an overlook, not a useful water-detail view. No water acceptance.",
+    "Static captures do not establish splash animation, moving parallax, audio, broad traversal/Forge behavior, console or System Link compatibility.",
+    "Full rebuild remains gated by pending flare-layout decision. No installation or push."
+  ]
+}

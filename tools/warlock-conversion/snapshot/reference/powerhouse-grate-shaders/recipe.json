@@ -1,0 +1,95 @@
+{
+  "reviewed_candidate": 125,
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_default_ps",
+    "/Dcalc_albedo_vs=calc_albedo_default_vs",
+    "/Dcalc_bumpmap_ps=calc_bumpmap_default_ps",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_default_vs",
+    "/Dcalc_alpha_test_ps=calc_alpha_test_on_ps",
+    "/Dcalc_specular_mask_ps=calc_specular_mask_from_diffuse_ps",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_none_ps",
+    "/Dcalc_parallax_ps=calc_parallax_simple_ps",
+    "/Dcalc_parallax_vs=calc_parallax_simple_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dmaterial_type=cook_torrance",
+    "/Denvmap_type=per_pixel",
+    "/Dblend_type=opaque",
+    "/Dbitmap_rotation=0"
+  ],
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "microcode_sha256": "9e4d572f328dc97f3ee771817342acfd625ab8ac6acada3e9be65a638702bfe7"
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "microcode_sha256": "ac7316f188e669b667c66cc3e900ab1193c713fab0e8a8289cc4b75e5a82b105"
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "microcode_sha256": "7435996758595acdb08dfa780537680b78c255a5baf903ab35fcaafbc9c0c0d9"
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "microcode_sha256": "3ff1fe5e6e8d3d6275b066db0857915461cda073c3785bf7894d13acefdd001e"
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "microcode_sha256": "21b2e1d034fb77722b36966fd6beaa933953b9278e41912d726ef92624f6d865"
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "microcode_sha256": "21b2e1d034fb77722b36966fd6beaa933953b9278e41912d726ef92624f6d865"
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "microcode_sha256": "21b2e1d034fb77722b36966fd6beaa933953b9278e41912d726ef92624f6d865"
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "microcode_sha256": "371d092b7a5a88fc4ed13861d9ce546914aa27a8253db93bc66dc479f4a850f1"
+    },
+    {
+      "entry": 10,
+      "name": "shadow_generate",
+      "microcode_sha256": "d5ee1b751b02c38d8204c46bed016312217d5f5299777d3bf55f122c9476395f"
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "microcode_sha256": "693ae53d2581f3ca2a3ba3d6e0dfc281b3e27727f03e99b7f6525584a7aae08d"
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "microcode_sha256": "651c1ac1103206052ed2f467b0f6cc1ec2a5fdee9febb05b82cb92e5de823b0c"
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "microcode_sha256": "938c17a6f12d3b5759d9470a965162f5635fc59bc67012328b1bc9b279d58adf"
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "microcode_sha256": "9728df093d7e4dd55aece650974298100fd0889134af5f1530b107b8bb589deb"
+    }
+  ],
+  "reserve_lightmap_upload_blocks": true,
+  "reserve_shared_upload_blocks": true,
+  "validation_status": "Private candidate125: reproduced 13 programs and verified 12 native interfaces; reflected shared upload blocks protected. Focused terrain and corrugated views pass. Water/splash motion and broader validation remain incomplete."
+}

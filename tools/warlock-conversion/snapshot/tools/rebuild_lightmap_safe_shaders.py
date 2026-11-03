@@ -16,7 +16,7 @@ import struct
 import subprocess
 
 import build_powerhouse_water_shaders as baseline
-from lightmap_register_reservations import material_collisions, reserve_source, require_safe_material_routes
+from lightmap_register_reservations import material_collisions, reserve_shared_source, require_safe_material_routes, shared_float_upload_collisions, require_safe_shared_float_uploads
 
 
 def reflection(text):
@@ -53,22 +53,36 @@ def remap(program, registers):
     return result
 
 
-def build(kind, destination, compiler):
+def build(kind, destination, compiler, baseline_root=None):
     destination = baseline.confined(destination)
     original = destination / 'baseline'
-    baseline.build('work/powerhouse/shader-toolchain/reference/halo_online_shaders', original, compiler, kind)
+    supplied = baseline.confined(baseline_root) / kind if baseline_root else None
+    if supplied is not None and supplied.is_dir():
+        manifest_name = 'compilation.json' if (supplied / 'compilation.json').is_file() else 'splash-entrypoint-compilation.json'
+        manifest = json.loads((supplied / manifest_name).read_text())
+        programs = manifest['programs'] if isinstance(manifest, dict) else manifest
+        prefix = 'concrete-' if manifest_name == 'compilation.json' else 'splash-'
+        if len(programs) != 13:
+            raise ValueError('Supplied baseline must contain all thirteen compiled entries')
+        for program in programs:
+            raw = (supplied / (prefix + program['name'] + '.bin')).read_bytes()
+            if not program['success'] or hashlib.sha256(raw).hexdigest() != program['sha256']:
+                raise ValueError('Supplied baseline binary differs from its manifest')
+        shutil.copytree(supplied, original, dirs_exist_ok=True)
+    else:
+        baseline.build('work/powerhouse/shader-toolchain/reference/halo_online_shaders', original, compiler, kind)
     extended = kind in ('concrete', 'grate', 'window', 'opaque-grate')
     plan_name = 'route-plan.json' if extended else 'splash-route-plan.json'
     prefix = 'concrete-' if extended else 'splash-'
     plan = json.loads((original / plan_name).read_text())
-    original_collisions = material_collisions(plan)
+    original_collisions = shared_float_upload_collisions(plan)
     audit = json.loads((original / 'native-interface-audit.json').read_text())
     recipe = json.loads((baseline.REFERENCE / 'recipe.json').read_text())
     recipe.update(json.loads((baseline.REFERENCE.parent / f'powerhouse-{kind}-shaders/recipe.json').read_text()))
     adapted = destination / 'xenos-source'
     shutil.copytree(original / 'xenos-source', adapted, dirs_exist_ok=True)
     header = adapted / 'hlsl_constant_persist.fx'
-    header.write_text(reserve_source(header.read_text()))
+    header.write_text(reserve_shared_source(header.read_text()))
     wrapper = destination / 'water-xenos.fx'
     shutil.copyfile(original / 'water-xenos.fx', wrapper)
     env = dict(os.environ, TEMP=str(baseline.confined('.local/build-temp')),
@@ -95,6 +109,7 @@ def build(kind, destination, compiler):
                              sha256=hashlib.sha256(raw).hexdigest()))
     plan['programs'] = [remap(p, reflection(assemblies[p['entry']])) for p in plan['programs']]
     require_safe_material_routes(plan)
+    require_safe_shared_float_uploads(plan)
     for row in audit:
         text = assemblies[row['entry']]
         registers = {r['name'].lower(): r for r in reflection(text)}
@@ -112,7 +127,8 @@ def build(kind, destination, compiler):
     (destination / ('compilation.json' if extended else 'splash-entrypoint-compilation.json')).write_text(
         json.dumps(dict(programs=compiled) if extended else compiled, indent=2) + '\n')
     report = dict(kind=kind, compiled=len(compiled), interfaces=len(audit),
-                  removed_collisions=original_collisions, remaining_collisions=material_collisions(plan),
+                  removed_collisions=original_collisions, remaining_collisions=shared_float_upload_collisions(plan),
+                  baseline_origin=str(supplied) if supplied and supplied.is_dir() else "pinned recipe",
                   scope='Private compiler and interface validation; native visuals remain unverified.')
     (destination / 'register-correction.json').write_text(json.dumps(report, indent=2) + '\n')
     return report
@@ -120,10 +136,11 @@ def build(kind, destination, compiler):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--kinds', nargs='+', choices=('concrete', 'grate', 'window', 'water', 'splash'), required=True)
+    parser.add_argument('--kinds', nargs='+', choices=('concrete', 'grate', 'window', 'water', 'splash', 'opaque-grate'), required=True)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--baseline-root', help='Validated private profiles matching the candidate; absent kinds use pinned recipes.')
     parser.add_argument('--compiler', type=Path, default=Path(r'C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\fxc.exe'))
     args = parser.parse_args()
     for kind in args.kinds:
-        report = build(kind, Path(args.output) / kind, args.compiler)
+        report = build(kind, Path(args.output) / kind, args.compiler, args.baseline_root)
         print(json.dumps({k: v for k, v in report.items() if k != 'removed_collisions'}), flush=True)

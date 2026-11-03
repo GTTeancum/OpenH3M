@@ -1,6 +1,6 @@
 {
-  "reviewed_candidate": 124,
-  "validation_status": "Private candidate124: source/interface checks pass; revised shared-register allocation awaits native testing.",
+  "reviewed_candidate": 125,
+  "validation_status": "Private candidate125: reproduced 13 programs and verified 12 native interfaces; reflected shared upload blocks protected. Focused terrain and corrugated views pass. Water/splash motion and broader validation remain incomplete.",
   "reserve_lightmap_upload_blocks": true,
   "profile_compatibility_patch": true,
   "defines": [
@@ -104,5 +104,6 @@
     ],
     "project_role": "Xbox 360/OpenH3M adaptation"
   },
-  "reserve_shared_upload_blocks": true
+  "reserve_shared_upload_blocks": true,
+  "shared_padding_from_profile": true
 }

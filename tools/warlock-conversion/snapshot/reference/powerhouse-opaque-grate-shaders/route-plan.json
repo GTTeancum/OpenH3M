@@ -192,39 +192,39 @@
       "shader": 0,
       "registers": [
         {
-          "name": "albedo_color",
+          "name": "detail_map_xform",
           "set": 2,
-          "register": 98,
-          "count": 1
-        },
-        {
-          "name": "base_map_xform",
-          "set": 2,
-          "register": 99,
+          "register": 104,
           "count": 1
         },
         {
           "name": "bump_map_xform",
           "set": 2,
-          "register": 188,
-          "count": 1
-        },
-        {
-          "name": "detail_map_xform",
-          "set": 2,
-          "register": 189,
+          "register": 105,
           "count": 1
         },
         {
           "name": "bump_detail_map_xform",
           "set": 2,
-          "register": 233,
+          "register": 106,
           "count": 1
         },
         {
           "name": "bump_detail_coefficient",
           "set": 2,
-          "register": 234,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
           "count": 1
         },
         {
@@ -280,32 +280,32 @@
         [],
         [
           [
-            98,
+            189,
             2,
             0
           ],
           [
-            99,
+            188,
             0,
             0
           ],
           [
-            188,
+            105,
             3,
             0
           ],
           [
-            189,
+            104,
             1,
             0
           ],
           [
-            233,
+            106,
             4,
             0
           ],
           [
-            234,
+            107,
             5,
             0
           ]
@@ -1551,19 +1551,19 @@
           "count": 1
         },
         {
-          "name": "bump_map_xform",
+          "name": "bump_detail_coefficient",
           "set": 2,
-          "register": 98,
+          "register": 104,
           "count": 1
         },
         {
           "name": "bump_detail_map_xform",
           "set": 2,
-          "register": 99,
+          "register": 188,
           "count": 1
         },
         {
-          "name": "bump_detail_coefficient",
+          "name": "bump_map_xform",
           "set": 2,
           "register": 189,
           "count": 1
@@ -1599,17 +1599,17 @@
         [],
         [
           [
-            98,
+            189,
             3,
             0
           ],
           [
-            99,
+            188,
             4,
             0
           ],
           [
-            189,
+            104,
             5,
             0
           ]

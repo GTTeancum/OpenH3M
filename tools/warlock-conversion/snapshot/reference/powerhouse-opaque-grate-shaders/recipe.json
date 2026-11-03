@@ -1,5 +1,5 @@
 {
-  "reviewed_candidate": 114,
+  "reviewed_candidate": 125,
   "reserve_lightmap_upload_blocks": true,
   "defines": [
     "/DPIXEL_SHADER=1",
@@ -27,7 +27,7 @@
     {
       "entry": 1,
       "name": "albedo",
-      "microcode_sha256": "f0df190f8226fc1dd137be523a63fee5e09b36597fb187734b6ed28697637a62"
+      "microcode_sha256": "76ecf53f33bf7df98e27b4b82212d609fe7e0c027156ee9cf4a7d9622e84b220"
     },
     {
       "entry": 3,
@@ -77,7 +77,7 @@
     {
       "entry": 13,
       "name": "lightmap_debug_mode",
-      "microcode_sha256": "fa04994ea83a270592d635be21f212ab0bff86534b16be6b273520b2333825ce"
+      "microcode_sha256": "905911d148dbca0035136e5a81b691204b031c50a2b2681b410f2fb628c01fdb"
     },
     {
       "entry": 14,
@@ -89,5 +89,7 @@
       "name": "dynamic_light_cinematic",
       "microcode_sha256": "c5e0d2ff249d13304865eedbfbbb2b7d76d85559f22201929bab08626930dc07"
     }
-  ]
+  ],
+  "reserve_shared_upload_blocks": true,
+  "validation_status": "Private candidate125: reproduced 13 programs and verified 12 native interfaces; reflected shared upload blocks protected. Focused terrain and corrugated views pass. Water/splash motion and broader validation remain incomplete."
 }

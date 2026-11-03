@@ -1,0 +1,135 @@
+{
+  "reviewed_candidate": 125,
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dmaybe_calc_albedo=1",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_two_detail_overlay_ps",
+    "/Dcalc_albedo_vs=calc_albedo_two_detail_overlay_vs",
+    "/Dcalc_bumpmap_ps=calc_bumpmap_detail_ps",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_detail_vs",
+    "/Dcalc_alpha_test_ps=calc_alpha_test_off_ps",
+    "/Dcalc_specular_mask_ps=calc_specular_mask_from_diffuse_ps",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_none_ps",
+    "/Dcalc_parallax_ps=calc_parallax_off_ps",
+    "/Dcalc_parallax_vs=calc_parallax_off_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dmaterial_type=two_lobe_phong",
+    "/Denvmap_type=dynamic",
+    "/Dblend_type=additive",
+    "/Dbitmap_rotation=0"
+  ],
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "success": true,
+      "bytes": 1296,
+      "sha256": "f035e80986e15efedddd81dde51bed52b9c11c8bee1b0a535ca7d9a90a84b083",
+      "microcode_sha256": "94c5ed61b69d6ff0c796359d662d1f8c1f299ed6d619c9f7f92e05cda89ee6d7"
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "success": true,
+      "bytes": 5256,
+      "sha256": "7999e8c4c7bf4a4c04b9d49bc2a85aef71eee1257ebab4f98c639c1989a30b8c",
+      "microcode_sha256": "7e3fb4ad9eda797f47eb72f6bd682549492eb38110eb350fe9324c73250714b5"
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "success": true,
+      "bytes": 4784,
+      "sha256": "e1580eff3b122fed96fe0d28bdc9e118821fc8e6562eddca2ba031d5e93566d1",
+      "microcode_sha256": "2dc73199d1307f8c4912aa9110a52e87caaf45784f1ce17cdac145df9cd088a6"
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "success": true,
+      "bytes": 5352,
+      "sha256": "55a8c1277d2e7c24c52c5e946f123f85be9dc6a6d225a94fa84216b357068463",
+      "microcode_sha256": "876f811a454e89edfc3ca3afcb48297358683780a66e0e32987d0a49214f25a6"
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "success": true,
+      "bytes": 5320,
+      "sha256": "5c43aec82adf723cd71b40760812694f6a8f47db8b724eb85bd13c957f363af7",
+      "microcode_sha256": "2891cc316e0a8174261eda826f11390137a0df54f0f5174396c9311b434cd3b8"
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "success": true,
+      "bytes": 5320,
+      "sha256": "5c43aec82adf723cd71b40760812694f6a8f47db8b724eb85bd13c957f363af7",
+      "microcode_sha256": "2891cc316e0a8174261eda826f11390137a0df54f0f5174396c9311b434cd3b8"
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "success": true,
+      "bytes": 5320,
+      "sha256": "5c43aec82adf723cd71b40760812694f6a8f47db8b724eb85bd13c957f363af7",
+      "microcode_sha256": "2891cc316e0a8174261eda826f11390137a0df54f0f5174396c9311b434cd3b8"
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "success": true,
+      "bytes": 3468,
+      "sha256": "cabe80917ac47372b2da9dd86a344d3c5f45243d996e5b3f62a2436a37977898",
+      "microcode_sha256": "92022fe436422402f7e437623958b6bd4ba9b37be2b3ce26c8936d8f10d19494"
+    },
+    {
+      "entry": 10,
+      "name": "shadow_generate",
+      "success": true,
+      "bytes": 280,
+      "sha256": "52f8869b6ee9a7ba8b6bc0a5c1ab2031ad6e3e71c573f0f46b87803035f614d7",
+      "microcode_sha256": "ef1baed471e39f57afcc8d11a0113fdc9e78b9ccd0555b8522456f5133db484c"
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "success": true,
+      "bytes": 812,
+      "sha256": "4be0d0e5acfcbb420bad90e4c1a07fadd11507b183e008b8d766de15b0724b8e",
+      "microcode_sha256": "693ae53d2581f3ca2a3ba3d6e0dfc281b3e27727f03e99b7f6525584a7aae08d"
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "success": true,
+      "bytes": 1836,
+      "sha256": "62bb8db634a42d227e944e43886b1e405b220e91fd986e377265a7eef0502026",
+      "microcode_sha256": "93d2754cc3993bc1a4ccb8343e59a65e5a73497c63d7f25e0f89dca0a7a08cb8"
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "success": true,
+      "bytes": 1856,
+      "sha256": "b09fd0d5e6bcab17bc08c0b52aec48d8685e67b2bbdaf675f5fcaa381e4e999b",
+      "microcode_sha256": "09e7127dcc8dda6c9cded7e48ee1ade469953474ec2f2658fa4569311622f0bd"
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "bytes": 3660,
+      "sha256": "e7453fcb212df9683ddf52e431af508e3697d96beb987c19d6a6813abaa95f80",
+      "microcode_sha256": "5493bfcb4bff3fd1e3318218369a7d60587c714b8a049b049941de9daaae5c67"
+    }
+  ],
+  "reserve_lightmap_upload_blocks": true,
+  "reserve_shared_upload_blocks": true,
+  "validation_status": "Private candidate125: reproduced 13 programs and verified 12 native interfaces; reflected shared upload blocks protected. Focused terrain and corrugated views pass. Water/splash motion and broader validation remain incomplete."
+}
