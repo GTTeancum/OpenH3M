@@ -161,7 +161,7 @@
       "run": ".local/loading-traces/20261103-093725-32056",
       "capture": "proof-loaded.png",
       "individually_inspected": true,
-      "finding": "Rooftop and background visible, intended window outside frame. Window appearance remains unverified.",
+      "finding": "Central roof arch contains intended window; its dark surface was not resolved sufficiently for visual acceptance. Earlier outside-frame description was incorrect.",
       "hash_checks_passed": 11,
       "harness_exit_code": 0,
       "termination": "180-second watchdog",
@@ -192,7 +192,8 @@
           ]
         }
       ],
-      "trace_errors": []
+      "trace_errors": [],
+      "correction": "Source mesh111/instance899 bounds and comparison with original102 identify the central arch as the target."
     },
     {
       "view": "water_and_splash",

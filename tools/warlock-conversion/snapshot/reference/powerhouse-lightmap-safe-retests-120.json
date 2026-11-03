@@ -1,0 +1,88 @@
+{
+  "candidate": 115,
+  "source": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "views": [
+    {
+      "test": 118,
+      "run": ".local\\loading-traces\\20261103-094454-26636",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Central arch is the intended window, correcting earlier outside-frame interpretation. Distant dark surface does not resolve grid sufficiently for acceptance.",
+      "hash_summary": [
+        {
+          "seconds": 180.5,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog, not natural game exit"
+    },
+    {
+      "test": 119,
+      "run": ".local\\loading-traces\\20261103-094822-32672",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Foreground terrain is textured and lit. Water surface visible with strong bright reflection obscuring detail. Splash behavior remains unverified.",
+      "hash_summary": [
+        {
+          "seconds": 180.515,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog, not natural game exit"
+    },
+    {
+      "test": 120,
+      "run": ".local\\loading-traces\\20261103-095139-21388",
+      "capture": "proof-loaded.png",
+      "individually_inspected": true,
+      "finding": "Closer view clearly resolves dark recessed window grid and surrounding trim in central arch. Focused static appearance confirmed; moving parallax not tested.",
+      "hash_summary": [
+        {
+          "seconds": 180.375,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "harness_exit_code": 0,
+      "termination": "180-second watchdog, not natural game exit",
+      "diagnostic_spawn": [
+        119.55,
+        243.9,
+        41.351799,
+        -0.14618
+      ],
+      "inspection_input": "122000:RSDOWN+400",
+      "capture_time_ms": 128137
+    }
+  ],
+  "status": "Private candidate; no production recipe promotion, installation or push.",
+  "limitations": [
+    "Static views do not prove animation, parallax motion, audio, traversal, Forge, performance, console or System Link.",
+    "Full rebuild remains gated by flare-layout decision."
+  ],
+  "generated_native_captures": 3,
+  "all_generated_captures_individually_inspected": true,
+  "next_steps": [
+    "Compare water reflection against matched baseline and inspect splash closely.",
+    "Implement corrugated material preserving native external fourth-color route; verify actual BSP color value.",
+    "Promote corrected profiles when their required checks pass; preserve flare rebuild gate."
+  ]
+}

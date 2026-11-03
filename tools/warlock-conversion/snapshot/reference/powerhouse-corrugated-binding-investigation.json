@@ -1,0 +1,266 @@
+{
+  "source": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "native_quaternary_binding": {
+    "map": "C:\\X360\\ISOs\\H3M\\maps\\armory.map",
+    "template": "shaders\\shader_templates\\_4_2_0_1_1_2_0_0_0_1",
+    "tag": 6687,
+    "observations": [
+      {
+        "entry": 1,
+        "shader_index": 0,
+        "pass_index": 0,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "shader_index": 1,
+        "pass_index": 1,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "shader_index": 3,
+        "pass_index": 3,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "shader_index": 2,
+        "pass_index": 2,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "shader_index": 5,
+        "pass_index": 6,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "shader_index": 6,
+        "pass_index": 7,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "shader_index": 7,
+        "pass_index": 8,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 9,
+        "shader_index": 4,
+        "pass_index": 4,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 14,
+        "shader_index": 9,
+        "pass_index": 10,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 17,
+        "shader_index": 11,
+        "pass_index": 12,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      }
+    ],
+    "scope": "Native cache binding evidence only; does not establish the runtime value for a BSP instance."
+  },
+  "source_shader": {
+    "template": "_0_1_0_3_1_1_9_0_0_0_0_0_0",
+    "self_illumination": "Simple_Four_Change_Color",
+    "calculation": "calc_self_illumination_simple_ps",
+    "self_illum_color_binding": "object_change_color_quaternary",
+    "self_illum_intensity": 8,
+    "reference": "work/powerhouse/shader-toolchain/reference/HaloShaderGenerator/Shader/ShaderGenerator.cs",
+    "generator_lines": [
+      173,
+      897
+    ]
+  },
+  "donor_search": {
+    "scope": "Read-only native self-illumination option9 template inventory. Pass/program indices are provisional until entry mapping is checked.",
+    "scanned": [
+      "armory.map",
+      "bunkerworld.map",
+      "chill.map",
+      "chillout.map",
+      "construct.map",
+      "cyberdyne.map",
+      "deadlock.map",
+      "descent.map",
+      "docks.map",
+      "fortress.map",
+      "ghosttown.map",
+      "guardian.map",
+      "isolation.map",
+      "lockout.map",
+      "mainmenu.map",
+      "midship.map",
+      "riverworld.map",
+      "salvation.map",
+      "sandbox.map",
+      "shrine.map",
+      "sidewinder.map",
+      "snowbound.map",
+      "spacecamp.map",
+      "warehouse.map",
+      "zanzibar.map"
+    ],
+    "errors": [
+      {
+        "map": "shared.map",
+        "error": "'ascii' codec can't decode byte 0xcb in position 1: ordinal not in range(128)"
+      }
+    ],
+    "templates": []
+  },
+  "remaining": [
+    "Verify runtime fourth-color value for BSP instances; do not assume white or zero.",
+    "Compile faithful corrugated shader with native interface and complete upload-block reservations.",
+    "Wire external route usage10/source18 rather than adding self_illum_color as a material constant.",
+    "Verify source textures/constants and native visual output before accepting."
+  ],
+  "status": "Read-only binding investigation; no corrugated material implementation or visual acceptance.",
+  "second_native_donor": {
+    "map": "C:\\X360\\ISOs\\H3M\\maps\\bunkerworld.map",
+    "template": "shaders\\shader_templates\\_4_2_0_1_1_2_0_0_0_1",
+    "tag": 7360,
+    "observations": [
+      {
+        "entry": 1,
+        "shader_index": 0,
+        "pass_index": 0,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "shader_index": 1,
+        "pass_index": 1,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "shader_index": 3,
+        "pass_index": 3,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "shader_index": 2,
+        "pass_index": 2,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "shader_index": 5,
+        "pass_index": 6,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "shader_index": 6,
+        "pass_index": 7,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "shader_index": 7,
+        "pass_index": 8,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 9,
+        "shader_index": 4,
+        "pass_index": 4,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 14,
+        "shader_index": 9,
+        "pass_index": 10,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      },
+      {
+        "entry": 17,
+        "shader_index": 11,
+        "pass_index": 12,
+        "register": 102,
+        "usage": 10,
+        "source": 18,
+        "flags": 0
+      }
+    ],
+    "scope": "Native cache binding evidence only; does not establish the runtime value for a BSP instance."
+  }
+}
