@@ -1,0 +1,706 @@
+{
+  "candidate": 139,
+  "sha256": "07283740da2a1d543fee4a51507833b046bb3c6dcc03b425b23c20a1ebbfe355",
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "native_runs": [
+    {
+      "run": ".local/loading-traces/20261103-114046-30584",
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.375,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded_128137ms.png",
+          "sha256": "6c6db03fa6701bb3e824301613d577b347e946ee5036536889427a99ac8f2b77",
+          "individually_inspected": true
+        },
+        {
+          "file": "proof-loaded_145137ms.png",
+          "sha256": "ead84c43943912e993909430638f5efe3188b2022a5ee63b3f69493a750d814c",
+          "individually_inspected": true
+        }
+      ],
+      "height_binding": {
+        "run": ".local\\loading-traces\\20261103-114046-30584",
+        "draw_count": 1024,
+        "matched_draws": 1,
+        "groups": [
+          {
+            "samples": [
+              532
+            ],
+            "index_count": 69,
+            "height_scale": [
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "height_xform": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "texture": {
+              "format": 6,
+              "endian": 2,
+              "width": 1,
+              "height": 1,
+              "dimension": 1,
+              "signs": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "swizzle": [
+                2,
+                1,
+                0,
+                3
+              ],
+              "exp_adjust": 0,
+              "base": "0x1ba6a000",
+              "head": "ff555555000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          }
+        ],
+        "errors": [],
+        "hash_summary": [
+          {
+            "seconds": 180.375,
+            "event": "hash_summary",
+            "passed": 11,
+            "failed": 0
+          }
+        ]
+      }
+    },
+    {
+      "run": ".local/loading-traces/20261103-114715-14444",
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.407,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded.png",
+          "sha256": "60e6fc940bbac62fc5a9e993bbe65b659df774726e54f2180af7a46fbdc6c2c0",
+          "individually_inspected": true
+        }
+      ],
+      "height_binding": {
+        "run": ".local\\loading-traces\\20261103-114715-14444",
+        "draw_count": 1024,
+        "matched_draws": 2,
+        "groups": [
+          {
+            "samples": [
+              338,
+              519
+            ],
+            "index_count": 1206,
+            "height_scale": [
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "height_xform": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "texture": {
+              "format": 6,
+              "endian": 2,
+              "width": 1,
+              "height": 1,
+              "dimension": 1,
+              "signs": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "swizzle": [
+                2,
+                1,
+                0,
+                3
+              ],
+              "exp_adjust": 0,
+              "base": "0x1ba6a000",
+              "head": "ff555555000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          }
+        ],
+        "errors": [],
+        "hash_summary": [
+          {
+            "seconds": 180.407,
+            "event": "hash_summary",
+            "passed": 11,
+            "failed": 0
+          }
+        ]
+      }
+    }
+  ],
+  "manual_inspection": "All three native frames inspected sequentially, individually and at full image size. Magnified views show the recessed dark grid, normal detail and metal roof frame intact. The separated aimed viewpoint exposes the same window from a different angle; no disappearance or roof fall. Manual inspection establishes visible content; the small motion is measured in the actual captures against source geometry and a non-parallax control, rather than inferred from raw perspective movement.",
+  "focused_window_appearance_verified": true,
+  "focused_window_parallax_verified": true,
+  "acceptance_basis": "Across143 first frame and145, the actual captured window pattern requires an extra(2.0,0.25)pixel shift after source-surface registration with live GPU matrices. The unchanged source shader predicts(1.800,0.127) at the probe. Adjacent metal control requires only(0.25,0.0), close to raster/interpolation residual. Correct height binding, source geometry, source UV/tangent basis and manually inspected native content support this focused result together; no metric alone is acceptance.",
+  "fixtures": [
+    {
+      "diagnostic_only": true,
+      "never_install": true,
+      "candidate": 139,
+      "target_mesh": 111,
+      "target_instance": 899,
+      "position_facing": [
+        119.55,
+        243.9,
+        41.351799,
+        -0.14618,
+        0.0,
+        0.0
+      ],
+      "relocated_spawn_markers": 114,
+      "diagnostic_fov_changes": [
+        {
+          "tag": 7126,
+          "name": "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        },
+        {
+          "tag": 7215,
+          "name": "objects\\characters\\elite\\mp_elite\\mp_elite",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        },
+        {
+          "tag": 7269,
+          "name": "objects\\characters\\monitor\\monitor_editor",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        }
+      ]
+    },
+    {
+      "diagnostic_only": true,
+      "never_install": true,
+      "candidate": 139,
+      "target_mesh": 111,
+      "target_instance": 899,
+      "position_facing": [
+        119.55,
+        243.55,
+        41.351799,
+        0.08,
+        0.0,
+        0.0
+      ],
+      "relocated_spawn_markers": 114,
+      "diagnostic_fov_changes": [
+        {
+          "tag": 7126,
+          "name": "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        },
+        {
+          "tag": 7215,
+          "name": "objects\\characters\\elite\\mp_elite\\mp_elite",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        },
+        {
+          "tag": 7269,
+          "name": "objects\\characters\\monitor\\monitor_editor",
+          "old": 1.2217304706573486,
+          "new": 0.45
+        }
+      ]
+    }
+  ],
+  "gpu_projections": [
+    {
+      "run": "20261103-114046-30584",
+      "sample": 532,
+      "record": 532,
+      "seconds": 145.406,
+      "matrix": [
+        [
+          -0.6117995381355286,
+          -4.145111560821533,
+          0.00044468470150604844,
+          1084.113037109375
+        ],
+        [
+          2.097468614578247,
+          -0.3088107407093048,
+          7.140844821929932,
+          -476.5106201171875
+        ],
+        [
+          -7.23585685591388e-07,
+          1.0653365478674459e-07,
+          2.1714477327350323e-07,
+          0.007863861508667469
+        ],
+        [
+          0.9484175443649292,
+          -0.13963568210601807,
+          -0.28461578488349915,
+          -67.31324005126953
+        ]
+      ],
+      "camera": [
+        119.53782653808594,
+        243.90139770507812,
+        42.166316986083984,
+        0.0
+      ]
+    },
+    {
+      "run": "20261103-114715-14444",
+      "sample": 338,
+      "record": 338,
+      "seconds": 145.188,
+      "matrix": [
+        [
+          0.3333507180213928,
+          -4.176735877990723,
+          0.00044470388093031943,
+          977.3872680664062
+        ],
+        [
+          2.1132988929748535,
+          0.16942544281482697,
+          7.140844821929932,
+          -594.9722290039062
+        ],
+        [
+          -7.29046973901859e-07,
+          -5.84484816101849e-08,
+          2.171447306409391e-07,
+          0.007904727943241596
+        ],
+        [
+          0.955575704574585,
+          0.0766095370054245,
+          -0.28461572527885437,
+          -120.87792205810547
+        ]
+      ],
+      "camera": [
+        119.53083038330078,
+        243.55184936523438,
+        42.16642761230469,
+        0.0
+      ]
+    }
+  ],
+  "prediction": {
+    "height": -0.01666666666666667,
+    "camera_displacement": 0.349618516555571,
+    "uv_before": [
+      -0.004933855905275399,
+      0.00012847719553558016
+    ],
+    "uv_after": [
+      -0.004917371010315571,
+      -0.004096690174718807
+    ],
+    "predicted_same_feature_pixel_shift": [
+      1.8000112956654561,
+      0.1274730194870699
+    ],
+    "source_uvs": [
+      [
+        0.15979942025059302,
+        1.3398760533654794
+      ],
+      [
+        0.9157749498646277,
+        0.006263164118042397
+      ],
+      [
+        0.15979942025059302,
+        -0.3400633475359749
+      ]
+    ],
+    "world_per_uv": [
+      [
+        -2.0535268105654935e-05,
+        -0.03279535026750691
+      ],
+      [
+        -0.00010694810454972645,
+        -0.2480677963382925
+      ],
+      [
+        0.25356214320866477,
+        -0.0010209524104816117
+      ]
+    ],
+    "tangent": [
+      -1.7120704963889394e-05,
+      -8.870262144057387e-06,
+      0.9999999998141
+    ],
+    "binormal": [
+      -0.1310786424272753,
+      -0.9913719732878998,
+      -8.87006703235777e-06
+    ],
+    "assumptions": "Source compressed UV bounds and signed-short tangent/binormal decoded; normalized interpolated tangent basis used. Same source point solved iteratively for unchanged sampled UV. This is a shader expectation, not proof of GPU output."
+  },
+  "window_registration": {
+    "scope": "Supplementary surface-registered photometric comparison. Residual shifts can also reflect rasterization, lighting, camera timing or interpolation; these numbers alone do not prove parallax.",
+    "reports": [
+      {
+        "probe": "(520, 320)",
+        "triangle": [
+          [
+            120.79229248001145,
+            243.43711723513402,
+            41.732432303080515
+          ],
+          [
+            120.8360132576754,
+            243.767862795588,
+            41.92548063387668
+          ],
+          [
+            120.8473866810922,
+            243.85385610029752,
+            41.73414744126133
+          ]
+        ],
+        "pixels": 76267,
+        "source_roi": [
+          250,
+          200,
+          850,
+          440
+        ],
+        "baseline": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "mae": 1.9850630320992961
+        },
+        "best": {
+          "dx": 2.0,
+          "dy": 0.25,
+          "mae": 1.0806126363282582
+        },
+        "improvement": 0.9044503957710379
+      }
+    ]
+  },
+  "control_registration": {
+    "scope": "Supplementary surface-registered photometric comparison. Residual shifts can also reflect rasterization, lighting, camera timing or interpolation; these numbers alone do not prove parallax.",
+    "reports": [
+      {
+        "probe": "(240, 350)",
+        "triangle": [
+          [
+            120.72348326833986,
+            243.9309498148059,
+            41.739578712167244
+          ],
+          [
+            120.73318412948949,
+            243.86395943446206,
+            41.812757941215345
+          ],
+          [
+            120.72244627973421,
+            243.92324044335507,
+            41.82514505029901
+          ]
+        ],
+        "pixels": 7371,
+        "source_roi": [
+          190,
+          300,
+          290,
+          450
+        ],
+        "baseline": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "mae": 1.5264485811764095
+        },
+        "best": {
+          "dx": 0.25,
+          "dy": 0.0,
+          "mae": 1.494271129031363
+        },
+        "improvement": 0.032177452145046415
+      }
+    ]
+  },
+  "control_material": {
+    "name": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_pioneer_trim_04",
+    "source_template": "shaders\\shader_templates\\_7_2_0_1_1_2_0_0_0_0_0_0_0",
+    "parallax_option": 0
+  },
+  "source_window_triangle": {
+    "uv": [
+      [
+        0.15979942025059302,
+        1.3398760533654794
+      ],
+      [
+        0.9157749498646277,
+        0.006263164118042397
+      ],
+      [
+        0.15979942025059302,
+        -0.3400633475359749
+      ]
+    ],
+    "tangent": [
+      [
+        0.0,
+        -3.051850947599719e-05,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        -3.051850947599719e-05,
+        0.0,
+        1.0
+      ]
+    ],
+    "binormal": [
+      [
+        -0.13107699819940793,
+        -0.9913937803277688,
+        -3.051850947599719e-05
+      ],
+      [
+        -0.13110751670888393,
+        -0.9913937803277688,
+        0.0
+      ],
+      [
+        -0.13107699819940793,
+        -0.9913937803277688,
+        0.0
+      ]
+    ],
+    "triangle": [
+      [
+        120.79229248001145,
+        243.43711723513402,
+        41.732432303080515
+      ],
+      [
+        120.8360132576754,
+        243.767862795588,
+        41.92548063387668
+      ],
+      [
+        120.8473866810922,
+        243.85385610029752,
+        41.73414744126133
+      ]
+    ],
+    "mesh": 111,
+    "instance": 899,
+    "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+    "depth": 1.3656210764449404,
+    "position": [
+      120.82968615534884,
+      243.71997271672194,
+      41.76203397387346
+    ]
+  },
+  "superseded_estimate": {
+    "small_motion_source_prediction": {
+      "height": -0.01666666666666667,
+      "camera_displacement": 0.042619673233208026,
+      "uv_before": [
+        -0.004933855905275399,
+        0.00012847719553558016
+      ],
+      "uv_after": [
+        -0.004931940144052556,
+        -0.0003912709717530537
+      ],
+      "predicted_same_feature_pixel_shift": [
+        0.23905160498367195,
+        0.0007335610514473956
+      ],
+      "source_uvs": [
+        [
+          0.15979942025059302,
+          1.3398760533654794
+        ],
+        [
+          0.9157749498646277,
+          0.006263164118042397
+        ],
+        [
+          0.15979942025059302,
+          -0.3400633475359749
+        ]
+      ],
+      "world_per_uv": [
+        [
+          -2.0535268105654935e-05,
+          -0.03279535026750691
+        ],
+        [
+          -0.00010694810454972645,
+          -0.2480677963382925
+        ],
+        [
+          0.25356214320866477,
+          -0.0010209524104816117
+        ]
+      ],
+      "tangent": [
+        -1.7120704963889394e-05,
+        -8.870262144057387e-06,
+        0.9999999998141
+      ],
+      "binormal": [
+        -0.1310786424272753,
+        -0.9913719732878998,
+        -8.87006703235777e-06
+      ],
+      "assumptions": "Source compressed UV bounds and signed-short tangent/binormal decoded; normalized interpolated tangent basis used. Same source point solved iteratively for unchanged sampled UV. This is a shader expectation, not proof of GPU output."
+    },
+    "fov_only_window": {
+      "scope": "Supplementary surface-registered photometric comparison. Residual shifts can also reflect rasterization, lighting, camera timing or interpolation; these numbers alone do not prove parallax.",
+      "reports": [
+        {
+          "probe": "(520, 320)",
+          "triangle": [
+            [
+              120.79229248001145,
+              243.43711723513402,
+              41.732432303080515
+            ],
+            [
+              120.8360132576754,
+              243.767862795588,
+              41.92548063387668
+            ],
+            [
+              120.8473866810922,
+              243.85385610029752,
+              41.73414744126133
+            ]
+          ],
+          "pixels": 80950,
+          "source_roi": [
+            250,
+            200,
+            850,
+            440
+          ],
+          "baseline": {
+            "dx": 0.0,
+            "dy": 0.0,
+            "mae": 2.429946065678191
+          },
+          "best": {
+            "dx": 3.5,
+            "dy": 0.0,
+            "mae": 0.866487467122427
+          },
+          "improvement": 1.563458598555764
+        }
+      ]
+    },
+    "fov_only_control": {
+      "scope": "Supplementary surface-registered photometric comparison. Residual shifts can also reflect rasterization, lighting, camera timing or interpolation; these numbers alone do not prove parallax.",
+      "reports": [
+        {
+          "probe": "(240, 350)",
+          "triangle": [
+            [
+              120.72348326833986,
+              243.9309498148059,
+              41.739578712167244
+            ],
+            [
+              120.73318412948949,
+              243.86395943446206,
+              41.812757941215345
+            ],
+            [
+              120.72244627973421,
+              243.92324044335507,
+              41.82514505029901
+            ]
+          ],
+          "pixels": 6304,
+          "source_roi": [
+            190,
+            300,
+            290,
+            450
+          ],
+          "baseline": {
+            "dx": 0.0,
+            "dy": 0.0,
+            "mae": 5.800924404717743
+          },
+          "best": {
+            "dx": 3.5,
+            "dy": 0.0,
+            "mae": 1.2648646082759802
+          },
+          "improvement": 4.536059796441763
+        }
+      ]
+    },
+    "reason": "FOV-only projection is not the actual native view-projection. Its common3.5pixel residual on window and parallax-disabled metal is invalid as parallax evidence. Replaced with captured VS c0..c3 matrices; c7 matches the sampled camera."
+  },
+  "scope": "Private139 materials and geometry unchanged. Fixture142/144 alter only diagnostic spawn locations and biped FOV to0.45. No production scale/texture amplification. Runs terminate by180-second watchdog, not natural game exit. No installation or push.",
+  "remaining": [
+    "Water bottom/inlet motion and broader gameplay/collision/audio/Forge/performance remain incomplete.",
+    "Full rebuild remains gated by flare-placement clarification.",
+    "Console and System Link are untested."
+  ]
+}
