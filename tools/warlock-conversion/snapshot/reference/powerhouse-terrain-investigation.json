@@ -1,0 +1,71 @@
+{
+  "selected_candidate": 103,
+  "selected_sha256": "3eeff3526e736edb9efe616ed9a8ac255e2aaccdd799d7d194ca461a316d8551",
+  "terrain_material": "levels\\multi\\s3d_powerhouse\\shaders\\30_settlement_040_ground_new",
+  "target_material_index": 9517,
+  "bsp_material_slot": 192,
+  "mesh": 454,
+  "cluster": 12,
+  "source": {
+    "original_game": "Halo Reach",
+    "map": "Powerhouse",
+    "source_package": "Halo Online Map Pack For Halo 3",
+    "workshop_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "source_cache": "maps/s3d_powerhouse.map",
+    "credited_port_authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "project_role": "Xbox 360/OpenH3M adaptation"
+  },
+  "native_comparisons": [
+    {
+      "test": 106,
+      "run": ".local\\loading-traces\\20261103-083513-4288",
+      "exit_code": 0,
+      "hash_passes": 11,
+      "capture": "proof-loaded.png",
+      "individually_inspected": true
+    },
+    {
+      "test": 108,
+      "run": ".local\\loading-traces\\20261103-083907-6096",
+      "exit_code": 0,
+      "hash_passes": 11,
+      "capture": "proof-loaded.png",
+      "individually_inspected": true
+    },
+    {
+      "test": "109b",
+      "run": ".local\\loading-traces\\20261103-084826-6016",
+      "exit_code": 0,
+      "hash_passes": 11,
+      "capture": "proof-loaded.png",
+      "individually_inspected": true
+    }
+  ],
+  "findings": [
+    "Changing only BSP material slot192 to the already-tested exterior concrete renders the same terrain geometry with texture/lighting. Unchanged103 is black at the matching camera.",
+    "Changing only terrain9517 blend bitmap reference to the existing native color_white still renders black. This does not establish whether the native default bitmap was bound correctly, but does not support a blend-image-only fix.",
+    "Source/target/donor material root flags, postprocess flags and option values match.",
+    "All117 retained mips across13 terrain textures match selected source blocks after required signed-DXN conversion; this is cache verification, not live GPU fetch proof."
+  ],
+  "incomplete_runs": [
+    {
+      "test": 107,
+      "reason": "Redundant diagnostic cancelled before capture after106 completed successfully."
+    },
+    {
+      "test": 109,
+      "reason": "Capture did not complete before180-second watchdog; no visual result. Successful109b supersedes it."
+    }
+  ],
+  "scope": "Material-path isolation, not a production correction or full-map acceptance. All substitutions are private diagnostics and must never be installed.",
+  "next": "Inspect live native terrain draw shader/texture/lighting bindings. Current rexgpu-xenos.dll SHA256 a262536b7cdb5923995235df1dc618ed89ebceddbf79af1223327b2ab2bf105f is not yet in trace_loading DRAW_RVAS; resolve symbol and member offsets before enabling sample_draws.",
+  "evidence": [
+    "work/powerhouse/terrain-material-comparison-108.json",
+    "work/powerhouse/terrain-root-state-108.json",
+    "work/powerhouse/terrain-blend-white-109.json",
+    "work/powerhouse/terrain-all-mips-109.json"
+  ]
+}
