@@ -363,3 +363,20 @@ tracked snapshot shared-install-coordination.json here. It includes protected
 file hashes, added content/header, runtime comparison, rollback/staging paths,
 and pending status. No game was launched during reconciliation. Menu coexistence
 still requires normal-launch observation; filesystem coexistence is verified.
+
+## Authorized shared runtime installation
+
+User explicitly approved replacing the seven shared runtime files after the
+reason and outside-repository scope were explained. Rechecked that no game
+process was running, all installed runtime hashes still matched the recorded
+baseline, every staged file matched the tested build, and all rollback files
+matched the original installed versions. Replaced the seven targets under
+C:/X360/ISOs/H3M using per-file atomic replacement from repository staging.
+All seven resulting hashes match the tested bundle. The existing bootstrap
+hash is unchanged; all recorded prior content/header hashes and candidate 29
+payload hashes remain unchanged, including the protected Battle Canyon map.
+No saves/cache/settings were written and no game was launched. The shared
+manual launcher preparation check passes. The latest coordination JSON records
+the applied state and backup location. Normal OpenH3M now uses the tested
+runtime with the common installed map tree; visual/menu acceptance still awaits
+the user's normal manual playtest. Goal is not complete.

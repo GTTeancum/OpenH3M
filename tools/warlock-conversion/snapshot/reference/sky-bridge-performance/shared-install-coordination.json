@@ -83,8 +83,8 @@
     "0000000000000000\\4D5307E6\\Headers\\00000002\\E3C216511E5A0ED8A2E37F70BC65E407C481C510.header": "c2539da4cab67c60fbf1e869566e3895b6ef3e939c3118a1d23f50cb991483a7"
   },
   "protected_battle_canyon_sha256": "3de8ee1d1a18b76b5a7306aac087d3ae267bd6897df440afff30dbc46883a585",
-  "runtime_action": "No installed executable, DLL, bootstrap or settings replacement",
-  "launch_action": "No launch; no harness or automated input",
+  "runtime_action": "Seven shared runtime files replaced atomically per file with verified rollback copies",
+  "launch_action": "Not launched after replacement; human controls from startup on next normal launch",
   "source": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261103-172701-30892",
   "candidate_status": "Visual review pending; installed for shared human testing, not accepted final release",
   "added_files": {
@@ -171,7 +171,13 @@
     }
   ],
   "bootstrap_sha256": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
-  "runtime_update_status": "Prepared only: seven tested runtime files staged with verified backups; explicit permission required for external install directory replacement",
+  "runtime_update_status": "Installed with explicit user authorization; all seven target hashes match tested bundle",
   "runtime_backup": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\shared-runtime-backup",
-  "runtime_staged": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\shared-runtime-staged"
+  "runtime_staged": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\shared-runtime-staged",
+  "post_install_verification": {
+    "runtime_files": 7,
+    "bootstrap_unchanged": true,
+    "all_prior_content_unchanged": true,
+    "sky_bridge_unchanged": true
+  }
 }
