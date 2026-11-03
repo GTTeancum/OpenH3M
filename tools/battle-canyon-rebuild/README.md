@@ -2968,3 +2968,34 @@ input harness, capture or watchdog. Its launch record is
 `work/battle-canyon/rebuild/sky-exposure-01-user-play/launch.json`.
 Brightness, sky appearance, traversal and performance acceptance remain pending;
 installation and process startup do not prove those requirements.
+
+
+### Reach visual reference comparison (2026-11-03)
+
+Original map/game: Battle Canyon, Halo: Reach Anniversary Map Pack (Xbox 360).
+This comparison uses original-game images, not the superseded H3 MCC custom
+port. The rebuild authoring source and adaptation credits above remain unchanged.
+
+References inspected individually:
+- Official 2011 promotional screenshot, archived by Halopedia:
+  https://www.halopedia.org/File:Battle_canyon.jpg
+  Local evidence: work/battle-canyon/rebuild/reference-comparison/reach-press.jpg
+  SHA256: 6d1cc49ce5465cbd9dd6d39f37b0fa865e2a412514f2e1488822fd77220c2574
+- Xbox 360 gameplay screenshot, contributed by Kennyannydenny to MobyGames:
+  https://www.mobygames.com/game/72479/halo-reach-anniversary-map-pack/screenshots/xbox360/900119/
+  Local evidence: work/battle-canyon/rebuild/reference-comparison/reach-main-area.png
+  SHA256: a0f4c7ea5b5b421aa24afbc6923485b128ac6e4fb37ea764dfed80aa39df576f
+
+Both show warm daylight, readable brown rock and green foliage in shadow,
+and atmospheric separation of distant geometry. Compared with the user's
+pre-correction gameplay screenshot, the rebuild has extensive near-black
+terrain, foliage and base surfaces. The bright hazy background in the press
+reference contrasts with the gray band in that gameplay screenshot. Distant
+mountains are legitimate source scenery; this comparison does not identify
+the exact material or geometry responsible for the gray band.
+
+Viewpoints and exposure settings are unmatched. No numeric exposure multiplier
+or gamma diagnosis follows from these images. They establish a visual target,
+not proof that sky-exposure-01 passes or fails: the later user screenshot shows
+Player Details, not the corrected map. Current-candidate in-map imagery remains
+required before further lighting tuning or visual acceptance.
