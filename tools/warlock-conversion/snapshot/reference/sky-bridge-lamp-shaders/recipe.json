@@ -1,0 +1,91 @@
+{
+  "defines": [
+    "/DPIXEL_SHADER=1",
+    "/Dvertex_type=s_world_vertex",
+    "/Ddeform=deform_world",
+    "/DSHADER_30=1",
+    "/DDX_VERSION=9",
+    "/Dalpha_blend_source=albedo_alpha_without_fresnel",
+    "/Dcalc_albedo_ps=calc_albedo_default_ps",
+    "/Dcalc_albedo_vs=calc_albedo_default_vs",
+    "/Dcalc_bumpmap_vs=calc_bumpmap_off_vs",
+    "/Dcalc_self_illumination_ps=calc_self_illumination_multilayer_ps",
+    "/Dcalc_parallax_ps=calc_parallax_off_ps",
+    "/Dcalc_parallax_vs=calc_parallax_off_vs",
+    "/Ddistort_proc_ps=distort_off_ps",
+    "/Dblend_type=opaque",
+    "/Dbitmap_rotation=0",
+    "/Dcalc_overlay_ps=calc_overlay_multiply_ps",
+    "/Dcalc_edge_fade_ps=calc_edge_fade_none_ps"
+  ],
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "success": true,
+      "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "success": true,
+      "sha256": "368289ffef28544afffc572a9c99f8d024e2e4fadd8d8fd875b8a0c3e5d56250"
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "success": true,
+      "sha256": "2a9534e8e75e1a139707a38d0c9a842bde92c803c8af96191a45ec4b10709219"
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "success": true,
+      "sha256": "8504c9b9cba27d857c94a040d94245b0eb2939bbc64523f8327fabd63ab39523"
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "success": true,
+      "sha256": "6489eb2719e697b0206781cd6582ba3380e589b797c2e9905bcbb65aeaaac038"
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "success": true,
+      "sha256": "6489eb2719e697b0206781cd6582ba3380e589b797c2e9905bcbb65aeaaac038"
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "success": true,
+      "sha256": "6489eb2719e697b0206781cd6582ba3380e589b797c2e9905bcbb65aeaaac038"
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "success": true,
+      "sha256": "31bf89829ca82c56d18d4d2ae8268973f057438ca8dde108ff6765be63dd6bc5"
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "success": true,
+      "sha256": "57cfc26c54c0e919ff51b906e587b76cdc0593a4a56d3f44a09b9d82b8099d6e"
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "success": true,
+      "sha256": "cd3f1de98b548806ca15ab99fffee22dd03d8c5df1e7302a1af149eb5b365203"
+    }
+  ],
+  "specialization": {
+    "layers_of_4": 4,
+    "static_materials": [
+      "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\ceiling_lamp_01",
+      "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fluorescent_lamp_cold",
+      "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fluorescent_lamp_ceiling_cold"
+    ]
+  }
+}
