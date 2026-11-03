@@ -183,3 +183,33 @@ remaining frame pacing need further attribution. No visual/audio acceptance,
 physical-console acceptance, or system-link verification is claimed. Human
 visual feedback remains outstanding; final release replacement and goal closure
 remain pending. No images were imported and no desktop input was sent.
+
+## Visibility logging comparison
+
+Previous turn made concrete progress: native LIVE installation and default-setting
+validation. This turn isolated remaining startup versus later pacing and tested
+the prepared visibility-query logging patch. analyze-pacing-windows.py reports
+fixed 110-155, 115-155, and 120-150 second windows together; no outliers are removed.
+The baseline's 120-150 second presentation calls all succeeded (1799 samples),
+median 0.171 ms, maximum 1.219 ms. Observed and painted guest-frame counts both
+advanced by 858, so repeated host refreshes were not new guest frames.
+
+Applied rexglue-sdk-quiet-visibility-query.patch: Begin/End query INFO messages
+become DEBUG messages only. Query writes, returned results, and guest behavior
+are unchanged. Build passed. Before/after DLL hashes and backup are retained in
+work/sky-bridge/quiet-query-build. The same native LIVE installation, package,
+executable, cache, process-local menu route, and timing options were repeated.
+Run: .local/loading-traces/20261103-173121-3152. Eleven native hash checks passed;
+zero failures; process closed at 170.313 seconds. Zero INFO query chatter lines
+remain (previous run had 82524). No capture or host input was used.
+
+120-150 seconds: 29.937 FPS versus prior 28.620; p95 33.837 ms versus 50.112 ms.
+115-155 seconds: 29.945 FPS, median 33.3675 ms, p95 33.852, max 50.491 ms.
+Whole 110-155 seconds: 29.047 FPS, maximum 1368.307 ms startup hitch retained.
+Two legitimate prior-submission resolve waits remain; zero current-batch failures.
+This single sequential comparison supports retaining reduced query logging,
+without claiming all performance variation is causal or traversal is verified.
+Source and evidence: candidate29-before-quiet-pacing.json and
+candidate29-quiet-pacing.json. Next independent verification is the same native
+observer movement route with this quieter runtime, before visual acceptance.
+The private LIVE candidate is still unreleased and the goal remains open.

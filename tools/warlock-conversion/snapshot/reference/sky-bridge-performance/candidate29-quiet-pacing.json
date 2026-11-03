@@ -1,0 +1,456 @@
+{
+  "pacing": {
+    "run": ".local\\loading-traces\\20261103-173121-3152",
+    "windows": [
+      {
+        "start": 110,
+        "end": 155,
+        "frames": 1307,
+        "actual_start_ms": 110009.154,
+        "actual_end_ms": 154970.666,
+        "fps": 29.047065854902744,
+        "median_ms": 33.367999999994936,
+        "p95_ms": 33.845000000001164,
+        "maximum_ms": 1368.3070000000007,
+        "over_50ms": 12
+      },
+      {
+        "start": 115,
+        "end": 155,
+        "frames": 1197,
+        "actual_start_ms": 115031.265,
+        "actual_end_ms": 154970.666,
+        "fps": 29.94536648158544,
+        "median_ms": 33.367499999993015,
+        "p95_ms": 33.85199999999895,
+        "maximum_ms": 50.49100000000908,
+        "over_50ms": 10
+      },
+      {
+        "start": 120,
+        "end": 150,
+        "frames": 898,
+        "actual_start_ms": 120019.084,
+        "actual_end_ms": 149982.267,
+        "fps": 29.93673936443936,
+        "median_ms": 33.36800000000221,
+        "p95_ms": 33.836999999999534,
+        "maximum_ms": 50.12399999999616,
+        "over_50ms": 9
+      }
+    ],
+    "hitches": [
+      {
+        "start_ms": 118567.806,
+        "interval_ms": 50.49100000000908,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 119068.48,
+        "interval_ms": 49.8070000000007,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 119502.546,
+        "interval_ms": 49.50800000000163,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 119802.628,
+        "interval_ms": 49.70900000000256,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 119969.438,
+        "interval_ms": 49.646000000007916,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120136.195,
+        "interval_ms": 49.80599999999686,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120369.566,
+        "interval_ms": 49.879000000000815,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120503.405,
+        "interval_ms": 49.81699999999546,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120803.353,
+        "interval_ms": 50.12399999999616,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120903.601,
+        "interval_ms": 49.754000000000815,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 120970.317,
+        "interval_ms": 49.77700000000186,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 121036.875,
+        "interval_ms": 50.112999999997555,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 121136.92,
+        "interval_ms": 50.04200000000128,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 121303.932,
+        "interval_ms": 49.85700000000361,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 121637.694,
+        "interval_ms": 49.7390000000014,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 121870.913,
+        "interval_ms": 50.05000000000291,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 122137.907,
+        "interval_ms": 50.086999999999534,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 133515.88,
+        "interval_ms": 50.00500000000466,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 134333.399,
+        "interval_ms": 50.04300000000512,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 134817.138,
+        "interval_ms": 50.038999999989755,
+        "events": [
+          "[2026-11-03 17:33:38.198] [info] [gpu] [t34240] [queue-wait] kind=guest-submission elapsed_ms=17.047 target=25478 result=0 queue=296654E75E0 reason=resolve-cache-miss frame=3415 completed=25452 current=25479"
+        ],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 136252.115,
+        "interval_ms": 49.85899999999674,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 136319.032,
+        "interval_ms": 49.65700000000652,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 136452.645,
+        "interval_ms": 49.77400000000489,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 136619.279,
+        "interval_ms": 49.73199999998906,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 136785.921,
+        "interval_ms": 50.06099999998696,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 137219.939,
+        "interval_ms": 49.57699999999022,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 137286.518,
+        "interval_ms": 49.76699999999255,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 137386.586,
+        "interval_ms": 49.78599999999278,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 137586.96,
+        "interval_ms": 49.76700000002165,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 142725.298,
+        "interval_ms": 49.84999999997672,
+        "events": [
+          "[2026-11-03 17:33:46.119] [info] [gpu] [t34240] [queue-wait] kind=guest-submission elapsed_ms=19.463 target=31301 result=0 queue=296654E75E0 reason=resolve-cache-miss frame=3652 completed=31275 current=31302"
+        ],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 151567.51,
+        "interval_ms": 49.69199999998091,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 152301.571,
+        "interval_ms": 49.6820000000007,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 152835.308,
+        "interval_ms": 49.80100000000675,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 153335.731,
+        "interval_ms": 49.905999999988126,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 153636.039,
+        "interval_ms": 49.93900000001304,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 153769.523,
+        "interval_ms": 49.88500000000931,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 153836.296,
+        "interval_ms": 49.72599999999511,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 154036.542,
+        "interval_ms": 49.763000000006286,
+        "events": [],
+        "query_log_lines": 0
+      },
+      {
+        "start_ms": 154370.303,
+        "interval_ms": 49.62699999997858,
+        "events": [],
+        "query_log_lines": 0
+      }
+    ],
+    "line_counts": {
+      "other": 62980
+    },
+    "limitation": "Host diagnostic timing only. Later windows supplement the full window; they do not establish full-map traversal or visual acceptance."
+  },
+  "timing": {
+    "scope": "Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.",
+    "present_interval_ms": {
+      "n": 1306,
+      "median": 33.367999999994936,
+      "p95": 33.845000000001164,
+      "maximum": 1368.3070000000007
+    },
+    "observed_frames_per_second": 29.047065854902744,
+    "intervals_over_50ms": 12,
+    "nonconsecutive_frame_transitions": 0,
+    "gpu_ms_per_observed_frame": {
+      "n": 1307,
+      "median": 27.974,
+      "p95": 29.445999999999998,
+      "maximum": 62.923
+    },
+    "submissions_per_observed_frame": {
+      "n": 1307,
+      "median": 27,
+      "p95": 27,
+      "maximum": 29
+    },
+    "wait_ms_by_caller": {
+      "resolve-cache-miss": {
+        "n": 2,
+        "median": 18.255000000000003,
+        "p95": 17.047,
+        "maximum": 19.463
+      }
+    },
+    "resolve_miss_reasons": {
+      "previous_submission_in_flight": 2
+    },
+    "resolve_miss_addresses": {
+      "1FC24000": 2
+    },
+    "resolve_miss_examples": [
+      {
+        "frame": "3415",
+        "address": "1FC24000",
+        "bytes": "8192",
+        "slot": "0",
+        "buffer": "true",
+        "mapped": "true",
+        "capacity": "262144",
+        "written": "8192",
+        "previous": "25477",
+        "completed": "25452",
+        "current": "25478"
+      },
+      {
+        "frame": "3652",
+        "address": "1FC24000",
+        "bytes": "8192",
+        "slot": "1",
+        "buffer": "true",
+        "mapped": "true",
+        "capacity": "262144",
+        "written": "8192",
+        "previous": "31300",
+        "completed": "31275",
+        "current": "31301"
+      }
+    ],
+    "wait_total_ms_by_caller": {
+      "resolve-cache-miss": 36.510000000000005
+    },
+    "first_sample": [
+      110009.154,
+      2712
+    ],
+    "last_sample": [
+      154970.666,
+      4018
+    ],
+    "map_log_evidence": [
+      "[2026-11-03 17:33:14.240] [warning] [krnl] [t19660] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq_sky_bri_BBBBBBBB.temp' -> 0xc000000f"
+    ],
+    "caveats": [
+      "Waits under 5ms are not logged.",
+      "GPU timings and CPU waits overlap; do not add them.",
+      "Map/autosave log records alone do not verify visible gameplay."
+    ]
+  },
+  "hash_summary": {
+    "seconds": 170.313,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "binary_hashes": [
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_bridge_check.exe",
+      "Hash": "51808B0241B38D93B0AD1AF4AF8CB2FADD0F2AF9A494212C4403E609C539429B"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_controls_check.exe",
+      "Hash": "83224ADCBCBB76A67BBD0C00BA184A5514B3D14B2CAE5D590AFEA0C41B948AAB"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_lzx_decode.exe",
+      "Hash": "42B6E79449F9DEBA92F7C891D3FB3FF32330470A74EA20E1D9CFB575A2AE03ED"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_marker_compile.exe",
+      "Hash": "9B824362FD81FB0253F132DF5383A033524E466B13B2A1374E3D35B68B629AE6"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_marker_pipeline_check.exe",
+      "Hash": "1B187930AF63FFABE03AEC5FF827696A6299B8506FDC13ACB0F367693358AAAD"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_marker_shader_check.exe",
+      "Hash": "7EC20F716F785243381853327D291220E66CF6539E8072B43CAA86EC330D6363"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_marker_shader_gpu.exe",
+      "Hash": "4F53ED41ED544464438DD11ED75566AD724A260AFAE2658EE615D8913824484C"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_occlusion_check.exe",
+      "Hash": "84597BAC883865051F8EED58453D73A708D9A1DED4E94EE8E65ECCC0854AA03E"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\h4_forge_shader_disasm.exe",
+      "Hash": "3D5F869AD30AFACFD2A5BF87DED346D32432633B7F191F6CA11994CBE1B7BA78"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp_l360.dll",
+      "Hash": "37D316016B3CD98965BB92D9D22321B279F23ABBDDBEBC59562E91DBFD13FDD2"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp_q10.dll",
+      "Hash": "4B1D436E431FCE05FED3C5229DB710257C7F97E099B9F112B88E027867A8C8F1"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp_waveshell-xbox.dll",
+      "Hash": "F19A841578166D6AF83593095ACC5FCF1828EC1094B7FDBD6A2F179EDD98761C"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp_waveslibdll.dll",
+      "Hash": "81A2F9AA068DFBFEC50D201358B5F9C565834C3AD570401AEB6DDB038AE632D6"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\halo3mp.exe",
+      "Hash": "A90C7D1D10EC7833E58DF4F72BA96A7C65EBAB5567CD7BA1032B69F1DD0621AD"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\input_focus_check.exe",
+      "Hash": "9F529BCF371EFE32E17F80AEC652F55F96AA47A031BC0B02B66C3C6A113FDCF9"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\rexglue.exe",
+      "Hash": "284997995D2942DE6EDF77C7857CF71B69314B7BF09450D823D2786246980AC9"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\rexgpu-xenos.dll",
+      "Hash": "597ECB172D5C294EAC8EFAD30C7CD6B4155F1D63503947319AE4A9A6710ECDFE"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\rexruntime.dll",
+      "Hash": "0F9656352475C8EA06E94308CE3E8DA1AC7BE38204BDDDE1CD1C0E64CC38620B"
+    },
+    {
+      "Path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\rexglue-sdk\\out\\win-amd64\\video_settings_check.exe",
+      "Hash": "0A2B9E755E05F8B299DB300D40FDEBE8FCAFA45330289A4D7BF6770A896119AE"
+    }
+  ]
+}
