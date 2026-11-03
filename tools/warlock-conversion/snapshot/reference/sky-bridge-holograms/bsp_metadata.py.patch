@@ -1,0 +1,17 @@
+--- a/tools/warlock-conversion/snapshot/tools/bsp_metadata.py
++++ b/tools/warlock-conversion/snapshot/tools/bsp_metadata.py
+@@ -155,6 +155,14 @@
+         flags = next(f for f in target if f.get('name') == 'Flags')
+         ET.SubElement(flags, 'bit', name='Not For Render', index='5')
+         schema = copy.deepcopy(source_schema)
++        # Sky Bridge carries the HO/MCC extension bit on its authored instances.
++        # Preserve it verbatim as an opaque flag; do not relabel or move it to
++        # the independently preserved bit 5. Its native rendering effect has
++        # not been established by the bundled schemas.
++        if str(converter.source.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'):
++            source_flags=next(f for f in schema if f.get('name')=='Flags')
++            ET.SubElement(source_flags,'bit',name='Preserved instance bit 6',index='6')
++            ET.SubElement(flags,'bit',name='Preserved instance bit 6',index='6')
+         schema.set('name', 'Instance fields')
+         return converter.convert(at, schema, target, path)
+     if name == 'BSP Physics':

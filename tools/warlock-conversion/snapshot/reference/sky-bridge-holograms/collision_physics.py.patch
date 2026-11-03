@@ -1,0 +1,31 @@
+--- a/tools/warlock-conversion/snapshot/tools/collision_physics.py
++++ b/tools/warlock-conversion/snapshot/tools/collision_physics.py
+@@ -32,7 +32,7 @@
+     return bytes(result)
+ 
+ 
+-def retail_mopp(code):
++def retail_mopp(code, *, translate_shape_keys=True):
+     out = bytearray(code)
+     at = 0
+     lengths = {0: 0, **dict.fromkeys(range(1, 5), 3), 5: 1, 6: 2, 7: 3, 8: 4,
+@@ -53,7 +53,7 @@
+         size = lengths.get(op)
+         if size is None or at + size + 1 > len(out):
+             raise ValueError(f'Unsupported/truncated MOPP opcode {op:#x} at {at}')
+-        if op in (0x0b, 0x53):
++        if translate_shape_keys and op in (0x0b, 0x53):
+             key = int.from_bytes(out[at+1:at+5], 'big')
+             if key & 0x83ff0000:
+                 raise ValueError(f'MOPP key cannot be represented in retail: {key:#x}')
+@@ -121,7 +121,9 @@
+         if mopp_transform is not None:
+             code = mopp_transform(code)
+             struct.pack_into('>II', out, 0x24, len(code), len(code) | 0x80000000)
+-        code = retail_mopp(code)
++        # Design MOPPs address soft-ceiling/water records, not packed BSP
++        # collision shape keys. Original disc soft ceilings use bit 16 too.
++        code = retail_mopp(code, translate_shape_keys=not path.startswith('sddt:'))
+         struct.pack_into('>III', out, 0x30, len(code), b.alloc(code) if code else 0, 0)
+         out[0x3c] = c.data[at+0x3c]
+     return bytes(out)

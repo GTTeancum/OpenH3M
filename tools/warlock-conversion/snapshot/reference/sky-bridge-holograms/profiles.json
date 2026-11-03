@@ -1,0 +1,2718 @@
+[
+  {
+    "variant": "_0_1_0_0_0_1_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\holo_lighting_door",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\cabin_lamp_red_base"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "04caa9cd0f64973265741f206b8b936ca46fca14f796301292b9b7190da0acb0"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "350301f738273a3eb357fe7655cdc0d7a006af7d8811aec135c1f2223886c21c"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bead75172d8b03028f92e074dbeeed661a6db1a06091d4e5b3b13ee5cad5afbe"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3c28162c0e01e7d8bfb2b8de390f7f4072247015daff053c9b4e95eef0c8c030"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3c28162c0e01e7d8bfb2b8de390f7f4072247015daff053c9b4e95eef0c8c030"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3c28162c0e01e7d8bfb2b8de390f7f4072247015daff053c9b4e95eef0c8c030"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "37b8225e97d8aba5e93e689c9fc1867d4bcffab3395849fbac5fa7670caa761b"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "31bf89829ca82c56d18d4d2ae8268973f057438ca8dde108ff6765be63dd6bc5"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd3f1de98b548806ca15ab99fffee22dd03d8c5df1e7302a1af149eb5b365203"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_0_0_0_3_1_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        3,
+        1,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\top_fill_lamps_white",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fluorescent_lamp_warm"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "186d9c98cf699c4eed0a182124f2d1bf0b40b97720f1778ad7820c71ab5cc6a9"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1e3b94f9b86ea49d46fe689c36f3404d99e96694b510915dcea8624fde5031ca"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "91b1ae9012aa1084b412baf418d3a60dbd503c30733b2f133d395bbed783f184"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8ad56428adfc43c6fece8fafcbfdf4ced16abbd853584a932b122dc477fbc29c"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8ad56428adfc43c6fece8fafcbfdf4ced16abbd853584a932b122dc477fbc29c"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8ad56428adfc43c6fece8fafcbfdf4ced16abbd853584a932b122dc477fbc29c"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "37b8225e97d8aba5e93e689c9fc1867d4bcffab3395849fbac5fa7670caa761b"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "31bf89829ca82c56d18d4d2ae8268973f057438ca8dde108ff6765be63dd6bc5"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd3f1de98b548806ca15ab99fffee22dd03d8c5df1e7302a1af149eb5b365203"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_0_2_0_1_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\lamp_projector",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\holo_lighting_door_warm",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\holo_lighting_door_cold",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\holo_lighting_door_white"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1889e40650b0a8b322511ad4971209f1473a51aee4fd5fddfee8df712b9a0b6f"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "42398c57e4ea22caf161a1aa4f5c4748cc85e74c48fa3443ff78d07fe083a9ec"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1155cb809aab4093f9b312e43084beb9515c603d3cb7480888e6dd3a6a90b608"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "651033a23a2b2a8a1a158816182953cd3df90c5b681d5ccc63dd52edf2fafdd0"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "651033a23a2b2a8a1a158816182953cd3df90c5b681d5ccc63dd52edf2fafdd0"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "651033a23a2b2a8a1a158816182953cd3df90c5b681d5ccc63dd52edf2fafdd0"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "697728a2432a7e8c83f80e4133a9bc126fec03b1e4e8978f74acee1caa048c2d"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3c395e87bc4eb3bd9796b331729da8a1395a8d51bd1381e152feb31337de40ff"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8751ad3b75c4be57e5eff9da653a8ad42e0f297382cc3aef885c8cc91b50a160"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_0_0_0_1",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\road_lamp_01"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "b217b899cab891339ff7eaa56e3ce32ccf218eb71505904ad9ab5c3e6ba7f69b"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "40677793e9b1b4571d45892fbd949e4bb71eb631e5d5a625f388c7535e274400"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ba998e08f3e5920cec7665858136ffd2c945800f076cce3af782f182859b52e4"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "e009b0af55b9904628b29d29960335caeba2c546b47e51289f55ce6c3eb88f5e"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "e009b0af55b9904628b29d29960335caeba2c546b47e51289f55ce6c3eb88f5e"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "e009b0af55b9904628b29d29960335caeba2c546b47e51289f55ce6c3eb88f5e"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "5150b8343a049499b524509f9e9aa48e181f9c8741939ba3cfddb121f1f1aeeb"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_1_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\holo_screen_01_ring_01"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "a0a3f4260bd6f15b5dc25899df6af2ae6091150a05a08d2b5ee9797c97e13077"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "db12d22308628f4aba647029c8b86eb8ee480f04201e25d95f3a2bb12351bc45"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7301384cb044fc884524f2d876dc4b45bd7b9fc9b3f1d62969ccd01ee9d6a457"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bc8543159b31a5f18ef5be0853bd3cd3e84d4c39874eccb66a87a1bd43e03db6"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bc8543159b31a5f18ef5be0853bd3cd3e84d4c39874eccb66a87a1bd43e03db6"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bc8543159b31a5f18ef5be0853bd3cd3e84d4c39874eccb66a87a1bd43e03db6"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3592303b5eb4d64cbcf29ca17b0a28371047fc662f47889e60f026de00429a6a"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_1_1_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\horizontal_wall_lamp_blue",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\horizontal_wall_lamp_green",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\horizontal_wall_lamp_white",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\horizontal_wall_lamp_cold"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "21ae6109d80d4ae05b336fcaf43f5d66316b2bbe14166f52514e4c2516cec987"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "fcf6d65c44cb37fbd50f4ce8f9636402e4ca90087a2429bcf931040d948aeced"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1952182c13003393093659adaf5514b6e2ec9354a5ceeb7d0cac525cdb13cebb"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3592303b5eb4d64cbcf29ca17b0a28371047fc662f47889e60f026de00429a6a"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_1_1_0_1",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_building_bridge_rb"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "21ae6109d80d4ae05b336fcaf43f5d66316b2bbe14166f52514e4c2516cec987"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "fcf6d65c44cb37fbd50f4ce8f9636402e4ca90087a2429bcf931040d948aeced"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1952182c13003393093659adaf5514b6e2ec9354a5ceeb7d0cac525cdb13cebb"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c964cca30728f3ccbd170fd9bac3acddf78dcb20ce5ec882e99dcc43049ff0c2"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "5150b8343a049499b524509f9e9aa48e181f9c8741939ba3cfddb121f1f1aeeb"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_2_1_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map",
+          "overlay_detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_detail_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column_center2",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column_center"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ffc74de758dfa6e2d2b27c7d5b428299392f87218938a0623a2d56431f8f1737"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8cde657f08ecdda2e894f5ab8bb47301cf1d9387bf90e1087a5163ac7bbeec26"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d378b3f60741e75db771aeca37ab0c31d018b460966a10a822d72cbfdf468e34"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3592303b5eb4d64cbcf29ca17b0a28371047fc662f47889e60f026de00429a6a"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_2_1_0_1",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        2,
+        1,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map",
+          "overlay_detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_detail_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\rays_projector"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ffc74de758dfa6e2d2b27c7d5b428299392f87218938a0623a2d56431f8f1737"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8cde657f08ecdda2e894f5ab8bb47301cf1d9387bf90e1087a5163ac7bbeec26"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d378b3f60741e75db771aeca37ab0c31d018b460966a10a822d72cbfdf468e34"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6cec9e1b1703f6583bf1ed8f0433a9d7111d34aa10e3edc9e0ad35b2f082e1fd"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "5150b8343a049499b524509f9e9aa48e181f9c8741939ba3cfddb121f1f1aeeb"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_3_1_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        3,
+        1,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fluorescent_lamp_bluebase_cold",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fluorescent_lamp_warm_off"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "2b1d3c5812bc1d549911cd1385920a99ace1f20e3c32c90d931f388ebf3dcefc"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f2fd7e73830851857d0bb43478fa70f1d3e5bb3dc9c89bc88ea4091f9dc2dc22"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4f6b3338dea6b88d554190e4563de00bffd7297b1bff31649670efd2f9c60120"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "41860bca0866fdd2f404e690820db5e9fb57f6e24abc0672c7dea22800be9f65"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "41860bca0866fdd2f404e690820db5e9fb57f6e24abc0672c7dea22800be9f65"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "41860bca0866fdd2f404e690820db5e9fb57f6e24abc0672c7dea22800be9f65"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3592303b5eb4d64cbcf29ca17b0a28371047fc662f47889e60f026de00429a6a"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_1_0_0_4_1_0_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        4,
+        1,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_multiply_map",
+          "overlay_map",
+          "overlay_detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "overlay_multiply_map",
+          "overlay_map",
+          "overlay_detail_map",
+          "overlay_tint",
+          "overlay_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_point_v1_blue",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx__bluebase_lightvolume_floor_cold",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_point_v1",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_floor_warm_int2",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_columns_cabin_room",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_cabin_lamp_main",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_cabin_lamp_lines",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_obl_ceiling_lamp_rb",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_floor_warm"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "2028afaa5794873b0cbf32a7d26ad638dfcdb055697644d82694cba530f305bd"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d51d353e9ee94ad3d72b8b73ea81615bfa1839f06fec462996b6663ae89878f1"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d8b5e9b05a333041e00c109cb40f94fe4e1d1931b3602cd58e3a838e6fc3bdf3"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4408e9c7a36c1874bfc3b88b316b9ce9a81895ea4baf3ce814b3e340ba67980d"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4408e9c7a36c1874bfc3b88b316b9ce9a81895ea4baf3ce814b3e340ba67980d"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4408e9c7a36c1874bfc3b88b316b9ce9a81895ea4baf3ce814b3e340ba67980d"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3592303b5eb4d64cbcf29ca17b0a28371047fc662f47889e60f026de00429a6a"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_1_3_0_0_0_0_1_0",
+    "profile": {
+      "options": [
+        0,
+        1,
+        3,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_wall"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "05bc39b188711cf4c9fd6dd65d8c0f244685b1e1b0ff7aa1732390fd2cdc0a5e"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "68f117a2e5fd991b526fb76175f4a3cea94911de54e5af3300cc0829f559c969"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "13275cb7b8346974cf03257d9389963f643baf8906cce6f61d323e216521a921"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "b1e750b3a84e3df9569e65c811f038d44518ec01e578df90a04592fcaa9a25ac"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "b1e750b3a84e3df9569e65c811f038d44518ec01e578df90a04592fcaa9a25ac"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "b1e750b3a84e3df9569e65c811f038d44518ec01e578df90a04592fcaa9a25ac"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7662d62bf82e172eea39b0e411a961ad3ae8c5ea7b3ca833d33ab811d86e95b3"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "32033688cf120c98d026affedcb362537f53bc27e315bba69d3478460783ac13"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "733024c48d44837bd6d0465656dd49f0c7581a5cb6272b2765d705736660a110"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_0_0_0_0_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_sphere_sb_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_11",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_05",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_08"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f20d0efbb730235cb0b8306e68ba84b98eecc74107cabf680ea3fe5954ed72a9"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "fc3068177c780cc2dcdfcbfade2ad9b2d481f1271afaa47f707dbbb26c39bc81"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "593447eed374da9f5465bffff40667d89fc11df99a8278bf8bf32ab6f3a17fa5"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7f5ac5eb73bf182af363d56c5632b5fb8f3f62a873c165b005d19edadd5f3889"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "31bf89829ca82c56d18d4d2ae8268973f057438ca8dde108ff6765be63dd6bc5"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd3f1de98b548806ca15ab99fffee22dd03d8c5df1e7302a1af149eb5b365203"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_0_0_0_0_0_0_1",
+    "profile": {
+      "options": [
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\skybridge_bottom_01"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "61a75ab5b37d9c70c46f78ba64fc3995c2af8983ab18e352fae28e79482b0ab8"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f20d0efbb730235cb0b8306e68ba84b98eecc74107cabf680ea3fe5954ed72a9"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "fc3068177c780cc2dcdfcbfade2ad9b2d481f1271afaa47f707dbbb26c39bc81"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "593447eed374da9f5465bffff40667d89fc11df99a8278bf8bf32ab6f3a17fa5"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bede7672f4755ab8e3692a0ed86a6a6047ec6f28545a2c806148e252c76aa494"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "7f5ac5eb73bf182af363d56c5632b5fb8f3f62a873c165b005d19edadd5f3889"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "31bf89829ca82c56d18d4d2ae8268973f057438ca8dde108ff6765be63dd6bc5"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd3f1de98b548806ca15ab99fffee22dd03d8c5df1e7302a1af149eb5b365203"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_1_0_0_0_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_08",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_09",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_09",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_10",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_04",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_07",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_03_rain",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_07",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_05",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_06_06",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\red_base_lamp_wall",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\red_base_ext_light"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c798c48e6872cb3bdc1e0ed5a48b818deaf218260350888f38d6817ed3924b95"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9d193b0c2a0009d1c4ddd9a282caf5d2fd154cd0279c5a0cff2eadaad218f167"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "69ff51063c54c9027866539affb42655063c852fbd72daf09342f153e746b863"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8891d14e4d429b8a4c1cc673e38837076e1f28774f35ad5063662485b3028d39"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_1_0_0_0_0_0_1",
+    "profile": {
+      "options": [
+        0,
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_line_01_l",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\skybridge_bottom_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\playbill_sb_12",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_r_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_03",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_04"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c798c48e6872cb3bdc1e0ed5a48b818deaf218260350888f38d6817ed3924b95"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9d193b0c2a0009d1c4ddd9a282caf5d2fd154cd0279c5a0cff2eadaad218f167"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "69ff51063c54c9027866539affb42655063c852fbd72daf09342f153e746b863"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ec9ce8cb0474ca633a42f8e5c7deeaff02369ac6c4d107f389886a721e9fcd94"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4d63fd5d7f4709e29542af6780a05e825b52a02a76b16efc8e66e17c0a9566d6"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_1_0_0_0_1_0_1",
+    "profile": {
+      "options": [
+        0,
+        4,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\clouds_moving_tail_sb_01"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "a812592ab1eac416cb944d0528b0af9e6dc5079b6d82bfa6f45d9b273951df41"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9531df44e09b8c4e230abe9964fb523b41c92300bf4b2ffd5ece46241367ef48"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "ef9ae33d804e9f0878bb9d8436f13fbe661332782b9ed4aa4d15b39486807ecd"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9882310beeed10f634a8e9541fc2f958cee19953a7ffec4be77e305bcfe9a8c1"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9882310beeed10f634a8e9541fc2f958cee19953a7ffec4be77e305bcfe9a8c1"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "9882310beeed10f634a8e9541fc2f958cee19953a7ffec4be77e305bcfe9a8c1"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4d63fd5d7f4709e29542af6780a05e825b52a02a76b16efc8e66e17c0a9566d6"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "cd40fa0b8611696837451ae7bd7a2ac47dd2a88c90d57027fcfca7bb06e64206"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "4ccc143023542bc258b7025483d2a6aef5981b4a4d6d2f5484de940d98bffb0b"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_3_0_0_0_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        4,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_08",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_07",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_06",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_05",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_04",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_03",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\transport_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_transport_fl_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_transport_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_transport_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_transport_03",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_transport_04",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\night_city_wall_02",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\anten_sb_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\flare_sb_01",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\blue_base_lamp_ceiling_point",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\red_base_lamp_ceiling_point",
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\red_base_lamp_wall_cold"
+      ],
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "07a561ed818889a7599e9746f9c79be8d59128790def2079cdc1866be2cceb6b"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "691c094c52cf4b646eeeb22134c933ef7cb3f04f168cdc133d40db98adccded5"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "53c36c4e525a46a56473f956d18e41143024d4cbf57b47be0c2bd4105b347800"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "339d3e91b48932434323de89de8bf72cb333f402fd733804586728c5f970903d"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "32033688cf120c98d026affedcb362537f53bc27e315bba69d3478460783ac13"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "733024c48d44837bd6d0465656dd49f0c7581a5cb6272b2765d705736660a110"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_3_0_0_0_0_0_1",
+    "profile": {
+      "options": [
+        0,
+        4,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_fog_sb_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\sky_line_01",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\clouds_moving_tail_sb_03",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\clouds_moving_tail_sb_04",
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\clouds_moving_tail_sb_05"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "07a561ed818889a7599e9746f9c79be8d59128790def2079cdc1866be2cceb6b"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "691c094c52cf4b646eeeb22134c933ef7cb3f04f168cdc133d40db98adccded5"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "53c36c4e525a46a56473f956d18e41143024d4cbf57b47be0c2bd4105b347800"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "640cf45828b7df0e7e8aeb9168dd2a74a17cab1e72f67cd1dbeb71a9fc0e3f0f"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d5945ee306065cbb33b598b5011352d4a05ea2ad8e2f11c1e8642b812ace608c"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "99c4a9f2ec0c694641f38e4bc279f1baeae395adcf45d4b673024d8eeede2792"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "0237ae7488cad44a61161e685fd9be2b0a3247ae63170b4dd7ade59637d2ebcd"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_4_3_0_0_0_1_0_1",
+    "profile": {
+      "options": [
+        0,
+        4,
+        3,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_color",
+          "self_illum_intensity",
+          "edge_fade_edge_tint",
+          "edge_fade_center_tint",
+          "edge_fade_power",
+          "soft_fresnel_power",
+          "soft_z_range"
+        ],
+        "5": [],
+        "6": [
+          "use_soft_fresnel",
+          "use_soft_z"
+        ]
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\sky\\shaders\\clouds_moving_tail_sb_02"
+      ],
+      "soft": true
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "0df3d7708523d5ad5f801404896b3874d33e7e513c6663fe782854c9a6e4bef1"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c6391c35363db0679b289a396c5701ebba22561e8fe0de370f052f5535b562b9"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "0419da36c645022a82f1b70e6f4b8fad3cbffe7746146655f9b111f517f3e3d0"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "30c537129f2afb5b954af9143449b31e9b7b57c53521a10402846560360c1f54"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "30c537129f2afb5b954af9143449b31e9b7b57c53521a10402846560360c1f54"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "30c537129f2afb5b954af9143449b31e9b7b57c53521a10402846560360c1f54"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d5945ee306065cbb33b598b5011352d4a05ea2ad8e2f11c1e8642b812ace608c"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "99c4a9f2ec0c694641f38e4bc279f1baeae395adcf45d4b673024d8eeede2792"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "0237ae7488cad44a61161e685fd9be2b0a3247ae63170b4dd7ade59637d2ebcd"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_8_1_0_0_0_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "layer_depth",
+          "layer_contrast",
+          "layers_of_4",
+          "texcoord_aspect_ratio",
+          "depth_darken"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_03"
+      ],
+      "layer_groups": 2,
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "bdaf01fef9e159fb14842897e1df3fcdc70753f7b0488570f32466601ab2f953"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6793a49536461e98f9e109e883a0ced314e166563a324679cf91bf3e82a483ca"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "8c1aade6bce944da00194132d580aa5786ab2db26b761645cbcf3080db1e908d"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6dd6fcb2812cc12f6401593805616d94c5f7721d10da565546bd187b9c10e498"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6dd6fcb2812cc12f6401593805616d94c5f7721d10da565546bd187b9c10e498"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6dd6fcb2812cc12f6401593805616d94c5f7721d10da565546bd187b9c10e498"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f60b61000e52ede00cdfa0b9c056af061e00234d1a7305e56d46687b264f9ad7"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_8_1_0_0_1_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        8,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "layer_depth",
+          "layer_contrast",
+          "layers_of_4",
+          "texcoord_aspect_ratio",
+          "depth_darken",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\multi\\s3d_turf\\shaders\\turf_banners_01"
+      ],
+      "layer_groups": 4,
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "fc6909bea3caf11737f00cdbc8282e1f039aca883c76d8a40a7d548fbc1c5218"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1fc5329f16c835f2dd2665e93f733617deb0f28493f3b5ee7234e02d7a733c8c"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "01833312b07710bb319fa0b0b60a694b0f807b818ac91210922101bc6e130ab3"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f8a6934cadaf75fbcb309f84b5015ae4761b3fcd25ec5ef4e28c5c6a7d3b18b0"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f8a6934cadaf75fbcb309f84b5015ae4761b3fcd25ec5ef4e28c5c6a7d3b18b0"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "f8a6934cadaf75fbcb309f84b5015ae4761b3fcd25ec5ef4e28c5c6a7d3b18b0"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "5a4719d29a5cda48ca4f65e87e6acb160ce19213dd20dd41cdf93d313072f721"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  },
+  {
+    "variant": "_0_8_1_0_0_3_0_0_0",
+    "profile": {
+      "options": [
+        0,
+        8,
+        1,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      "names": {
+        "0": [
+          "base_map",
+          "detail_map",
+          "self_illum_map",
+          "overlay_map"
+        ],
+        "4": [
+          "base_map",
+          "detail_map",
+          "albedo_color",
+          "self_illum_map",
+          "self_illum_color",
+          "self_illum_intensity",
+          "layer_depth",
+          "layer_contrast",
+          "layers_of_4",
+          "texcoord_aspect_ratio",
+          "depth_darken",
+          "overlay_map",
+          "overlay_tint",
+          "overlay_intensity"
+        ],
+        "5": [],
+        "6": []
+      },
+      "materials": [
+        "levels\\solo\\s3d_tutorial\\shaders\\lighting\\tut_device_04_glow"
+      ],
+      "layer_groups": 4,
+      "soft": false
+    },
+    "programs": [
+      {
+        "entry": 1,
+        "name": "albedo",
+        "stage": "ps",
+        "success": true,
+        "sha256": "97036c5ef0d71911b3269eda2acfdbf3a773618d2201d75c50d109f73359bc85"
+      },
+      {
+        "entry": 3,
+        "name": "static_per_pixel",
+        "stage": "ps",
+        "success": true,
+        "sha256": "533564f46fd6a81dc3552570f6ca5942ddcd31b2a497d50ca54886421ecc5d47"
+      },
+      {
+        "entry": 4,
+        "name": "static_per_vertex",
+        "stage": "ps",
+        "success": true,
+        "sha256": "1a4a0915149ed85428c073d0f61075f5e27aa955e6dc9f1c7d3c577b49193db9"
+      },
+      {
+        "entry": 5,
+        "name": "static_sh",
+        "stage": "ps",
+        "success": true,
+        "sha256": "d2f0fd6c8fc83e0c869e6757e92f4a7056b1d5e35eedec776762054807b6c64f"
+      },
+      {
+        "entry": 6,
+        "name": "static_prt_ambient",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c1cb770b10f1ed25bfb5eaa7ed006e315c1eb00ff2230d1eabb1de62b624a1a3"
+      },
+      {
+        "entry": 7,
+        "name": "static_prt_linear",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c1cb770b10f1ed25bfb5eaa7ed006e315c1eb00ff2230d1eabb1de62b624a1a3"
+      },
+      {
+        "entry": 8,
+        "name": "static_prt_quadratic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "c1cb770b10f1ed25bfb5eaa7ed006e315c1eb00ff2230d1eabb1de62b624a1a3"
+      },
+      {
+        "entry": 14,
+        "name": "static_per_vertex_color",
+        "stage": "ps",
+        "success": true,
+        "sha256": "5a4719d29a5cda48ca4f65e87e6acb160ce19213dd20dd41cdf93d313072f721"
+      },
+      {
+        "entry": 9,
+        "name": "dynamic_light",
+        "stage": "ps",
+        "success": true,
+        "sha256": "6c1e68af71a7a31c5524369ee74bf7aa8dad9f1d44be1ba03630c95b5a28110a"
+      },
+      {
+        "entry": 17,
+        "name": "dynamic_light_cinematic",
+        "stage": "ps",
+        "success": true,
+        "sha256": "3118bc95559b3b77f125c2deb8e82d6dba03b41b21eed361d72924c5a8f4e11c"
+      }
+    ],
+    "interface_matches": true
+  }
+]
