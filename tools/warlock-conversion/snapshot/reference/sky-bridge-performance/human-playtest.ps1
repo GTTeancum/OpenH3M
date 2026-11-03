@@ -1,5 +1,5 @@
 # Shared installation only. No debugger, input script, replay, or capture harness.
-param([switch]$Run)
+param([switch]$Run, [switch]$Bounded)
 $ErrorActionPreference = 'Stop'
 $repo = 'C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Push-Location -LiteralPath $repo
@@ -22,6 +22,10 @@ try {
         $env:TEMP = Join-Path $repo '.local/build-temp'; $env:TMP = $env:TEMP
         $child = Start-Process -FilePath 'C:/X360/ISOs/H3M/OpenH3M.exe' -WorkingDirectory $repo -WindowStyle Hidden -PassThru
         Write-Output "Shared game started: PID $($child.Id). User controls from startup. No harness."
-        if (-not $child.WaitForExit(170000)) { Stop-Process -Id $child.Id; $child.WaitForExit(5000) | Out-Null }
+        if ($Bounded) {
+            if (-not $child.WaitForExit(170000)) { Stop-Process -Id $child.Id; $child.WaitForExit(5000) | Out-Null }
+        } else {
+            Write-Output "No automatic shutdown timer. Close the game when finished."
+        }
     } finally { $env:TEMP = $oldTemp; $env:TMP = $oldTmp }
 } finally { Pop-Location }
