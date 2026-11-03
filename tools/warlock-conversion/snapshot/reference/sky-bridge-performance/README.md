@@ -213,3 +213,53 @@ Source and evidence: candidate29-before-quiet-pacing.json and
 candidate29-quiet-pacing.json. Next independent verification is the same native
 observer movement route with this quieter runtime, before visual acceptance.
 The private LIVE candidate is still unreleased and the goal remains open.
+
+## Remaining acceptance checks
+
+Candidate 29's source-material and emitted-bytecode checks establish conversion
+bindings, not the appearance of the affected panels. Human inspection must check
+the framed indoor panels, outdoor courtyard panels, and left corridor from the
+Slayer spawn: no opaque black replacement or bright vertical noise, authored
+window transparency and screen illumination/animation, and normal exposure/bloom
+while moving between indoor and outdoor areas. Also check audible game audio.
+This chat cannot import images; a human text report is the required evidence.
+Any remaining defect must be reported with location and behavior before promotion.
+The private package is not an accepted release. Physical Xbox 360 performance
+and system-link remain untested; host evidence cannot establish either.
+
+Runtime reproduction uses the current patched SDK checkout described by
+halo3mp/BUILD.md, which explicitly warns that build_host_runtime.ps1 does not
+reconstruct the full current baseline. Do not use that older patch stack to
+replace the working checkout. Preserve the small-resolve/occlusion baseline,
+then resolve-submission-slots, quiet-visibility-query and the app async default;
+optional timing patches supply evidence, not guest behavior. Builds and binary
+manifests are preserved under work/sky-bridge. A later release handoff must
+include runtime requirements: a DLC package alone does not install host fixes.
+
+The older bounded-timing.py now accepts both recorded manifest formats and leaves
+the async-readback setting unspecified by default. --async-occlusion and
+--no-async-occlusion still allow explicit comparisons. Syntax and argument-parser
+checks passed; this helper was not used to launch the current observer test.
+
+## Quiet-runtime native movement verification
+
+The prior turn was progress: it isolated query logging overhead and improved
+stationary later-window pacing. The same movement/slow-turn route now completed
+with the quieter runtime and async default, without an explicit async CLI flag.
+Run .local/loading-traces/20261103-173519-8796 ended at 170.297 seconds;
+11 native hash checks passed, zero failed, no observer errors, game closed.
+All 19 runtime-manifest files matched before analysis. Observer samples confirm
+3.397 world units of local motion and 198.387 degrees cumulative yaw. This is
+still a short local route, not full-map traversal or visual verification.
+
+Full 110-165 runtime seconds averaged 28.579 FPS, retaining startup. Fixed later
+120-150 window averaged 29.886 FPS, median 33.363 ms, p95 33.827 ms, maximum
+84.547 ms. 115-155 window averaged 29.708 FPS. Five genuine prior-submission
+resolve waits remain; zero repeated-current-batch failures and zero INFO query
+chatter. Largest later hitch contains deferred-commands=44.880 ms and enclosing
+output-refresh=46.694 ms; these overlap and must not be added. A second
+81.279 ms interval contains several slower deferred-command submissions.
+Next performance investigation should attribute time inside deferred-command
+execution rather than repeating the same unchanged route or suppressing real
+fence waits. Evidence: candidate29-quiet-movement-summary.json. No sustained
+full-map 30 FPS, visual/audio acceptance, console, or network claim is made.

@@ -6,7 +6,7 @@ def digest(p):
  with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');parser.add_argument('--async-occlusion',action='store_true');parser.add_argument('--warm-cache',action='store_true');parser.add_argument('--binary-manifest',type=Path,default=Path('work/sky-bridge/wait-attribution-build/after-hashes.json'));parser.add_argument('--run-name',default='performance-candidate29-01');args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');parser.add_argument('--async-occlusion',action=argparse.BooleanOptionalAction,default=None);parser.add_argument('--warm-cache',action='store_true');parser.add_argument('--binary-manifest',type=Path,default=Path('work/sky-bridge/wait-attribution-build/after-hashes.json'));parser.add_argument('--run-name',default='performance-candidate29-01');args=parser.parse_args()
  if not __import__('re').fullmatch(r'performance-candidate29-[a-z0-9-]+',args.run_name):raise ValueError('Invalid run name')
  root=Path.cwd().resolve()
  assert root==Path('C:/X360/ISOs/H3M/.local/OpenH3M-source').resolve()
@@ -25,6 +25,8 @@ def main():
  cache=(root/'work/sky-bridge/performance-candidate29-01/cache') if args.warm_cache else run/'cache'
  manifest=args.binary_manifest.resolve();manifest.relative_to(root)
  expected=json.loads(manifest.read_text())
+ if isinstance(expected,list):
+  expected={Path(row['Path']).name:row['Hash'].lower() for row in expected}
  bindir=root/'work/rexglue-sdk/out/win-amd64'
  for name,value in expected.items():
   if digest(bindir/name)!=value:raise ValueError('Timing binary changed: '+name)
@@ -33,8 +35,9 @@ def main():
  cmd=[str(bindir/'halo3mp.exe'),f'--game_data_root={game}',f'--user_data_root={run/"user"}',
       f'--cache_root={cache}',f'--log_file={run/"runtime.log"}','--log_level=info',
       '--log_max_file_size_mb=20','--log_max_files=6','--d3d12_log_present_timing=true',
-      '--d3d12_present_timing_end_ms=165000','--d3d12_async_occlusion_readback='+str(args.async_occlusion).lower(),
+      '--d3d12_present_timing_end_ms=165000',
       steps,'--input_script_button_state=true','--input_script_keystrokes=false']
+ if args.async_occlusion is not None:cmd.append('--d3d12_async_occlusion_readback='+str(args.async_occlusion).lower())
  assert not any('capture' in arg for arg in cmd)
  (run/'prepared-command.json').write_text(json.dumps(dict(command=cmd,binary_hashes=expected,cache_reused=args.warm_cache,
   controls='Process-local menu input only. No captures. 170-second watchdog, then terminate/kill.'),indent=2))
