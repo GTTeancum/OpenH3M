@@ -380,3 +380,22 @@ manual launcher preparation check passes. The latest coordination JSON records
 the applied state and backup location. Normal OpenH3M now uses the tested
 runtime with the common installed map tree; visual/menu acceptance still awaits
 the user's normal manual playtest. Goal is not complete.
+
+
+## Restarted goal: widespread non-colliding cards remain
+
+User supplied six new screenshots and reports widespread striped and solid-black
+cards without collision; map otherwise seems generally fine. This is negative
+visual acceptance for candidate 29, not approval to promote it. User accidentally
+deleted the goal and explicitly requested restart; the full correction,
+performance, verification and shared LIVE deployment objective is active again.
+The supplied attachments are now explicit evidence; no other images or source
+chats are imported. Human launch remains shared, manual and untimed by default.
+
+candidate29-renewed-card-feedback.json records each supplied view and initial
+material candidates. Current source also preserves HO/MCC instance bit 6 as an
+opaque flag; its native effect is unproven. Investigate geometry/material
+membership and transparent light-volume/decal paths as well as render flags.
+Do not hide all non-colliding geometry or assume these are portals. Existing
+screen/window shader audits proved binary bindings, not correct rendering;
+the user's new observations supersede any implication of visual success.

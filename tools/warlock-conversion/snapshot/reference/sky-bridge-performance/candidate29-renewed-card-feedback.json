@@ -1,0 +1,177 @@
+{
+  "status": "Goal restarted; candidate 29 visual acceptance failed for widespread cards",
+  "user_report": "Cards everywhere; some striped, others solid black; none have collision. Map generally fine otherwise. Portal/helper geometry or wrong material settings are hypotheses, not established causes.",
+  "supplied_image_observations": [
+    "1: framed striped black surface indoors",
+    "2: striped framed surfaces plus separate hanging black cards around outdoor walkways",
+    "3: large solid black rectangle across an interior passage",
+    "4: black cards beneath exterior ledges alongside striped framed panels",
+    "5: extensive hanging black cards viewed from below a walkway",
+    "6: black cards beneath an elevated platform and striped framed surfaces across courtyard"
+  ],
+  "constraints": "Use these supplied images as evidence; no additional image imports, no desktop input/capture app. Shared installation, human play without harness or timer.",
+  "investigation_leads": [
+    "Map affected planar geometry to material indices before changing shaders or hiding parts.",
+    "Audit transparency/blend/alpha and soft-depth behavior for light-volume/decal materials.",
+    "Verify whether source instance extension bit 6 has native-equivalent semantics; current converter preserves it opaquely, distinct from Not For Render bit 5.",
+    "Treat portal hypothesis separately; absence of collision does not establish portal identity."
+  ],
+  "candidate_materials": [
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_01",
+      "source_id": 12142,
+      "target_id": 9242,
+      "first_material_slot": 16
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\holo_screen_lines_01",
+      "source_id": 12329,
+      "target_id": 9495,
+      "first_material_slot": 24
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\holo_screen_lines_02",
+      "source_id": 12331,
+      "target_id": 9496,
+      "first_material_slot": 29
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_point_v1_blue",
+      "source_id": 12335,
+      "target_id": 9537,
+      "first_material_slot": 33
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx__bluebase_lightvolume_floor_cold",
+      "source_id": 12347,
+      "target_id": 9546,
+      "first_material_slot": 37
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_point_v1",
+      "source_id": 12361,
+      "target_id": 9564,
+      "first_material_slot": 47
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_building_bridge_rb",
+      "source_id": 12374,
+      "target_id": 9580,
+      "first_material_slot": 51
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_floor_warm_int2",
+      "source_id": 12384,
+      "target_id": 9590,
+      "first_material_slot": 54
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_columns_cabin_room",
+      "source_id": 12385,
+      "target_id": 9593,
+      "first_material_slot": 55
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column",
+      "source_id": 12386,
+      "target_id": 9596,
+      "first_material_slot": 56
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column_center2",
+      "source_id": 12387,
+      "target_id": 9599,
+      "first_material_slot": 57
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_big_column_center",
+      "source_id": 12392,
+      "target_id": 9605,
+      "first_material_slot": 59
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_cabin_lamp_main",
+      "source_id": 12395,
+      "target_id": 9613,
+      "first_material_slot": 61
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_cabin_lamp_lines",
+      "source_id": 12397,
+      "target_id": 9616,
+      "first_material_slot": 62
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_obl_ceiling_lamp_rb",
+      "source_id": 12402,
+      "target_id": 9622,
+      "first_material_slot": 64
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\fx_lightvolume_floor_warm",
+      "source_id": 12404,
+      "target_id": 9628,
+      "first_material_slot": 66
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02",
+      "source_id": 12412,
+      "target_id": 9650,
+      "first_material_slot": 77
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_a",
+      "source_id": 12416,
+      "target_id": 9651,
+      "first_material_slot": 78
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_05",
+      "source_id": 12453,
+      "target_id": 9678,
+      "first_material_slot": 123
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_01",
+      "source_id": 12458,
+      "target_id": 9683,
+      "first_material_slot": 129
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_ext",
+      "source_id": 12220,
+      "target_id": 9303,
+      "first_material_slot": 159
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_int",
+      "source_id": 12159,
+      "target_id": 9249,
+      "first_material_slot": 168
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_glass_01",
+      "source_id": 250,
+      "target_id": 9350,
+      "first_material_slot": 179
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+      "source_id": 12515,
+      "target_id": 9742,
+      "first_material_slot": 189
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_teem",
+      "source_id": 12579,
+      "target_id": 9805,
+      "first_material_slot": 249
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_04",
+      "source_id": 12591,
+      "target_id": 9827,
+      "first_material_slot": 270
+    }
+  ]
+}
