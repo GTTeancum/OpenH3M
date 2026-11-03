@@ -1,0 +1,12 @@
+--- tools\warlock-conversion\snapshot\tools\tag_importer.py
++++ tools\warlock-conversion\snapshot\tools\tag_importer.py
+@@ -126,7 +126,8 @@
+         if group == 'cfxs':
+             # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
+             # Ignore only authored default/inactive extensions, not active FX.
+-            grading_active = any(
++            grading_flags = source.u(tag['offset'] + 0xF4)
++            grading_active = not (grading_flags & 1) and bool(grading_flags & 2) and any(
+                 source.u(row) & 1
+                 for node in ss if node.tag == 'tagblock' and 0xFC <= int(node.get('offset'), 0) < 0x144
+                 for row in source.block(tag['offset'] + int(node.get('offset'), 0),
