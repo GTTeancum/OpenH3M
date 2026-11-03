@@ -1,0 +1,1053 @@
+{
+  "candidate": 139,
+  "sha256": "07283740da2a1d543fee4a51507833b046bb3c6dcc03b425b23c20a1ebbfe355",
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "run": ".local/loading-traces/20261103-120318-25800",
+  "terminal_exit_code": 0,
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "hash_summary": {
+    "seconds": 180.344,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "captures": [
+    {
+      "file": "proof-loaded_140137ms.png",
+      "sha256": "dfae3c97779b31ef2f51081431f90af609aa1dfd11df5ecdd250f3b23c6059d7",
+      "individually_inspected": true
+    },
+    {
+      "file": "proof-loaded_144137ms.png",
+      "sha256": "914956bd96bbb4859d9cfcf22309a23c347daecacd3cbd9d5cbcb59c049bef15",
+      "individually_inspected": true
+    }
+  ],
+  "manual_inspection": "Both native frames inspected individually in chronological order. The pale yellow-green river surface is visible between the textured cliffs and rocks. Its fine detail changes between captures while the scene and camera remain fixed. The nearby falling water/mist is visible too, but is not the basis for river-bottom animation acceptance.",
+  "focused_river_bottom_appearance_verified": true,
+  "focused_river_bottom_motion_verified": true,
+  "temporal": {
+    "camera": {
+      "seconds": 179.125,
+      "event": "observer_position",
+      "position": [
+        139.13856506347656,
+        261.9557189941406,
+        39.63471603393555
+      ],
+      "location": "000c7738",
+      "gulch_margin": -318.7347446788441,
+      "selected_partition_margin": -318.7347446788441,
+      "forward": [
+        -0.14025872945785522,
+        0.09027017652988434,
+        -0.9859911799430847
+      ],
+      "observer_bytes": "430b23794382fa55421e89f3000c7738000000000000000000000000800000008000000080000000be0f9ffc3db8df92bf7c69ebbf5440e53f089b173e2accd13f9c61aa00000000000000000000000000000000000000003faaaaab3f800000",
+      "soft_ceiling_records": [
+        "0000000100003ebe00000000",
+        "0000000100003ebf00020000"
+      ]
+    },
+    "stationary_interval": [
+      147.125,
+      179.125
+    ],
+    "identical_pose_observations": 28,
+    "regions": {
+      "river_upper": {
+        "bounds": [
+          535,
+          175,
+          545,
+          185
+        ],
+        "mae": 6.566666666666666,
+        "changed_pixels": 99
+      },
+      "river_middle": {
+        "bounds": [
+          615,
+          265,
+          625,
+          275
+        ],
+        "mae": 14.076666666666666,
+        "changed_pixels": 100
+      },
+      "river_lower": {
+        "bounds": [
+          675,
+          405,
+          685,
+          415
+        ],
+        "mae": 24.09,
+        "changed_pixels": 100
+      },
+      "cliff_control": {
+        "bounds": [
+          295,
+          195,
+          305,
+          205
+        ],
+        "mae": 0.4766666666666667,
+        "changed_pixels": 82
+      }
+    },
+    "scope": "Supplement to individual visual inspection, geometry identification and source/GPU checks; not acceptance from metrics alone."
+  },
+  "gpu_projection": {
+    "sample": 580,
+    "seconds": 153.297,
+    "matrix": [
+      [
+        0.7632803320884705,
+        1.185477375984192,
+        0.0015405953163281083,
+        -416.80535888671875
+      ],
+      [
+        -2.0782389640808105,
+        1.3375495672225952,
+        0.4180889427661896,
+        -77.78639221191406
+      ],
+      [
+        1.070090078769681e-07,
+        -6.887074022188244e-08,
+        7.522522196268255e-07,
+        0.007785842288285494
+      ],
+      [
+        -0.14025874435901642,
+        0.09027018398046494,
+        -0.9859912991523743,
+        34.948097229003906
+      ]
+    ],
+    "camera": [
+      139.13856506347656,
+      261.9557189941406,
+      39.63471603393555,
+      0.0
+    ]
+  },
+  "geometry_first_hits": {
+    "(540, 180)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "depth": 20.8019780737723,
+      "position": [
+        132.82523943180644,
+        264.96667217502556,
+        20.04394340515137
+      ]
+    },
+    "(620, 270)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "depth": 20.150454619589013,
+      "position": [
+        135.88503270477548,
+        265.36995044122824,
+        20.043943405151367
+      ]
+    },
+    "(680, 410)": {
+      "mesh": 456,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "depth": 20.17277602848576,
+      "position": [
+        139.58946567476497,
+        264.71979602855174,
+        19.65729228906718
+      ]
+    },
+    "(300, 200)": {
+      "mesh": 454,
+      "instance": null,
+      "material": "levels\\multi\\s3d_powerhouse\\shaders\\30_settlement_040_a_cliff",
+      "depth": 9.569218094359162,
+      "position": [
+        135.12171014571385,
+        260.92606521176083,
+        31.01064364349915
+      ]
+    }
+  },
+  "gpu_draws": {
+    "total": 1024,
+    "water_shader_matches": 12,
+    "river_bottom_matches": 11,
+    "excluded_inlet_matches": 1,
+    "identification": "Select source-preserved bump_map scale(12,6) and bump_detail_map scale(3,1.5); reject inlet scale(4,77). Shared shader identity alone is insufficient.",
+    "shared_input_bindings": {
+      "pixel_hash": "0xda0650d8a6d044f5",
+      "textures": {
+        "base_map": {
+          "register": 0,
+          "words": [
+            "0x84024802",
+            "0x12cc7054",
+            "0x3fe1ff",
+            "0xa80d10",
+            "0x1c3",
+            "0x12d07a18"
+          ],
+          "type": 2,
+          "pitch": 512,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x12cc7000",
+          "stacked": false,
+          "width": 512,
+          "height": 512,
+          "depth": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 7,
+          "dimension": 1,
+          "mip_base": "0x12d07000"
+        },
+        "dynamic_environment_map_0": {
+          "register": 1,
+          "words": [
+            "0x810248fe",
+            "0x8f1e075",
+            "0x1407e03f",
+            "0xa80d10",
+            "0x187",
+            "0x8f1ee18"
+          ],
+          "type": 2,
+          "pitch": 128,
+          "tiled": 1,
+          "format": 53,
+          "base": "0x8f1e000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 1,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x8f1e000"
+        },
+        "dynamic_environment_map_1": {
+          "register": 2,
+          "words": [
+            "0x810248fe",
+            "0x8f1e075",
+            "0x1407e03f",
+            "0xa80d10",
+            "0x187",
+            "0x8f1ee18"
+          ],
+          "type": 2,
+          "pitch": 128,
+          "tiled": 1,
+          "format": 53,
+          "base": "0x8f1e000",
+          "stacked": false,
+          "width": 64,
+          "height": 64,
+          "depth": 6,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 1,
+          "mip_max": 6,
+          "dimension": 3,
+          "mip_base": "0x8f1e000"
+        },
+        "detail_map": {
+          "register": 3,
+          "words": [
+            "0x820000fe",
+            "0x12c41075",
+            "0x1fe0ff",
+            "0xa80d10",
+            "0x203",
+            "0x12c51a18"
+          ],
+          "type": 2,
+          "pitch": 256,
+          "tiled": 1,
+          "format": 53,
+          "base": "0x12c41000",
+          "stacked": false,
+          "width": 256,
+          "height": 256,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 8,
+          "dimension": 1,
+          "mip_base": "0x12c51000"
+        },
+        "bump_map": {
+          "register": 4,
+          "words": [
+            "0x820002aa",
+            "0x12d24071",
+            "0x1fe0ff",
+            "0xa80d10",
+            "0x203",
+            "0x12d34a18"
+          ],
+          "type": 2,
+          "pitch": 256,
+          "tiled": 1,
+          "format": 49,
+          "base": "0x12d24000",
+          "stacked": false,
+          "width": 256,
+          "height": 256,
+          "depth": 1,
+          "signs": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 8,
+          "dimension": 1,
+          "mip_base": "0x12d34000"
+        },
+        "bump_detail_map": {
+          "register": 5,
+          "words": [
+            "0x820002aa",
+            "0x12c5e071",
+            "0x1fe0ff",
+            "0xa80d10",
+            "0x203",
+            "0x12c6ea18"
+          ],
+          "type": 2,
+          "pitch": 256,
+          "tiled": 1,
+          "format": 49,
+          "base": "0x12c5e000",
+          "stacked": false,
+          "width": 256,
+          "height": 256,
+          "depth": 1,
+          "signs": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 8,
+          "dimension": 1,
+          "mip_base": "0x12c6e000"
+        },
+        "material_texture": {
+          "register": 6,
+          "words": [
+            "0x804000fe",
+            "0x8b3e04a",
+            "0x6003",
+            "0xa80400",
+            "0x83",
+            "0xa18"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 10,
+          "base": "0x8b3e000",
+          "stacked": false,
+          "width": 4,
+          "height": 4,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 512,
+          "mip_min": 0,
+          "mip_max": 2,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "g_sampler_cc0236": {
+          "register": 7,
+          "words": [
+            "0x80424956",
+            "0x90c305d",
+            "0x3e01f",
+            "0x280d11",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 29,
+          "base": "0x90c3000",
+          "stacked": false,
+          "width": 32,
+          "height": 32,
+          "depth": 1,
+          "signs": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "g_sampler_dd0236": {
+          "register": 8,
+          "words": [
+            "0x80424956",
+            "0x92ed05d",
+            "0x3e01f",
+            "0x280d11",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 32,
+          "tiled": 1,
+          "format": 29,
+          "base": "0x92ed000",
+          "stacked": false,
+          "width": 32,
+          "height": 32,
+          "depth": 1,
+          "signs": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "albedo_texture": {
+          "register": 10,
+          "words": [
+            "0x890248fe",
+            "0x44b00b2",
+            "0x4fe47f",
+            "0x280c14",
+            "0x3",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1152,
+          "tiled": 1,
+          "format": 50,
+          "base": "0x44b0000",
+          "stacked": false,
+          "width": 1152,
+          "height": 640,
+          "depth": 1,
+          "signs": [
+            3,
+            3,
+            3,
+            0
+          ],
+          "swizzle": 1546,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "normal_texture": {
+          "register": 11,
+          "words": [
+            "0x89024802",
+            "0x4a50097",
+            "0x4fe47f",
+            "0xd11",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1152,
+          "tiled": 1,
+          "format": 23,
+          "base": "0x4a50000",
+          "stacked": false,
+          "width": 1152,
+          "height": 640,
+          "depth": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "lightprobe_texture_array": {
+          "register": 12,
+          "words": [
+            "0x8c024802",
+            "0x15be7454",
+            "0x1cbfe5ff",
+            "0x280d10",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1536,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x15be7000",
+          "stacked": true,
+          "width": 1536,
+          "height": 1536,
+          "depth": 8,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        },
+        "dominant_light_intensity_map": {
+          "register": 13,
+          "words": [
+            "0x8c000002",
+            "0x16de7454",
+            "0x4bfe5ff",
+            "0x280d10",
+            "0x0",
+            "0x218"
+          ],
+          "type": 2,
+          "pitch": 1536,
+          "tiled": 1,
+          "format": 20,
+          "base": "0x16de7000",
+          "stacked": true,
+          "width": 1536,
+          "height": 1536,
+          "depth": 2,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": 1672,
+          "mip_min": 0,
+          "mip_max": 0,
+          "dimension": 1,
+          "mip_base": "0x0"
+        }
+      },
+      "constants": {
+        "g_exposure": [
+          4.683222770690918,
+          128.0,
+          1.0,
+          1.0
+        ],
+        "texture_size": [
+          1152.0,
+          640.0,
+          -1.1162676304485205e-37,
+          -1.7999757246966277e-37
+        ],
+        "dynamic_environment_blend": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "camera_position_ps": [
+          139.13856506347656,
+          261.9557189941406,
+          39.63471603393555,
+          0.0
+        ],
+        "detail_map_xform": [
+          3.5,
+          3.5,
+          0.33809566497802734,
+          0.15185213088989258
+        ],
+        "bump_map_xform": [
+          12.0,
+          6.0,
+          0.45342206954956055,
+          0.6695429086685181
+        ],
+        "bump_detail_map_xform": [
+          3.0,
+          1.5,
+          0.14852631092071533,
+          0.39460548758506775
+        ],
+        "bump_detail_coefficient": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "p_tiling_vpos_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diffuse_coefficient": [
+          2.0,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "specular_coefficient": [
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448
+        ],
+        "area_specular_contribution": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "analytical_specular_contribution": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "environment_map_specular_contribution": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "material_texture_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "use_material_texture": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fresnel_color": [
+          0.5333333611488342,
+          0.5333333611488342,
+          0.5333333611488342,
+          1.0
+        ],
+        "roughness": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ],
+        "albedo_blend": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "specular_tint": [
+          0.6823529601097107,
+          0.6823529601097107,
+          0.6823529601097107,
+          1.0
+        ],
+        "analytical_anti_shadow_control": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "env_tint_color": [
+          0.3019607961177826,
+          0.3019607961177826,
+          0.2705882489681244,
+          1.0
+        ],
+        "env_roughness_scale": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "base_map_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "albedo_color": [
+          0.44705885648727417,
+          0.5490196347236633,
+          0.501960813999176,
+          1.600000023841858
+        ],
+        "p_lightmap_compress_constant_0": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0
+        ],
+        "p_lightmap_compress_constant_1": [
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "groups": [
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          607,
+          608,
+          616,
+          617,
+          618
+        ],
+        "seconds": 153.313,
+        "index_count": 3
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          615
+        ],
+        "seconds": 153.313,
+        "index_count": 12
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          619,
+          622
+        ],
+        "seconds": 153.313,
+        "index_count": 18
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          620
+        ],
+        "seconds": 153.313,
+        "index_count": 9
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          621
+        ],
+        "seconds": 153.313,
+        "index_count": 273
+      },
+      {
+        "entry": 3,
+        "program": 1,
+        "samples": [
+          623
+        ],
+        "seconds": 153.328,
+        "index_count": 42
+      }
+    ],
+    "scope": "Short sampled draw interval verifies water inputs, not temporal motion by itself. Motion evidence is the individually inspected stationary native captures."
+  },
+  "source_static_constants": {
+    "base_map": [
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "detail_map": [
+      3.5,
+      3.5,
+      0.0,
+      0.0
+    ],
+    "albedo_color": [
+      0.44705885648727417,
+      0.5490196347236633,
+      0.501960813999176,
+      1.600000023841858
+    ],
+    "bump_map": [
+      12.0,
+      6.0,
+      0.0,
+      0.0
+    ],
+    "bump_detail_map": [
+      3.0,
+      1.5,
+      0.0,
+      0.0
+    ],
+    "diffuse_coefficient": [
+      2.0,
+      2.0,
+      2.0,
+      2.0
+    ],
+    "specular_coefficient": [
+      0.15000000596046448,
+      0.15000000596046448,
+      0.15000000596046448,
+      0.15000000596046448
+    ],
+    "specular_tint": [
+      0.6823529601097107,
+      0.6823529601097107,
+      0.6823529601097107,
+      1.0
+    ],
+    "fresnel_color": [
+      0.5333333611488342,
+      0.5333333611488342,
+      0.5333333611488342,
+      1.0
+    ],
+    "roughness": [
+      0.05000000074505806,
+      0.05000000074505806,
+      0.05000000074505806,
+      0.05000000074505806
+    ],
+    "area_specular_contribution": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "analytical_specular_contribution": [
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612
+    ],
+    "environment_map_specular_contribution": [
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612
+    ],
+    "use_material_texture": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "material_texture": [
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "albedo_blend": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "analytical_anti_shadow_control": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "env_tint_color": [
+      0.3019607961177826,
+      0.3019607961177826,
+      0.2705882489681244,
+      1.0
+    ],
+    "env_roughness_scale": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "bump_detail_coefficient": [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "source_parameter_function_audit": [
+    {
+      "material_tag": 9950,
+      "template_tag": 9947,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9953,
+      "template_tag": 9952,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9959,
+      "template_tag": 9955,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "detail_map2",
+        "detail_map_overlay",
+        "bump_map",
+        "bump_detail_map"
+      ],
+      "named_constants_exact": true,
+      "animation_function_hashes": [
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "e33e57482e90a610fb4ad9e56b5e949792e08deade5324fb766e3795c098dab2",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 1
+    }
+  ],
+  "animation_register_audit": {
+    "candidate": 139,
+    "route_uses": 150,
+    "stale_routes": 0,
+    "register_changes_required": 0
+  },
+  "diagnostic_fixture": {
+    "diagnostic_only": true,
+    "never_install": true,
+    "candidate": 139,
+    "target_mesh": null,
+    "target_instance": null,
+    "position_facing": [
+      152.4137420654297,
+      253.39468383789062,
+      36.58488082885742,
+      2.57,
+      0.0,
+      0.0
+    ],
+    "relocated_spawn_markers": 114
+  },
+  "scope": "Spawn-only private diagnostic fixture of139; production geometry/materials unchanged. Native180-second watchdog exit, not natural game exit. No installation or push.",
+  "remaining": [
+    "The two custom river-material motion checks are complete, not all map water/effects or gameplay.",
+    "Broader traversal/collision, lighting, atmosphere, audio, Forge and performance remain incomplete.",
+    "Full rebuild awaits flare-placement clarification. Console/System Link untested."
+  ]
+}

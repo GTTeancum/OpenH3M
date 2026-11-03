@@ -491,6 +491,9 @@
   ],
   "reserve_lightmap_upload_blocks": true,
   "reserve_shared_upload_blocks": true,
-  "validation_status": "Candidate139 inlet appearance/motion verified in native147: both frames individually inspected, settled camera, three GPU-projection rays identify the inlet, eight matching water draws, source constants/functions exact and150 animation-route uses aligned. River-bottom motion and broader map validation remain incomplete.",
-  "native_validation_evidence": "../powerhouse-inlet-motion-evidence-147.json"
+  "validation_status": "Candidate139 focused inlet motion(native147) and river-bottom motion(native149) verified with individually inspected stationary captures, GPU-projection geometry rays, source-preserved animated inputs and aligned animation registers. These two river materials pass; broader map water/effects, gameplay and console validation remain incomplete.",
+  "native_validation_evidence": [
+    "../powerhouse-inlet-motion-evidence-147.json",
+    "../powerhouse-river-bottom-motion-evidence-149.json"
+  ]
 }
