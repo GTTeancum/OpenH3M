@@ -35,3 +35,25 @@ textures/constants and preserve animations through material_animation.py; build
 a fresh candidate without overwriting candidate 27. Continue deeper performance
 analysis with the game closed. Later runtime timing and human visual verification
 remain required before updating the LIVE package. Goal remains open.
+
+## Candidate 28 integration
+
+A separately guarded twelve-entry screen binder is now wired into the importer
+via OPENH3M_SKY_SCREEN_SHADER_DIR. The narrow importer patch is recorded here;
+the preexisting dirty importer is deliberately not staged as a whole.
+Candidate 28 built successfully to work/sky-bridge/zanzibar-28.map with report
+work/sky-bridge/build-28.json and log work/sky-bridge/build-feedback-28.log.
+Candidate 27, installed payloads and LIVE releases remain unchanged.
+The prior diffuse-only fix needed variants=[0]*10; its snapshot now includes it.
+
+verify-candidate.py reads the emitted binary. It verifies three function payloads
+with endian conversion, all 24 named/staged animation consumers and flags,
+exact source float constants and sampler controls, additive blending, and reuse
+of stock default_detail (bitmap 19). The source screen bitmap is imported once
+and bound to both base and self-illumination slots (bitmap 9733).
+These checks passed. No game launch, visual verification or new timing run occurred.
+
+Performance source inspection confirms the synchronous occlusion end path waits
+on its submission fence; the existing asynchronous path still ends a submission
+for each query. Existing timing remains insufficient to accept either as a fix.
+Further diagnosis must preserve actual visibility results and native semantics.

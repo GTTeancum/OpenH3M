@@ -1,6 +1,6 @@
 --- a/tools/warlock-conversion/snapshot/tools/material_importer.py
 +++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
-@@ -864,6 +864,14 @@
+@@ -864,6 +864,15 @@
              variants = [6, 2, 0, 1, 2, 2, 0, 1, 0, 0]
              sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
              prisoner_template = True
@@ -10,6 +10,7 @@
 +            # otherwise adds an unrelated factory-panel normal and specular.
 +            source_template = s.name(s.u(source_post + 12) & 65535)
 +            if source_template == r'shaders\shader_templates\_0_0_0_0_0_0_0_0_0_0_0_0_0':
++                variants = [0] * 10
 +                sky_template = r'shaders\shader_templates\_0_0_0_0_0_0_0_0_0_0'
 +                prisoner_template = True
          if sky_template:

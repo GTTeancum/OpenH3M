@@ -1,0 +1,49 @@
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -864,6 +864,16 @@
+             variants = [6, 2, 0, 1, 2, 2, 0, 1, 0, 0]
+             sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
+             prisoner_template = True
++        screen_directory = os.environ.get('OPENH3M_SKY_SCREEN_SHADER_DIR')
++        sky_screen = bool(screen_directory and source_filename == 's3d_sky_bridgenew.map'
++            and key == ('rmsh', r'levels\multi\s3d_sky_bridgenew\shaders\screen_lines'))
++        screen_evidence = None
++        if sky_screen:
++            if s.name(s.u(source_post+12)&65535) != r'shaders\shader_templates\_0_0_0_0_0_0_7_1_0_0_0_0_0':
++                raise ValueError('Sky screen source permutation changed')
++            variants = [0,0,0,0,0,0,7,1,0,0]
++            sky_template = r'shaders\shader_templates\_0_0_0_0_0_0_1_1_0_0'
++            prisoner_template = True
+         if source_filename == 's3d_sky_bridgenew.map' and key[0] == 'rmsh':
+             # These source materials have an exact original-H3 diffuse-only
+             # template and identical parameter lists. The generic metal donor
+@@ -891,7 +901,12 @@
+                 donor_options = dict(preferred_map='bunkerworld.map')
+             if powerhouse_compiled_corrugated:
+                 donor_options = dict(preferred_map='construct.map')
++            if sky_screen:
++                donor_options = dict(preferred_map='zanzibar.map')
+             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
++            if sky_screen:
++                from sky_bridge_screen import bind_screen
++                native_sky_post, names, screen_evidence = bind_screen(self, native_sky_post, names, screen_directory)
+             if powerhouse_compiled_concrete:
+                 from powerhouse_compiled_concrete import bind_compiled_concrete
+                 native_sky_post, names, compiled_concrete_evidence = bind_compiled_concrete(
+@@ -1026,7 +1041,7 @@
+                 bitmap = self.bitmap(bitmap_datum)
+             struct.pack_into('>I', textures, index * 24 + 12, bitmap)
+             if prisoner_template and (getattr(self, 'boarding_action', False) or
+-                    source_filename == 's3d_powerhouse.map'):
++                    source_filename == 's3d_powerhouse.map' or sky_screen):
+                 # Exact shader programs do not imply identical material sampling.
+                 # Preserve authored image/address/filter/external selection while
+                 # retaining the donor's name-matched constant transform index.
+@@ -1185,6 +1200,7 @@
+                 if autoturret_emission else None),
+             'native_neutral_emission_detail': lockout_neutral_emission_detail,
+             'powerhouse_screen_inert_specular_mask': powerhouse_screen,
++            'sky_bridge_compiled_screen': screen_evidence,
+             'powerhouse_compiled_concrete': compiled_concrete_evidence,
+             'powerhouse_compiled_river': compiled_river_evidence,
+             'powerhouse_compiled_grate': compiled_grate_evidence,
