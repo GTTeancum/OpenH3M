@@ -33,7 +33,7 @@ def build():
   exact='shaders\\halogram_templates\\_'+'_'.join(map(str,opt[:7]))
   stock=json.loads((REPO/'work/sky-bridge/halogram-donor-audit.json').read_text())['native_templates']
   if not requested and not any(opt[7:]) and exact in stock:continue
-  if opt[0]!=0 or (opt[3] not in (0,1,2,4) or opt[4]!=0) or opt[1] not in (1,4,8):continue
+  if opt[0] not in (0,1) or (opt[3] not in (0,1,2,4) or opt[4]!=0) or opt[1] not in (1,4,8):continue
   if opt[7] and profile['materials']!=[r'levels\multi\s3d_sky_bridgenew\sky\shaders\night_city_wall']:continue
   soft=bool(opt[8] and 'use_soft_z' in names['6'])
   directory=outroot/variant;directory.mkdir(exist_ok=True)
@@ -44,7 +44,8 @@ def build():
    layer=directory/'xenos-source/self_illumination_halogram.fx'
    layer.write_text(layer.read_text().replace('x < 4;', 'x < '+str(profile['layer_groups'])+';'))
   wrapper=directory/'profile.fx';wrapper.write_text('#define BUMP_GET_CHANNELS(BM) ((BM).rg)\nfloat4 v_squish_params;\nbool v_mesh_squished;\n#include "'+(source/'xenos-source/halogram.fx').as_posix()+'"\n')
-  defines=[x for x in recipe['defines'] if not any(x.startswith('/D'+k+'=') for k in ('calc_self_illumination_ps','blend_type','calc_overlay_ps','calc_edge_fade_ps'))]
+  defines=[x for x in recipe['defines'] if not any(x.startswith('/D'+k+'=') for k in ('calc_self_illumination_ps','blend_type','calc_overlay_ps','calc_edge_fade_ps','calc_albedo_ps','calc_albedo_vs'))]
+  defines += ['/Dcalc_albedo_ps=calc_albedo_'+{0:'default',1:'detail_blend'}[opt[0]]+'_ps','/Dcalc_albedo_vs=calc_albedo_'+{0:'default',1:'detail_blend'}[opt[0]]+'_vs']
   defines += ['/Dcalc_self_illumination_ps=calc_self_illumination_'+{1:'simple',4:'from_albedo',5:'detail',8:'multilayer'}[opt[1]]+'_ps','/Dblend_type='+{0:'opaque',1:'additive',3:'alpha_blend'}[opt[2]],'/Dcalc_overlay_ps=calc_overlay_'+{0:'none',1:'additive',2:'additive_detail',3:'multiply',4:'multiply_and_additive_detail'}[opt[5]]+'_ps','/Dcalc_edge_fade_ps=calc_edge_fade_'+{0:'none',1:'simple'}[opt[6]]+'_ps','/Dmaybe_calc_albedo=1']
   if opt[2]==0 and opt[3]==0:defines.remove('/Dmaybe_calc_albedo=1')
   if opt[3]==4:defines.append('/Dalways_calc_albedo=1')

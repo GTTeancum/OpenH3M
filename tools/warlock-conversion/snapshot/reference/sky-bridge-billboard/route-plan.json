@@ -1,0 +1,1828 @@
+{
+  "names": {
+    "0": [
+      "base_map",
+      "detail_map",
+      "detail_map2"
+    ],
+    "4": [
+      "base_map",
+      "detail_map",
+      "detail_map2",
+      "self_illum_color",
+      "self_illum_intensity"
+    ],
+    "5": [],
+    "6": []
+  },
+  "externs": {
+    "normal_texture": [
+      7,
+      2,
+      0,
+      0
+    ],
+    "albedo_texture": [
+      7,
+      1,
+      0,
+      0
+    ],
+    "shadow_depth_map_1": [
+      7,
+      4,
+      0,
+      0
+    ],
+    "dynamic_light_gel_texture": [
+      7,
+      38,
+      0,
+      0
+    ],
+    "depth_map": [
+      7,
+      3,
+      0,
+      0
+    ]
+  },
+  "persistent": {
+    "hdr_gamma2": [
+      0,
+      15,
+      1
+    ],
+    "ldr_gamma2": [
+      0,
+      14,
+      1
+    ],
+    "actually_calc_albedo": [
+      0,
+      0,
+      1
+    ],
+    "g_alt_exposure": [
+      2,
+      12,
+      1
+    ],
+    "g_exposure": [
+      2,
+      0,
+      1
+    ],
+    "p_tiling_vpos_offset": [
+      2,
+      108,
+      1
+    ],
+    "camera_position_ps": [
+      2,
+      16,
+      1
+    ],
+    "dynamic_light_shadowing": [
+      0,
+      13,
+      1
+    ],
+    "p_dynamic_light_gel_xform": [
+      2,
+      5,
+      1
+    ],
+    "simple_lights": [
+      2,
+      18,
+      80
+    ],
+    "simple_light_count_int": [
+      1,
+      0,
+      1
+    ],
+    "texture_size": [
+      2,
+      14,
+      1
+    ]
+  },
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "shader": 0,
+      "registers": [
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": []
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "shader": 1,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "shader": 3,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "shader": 2,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "shader": 5,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "shader": 6,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "shader": 7,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "shader": 8,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_alt_exposure",
+          "set": 2,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "self_illum_intensity",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "self_illum_color",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            105,
+            4,
+            0
+          ],
+          [
+            106,
+            3,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "g_alt_exposure",
+        "texture_size"
+      ]
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "shader": 4,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            3,
+            4,
+            0
+          ],
+          [
+            4,
+            38,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "shader": 9,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map2_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "detail_map2",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            2,
+            0
+          ],
+          [
+            188,
+            1,
+            0
+          ],
+          [
+            189,
+            0,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            3,
+            4,
+            0
+          ],
+          [
+            4,
+            38,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    }
+  ],
+  "unresolved": []
+}
