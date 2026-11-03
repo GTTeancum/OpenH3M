@@ -1,0 +1,13 @@
+--- tools\warlock-conversion\snapshot\tools\tag_importer.py
++++ tools\warlock-conversion\snapshot\tools\tag_importer.py
+@@ -137,6 +137,10 @@
+                 if not flags & 1 and flags & 2 and not (offset == 0xF4 and not grading_active):
+                     if offset == 0x144 and name == r'levels\multi\s3d_powerhouse\s3d_powerhouse':
+                         compatibility_notes.append('User-approved Powerhouse exception (2026-10-25): active MCC sun-lightshafts omitted; supported exposure, lighting and bloom retained.')
++                        continue
++                    if (offset in (0xE4, 0x144) and name == r'levels\multi\s3d_sky_bridgenew\s3d_sky_bridgenew_outdoor'
++                            and str(source.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map')):
++                        compatibility_notes.append('User-approved native Halo 3 camera behavior (2026-11-03): MCC SSAO/lightshafts omitted; native exposure and bloom retained.')
+                         continue
+                     raise ValueError(f'{name}: active MCC camera extension at {offset:#x}')
+             for node in list(ss):
