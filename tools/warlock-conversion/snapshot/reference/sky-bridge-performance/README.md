@@ -399,3 +399,31 @@ membership and transparent light-volume/decal paths as well as render flags.
 Do not hide all non-colliding geometry or assume these are portals. Existing
 screen/window shader audits proved binary bindings, not correct rendering;
 the user's new observations supersede any implication of visual success.
+
+## Complete mesh-part and blend-mode audit
+
+Previous turn made progress by restoring the goal and recording the new human
+failure report. audit-card-blends.py now reads actual source/target BSP material
+bindings and compares all fields of all 2116 parts across 485 lightmap meshes.
+Every part field matches exactly, including render method slot, sorting index,
+index range, subparts, part type and flags. This narrows the investigation but
+does not establish identical runtime interpretation of every flag.
+
+Eleven used materials have different Blend Mode values (postprocessing +0x68):
+source nonzero -> target opaque zero, affecting 40 parts. They are puddles,
+two settlement_pipe_small_water materials, four sbr_window_02 variants and four
+sbr_decals materials. The water cards also lost their authored self-illumination
+profile through generic metal fallback. These are concrete conversion losses;
+mesh-to-screenshot attribution is still needed. Merely changing the blend field
+is insufficient because the selected native pixel programs and option bindings
+also differ. Next implementation must preserve the actual source profiles and
+transparent-pass behavior, using stock native interfaces where available.
+
+Evidence: card-blend-mismatches.json; full named source/target parameter audit
+in work/sky-bridge/card-material-geometry-audit.json. The latter was saved
+successfully before an optional display formatter encountered unnamed cloned
+templates; the committed audit handles those without assuming tag names exist.
+The independent sbr_window_glass_01 material uses 36 opaque parts in both source
+and target, so its name alone is not grounds to force transparency. Light-volume
+part types and flags also match source. No installed data or runtime was changed,
+no game was launched or controlled, and no image was imported by a tool.
