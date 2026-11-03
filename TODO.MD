@@ -88,8 +88,7 @@ The conversion goal is paused; preserve this order for when work resumes. Keep e
 
 ### 3. Powerhouse
 
-- [ ] Correct sky rendering on the H3 MCC candidate that reaches gameplay.
-- [ ] Correct cloud rendering.
+Pending user feedback
 
 ### 4. Sky Bridge
 
@@ -179,15 +178,3 @@ The cause is unconfirmed. This remains deferred: the user requested a TODO note 
 - [ ] Support System Link between a PC and an Xbox 360.
 - [ ] Support mixed sessions with multiple PCs and/or Xbox 360 consoles.
 - [ ] Support hosting and joining from either platform using native Halo 3 network behavior.
-
-- [x] Candidate125 extends shared-register protection to six other custom profiles; all seven reproduce (91 programs/84 interfaces). Focused corrugated and formerly black terrain captures pass; GPU lightmap scales remain stable.
-- [ ] Validate water detail, animated splash and moving parallax with useful native views; river127 only shows an overlook. Continue broader gameplay/audio/Forge checks. Full rebuild remains gated by flare-layout decision. See powerhouse-shared-register-evidence-125.json.
-
-- [x] Candidate130 focused splash appearance/motion verified in native run133: both frames inspected, stationary camera, four geometry rays identify splash. All1788 rmsh animation-route uses align; source bindings/functions and1951 vertex/453 index buffers plus42 flare records preserved. See powerhouse-splash-motion-evidence-133.json.
-- [x] Candidate139 focused inlet appearance/motion verified in native147: both frames inspected, stationary camera, three rays identify inlet and eight matching GPU draws retain water inputs. Source functions/constants and150 animation routes verified. See powerhouse-inlet-motion-evidence-147.json.
-- [x] Candidate139 focused river-bottom motion verified in native149: both frames individually inspected; camera stationary, three rays identify the river bottom and11 draws match its source inputs. Separate inlet draw excluded. See powerhouse-river-bottom-motion-evidence-149.json.
-- [ ] Complete broader traversal/collision, lighting/atmosphere, other water/effects, audio, Forge and performance validation. Full rebuild remains gated by flare-placement clarification; console/System Link untested.
-
-- [x] Candidate139 focused window parallax verified in native143/145: three frames individually inspected; GPU-projection surface registration measures2px versus source prediction1.8px and non-parallax metal control0.25px. Authored height scale/texel preserved. See powerhouse-window-parallax-evidence-145.json.
-
-- [x] Powerhouse accepted by user and packaged as final standalone Xbox360 LIVE DLC on2026-11-03. Seven payload files verified byte-for-byte; STFS hash tree passes. Release: .local/releases/powerhouse-final-20261103/Powerhouse-LIVE-DLC.zip. Further corrections follow user playtest feedback; nothing installed or pushed.
