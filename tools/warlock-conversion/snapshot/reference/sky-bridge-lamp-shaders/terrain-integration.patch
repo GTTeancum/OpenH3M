@@ -1,0 +1,67 @@
+--- a/tools/warlock-conversion/snapshot/tools/terrain_materials.py
++++ b/tools/warlock-conversion/snapshot/tools/terrain_materials.py
+@@ -78,7 +78,7 @@
+         donors = DONORS if group == 'rmtr' else self.hologram_donors
+         if group == 'rmhg':
+             if len(source_options) != 9 or any(source_options[7:]):
+-                raise ValueError('Nondefault MCC-only hologram options require separate conversion')
++                raise ValueError('Nondefault MCC-only hologram options require separate conversion: ' + s.name(datum & 65535) + ' ' + str(source_options))
+             variant = '_' + '_'.join(str(value) for value in source_options[:7])
+             template_name = template_name.rsplit('\\', 1)[0] + '\\' + variant
+         lightvolume = (group == 'rmhg' and variant in ('_0_0_1_0_0_4_1','_0_1_1_0_0_4_1')
+@@ -154,6 +154,15 @@
+             fallback = variant = '_0_0_0_0_0_0_4_3_0_0'
+             template_name = 'shaders\\shader_templates\\' + variant
+             native_sky_shader = True
++        sky_bridge_lamp = (group == 'rmhg' and variant == '_0_8_0_0_0_3_0'
++                           and s.name(datum & 65535).startswith('levels\\multi\\s3d_sky_bridgenew\\shaders\\lighting\\'))
++        if sky_bridge_lamp:
++            allowed = {'ceiling_lamp_01','fluorescent_lamp_cold','fluorescent_lamp_ceiling_cold'}
++            if s.name(datum & 65535).rsplit('\\',1)[-1] not in allowed or s.u(post+92):
++                raise ValueError('Sky Bridge lamp specialization changed')
++            fallback = variant = '_2_8_0_0_0_1_0'
++            template_name = 'shaders\\halogram_templates\\' + variant
++            donors[variant] = 'sandbox.map'
+         output_group = 'rmsh' if native_sky_shader else group
+         reach_grid = (group == 'rmhg' and s.name(datum & 65535) ==
+                       r'objects\levels\forge\ff_grid_object\shaders\ff_grid_object_depth')
+@@ -205,6 +214,18 @@
+             for offset in (72, 84, 96, 108):
+                 source_names = [i.source_strings.text(s.u(r)) for r in s.block(source_template + offset, 4)]
+                 target_names = [native_strings.text(donor.u(r)) for r in donor.block(target_root + offset, 4)]
++                if sky_bridge_lamp and offset in (72,108):
++                    target_names += ['base_map','detail_map']
++                    if set(source_names) != set(target_names):
++                        raise ValueError('Sky Bridge lamp parameter set changed')
++                    indices=[source_names.index(n) for n in target_names]
++                    if offset==72:
++                        float_indices=indices
++                        values=s.unpack('4f',s.block(post+28,16)[source_names.index('layers_of_4')])
++                        if values != (4.,)*4:
++                            raise ValueError('Sky Bridge lamp must have four static layer groups')
++                    else: texture_indices=indices
++                    continue
+                 if native_unlit_sky and offset in (72,108):
+                     extras = {'base_map', 'detail_map'}
+                     if set(target_names)-set(source_names)!=extras or not set(source_names).issubset(target_names):
+@@ -380,6 +401,11 @@
+                 raise ValueError('Terrain root options differ from template variant')
+             definition = native.import_tag(lookup['rmdf', 'shaders\\' + ('shader' if native_sky_shader else 'terrain' if group == 'rmtr' else 'halogram')])
+             _, template = native.import_tag(target_template)
++            lamp_evidence = None
++            if sky_bridge_lamp:
++                from sky_bridge_lamp import bind_lamp_template
++                template,lamp_evidence=bind_lamp_template(i.materials,template,
++                    Path(__file__).resolve().parents[4]/'work/sky-bridge/lamp-native-01')
+             output = bytearray(132)
+             output[:16] = b'rmt2' + bytes(8) + struct.pack('>I', template)
+             overlays = s.block(post + 92, 36)
+@@ -612,7 +638,7 @@
+                 'donor_only_cloud_diffuse_removed': native_sky_shader and not native_alpha_sky,
+                 'powerhouse_cloud_brightness_gain': powerhouse_cloud_gain,
+                 'native_unlit_sky_without_edge_fade': native_unlit_sky,
+-                'native_donor': donors[variant], 'donor_shader_graph_preserved': True, 'baked_static_computer_overlay': computer_overlay, 'coincident_lightvolume_layers': lightvolume, 'neutral_edge_fade': neutral_edge, 'disabled_extra_illumination': neutral_illum, 'native_cloud_shader_family': native_sky_shader,
++                'compiled_sky_bridge_lamp': lamp_evidence, 'native_donor': donors[variant], 'donor_shader_graph_preserved': True, 'baked_static_computer_overlay': computer_overlay, 'coincident_lightvolume_layers': lightvolume, 'neutral_edge_fade': neutral_edge, 'disabled_extra_illumination': neutral_illum, 'native_cloud_shader_family': native_sky_shader,
+                 'converted_source_animations': converted_animations, 'neutral_extra_warp': neutral_warp, 'neutral_extra_detail': neutral_detail, 'static_multiply_as_detail': multiply_detail, 'source_template_variant': source_variant, 'fallback_template_variant': fallback,
+                 'approximation': bool(fallback or (overlays and not converted_animations) or suppressed_specular or omitted_constants),
+                 'ambient_prt_two_layer_mapping': prt_two_layer,
