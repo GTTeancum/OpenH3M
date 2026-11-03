@@ -1,0 +1,78 @@
+[
+  {
+    "interval_ms": 817.5399999999936,
+    "start": [
+      110016.38,
+      2711
+    ],
+    "end": [
+      110833.92,
+      2712
+    ],
+    "events": [
+      "[2026-11-03 17:19:45.454] [error] [fs] [t15820] ResolvePath(cache1:\\autosave\\asq000000006AEA5E02.slayer) failed - device not found",
+      "[2026-11-03 17:19:45.454] [warning] [fs] [t15820] VFS: 'cache1:' -> [no device]",
+      "[2026-11-03 17:19:45.454] [warning] [fs] [t15820] VFS: 'cache1:\\' -> [no device]",
+      "[2026-11-03 17:19:45.454] [warning] [fs] [t15820] VFS: 'cache1:\\' -> [no device]",
+      "[2026-11-03 17:19:45.454] [warning] [fs] [t15820] VFS: 'cache1:\\' -> [no device]",
+      "[2026-11-03 17:19:45.454] [warning] [fs] [t15820] VFS: 'cache1:\\autosave\\asq000000006AEA5E02.slayer' -> [no device]",
+      "[2026-11-03 17:19:45.454] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='cache1:\\' -> 0xc0000022",
+      "[2026-11-03 17:19:45.454] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='cache1:\\autosave\\' -> 0xc000000f",
+      "[2026-11-03 17:19:45.454] [warning] [krnl] [t33324] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq_sky_bri_BBBBBBBB.temp' -> 0xc000000f",
+      "[2026-11-03 17:19:45.455] [error] [fs] [t15820] ResolvePath(cache1:\\autosave) failed - device not found",
+      "[2026-11-03 17:19:45.455] [error] [fs] [t15820] ResolvePath(cache1:\\autosave\\asq000000006AEA5E02.map) failed - device not found",
+      "[2026-11-03 17:19:45.455] [warning] [fs] [t15820] VFS: 'cache1:\\' -> [no device]",
+      "[2026-11-03 17:19:45.455] [warning] [fs] [t15820] VFS: 'cache1:\\autosave' -> [no device]",
+      "[2026-11-03 17:19:45.455] [warning] [fs] [t15820] VFS: 'cache1:\\autosave\\asq000000006AEA5E02.map' -> [no device]",
+      "[2026-11-03 17:19:45.455] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq000000006AEA5E02.slayer' -> 0xc000000f",
+      "[2026-11-03 17:19:45.456] [error] [fs] [t15820] ResolvePath(cache1:) failed - device not found",
+      "[2026-11-03 17:19:45.456] [error] [fs] [t15820] ResolvePath(cache1:\\) failed - device not found",
+      "[2026-11-03 17:19:45.456] [error] [fs] [t15820] ResolvePath(cache1:\\) failed - device not found",
+      "[2026-11-03 17:19:45.456] [error] [fs] [t15820] ResolvePath(cache1:\\autosave) failed - device not found",
+      "[2026-11-03 17:19:45.456] [warning] [fs] [t15820] VFS: 'cache1:' -> [no device]",
+      "[2026-11-03 17:19:45.456] [warning] [fs] [t15820] VFS: 'cache1:\\' -> [no device]",
+      "[2026-11-03 17:19:45.456] [warning] [fs] [t15820] VFS: 'cache1:\\autosave' -> [no device]",
+      "[2026-11-03 17:19:45.456] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='cache1:\\' -> 0xc0000022",
+      "[2026-11-03 17:19:45.456] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='cache1:\\autosave\\asq000000006AEA5E02.map' -> 0xc000000f",
+      "[2026-11-03 17:19:45.472] [warning] [krnl] [t15820] [NtCreateFile] FAILED: path='d:\\launch.txt' -> 0xc000000f",
+      "[2026-11-03 17:19:45.830] [info] [gpu] [t29120] [draw-phase] kind=texture-request frame=2712 elapsed_ms=31.736",
+      "[2026-11-03 17:19:45.960] [info] [gpu] [t3672] Async occlusion result published: samples=0 segments=1",
+      "[2026-11-03 17:19:45.960] [info] [gpu] [t3672] Async occlusion result published: samples=0 segments=1",
+      "[2026-11-03 17:19:45.960] [info] [gpu] [t3672] Async occlusion result published: samples=0 segments=1",
+      "[2026-11-03 17:19:45.960] [info] [gpu] [t3672] Async occlusion result published: samples=0 segments=1"
+    ]
+  },
+  {
+    "interval_ms": 283.56200000000536,
+    "start": [
+      116005.733,
+      2866
+    ],
+    "end": [
+      116289.295,
+      2867
+    ],
+    "events": [
+      "[2026-11-03 17:19:51.393] [info] [core] [t29120] [host-phase] kind=pipeline-completion elapsed_ms=237.172",
+      "[2026-11-03 17:19:51.393] [info] [gpu] [t28852] [preparation] kind=pipeline shader=F66F20194CD3428E elapsed_ms=238.424",
+      "[2026-11-03 17:19:51.409] [info] [gpu] [t28744] [preparation] kind=pipeline shader=4E4099C18083C60B elapsed_ms=13.054"
+    ]
+  },
+  {
+    "interval_ms": 184.0069999999978,
+    "start": [
+      131070.523,
+      3309
+    ],
+    "end": [
+      131254.53,
+      3310
+    ],
+    "events": [
+      "[2026-11-03 17:20:06.255] [info] [core] [t6508] [vblank] guest interrupt callback #14700 (source=0x0 data=0x40001f00)",
+      "[2026-11-03 17:20:06.364] [info] [core] [t29120] [host-phase] kind=pipeline-completion elapsed_ms=158.425",
+      "[2026-11-03 17:20:06.364] [info] [gpu] [t29216] [preparation] kind=pipeline shader=008997509E4D605D elapsed_ms=158.878",
+      "[2026-11-03 17:20:06.384] [info] [gpu] [t29120] [resolve-miss] frame=3311 address=1FC24000 bytes=8192 slot=1 buffer=true mapped=true capacity=262144 written=8192 previous=22301 completed=22300 current=22304"
+    ]
+  }
+]

@@ -6,9 +6,9 @@ def stats(values):
  values=sorted(values)
  return dict(n=len(values),median=statistics.median(values),p95=values[int(.95*(len(values)-1))],maximum=max(values)) if values else {}
 
-def analyze(root):
+def analyze(root, scope='Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.'):
  lines=[]
- for path in root.glob('runtime*.log'):lines.extend(path.read_text(errors='replace').splitlines())
+ for path in root.glob('*runtime*.log'):lines.extend(path.read_text(errors='replace').splitlines())
  lines.sort()
  presents=[];gpu={};waits=[];evidence=[];misses=[]
  for line in lines:
@@ -40,7 +40,7 @@ def analyze(root):
   else:miss_reasons['unexpected']+=1
  complete={f:rows for f,rows in frames.items() if any(x['closes'] for x in rows)}
  gaps=[b[0]-a[0] for a,b in zip(presents,presents[1:]) if b[1]==a[1]+1]
- report=dict(scope='Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.',
+ report=dict(scope=scope,
   present_interval_ms=stats(gaps),
   observed_frames_per_second=((presents[-1][1]-presents[0][1])*1000/(presents[-1][0]-presents[0][0]) if len(presents)>1 else None),
   intervals_over_50ms=sum(x>50 for x in gaps),nonconsecutive_frame_transitions=sum(b[1]!=a[1]+1 for a,b in zip(presents,presents[1:])),

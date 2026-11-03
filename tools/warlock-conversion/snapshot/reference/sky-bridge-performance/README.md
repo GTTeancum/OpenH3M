@@ -106,3 +106,30 @@ The asynchronous setting is still explicit in tests, not installed as a new
 default. The quiet-visibility logging patch remains unapplied, keeping that
 variable constant. User visual-check availability has been requested because
 this chat cannot import images. LIVE release replacement remains pending.
+
+## Native-observer movement test
+
+Authorized text-only 170-second diagnostic completed with 11 native hash passes,
+zero hash failures, and expected Sky Bridge header validation. Source logs:
+.local/loading-traces/20261103-171753-31936. No captures or OS input were used.
+The existing process-local H3IR route strafed left, turned slowly, then attempted
+forward movement. Native observer telemetry confirms 3.41 world units of local
+planar movement and 198.39 degrees of cumulative yaw, not a full-map walkthrough.
+Observer samples before 114 diagnostic seconds include the menu-to-game transition
+and are excluded from movement distance. One partial-memory-read error at 109s
+occurred during that transition; subsequent samples were valid.
+
+Whole 110-165 runtime-second timing: median 33.363 ms, p95 33.747 ms, average
+29.279 FPS. Do not claim sustained 30 FPS from this run. The largest 817.54 ms
+interval coincides with initial map/autosave startup and a texture request;
+it is retained in the whole-window statistics rather than silently discarded.
+Two later hitches (283.56 and 184.01 ms) have explicit pipeline-completion waits
+of 237.17 and 158.43 ms for shaders F66F20194CD3428E and 008997509E4D605D.
+A repeat of the same route with its newly populated pipeline cache is warranted
+before accepting steady movement performance. Eight real in-flight resolve waits
+remain; no repeated-current-batch slot failures reappeared.
+
+The observation test establishes native map validation and actual camera motion.
+It does not establish panel appearance, native exposure/bloom correctness, audible
+audio, console acceptance or network behavior. Human visual availability remains
+pending; no LIVE release replacement has occurred.
