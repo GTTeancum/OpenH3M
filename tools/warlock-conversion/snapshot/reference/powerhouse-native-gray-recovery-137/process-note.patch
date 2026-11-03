@@ -1,0 +1,10 @@
+--- a/tools/warlock-conversion/REACH-CONVERSION-PROCESS.md
++++ b/tools/warlock-conversion/REACH-CONVERSION-PROCESS.md
+@@ -1506,3 +1506,7 @@
+ Keep file size and resource accounting distinct from resident memory usage.
+ A PC gameplay pass does not by itself certify the console's total 512 MiB
+ budget or PC-to-console system-link behavior.
++
++### Native bitmap names do not prove resident pixels (2026-11-03)
++
++Before reusing a native bitmap for a runtime sampler, check its zone resource control and referenced page. A same-named target tag may retain editor metadata after its pixels were stripped; do not infer that the engine creates a default texture from an invalid resource handle. Search original-disc donors for intact resources and preserve their native data before considering custom recovery. Keep actual render targets/generated textures separate from this check. Powerhouse linear-gray recovery is deliberately scoped to the audited static1x1 ARGB32 linear texture; Armory supplies the exact source-matching texel. See snapshot/reference/powerhouse-native-gray-evidence-137.json.

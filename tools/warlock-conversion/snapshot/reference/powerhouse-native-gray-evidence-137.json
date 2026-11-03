@@ -1,0 +1,746 @@
+{
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "repair": {
+    "candidate": 139,
+    "basis": 130,
+    "old_bitmap": "0xe1b3003d",
+    "new_bitmap": "0x900029bd",
+    "materials": [
+      {
+        "source": "shaders\\default_bitmaps\\bitmaps\\gray_50_percent_linear",
+        "native_resource_recovered": true,
+        "old_datum": "0xe1b3003d",
+        "new_datum": "0x900029bd",
+        "reason": "Target bitmap retained metadata but stripped its resource"
+      }
+    ],
+    "native_resource_donors": [
+      {
+        "map": "C:\\X360\\ISOs\\H3M\\maps\\armory.map",
+        "resource": "0xe16f000c",
+        "owner": "0x900029bd",
+        "new_resource": "0x91001378"
+      }
+    ],
+    "new_raw_asset_bytes": 4096,
+    "allocated_metadata": 1689864,
+    "metadata_bytes": 66912256,
+    "sha256": "07283740da2a1d543fee4a51507833b046bb3c6dcc03b425b23c20a1ebbfe355",
+    "native_verified": false,
+    "scope": "Private one-texture binding repair using intact stock local resource; no shared-page donor available among audited complete donors; full rebuild gate remains.",
+    "native_texel_argb32_untiled": "555555ff",
+    "source_texel_match": true,
+    "linear_curve": 3,
+    "resource_control_bytes": 64,
+    "native_binding_verified": true,
+    "native_visual_motion_verified": false
+  },
+  "root_cause": "Native bitmap reuse returned a same-named stripped target tag without checking resource residency. Candidate130 height texture is unbound. Armory and Bunkerworld contain intact stock pixels; imported Armory resource matches source exactly.",
+  "supersedes": "The engine-provided default interpretation in window-native-height-audit-101.json was incorrect. Metadata equality and a stripped resource handle do not establish a generated runtime texture.",
+  "native_runs": [
+    {
+      "run": ".local/loading-traces/20261103-105253-29216",
+      "candidate": 130,
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.016,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.438,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded_128137ms.png",
+          "sha256": "569e5b734596f9a0a2129ce0eb65fb61770c6dddf826204744b160c2146f430f"
+        },
+        {
+          "file": "proof-loaded_145137ms.png",
+          "sha256": "6a5629d181747d924be0ec887c36024fcd6eb132ecbfcee79fb5ea8af575a744"
+        }
+      ],
+      "review": "First image resolves the dark recessed grid. Second image is outside the target after lateral movement and dropping off the roof edge; parallax not verified."
+    },
+    {
+      "run": ".local/loading-traces/20261103-105616-6944",
+      "candidate": 130,
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.578,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [],
+      "review": "Read-only draw trace: two matching albedo draws use the height sampler, but all six fetch words are zero. No screenshot requested. Height scale0.1 and identity transform are present. Reading address0 is not evidence of a valid black texture."
+    },
+    {
+      "run": ".local/loading-traces/20261103-110210-26228",
+      "candidate": 130,
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.406,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded.png",
+          "sha256": "0037e7496d2bad33786bf0f9edf66cf2e483360b6714306ee656007e0b4e21b0"
+        }
+      ],
+      "review": "Actual image inspected: terrain beside opaque grate remains textured and lit. GPU lightmap scales stable across1024 draws."
+    },
+    {
+      "run": ".local/loading-traces/20261103-111211-28664",
+      "candidate": 137,
+      "terminal_exit_code": 1,
+      "watchdog": [],
+      "hash_summary": [
+        {
+          "seconds": 115.171,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "errors": [
+        {
+          "seconds": 111.25,
+          "event": "exception",
+          "code": "0xc0000005",
+          "address": "0x7ff7fa42608e",
+          "tid": 28040,
+          "fault_address": "0x100000004",
+          "first_chance": false
+        },
+        {
+          "seconds": 115.156,
+          "event": "exit",
+          "code": 3221225477
+        },
+        {
+          "seconds": 115.156,
+          "event": "error",
+          "detail": "Game exited with failure 0xc0000005"
+        }
+      ],
+      "captures": [],
+      "review": "Rejected: load-time access violation at host RVA0x22608e, mapped to guest sub_822ADA50+host offset0x53e. No draw or visual acceptance."
+    },
+    {
+      "run": ".local/loading-traces/20261103-111740-28392",
+      "candidate": 139,
+      "terminal_exit_code": 0,
+      "watchdog": [
+        {
+          "seconds": 180.0,
+          "event": "watchdog",
+          "seconds_limit": 180
+        }
+      ],
+      "hash_summary": [
+        {
+          "seconds": 180.406,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "review": "Loads and completes180-second watchdog; two matching window albedo draws now bind valid unsigned linear1x1 ARGB32 height texture, endian8-in32, G=85/255, scale0.1. No screenshot requested; moving visual parallax remains unverified."
+    }
+  ],
+  "matching_window_draws": [
+    {
+      "entry": 1,
+      "samples": [
+        326
+      ],
+      "pixel_hash": "0x885c432a2e1e2894",
+      "index_count": 1206
+    },
+    {
+      "entry": 1,
+      "samples": [
+        696
+      ],
+      "pixel_hash": "0x885c432a2e1e2894",
+      "index_count": 69
+    }
+  ],
+  "height_probe": {
+    "run": ".local\\loading-traces\\20261103-105616-6944",
+    "draw_count": 1024,
+    "matched_draws": 2,
+    "groups": [
+      {
+        "samples": [
+          326,
+          696
+        ],
+        "index_count": 1206,
+        "height_scale": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "height_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "texture": {
+          "format": 0,
+          "endian": 0,
+          "width": 1,
+          "height": 1,
+          "dimension": 0,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "exp_adjust": 0,
+          "base": "0x0",
+          "head": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    ],
+    "errors": [],
+    "hash_summary": [
+      {
+        "seconds": 180.578,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      }
+    ]
+  },
+  "stock_donor_audit": [
+    {
+      "map": "zanzibar",
+      "tag": 61,
+      "hardware": [
+        "0xe170000d"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    },
+    {
+      "map": "construct",
+      "tag": 59,
+      "hardware": [
+        "0xe16f000c"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    },
+    {
+      "map": "armory",
+      "tag": 59,
+      "hardware": [
+        "0xe16f000c"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    },
+    {
+      "map": "bunkerworld",
+      "tag": 61,
+      "hardware": [
+        "0xe170000d"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    },
+    {
+      "map": "salvation",
+      "tag": 59,
+      "hardware": [
+        "0xe16f000c"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    },
+    {
+      "map": "shared",
+      "not_a_tag_cache": "'ascii' codec can't decode byte 0xcb in position 1: ordinal not in range(128)"
+    },
+    {
+      "map": "mainmenu",
+      "tag": 59,
+      "hardware": [
+        "0xe16f000c"
+      ],
+      "interleaved": [],
+      "images": [
+        {
+          "header": "6269746d0001000101160000000b0001000000000003000000000000000000000000000000000000ffffffff00000000",
+          "size": [
+            1,
+            1
+          ],
+          "format": 11
+        }
+      ]
+    }
+  ],
+  "resource_locations": [
+    {
+      "map": "shrine",
+      "control_bytes": 0,
+      "location": -1,
+      "pages": []
+    },
+    {
+      "map": "sandbox",
+      "control_bytes": 0,
+      "location": -1,
+      "pages": []
+    },
+    {
+      "map": "armory",
+      "control_bytes": 64,
+      "location": 8,
+      "pages": [
+        {
+          "index": 3268,
+          "shared_index": -1,
+          "bytes": 95090152
+        }
+      ]
+    },
+    {
+      "map": "bunkerworld",
+      "control_bytes": 64,
+      "location": 9,
+      "pages": [
+        {
+          "index": 3268,
+          "shared_index": -1,
+          "bytes": 83795940
+        }
+      ]
+    }
+  ],
+  "terrain_gpu": {
+    "run": ".local\\loading-traces\\20261103-110210-26228",
+    "draw_count": 1024,
+    "snapshots": [
+      {
+        "sample": 0,
+        "index_count": 8,
+        "pixel_hash": "0xf02d6f85a35a4965",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 209,
+        "index_count": 15678,
+        "pixel_hash": "0xf03ce7eaa2209238",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "ffffffffffffffff",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 480,
+        "index_count": 15678,
+        "pixel_hash": "0xac7e04bc54dbee40",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      },
+      {
+        "sample": 905,
+        "index_count": 15678,
+        "pixel_hash": "0xf03ce7eaa2209238",
+        "device": "0x40001f00",
+        "cpu_vectors": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cpu_dirty_flags": "0000000000000000",
+        "simultaneous_values_equal": true
+      }
+    ],
+    "gpu_transitions": [
+      {
+        "sample": 0,
+        "index_count": 8,
+        "pixel_hash": "0xf02d6f85a35a4965",
+        "gpu_c210_212": [
+          13.297135353088379,
+          16.948671340942383,
+          13.005691528320312,
+          0.0,
+          4.938193321228027,
+          42.491249084472656,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "errors": [],
+    "exits": [],
+    "hash_summary": [
+      {
+        "seconds": 180.406,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      }
+    ],
+    "scope": "Summarize observed CPU lightmap vectors and GPU pixel constants in a draw trace.\n\nCPU preparation and GPU submission are asynchronous. Their simultaneous snapshots\nare not a per-command correspondence. Transitions refer to GPU draw order only."
+  },
+  "preserved_geometry_lenses": {
+    "geometry": {
+      "vertex": {
+        "buffers": 1951,
+        "bytes": 36978576,
+        "bit_exact": true
+      },
+      "index": {
+        "buffers": 453,
+        "bytes": 3609120,
+        "bit_exact": true
+      }
+    },
+    "existing_lens_tags_byte_exact": 42
+  },
+  "integration_checks": [
+    "Recovery exercised through MaterialImporter.bitmap on candidate130; repeated request reuses same imported asset without adding another resource.",
+    "Actual intact Armory cache passes the reuse path without importing a replacement.",
+    "Decoded repaired native texel555555ff matches source; curve3 remains linear.",
+    "Pixel programs and material constants are unchanged; original native target assets remain untouched."
+  ],
+  "remaining": [
+    "Visually verify candidate139 from useful nearby window viewpoints; native binding/function inputs are now verified.",
+    "Water and broader gameplay/audio/Forge/performance/console/System Link remain incomplete.",
+    "Full rebuild still awaits flare-placement clarification; no installation or push."
+  ],
+  "rejected_candidate137": {
+    "candidate": 137,
+    "basis": 130,
+    "old_bitmap": "0xe1b3003d",
+    "new_bitmap": "0x900029bd",
+    "materials": [
+      {
+        "source": "shaders\\default_bitmaps\\bitmaps\\gray_50_percent_linear",
+        "native_resource_recovered": true,
+        "old_datum": "0xe1b3003d",
+        "new_datum": "0x900029bd",
+        "reason": "Target bitmap retained metadata but stripped its resource"
+      }
+    ],
+    "native_resource_donors": [
+      {
+        "map": "C:\\X360\\ISOs\\H3M\\maps\\armory.map",
+        "resource": "0xe16f000c",
+        "owner": "0x900029bd",
+        "new_resource": "0x91001378"
+      }
+    ],
+    "new_raw_asset_bytes": 4096,
+    "sha256": "397f9d1f10ec6136e0afcb4bc81ad002ba7b2c5bdd7745e7c086d92bb0b71f64",
+    "native_verified": false,
+    "scope": "Private one-texture binding repair using intact stock local resource; no shared-page donor available among audited complete donors; full rebuild gate remains.",
+    "native_texel_argb32_untiled": "555555ff",
+    "source_texel_match": true,
+    "linear_curve": 3,
+    "resource_control_bytes": 64
+  },
+  "repaired_height_probe": {
+    "run": ".local\\loading-traces\\20261103-111740-28392",
+    "draw_count": 1024,
+    "matched_draws": 2,
+    "groups": [
+      {
+        "samples": [
+          326,
+          696
+        ],
+        "index_count": 1206,
+        "height_scale": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "height_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "texture": {
+          "format": 6,
+          "endian": 2,
+          "width": 1,
+          "height": 1,
+          "dimension": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": [
+            2,
+            1,
+            0,
+            3
+          ],
+          "exp_adjust": 0,
+          "base": "0x1ba6a000",
+          "head": "ff555555000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    ],
+    "errors": [],
+    "hash_summary": [
+      {
+        "seconds": 180.406,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      }
+    ]
+  },
+  "repaired_matching_draws": [
+    {
+      "entry": 1,
+      "samples": [
+        326
+      ],
+      "pixel_hash": "0x885c432a2e1e2894",
+      "index_count": 1206
+    },
+    {
+      "entry": 1,
+      "samples": [
+        696
+      ],
+      "pixel_hash": "0x885c432a2e1e2894",
+      "index_count": 69
+    }
+  ],
+  "native_header_address_range": {
+    "limit_start": "0xa0000000",
+    "limit_end": "0xbfc00000",
+    "maximum_bytes": 532676608,
+    "candidates": [
+      {
+        "candidate": 130,
+        "base": "0xbbe30000",
+        "tag_bytes": 64815104,
+        "within_native_range": true
+      },
+      {
+        "candidate": 137,
+        "base": "0xbb630000",
+        "tag_bytes": 73203712,
+        "within_native_range": true
+      },
+      {
+        "candidate": 139,
+        "base": "0xbbc30000",
+        "tag_bytes": 66912256,
+        "within_native_range": true
+      }
+    ]
+  },
+  "metadata_reservation_finding": "Candidate137 reserved8MiB and crashed on load;139 contains the same repair with2MiB reserve and passes native runtime. Used metadata is1689864 bytes. Both satisfy the original header address-range check; this is not proof of a64MiB tag limit or full memory-budget acceptance. Excess reservation/overall memory pressure is a candidate explanation, not an isolated root-cause proof."
+}

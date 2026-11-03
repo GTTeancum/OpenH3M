@@ -1,0 +1,13 @@
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -57,6 +57,10 @@
+         key = ('bitm', s.name(tag))
+         if key in self.done:
+             return self.done[key]
++        from native_linear_gray import recover as recover_linear_gray
++        recovered = recover_linear_gray(self, key)
++        if recovered is not None:
++            return recovered
+         native_assets = getattr(self, 'native_assets', None)
+         if native_assets is not None:
+             native = native_assets.import_named(key)
