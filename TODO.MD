@@ -189,3 +189,5 @@ The cause is unconfirmed. This remains deferred: the user requested a TODO note 
 - [ ] Complete broader traversal/collision, lighting/atmosphere, other water/effects, audio, Forge and performance validation. Full rebuild remains gated by flare-placement clarification; console/System Link untested.
 
 - [x] Candidate139 focused window parallax verified in native143/145: three frames individually inspected; GPU-projection surface registration measures2px versus source prediction1.8px and non-parallax metal control0.25px. Authored height scale/texel preserved. See powerhouse-window-parallax-evidence-145.json.
+
+- [x] Powerhouse accepted by user and packaged as final standalone Xbox360 LIVE DLC on2026-11-03. Seven payload files verified byte-for-byte; STFS hash tree passes. Release: .local/releases/powerhouse-final-20261103/Powerhouse-LIVE-DLC.zip. Further corrections follow user playtest feedback; nothing installed or pushed.
