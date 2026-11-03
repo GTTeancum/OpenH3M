@@ -1,0 +1,133 @@
+--- a/include/rex/graphics/d3d12/command_processor.h
++++ b/include/rex/graphics/d3d12/command_processor.h
+@@ -316,7 +316,7 @@
+   // Rechecks submission number and reclaims per-submission resources. Pass 0 as
+   // the submission to await to simply check status, or pass submission_current_
+   // to wait for all queue operations to be completed.
+-  void CheckSubmissionFence(uint64_t await_submission);
++  void CheckSubmissionFence(uint64_t await_submission, const char* reason);
+   // Asynchronous timestamps; harvest completed fences without waiting.
+   ui::VideoGpuAccumulator video_gpu_accumulator_;
+   int PrepareGpuTiming();
+@@ -345,8 +345,8 @@
+   // as when there are unfinished graphics pipeline creation requests that would
+   // need to be fulfilled before actually submitting the command list.
+   bool CanEndSubmissionImmediately() const;
+-  bool AwaitAllQueueOperationsCompletion() {
+-    CheckSubmissionFence(submission_current_);
++  bool AwaitAllQueueOperationsCompletion(const char* reason) {
++    CheckSubmissionFence(submission_current_, reason);
+     return submission_completed_ + 1 >= submission_current_;
+   }
+   void LogDeviceRemovalDiagnostics(ID3D12Device* device, HRESULT reason);
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -1656,7 +1656,7 @@
+ }
+ 
+ void D3D12CommandProcessor::ShutdownContext() {
+-  AwaitAllQueueOperationsCompletion();
++  AwaitAllQueueOperationsCompletion("shutdown");
+   InvalidateAllVertexBufferResidency();
+   ShutdownOcclusionQueryResources();
+ 
+@@ -2824,7 +2824,7 @@
+     readback_buffer_offset += memexport_range.size_bytes;
+   }
+ 
+-  if (!AwaitAllQueueOperationsCompletion()) {
++  if (!AwaitAllQueueOperationsCompletion("memexport-full")) {
+     return true;
+   }
+ 
+@@ -2882,7 +2882,7 @@
+     }
+ 
+     if (readback.buffers[index]) {
+-      if (!AwaitAllQueueOperationsCompletion()) {
++      if (!AwaitAllQueueOperationsCompletion("memexport-resize")) {
+         buffer->Unmap(0, nullptr);
+         buffer->Release();
+         return false;
+@@ -2921,7 +2921,7 @@
+   readback.submission_written[write_index] = submission_current_;
+   readback.written_size[write_index] = total_size;
+ 
+-  CheckSubmissionFence(0);
++  CheckSubmissionFence(0, "memexport-poll");
+   bool previous_slot_ready = readback.buffers[read_index] && readback.mapped_data[read_index] &&
+                              total_size <= readback.sizes[read_index] &&
+                              total_size <= readback.written_size[read_index] &&
+@@ -3158,14 +3158,14 @@
+   uint32_t read_index = write_index;
+   if (use_delayed_sync) {
+     read_index = 1 - write_index;
+-  } else if (!AwaitAllQueueOperationsCompletion()) {
++  } else if (!AwaitAllQueueOperationsCompletion("resolve-synchronous")) {
+     return true;
+   }
+ 
+   bool is_cache_miss = false;
+   // A mapped readback buffer is not evidence that the GPU finished writing
+   // it. Publish only completed copies, including on the delayed path.
+-  CheckSubmissionFence(0);
++  CheckSubmissionFence(0, "resolve-poll");
+   if (use_delayed_sync && (!rb.buffers[read_index] || written_length > rb.sizes[read_index] ||
+                            !rb.mapped_data[read_index] ||
+                            written_length > rb.written_size[read_index] ||
+@@ -3173,7 +3173,7 @@
+                            rb.submission_written[read_index] > submission_completed_)) {
+     is_cache_miss = true;
+     read_index = write_index;
+-    if (!AwaitAllQueueOperationsCompletion()) {
++    if (!AwaitAllQueueOperationsCompletion("resolve-cache-miss")) {
+       return true;
+     }
+   }
+@@ -3239,15 +3239,16 @@
+   return gpu_timing_slots_[index].submission ? -1 : int(index);
+ }
+ 
+-void D3D12CommandProcessor::CheckSubmissionFence(uint64_t await_submission) {
++void D3D12CommandProcessor::CheckSubmissionFence(uint64_t await_submission, const char* reason) {
+   const auto wait_for_fence = [&](const char* kind) {
+     const bool trace = REXCVAR_GET(d3d12_log_present_timing);
+     const auto start = trace ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
+     const DWORD result = WaitForSingleObject(fence_completion_event_, INFINITE);
+     if (trace) {
+       const double elapsed = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
+-      if (elapsed >= 5.0) REXGPU_INFO("[queue-wait] kind={} elapsed_ms={:.3f} target={} result={} queue={:X}",
+-          kind, elapsed, await_submission, result, uintptr_t(GetD3D12Provider().GetDirectQueue()));
++      if (elapsed >= 5.0) REXGPU_INFO("[queue-wait] kind={} elapsed_ms={:.3f} target={} result={} queue={:X} reason={} frame={} completed={} current={}",
++          kind, elapsed, await_submission, result, uintptr_t(GetD3D12Provider().GetDirectQueue()),
++          reason, frame_current_, submission_completed_, submission_current_);
+     }
+     return result;
+   };
+@@ -3426,7 +3427,7 @@
+   // resources early) and specifically for frames (not to queue too many), and
+   // await the availability of the current frame.
+   CheckSubmissionFence(is_opening_frame ? closed_frame_submissions_[frame_current_ % kQueueFrames]
+-                                        : 0);
++                                        : 0, is_opening_frame ? "frame-reuse" : "submission-poll");
+   // TODO(Triang3l): If failed to await (completed submission < awaited frame
+   // submission), do something like dropping the draw command that wanted to
+   // open the frame.
+@@ -3631,7 +3632,7 @@
+     // Submission already closed now, so minus 1.
+     closed_frame_submissions_[(frame_current_++) % kQueueFrames] = submission_current_ - 1;
+ 
+-    if (cache_clear_requested_ && AwaitAllQueueOperationsCompletion()) {
++    if (cache_clear_requested_ && AwaitAllQueueOperationsCompletion("cache-clear")) {
+       cache_clear_requested_ = false;
+ 
+       ClearCommandAllocatorCache();
+@@ -5186,7 +5187,7 @@
+     occlusion_pending_cv_.notify_one();
+     return true;
+   }
+-  CheckSubmissionFence(query_submission);
++  CheckSubmissionFence(query_submission, "occlusion-readback");
+   if (submission_completed_ < query_submission) {
+     return false;
+   }

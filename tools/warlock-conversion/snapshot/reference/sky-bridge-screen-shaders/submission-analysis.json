@@ -1,0 +1,84 @@
+{
+  "performance-baseline-01": {
+    "scope": "Existing stationary-spawn host logs, 110-178 seconds; capture interval excluded by painted frame ID. No traversal or console evidence.",
+    "submissions_per_frame": {
+      "n": 1074,
+      "median": 28.0,
+      "p95": 28,
+      "maximum": 29
+    },
+    "gpu_ms_per_frame": {
+      "n": 1074,
+      "median": 30.8185,
+      "p95": 38.223,
+      "maximum": 57.602000000000004
+    },
+    "logged_wait_ms_per_frame": {
+      "n": 1074,
+      "median": 16.817500000000003,
+      "p95": 21.722,
+      "maximum": 41.275999999999996
+    },
+    "logged_wait_count_per_frame": {
+      "n": 1074,
+      "median": 1.0,
+      "p95": 1,
+      "maximum": 2
+    },
+    "submission_ms": {
+      "n": 30082,
+      "median": 0.008,
+      "p95": 9.12,
+      "maximum": 32.398
+    },
+    "small_submissions": 24700,
+    "missing_target_submissions": 0,
+    "caveats": [
+      "Waits shorter than 5 ms are not logged.",
+      "Frame-close marker does not prove all timestamp samples were retained.",
+      "GPU work and CPU waits overlap; do not add them.",
+      "Logs do not identify the caller of CheckSubmissionFence."
+    ]
+  },
+  "performance-async-02": {
+    "scope": "Existing stationary-spawn host logs, 110-178 seconds; capture interval excluded by painted frame ID. No traversal or console evidence.",
+    "submissions_per_frame": {
+      "n": 1138,
+      "median": 28.0,
+      "p95": 29,
+      "maximum": 33
+    },
+    "gpu_ms_per_frame": {
+      "n": 1138,
+      "median": 32.166,
+      "p95": 45.504999999999995,
+      "maximum": 66.776
+    },
+    "logged_wait_ms_per_frame": {
+      "n": 1138,
+      "median": 19.1515,
+      "p95": 27.232,
+      "maximum": 50.866
+    },
+    "logged_wait_count_per_frame": {
+      "n": 1138,
+      "median": 1.0,
+      "p95": 1,
+      "maximum": 1
+    },
+    "submission_ms": {
+      "n": 31982,
+      "median": 0.007,
+      "p95": 9.978,
+      "maximum": 42.537
+    },
+    "small_submissions": 26185,
+    "missing_target_submissions": 1,
+    "caveats": [
+      "Waits shorter than 5 ms are not logged.",
+      "Frame-close marker does not prove all timestamp samples were retained.",
+      "GPU work and CPU waits overlap; do not add them.",
+      "Logs do not identify the caller of CheckSubmissionFence."
+    ]
+  }
+}

@@ -57,3 +57,31 @@ Performance source inspection confirms the synchronous occlusion end path waits
 on its submission fence; the existing asynchronous path still ends a submission
 for each query. Existing timing remains insufficient to accept either as a fix.
 Further diagnosis must preserve actual visibility results and native semantics.
+
+## Performance wait attribution
+
+Existing-log analysis now correlates wait target IDs with GPU submission/frame
+IDs. Both stationary runs have a median 28 submissions/frame; baseline has
+16.82 ms/frame of logged waits and async has 19.15 ms/frame. Most submissions
+are under 0.1 ms; aggregate GPU execution remains about 31-32 ms/frame.
+These overlapping quantities are not additive. Waits under 5 ms are unlogged.
+The earlier whole-log wait median mixed startup and active gameplay; the new
+report restricts the window and records coverage limitations explicitly.
+
+A narrow prepared patch, halo3mp/patches/rexglue-sdk-sky-bridge-wait-attribution.patch,
+adds caller reason, frame, completed submission and current submission to the
+existing optional timing log. It labels frame reuse, occlusion, synchronous
+resolve, resolve cache miss, memexport, shutdown and cache-clear waits.
+No synchronization or gameplay behavior changes. The patch has been checked
+against the current SDK tree but is not applied, compiled or runtime-tested.
+Do not attribute the remaining wait to occlusion alone without this evidence.
+The game remains closed under the deeper-work instruction.
+
+Patch applicability passed with git apply --check --ignore-space-change against
+the current mixed-line-ending SDK checkout. No source files or binaries changed.
+
+Fresh candidate-28 BSP material mapping covered all 345 entries. Repeating the
+no-source-bump audit leaves exactly one mismatch, sbr_window_01 (12142 -> 9234),
+which still inherits stock Voi panel bump 6114. Nine of the prior ten unintended
+bumps are removed. Correct the window material's authored transparent/environment
+interface next; do not treat the remaining opaque fallback as acceptable.
