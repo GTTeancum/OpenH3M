@@ -21,6 +21,17 @@ Investigation artifacts remain inside `work/sky-bridge`:
 - `performance-baseline-01`: bounded run with native frame timing enabled,
   using the same executable and candidate 27 payload as the play session.
 
+The baseline finished under its 180-second watchdog. Native `loaded.png` was
+visually inspected: Sky Bridge is in gameplay, and a streaked panel is visible
+in the left corridor from the authored spawn. This reproduces the defect in a
+reachable test view without host input. The 110–179 second timing window has
+1,090 observed frame-change intervals after excluding the capture interval:
+median 66.385 ms, p95 83.041 ms. Summed GPU submission execution per observed
+frame has median 30.826 ms; logged queue waits have median 21.848 ms. These
+instrumented stationary observations identify substantial GPU/wait cost but
+do not isolate its cause or establish traversal performance. Native capture
+and timing evidence are in the baseline directory; no fix is claimed yet.
+
 Original map: Sky Bridge from Halo Online. Source conversion: GeneralHeed /
 Priception, Halo Online Map Pack For Halo 3, Workshop 3003239190:
 https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190
