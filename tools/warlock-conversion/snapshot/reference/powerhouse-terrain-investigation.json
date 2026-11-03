@@ -45,10 +45,13 @@
     }
   ],
   "findings": [
-    "Changing only BSP material slot192 to the already-tested exterior concrete renders the same terrain geometry with texture/lighting. Unchanged103 is black at the matching camera.",
+    "Changing only BSP material slot192 to exterior concrete makes the same terrain visible. Unchanged103 is black at the matching camera. This does not prove diffuse atlas lighting works: reflections could explain the concrete visibility.",
     "Changing only terrain9517 blend bitmap reference to the existing native color_white still renders black. This does not establish whether the native default bitmap was bound correctly, but does not support a blend-image-only fix.",
     "Source/target/donor material root flags, postprocess flags and option values match.",
-    "All117 retained mips across13 terrain textures match selected source blocks after required signed-DXN conversion; this is cache verification, not live GPU fetch proof."
+    "All117 retained mips across13 terrain textures match selected source blocks after required signed-DXN conversion; this is cache verification, not live GPU fetch proof.",
+    "Native draw trace110 recorded zero p_lightmap_compress_constant_0 and _1 on the affected static-per-pixel terrain draws (samples301/998, index_count15678), with the expected eight-layer lightprobe and two-layer dominant textures bound.",
+    "Read-only native-code tracing identified lightprobe upload case0x82183d2c in function0x821835d0. It requires a resolved bitmap with image depth8 and loads nine scale floats at BSP offsets8+24*i into device vectors9376/9392/9408.",
+    "Candidate103 and stock Zanzibar pass the native BSP checksum, geometry mesh-count and eight-layer upload prerequisites. Candidate nonzero scale inputs remain present. Execution of this upload path and subsequent device-to-GPU propagation are not yet established."
   ],
   "incomplete_runs": [
     {
@@ -61,11 +64,22 @@
     }
   ],
   "scope": "Material-path isolation, not a production correction or full-map acceptance. All substitutions are private diagnostics and must never be installed.",
-  "next": "Inspect live native terrain draw shader/texture/lighting bindings. Current rexgpu-xenos.dll SHA256 a262536b7cdb5923995235df1dc618ed89ebceddbf79af1223327b2ab2bf105f is not yet in trace_loading DRAW_RVAS; resolve symbol and member offsets before enabling sample_draws.",
+  "next": "Observe native lightprobe upload execution and device vectors9376/9392/9408, then trace propagation to pixel constants210/211. Do not change map flags or substitute shaders without causal evidence.",
   "evidence": [
     "work/powerhouse/terrain-material-comparison-108.json",
     "work/powerhouse/terrain-root-state-108.json",
     "work/powerhouse/terrain-blend-white-109.json",
-    "work/powerhouse/terrain-all-mips-109.json"
-  ]
+    "work/powerhouse/terrain-all-mips-109.json",
+    "work/powerhouse/terrain-live-draws-110.json",
+    "work/powerhouse/draw-symbol-110.json",
+    "work/powerhouse/lightmap-upload-inputs-111.json",
+    "work/powerhouse/lightmap-upload-stock-111.json"
+  ],
+  "native_draw_trace": {
+    "run": ".local/loading-traces/20261103-085611-29280",
+    "draws": 1024,
+    "matching_terrain_draws": 15,
+    "new_screenshots": 0,
+    "scope": "Observed register state; not a corrected visual result."
+  }
 }
