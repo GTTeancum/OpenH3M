@@ -1,0 +1,505 @@
+{
+  "candidate": 139,
+  "sha256": "07283740da2a1d543fee4a51507833b046bb3c6dcc03b425b23c20a1ebbfe355",
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "run": ".local/loading-traces/20261103-113343-10104",
+  "terminal_exit_code": 0,
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "hash_summary": {
+    "seconds": 180.406,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "capture_count": 2,
+  "captures": [
+    {
+      "file": "proof-loaded_128137ms.png",
+      "sha256": "34810e4336d974b65163f358ca72b39a9e833a29d4e0e0da31e25e016a888bb1",
+      "inspected_individually": true
+    },
+    {
+      "file": "proof-loaded_145137ms.png",
+      "sha256": "4dc03dfae3240d7070a8bc0e4614485799551a2b84e51c747ab36e6ba324a446",
+      "inspected_individually": true
+    }
+  ],
+  "manual_review": "Both native frames inspected sequentially. The dark recessed grid is visible within the roof arch before and after the small strafe. Window remains on screen; surrounding roof and walls remain textured. No distinct texture-relative-to-surface parallax displacement can be confidently separated at this scale. Do not count ordinary perspective movement as parallax acceptance.",
+  "camera_displacement": 0.0958656851151667,
+  "camera_forward_unchanged": true,
+  "geometry_rays": {
+    "before": {
+      "camera": {
+        "seconds": 149.063,
+        "event": "observer_position",
+        "position": [
+          119.53782653808594,
+          243.90139770507812,
+          42.166316986083984
+        ],
+        "location": "000c3de8",
+        "gulch_margin": -299.7894807295366,
+        "selected_partition_margin": -299.7894807295366,
+        "forward": [
+          0.9635656476020813,
+          -0.14186593890190125,
+          -0.22674907743930817
+        ],
+        "observer_bytes": "42ef135e4373e6c24228aa4f000c3de80000000000000000000000008000000080000000800000003f76ac3dbe11454ebe6830e93e65b6f2bd0748a23f7954fe3f9c61aa00000000000000000000000000000000000000003faaaaab3f800000",
+        "soft_ceiling_records": [
+          "0000000100003ebe00000000",
+          "0000000100003ebf00020000"
+        ]
+      },
+      "probes": {
+        "(520, 320)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.3381469849783034,
+            "position": [
+              120.84048794187076,
+              243.80168399044163,
+              41.86289339221556
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.0867734620211413,
+            "position": [
+              121.56926200663536,
+              243.74589914188675,
+              41.69314302945323
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.5007356235580787,
+            "position": [
+              121.97224653413123,
+              243.71505222797583,
+              41.59927749137027
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.6968470646910316,
+            "position": [
+              122.16315740421675,
+              243.70043873596217,
+              41.554809403084555
+            ]
+          },
+          {
+            "mesh": 454,
+            "instance": null,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_concrete_ext_settlement",
+            "depth": 12.209199906676607,
+            "position": [
+              131.42325741231747,
+              242.9916137358275,
+              39.39789217511162
+            ]
+          }
+        ],
+        "(560, 350)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.3505947286320812,
+            "position": [
+              120.8319901979901,
+              243.73741029922553,
+              41.812098785537174
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.092710944216433,
+            "position": [
+              121.54309902825156,
+              243.6473035407325,
+              41.61746521788869
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.106243099100164,
+            "position": [
+              121.5560657774321,
+              243.64566048458255,
+              41.613916162460875
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.5240671887971238,
+            "position": [
+              121.95643218021378,
+              243.5949288423515,
+              41.50433414347324
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.721935379132906,
+            "position": [
+              122.14603296567141,
+              243.57090395128236,
+              41.45243958706757
+            ]
+          }
+        ],
+        "(600, 390)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.3672166772686927,
+            "position": [
+              120.82332006557498,
+              243.67181528632045,
+              41.742989386956694
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.1196861504358973,
+            "position": [
+              121.53081190170582,
+              243.54546094573698,
+              41.51000430069458
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.1322211018439154,
+            "position": [
+              121.54259759681202,
+              243.54335608224963,
+              41.50612313761856
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.5551981961932944,
+            "position": [
+              121.94029192434792,
+              243.47232995594914,
+              41.375157884770374
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.733475872155124,
+            "position": [
+              122.10791334263149,
+              243.44239364758025,
+              41.3199582505078
+            ]
+          }
+        ]
+      }
+    },
+    "after": {
+      "camera": {
+        "seconds": 179.063,
+        "event": "observer_position",
+        "position": [
+          119.52379608154297,
+          243.8065643310547,
+          42.16640090942383
+        ],
+        "location": "000c3de8",
+        "gulch_margin": -299.69400960748845,
+        "selected_partition_margin": -299.69400960748845,
+        "forward": [
+          0.9635656476020813,
+          -0.14186593890190125,
+          -0.22674907743930817
+        ],
+        "observer_bytes": "42ef0c2f4373ce7b4228aa65000c3de80000000000000000000000008000000080000000800000003f76ac3dbe11454ebe6830e93e65b6f2bd0748a23f7954fe3f9c61aa00000000000000000000000000000000000000003faaaaab3f800000",
+        "soft_ceiling_records": [
+          "0000000100003ebe00000000",
+          "0000000100003ebf00020000"
+        ]
+      },
+      "probes": {
+        "(520, 320)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.33966361041498,
+            "position": [
+              120.82793389221175,
+              243.70673760315606,
+              41.862633422137336
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.0748858409143867,
+            "position": [
+              121.5436591702474,
+              243.65195158898166,
+              41.69592245990795
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.0883455519584166,
+            "position": [
+              121.55676195064446,
+              243.65094862159378,
+              41.69287048285068
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.5023074418441844,
+            "position": [
+              121.95974621369292,
+              243.62010172792526,
+              41.59900500636437
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.698366100376599,
+            "position": [
+              122.15060570089055,
+              243.60549216907384,
+              41.55454888648462
+            ]
+          }
+        ],
+        "(560, 350)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.3521273451150335,
+            "position": [
+              120.81942832155836,
+              243.64239083695824,
+              41.811780752138105
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.095372694348424,
+            "position": [
+              121.5316191075722,
+              243.5521469805675,
+              41.616851048512736
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.1078298566672,
+            "position": [
+              121.54355577994083,
+              243.55063444857723,
+              41.613583929571035
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.525653671960452,
+            "position": [
+              121.94392191978406,
+              243.49990283966392,
+              41.5040019825508
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.723468546151847,
+            "position": [
+              122.13347161677295,
+              243.47588442216974,
+              41.45212140928035
+            ]
+          }
+        ],
+        "(600, 390)": [
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\windowbox_subfloor_a",
+            "depth": 1.368768155866178,
+            "position": [
+              120.81074835052358,
+              243.57672138869825,
+              41.7425929301778
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.122384455000144,
+            "position": [
+              121.51931846296712,
+              243.4501744736065,
+              41.50925275529572
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.13382743017771,
+            "position": [
+              121.53007745294329,
+              243.448252974284,
+              41.505709697864276
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal",
+            "depth": 2.556804246513674,
+            "position": [
+              121.92777151908358,
+              243.37722689466742,
+              41.374744531096624
+            ]
+          },
+          {
+            "mesh": 111,
+            "instance": 899,
+            "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_metal_dark_01",
+            "depth": 2.734948996781047,
+            "position": [
+              122.09526795708955,
+              243.34731290712224,
+              41.31958605425704
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "height_binding": {
+    "run": ".local\\loading-traces\\20261103-113343-10104",
+    "draw_count": 1024,
+    "matched_draws": 2,
+    "groups": [
+      {
+        "samples": [
+          402,
+          772
+        ],
+        "index_count": 1206,
+        "height_scale": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "height_xform": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "texture": {
+          "format": 6,
+          "endian": 2,
+          "width": 1,
+          "height": 1,
+          "dimension": 1,
+          "signs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "swizzle": [
+            2,
+            1,
+            0,
+            3
+          ],
+          "exp_adjust": 0,
+          "base": "0x1ba6a000",
+          "head": "ff555555000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    ],
+    "errors": [],
+    "hash_summary": [
+      {
+        "seconds": 180.406,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      }
+    ]
+  },
+  "appearance_verified": true,
+  "parallax_motion_verified": false,
+  "scope": "Private candidate139 with diagnostic spawn relocation from fixture140, default player FOV, process-local input only. Two native screenshots, 180-second watchdog. No geometry or material changes in this turn. No install or push.",
+  "next_test": "Use a magnified diagnostic view and geometry-registered comparison of the same window surface at two nearby viewpoints. Preserve source height texel and scale0.1; do not amplify the production effect to make testing easier.",
+  "remaining": [
+    "Window parallax motion is still unverified.",
+    "Water bottom/inlet motion and broader gameplay/audio/Forge/performance remain incomplete.",
+    "Full rebuild awaits flare-placement clarification. Console/System Link are untested."
+  ]
+}
