@@ -1,0 +1,1436 @@
+{
+  "candidate": 130,
+  "sha256": "35afe123f2f6ddd7b0407cb9be599426fbd25664ce1afa01d56b6b2baabedef6",
+  "credits": {
+    "original": "Halo: Reach Powerhouse",
+    "source": "Halo Online Map Pack For Halo 3",
+    "authors": [
+      "General Heed",
+      "Priception"
+    ],
+    "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190",
+    "adaptation": "This project: Xbox 360/OpenH3M"
+  },
+  "native_runs": [
+    {
+      "run": ".local/loading-traces/20261103-104336-8476",
+      "terminal_exit_code": 1,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.531,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded_150137ms.png",
+          "sha256": "8a3902c5ab2368b8d1b448f483a40bafa7790ee5eaf73b6d2fb20d908d20d37d"
+        }
+      ],
+      "review": "Single settled frame inspected; requested second capture missed watchdog. No motion acceptance."
+    },
+    {
+      "run": ".local/loading-traces/20261103-104715-12296",
+      "terminal_exit_code": 0,
+      "watchdog": {
+        "seconds": 180.015,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "hash_summary": {
+        "seconds": 180.422,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "captures": [
+        {
+          "file": "proof-loaded_140137ms.png",
+          "sha256": "eb0031ff0fb63a76b9c9351dad4c4770f7de65a00973dfbf3034aa23ab7f4ad8"
+        },
+        {
+          "file": "proof-loaded_144137ms.png",
+          "sha256": "d952e980226183acd04a04f45e388d8ec48677ce8b8ca90158699246c76f0d83"
+        }
+      ],
+      "review": "Both frames individually inspected in chronological order. Camera holds still; the bright textured spray patch behind the waterfall lip changes visibly. Four rays identify the splash surface; surrounding rock details remain stable. Focused splash motion passes."
+    }
+  ],
+  "temporal": {
+    "stationary_interval": [
+      150.469,
+      179.609
+    ],
+    "stationary_observations": 30,
+    "camera": {
+      "seconds": 179.609,
+      "event": "observer_position",
+      "position": [
+        162.79017639160156,
+        263.033447265625,
+        37.36600875854492
+      ],
+      "location": "000e7bcd",
+      "gulch_margin": -320.88754619251597,
+      "selected_partition_margin": -320.88754619251597,
+      "forward": [
+        0.5365179777145386,
+        0.14020007848739624,
+        -0.8321612477302551
+      ],
+      "observer_bytes": "4322ca4943838448421576cb000e7bcd0000000000000000000000008000000080000000800000003f09593e3e0f909cbf5508853f4e1cbc3e5770d23f0df5ec3eb3333300000000000000000000000000000000000000003faaaaab3f800000",
+      "soft_ceiling_records": [
+        "0000000100003ebe00000000",
+        "0000000100003ebf00020000"
+      ]
+    },
+    "secondary_pixel_comparison": {
+      "splash": {
+        "bounds": [
+          780,
+          180,
+          840,
+          240
+        ],
+        "mean_absolute_channel_change": 29.428981481481483,
+        "changed_pixels": 3600,
+        "pixels": 3600
+      },
+      "central_rock": {
+        "bounds": [
+          400,
+          250,
+          500,
+          340
+        ],
+        "mean_absolute_channel_change": 0.4126666666666667,
+        "changed_pixels": 6377,
+        "pixels": 9000
+      },
+      "near_terrain": {
+        "bounds": [
+          700,
+          430,
+          800,
+          500
+        ],
+        "mean_absolute_channel_change": 0.4124285714285714,
+        "changed_pixels": 5027,
+        "pixels": 7000
+      }
+    },
+    "scope": "Pixel statistics supplement individual visual inspection; they are not animation acceptance by themselves."
+  },
+  "geometry_rays": {
+    "camera": {
+      "seconds": 179.609,
+      "event": "observer_position",
+      "position": [
+        162.79017639160156,
+        263.033447265625,
+        37.36600875854492
+      ],
+      "location": "000e7bcd",
+      "gulch_margin": -320.88754619251597,
+      "selected_partition_margin": -320.88754619251597,
+      "forward": [
+        0.5365179777145386,
+        0.14020007848739624,
+        -0.8321612477302551
+      ],
+      "observer_bytes": "4322ca4943838448421576cb000e7bcd0000000000000000000000008000000080000000800000003f09593e3e0f909cbf5508853f4e1cbc3e5770d23f0df5ec3eb3333300000000000000000000000000000000000000003faaaaab3f800000",
+      "soft_ceiling_records": [
+        "0000000100003ebe00000000",
+        "0000000100003ebf00020000"
+      ]
+    },
+    "probes": {
+      "(806, 198)": [
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 49.09270306742963,
+          "position": [
+            191.48578434277147,
+            266.9496728397786,
+            -2.467539937568155
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 49.41941134271826,
+          "position": [
+            191.67675147222874,
+            266.9757350287197,
+            -2.732629231495565
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river",
+          "depth": 49.96110789897189,
+          "position": [
+            191.9933832939763,
+            267.018947273605,
+            -3.1721588316972102
+          ]
+        },
+        {
+          "mesh": 229,
+          "instance": 1274,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_river_valley_cliffs",
+          "depth": 51.89907342342697,
+          "position": [
+            193.12616057935543,
+            267.1735427567316,
+            -4.744613377207564
+          ]
+        }
+      ],
+      "(816, 213)": [
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 48.85689469921175,
+          "position": [
+            191.20474820702495,
+            266.73843451571264,
+            -2.4009521510624694
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 49.22497195288479,
+          "position": [
+            191.41881743149176,
+            266.7663470865034,
+            -2.700547814042004
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river",
+          "depth": 49.8043168686323,
+          "position": [
+            191.7557573417287,
+            266.8102808145772,
+            -3.172104321256583
+          ]
+        },
+        {
+          "mesh": 229,
+          "instance": 1274,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_river_valley_cliffs",
+          "depth": 51.6949804528298,
+          "position": [
+            192.8553441354193,
+            266.95365637122654,
+            -4.711005745689796
+          ]
+        }
+      ],
+      "(826, 233)": [
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 48.55376784284013,
+          "position": [
+            190.8261419771228,
+            266.508535446367,
+            -2.319518523722813
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 48.96280778984456,
+          "position": [
+            191.06233023576505,
+            266.5378112358358,
+            -2.6538482101217156
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river",
+          "depth": 49.59686281814823,
+          "position": [
+            191.42844692953815,
+            266.58319179501154,
+            -3.1720944604570533
+          ]
+        },
+        {
+          "mesh": 229,
+          "instance": 1274,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_river_valley_cliffs",
+          "depth": 51.42218676858295,
+          "position": [
+            192.4824273255078,
+            266.7138338021718,
+            -4.664026943810875
+          ]
+        }
+      ],
+      "(786, 233)": [
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 48.5321686287976,
+          "position": [
+            190.66301257663702,
+            267.08352624181305,
+            -2.3018643593924466
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+          "depth": 48.89952695921438,
+          "position": [
+            190.8739926101738,
+            267.11418282058924,
+            -2.602125486218405
+          ]
+        },
+        {
+          "mesh": 456,
+          "instance": null,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river",
+          "depth": 49.59710456842927,
+          "position": [
+            191.27462309872067,
+            267.17239667109635,
+            -3.1722920556107113
+          ]
+        },
+        {
+          "mesh": 229,
+          "instance": 1274,
+          "material": "levels\\multi\\s3d_powerhouse\\shaders\\m30_river_valley_cliffs",
+          "depth": 51.384372975039774,
+          "position": [
+            192.30108123821094,
+            267.3215467792191,
+            -4.633119757817596
+          ]
+        }
+      ]
+    }
+  },
+  "source_animation_bindings": [
+    {
+      "material_tag": 9950,
+      "template_tag": 9947,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\030_water_river_bottom",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "logical_animation_routes": [
+        [
+          1,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          1,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          1,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          1,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          1,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          1,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          3,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          3,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          3,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          3,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          3,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          3,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          4,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          4,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          4,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          4,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          4,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          4,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          5,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          5,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          5,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          5,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          5,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          5,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          6,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          6,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          6,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          6,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          6,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          6,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          7,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          7,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          7,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          7,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          7,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          7,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          8,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          8,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          8,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          8,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          8,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          8,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          9,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          9,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          9,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          9,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          9,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          9,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          13,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          13,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          13,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          13,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          14,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          14,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          17,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          17,
+          2,
+          "bump_detail_map",
+          5
+        ],
+        [
+          17,
+          2,
+          "bump_map",
+          2
+        ],
+        [
+          17,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          17,
+          2,
+          "detail_map",
+          0
+        ],
+        [
+          17,
+          2,
+          "detail_map",
+          1
+        ]
+      ],
+      "animation_headers": [
+        [
+          5,
+          "",
+          "",
+          7.0
+        ],
+        [
+          6,
+          "",
+          "",
+          9.0
+        ],
+        [
+          6,
+          "",
+          "",
+          8.0
+        ],
+        [
+          5,
+          "",
+          "",
+          3.0
+        ],
+        [
+          5,
+          "",
+          "",
+          9.0
+        ],
+        [
+          6,
+          "",
+          "",
+          11.0
+        ]
+      ],
+      "animation_function_hashes": [
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "b1ce94776dd33ffdd6e8a16322d566d9cb426319f291b1175e32b7080151a1db",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12",
+        "5627f497f142698a5519d1dbcec02908928a636cfa4796e3bdbe51acf36dfe12"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9953,
+      "template_tag": 9952,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_inlet",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "material_texture"
+      ],
+      "named_constants_exact": true,
+      "logical_animation_routes": [
+        [
+          1,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          1,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          1,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          1,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          3,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          3,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          3,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          3,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          4,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          4,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          4,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          4,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          5,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          5,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          5,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          5,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          6,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          6,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          6,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          6,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          7,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          7,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          7,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          7,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          8,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          8,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          8,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          8,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          9,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          9,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          9,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          9,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          13,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          13,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          13,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          13,
+          2,
+          "bump_map",
+          1
+        ],
+        [
+          17,
+          2,
+          "bump_detail_map",
+          2
+        ],
+        [
+          17,
+          2,
+          "bump_detail_map",
+          3
+        ],
+        [
+          17,
+          2,
+          "bump_map",
+          0
+        ],
+        [
+          17,
+          2,
+          "bump_map",
+          1
+        ]
+      ],
+      "animation_headers": [
+        [
+          5,
+          "",
+          "",
+          54.0
+        ],
+        [
+          6,
+          "",
+          "",
+          12.0
+        ],
+        [
+          6,
+          "",
+          "",
+          12.0
+        ],
+        [
+          5,
+          "",
+          "",
+          21.0
+        ]
+      ],
+      "animation_function_hashes": [
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 3
+    },
+    {
+      "material_tag": 9959,
+      "template_tag": 9955,
+      "source": "levels\\multi\\s3d_powerhouse\\shaders\\settlement_river_valley_waterfall_splash_a",
+      "texture_parameter_names": [
+        "base_map",
+        "detail_map",
+        "detail_map2",
+        "detail_map_overlay",
+        "bump_map",
+        "bump_detail_map"
+      ],
+      "named_constants_exact": true,
+      "logical_animation_routes": [
+        [
+          1,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          1,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          1,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          1,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          1,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          3,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          3,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          3,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          3,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          3,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          4,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          4,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          4,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          4,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          4,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          5,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          5,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          5,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          5,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          5,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          6,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          6,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          6,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          6,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          6,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          7,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          7,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          7,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          7,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          7,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          8,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          8,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          8,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          8,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          8,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          9,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          9,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          9,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          9,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          9,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          13,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          13,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          14,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          14,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          14,
+          2,
+          "detail_map2",
+          2
+        ],
+        [
+          17,
+          2,
+          "base_map",
+          0
+        ],
+        [
+          17,
+          2,
+          "bump_detail_map",
+          4
+        ],
+        [
+          17,
+          2,
+          "bump_map",
+          3
+        ],
+        [
+          17,
+          2,
+          "detail_map",
+          1
+        ],
+        [
+          17,
+          2,
+          "detail_map2",
+          2
+        ]
+      ],
+      "animation_headers": [
+        [
+          6,
+          "",
+          "",
+          3.0
+        ],
+        [
+          6,
+          "",
+          "",
+          2.0
+        ],
+        [
+          6,
+          "",
+          "",
+          3.0999999046325684
+        ],
+        [
+          6,
+          "",
+          "",
+          3.0
+        ],
+        [
+          6,
+          "",
+          "",
+          3.0
+        ]
+      ],
+      "animation_function_hashes": [
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "e33e57482e90a610fb4ad9e56b5e949792e08deade5324fb766e3795c098dab2",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "f0166cb32bbcf4cb7e5fb92299f5b4517440c7c888eef9574e9aedb721aa362e",
+        "8bdce528d2afd7b285b76f4dba762aa02ff4846ef4578de802dfa3d893455f3a"
+      ],
+      "blend": 1
+    }
+  ],
+  "all_rmsh_animation_audit": {
+    "templates": 354,
+    "animation_uses": 1788,
+    "stale_registers": 0,
+    "mismatches": []
+  },
+  "preserved_geometry_and_lenses": {
+    "geometry": {
+      "vertex": {
+        "buffers": 1951,
+        "bytes": 36978576,
+        "bit_exact": true
+      },
+      "index": {
+        "buffers": 453,
+        "bytes": 3609120,
+        "bit_exact": true
+      }
+    },
+    "existing_lens_tags_byte_exact": 42
+  },
+  "focused_splash_appearance_verified": true,
+  "focused_splash_motion_verified": true,
+  "diagnostic_scope": "Candidate130 with relocated diagnostic spawns and monitor FOV0.35. Production geometry and animation functions unchanged; fixture never installed.",
+  "remaining": [
+    "Water bottom/inlet motion and moving window parallax require focused validation.",
+    "Broader gameplay, collision, audio, effects, Forge and console/System Link requirements remain unverified.",
+    "Full rebuild remains gated by pending flare-placement clarification. No installation or push."
+  ]
+}
