@@ -313,3 +313,18 @@ waits for that acceptance. The goal remains open. The previous turn made
 progress through a new diagnostic and non-reproduction evidence; this turn
 prepared the concrete manual check and recorded the remaining acceptance gap.
 No further unchanged unattended launch is warranted while awaiting that input.
+
+## First manual playtest attempt
+
+User explicitly reported readiness for a bounded human playtest. Ran
+human-playtest.ps1 -Run after its runtime/payload hash validation. No replay,
+OS input, captures, or image inspection. The child exited with code 0 at
+75.890 seconds, before the watchdog. Trace observed mainmenu/shared/zanzibar,
+six successful native hash checks and zero failed hashes, but no Sky Bridge
+header validation. The helper correctly rejected this as an incomplete target
+map test. This is not evidence of a Sky Bridge crash, panel acceptance, or a
+failed native hash. No game remains and no automatic relaunch was attempted.
+Run: .local/loading-traces/20261103-182842-4264. Evidence:
+candidate29-human-attempt01.json. Asked the user whether they closed it, could
+not find/load Sky Bridge, or saw an unexpected exit; explanation pending.
+Release remains unchanged and the goal is not complete.

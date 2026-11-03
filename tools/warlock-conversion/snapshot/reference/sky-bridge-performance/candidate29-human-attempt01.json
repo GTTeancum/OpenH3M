@@ -1,0 +1,30 @@
+{
+  "run": ".local\\loading-traces\\20261103-182842-4264",
+  "mode": "manual input; no replay or captures",
+  "events": [
+    {
+      "seconds": 75.89,
+      "event": "exit",
+      "code": 0
+    },
+    {
+      "seconds": 75.89,
+      "event": "error",
+      "detail": "Expected DLC map never passed native header validation; inspect route/logs"
+    },
+    {
+      "seconds": 75.89,
+      "event": "hash_summary",
+      "passed": 6,
+      "failed": 0
+    }
+  ],
+  "observed_map_names": [
+    "mainmenu",
+    "shared",
+    "zanzibar"
+  ],
+  "status": "Incomplete human test: expected Sky Bridge map not validated before normal process exit",
+  "human_report": "Pending; no explanation of early exit received",
+  "acceptance": false
+}
