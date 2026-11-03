@@ -10,7 +10,7 @@ def analyze(root):
  lines=[]
  for path in root.glob('runtime*.log'):lines.extend(path.read_text(errors='replace').splitlines())
  lines.sort()
- presents=[];gpu={};waits=[];evidence=[]
+ presents=[];gpu={};waits=[];evidence=[];misses=[]
  for line in lines:
   v=dict(re.findall(r'(\w+)=([\w.\-]+)',line))
   if '[host-present]' in line:
@@ -21,6 +21,7 @@ def analyze(root):
    assert submission not in gpu
    gpu[submission]=dict(frame=int(v['frame']),ms=float(v['elapsed_ms']),closes=v['closes_frame']=='true')
   elif '[queue-wait]' in line:waits.append(v)
+  elif '[resolve-miss]' in line:misses.append(v)
   if 'asq_sky_bri' in line or ('sky_bridge.map' in line and ('Read' in line or 'Open' in line or 'map' in line)):
    evidence.append(line)
  active={frame for _,frame in presents};frames=collections.defaultdict(list);reasons=collections.defaultdict(list)
@@ -28,13 +29,25 @@ def analyze(root):
   if row['frame'] in active:frames[row['frame']].append(row)
  for row in waits:
   if int(row.get('frame',-1)) in active:reasons[row.get('reason','unknown')].append(float(row['elapsed_ms']))
+ active_misses=[v for v in misses if int(v['frame']) in active]
+ miss_reasons=collections.Counter()
+ for v in active_misses:
+  if v['buffer']=='false' or v['mapped']=='false':miss_reasons['missing_buffer_or_mapping']+=1
+  elif int(v['written'])<int(v['bytes']) or int(v['capacity'])<int(v['bytes']):miss_reasons['undersized']+=1
+  elif int(v['previous'])==0:miss_reasons['never_written']+=1
+  elif int(v['previous'])==int(v['current']):miss_reasons['previous_copy_in_current_unsubmitted_batch']+=1
+  elif int(v['previous'])>int(v['completed']):miss_reasons['previous_submission_in_flight']+=1
+  else:miss_reasons['unexpected']+=1
  complete={f:rows for f,rows in frames.items() if any(x['closes'] for x in rows)}
  gaps=[b[0]-a[0] for a,b in zip(presents,presents[1:]) if b[1]==a[1]+1]
  report=dict(scope='Stationary process-local menu route, 110-165 seconds, host observations only; no visual/traversal/console verification.',
-  present_interval_ms=stats(gaps),nonconsecutive_frame_transitions=sum(b[1]!=a[1]+1 for a,b in zip(presents,presents[1:])),
+  present_interval_ms=stats(gaps),
+  observed_frames_per_second=((presents[-1][1]-presents[0][1])*1000/(presents[-1][0]-presents[0][0]) if len(presents)>1 else None),
+  intervals_over_50ms=sum(x>50 for x in gaps),nonconsecutive_frame_transitions=sum(b[1]!=a[1]+1 for a,b in zip(presents,presents[1:])),
   gpu_ms_per_observed_frame=stats([sum(r['ms'] for r in rows) for rows in complete.values()]),
   submissions_per_observed_frame=stats([len(rows) for rows in complete.values()]),
   wait_ms_by_caller={key:stats(values) for key,values in reasons.items()},
+  resolve_miss_reasons=dict(miss_reasons),resolve_miss_addresses=dict(collections.Counter(v['address'] for v in active_misses)),resolve_miss_examples=active_misses[:4],
   wait_total_ms_by_caller={key:sum(values) for key,values in reasons.items()},
   first_sample=presents[0] if presents else None,last_sample=presents[-1] if presents else None,
   map_log_evidence=evidence[-12:],

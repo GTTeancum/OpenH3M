@@ -6,7 +6,7 @@ def digest(p):
  with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');parser.add_argument('--async-occlusion',action='store_true');parser.add_argument('--warm-cache',action='store_true');parser.add_argument('--run-name',default='performance-candidate29-01');args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--run',action='store_true');parser.add_argument('--async-occlusion',action='store_true');parser.add_argument('--warm-cache',action='store_true');parser.add_argument('--binary-manifest',type=Path,default=Path('work/sky-bridge/wait-attribution-build/after-hashes.json'));parser.add_argument('--run-name',default='performance-candidate29-01');args=parser.parse_args()
  if not __import__('re').fullmatch(r'performance-candidate29-[a-z0-9-]+',args.run_name):raise ValueError('Invalid run name')
  root=Path.cwd().resolve()
  assert root==Path('C:/X360/ISOs/H3M/.local/OpenH3M-source').resolve()
@@ -23,7 +23,8 @@ def main():
   for p in payload.iterdir():shutil.copyfile(p,content/p.name)
   (run/'prepared.json').write_text(json.dumps(dict(game=str(game),payload_sha256=digest(content/'sky_bridge.map'),cache='fresh private cache; cold run'),indent=2))
  cache=(root/'work/sky-bridge/performance-candidate29-01/cache') if args.warm_cache else run/'cache'
- expected=json.loads((root/'work/sky-bridge/wait-attribution-build/after-hashes.json').read_text())
+ manifest=args.binary_manifest.resolve();manifest.relative_to(root)
+ expected=json.loads(manifest.read_text())
  bindir=root/'work/rexglue-sdk/out/win-amd64'
  for name,value in expected.items():
   if digest(bindir/name)!=value:raise ValueError('Timing binary changed: '+name)

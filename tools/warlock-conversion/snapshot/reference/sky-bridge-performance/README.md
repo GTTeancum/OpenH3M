@@ -70,3 +70,39 @@ visibility results. Simply disabling readback or fabricating samples is not a fi
 A logging-only quiet-visibility-query patch is prepared (not applied) because
 16172 of 40395 first-run log lines were per-query begin/end chatter.
 The actual visual fix and traversal/console performance remain unverified.
+
+## Confirmed resolve-slot defect and correction
+
+The resolve-miss diagnostic run found 1097/1097 measured misses at address
+1FC24000, 8192 bytes, with existing mapped 262144-byte buffers. In every case
+previous==current submission: repeated resolves to one address rotated both
+slots within a single unsubmitted command batch and then waited on that batch.
+This is not buffer eviction or insufficient allocation.
+
+rexglue-sdk-resolve-submission-slots.patch reuses the pending write slot for
+repeated copies in the same submission, in existing Fast/Some modes only.
+Every GPU resolve and copy remains ordered and retained; the last copy wins.
+The other slot preserves the prior submission's snapshot. Completion checks,
+synchronous fallback for real misses, and Full-mode behavior remain unchanged.
+No exposure/bloom processing, guest simulation or map formats are removed.
+The wait is eliminated by retaining valid history, not by reading unfinished data.
+
+Both before/after runs use candidate 29, the same warmed private cache, async
+occlusion enabled, optional timing logs, and bounded stationary-spawn input.
+Only rexgpu-xenos.dll changed for instrumentation then the slot correction;
+full binary hashes are in resolve-slot-results.json. Build logs and original
+DLL backups remain under work/sky-bridge/resolve-{diagnostics,slots}-build.
+
+After correction: 29.961 observed FPS over 110-165 seconds; median 33.368 ms,
+p95 33.92 ms, max 50.389 ms; 18 intervals above 50 ms. GPU median 29.0395 ms,
+p95 30.535 ms. Repeated-current-batch misses: zero. One legitimate prior-in-flight
+miss still waited 20.683 ms, demonstrating the fence guard remains active.
+Before: median 50.0485 ms; all 1097 sampled frames waited, median 21.198 ms.
+Both processes ended under 171 seconds. No game remains running.
+
+This establishes stationary host performance improvement, not sustained traversal,
+visual acceptance, original-console performance, or system-link verification.
+The asynchronous setting is still explicit in tests, not installed as a new
+default. The quiet-visibility logging patch remains unapplied, keeping that
+variable constant. User visual-check availability has been requested because
+this chat cannot import images. LIVE release replacement remains pending.
