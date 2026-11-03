@@ -328,3 +328,38 @@ Run: .local/loading-traces/20261103-182842-4264. Evidence:
 candidate29-human-attempt01.json. Asked the user whether they closed it, could
 not find/load Sky Bridge, or saw an unexpected exit; explanation pending.
 Release remains unchanged and the goal is not complete.
+
+
+## Shared installation correction (supersedes isolated human launcher)
+
+User confirmed closing the first manual attempt before reaching Sky Bridge.
+Coordination from the Battle Canyon chat conveyed the explicit user correction:
+these maps must not be separate installations, and human play must have no
+control harness. The isolated manual-launch route is superseded.
+
+Added candidate 29's seven native-installed files and 332-byte native content
+header to work/dlc/installed-corrections, alongside the existing combined map
+bundle. Every pre-existing content/header hash was checked before and after;
+Battle Canyon remains 3de8ee1d1a18b76b5a7306aac087d3ae267bd6897df440afff30dbc46883a585.
+Existing maps, saved content, cache, bootstrap settings, and runtime are preserved.
+Sky Bridge is a shared testing candidate, not a visually accepted final release.
+Normal OpenH3M.bootstrap.toml already points to this shared content/cache.
+
+The human launcher now starts only the normal C:/X360/ISOs/H3M/OpenH3M.exe,
+with no debugger, observation, replay, scripted input, captures, or isolated
+content/profile. The user controls from startup. Its bounded shutdown remains
+170 seconds. Preparation validates map coexistence and starts no process.
+
+Seven installed runtime files differ from the tested runtime bundle. Verified
+rollback copies and staged replacements are ready inside work/sky-bridge;
+installed runtime and bootstrap are untouched. Explicit permission for replacing
+the seven files outside the repository has been requested under the user's
+repository-confinement instruction. Launcher refuses a performance playtest
+until those runtime hashes match; it must not substitute a separate install.
+
+Coordination evidence for the Battle Canyon owner:
+work/sky-bridge/shared-install-coordination.json (latest live record), with a
+tracked snapshot shared-install-coordination.json here. It includes protected
+file hashes, added content/header, runtime comparison, rollback/staging paths,
+and pending status. No game was launched during reconciliation. Menu coexistence
+still requires normal-launch observation; filesystem coexistence is verified.
