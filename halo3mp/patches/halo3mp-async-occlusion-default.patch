@@ -1,0 +1,17 @@
+--- a/halo3mp/src/halo3mp_app.h
++++ b/halo3mp/src/halo3mp_app.h
+@@ -125,6 +125,14 @@
+     // changing the observed menu or four-player output.
+     if (rex::cvar::GetFlagSource("readback_memexport") == rex::cvar::Source::kDefault) {
+       rex::cvar::SetFlagByName("readback_memexport", "false");
++    }
++
++    // Publish real GPU visibility results after their fences complete without
++    // stalling command production at each query. Explicit overrides still win;
++    // the backend retains its synchronous fallback if the worker cannot start.
++    if (rex::cvar::GetFlagSource("d3d12_async_occlusion_readback") ==
++        rex::cvar::Source::kDefault) {
++      rex::cvar::SetFlagByName("d3d12_async_occlusion_readback", "true");
+     }
+ 
+     // Native auto-exposure reads a small resolved brightness texture on the

@@ -133,3 +133,53 @@ The observation test establishes native map validation and actual camera motion.
 It does not establish panel appearance, native exposure/bloom correctness, audible
 audio, console acceptance or network behavior. Human visual availability remains
 pending; no LIVE release replacement has occurred.
+
+## Warm movement repeat and private LIVE candidate
+
+The identical process-local movement route was repeated with the existing cache
+and unchanged binaries in .local/loading-traces/20261103-172254-27300.
+Native validation passed 11 checks with zero failures and no observer errors;
+camera movement was 3.40 world units with 198.50 degrees cumulative yaw.
+Whole 110-165-second timing averaged 28.443 FPS, median 33.376 ms,
+p95 34.029 ms, maximum 1735.132 ms. The largest interval coincided with
+map/autosave startup. Two later 106.957/107.606 ms hitches had no matching
+pipeline-completion event. The previous two large compilation waits did not
+recur, but sustained 30 FPS is still not established. Ten legitimate prior
+submission waits remain; zero current-unsubmitted-batch resolve failures.
+See candidate29-movement-repeat-summary.json, including all retained samples.
+
+A private LIVE candidate was built under work/sky-bridge/live-candidate-29.
+Header/data/hash-tree verification passes (46148 data blocks, 275 hash tables),
+and all seven packaged files exactly match payload-29. Signature validation was
+not performed. The candidate is explicitly labeled as awaiting visual review;
+the existing released package is unchanged. Builder: build-candidate-package.py.
+
+The Halo 3 app now defaults asynchronous occlusion readback on only when the
+setting source is default; an explicit override still wins. Real completed GPU
+results and the backend's synchronous worker-start failure fallback are retained.
+The narrow source snapshot is halo3mp-async-occlusion-default.patch; unrelated
+preexisting app-header changes are not included. Build succeeded; new executable
+SHA256 a90c7d1d10ec7833e58df4f72ba96a7c65ebab5567cd7ba1032b69f1dd0621ad.
+Full before/after binary hashes and backup: work/sky-bridge/async-default-build.
+This defaults change is host-only; it does not change Xbox 360 guest simulation.
+
+## Native LIVE installation and default-setting validation
+
+The bounded test .local/loading-traces/20261103-172701-30892 used the native
+LIVE installer and rebuilt executable without any async-occlusion CLI override.
+All seven extracted payload files match their source SHA256 hashes, all 11
+native map/hash checks passed, and async visibility publication was observed.
+Watchdog fired at 170 seconds; final hash summary at 170.329 seconds. The game
+is closed. candidate29-live-default-summary.json records launch, binaries,
+package integrity, installed files, and timing evidence.
+
+Timing collection stopped at the default 155-second diagnostic endpoint, so
+actual samples cover 110.009-154.970 seconds, not the entire requested 110-165
+analysis range. Observed rate: 26.867 FPS; median 33.4395 ms, p95 50.209 ms,
+maximum 1935.137 ms, 99 intervals above 50 ms. One real prior-submission wait
+occurred; zero repeated-current-batch failures. This validates installation
+and the default setting but does not establish sustained 30 FPS. Startup and
+remaining frame pacing need further attribution. No visual/audio acceptance,
+physical-console acceptance, or system-link verification is claimed. Human
+visual feedback remains outstanding; final release replacement and goal closure
+remain pending. No images were imported and no desktop input was sent.
