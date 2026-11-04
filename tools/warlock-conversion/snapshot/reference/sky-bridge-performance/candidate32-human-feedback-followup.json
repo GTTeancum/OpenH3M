@@ -33,5 +33,7 @@
     "Audit billboard layer sampling/animation and output against source before changing intensity"
   ],
   "constraints": "Read-only runtime observation; no shared-content writes during other chat cleanup. No capture/UI input. No claim remaining flicker fixed.",
-  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "stationary_camera_confirmation": "User confirms the circled surface flashes black even with the camera completely still.",
+  "diagnostic_implication": "Camera movement is not required. This does not distinguish timed shader animation, asynchronous visibility or lighting-state errors. Exact mesh/material assignment remains unproven."
 }
