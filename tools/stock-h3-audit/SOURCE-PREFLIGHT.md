@@ -183,3 +183,58 @@ Basic Water; it is not claimed as imported faithfully.
 shader assignment. Native Cycles renders use studio lighting for readability,
 not source-map lighting. These remain WIP proof only. The source texture
 mandate, H3 material target and outstanding effects approval are unchanged.
+
+## H3 authoring path and first stock-shader trial
+
+The next goal turn made authoring progress rather than another WIP-only report.
+`inspect_export_scene.py` inspected the full saved Blender scene with both
+unmodified add-ons registered. Scene settings are Foundry `scale=blender`,
+`forward_direction=y-`; mesh types include 1 structure, 67 portals, 3 water
+surfaces and 1,060 default meshes. General-101 does not automatically consume
+Foundry metadata. Collision-only face attributes, portal flags, orientation,
+scale and material assignments must be configured before exporting. Its README
+also states missing UVW W support; do not treat exporter registration as proof
+that every source attribute survives. No ASS export has occurred yet.
+
+H3's installed `ManagedBlamSystem.Start` throws `NotImplementedException` for
+both overloads. Do not keep retrying or patch that DLL. The official `tool.exe`
+provides `export-tag-to-xml`, `get-tag-field-value`, `patch-tag-field` and bitmap
+commands. `export_shader_donors.ps1` exported all seven candidate stock shaders,
+verified their source hashes unchanged and inspected the XML. Export requires
+an absolute input tag path; field commands use a tags-relative path including
+extension. Tool's XML has an unescaped `<unavailable>` resource placeholder;
+the report parser escapes that token in memory only, preserving official output.
+The first export attempts produced empty files despite exit 0, so the wrapper
+now requires an actual parsed tag document. Evidence is in
+`work/stock-h3-audit/h3-shader-xml/` and `h3-shader-xml-evidence.json`.
+
+`inspect_shader_setups.py hrek` read all 102 Reach material authoring setups
+through the official Reach API into `hrek-shader-setups.json`. These reveal
+different terrain layer configurations; the donor list is still candidates,
+not a blanket material substitution.
+
+`author_foliage_trial.ps1` created the first isolated fresh H3 material under
+the repository's H3EK `data/levels/custom/battle_canyon_fresh` and matching
+`tags` directory. It copies stock Standoff `bunkerworld_treebranch.shader_foliage`
+and `bunker_leaf.bitmap` authoring settings, imports the original Reach
+`tree_boreal_leaves_diffuse.tiff` with official `bitmap_single`, and assigns that
+image to the stock shader's base and alpha-test inputs via `patch-tag-field`.
+No custom shader implementation or binary writer is involved. Tag-reference
+values must use `path,bitm`: `.bitmap` values report success without updating
+the field. This was caught by re-exporting and checking the saved shader, then
+corrected. The script now asserts both resulting references.
+
+`verify_foliage_trial.py` confirms that all other exported shader fields match
+the stock donor exactly, and original image/bitmap/shader hashes are unchanged.
+Official `export-bitmap-tga` returns a 512x512 RGBA image with the source's full
+0..255 alpha range. Mean absolute RGBA channel differences from the source are
+0.0943, 0.7599, 0.0649, 0.1990 (8-bit units); maxima are 9, 6, 9, 21. Evidence:
+`foliage-trial-verification.json`. This is pixel/tag verification only: leaf
+appearance, alpha cutoff and wind behavior still require actual rendering and
+MCC review. Nothing is installed into MCC or converted to Xbox 360.
+
+Reproduction: run the donor export wrapper; inspect Reach shader setups with
+the bundled Blender Python and isolated packages; run the foliage authoring
+wrapper only into absent trial targets (it refuses overwrites); run the verifier.
+Use the repo-confined environment documented above. Continue with full source
+metadata preservation and explicit H3 material setup choices before map compile.
