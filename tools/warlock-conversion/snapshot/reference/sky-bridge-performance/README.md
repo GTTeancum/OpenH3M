@@ -835,3 +835,51 @@ DLL remains restored and hash-verified; no production renderer or map changed.
 The player/vehicle coordinates, basis vectors, camera and native command remain
 saved for unattended tests. No further manual positioning is required.
 Source credits are unchanged above; this is the Xbox 360/OpenH3M adaptation.
+
+## Native interpolation and late rendering events
+
+`candidate32-late-render-event-result.json` records runs 18–19. Source tracing
+of `82214930` and its caller identifies the current command at user+380, target
+at user+12 and difference output at user+912. The saved human target equals its
+current command. `-NativeObserver` now supplies that numeric target before
+native interpolation, guarded by all three user-0 pointers and seat ownership.
+It no longer overwrites the interpolated command at `82214BC0`.
+
+Both new snapshots match the entire saved 112-byte observer result and the
+64-byte current/target command exactly, including the previously differing
+motion triples. All attributed draw camera matrices also match: 1754 draws in
+run 18 and 1757 in run 19, each spanning 300 frames. Native collision/location
+calculation still runs. The three object-transform differences remain, so this
+is not a complete native savestate restore.
+
+The full-viewport measurements also contain relative brightness drops that
+the near-black threshold does not capture. `trace-sample-coverage.py
+--region-events RUN/region.csv` checks their coordinates against the actual
+traced triangles. Run 18 contains 695 distinct worst-change coordinates;
+43 overlap mesh 183 and 14 overlap mesh 184. This establishes geometric
+coverage, not visible ownership or correspondence to the human-circled area.
+
+Run 19 samples the observed coordinates around candidate draws and a 16×9
+numeric patch covering (714,210) at the final guest source and after host
+gamma/FXAA. No image is saved. The updated 16-point stage probe passed its native
+WARP fixture: all 32 coordinate-coded values across both phases were exact;
+premature read and frame-cap checks passed. Its actual recording contains
+1757 complete paired draws, 56224 samples and no missing point sets or nonfinite
+values. Both final-output probes contain 300 samples at the selected point.
+
+`trace-correlate-point.py RUN` joins frames directly. At (714,210), final output
+drops for one frame at 3435, 3499, 3559 and 3615, separated by 64, 60 and 56 guest
+frames. Peak channel values fall to about 59–61% of the darker neighboring
+frame. Every sampled candidate albedo/static/dynamic before/after color at that
+point is constant across the entire recording. The final guest source already
+contains the change before host gamma/FXAA. This bounds the measured change to
+later guest rendering or resource/resolve work; it does not identify its cause
+or prove it is the exact black flash reported by the user.
+
+Next trace later color-target changes at this point with shader/resource
+identity and draw order, including resolve/postprocessing boundaries. Do not
+infer a material or lighting correction from the negative near-black tests.
+The shared GPU and installed map hashes remain unchanged; both runs ended at
+their 180-second watchdogs. No performance or visual release acceptance is
+claimed. Billboard readability and visible outdoor rain remain open. Source
+credits are unchanged above.

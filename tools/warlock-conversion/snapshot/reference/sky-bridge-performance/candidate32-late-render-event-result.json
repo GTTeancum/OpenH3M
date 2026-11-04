@@ -1,0 +1,1433 @@
+{
+  "scope": "Native camera-input correction and measured late-stage brightness changes; no production rendering fix",
+  "previous_turn_classification": "progress: complete-viewport evidence and native input mismatch changed the next trace",
+  "runs": [
+    {
+      "run": "work\\sky-bridge\\reproduction-18",
+      "log_directory": ".local/loading-traces/20261103-231103-33888",
+      "configuration": {
+        "region_only": false,
+        "full_viewport": true,
+        "native_observer": true,
+        "guest_region": true,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "presented_probe": false,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "region": "0,0,1,1",
+        "arm_delay_ms": 15000
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "af0e48f52fa6935004a6bf2cb6dbd6531f96c5ab8f35149a084b745d9dd996e1",
+        "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "observer": {
+        "human": {
+          "captured_blob_offset": 188,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+          "target_equals_current_command": true,
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "replay": {
+          "captured_blob_offset": 0,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+          "target_equals_current_command": true,
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "same_result": true,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "camera": {
+        "draws": 1754,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 556,
+          "albedo": 598
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "native_game_seconds": 22.533333333333335,
+      "object_counts": [
+        450,
+        450
+      ],
+      "different_object_indexes": [
+        9,
+        448,
+        449
+      ],
+      "watchdog_and_hash_events": [
+        {
+          "seconds": 180.0,
+          "event": "watchdog",
+          "seconds_limit": 180
+        },
+        {
+          "seconds": 180.391,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "region": {
+        "events": {
+          "sample": 9600,
+          "end": 1
+        },
+        "frame_count": 300,
+        "frame_range": [
+          3380,
+          3679
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            0,
+            0,
+            1152,
+            640
+          ]
+        ],
+        "total_pixel_contributions": 221184000
+      },
+      "coverage": {
+        "query": {
+          "kind": "relative_darkening_event_coordinates",
+          "event_rows": 1968,
+          "unique_points": 695
+        },
+        "candidate_meshes": [
+          {
+            "mesh": 183,
+            "covered_event_coordinates": 43
+          },
+          {
+            "mesh": 184,
+            "covered_event_coordinates": 14
+          }
+        ],
+        "limitation": "Geometric coverage only: does not establish visibility through other objects, front-face acceptance, MSAA sample coverage, or correspondence to the human-circled surface."
+      }
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-19",
+      "log_directory": ".local/loading-traces/20261103-231732-30780",
+      "configuration": {
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "af0e48f52fa6935004a6bf2cb6dbd6531f96c5ab8f35149a084b745d9dd996e1",
+        "rexgpu-xenos.dll": "80c31b18c1a054f825c4df6324d99fa74002bd2cf902786ee7843217eb12a73f",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "observer": {
+        "human": {
+          "captured_blob_offset": 188,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+          "target_equals_current_command": true,
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "replay": {
+          "captured_blob_offset": 0,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+          "target_equals_current_command": true,
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "same_result": true,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "camera": {
+        "draws": 1757,
+        "frame_count": 300,
+        "passes": {
+          "albedo": 600,
+          "static": 600,
+          "dynamic": 557
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "native_game_seconds": 22.5,
+      "object_counts": [
+        450,
+        450
+      ],
+      "different_object_indexes": [
+        9,
+        448,
+        449
+      ],
+      "watchdog_and_hash_events": [
+        {
+          "seconds": 180.0,
+          "event": "watchdog",
+          "seconds_limit": 180
+        },
+        {
+          "seconds": 180.422,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "stage": {
+        "events": {
+          "sample": 56224,
+          "end": 1
+        },
+        "complete_draws": 1757,
+        "frame_count": 300,
+        "incomplete_pairs": [],
+        "incomplete_draw_point_sets": [],
+        "nonfinite_samples": []
+      }
+    }
+  ],
+  "native_input_trace": {
+    "difference_function": "82214930, caller 8213BD14: r3=user+380 current, r4=user+12 target, r5=user+912 difference",
+    "interpolation_sequence": [
+      "82213E50",
+      "82214098",
+      "82214248",
+      "82214458"
+    ],
+    "final_result_sequence": [
+      "82214BC0",
+      "82213198",
+      "822136F0"
+    ],
+    "correction": "Supply the saved 64-byte numeric target before native differencing, only when all three pointers select observer user 0 and the player is seated. Do not overwrite the current command or final result in NativeObserver mode.",
+    "verified": "Run 18 and 19 native result and current/target command match the human snapshot byte for byte, including the motion-related triples. All attributed camera matrices match across 300 frames per run.",
+    "limitation": "This verifies observer fields, not a complete native savestate. Vehicle/player/weapon transform differences remain."
+  },
+  "measured_point": [
+    714,
+    210
+  ],
+  "point_frame_counts": {
+    "source_frames": 300,
+    "presented_frames": 300,
+    "stage_frames": 300
+  },
+  "point_draw_groups": [
+    {
+      "pass": "albedo",
+      "index_count": 28632,
+      "draws": 300,
+      "changed_rgb": 300
+    },
+    {
+      "pass": "albedo",
+      "index_count": 21858,
+      "draws": 300,
+      "changed_rgb": 300
+    },
+    {
+      "pass": "static",
+      "index_count": 28632,
+      "draws": 300,
+      "changed_rgb": 0
+    },
+    {
+      "pass": "static",
+      "index_count": 21858,
+      "draws": 300,
+      "changed_rgb": 300
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 28632,
+      "draws": 300,
+      "changed_rgb": 0
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 21858,
+      "draws": 257,
+      "changed_rgb": 0
+    }
+  ],
+  "unique_point_colors_by_pass_and_phase": [
+    {
+      "pass": "albedo",
+      "index_count": 28632,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.984313725490196,
+          0.9450980392156862,
+          0.9764705882352941,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "albedo",
+      "index_count": 28632,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.6274509803921569,
+          0.6274509803921569,
+          0.5725490196078431,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "albedo",
+      "index_count": 21858,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.6274509803921569,
+          0.6274509803921569,
+          0.5725490196078431,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "albedo",
+      "index_count": 21858,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.7725490196078432,
+          0.7607843137254902,
+          0.7137254901960784,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "static",
+      "index_count": 28632,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.7725490196078432,
+          0.7607843137254902,
+          0.7137254901960784,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "static",
+      "index_count": 28632,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.7725490196078432,
+          0.7607843137254902,
+          0.7137254901960784,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "static",
+      "index_count": 21858,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.7725490196078432,
+          0.7607843137254902,
+          0.7137254901960784,
+          1.0
+        ]
+      ]
+    },
+    {
+      "pass": "static",
+      "index_count": 21858,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.26666666666666666,
+          0.2627450980392157,
+          0.2980392156862745,
+          0.0
+        ]
+      ]
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 28632,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.26666666666666666,
+          0.2627450980392157,
+          0.2980392156862745,
+          0.0
+        ]
+      ]
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 28632,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.26666666666666666,
+          0.2627450980392157,
+          0.2980392156862745,
+          0.0
+        ]
+      ]
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 21858,
+      "phase": 0,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.26666666666666666,
+          0.2627450980392157,
+          0.2980392156862745,
+          0.0
+        ]
+      ]
+    },
+    {
+      "pass": "dynamic",
+      "index_count": 21858,
+      "phase": 1,
+      "unique_rgba": 1,
+      "values": [
+        [
+          0.26666666666666666,
+          0.2627450980392157,
+          0.2980392156862745,
+          0.0
+        ]
+      ]
+    }
+  ],
+  "relative_darkening_events": [
+    {
+      "frame": 3435,
+      "drop": 0.2258064516129032,
+      "ratio": 0.5867620751341682,
+      "source": {
+        "3434": [
+          0.7741935483870968,
+          0.7497556207233627,
+          0.8074291300097751,
+          1.0
+        ],
+        "3435": [
+          0.6344086021505376,
+          0.6197458455522972,
+          0.6510263929618768,
+          1.0
+        ],
+        "3436": [
+          0.7741935483870968,
+          0.7556207233626588,
+          0.804496578690127,
+          1.0
+        ]
+      },
+      "presented": {
+        "3434": [
+          0.4897360703812317,
+          0.4389051808406647,
+          0.552297165200391,
+          1.0
+        ],
+        "3435": [
+          0.2981427174975562,
+          0.2805474095796676,
+          0.3206256109481916,
+          1.0
+        ],
+        "3436": [
+          0.4897360703812317,
+          0.4496578690127077,
+          0.5464320625610948,
+          1.0
+        ]
+      },
+      "candidate_before_after_over_three_frames": [
+        {
+          "pass": "albedo",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.984313725490196,
+                0.9450980392156862,
+                0.9764705882352941,
+                1.0
+              ],
+              "after": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "albedo",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 3499,
+      "drop": 0.24437927663734116,
+      "ratio": 0.5874587458745875,
+      "source": {
+        "3498": [
+          0.8054740957966764,
+          0.7810361681329423,
+          0.8484848484848485,
+          1.0
+        ],
+        "3499": [
+          0.6490713587487781,
+          0.6373411534701857,
+          0.6715542521994134,
+          1.0
+        ],
+        "3500": [
+          0.7908113391984359,
+          0.7673509286412512,
+          0.8299120234604106,
+          1.0
+        ]
+      },
+      "presented": {
+        "3498": [
+          0.5483870967741935,
+          0.5024437927663734,
+          0.624633431085044,
+          1.0
+        ],
+        "3499": [
+          0.31867057673509286,
+          0.3020527859237537,
+          0.3479960899315738,
+          1.0
+        ],
+        "3500": [
+          0.5219941348973607,
+          0.4760508308895406,
+          0.592375366568915,
+          1.0
+        ]
+      },
+      "candidate_before_after_over_three_frames": [
+        {
+          "pass": "albedo",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.984313725490196,
+                0.9450980392156862,
+                0.9764705882352941,
+                1.0
+              ],
+              "after": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "albedo",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 3559,
+      "drop": 0.2267839687194526,
+      "ratio": 0.6081081081081081,
+      "source": {
+        "3558": [
+          0.8220918866080157,
+          0.7927663734115347,
+          0.8651026392961877,
+          1.0
+        ],
+        "3559": [
+          0.6510263929618768,
+          0.6373411534701857,
+          0.6744868035190615,
+          1.0
+        ],
+        "3560": [
+          0.7859237536656891,
+          0.7644183773216031,
+          0.8220918866080157,
+          1.0
+        ]
+      },
+      "presented": {
+        "3558": [
+          0.5786901270772239,
+          0.5249266862170088,
+          0.6500488758553274,
+          1.0
+        ],
+        "3559": [
+          0.3206256109481916,
+          0.3020527859237537,
+          0.3519061583577713,
+          1.0
+        ],
+        "3560": [
+          0.5112414467253177,
+          0.46920821114369504,
+          0.5786901270772239,
+          1.0
+        ]
+      },
+      "candidate_before_after_over_three_frames": [
+        {
+          "pass": "albedo",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.984313725490196,
+                0.9450980392156862,
+                0.9764705882352941,
+                1.0
+              ],
+              "after": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "albedo",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "frame": 3615,
+      "drop": 0.22678396871945267,
+      "ratio": 0.6006884681583475,
+      "source": {
+        "3614": [
+          0.7849462365591398,
+          0.7644183773216031,
+          0.8220918866080157,
+          1.0
+        ],
+        "3615": [
+          0.6451612903225806,
+          0.6314760508308895,
+          0.6656891495601173,
+          1.0
+        ],
+        "3616": [
+          0.7820136852394917,
+          0.7644183773216031,
+          0.8162267839687195,
+          1.0
+        ]
+      },
+      "presented": {
+        "3614": [
+          0.5102639296187683,
+          0.46920821114369504,
+          0.5786901270772239,
+          1.0
+        ],
+        "3615": [
+          0.3128054740957967,
+          0.29423264907135877,
+          0.3411534701857282,
+          1.0
+        ],
+        "3616": [
+          0.5043988269794721,
+          0.46920821114369504,
+          0.5679374389051809,
+          1.0
+        ]
+      },
+      "candidate_before_after_over_three_frames": [
+        {
+          "pass": "albedo",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.984313725490196,
+                0.9450980392156862,
+                0.9764705882352941,
+                1.0
+              ],
+              "after": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "albedo",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.6274509803921569,
+                0.6274509803921569,
+                0.5725490196078431,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "static",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.7725490196078432,
+                0.7607843137254902,
+                0.7137254901960784,
+                1.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 28632,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "pass": "dynamic",
+          "index_count": 21858,
+          "distinct_pairs": 1,
+          "values": [
+            {
+              "before": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ],
+              "after": [
+                0.26666666666666666,
+                0.2627450980392157,
+                0.2980392156862745,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "attribution": "At (714,210), four single-frame decreases recur 64,60,56 guest frames apart. The candidate albedo, static and sampled dynamic color-0 outputs are identical over each three-frame event window. The change is present in the final guest swap source before host gamma/FXAA and remains afterward. This bounds the measured change to later guest rendering or resource/resolve work; it does not identify the responsible pass or prove equivalence to the human-reported black flash.",
+  "gpu_fixture": {
+    "path": "work/sky-bridge/native-observer-build/event-probe-fixture/stages.csv",
+    "samples": 32,
+    "phases": 2,
+    "points": 16,
+    "all_coordinate_coded_values_exact": true,
+    "premature_read_rejected": true,
+    "frame_limit_passed": true
+  },
+  "build_logs": [
+    "work/sky-bridge/native-observer-build/build-early.log",
+    "work/sky-bridge/native-observer-build/build-event-probe.log",
+    "work/sky-bridge/native-observer-build/event-probe-test-build.log"
+  ],
+  "source_hashes": {
+    "sky_reproduction.h": "7f6f8204872a4fd6631d63eee7553a987f98e8a95fd5ceb425ba307c3dc068dc",
+    "sky_stage_probe.h": "799beecc87e3d917c49b7b2b18be6e7c9ffb13a42316d75b788aa7e89bee3432",
+    "write-observer-command.py": "b58fa1ef2e7f29094b5cc7f0d298e85885ab679d1900f77834379778808fdbe3",
+    "compare-native-observer.py": "104f703fcccae2483ffb06a04f91fc8eb593f17dfe1d75b6a118f0e878dbfc7c",
+    "trace-sample-coverage.py": "3f0ac33221e21f8f6534632aa7dfc52f1548e47a219759894bc1a59a5f9ed08e",
+    "trace-correlate-point.py": "626776bf41d171a94bff86086ae8b2c7ed7079e0ec196668a74cbf1f12fc146e"
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "next_step": "Trace later color-target changes at (714,210), retaining shader identity, resource identity and draw order. Include resolve/postprocessing boundaries. Near-black thresholds alone are insufficient; use the measured relative drops. Do not alter material/light behavior without attributing the event.",
+  "remaining": [
+    "Reported black flash and protruding-object lighting have no proven cause or fix.",
+    "Outdoor weather is authored and instantiated; visible particle contribution remains unverified.",
+    "Billboard readability and final visual/performance acceptance remain open."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

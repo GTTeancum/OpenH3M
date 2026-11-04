@@ -15,7 +15,7 @@ extern "C" void __imp__sub_8232F3D8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_82598838(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8213BC50(PPCContext&, uint8_t*);
-extern "C" void __imp__sub_82214BC0(PPCContext&, uint8_t*);
+extern "C" void __imp__sub_82214930(PPCContext&, uint8_t*);
 namespace sky_reproduction {
 inline uint32_t U(const uint8_t* base,uint32_t at) {
   uint32_t v;std::memcpy(&v,base+at,4);return std::byteswap(v);
@@ -113,14 +113,15 @@ class Reproduction {
   }
   void ObserverInput(PPCContext& ctx,uint8_t* base) {
     uint32_t tls;
-    if(!native_observer_||ctx.r3.u32!=0||!World(ctx,base,tls))return;
+    if(!native_observer_||!World(ctx,base,tls))return;
     const auto player=Object(base,tls,player_.load());
     if(!player||U(base,player+0x10)!=vehicle_.load())return;
     const auto observer=U(base,tls+0x2cc);if(!Ptr(observer))return;
-    // sub_82214BC0 reads the 16 numeric command fields at user+380:
-    // focus position, local offsets, window shift, distance, FOV and basis.
-    // Native basis, collision and BSP-location updates execute afterward.
-    std::memcpy(base+observer+4+380,observer_command_.data(),observer_command_.size());
+    // Only user 0's observer-update call to the native difference function.
+    // r3=current command, r4=target command, r5=difference output. Supplying
+    // the target before interpolation lets native motion fields settle too.
+    if(ctx.r3.u32!=observer+384||ctx.r4.u32!=observer+16||ctx.r5.u32!=observer+916)return;
+    std::memcpy(base+observer+16,observer_command_.data(),observer_command_.size());
   }
   void Input(PPCContext& ctx,uint8_t* base,uint32_t user,uint32_t destination) {
     uint32_t tls;
@@ -213,7 +214,7 @@ REX_HOOK_RAW(sub_8213BC50){
   __imp__sub_8213BC50(ctx,base);
   sky_reproduction::Reproduction::Get().Camera(ctx,base);
 }
-REX_HOOK_RAW(sub_82214BC0){
+REX_HOOK_RAW(sub_82214930){
   sky_reproduction::Reproduction::Get().ObserverInput(ctx,base);
-  __imp__sub_82214BC0(ctx,base);
+  __imp__sub_82214930(ctx,base);
 }

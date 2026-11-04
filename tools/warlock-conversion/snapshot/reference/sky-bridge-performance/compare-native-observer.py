@@ -12,7 +12,7 @@ def read_observer(snapshot):
     record = snapshot['blobs']['observer']
     delta = address - int(record['guest_address'], 16)
     data = bytes.fromhex(record['bytes'])
-    if delta < 0 or delta + 448 > len(data):
+    if delta < 0 or delta + 548 > len(data):
         raise ValueError('Observer extends outside captured allocation')
     data = data[delta:]
     def floats(offset, count):
@@ -35,6 +35,8 @@ def read_observer(snapshot):
         'command_up': floats(0x1b4, 3),
         'motion_input_user_496': floats(4+496, 3),
         'motion_input_user_536': floats(4+536, 3),
+        'target_command_sha256': hashlib.sha256(data[16:80]).hexdigest(),
+        'target_equals_current_command': data[16:80] == data[384:448],
         'result_sha256': hashlib.sha256(data[0x110:0x180]).hexdigest(),
         'command_sha256': hashlib.sha256(data[0x180:0x1c0]).hexdigest()}
     return result

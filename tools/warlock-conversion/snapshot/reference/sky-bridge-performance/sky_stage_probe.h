@@ -12,9 +12,11 @@ class SkyStageProbe {
  public:
   static SkyStageProbe& Get(){static SkyStageProbe probe;return probe;}
   inline static constexpr std::array<std::array<uint32_t,2>,16> points{{
-    {664,193},{720,193},{748,205},{720,217},{888,181},{888,205},
-    {916,205},{945,193},{1001,193},{1029,205},{888,229},{945,229},
-    {973,229},{1001,229},{973,241},{945,253}}};
+    // Measured relative-darkening coordinates from reproduction 18, plus
+    // former controls. Geometry coverage alone is not visible ownership.
+    {714,210},{710,175},{708,257},{708,248},{646,185},{714,203},
+    {714,189},{714,199},{720,193},{756,248},{756,177},{888,205},
+    {945,193},{1001,193},{973,229},{945,253}}};
   struct Slot {
     Microsoft::WRL::ComPtr<ID3D12Resource> buffer;
     uint64_t submission=0,frame=0,sequence=0,shader=0,resource=0;

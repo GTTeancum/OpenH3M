@@ -11,6 +11,8 @@ import numpy as np
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('trace_dir',type=Path)
+parser.add_argument('--region-events',type=Path,
+                    help='Test measured relative-darkening coordinates from this region CSV.')
 args=parser.parse_args(); root=args.trace_dir
 repo=Path(__file__).resolve().parents[5];root.resolve().relative_to(repo)
 sys.path.insert(0,str(repo/'tools/warlock-conversion/snapshot/tools'))
@@ -45,6 +47,17 @@ for state,count in viewport_variants.items():
                               'vte':hex(vte),'scissor_width':width,'scissor_height':height})
 points=np.array([[int(r['x']),int(r['y'])] for r in rows if r['frame']==first['frame']])
 if len(points)!=144 or len(set(map(tuple,points)))!=144:raise ValueError('Incomplete or duplicate sample grid')
+event_count=0
+if args.region_events:
+    args.region_events.resolve().relative_to(repo)
+    with args.region_events.open() as stream:
+        events=[r for r in csv.DictReader(stream) if r['event']=='sample' and float(r['worst_pulse_drop'])>51/1023]
+    if not events:raise ValueError('No relative-darkening coordinates')
+    if any((int(r['viewport_width']),int(r['viewport_height']))!=(width,height) for r in events):
+        raise ValueError('Event viewport differs from recorded geometry viewport')
+    points=np.array(sorted({(int(r['worst_x']),int(r['worst_y'])) for r in events}))
+    if any(not (0<=x<width and 0<=y<height) for x,y in points):raise ValueError('Event point outside viewport')
+    event_count=len(events)
 uv=(points+.5)/[width,height]
 cache=Cache('work/sky-bridge/payload-32/sky_bridge.map')
 cache.shared_paths={'maps\\shared.map':Path('C:/X360/ISOs/H3M/maps/shared.map')}
@@ -95,6 +108,10 @@ for group in groups:
 report={'width':width,'height':height,'viewport_evidence':viewport_evidence,'results':results,
         'limitation':'Geometric coverage only: does not establish visibility through other objects, front-face acceptance, MSAA sample coverage, or correspondence to the human-circled surface.',
         'vertex_transform_evidence':'Live VS 17757447148780339854: fetch 12, decompression 22, model 24-29, homogeneous 36, projection 50-53, position export 101. c255 is (0,1,31.75,0.001). Vertex fetch 95 uses endian 8-in-32, and y/x/w swizzle recovers big-endian u16 XYZ.'}
-(root/'sample-triangle-coverage.json').write_text(json.dumps(report,indent=2)+'\n')
-for result in results:print(result['mesh'],result['covered_sample_points'])
+report['query']={'kind':'relative_darkening_event_coordinates' if args.region_events else 'sparse_pixel_probe',
+                 'event_rows':event_count,'unique_points':len(points)}
+output='region-event-triangle-coverage.json' if args.region_events else 'sample-triangle-coverage.json'
+(root/output).write_text(json.dumps(report,indent=2)+'\n')
+for result in results:
+    print(result['mesh'],len(result['covered_sample_points']),'covered points' if args.region_events else result['covered_sample_points'])
 cache.close()
