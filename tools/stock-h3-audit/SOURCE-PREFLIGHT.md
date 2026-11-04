@@ -321,3 +321,69 @@ Still required: finish H3 material assignments and outstanding geometry metadata
 then official import/compile/light, user-driven MCC visual/gameplay review and
 explicit approval. No 360 conversion or shared-install changes have occurred.
 Rainbow/decorative laser import remains a proposal awaiting user approval.
+
+### Additional terrain authoring and stock shader reuse
+
+The next goal turn completed four additional terrain materials: cliff skybox,
+cliff-rock skybox, ramps and cliff boulders. The first three match Standoff's
+four-layer diffuse configuration. Cliff boulders match Guardian's three-layer
+diffuse configuration. Guardian's original authoring parameter blocks had
+different animation layouts and a missing legacy bitmap path, so the fresh
+material uses Standoff's existing parameter layout and bitmap import settings,
+with the fourth layer disabled through official Tool's option field. Its option
+vector exactly matches Guardian and its template is stock `_0_0_0_0_0_0`, verified
+in original Xbox 360 Guardian, Valhalla and Sandtrap inventories. No new shader
+code, parameter block serializer, or replacement render function was written.
+
+`author_terrain_trial.py --surface NAME` supports these explicit surface choices.
+It verifies source/stock category names, source hashes, saved bitmap references
+and copied original texture functions. Identical already-imported image bytes
+are reused; mismatched or incomplete existing images fail. H3's neutral vector
+bitmap was exported through official Tool and confirmed constant over all 4x4
+pixels, so differing UV-transform block layouts on that neutral image can be
+omitted without inventing a replacement function. Those omissions are recorded.
+
+`apply_terrain_scalar_inputs.py` then assigns original scalar/color functions to
+matching active stock inputs and binds the existing stock template. In this
+batch it preserves the original Reach global brightness multiplier for all five
+terrain materials; retaining the donor's multiplier would have unintentionally
+darkened the imported textures. It verifies each saved function and confirms
+the selected template in a stock 360 tag inventory. Native Tool block-resize
+experimentation reported success without changing the block; it is not a usable
+authoring method and no custom block writer was substituted.
+
+The final saved-tag verification covers five terrain materials, 25 distinct
+imported images, 77 texture assignments, 57 original tiling functions and five
+original brightness functions. All recorded original image/tag hashes remain
+unchanged. Evidence: `terrain-saved-input-verification.json`, the four
+`ca_bcreek_*-terrain-trial-report.json` files, and `terrain-scalar-inputs/`.
+These are authoring-field checks, not rendered appearance or collision approval.
+
+An explicit official `compile-shader ... win` trial attempted to rebuild the
+already supplied terrain shader code. It emitted a missing Durango compiler
+error and PC/Durango constant-table mismatch errors even though its process
+returned zero. This is not a successful compile. The five shared/template
+binary tags touched by that attempt were restored from the official H3EK archive
+and verified against its CRC and size. Evidence: `terrain-official-compile-shader.log`,
+`stock-terrain-restore-archive.txt`, `restore-stock-terrain-binaries.log`, and
+`stock-terrain-binaries-restored.json`. Reuse the supplied stock shader binaries;
+do not patch shader code or fetch a private console SDK to address this trial.
+It does not establish whether the complete official map build succeeds.
+
+Stock option inspection now covers 23 terrain shader candidates and is extended
+to the 93 ordinary shader candidates for the next building-material pass.
+`inspect_h3_terrain_options.py --kind shader` uses official Tool XML exports;
+categories missing from older stock authoring tags are explicitly marked as
+defaulted, not silently claimed as source-authored. Source shader inspection
+also records function-editor constants through the official Reach API, avoiding
+hand-decoding curve data when determining whether a transform is an identity.
+
+`compare_shader_configurations.py` identifies 47 of 90 ordinary Reach surfaces
+with candidates matching the nine surface categories (albedo through parallax).
+This is deliberately not a full shader match: Reach `misc=default` differs from
+H3 `misc=first_person_never`, and Reach wetness/alpha-source and the later H3
+categories remain separately reported. The wall-detail shader has Standoff
+`bunker_plate_brackets` and `bunker_plate_wall` candidates; the main base-building
+and glowing wall-detail setups have no exact nine-category candidate in this
+set. Inspect active inputs and animation layouts next. Do not use obsolete
+parameter-name overlap or these category matches alone to assign materials.

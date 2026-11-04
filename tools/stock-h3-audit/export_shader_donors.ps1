@@ -1,5 +1,5 @@
 # Read stock H3 authoring tags using the official editing kit command.
-param([switch]$AllStandoffSurfaces)
+param([switch]$AllStandoffSurfaces, [switch]$OtherStockTerrains)
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $audit = Join-Path $repo 'work/stock-h3-audit'
@@ -16,6 +16,15 @@ if ($AllStandoffSurfaces) {
     $donors += Import-Csv (Join-Path $audit 'standoff-all-tags.csv') |
         Where-Object { $_.path.StartsWith('levels\dlc\bunkerworld\') -and $_.group -in @('shader','shader_terrain','shader_foliage','shader_water','shader_glass') } |
         ForEach-Object { [pscustomobject]@{stock_tag=($_.path + '.' + $_.group)} }
+}
+if ($OtherStockTerrains) {
+    foreach ($map in @('guardian', 'riverworld', 'shrine')) {
+        foreach ($line in Get-Content (Join-Path $audit ($map + '-all-tags.txt'))) {
+            if ($line -match '\] (.+\.shader_terrain)$') {
+                $donors += [pscustomobject]@{stock_tag=$Matches[1]}
+            }
+        }
+    }
 }
 $donors = $donors | Sort-Object stock_tag -Unique
 Push-Location $kit

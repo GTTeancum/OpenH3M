@@ -4,6 +4,7 @@ One kit per process. Does not copy, save, translate, or generate any shader.
 """
 import argparse
 import base64
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -32,6 +33,16 @@ def fields_to_data(fields):
         elif isinstance(field, Bungie.Tags.TagFieldData):
             row['bytes'] = int(field.ByteCount)
             row['data_base64'] = base64.b64encode(bytes(field.GetData())).decode('ascii')
+        elif str(field.GetType().Name)=='TagFieldCustomFunctionEditor':
+            editor=field.Value
+            colors=[]
+            for index in range(editor.ColorCount):
+                color=editor.GetColor(index)
+                if color.ColorMode==1:color=color.ToRgb()
+                colors.append([float(color.Red),float(color.Green),float(color.Blue),float(color.Alpha)])
+            row['function_editor']=dict(master_type=int(editor.MasterType.value__),
+                color_graph_type=int(editor.ColorGraphType.value__),is_ranged=bool(editor.IsRanged),
+                clamp_min=float(editor.ClampRangeMin),clamp_max=float(editor.ClampRangeMax),colors=colors)
         elif hasattr(field, 'GetStringData'):
             row['value'] = str(field.GetStringData())
         elif hasattr(field, 'Value'):
@@ -48,6 +59,8 @@ result = {}
 try:
     for path in paths:
         tag = Bungie.Tags.TagFile()
+        original=kit/'tags'/path
+        before=hashlib.sha256(original.read_bytes()).hexdigest()
         try:
             tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*path.rsplit('.', 1)))
             method = tag.SelectField('Struct:render_method').Elements[0]
@@ -59,6 +72,7 @@ try:
                     paths.append(inherited_path)
         finally:
             tag.Dispose()
+        assert hashlib.sha256(original.read_bytes()).hexdigest()==before, path
     target = OUT / (args.game + '-shader-setups.json')
     target.write_text(json.dumps(result, indent=2) + '\n')
     print('SHADER_SETUP_INSPECTION', args.game, len(result), str(target), flush=True)
