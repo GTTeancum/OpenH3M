@@ -1,0 +1,38 @@
+{
+  "target_material": 9862,
+  "source_float_constants_exact": true,
+  "source_booleans_exact": true,
+  "material_texture_float_matches_source": true,
+  "sampler_controls_exact": true,
+  "no_bump_sampler": true,
+  "blend_mode": 4,
+  "native_program_route_checks": 12,
+  "textures": [
+    {
+      "name": "base_map",
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_decals_04_diff",
+      "target": 9861
+    },
+    {
+      "name": "detail_map",
+      "source": "shaders\\default_bitmaps\\bitmaps\\default_detail",
+      "target": 19
+    },
+    {
+      "name": "alpha_test_map",
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_decals_04_diff",
+      "target": 9861
+    },
+    {
+      "name": "specular_mask_texture",
+      "source": "shaders\\default_bitmaps\\bitmaps\\color_white",
+      "target": 38
+    },
+    {
+      "name": "material_texture",
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\decals_sky_bridge_material_texture",
+      "target": 9706
+    }
+  ],
+  "limitation": "No visual or runtime verification; no performance claim"
+}

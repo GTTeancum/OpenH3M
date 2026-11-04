@@ -1,0 +1,37 @@
+{
+  "target_material": 9392,
+  "animations": 4,
+  "animation_routes": 40,
+  "source_constants_exact": true,
+  "animation_consumers_exact": true,
+  "source_function_payloads_endian_exact": true,
+  "sampler_controls_exact": true,
+  "blend_mode": 3,
+  "textures": [
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_puddles_01_diff",
+      "target": 9389
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\ca_new_outdoor_floor_02_diff",
+      "target": 9230
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_puddles_detail_01_zbump",
+      "target": 9307
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_puddles_detail_02_zbump",
+      "target": 9390
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_puddles_detail_01_mask",
+      "target": 9391
+    },
+    {
+      "source": "shaders\\default_bitmaps\\bitmaps\\gray_50_percent",
+      "target": 18
+    }
+  ],
+  "limitation": "Structural evidence only; runtime appearance and performance unverified"
+}

@@ -1,0 +1,278 @@
+[
+  {
+    "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_ext",
+    "names": {
+      "0": [
+        "base_map",
+        "detail_map",
+        "bump_map",
+        "bump_detail_map",
+        "bump_detail_mask_map",
+        "bump_detail_masked_map",
+        "specular_mask_texture",
+        "material_texture"
+      ],
+      "4": [
+        "base_map",
+        "detail_map",
+        "albedo_color",
+        "bump_map",
+        "bump_detail_map",
+        "bump_detail_mask_map",
+        "bump_detail_masked_map",
+        "bump_detail_coefficient",
+        "bump_detail_masked_coefficient",
+        "specular_mask_texture",
+        "diffuse_coefficient",
+        "specular_coefficient",
+        "specular_tint",
+        "fresnel_color",
+        "roughness",
+        "area_specular_contribution",
+        "analytical_specular_contribution",
+        "environment_map_specular_contribution",
+        "material_texture",
+        "albedo_blend",
+        "analytical_anti_shadow_control",
+        "env_tint_color",
+        "env_roughness_scale"
+      ],
+      "5": [],
+      "6": [
+        "order3_area_specular",
+        "use_material_texture",
+        "no_dynamic_lights"
+      ]
+    },
+    "functions": [
+      {
+        "index": 0,
+        "kind": 6,
+        "input": "",
+        "range": "",
+        "period": 3.0,
+        "bytes": 32,
+        "source_hex": "00340000000000000000803f0000000000000000000000000000000000000000",
+        "converted_hex": "00340000000000003f8000000000000000000000000000000000000000000000",
+        "sha256": "95206982b84480ca72fac438297e3f3bd90792bd0770fa0f91e2ecbc58aa1d15"
+      },
+      {
+        "index": 1,
+        "kind": 6,
+        "input": "",
+        "range": "",
+        "period": 10.0,
+        "bytes": 32,
+        "source_hex": "00340000000000000000803f0000000000000000000000000000000000000000",
+        "converted_hex": "00340000000000003f8000000000000000000000000000000000000000000000",
+        "sha256": "95206982b84480ca72fac438297e3f3bd90792bd0770fa0f91e2ecbc58aa1d15"
+      }
+    ],
+    "consumers": [
+      {
+        "entry": 1,
+        "usage": 2,
+        "route": 0,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 1,
+        "usage": 2,
+        "route": 1,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "usage": 2,
+        "route": 2,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 3,
+        "usage": 2,
+        "route": 3,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "usage": 2,
+        "route": 4,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 4,
+        "usage": 2,
+        "route": 5,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "usage": 2,
+        "route": 6,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 5,
+        "usage": 2,
+        "route": 7,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "usage": 2,
+        "route": 8,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 6,
+        "usage": 2,
+        "route": 9,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "usage": 2,
+        "route": 10,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 7,
+        "usage": 2,
+        "route": 11,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "usage": 2,
+        "route": 12,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 8,
+        "usage": 2,
+        "route": 13,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 9,
+        "usage": 2,
+        "route": 14,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 9,
+        "usage": 2,
+        "route": 15,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 13,
+        "usage": 2,
+        "route": 16,
+        "register": 28929,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 13,
+        "usage": 2,
+        "route": 17,
+        "register": 28931,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      },
+      {
+        "entry": 17,
+        "usage": 2,
+        "route": 18,
+        "register": 28932,
+        "function": 0,
+        "constant": 4,
+        "name": "bump_detail_map",
+        "flags": 0
+      },
+      {
+        "entry": 17,
+        "usage": 2,
+        "route": 19,
+        "register": 28934,
+        "function": 1,
+        "constant": 6,
+        "name": "bump_detail_masked_map",
+        "flags": 0
+      }
+    ],
+    "animated_parameters": [
+      "bump_detail_map",
+      "bump_detail_masked_map"
+    ]
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "target_material": 9674,
+  "animations": 1,
+  "animation_routes": 10,
+  "source_constants_exact": true,
+  "animation_consumers_exact": true,
+  "source_function_payloads_endian_exact": true,
+  "sampler_controls_exact": true,
+  "blend_mode": 3,
+  "textures": [
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_window_02",
+      "target": 9250
+    },
+    {
+      "source": "shaders\\default_bitmaps\\bitmaps\\default_detail",
+      "target": 19
+    },
+    {
+      "source": "levels\\solo\\s3d_tutorial\\bitmaps\\unsc_glass_01_diff",
+      "target": 9251
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_puddles_detail_01_zbump",
+      "target": 9307
+    },
+    {
+      "source": "levels\\solo\\s3d_tutorial\\bitmaps\\unsc_glass_01_zbump",
+      "target": 9308
+    },
+    {
+      "source": "shaders\\default_bitmaps\\bitmaps\\color_white",
+      "target": 38
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\bitmaps\\sbr_window_02_material_texture",
+      "target": 9252
+    }
+  ],
+  "limitation": "Structural evidence only; runtime appearance and performance unverified"
+}

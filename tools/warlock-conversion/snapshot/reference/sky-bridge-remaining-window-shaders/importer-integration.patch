@@ -1,0 +1,58 @@
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -876,6 +876,19 @@
+             variants = [6,2,0,1,2,2,4,1,0,0]
+             sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
+             prisoner_template = True
++        alpha_card_root = os.environ.get('OPENH3M_SKY_ALPHA_CARD_SHADER_ROOT')
++        sky_alpha_card = bool(alpha_card_root and source_filename == 's3d_sky_bridgenew.map'
++            and key[0] == 'rmsh' and (datum & 65535) in (12294,12159,12412,12416,12220))
++        sky_alpha_card_evidence = None
++        if sky_alpha_card:
++            from sky_bridge_alpha_card import PROFILES
++            alpha_profile, alpha_name, alpha_template, alpha_functions = PROFILES[datum & 65535]
++            if s.name(s.u(source_post+12)&65535) != 'shaders\\shader_templates\\'+alpha_template:
++                raise ValueError('Sky alpha-card source profile changed')
++            alpha_card_directory = os.path.join(alpha_card_root,alpha_profile+'-native-01')
++            variants = [int(v) for v in alpha_template.split('_') if v][:10]
++            sky_template = r'shaders\shader_templates\_0_2_0_1_1_2_0_3_0_0'
++            prisoner_template = True
+         decal_card_directory = os.environ.get('OPENH3M_SKY_DECAL_CARD_SHADER_DIR')
+         sky_decal_card = bool(decal_card_directory and source_filename == 's3d_sky_bridgenew.map'
+             and key[0] == 'rmsh' and key[1].rsplit('\\',1)[-1] in (
+@@ -935,6 +948,8 @@
+                 donor_options = dict(preferred_map='bunkerworld.map')
+             if powerhouse_compiled_corrugated:
+                 donor_options = dict(preferred_map='construct.map')
++            if sky_alpha_card:
++                donor_options = dict(preferred_map='armory.map')
+             if sky_decal_card:
+                 donor_options = dict(preferred_map='armory.map')
+             if sky_window:
+@@ -944,6 +959,9 @@
+             if sky_water_card:
+                 donor_options = dict(preferred_map='salvation.map')
+             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
++            if sky_alpha_card:
++                from sky_bridge_alpha_card import bind_alpha_card
++                native_sky_post, names, sky_alpha_card_evidence = bind_alpha_card(self, native_sky_post, names, alpha_card_directory, datum & 65535)
+             if sky_decal_card:
+                 from sky_bridge_decal_card import bind_decal_card
+                 native_sky_post, names, sky_decal_card_evidence = bind_decal_card(self, native_sky_post, names, decal_card_directory, datum & 65535)
+@@ -1090,7 +1108,7 @@
+                 bitmap = self.bitmap(bitmap_datum)
+             struct.pack_into('>I', textures, index * 24 + 12, bitmap)
+             if prisoner_template and (getattr(self, 'boarding_action', False) or
+-                    source_filename == 's3d_powerhouse.map' or sky_screen or sky_window or sky_water_card or sky_decal_card):
++                    source_filename == 's3d_powerhouse.map' or sky_screen or sky_window or sky_water_card or sky_decal_card or sky_alpha_card):
+                 # Exact shader programs do not imply identical material sampling.
+                 # Preserve authored image/address/filter/external selection while
+                 # retaining the donor's name-matched constant transform index.
+@@ -1249,6 +1267,7 @@
+                 if autoturret_emission else None),
+             'native_neutral_emission_detail': lockout_neutral_emission_detail,
+             'powerhouse_screen_inert_specular_mask': powerhouse_screen,
++            'sky_bridge_compiled_alpha_card': sky_alpha_card_evidence,
+             'sky_bridge_compiled_decal_card': sky_decal_card_evidence,
+             'sky_bridge_compiled_water_card': sky_water_card_evidence,
+             'sky_bridge_compiled_window': sky_window_evidence,

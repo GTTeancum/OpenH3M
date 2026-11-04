@@ -1,0 +1,90 @@
+{
+  "source": [
+    {
+      "id": 12159,
+      "entry_count": 18,
+      "distortion_entry_active": false,
+      "distortion_parameters": []
+    },
+    {
+      "id": 12412,
+      "entry_count": 18,
+      "distortion_entry_active": false,
+      "distortion_parameters": []
+    },
+    {
+      "id": 12416,
+      "entry_count": 18,
+      "distortion_entry_active": false,
+      "distortion_parameters": []
+    }
+  ],
+  "compiled_programs": [
+    {
+      "program": "active_camo-ps.bin",
+      "microcode_equal": true,
+      "sha256": "693ae53d2581f3ca2a3ba3d6e0dfc281b3e27727f03e99b7f6525584a7aae08d"
+    },
+    {
+      "program": "albedo-ps.bin",
+      "microcode_equal": true,
+      "sha256": "4bdec693af2004b4967cb96b313dd5beeeab6a6ff77bab1d662abcc1c5105c0d"
+    },
+    {
+      "program": "dynamic_light-ps.bin",
+      "microcode_equal": true,
+      "sha256": "4cc14d8c5db1123902b3e29fdf43e84b762a31c63cb81c2d5eddfd4a5e09192c"
+    },
+    {
+      "program": "dynamic_light_cinematic-ps.bin",
+      "microcode_equal": true,
+      "sha256": "9528a7f4c3bd9595de0ba8439c261c4958bfd746e8013630da9504ee844fa8e1"
+    },
+    {
+      "program": "lightmap_debug_mode-ps.bin",
+      "microcode_equal": true,
+      "sha256": "93d2754cc3993bc1a4ccb8343e59a65e5a73497c63d7f25e0f89dca0a7a08cb8"
+    },
+    {
+      "program": "shadow_generate-ps.bin",
+      "microcode_equal": true,
+      "sha256": "ef1baed471e39f57afcc8d11a0113fdc9e78b9ccd0555b8522456f5133db484c"
+    },
+    {
+      "program": "static_per_pixel-ps.bin",
+      "microcode_equal": true,
+      "sha256": "4bd6ee21b6b9dafd8863e1efcaf6605570bed1827a3026b7bb22dc7965b9483c"
+    },
+    {
+      "program": "static_per_vertex-ps.bin",
+      "microcode_equal": true,
+      "sha256": "ae47af3457b7ba54a41528da7caa0ac18a60fe3c9148d18d5644cf0f5935b747"
+    },
+    {
+      "program": "static_per_vertex_color-ps.bin",
+      "microcode_equal": true,
+      "sha256": "41a56d8e145f944c5eabce642db02ab7546f35b53096eec8a38202cfc05228b4"
+    },
+    {
+      "program": "static_prt_ambient-ps.bin",
+      "microcode_equal": true,
+      "sha256": "34dd15b12f6c0ec8350d34bd991ac935a49854d5485061c4e35f3d6ebc04025e"
+    },
+    {
+      "program": "static_prt_linear-ps.bin",
+      "microcode_equal": true,
+      "sha256": "34dd15b12f6c0ec8350d34bd991ac935a49854d5485061c4e35f3d6ebc04025e"
+    },
+    {
+      "program": "static_prt_quadratic-ps.bin",
+      "microcode_equal": true,
+      "sha256": "34dd15b12f6c0ec8350d34bd991ac935a49854d5485061c4e35f3d6ebc04025e"
+    },
+    {
+      "program": "static_sh-ps.bin",
+      "microcode_equal": true,
+      "sha256": "fd0647752da0a2a92eeec8f3a639fa48dd740f30997a02738651366c7ed0ecf9"
+    }
+  ],
+  "conclusion": "The source distortion-on option has no active sfx_distort entry or distortion parameters. Preserving its compiler define produces identical code in all 13 used/compiled lighting entries; no active source distortion pass is omitted."
+}

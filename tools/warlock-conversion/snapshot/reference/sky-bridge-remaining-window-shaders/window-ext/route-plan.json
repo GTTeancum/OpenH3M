@@ -1,0 +1,5353 @@
+{
+  "names": {
+    "0": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "bump_detail_map",
+      "bump_detail_mask_map",
+      "bump_detail_masked_map",
+      "specular_mask_texture",
+      "material_texture"
+    ],
+    "4": [
+      "base_map",
+      "detail_map",
+      "albedo_color",
+      "bump_map",
+      "bump_detail_map",
+      "bump_detail_mask_map",
+      "bump_detail_masked_map",
+      "bump_detail_coefficient",
+      "bump_detail_masked_coefficient",
+      "specular_mask_texture",
+      "diffuse_coefficient",
+      "specular_coefficient",
+      "specular_tint",
+      "fresnel_color",
+      "roughness",
+      "area_specular_contribution",
+      "analytical_specular_contribution",
+      "environment_map_specular_contribution",
+      "material_texture",
+      "albedo_blend",
+      "analytical_anti_shadow_control",
+      "env_tint_color",
+      "env_roughness_scale",
+      "use_material_texture"
+    ],
+    "5": [],
+    "6": [
+      "order3_area_specular",
+      "use_material_texture",
+      "no_dynamic_lights"
+    ]
+  },
+  "externs": {
+    "albedo_texture": [
+      7,
+      1,
+      0,
+      0
+    ],
+    "normal_texture": [
+      7,
+      2,
+      0,
+      0
+    ],
+    "lightprobe_texture_array": [
+      7,
+      11,
+      0,
+      0
+    ],
+    "dominant_light_intensity_map": [
+      7,
+      12,
+      0,
+      0
+    ],
+    "g_sampler_cc0236": [
+      7,
+      24,
+      0,
+      0
+    ],
+    "g_sampler_dd0236": [
+      7,
+      25,
+      0,
+      0
+    ],
+    "dynamic_environment_map_0": [
+      7,
+      22,
+      0,
+      0
+    ],
+    "dynamic_environment_map_1": [
+      7,
+      23,
+      0,
+      0
+    ],
+    "g_sampler_c78d78": [
+      7,
+      26,
+      0,
+      0
+    ],
+    "shadow_depth_map_1": [
+      7,
+      4,
+      0,
+      0
+    ],
+    "dynamic_light_gel_texture": [
+      7,
+      38,
+      0,
+      0
+    ],
+    "scene_ldr_texture": [
+      7,
+      45,
+      0,
+      0
+    ],
+    "depth_map": [
+      7,
+      3,
+      0,
+      0
+    ]
+  },
+  "persistent": {
+    "camera_position_ps": [
+      2,
+      16,
+      1
+    ],
+    "hdr_gamma2": [
+      0,
+      15,
+      1
+    ],
+    "ldr_gamma2": [
+      0,
+      14,
+      1
+    ],
+    "actually_calc_albedo": [
+      0,
+      0,
+      1
+    ],
+    "dynamic_environment_blend": [
+      2,
+      15,
+      1
+    ],
+    "g_exposure": [
+      2,
+      0,
+      1
+    ],
+    "p_lightmap_compress_constant_0": [
+      2,
+      210,
+      1
+    ],
+    "p_lightmap_compress_constant_1": [
+      2,
+      211,
+      1
+    ],
+    "p_tiling_vpos_offset": [
+      2,
+      108,
+      1
+    ],
+    "simple_light_count_int": [
+      1,
+      0,
+      1
+    ],
+    "simple_lights": [
+      2,
+      18,
+      80
+    ],
+    "k_ps_dominant_light_direction": [
+      2,
+      11,
+      1
+    ],
+    "k_ps_dominant_light_intensity": [
+      2,
+      13,
+      1
+    ],
+    "p_lighting_constant_0": [
+      2,
+      1,
+      1
+    ],
+    "p_lighting_constant_1": [
+      2,
+      2,
+      1
+    ],
+    "p_lighting_constant_2": [
+      2,
+      3,
+      1
+    ],
+    "p_lighting_constant_3": [
+      2,
+      4,
+      1
+    ],
+    "p_lighting_constant_4": [
+      2,
+      5,
+      1
+    ],
+    "p_lighting_constant_5": [
+      2,
+      6,
+      1
+    ],
+    "p_lighting_constant_6": [
+      2,
+      7,
+      1
+    ],
+    "p_lighting_constant_7": [
+      2,
+      8,
+      1
+    ],
+    "p_lighting_constant_8": [
+      2,
+      9,
+      1
+    ],
+    "p_lighting_constant_9": [
+      2,
+      10,
+      1
+    ],
+    "dynamic_light_shadowing": [
+      0,
+      13,
+      1
+    ],
+    "p_dynamic_light_gel_xform": [
+      2,
+      5,
+      1
+    ],
+    "k_ps_active_camo_factor": [
+      2,
+      232,
+      1
+    ],
+    "texture_size": [
+      2,
+      14,
+      1
+    ],
+    "p_render_debug_mode": [
+      2,
+      94,
+      1
+    ]
+  },
+  "programs": [
+    {
+      "entry": 1,
+      "name": "albedo",
+      "shader": 0,
+      "registers": [
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": []
+    },
+    {
+      "entry": 3,
+      "name": "static_per_pixel",
+      "shader": 1,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "p_lightmap_compress_constant_0",
+          "set": 2,
+          "register": 210,
+          "count": 1
+        },
+        {
+          "name": "p_lightmap_compress_constant_1",
+          "set": 2,
+          "register": 211,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "lightprobe_texture_array",
+          "set": 3,
+          "register": 12,
+          "count": 1
+        },
+        {
+          "name": "dominant_light_intensity_map",
+          "set": 3,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            12,
+            11,
+            0
+          ],
+          [
+            13,
+            12,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset",
+        "p_lightmap_compress_constant_0",
+        "p_lightmap_compress_constant_1"
+      ]
+    },
+    {
+      "entry": 4,
+      "name": "static_per_vertex",
+      "shader": 3,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 5,
+      "name": "static_sh",
+      "shader": 2,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_direction",
+          "set": 2,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_intensity",
+          "set": 2,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_c78d78",
+          "set": 3,
+          "register": 16,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ],
+          [
+            16,
+            26,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "k_ps_dominant_light_direction",
+        "k_ps_dominant_light_intensity",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 6,
+      "name": "static_prt_ambient",
+      "shader": 5,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_direction",
+          "set": 2,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_intensity",
+          "set": 2,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_c78d78",
+          "set": 3,
+          "register": 16,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ],
+          [
+            16,
+            26,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "k_ps_dominant_light_direction",
+        "k_ps_dominant_light_intensity",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 7,
+      "name": "static_prt_linear",
+      "shader": 6,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_direction",
+          "set": 2,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_intensity",
+          "set": 2,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_c78d78",
+          "set": 3,
+          "register": 16,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ],
+          [
+            16,
+            26,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "k_ps_dominant_light_direction",
+        "k_ps_dominant_light_intensity",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 8,
+      "name": "static_prt_quadratic",
+      "shader": 7,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "order3_area_specular",
+          "set": 0,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "no_dynamic_lights",
+          "set": 0,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_0",
+          "set": 2,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_1",
+          "set": 2,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_2",
+          "set": 2,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_3",
+          "set": 2,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_4",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_5",
+          "set": 2,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_6",
+          "set": 2,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_7",
+          "set": 2,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_8",
+          "set": 2,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "p_lighting_constant_9",
+          "set": 2,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_direction",
+          "set": 2,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "k_ps_dominant_light_intensity",
+          "set": 2,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_blend",
+          "set": 2,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "area_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "environment_map_specular_contribution",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 125,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 126,
+          "count": 1
+        },
+        {
+          "name": "analytical_anti_shadow_control",
+          "set": 2,
+          "register": 127,
+          "count": 1
+        },
+        {
+          "name": "env_tint_color",
+          "set": 2,
+          "register": 128,
+          "count": 1
+        },
+        {
+          "name": "env_roughness_scale",
+          "set": 2,
+          "register": 129,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_0",
+          "set": 3,
+          "register": 1,
+          "count": 1
+        },
+        {
+          "name": "dynamic_environment_map_1",
+          "set": 3,
+          "register": 2,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_cc0236",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_dd0236",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_sampler_c78d78",
+          "set": 3,
+          "register": 16,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            15,
+            0
+          ],
+          [
+            119,
+            16,
+            0
+          ],
+          [
+            120,
+            17,
+            0
+          ],
+          [
+            121,
+            18,
+            0
+          ],
+          [
+            122,
+            23,
+            0
+          ],
+          [
+            123,
+            13,
+            0
+          ],
+          [
+            124,
+            14,
+            0
+          ],
+          [
+            125,
+            19,
+            0
+          ],
+          [
+            126,
+            12,
+            0
+          ],
+          [
+            127,
+            20,
+            0
+          ],
+          [
+            128,
+            21,
+            0
+          ],
+          [
+            129,
+            22,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            1,
+            22,
+            0
+          ],
+          [
+            2,
+            23,
+            0
+          ],
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            24,
+            0
+          ],
+          [
+            15,
+            25,
+            0
+          ],
+          [
+            16,
+            26,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "p_lighting_constant_0",
+        "p_lighting_constant_1",
+        "p_lighting_constant_2",
+        "p_lighting_constant_3",
+        "p_lighting_constant_4",
+        "p_lighting_constant_5",
+        "p_lighting_constant_6",
+        "p_lighting_constant_7",
+        "p_lighting_constant_8",
+        "p_lighting_constant_9",
+        "k_ps_dominant_light_direction",
+        "k_ps_dominant_light_intensity",
+        "texture_size",
+        "dynamic_environment_blend",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 9,
+      "name": "dynamic_light",
+      "shader": 4,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            16,
+            0
+          ],
+          [
+            119,
+            18,
+            0
+          ],
+          [
+            120,
+            23,
+            0
+          ],
+          [
+            121,
+            13,
+            0
+          ],
+          [
+            122,
+            14,
+            0
+          ],
+          [
+            123,
+            19,
+            0
+          ],
+          [
+            124,
+            12,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            4,
+            0
+          ],
+          [
+            15,
+            38,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    },
+    {
+      "entry": 12,
+      "name": "active_camo",
+      "shader": 8,
+      "registers": [
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "k_ps_active_camo_factor",
+          "set": 2,
+          "register": 232,
+          "count": 1
+        },
+        {
+          "name": "scene_ldr_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            10,
+            45,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "texture_size",
+        "k_ps_active_camo_factor"
+      ]
+    },
+    {
+      "entry": 13,
+      "name": "lightmap_debug_mode",
+      "shader": 10,
+      "registers": [
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_render_debug_mode",
+          "set": 2,
+          "register": 94,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            3,
+            3,
+            0
+          ],
+          [
+            4,
+            4,
+            0
+          ],
+          [
+            5,
+            5,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            5,
+            0
+          ],
+          [
+            105,
+            6,
+            0
+          ],
+          [
+            106,
+            7,
+            0
+          ],
+          [
+            107,
+            8,
+            0
+          ],
+          [
+            188,
+            4,
+            0
+          ],
+          [
+            189,
+            3,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_render_debug_mode"
+      ]
+    },
+    {
+      "entry": 14,
+      "name": "static_per_vertex_color",
+      "shader": 9,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "simple_light_count_int",
+          "set": 1,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 80
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "simple_light_count_int",
+        "g_exposure",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights"
+      ]
+    },
+    {
+      "entry": 17,
+      "name": "dynamic_light_cinematic",
+      "shader": 11,
+      "registers": [
+        {
+          "name": "actually_calc_albedo",
+          "set": 0,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_shadowing",
+          "set": 0,
+          "register": 13,
+          "count": 1
+        },
+        {
+          "name": "LDR_gamma2",
+          "set": 0,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "HDR_gamma2",
+          "set": 0,
+          "register": 15,
+          "count": 1
+        },
+        {
+          "name": "g_exposure",
+          "set": 2,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "p_dynamic_light_gel_xform",
+          "set": 2,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "texture_size",
+          "set": 2,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "Camera_Position_PS",
+          "set": 2,
+          "register": 16,
+          "count": 1
+        },
+        {
+          "name": "simple_lights",
+          "set": 2,
+          "register": 18,
+          "count": 4
+        },
+        {
+          "name": "detail_map_xform",
+          "set": 2,
+          "register": 104,
+          "count": 1
+        },
+        {
+          "name": "bump_map_xform",
+          "set": 2,
+          "register": 105,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map_xform",
+          "set": 2,
+          "register": 106,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map_xform",
+          "set": 2,
+          "register": 107,
+          "count": 1
+        },
+        {
+          "name": "p_tiling_vpos_offset",
+          "set": 2,
+          "register": 108,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map_xform",
+          "set": 2,
+          "register": 112,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_coefficient",
+          "set": 2,
+          "register": 113,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_coefficient",
+          "set": 2,
+          "register": 114,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture_xform",
+          "set": 2,
+          "register": 115,
+          "count": 1
+        },
+        {
+          "name": "diffuse_coefficient",
+          "set": 2,
+          "register": 116,
+          "count": 1
+        },
+        {
+          "name": "specular_coefficient",
+          "set": 2,
+          "register": 117,
+          "count": 1
+        },
+        {
+          "name": "analytical_specular_contribution",
+          "set": 2,
+          "register": 118,
+          "count": 1
+        },
+        {
+          "name": "material_texture_xform",
+          "set": 2,
+          "register": 119,
+          "count": 1
+        },
+        {
+          "name": "use_material_texture",
+          "set": 2,
+          "register": 120,
+          "count": 1
+        },
+        {
+          "name": "fresnel_color",
+          "set": 2,
+          "register": 121,
+          "count": 1
+        },
+        {
+          "name": "roughness",
+          "set": 2,
+          "register": 122,
+          "count": 1
+        },
+        {
+          "name": "albedo_blend",
+          "set": 2,
+          "register": 123,
+          "count": 1
+        },
+        {
+          "name": "specular_tint",
+          "set": 2,
+          "register": 124,
+          "count": 1
+        },
+        {
+          "name": "base_map_xform",
+          "set": 2,
+          "register": 188,
+          "count": 1
+        },
+        {
+          "name": "albedo_color",
+          "set": 2,
+          "register": 189,
+          "count": 1
+        },
+        {
+          "name": "base_map",
+          "set": 3,
+          "register": 0,
+          "count": 1
+        },
+        {
+          "name": "detail_map",
+          "set": 3,
+          "register": 3,
+          "count": 1
+        },
+        {
+          "name": "bump_map",
+          "set": 3,
+          "register": 4,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_map",
+          "set": 3,
+          "register": 5,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_mask_map",
+          "set": 3,
+          "register": 6,
+          "count": 1
+        },
+        {
+          "name": "bump_detail_masked_map",
+          "set": 3,
+          "register": 7,
+          "count": 1
+        },
+        {
+          "name": "specular_mask_texture",
+          "set": 3,
+          "register": 8,
+          "count": 1
+        },
+        {
+          "name": "material_texture",
+          "set": 3,
+          "register": 9,
+          "count": 1
+        },
+        {
+          "name": "albedo_texture",
+          "set": 3,
+          "register": 10,
+          "count": 1
+        },
+        {
+          "name": "normal_texture",
+          "set": 3,
+          "register": 11,
+          "count": 1
+        },
+        {
+          "name": "shadow_depth_map_1",
+          "set": 3,
+          "register": 14,
+          "count": 1
+        },
+        {
+          "name": "dynamic_light_gel_texture",
+          "set": 3,
+          "register": 15,
+          "count": 1
+        }
+      ],
+      "usages": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            0
+          ],
+          [
+            5,
+            3,
+            0
+          ],
+          [
+            6,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ],
+          [
+            8,
+            6,
+            0
+          ],
+          [
+            9,
+            7,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        [
+          [
+            104,
+            1,
+            0
+          ],
+          [
+            105,
+            3,
+            0
+          ],
+          [
+            106,
+            4,
+            0
+          ],
+          [
+            107,
+            5,
+            0
+          ],
+          [
+            112,
+            6,
+            0
+          ],
+          [
+            113,
+            7,
+            0
+          ],
+          [
+            114,
+            8,
+            0
+          ],
+          [
+            115,
+            9,
+            0
+          ],
+          [
+            116,
+            10,
+            0
+          ],
+          [
+            117,
+            11,
+            0
+          ],
+          [
+            118,
+            16,
+            0
+          ],
+          [
+            119,
+            18,
+            0
+          ],
+          [
+            120,
+            23,
+            0
+          ],
+          [
+            121,
+            13,
+            0
+          ],
+          [
+            122,
+            14,
+            0
+          ],
+          [
+            123,
+            19,
+            0
+          ],
+          [
+            124,
+            12,
+            0
+          ],
+          [
+            188,
+            0,
+            0
+          ],
+          [
+            189,
+            2,
+            0
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            10,
+            1,
+            0
+          ],
+          [
+            11,
+            2,
+            0
+          ],
+          [
+            14,
+            4,
+            0
+          ],
+          [
+            15,
+            38,
+            0
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "persistent": [
+        "actually_calc_albedo",
+        "dynamic_light_shadowing",
+        "ldr_gamma2",
+        "hdr_gamma2",
+        "g_exposure",
+        "p_dynamic_light_gel_xform",
+        "texture_size",
+        "camera_position_ps",
+        "simple_lights",
+        "p_tiling_vpos_offset"
+      ]
+    }
+  ],
+  "unresolved": []
+}
