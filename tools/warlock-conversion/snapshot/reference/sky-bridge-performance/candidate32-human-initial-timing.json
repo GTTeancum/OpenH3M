@@ -1,0 +1,114 @@
+{
+  "scope": "Live human-controlled session, first diagnostic window; scene/map/traversal not yet confirmed by user. Not a Sky Bridge gameplay performance claim.",
+  "present_interval_ms": {
+    "n": 1426,
+    "median": 33.375499999994645,
+    "p95": 66.36100000000442,
+    "maximum": 67.47400000001653
+  },
+  "observed_frames_per_second": 28.596529460210824,
+  "intervals_over_50ms": 153,
+  "nonconsecutive_frame_transitions": 0,
+  "gpu_ms_per_observed_frame": {
+    "n": 1426,
+    "median": 26.7945,
+    "p95": 28.711,
+    "maximum": 33.199
+  },
+  "submissions_per_observed_frame": {
+    "n": 1426,
+    "median": 3.0,
+    "p95": 4,
+    "maximum": 7
+  },
+  "wait_ms_by_caller": {
+    "resolve-cache-miss": {
+      "n": 413,
+      "median": 30.497,
+      "p95": 37.747,
+      "maximum": 42.509
+    }
+  },
+  "resolve_miss_reasons": {
+    "previous_submission_in_flight": 413
+  },
+  "resolve_miss_addresses": {
+    "1FC24000": 413
+  },
+  "resolve_miss_examples": [
+    {
+      "frame": "3053",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "0",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8439",
+      "completed": "8438",
+      "current": "8442"
+    },
+    {
+      "frame": "3055",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "1",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8446",
+      "completed": "8445",
+      "current": "8449"
+    },
+    {
+      "frame": "3057",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "0",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8453",
+      "completed": "8452",
+      "current": "8456"
+    },
+    {
+      "frame": "3059",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "1",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8460",
+      "completed": "8459",
+      "current": "8463"
+    }
+  ],
+  "wait_total_ms_by_caller": {
+    "resolve-cache-miss": 12582.836
+  },
+  "first_sample": [
+    110010.251,
+    3053
+  ],
+  "last_sample": [
+    159876.442,
+    4479
+  ],
+  "map_log_evidence": [],
+  "caveats": [
+    "Waits under 5ms are not logged.",
+    "GPU timings and CPU waits overlap; do not add them.",
+    "Map/autosave log records alone do not verify visible gameplay."
+  ],
+  "observed_utc": "2026-11-04T00:26:25.636879+00:00",
+  "process_id": 6772,
+  "process_confirmed_live_at_collection": true,
+  "visual_report_received": false,
+  "acceptance": "Not accepted: human visual report and confirmed Sky Bridge traversal timing remain pending."
+}
