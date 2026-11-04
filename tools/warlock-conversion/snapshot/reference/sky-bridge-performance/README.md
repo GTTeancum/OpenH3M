@@ -943,3 +943,76 @@ Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Authored water modulation and outdoor rain (2026-11-04)
+
+The saved human player/vehicle pose, camera vectors, FOV and native observer
+command remain available for unattended replay. No additional human positioning
+is required. The original view still uses the 0.03-unit vehicle-settling guard.
+These are reproducible scene inputs, not a complete savestate or reproduction
+of the human-reported black flash.
+
+`audit-water-texture-pulse.py RUN` and
+`candidate32-water-texture-pulse-result.json` extend run 21's paired water
+measurements. All 27 retained BC3 mip levels in the three color textures are
+byte-identical to their corresponding source mip levels after native untile
+and endian conversion. Two textures intentionally start at source mip 1, as
+recorded in the conversion. The analysis reconstructs mesh 7's actual geometry,
+UVs and recorded sampler settings, including mirrored addressing, PWL gamma,
+and the runtime's enabled half-pixel offset. It reads the existing shader's
+`DETAIL_MULTIPLIER` (4.59479), which is squared in this albedo operation.
+
+Across 300 frames, the partial CPU texture model's maximum albedo channel has
+correlation 0.98628 with the measured maximum additive-water RGB contribution.
+All four complete measured event windows contain corresponding texture-model
+dips. The underlying GPU pixel remains lit during those events. This supports
+authored water modulation as the explanation of that measured pulse, without
+establishing that it is the user's black flash. This is a partial texture model,
+not a full shader simulation, GPU texture-content validation or visual verdict.
+
+The saved human camera's native location is BSP 0 / cluster 45 / atmosphere
+`skybridge_indoor`, which has no weather effect. Run 20's complete 300-frame
+draw trace contains zero submissions of the rain pixel program. A separate
+outdoor weather view translates the saved camera/vehicle +12 world units along Y, preserving the
+camera orientation and projection. The native observer computes BSP 0 /
+cluster 23 / leaf 4153 and `skybridge_outdoor`, which references weather effect
+10701. Source and target both author this outdoor rain.
+
+Run 22 reached this translated view but did not arm: the vehicle settled
+0.031320516 units from its placement, outside the original 0.03 guard. The
+private harness now accepts an explicit `-VehicleTolerance` from 0.03 to 0.1;
+weather runs use 0.04. This changes the recording guard only. Run 23's
+`-AllDrawTrace` recorded 846111 emitted draws across 300 frames, including 6900
+draws of the exact native rain pixel program. `inspect-weather-draws.py` joins
+the native location, authored atmosphere and shader identities; the shader has
+other particle users, so this discovery alone was insufficient attribution.
+
+Run 24 uses `-RainPassProbe -StageProbe` to record 16 numeric points immediately
+before and after the identified shader, plus bounded texture-byte witnesses.
+`read-rain-pass-probe.py` identifies both rain assets by actual sampler dimensions
+and 512-byte resource prefixes. The 256×48 stock rain texture uses its standard
+resource stream with minimum LOD 1; its optional high-resolution stream is not
+the captured base binding. The 512×512 texture uses minimum LOD 0. Resource
+residency is recorded rather than assumed.
+
+All 6902 submitted rain draws have complete paired measurements: 220864 samples
+with no busy, unsupported, incomplete or missing-point events. The 256×48
+texture changes 107 sampled points in 100 draws over 88 frames. The 512×512
+texture changes 6540 sampled points in 1252 draws over 291 frames. Each has
+maximum measured RGB change 5/255. This establishes actual color contribution
+from both rain assets in an outdoor atmosphere, not acceptance of rain density,
+appearance or the entire viewport. `candidate32-outdoor-rain-result.json`
+records hashes, provenance, example values and remaining limits.
+
+The rain-mode native WARP fixture passed all 32 coordinate-coded values,
+before-fence-read protection and the frame cap. The integration patch passes
+its reverse application check. All private games ended at their 180-second
+watchdogs. The shared GPU and installed candidate32 map remain hash-verified
+and unchanged. No production adjustment, image capture or performance
+acceptance follows from these diagnostics. The black flash, protrusion lighting,
+billboard readability and final visual/performance acceptance remain open.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

@@ -93,7 +93,7 @@ class Reproduction {
       if(!native_observer_)std::memcpy(base+camera,observer_result_.data(),observer_result_.size());
       // Native suspension settles the fresh vehicle 0.025 units from the
       // recorded pose; retain and report that measured difference.
-      stable_=error<.0009f?stable_+1:0;
+      stable_=error<vehicle_tolerance_*vehicle_tolerance_?stable_+1:0;
       const auto now=std::chrono::steady_clock::now();
       if(stable_==60)ready_at_=now;
       if(stable_>=60&&!snapshot_scheduled_&&now-ready_at_>=std::chrono::milliseconds(arm_delay_ms_)){
@@ -181,6 +181,11 @@ class Reproduction {
       if(!*delay||*end||value>20000)return;
       arm_delay_ms_=uint32_t(value);
     }
+    if(const auto* tolerance=std::getenv("OPENH3M_SKY_REPRO_VEHICLE_TOLERANCE")){
+      char* end=nullptr;const float value=std::strtof(tolerance,&end);
+      if(!*tolerance||*end||!std::isfinite(value)||value<.03f||value>.1f)return;
+      vehicle_tolerance_=value;
+    }
     vehicle_tag_=header[3];player_tag_=header[4];directory_=directory;
     REXLOG_INFO("[sky-repro] diagnostic pose loaded; exclusive process-local replay required");
   }
@@ -192,6 +197,7 @@ class Reproduction {
   uint32_t vehicle_tag_=0,player_tag_=0,frames_=0,stable_=0;
   uint32_t input_packets_=0;
   uint32_t arm_delay_ms_=0;
+  float vehicle_tolerance_=.03f;
   bool snapshot_scheduled_=false;
   std::atomic<bool> snapshot_requested_{false};
   std::chrono::steady_clock::time_point ready_at_{};

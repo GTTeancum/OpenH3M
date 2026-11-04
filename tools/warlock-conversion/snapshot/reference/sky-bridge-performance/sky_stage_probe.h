@@ -26,6 +26,7 @@ class SkyStageProbe {
   bool Enabled()const{return !directory_.empty();}
   bool AllDraws()const{return all_draws_;}
   bool WaterDraws()const{return water_draws_;}
+  bool RainDraws()const{return rain_draws_;}
   uint32_t PointCount()const{return (all_draws_||water_draws_)?1:uint32_t(points.size());}
   template<typename Copy>
   void Record(ID3D12Device* device,ID3D12Resource* source,DXGI_FORMAT format,
@@ -41,7 +42,7 @@ class SkyStageProbe {
       fprintf(file_,"event,frame,sequence,phase,shader,index_count,submission,resource,format,resource_format,width,height,x,y,bytes,w0,w1,w2,w3\n");
       first_frame_=frame;start_=now;
     }
-    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=(all_draws_?400000:100000)){
+    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=(all_draws_?400000:rain_draws_?300000:100000)){
       fprintf(file_,"end,%llu,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",frame);
       fflush(file_);finished_=true;return;
     }
@@ -118,12 +119,13 @@ class SkyStageProbe {
     for(auto& part:relative)if(part==L"..")return;
     if(const auto* all=std::getenv("OPENH3M_SKY_STAGE_ALL_DRAWS"))all_draws_=std::strcmp(all,"1")==0;
     if(const auto* water=std::getenv("OPENH3M_SKY_STAGE_WATER_DRAWS"))water_draws_=std::strcmp(water,"1")==0;
+    if(const auto* rain=std::getenv("OPENH3M_SKY_STAGE_RAIN_DRAWS"))rain_draws_=std::strcmp(rain,"1")==0;
     slots_.resize(all_draws_?4096:128);
     directory_=dir;
   }
   std::filesystem::path directory_;
   std::vector<Slot> slots_;
-  bool all_draws_=false,water_draws_=false;
+  bool all_draws_=false,water_draws_=false,rain_draws_=false;
   FILE* file_=nullptr;bool finished_=false;
   uint64_t first_frame_=0,rows_=0;
   std::chrono::steady_clock::time_point start_;

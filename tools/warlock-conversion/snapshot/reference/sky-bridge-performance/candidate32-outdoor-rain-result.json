@@ -1,0 +1,409 @@
+{
+  "classification": "Outdoor rain is authored, submitted, and makes measured color contributions; visual density and appearance remain unaccepted.",
+  "original_flicker_view_saved": true,
+  "original_flicker_unresolved": true,
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "installed_map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "production_changes": false,
+  "outdoor_view": {
+    "translation": [
+      0,
+      12,
+      0
+    ],
+    "camera_position": [
+      16.41066551208496,
+      79.99089050292969,
+      0.30618050694465637
+    ],
+    "forward": [
+      0.23475760221481323,
+      0.9715976119041443,
+      -0.029781686142086983
+    ],
+    "up": [
+      0.006994579918682575,
+      0.02894865907728672,
+      0.9995564818382263
+    ],
+    "native_location": {
+      "bsp": 0,
+      "cluster": 23,
+      "leaf": 4153
+    },
+    "atmosphere_name": "skybridge_outdoor",
+    "weather_tag": 10701,
+    "same_native_observer_across_runs": true,
+    "vehicle_tolerance": 0.04,
+    "original_view_tolerance_unchanged": 0.03,
+    "measured_vehicle_settling_distance": 0.031320516,
+    "complete_savestate": false
+  },
+  "failed_attempt": {
+    "run": "reproduction-22",
+    "reason": "Vehicle settled outside 0.03 guard; no draw/pixel recording armed. Watchdog closed the private process."
+  },
+  "all_draw_discovery": {
+    "trace": {
+      "sha256": "bc2e8b1d1a00e481823d6669f0d3141ab2cf0b4e84d8ed7c59d9aac0c05c1945",
+      "frames": 300,
+      "first_frame": 3242,
+      "last_frame": 3541,
+      "recorded_draws": 854511,
+      "emitted_draws": 846111,
+      "stop_reasons": [
+        1
+      ]
+    },
+    "rain_pixel_shader_draw_count": 6900,
+    "rain_index_counts": {
+      "48": 291,
+      "64": 6324,
+      "32": 23,
+      "44": 19,
+      "56": 24,
+      "8": 31,
+      "20": 16,
+      "60": 18,
+      "24": 31,
+      "36": 23,
+      "12": 12,
+      "40": 22,
+      "52": 14,
+      "16": 26,
+      "28": 12,
+      "4": 14
+    }
+  },
+  "paired_rain": {
+    "textures": [
+      {
+        "tag": 10703,
+        "dimensions": [
+          256,
+          48
+        ],
+        "format": 11,
+        "resource_stream": 0,
+        "prefix_sha256": "5d4e9fdd8b6d8ee472332af387237c2fb412666b9d0e0ab21be2991f0fde6641"
+      },
+      {
+        "tag": 10703,
+        "dimensions": [
+          256,
+          48
+        ],
+        "format": 11,
+        "resource_stream": 1,
+        "prefix_sha256": "27b8baf4aed03266291ce57974eac9fdf8bc823922fd39a11d7ff34ba98b6b90"
+      },
+      {
+        "tag": 10705,
+        "dimensions": [
+          512,
+          512
+        ],
+        "format": 16,
+        "resource_stream": 0,
+        "prefix_sha256": "5ffc2d7522dc36277d7a4c871ea3e6737771a105622714911f92e57be23ab1cc"
+      }
+    ],
+    "events": {
+      "sample": 220864,
+      "end": 1
+    },
+    "draws": 6902,
+    "frames": 300,
+    "stop_reasons": [
+      1
+    ],
+    "incomplete_pairs": [],
+    "limitations": [
+      "Sixteen isolated points per draw, not a screenshot or full visibility assessment.",
+      "A 512-byte CPU payload prefix plus texture dimensions identifies the asset; it does not validate every GPU texel.",
+      "Paired color changes demonstrate rendered contribution at measured points, not correct rain density or appearance.",
+      "Probe synchronization overhead excludes this run from performance acceptance."
+    ]
+  },
+  "per_texture": {
+    "10703": {
+      "draws": 4224,
+      "complete_pairs": 4224,
+      "changed_draws": 100,
+      "changed_samples": 107,
+      "max_abs_rgb_delta": 0.0196078431372549,
+      "residency": {
+        "(0, 1, 8)": 4224
+      },
+      "examples": [
+        {
+          "frame": 3240,
+          "sequence": 112,
+          "point": [
+            756,
+            248
+          ],
+          "before": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.1450980392156863,
+            0.0
+          ],
+          "after": [
+            0.10196078431372549,
+            0.10980392156862745,
+            0.15294117647058825,
+            0.0
+          ]
+        },
+        {
+          "frame": 3241,
+          "sequence": 135,
+          "point": [
+            756,
+            248
+          ],
+          "before": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.1450980392156863,
+            0.0
+          ],
+          "after": [
+            0.09803921568627451,
+            0.10588235294117647,
+            0.14901960784313725,
+            0.0
+          ]
+        },
+        {
+          "frame": 3252,
+          "sequence": 391,
+          "point": [
+            714,
+            210
+          ],
+          "before": [
+            0.25098039215686274,
+            0.2,
+            0.23137254901960785,
+            0.0
+          ],
+          "after": [
+            0.25882352941176473,
+            0.20784313725490197,
+            0.23921568627450981,
+            0.0
+          ]
+        },
+        {
+          "frame": 3253,
+          "sequence": 414,
+          "point": [
+            714,
+            210
+          ],
+          "before": [
+            0.25098039215686274,
+            0.2,
+            0.23137254901960785,
+            0.0
+          ],
+          "after": [
+            0.2549019607843137,
+            0.20392156862745098,
+            0.23529411764705882,
+            0.0
+          ]
+        }
+      ],
+      "changed_frame_count": 88
+    },
+    "10705": {
+      "draws": 2678,
+      "complete_pairs": 2678,
+      "changed_draws": 1252,
+      "changed_samples": 6540,
+      "max_abs_rgb_delta": 0.0196078431372549,
+      "residency": {
+        "(0, 0, 9)": 2678
+      },
+      "examples": [
+        {
+          "frame": 3236,
+          "sequence": 1,
+          "point": [
+            1001,
+            193
+          ],
+          "before": [
+            0.1450980392156863,
+            0.09411764705882353,
+            0.09019607843137255,
+            0.0
+          ],
+          "after": [
+            0.1450980392156863,
+            0.09803921568627451,
+            0.09411764705882353,
+            0.0
+          ]
+        },
+        {
+          "frame": 3236,
+          "sequence": 1,
+          "point": [
+            973,
+            229
+          ],
+          "before": [
+            0.26666666666666666,
+            0.21568627450980393,
+            0.23137254901960785,
+            0.0
+          ],
+          "after": [
+            0.26666666666666666,
+            0.21568627450980393,
+            0.23529411764705882,
+            0.0
+          ]
+        },
+        {
+          "frame": 3236,
+          "sequence": 2,
+          "point": [
+            1001,
+            193
+          ],
+          "before": [
+            0.1450980392156863,
+            0.09803921568627451,
+            0.09411764705882353,
+            0.0
+          ],
+          "after": [
+            0.14901960784313725,
+            0.10196078431372549,
+            0.09803921568627451,
+            0.0
+          ]
+        },
+        {
+          "frame": 3236,
+          "sequence": 2,
+          "point": [
+            973,
+            229
+          ],
+          "before": [
+            0.26666666666666666,
+            0.21568627450980393,
+            0.23529411764705882,
+            0.0
+          ],
+          "after": [
+            0.26666666666666666,
+            0.21568627450980393,
+            0.23921568627450981,
+            0.0
+          ]
+        }
+      ],
+      "changed_frame_count": 291
+    }
+  },
+  "fixture": {
+    "samples": 32,
+    "coordinate_values_exact": true,
+    "frame_cap_passed": true,
+    "premature_read_check_passed": true
+  },
+  "files": {
+    "work\\sky-bridge\\reproduction-23": {
+      "draws.bin": {
+        "bytes": 300923728,
+        "sha256": "bc2e8b1d1a00e481823d6669f0d3141ab2cf0b4e84d8ed7c59d9aac0c05c1945"
+      },
+      "native-state.bin": {
+        "bytes": 1219151,
+        "sha256": "60a609e604c51a407f0a27b095ccf916e5f970901d86a6d27f0216c39bf68641"
+      },
+      "weather-draw-analysis.json": {
+        "bytes": 12452,
+        "sha256": "7a9f83537d0c70bfc2f1fa3db9eb76153da938260ccdbb11d72caeab6e45ee00"
+      },
+      "native-effects-analysis.json": {
+        "bytes": 76840,
+        "sha256": "1fbe866492e526ebdfa485c5ccb16da4fb55d4521975787cb76960408b4bfaca"
+      },
+      "runtime-hashes.json": {
+        "bytes": 748,
+        "sha256": "a5d85c9443be9827dc562899c0ad024273b7c21888d5c7b00750186a6f3717f8"
+      },
+      "recording-configuration.json": {
+        "bytes": 460,
+        "sha256": "744677c0e1f3bb00cd4003b874d7cb75b1d2870273d77793018bdeeb407b618b"
+      },
+      "pose-provenance.json": {
+        "bytes": 939,
+        "sha256": "81b212f315eafd90fd809e733b530f72c0b72701a62f8c17480bfea287f07895"
+      }
+    },
+    "work\\sky-bridge\\reproduction-24": {
+      "draws.bin": {
+        "bytes": 2545492,
+        "sha256": "9b551c741d96b41a81267d784cc301926c112e934fcae53ae650858bd417d536"
+      },
+      "stages.csv": {
+        "bytes": 22941417,
+        "sha256": "01d0d12af57843cbe5505c0570b0d1c91a5931c1b85700d14b88559d6d326045"
+      },
+      "native-state.bin": {
+        "bytes": 1219151,
+        "sha256": "2cd1a39ef8441a5307a23aabb1ec8d09293fef514f6107e4e55f8ef03838d156"
+      },
+      "rain-pass-analysis.json": {
+        "bytes": 11571,
+        "sha256": "b0a1bdb86e9f582ab504d837f92423213d6a0acae4e00b50551d8f632a51dd17"
+      },
+      "native-observer-comparison.json": {
+        "bytes": 3800,
+        "sha256": "57cc26710d7ae17f5bc1d30ed8029eb5d054b2fe3ae7743d26eabc95b6bace1f"
+      },
+      "runtime-hashes.json": {
+        "bytes": 748,
+        "sha256": "5635b5758091d6f1d9cb43a8f9ef29c5f7d128a1a7bc741ececc58dce3b0e0fb"
+      },
+      "recording-configuration.json": {
+        "bytes": 488,
+        "sha256": "d32e64d4dc56e5bb5b2199452a7f52e13944a9c0576d302c59d7a64cb31ce623"
+      }
+    }
+  },
+  "watchdog_seconds": 180,
+  "normal_shared_runtime_restored": true,
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "indoor_control": {
+    "native_location": {
+      "bsp": 0,
+      "cluster": 45,
+      "leaf": 2227
+    },
+    "atmosphere_name": "skybridge_indoor",
+    "weather_tag": null,
+    "trace": {
+      "sha256": "5ad316c34e99e503c081e35fb8e0302d520ad8633a5d118b6f1804ecd438df29",
+      "frames": 300,
+      "first_frame": 3406,
+      "last_frame": 3705,
+      "recorded_draws": 860756,
+      "emitted_draws": 852956,
+      "stop_reasons": [
+        1
+      ]
+    },
+    "rain_pixel_shader_draw_count": 0,
+    "analysis_sha256": "cb19bd016ca13d4c2d0959dd429c982dde01d9ddfccc7c36890b1a75e6424799"
+  }
+}
