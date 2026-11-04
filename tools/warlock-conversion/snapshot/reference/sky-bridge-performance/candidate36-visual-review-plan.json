@@ -1,0 +1,38 @@
+{
+  "status": "Prepared; capture permission requested and pending; not launched",
+  "permission_reason": "Active goal says do not import other images; earlier runtime tests authorized text-only/no captures.",
+  "run": "work\\sky-bridge\\reproduction-49",
+  "candidate": 36,
+  "native_live_package": true,
+  "maximum_process_seconds": 180,
+  "capture_times_ms": [
+    145000,
+    146000,
+    147000,
+    148000,
+    149000,
+    150000
+  ],
+  "maximum_images": 6,
+  "capture_implementation": "Halo3MP StartCaptureThread -> Presenter::CaptureGuestOutput -> own D3D12 guest_output_resources_ texture -> repository-local PNG",
+  "output_directory": ".local/loading-traces/<new run>/proof-loaded-*.png",
+  "input": "Existing exclusive process-local replay and saved native observer; no host OS input",
+  "desktop_capture": false,
+  "shared_writes": false,
+  "captures_created": false,
+  "command": "tools/warlock-conversion/snapshot/reference/sky-bridge-performance/run-reproduction.ps1 -RunDirectory work/sky-bridge/reproduction-49 -Candidate 36 -NativeLivePackage -NativeVisualCapture -NativeObserver -ArmDelayMs 15000 -ProfileSeed work/dlc/installed-corrections/4D5307E6/profile/User",
+  "runtime_hashes": {
+    "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+    "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+    "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+    "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+    "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+    "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+    "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+  },
+  "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+  "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+  "limitation": "Six stills are not a complete frame sequence or proof that no transient flicker remains. Compare actual visuals with supplied screenshots and combine with existing 300-frame numeric evidence.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

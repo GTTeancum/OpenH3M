@@ -1700,3 +1700,64 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Candidate36 native LIVE installation and promotion preparation (2026-11-04)
+
+`candidate36-native-live-result.json` records private reproduction48. The new
+`-NativeLivePackage` mode is pinned to candidate36's verified package hash and
+passes `--dlc-package` to the existing loader. The application's native content
+installer extracts the LIVE container before guest startup; this run does not
+substitute a flat-payload hardlink installation. All seven installed files
+match `payload-36` byte-for-byte. Its 332-byte native content header has the
+expected filename, title 4D5307E6, DLC type 2, XUID 0 and license mask 1.
+Sky Bridge loads with native map ID 1747, eleven header checks pass with zero
+failures, and the saved native observer command/result match exactly.
+The process ends at its 180-second watchdog.
+
+The run uses the original production GPU/runtime DLLs and the private replay
+executable, with all image, draw, color and depth probes disabled. After the
+first logged seated marker, 597 frames cover 19.887 seconds at 29.9698 FPS:
+median 33.360 ms, p95 33.794 ms, maximum 34.103 ms, and zero intervals above 50 ms.
+The startup-inclusive 110–155-second window remains recorded at 25.857 FPS,
+including the 3.519-second placement/load stall. These are stationary timing
+and native loading results, not visual or traversal acceptance.
+
+The current shared inventory is authoritative: 86 files, eleven map entries,
+and separate Sky Bridge and ten-map bundles. Battle Canyon is absent following
+its separate cleanup; do not restore it from the older preservation inventory.
+All 86 content/profile/header files and the seven runtime binaries plus bootstrap
+remain unchanged before and after this work. Sky Bridge's six support files
+already match candidate36. The concrete plan in
+`work/sky-bridge/promotion-candidate36/promotion-plan.json` therefore replaces
+only the existing repository-local `sky_bridge.map`, retaining its current
+content directory/header and menu identity. Recheck hashes and game-process
+state, then verify a repository-local backup before that future replacement.
+No external runtime or bootstrap write is needed. The plan has not been applied.
+
+The review candidate is
+`.local/releases/sky-bridge-candidate36-20261104/Sky-Bridge-Candidate36-LIVE-DLC.zip`,
+162837553 bytes, SHA256
+`7daeb0c15c75b528a58c408ced94ca8b1f856bb0e85f5a3a0a318b7194712b69`.
+It contains the unchanged candidate36 LIVE container at its canonical Content
+path, a manifest, and review instructions. STFS integrity, payload-chain bytes,
+ZIP CRCs and every decompressed archive entry pass verification. The earlier
+release is retained. This archive is marked as a candidate with visual review
+pending; it is not an accepted final release.
+
+Full visual evidence remains the next gate. The active goal says not to import
+other images and earlier tests were text-only. Permission has been requested
+for six game-native screenshots of the saved view, to avoid requiring another
+human playtest. `candidate36-visual-review-plan.json` describes the prepared,
+unlaunched reproduction49. `-NativeVisualCapture` disables diagnostic probes
+and requests six PNGs through the existing `CaptureGuestOutput` facility,
+which copies the game's own output texture. It uses no desktop capture or host
+input and retains the 180-second watchdog. This mode requires candidate36 and
+the native observer, and excludes timing/probe modes. Do not run it before the
+user permits these additional images. Six stills alone cannot establish the
+absence of a one-frame flicker; combine visual inspection with the recorded
+300-frame draw/color evidence and keep any remaining uncertainty explicit.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

@@ -1,0 +1,462 @@
+{
+  "status": "Native LIVE installation and saved-view loading verified; package candidate prepared, no promotion",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "run": "work\\sky-bridge\\reproduction-48",
+  "logdir": ".local\\loading-traces\\20261104-044306-27884",
+  "configuration": {
+    "native_live_package": true,
+    "live_package": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\live-candidate-36\\5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "live_package_sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+    "depth_writer_trace": false,
+    "depth_value_trace": false,
+    "depth_test_trace": false,
+    "coverage_trace": false,
+    "command_trace": false,
+    "blend_trace": false,
+    "model_pass_probe": false,
+    "timing_only": true,
+    "header_trace": false,
+    "candidate": 36,
+    "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+    "region_only": false,
+    "full_viewport": false,
+    "native_observer": true,
+    "guest_region": false,
+    "swapchain_region": false,
+    "stage_probe": false,
+    "late_pass_probe": false,
+    "water_pass_probe": false,
+    "rain_pass_probe": false,
+    "screen_pass_probe": false,
+    "all_draw_trace": false,
+    "presented_probe": false,
+    "draw_trace": false,
+    "pixel_probe": false,
+    "pixel_region": "0.54,0.255,0.93,0.425",
+    "region": "0.45,0.10,1,0.50",
+    "arm_delay_ms": 15000,
+    "vehicle_tolerance": 0.03
+  },
+  "runtime_hashes": {
+    "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+    "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+    "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+    "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+    "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+    "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+    "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+  },
+  "native_install_message": "[2026-11-04 04:43:14.688] [info] [core] [t33208] DLC installation completed: C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\live-candidate-36\\5DC3487BF1633DF162B829AF5609E7687F169DE8 (container install only; not a gameplay pass)",
+  "native_installed_files": {
+    "dlc_sky_bridge.blf": {
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    "dlc_sky_bridge_clip.blf": {
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    "dlc_sky_bridge_film.blf": {
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    "dlc_sky_bridge_sm.blf": {
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    "dlc_sky_bridge_variant.blf": {
+      "bytes": 7619,
+      "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+    },
+    "sky_bridge.map": {
+      "bytes": 196448256,
+      "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+    },
+    "sky_bridge.mapinfo": {
+      "bytes": 20113,
+      "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+    }
+  },
+  "native_content_header": {
+    "path": ".local\\loading-traces\\20261104-044306-27884\\0000000000000000\\4D5307E6\\Headers\\00000002\\5DC3487BF1633DF162B829AF5609E7687F169DE8.header",
+    "bytes": 332,
+    "sha256": "97c3350e173b6ed523d8f2ef56514c579c2b9f9c3c759b0a7eb311b24f3d4f39",
+    "filename": "5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "xuid": 0,
+    "title_id": "4D5307E6",
+    "content_type": 2,
+    "license_mask": 1
+  },
+  "native_map_id": 1747,
+  "native_observer_exact": true,
+  "native_headers": {
+    "seconds": 180.375,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "package_integrity": {
+    "data_blocks": 47989,
+    "hash_tables": 286,
+    "top_level": 2,
+    "header_sha1": "pass",
+    "data_sha1": "pass",
+    "hash_tree": "pass",
+    "signature_validation": "NOT performed",
+    "scope": "Integrity only; does not establish retail acceptance"
+  },
+  "package_payload_check": [
+    {
+      "name": "dlc_sky_bridge.blf",
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    {
+      "name": "dlc_sky_bridge_clip.blf",
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    {
+      "name": "dlc_sky_bridge_film.blf",
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    {
+      "name": "dlc_sky_bridge_sm.blf",
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    {
+      "name": "dlc_sky_bridge_variant.blf",
+      "bytes": 7619,
+      "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+    },
+    {
+      "name": "sky_bridge.map",
+      "bytes": 196448256,
+      "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+    },
+    {
+      "name": "sky_bridge.mapinfo",
+      "bytes": 20113,
+      "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+    }
+  ],
+  "timing": {
+    "candidate": 36,
+    "run": "work\\sky-bridge\\reproduction-48",
+    "logdir": ".local\\loading-traces\\20261104-044306-27884",
+    "first_seated_log": "[2026-11-04 04:45:29.230] [info] [core] [t32080] [sky-repro] view seated=true vehicle_error=0.024826441 camera=16.410666,67.99089,0.3061805 parent=E2780009",
+    "first_seated_present_elapsed_ms": 135073.51904296875,
+    "log_clock_origin_spread_ms": 1.947021484375,
+    "start_ms": 135104.967,
+    "end_ms": 154991.629,
+    "frames": 597,
+    "fps": 29.969836063991057,
+    "median_ms": 33.35999999998603,
+    "p95_ms": 33.79399999999441,
+    "maximum_ms": 34.103000000002794,
+    "over_50ms": 0,
+    "startup_inclusive": [
+      {
+        "start": 110,
+        "end": 155,
+        "frames": 1160,
+        "actual_start_ms": 110013.476,
+        "actual_end_ms": 154991.629,
+        "fps": 25.85699772954217,
+        "median_ms": 33.37099999998463,
+        "p95_ms": 66.62799999999697,
+        "maximum_ms": 3519.2850000000035,
+        "over_50ms": 137
+      },
+      {
+        "start": 115,
+        "end": 155,
+        "frames": 1044,
+        "actual_start_ms": 115017.958,
+        "actual_end_ms": 154991.629,
+        "fps": 26.09217452157447,
+        "median_ms": 33.36499999999069,
+        "p95_ms": 66.52999999999884,
+        "maximum_ms": 3519.2850000000035,
+        "over_50ms": 96
+      },
+      {
+        "start": 120,
+        "end": 150,
+        "frames": 766,
+        "actual_start_ms": 120023.026,
+        "actual_end_ms": 149986.054,
+        "fps": 25.53146497743819,
+        "median_ms": 33.3640000000014,
+        "p95_ms": 66.48500000000058,
+        "maximum_ms": 3519.2850000000035,
+        "over_50ms": 53
+      }
+    ],
+    "observer": {
+      "human": {
+        "captured_blob_offset": 188,
+        "result_position": [
+          16.41066551208496,
+          67.99089050292969,
+          0.30618050694465637
+        ],
+        "result_location_bytes": "002d08b3",
+        "result_motion_vector_0": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "result_motion_vector_1": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "result_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "result_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "result_horizontal_fov": 1.2217304706573486,
+        "result_aspect_ratio": 1.3333333730697632,
+        "command_focus": [
+          16.751903533935547,
+          69.40318298339844,
+          -0.24481379985809326
+        ],
+        "command_local_offset": [
+          0.10027884691953659,
+          1.2487849687659036e-07,
+          0.5047164559364319
+        ],
+        "command_window_shift": [
+          0.0,
+          0.0
+        ],
+        "command_distance": 1.5539028644561768,
+        "command_horizontal_fov": 1.2217304706573486,
+        "command_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "command_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "motion_input_user_496": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "motion_input_user_536": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "target_equals_current_command": true,
+        "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "replay": {
+        "captured_blob_offset": 0,
+        "result_position": [
+          16.41066551208496,
+          67.99089050292969,
+          0.30618050694465637
+        ],
+        "result_location_bytes": "002d08b3",
+        "result_motion_vector_0": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "result_motion_vector_1": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "result_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "result_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "result_horizontal_fov": 1.2217304706573486,
+        "result_aspect_ratio": 1.3333333730697632,
+        "command_focus": [
+          16.751903533935547,
+          69.40318298339844,
+          -0.24481379985809326
+        ],
+        "command_local_offset": [
+          0.10027884691953659,
+          1.2487849687659036e-07,
+          0.5047164559364319
+        ],
+        "command_window_shift": [
+          0.0,
+          0.0
+        ],
+        "command_distance": 1.5539028644561768,
+        "command_horizontal_fov": 1.2217304706573486,
+        "command_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "command_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "motion_input_user_496": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "motion_input_user_536": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "target_equals_current_command": true,
+        "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "same_result": true,
+      "same_command": true,
+      "position_max_abs_delta": 0.0,
+      "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+    },
+    "limitations": [
+      "The first logged seated marker gives a conservative start; no earlier interval is relabeled as seated.",
+      "Startup-inclusive results remain included, including the load/placement stall.",
+      "Original GPU/runtime DLLs, replay executable and one bounded native snapshot remain in use.",
+      "This is a stationary view comparison with timing logs, not full traversal, visual acceptance or a production performance guarantee."
+    ]
+  },
+  "shared_before": "work\\sky-bridge\\promotion-candidate36\\shared-before.json",
+  "preserved_shared_files": 86,
+  "shared_runtime_and_bootstrap_unchanged": true,
+  "plan": "work\\sky-bridge\\promotion-candidate36\\promotion-plan.json",
+  "release": {
+    "status": "Candidate36 for review; no shared installation or final visual acceptance",
+    "source": "Sky Bridge, Halo Online",
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+    "package": {
+      "path": "Content/0000000000000000/4D5307E6/00000002/5DC3487BF1633DF162B829AF5609E7687F169DE8",
+      "bytes": 197779456,
+      "sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+      "content_id": "5DC3487BF1633DF162B829AF5609E7687F169DE8",
+      "title_id": "4D5307E6",
+      "content_type": "00000002",
+      "signature": "unsigned; OpenH3M and RGH/JTAG targets"
+    },
+    "payload": {
+      "dlc_sky_bridge.blf": {
+        "bytes": 21576,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      "dlc_sky_bridge_clip.blf": {
+        "bytes": 12880,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      "dlc_sky_bridge_film.blf": {
+        "bytes": 12880,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      "dlc_sky_bridge_sm.blf": {
+        "bytes": 21576,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      "dlc_sky_bridge_variant.blf": {
+        "bytes": 7619,
+        "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+      },
+      "sky_bridge.map": {
+        "bytes": 196448256,
+        "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+      },
+      "sky_bridge.mapinfo": {
+        "bytes": 20113,
+        "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+      }
+    },
+    "integrity": {
+      "data_blocks": 47989,
+      "hash_tables": 286,
+      "top_level": 2,
+      "header_sha1": "pass",
+      "data_sha1": "pass",
+      "hash_tree": "pass",
+      "signature_validation": "NOT performed",
+      "scope": "Integrity only; does not establish retail acceptance"
+    },
+    "changes": [
+      "Retains candidate32 material fixes, including the human-confirmed rain/card correction.",
+      "Adds isolated alpha discard to the animated fabric material to prevent measured black lighting-pass overwrites.",
+      "Restores native mip addressing for the billboard base and scanline textures."
+    ],
+    "verified": [
+      "Native LIVE installation extracts all seven files byte-for-byte.",
+      "Native Sky Bridge map ID1747 and saved camera command/result match.",
+      "All eleven native header checks pass; bounded run ends at 180 seconds.",
+      "Repeated 300-frame numeric traces show no sampled fabric black overwrites."
+    ],
+    "pending": [
+      "Full visual review of flicker, transparency, billboard legibility/animation and rain appearance.",
+      "Traversal/audio, physical Xbox 360 and system-link testing."
+    ],
+    "runtime_change_required": false
+  },
+  "archive": {
+    "path": ".local\\releases\\sky-bridge-candidate36-20261104\\Sky-Bridge-Candidate36-LIVE-DLC.zip",
+    "bytes": 162837553,
+    "sha256": "7daeb0c15c75b528a58c408ced94ca8b1f856bb0e85f5a3a0a318b7194712b69",
+    "all_entries_byte_exact": true
+  },
+  "shared_installation_updated": false,
+  "limitations": [
+    "Full visual review of flicker, transparency, billboard legibility/animation and rain appearance.",
+    "Traversal/audio, physical Xbox 360 and system-link testing."
+  ],
+  "evidence_sha256": {
+    "work\\sky-bridge\\reproduction-48\\recording-configuration.json": "7021fab883fee9c8a8dad62ae2cad58bcf0593bc4251cf5c86d0edb484f8513a",
+    "work\\sky-bridge\\reproduction-48\\runtime-hashes.json": "c8fda7d0a17937cb0035d6280ad80db47df3137d46ffc20f8ffb13ff2f9589a9",
+    "work\\sky-bridge\\reproduction-48\\preparation.json": "fe165d47f8f81268002921e4cd04f49cf708279754700499d6afe5dc8f9f47b5",
+    "work\\sky-bridge\\reproduction-48\\native-state.bin": "b03eba79d1e48f62d6f89565f47b85aa2da573e477cd43a1f3a994c2ffa61a12",
+    "work\\sky-bridge\\reproduction-48\\native-state-comparison.json": "b2495617e087e8cc9db2f290b9eb710c2730df0494f79f9f7d82cfcdd184df10",
+    "work\\sky-bridge\\reproduction-48\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-48\\seated-timing.json": "a560416271f050e2b5d2bbbbc3a3f6997d93193a9691b714298f830d512465bf",
+    ".local\\loading-traces\\20261104-044306-27884\\launch-command.json": "631add1c974a37999d079ec5094172832f9ba6d87a1d6d6384898fc192fee3a1",
+    ".local\\loading-traces\\20261104-044306-27884\\loading-trace.jsonl": "7ec05a543887c2c47a711a0a796720109c521cb8ed7715dfeb6a1acc1b22db61",
+    ".local\\loading-traces\\20261104-044306-27884\\pacing-windows.json": "0cfcd08f2d0af57d3aa1456973c8bac4acc79c8a46fc5ca11322ab4b0cfa999c",
+    ".local\\loading-traces\\20261104-044306-27884\\trace-runtime.1.log": "e874166573a52977cb0b59bb4c819c3dc41003f75464a73ca56ea77455c67a49",
+    ".local\\loading-traces\\20261104-044306-27884\\trace-runtime.log": "69bb06dd799d1afdd6380b1eee73e8c357796fe3430fba1be4ff67514ec7d5ad",
+    "work\\sky-bridge\\promotion-candidate36\\shared-before.json": "fa3b7d45f2308cbafc3cf3c5f0c13b9b856a75a40ad2497b47bfb13b49d192b4",
+    "work\\sky-bridge\\promotion-candidate36\\promotion-plan.json": "7801a50eb2b0b15a2a53267420baf206646bb0cdd0830820bd075c30ba601b90",
+    ".local\\releases\\sky-bridge-candidate36-20261104\\manifest.json": "4c40e3bc99c8ee9f6dc9f136647fed033cc5289ca98f1778074228df6c351010",
+    ".local\\releases\\sky-bridge-candidate36-20261104\\README.txt": "00305ce5434af3631ff4d963c7b484db41e7aaf74cb50daaacf58489a9ce0fe1"
+  }
+}

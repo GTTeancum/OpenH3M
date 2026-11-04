@@ -46,7 +46,7 @@ and tool revisions are recorded in `tools/battle-canyon-rebuild/README.md` and
 its provenance records. This pending entry does not claim final acceptance or
 deployment.
 
-## Sky Bridge (conversion in progress; not installed)
+## Sky Bridge (candidate32 installed for testing; candidate36 prepared)
 
 Original lineage: Halo Online, as identified by the source pack description.
 Source: `3003239190/maps/s3d_sky_bridgenew.map`, from
@@ -54,6 +54,12 @@ Source: `3003239190/maps/s3d_sky_bridgenew.map`, from
 The Workshop page credits General Heed and Priception as package creators
 (verified 2026-11-03); individual original map authorship is not specified.
 This project supplies the subsequent Xbox 360/OpenH3M adaptation.
+
+The shared content tree contains candidate32. Candidate36 combines the traced
+fabric correction and restored billboard mip addressing; its separate LIVE
+package has passed native installation and saved-view loading in a private run.
+The candidate archive is prepared for review, with full visual acceptance and
+shared promotion still pending. See `snapshot/reference/sky-bridge-performance/README.md`.
 
 
 ## Fresh Battle Canyon installation - 2026-11-03
