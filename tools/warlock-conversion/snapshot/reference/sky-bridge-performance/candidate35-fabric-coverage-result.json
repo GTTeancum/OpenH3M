@@ -1,0 +1,2057 @@
+{
+  "classification": "Candidate35 fabric correction retains aggregate cutout coverage in all 605 matching-input comparisons; separate searchlight lighting coverage remains unresolved",
+  "runs": [
+    {
+      "run": 38,
+      "configuration": {
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_sha256": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9467f0e3cee25ba621fca5c0aeb0b40ae826c2c34ed9bbda676f2096758a54ad",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "frames": 300,
+      "draws": 11308,
+      "coverage_events": {
+        "sample": 11308
+      },
+      "numeric_color_events": {
+        "sample": 361856,
+        "end": 1
+      },
+      "all_queries_matched": true,
+      "all_color_pairs_complete": true,
+      "native_observer_command_and_result_exact": true,
+      "camera_draws": 9000,
+      "camera_constants_exact": true,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.375,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "fabric_black_overwrites": 10,
+      "black_writes_by_model": [
+        {
+          "owner": 10177,
+          "part": 1,
+          "material": 9821,
+          "point": [
+            711,
+            197
+          ],
+          "count": 10
+        }
+      ],
+      "searchlight_coverage": [
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 12627602885350085323,
+          "ps": 8562590739555380577,
+          "draws": 300,
+          "zero": 0,
+          "sample_min": 19,
+          "sample_max": 27
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 11600849241261448272,
+          "ps": 6159915361788144154,
+          "draws": 300,
+          "zero": 0,
+          "sample_min": 7,
+          "sample_max": 10
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 15518101065676308936,
+          "ps": 12021865740332317413,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 10556403050914701579,
+          "ps": 17893540736724855907,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 1802336714319958646,
+          "ps": 14007674117786981017,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 7141575655502862876,
+          "ps": 10996139680788563763,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 2,
+          "vs": 10556403050914701579,
+          "ps": 5599679742806490281,
+          "draws": 300,
+          "zero": 119,
+          "sample_min": 0,
+          "sample_max": 317
+        }
+      ]
+    },
+    {
+      "run": 39,
+      "configuration": {
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 35,
+        "map_sha256": "9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_sha256": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9467f0e3cee25ba621fca5c0aeb0b40ae826c2c34ed9bbda676f2096758a54ad",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "frames": 300,
+      "draws": 11292,
+      "coverage_events": {
+        "sample": 11292
+      },
+      "numeric_color_events": {
+        "sample": 361344,
+        "end": 1
+      },
+      "all_queries_matched": true,
+      "all_color_pairs_complete": true,
+      "native_observer_command_and_result_exact": true,
+      "camera_draws": 8985,
+      "camera_constants_exact": true,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.391,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "fabric_black_overwrites": 0,
+      "black_writes_by_model": [],
+      "searchlight_coverage": [
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 15518101065676308936,
+          "ps": 12021865740332317413,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 10556403050914701579,
+          "ps": 17893540736724855907,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 1802336714319958646,
+          "ps": 14007674117786981017,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 7141575655502862876,
+          "ps": 10996139680788563763,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 2,
+          "vs": 10556403050914701579,
+          "ps": 5599679742806490281,
+          "draws": 300,
+          "zero": 120,
+          "sample_min": 0,
+          "sample_max": 317
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 12627602885350085323,
+          "ps": 8562590739555380577,
+          "draws": 299,
+          "zero": 0,
+          "sample_min": 19,
+          "sample_max": 27
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 11600849241261448272,
+          "ps": 6159915361788144154,
+          "draws": 299,
+          "zero": 0,
+          "sample_min": 7,
+          "sample_max": 10
+        }
+      ]
+    }
+  ],
+  "coverage_comparison": {
+    "runs": [
+      "work\\sky-bridge\\reproduction-38",
+      "work\\sky-bridge\\reproduction-39"
+    ],
+    "key_fields": [
+      "position_inputs_sha256",
+      "depth_control",
+      "color_mask",
+      "surface_info",
+      "raster_control"
+    ],
+    "groups": [
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 0,
+        "vs": 1802336714319958646,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            14007674117786981017
+          ],
+          [
+            14007674117786981017
+          ]
+        ],
+        "matched_keys": 281,
+        "equal_keys": 281,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "004aa092973b22b00cc44f4a10555b44ade6f16842d3c62bfc4adb0f1d451193",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3476
+              ],
+              [
+                3475
+              ]
+            ]
+          },
+          {
+            "key": [
+              "02ff617c0c09182f724804e4db95ce5561cd726abb20c263f6c5e586291f5ed1",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3684
+              ],
+              [
+                3682
+              ]
+            ]
+          },
+          {
+            "key": [
+              "033d5ea65fc5949282178a13d234cbad6382a9e5f675f8de5565cb192e7b6f0d",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3563
+              ],
+              [
+                3562
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 0,
+        "vs": 12627602885350085323,
+        "draws": [
+          300,
+          299
+        ],
+        "ranges": [
+          [
+            19,
+            27
+          ],
+          [
+            19,
+            27
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            8562590739555380577
+          ],
+          [
+            8562590739555380577
+          ]
+        ],
+        "matched_keys": 280,
+        "equal_keys": 280,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "004aa092973b22b00cc44f4a10555b44ade6f16842d3c62bfc4adb0f1d451193",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                23
+              ],
+              [
+                23
+              ]
+            ],
+            "frames": [
+              [
+                3476
+              ],
+              [
+                3475
+              ]
+            ]
+          },
+          {
+            "key": [
+              "02ff617c0c09182f724804e4db95ce5561cd726abb20c263f6c5e586291f5ed1",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                24
+              ],
+              [
+                24
+              ]
+            ],
+            "frames": [
+              [
+                3684
+              ],
+              [
+                3682
+              ]
+            ]
+          },
+          {
+            "key": [
+              "033d5ea65fc5949282178a13d234cbad6382a9e5f675f8de5565cb192e7b6f0d",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                23
+              ],
+              [
+                23
+              ]
+            ],
+            "frames": [
+              [
+                3563
+              ],
+              [
+                3562
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 0,
+        "vs": 15518101065676308936,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            12021865740332317413
+          ],
+          [
+            12021865740332317413
+          ]
+        ],
+        "matched_keys": 281,
+        "equal_keys": 281,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "004aa092973b22b00cc44f4a10555b44ade6f16842d3c62bfc4adb0f1d451193",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3476
+              ],
+              [
+                3475
+              ]
+            ]
+          },
+          {
+            "key": [
+              "02ff617c0c09182f724804e4db95ce5561cd726abb20c263f6c5e586291f5ed1",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3684
+              ],
+              [
+                3682
+              ]
+            ]
+          },
+          {
+            "key": [
+              "033d5ea65fc5949282178a13d234cbad6382a9e5f675f8de5565cb192e7b6f0d",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3563
+              ],
+              [
+                3562
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 1,
+        "vs": 7141575655502862876,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            10996139680788563763
+          ],
+          [
+            10996139680788563763
+          ]
+        ],
+        "matched_keys": 281,
+        "equal_keys": 281,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "018a22c2af42ab0bd387c033c4bbfb059eb07815b1c142ba2747f1f1c2200776",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3542
+              ],
+              [
+                3541
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01fcbac6887ce833e8a24dae59da4264ae58894b0a506e7a42aaff6d21932502",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3420
+              ],
+              [
+                3419
+              ]
+            ]
+          },
+          {
+            "key": [
+              "022e1ee19cb6374bed245c7dc401f8c6ba0d4d22249f3ade193a76bff19d9488",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3610
+              ],
+              [
+                3609
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 1,
+        "vs": 10556403050914701579,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            17893540736724855907
+          ],
+          [
+            17893540736724855907
+          ]
+        ],
+        "matched_keys": 281,
+        "equal_keys": 281,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "018a22c2af42ab0bd387c033c4bbfb059eb07815b1c142ba2747f1f1c2200776",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3542
+              ],
+              [
+                3541
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01fcbac6887ce833e8a24dae59da4264ae58894b0a506e7a42aaff6d21932502",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3420
+              ],
+              [
+                3419
+              ]
+            ]
+          },
+          {
+            "key": [
+              "022e1ee19cb6374bed245c7dc401f8c6ba0d4d22249f3ade193a76bff19d9488",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3610
+              ],
+              [
+                3609
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 1,
+        "vs": 11600849241261448272,
+        "draws": [
+          300,
+          299
+        ],
+        "ranges": [
+          [
+            7,
+            10
+          ],
+          [
+            7,
+            10
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            6159915361788144154
+          ],
+          [
+            6159915361788144154
+          ]
+        ],
+        "matched_keys": 280,
+        "equal_keys": 280,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "018a22c2af42ab0bd387c033c4bbfb059eb07815b1c142ba2747f1f1c2200776",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                9
+              ],
+              [
+                9
+              ]
+            ],
+            "frames": [
+              [
+                3542
+              ],
+              [
+                3541
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01fcbac6887ce833e8a24dae59da4264ae58894b0a506e7a42aaff6d21932502",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                9
+              ],
+              [
+                9
+              ]
+            ],
+            "frames": [
+              [
+                3420
+              ],
+              [
+                3419
+              ]
+            ]
+          },
+          {
+            "key": [
+              "022e1ee19cb6374bed245c7dc401f8c6ba0d4d22249f3ade193a76bff19d9488",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                9
+              ],
+              [
+                9
+              ]
+            ],
+            "frames": [
+              [
+                3610
+              ],
+              [
+                3609
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10122,
+        "mesh": 0,
+        "part": 2,
+        "vs": 10556403050914701579,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            0,
+            317
+          ],
+          [
+            0,
+            317
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            5599679742806490281
+          ],
+          [
+            5599679742806490281
+          ]
+        ],
+        "matched_keys": 281,
+        "equal_keys": 281,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "018a22c2af42ab0bd387c033c4bbfb059eb07815b1c142ba2747f1f1c2200776",
+              7374435,
+              247,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                276
+              ],
+              [
+                276
+              ]
+            ],
+            "frames": [
+              [
+                3542
+              ],
+              [
+                3541
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01fcbac6887ce833e8a24dae59da4264ae58894b0a506e7a42aaff6d21932502",
+              7374435,
+              247,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                34
+              ],
+              [
+                34
+              ]
+            ],
+            "frames": [
+              [
+                3420
+              ],
+              [
+                3419
+              ]
+            ]
+          },
+          {
+            "key": [
+              "022e1ee19cb6374bed245c7dc401f8c6ba0d4d22249f3ade193a76bff19d9488",
+              7374435,
+              247,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                0
+              ],
+              [
+                0
+              ]
+            ],
+            "frames": [
+              [
+                3610
+              ],
+              [
+                3609
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 0,
+        "vs": 1802336714319958646,
+        "draws": [
+          10,
+          10
+        ],
+        "ranges": [
+          [
+            548,
+            550
+          ],
+          [
+            548,
+            550
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            14007674117786981017
+          ],
+          [
+            14007674117786981017
+          ]
+        ],
+        "matched_keys": 10,
+        "equal_keys": 10,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "10476487ba8131f7798f861d81682325f589b3fee457e0e5d6d3441845ef39d1",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                548
+              ],
+              [
+                548
+              ]
+            ],
+            "frames": [
+              [
+                3443
+              ],
+              [
+                3442
+              ]
+            ]
+          },
+          {
+            "key": [
+              "15f75f5c62e6600b460aff558bc33e43ddd6b73768f1dff4d655dde066d5e80e",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                548
+              ],
+              [
+                548
+              ]
+            ],
+            "frames": [
+              [
+                3446
+              ],
+              [
+                3445
+              ]
+            ]
+          },
+          {
+            "key": [
+              "3ebe8de0796a629b6d83ab178dda01cd481e5675f554bca5c33caa45e8411b88",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                550
+              ],
+              [
+                550
+              ]
+            ],
+            "frames": [
+              [
+                3658
+              ],
+              [
+                3656
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 0,
+        "vs": 12627602885350085323,
+        "draws": [
+          300,
+          299
+        ],
+        "ranges": [
+          [
+            1969,
+            1985
+          ],
+          [
+            1969,
+            1985
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            8562590739555380577
+          ],
+          [
+            8562590739555380577
+          ]
+        ],
+        "matched_keys": 297,
+        "equal_keys": 297,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "00bbc345e0e8e3d9ce545584e4d2b6ac2ef6c247483be952d141693ce49976d0",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                1980
+              ],
+              [
+                1980
+              ]
+            ],
+            "frames": [
+              [
+                3421
+              ],
+              [
+                3420
+              ]
+            ]
+          },
+          {
+            "key": [
+              "0161c825764305d05d5434caf2bb933795a10a57a9bc4609828f2bebbfe40be4",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                1983
+              ],
+              [
+                1983
+              ]
+            ],
+            "frames": [
+              [
+                3505
+              ],
+              [
+                3504
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01c851299802efe8e513493516197a1f18c2e66f3ba4fb1ed4d8e8599b8f8aa5",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                1977
+              ],
+              [
+                1977
+              ]
+            ],
+            "frames": [
+              [
+                3456
+              ],
+              [
+                3455
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 0,
+        "vs": 15518101065676308936,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            545,
+            548
+          ],
+          [
+            545,
+            548
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            12021865740332317413
+          ],
+          [
+            12021865740332317413
+          ]
+        ],
+        "matched_keys": 298,
+        "equal_keys": 298,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "00bbc345e0e8e3d9ce545584e4d2b6ac2ef6c247483be952d141693ce49976d0",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                547
+              ],
+              [
+                547
+              ]
+            ],
+            "frames": [
+              [
+                3421
+              ],
+              [
+                3420
+              ]
+            ]
+          },
+          {
+            "key": [
+              "0161c825764305d05d5434caf2bb933795a10a57a9bc4609828f2bebbfe40be4",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                547
+              ],
+              [
+                547
+              ]
+            ],
+            "frames": [
+              [
+                3505
+              ],
+              [
+                3504
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01c851299802efe8e513493516197a1f18c2e66f3ba4fb1ed4d8e8599b8f8aa5",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                547
+              ],
+              [
+                547
+              ]
+            ],
+            "frames": [
+              [
+                3456
+              ],
+              [
+                3455
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 1,
+        "vs": 1802336714319958646,
+        "draws": [
+          10,
+          10
+        ],
+        "ranges": [
+          [
+            850,
+            870
+          ],
+          [
+            850,
+            870
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            2673597551499054088
+          ],
+          [
+            13278562841511040574
+          ]
+        ],
+        "matched_keys": 10,
+        "equal_keys": 10,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "16e8ba1e6e8a393f1ce836d077d1a1e1341f4a5994160ab425c0fc9e4ec1b810",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                852
+              ],
+              [
+                852
+              ]
+            ],
+            "frames": [
+              [
+                3443
+              ],
+              [
+                3442
+              ]
+            ]
+          },
+          {
+            "key": [
+              "31bfd620b7a1e97cc32fae3d1f7b5be0e0d85689d378b7bd509dc4ead67c2f19",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                852
+              ],
+              [
+                852
+              ]
+            ],
+            "frames": [
+              [
+                3446
+              ],
+              [
+                3445
+              ]
+            ]
+          },
+          {
+            "key": [
+              "6381ddc32f81030cc9cb6d3718a513fbb66b8afb453f18f86b8c036932d8c494",
+              7374435,
+              255,
+              301991088,
+              2201602
+            ],
+            "samples": [
+              [
+                851
+              ],
+              [
+                851
+              ]
+            ],
+            "frames": [
+              [
+                3445
+              ],
+              [
+                3444
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 1,
+        "vs": 12627602885350085323,
+        "draws": [
+          300,
+          299
+        ],
+        "ranges": [
+          [
+            2323,
+            2349
+          ],
+          [
+            2323,
+            2349
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            9794231901256193942
+          ],
+          [
+            4890100476837072910
+          ]
+        ],
+        "matched_keys": 297,
+        "equal_keys": 297,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "0035519080a42c80774213aacb5121aa6277cbbf6a9789b411cee105371bdf55",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                2332
+              ],
+              [
+                2332
+              ]
+            ],
+            "frames": [
+              [
+                3682
+              ],
+              [
+                3680
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01a387ae512b04eddf22cc0c9c0906976d19aac6ee78f79a0389d56d777841b9",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                2338
+              ],
+              [
+                2338
+              ]
+            ],
+            "frames": [
+              [
+                3478
+              ],
+              [
+                3477
+              ]
+            ]
+          },
+          {
+            "key": [
+              "02305780accf7a602f77d2e5b9c19912891d1e678f3a7e8b395913299f91eb3a",
+              7374439,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                2329
+              ],
+              [
+                2329
+              ]
+            ],
+            "frames": [
+              [
+                3520
+              ],
+              [
+                3519
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "owner": 10177,
+        "mesh": 0,
+        "part": 1,
+        "vs": 15518101065676308936,
+        "draws": [
+          300,
+          300
+        ],
+        "ranges": [
+          [
+            850,
+            873
+          ],
+          [
+            850,
+            873
+          ]
+        ],
+        "pixel_shaders": [
+          [
+            7615727887144550351
+          ],
+          [
+            9664450347325391613
+          ]
+        ],
+        "matched_keys": 298,
+        "equal_keys": 298,
+        "different": [],
+        "equal_examples": [
+          {
+            "key": [
+              "0035519080a42c80774213aacb5121aa6277cbbf6a9789b411cee105371bdf55",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                865
+              ],
+              [
+                865
+              ]
+            ],
+            "frames": [
+              [
+                3682
+              ],
+              [
+                3680
+              ]
+            ]
+          },
+          {
+            "key": [
+              "01a387ae512b04eddf22cc0c9c0906976d19aac6ee78f79a0389d56d777841b9",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                873
+              ],
+              [
+                873
+              ]
+            ],
+            "frames": [
+              [
+                3478
+              ],
+              [
+                3477
+              ]
+            ]
+          },
+          {
+            "key": [
+              "02305780accf7a602f77d2e5b9c19912891d1e678f3a7e8b395913299f91eb3a",
+              7374435,
+              255,
+              301991088,
+              2195458
+            ],
+            "samples": [
+              [
+                865
+              ],
+              [
+                865
+              ]
+            ],
+            "frames": [
+              [
+                3520
+              ],
+              [
+                3519
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "matched_fabric_cutout_keys": 605,
+    "different_fabric_cutout_keys": 0,
+    "inputs_sha256": {
+      "work\\sky-bridge\\reproduction-38\\coverage-draws.json": "73698e5b0ff548b542acef5086796c4a90bf2d34ca67f5b48a9488351596ae53",
+      "work\\sky-bridge\\reproduction-38\\coverage-analysis.json": "b366eadb4768acae8b110af285c1eff059c958de04c5933cd0322b5698834c9e",
+      "work\\sky-bridge\\reproduction-38\\model-draw-analysis.json": "93f2a07887915b4b840863ad5c6a4a57f32c316459f2354ee71681aa474b5f77",
+      "work\\sky-bridge\\reproduction-39\\coverage-draws.json": "e5ce07399d891b5135ac02c14c56cbdb2c6b008849391f76d1560fceee619328",
+      "work\\sky-bridge\\reproduction-39\\coverage-analysis.json": "671176931d11a60aa713130ad3772a839b949efe3adb4211600f97f06bb28e8b",
+      "work\\sky-bridge\\reproduction-39\\model-draw-analysis.json": "331c7a5c91ddc34642d0e7aa60a2e61a2909e6c25057d15646808ea229f366c7"
+    },
+    "limitations": [
+      "Equal aggregate passing-sample counts do not establish an identical coverage mask.",
+      "Keys match referenced position constants and selected raster/depth state, not every pixel-shader input or other scene objects.",
+      "Different simulation times are matched by exact input values, not by CPU/GPU frame number.",
+      "Zero passing samples alone do not identify occlusion, depth/stencil rejection, culling, or shader discard."
+    ],
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "fixture": {
+    "path": "work/sky-bridge/fabric-coverage-build/fixture-03",
+    "backend": "D3D12 WARP",
+    "visible_samples": 64,
+    "depth_rejected_samples": 0,
+    "guest_query_skip": true,
+    "completed_fence_guard": true,
+    "post_trace_drain": true,
+    "debug_layer_available": false,
+    "note": "Initial fixture attempts stopped because the optional D3D12 debug SDK component is absent. The final fixture explicitly reports that limitation and passes the actual GPU query checks."
+  },
+  "probe": {
+    "opt_in": "OPENH3M_SKY_COVERAGE_TRACE=1",
+    "query_capacity": 16384,
+    "readback_bytes": 131072,
+    "scope": "Actual selected guest draws only; no draw-state changes, duplicated draws, screenshots, or desktop input.",
+    "bounds": "Existing draw trace stops at 300 frames, 15 seconds or 512 MiB; private game watchdog 180 seconds. Own query heap never reuses slots and skips active guest queries.",
+    "integration_patch_reverse_check": true
+  },
+  "fabric_shadow_audit": {
+    "candidate32": {
+      "definition": 15,
+      "shared_pixel": 63,
+      "options": {
+        "albedo": 0,
+        "bump_mapping": 0,
+        "alpha_test": 1,
+        "specular_mask": 0,
+        "material_model": 0,
+        "environment_mapping": 0,
+        "self_illumination": 0,
+        "blend_mode": 0,
+        "parallax": 0,
+        "misc": 0
+      },
+      "shadow_entry": 10,
+      "shared_pass_flags": 1,
+      "category_dependencies": [
+        2
+      ],
+      "default_program": -1,
+      "option_program_indices": [
+        0,
+        1
+      ],
+      "selected_program": 1,
+      "gprs": 1,
+      "program_bytes": 340,
+      "program_sha256": "c04c09cec6ce44ffb94f4c6e7ad15f32b1a25b26b2352e72b66ee0c585094de2"
+    },
+    "candidate35": {
+      "definition": 15,
+      "shared_pixel": 63,
+      "options": {
+        "albedo": 0,
+        "bump_mapping": 0,
+        "alpha_test": 1,
+        "specular_mask": 0,
+        "material_model": 0,
+        "environment_mapping": 0,
+        "self_illumination": 0,
+        "blend_mode": 0,
+        "parallax": 0,
+        "misc": 0
+      },
+      "shadow_entry": 10,
+      "shared_pass_flags": 1,
+      "category_dependencies": [
+        2
+      ],
+      "default_program": -1,
+      "option_program_indices": [
+        0,
+        1
+      ],
+      "selected_program": 1,
+      "gprs": 1,
+      "program_bytes": 340,
+      "program_sha256": "c04c09cec6ce44ffb94f4c6e7ad15f32b1a25b26b2352e72b66ee0c585094de2"
+    },
+    "identical_program_and_routing": true,
+    "shader_alpha_discard_threshold": 0.5,
+    "conclusion": "The global shadow program already rejects alpha below 0.5 and is unchanged. Clearing the material hardware-alpha flag does not remove this native shader discard.",
+    "limitations": [
+      "This is an asset/program audit, not runtime shadow coverage verification.",
+      "The former material hardware threshold was about 0.501960814; its additional effect in the shadow path has not been measured.",
+      "This does not establish visually identical shadow edges or acceptance on physical Xbox 360."
+    ],
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "searchlight_input_audit": {
+    "run": "work\\sky-bridge\\reproduction-38",
+    "animation": {
+      "metadata": {
+        "nodes": [
+          "search_light_1",
+          "lamp",
+          "static"
+        ],
+        "animations": [
+          {
+            "name": "device:position",
+            "frames": 100,
+            "nodes": 3,
+            "compression_field": 0
+          }
+        ]
+      },
+      "members": 1,
+      "codecs": [
+        6
+      ],
+      "converted_raw_bytes": 356,
+      "control_bytes": 60,
+      "raw_sha256": "bae5cdcff2927899829dce01af2a367a98cfab6fed5823dbcc73d598261e1240",
+      "control_sha256": "f03263dbd090c5f1f0ede455509880cd350c42d7f37345c4949f23c9d9ed6182",
+      "control_fixups_and_raw_equal": true
+    },
+    "cross_pass_position_inputs": {
+      "0": {
+        "frames": 300,
+        "passes_per_frame": 3,
+        "all_position_inputs_identical": true
+      },
+      "1": {
+        "frames": 300,
+        "passes_per_frame": 3,
+        "all_position_inputs_identical": true
+      }
+    },
+    "states": [
+      {
+        "part": 0,
+        "vs": 1802336714319958646,
+        "ps": 14007674117786981017,
+        "depth_control": "0x708663",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x219802",
+        "z_enable": true,
+        "z_write": false,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 0,
+        "vs": 12627602885350085323,
+        "ps": 8562590739555380577,
+        "depth_control": "0x708667",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x218002",
+        "z_enable": true,
+        "z_write": true,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 0,
+        "vs": 15518101065676308936,
+        "ps": 12021865740332317413,
+        "depth_control": "0x708663",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x218002",
+        "z_enable": true,
+        "z_write": false,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 1,
+        "vs": 7141575655502862876,
+        "ps": 10996139680788563763,
+        "depth_control": "0x708663",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x219802",
+        "z_enable": true,
+        "z_write": false,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 1,
+        "vs": 10556403050914701579,
+        "ps": 17893540736724855907,
+        "depth_control": "0x708663",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x218002",
+        "z_enable": true,
+        "z_write": false,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 1,
+        "vs": 11600849241261448272,
+        "ps": 6159915361788144154,
+        "depth_control": "0x708667",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x218002",
+        "z_enable": true,
+        "z_write": true,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      },
+      {
+        "part": 2,
+        "vs": 10556403050914701579,
+        "ps": 5599679742806490281,
+        "depth_control": "0x708663",
+        "depth_info": "0x10000",
+        "stencil": "0xe01f3f",
+        "raster": "0x218002",
+        "z_enable": true,
+        "z_write": false,
+        "z_func": 6,
+        "stencil_enabled": true,
+        "stencil_func": 6,
+        "stencil_ref": 63,
+        "stencil_read_mask": 31
+      }
+    ],
+    "inputs_sha256": {
+      "draws.bin": "01b2f09b39074011b6a548ccf021f88d4f3f10678f0e45bb74bcfb0c4528ebe5",
+      "model-draw-calls.json": "a67e02c0628c00b3d6da52a774d28e966e701b779e470adcb6cfaed36c4a0f45",
+      "model-draw-analysis.json": "93f2a07887915b4b840863ad5c6a4a57f32c316459f2354ee71681aa474b5f77"
+    },
+    "limitations": [
+      "Matching animation payloads and finite/smooth matrices do not establish correct animated geometry or lighting.",
+      "The position-input comparison excludes shader literal slots; the distinct native vertex programs still need execution/output comparison.",
+      "Zero surviving lighting coverage remains unexplained: later occlusion, rasterization, shader discard, and depth/stencil rejection have not been distinguished.",
+      "No animation suppression, depth override or lighting fix follows from this audit."
+    ],
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "installed_map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "shared_files_unchanged": true,
+  "limitations": [
+    "Passing-sample totals are not pixel masks or full visual acceptance; coverage of unmatched inputs remains unpaired.",
+    "The searchlight body and lamp face have visible albedo coverage but zero later lighting coverage in both candidates. These are observations, not proof of faulty animation or a diagnosed lighting bug.",
+    "The distinct vertex shaders, intervening occlusion, depth/stencil tests and discard behavior need further causal tracing.",
+    "Authored animation bytes are intact. This does not establish correct transformed geometry, beam brightness, or visual behavior.",
+    "The shared shadow shader retains its 0.5 discard; the prior extra hardware threshold was about 0.501960814. Runtime shadow-edge equivalence is unverified.",
+    "Candidate34 billboard mip fix has not yet been combined with candidate35. Advertisement readability, rain appearance, traversal/performance, audio, physical Xbox and system link remain unverified.",
+    "No LIVE package, installed map, or shared runtime was promoted."
+  ],
+  "evidence_sha256": {
+    "work\\sky-bridge\\reproduction-38\\coverage.csv": "1af9cdd04a5e0b0d8ccd1cc1721b6cf0529ee924c4683a1d82d4958755f0a4cd",
+    "work\\sky-bridge\\reproduction-38\\coverage-analysis.json": "b366eadb4768acae8b110af285c1eff059c958de04c5933cd0322b5698834c9e",
+    "work\\sky-bridge\\reproduction-38\\coverage-draws.json": "73698e5b0ff548b542acef5086796c4a90bf2d34ca67f5b48a9488351596ae53",
+    "work\\sky-bridge\\reproduction-38\\draws.bin": "01b2f09b39074011b6a548ccf021f88d4f3f10678f0e45bb74bcfb0c4528ebe5",
+    "work\\sky-bridge\\reproduction-38\\stages.csv": "0948ca2faf287a1b9c1a9d0c2e1d375c4e86f8a57af57104382490256ad0a3df",
+    "work\\sky-bridge\\reproduction-38\\pixels.csv": "2f6102c5da65d62d8a3c58200be9c78e0d36ff3d1154ca27481d91c1edb8da5c",
+    "work\\sky-bridge\\reproduction-38\\presented.csv": "98cd67e94632c939aae27d3b9a7ed47688096d263cca440512b0a07dc1b68ce7",
+    "work\\sky-bridge\\reproduction-38\\model-draw-analysis.json": "93f2a07887915b4b840863ad5c6a4a57f32c316459f2354ee71681aa474b5f77",
+    "work\\sky-bridge\\reproduction-38\\model-draw-calls.json": "a67e02c0628c00b3d6da52a774d28e966e701b779e470adcb6cfaed36c4a0f45",
+    "work\\sky-bridge\\reproduction-38\\model-pass-analysis.json": "496863b9eca5d6632a729ad07dd29051ed0b8c39cdfaf66ea1bf26a56b5c6014",
+    "work\\sky-bridge\\reproduction-38\\camera-reproduction-check.json": "ce064537ed0aaa1eff05158336aba0789219e17ee25a60f4b00f47dfc5c26440",
+    "work\\sky-bridge\\reproduction-38\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-38\\all-model-dynamic-black-writes.json": "fae625389f243b2c50f5e9d039e4e9e8820edc1ca380c7b92fd69a8b8be33913",
+    "work\\sky-bridge\\reproduction-38\\runtime-hashes.json": "20b6f9645aea2c849192d4055131a2df631af47005c3a2499fdab7c9ac21615f",
+    "work\\sky-bridge\\reproduction-38\\recording-configuration.json": "0527a9800d8a75cb0e29c02f831a5bea93301c14a712b3b03adcfebb260511bd",
+    ".local\\loading-traces\\20261104-025110-10996\\launch-command.json": "15b52285749f041df8cb963fe62f7dd0f369101d1d0476a2aacd528e77aee28f",
+    ".local\\loading-traces\\20261104-025110-10996\\loading-trace.jsonl": "a77a9d4d7b40b9fea41a22a448f4b789177b34ad121d46ec701a4446faa2a7e8",
+    "work\\sky-bridge\\reproduction-39\\coverage.csv": "b7515852a80298c56dd831866c3e4050bf1599cad5296f7443d353c8713b644d",
+    "work\\sky-bridge\\reproduction-39\\coverage-analysis.json": "671176931d11a60aa713130ad3772a839b949efe3adb4211600f97f06bb28e8b",
+    "work\\sky-bridge\\reproduction-39\\coverage-draws.json": "e5ce07399d891b5135ac02c14c56cbdb2c6b008849391f76d1560fceee619328",
+    "work\\sky-bridge\\reproduction-39\\draws.bin": "eb35e843170fbdfeb9a5caac192f3925835522db9310affb93ad19b3aebc93a5",
+    "work\\sky-bridge\\reproduction-39\\stages.csv": "6793fe4e8f18356a803753229a6c9054961a64591cc1e81b3181904a8849b6e7",
+    "work\\sky-bridge\\reproduction-39\\pixels.csv": "3ff5576038227b6d3375586ad4e4a9dae2d4f492c4672a052f0eef59a34e3f64",
+    "work\\sky-bridge\\reproduction-39\\presented.csv": "36a1f738206fc3a330a080e90258beffe47827a675d4b804bc928ee3dbfa903f",
+    "work\\sky-bridge\\reproduction-39\\model-draw-analysis.json": "331c7a5c91ddc34642d0e7aa60a2e61a2909e6c25057d15646808ea229f366c7",
+    "work\\sky-bridge\\reproduction-39\\model-draw-calls.json": "9e0cf21586ff2d09e58b406069b7f22246c42118d3ced3148ce53d78d468c08c",
+    "work\\sky-bridge\\reproduction-39\\model-pass-analysis.json": "cd1d785ffa22cafa118afc33fafbf88884f2ffa16c657be4ef5cf12bbfb04b61",
+    "work\\sky-bridge\\reproduction-39\\camera-reproduction-check.json": "77ddfd14278c4421ce5e776c3317eb7c713e6143801f75d25932dd2bb11408ee",
+    "work\\sky-bridge\\reproduction-39\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-39\\all-model-dynamic-black-writes.json": "18e020378864ef271d07b9c1a919dede198d9d0c39e66d94c127c93f531eaf18",
+    "work\\sky-bridge\\reproduction-39\\runtime-hashes.json": "20b6f9645aea2c849192d4055131a2df631af47005c3a2499fdab7c9ac21615f",
+    "work\\sky-bridge\\reproduction-39\\recording-configuration.json": "8a85745a2591546af09e976b60059819cf4410749d6636a55e105cf0998cd0ba",
+    ".local\\loading-traces\\20261104-025446-26656\\launch-command.json": "fe2cdd848cb4309fda2bff2c4e4f6d42ee86699e2c668058b380cbebee4eda76",
+    ".local\\loading-traces\\20261104-025446-26656\\loading-trace.jsonl": "cf2b5ef7611069226b0650a0f5cc825628941f75105866e9d593d521492c01ac",
+    "work\\sky-bridge\\fabric-coverage-build\\coverage-comparison-verified.json": "e89bc3ea19be6f56401fe7054d9fcfd150935e83a314ce8d074493eccdebb20f",
+    "work\\sky-bridge\\fabric-coverage-build\\searchlight-input-audit.json": "0614e702d66144f17e2620da0ebab54e0ba6d68b7fe86ad28c7fc86d681a6c37",
+    "work\\sky-bridge\\fabric-coverage-build\\fixture-03\\coverage.csv": "fa55efd2317a8115bd1ee2cf79985266c06792920528c83870ede7409668c5df",
+    "work\\sky-bridge\\fabric-coverage-build\\test.log": "d012cbba642f40c1ee288b511df911fe13c17128bfcdc8837b05cb2b52a5bb64",
+    "work\\sky-bridge\\fabric-cutout-build\\shadow-audit.json": "272136a350267499359a7e846a7431275d6073b43ee9e39d643ba5713aa6577d"
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

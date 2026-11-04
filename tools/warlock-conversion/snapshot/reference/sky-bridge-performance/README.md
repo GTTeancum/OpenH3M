@@ -1375,3 +1375,82 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Candidate35: measured cutout coverage and unresolved searchlight (2026-11-04)
+
+`candidate35-fabric-coverage-result.json` records private replays 38/39, using
+the saved human player/vehicle pose and native observer command. Both runs
+cover 300 frames and terminate at their 180-second watchdogs. The original
+candidate32 reproduces ten fabric black overwrites; candidate35 records zero.
+The native observer command/result match exactly, as do all 9000 and 8985
+traced base/lit camera matrices respectively. Eleven native map-header checks
+pass in each run. These diagnostics do not establish production performance.
+
+The opt-in `sky_coverage_probe.h` places an independent D3D12 occlusion query
+around each actual selected draw. It never changes guest draw state or nests
+an active game visibility query. Its 16384 slots are used once, read only after
+their submission fence completes, and drained after recording stops. The
+128-KiB readback contains sample counts, not images. Existing draw recording
+limits remain 300 frames, 15 seconds or 512 MiB. `-CoverageTrace` requires
+`-ModelPassProbe` and is rejected in timing-only runs. Copy the header beside
+the private SDK's existing trace headers and apply
+`sky-coverage-probe-integration.patch` with `git apply --unidiff-zero`;
+reverse-apply verification passed.
+
+All 11308 and 11292 queries join unambiguously to the recorded model draws,
+with no missing, active-guest-query, capacity, or readback failures. The
+paired color probes also complete without missing before/after samples.
+`read-coverage-probe.py` decodes each run. `compare-coverage-probes.py` matches
+referenced camera/decode/bone constants and selected raster/depth state,
+while checking index/vertex witnesses. For model 10177 part 1, all 605 matching
+input keys have identical aggregate passing coverage: 297 albedo, 298 static,
+and 10 dynamic-light comparisons. Their respective sample ranges are
+2323–2349,850–873, and850–870. Equal totals do not prove an identical pixel
+mask, and unmatched inputs remain unpaired.
+
+`build-coverage-probe-test.cmd` builds the native WARP fixture with outputs
+and TEMP/TMP confined to the repository. Set `OPENH3M_SKY_COVERAGE_TRACE=1`
+and `OPENH3M_SKY_TRACE_DIR` to a fresh directory under
+`work/sky-bridge/fabric-coverage-build` before running `gpu-test.exe`.
+The test verifies 64 samples for a full 8x8 draw, zero for the identical draw
+rejected by the depth comparison, skipping an active guest query, refusing
+reads before fence completion, and draining after the trace's sequence
+becomes zero. These checks pass. The optional D3D12 debug layer is absent
+on this machine; debug-message validation was explicitly skipped.
+
+`audit-fabric-shadow.py` follows material 9821 through root definition 15,
+alpha-test option 1, and global pixel library 63 to shadow program 1. Candidate32
+and35 retain identical routing and native program bytes. Official SDK
+disassembly confirms the shared program already discards texture alpha
+below 0.5. This preserves a shadow cutout path, but does not prove identical
+runtime shadow edges: the former additional hardware comparison used
+approximately 0.501960814 and has not been measured in that path.
+
+The coverage queries reveal a separate question about searchlight model 10122.
+Its body and lamp face have 19–27 and7–10 passing albedo samples, but all their
+later static/dynamic lighting draws have zero passing samples across both
+300-frame runs. Its beam has0–317. At the sampled point (501,175), the albedo
+body/face contribute, while their later lighting does not. The cause is not
+yet identified; ordinary intervening occlusion, depth/stencil rejection,
+shader discard, and distinct vertex-shader outputs still need separating.
+No depth override, suppressed animation, or searchlight correction is made.
+
+`audit-searchlight-inputs.py` confirms that the source 100-frame, three-node
+`device:position` animation survives conversion: 356 converted codec 6 bytes,
+60 control bytes and all fixups match exactly. All 300 frames also have
+identical referenced position inputs across the three body/face passes.
+Shader literal slots differ as required by the different native programs;
+the audit does not execute them or establish correct animated geometry.
+The captured depth comparison is reversed-depth GREATER_EQUAL, not EQUAL.
+Authored animation alone does not explain away the user's reported flicker.
+
+The next causal trace must distinguish those searchlight rejection paths.
+Candidate34 billboard mip addressing still needs combining with candidate35;
+advertisement readability, rain appearance, traversal/audio, performance,
+physical Xbox 360 and system link remain unverified. Shared GPU and installed
+candidate32 map hashes are unchanged. No release was promoted.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
