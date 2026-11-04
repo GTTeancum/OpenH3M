@@ -788,3 +788,50 @@ Next broaden numeric coverage beyond the current region while reducing the
 number of enabled probe stages, preserving the exact view and measured start
 time. Billboard readability, actual rain rendering, lighting flicker and final
 visual/performance acceptance remain open. Source credits are unchanged above.
+
+## Full viewport and native observer input
+
+`candidate32-full-viewport-result.json` records runs 15–17. The launcher now
+supports `-RegionOnly -FullViewport` with exactly one of `-RegionProbe` or
+`-SwapchainProbe`. This disables the CPU draw and isolated-pixel probes and
+measures every texel of the chosen game-owned output buffer. Each run writes
+its diagnostic configuration before launching; it refuses existing evidence.
+
+Run 15 recorded all 300 guest frames at 1152×640, totaling 221,184,000 pixel
+contributions. Run 16 recorded 862 application paint submissions at 1280×720,
+totaling 794,419,200 contributions before its 15-second recording limit.
+Neither has missing frame IDs or incomplete tiles. Near-black pixel counts
+remain 131 and 113, respectively, and there are no isolated near-black pulses.
+Relative brightness falls do occur and remain in the report. Their presence
+does not establish a rendering defect; absence of near-black pulses does not
+invalidate the human report. Desktop composition is outside these probes.
+
+The earlier replay overwrote the final 112-byte observer result. The saved
+native snapshot exposed a concrete difference: the final camera matched, but
+the preceding native command still faced along the vehicle. The new optional
+`-NativeObserver` mode writes 64 numeric command bytes before `sub_82214BC0` and
+leaves the final result to the native basis, collision and BSP-location code.
+`write-observer-command.py RUN` extracts those inputs. It resolves TLS+0x2cc
+against the actual captured allocation; the old human observer blob starts
+188 bytes before it. No saved pointers or object handles are restored.
+
+Run 17 verifies that native computation recreates the recorded position,
+orientation and projection exactly: all 1759 attributed draw matrices match
+across 300 frames. Its 300 full guest-output frames again contain no isolated
+near-black pulse, with a constant 131 near-black pixels. This is repeatable
+positioning, not reproduction of the reported defect or performance acceptance.
+
+`compare-native-observer.py` also exposes a remaining difference. Six result
+words at camera+0x10 through +0x24 are zero in the human snapshot but nonzero
+in run 17. `82214BC0` reads their inputs at user+496 and user+536, negating the
+first triple. The numeric command override occurs after preceding native
+interpolation, so it does not align these motion-related inputs. The next
+trace should follow `82214930` and the subsequent native update stages before
+claiming complete observer-state equivalence. Do not treat a matching camera
+matrix as proof that all view-dependent simulation state matches.
+
+All three processes closed under their 180-second watchdogs. The shared GPU
+DLL remains restored and hash-verified; no production renderer or map changed.
+The player/vehicle coordinates, basis vectors, camera and native command remain
+saved for unattended tests. No further manual positioning is required.
+Source credits are unchanged above; this is the Xbox 360/OpenH3M adaptation.

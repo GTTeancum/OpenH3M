@@ -15,6 +15,7 @@ extern "C" void __imp__sub_8232F3D8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_82598838(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8213BC50(PPCContext&, uint8_t*);
+extern "C" void __imp__sub_82214BC0(PPCContext&, uint8_t*);
 namespace sky_reproduction {
 inline uint32_t U(const uint8_t* base,uint32_t at) {
   uint32_t v;std::memcpy(&v,base+at,4);return std::byteswap(v);
@@ -89,7 +90,7 @@ class Reproduction {
     if(seated){
       // Exact diagnostic camera, including static BSP/cluster location. This
       // affects only the opted-in test process, and does not freeze simulation.
-      std::memcpy(base+camera,observer_result_.data(),observer_result_.size());
+      if(!native_observer_)std::memcpy(base+camera,observer_result_.data(),observer_result_.size());
       // Native suspension settles the fresh vehicle 0.025 units from the
       // recorded pose; retain and report that measured difference.
       stable_=error<.0009f?stable_+1:0;
@@ -109,6 +110,17 @@ class Reproduction {
     // Same native function entry and TLS context as the saved human snapshot.
     SaveNativeState(base,tls,0x82160F28,directory_);
     std::ofstream(directory_/"arm").put('\n');REXLOG_INFO("[sky-repro] stable seated view armed");
+  }
+  void ObserverInput(PPCContext& ctx,uint8_t* base) {
+    uint32_t tls;
+    if(!native_observer_||ctx.r3.u32!=0||!World(ctx,base,tls))return;
+    const auto player=Object(base,tls,player_.load());
+    if(!player||U(base,player+0x10)!=vehicle_.load())return;
+    const auto observer=U(base,tls+0x2cc);if(!Ptr(observer))return;
+    // sub_82214BC0 reads the 16 numeric command fields at user+380:
+    // focus position, local offsets, window shift, distance, FOV and basis.
+    // Native basis, collision and BSP-location updates execute afterward.
+    std::memcpy(base+observer+4+380,observer_command_.data(),observer_command_.size());
   }
   void Input(PPCContext& ctx,uint8_t* base,uint32_t user,uint32_t destination) {
     uint32_t tls;
@@ -154,6 +166,15 @@ class Reproduction {
     input.read(reinterpret_cast<char*>(vehicle_pose_.data()),sizeof(vehicle_pose_));
     if(!input||input.peek()!=std::ifstream::traits_type::eof())return;
     for(float v:vehicle_pose_)if(!std::isfinite(v))return;
+    if(const auto* native=std::getenv("OPENH3M_SKY_REPRO_NATIVE_OBSERVER")){
+      if(std::strcmp(native,"1")!=0)return;
+      std::ifstream command(directory/"observer-command.bin",std::ios::binary);
+      command.read(reinterpret_cast<char*>(observer_command_.data()),observer_command_.size());
+      if(!command||command.peek()!=std::ifstream::traits_type::eof())return;
+      for(unsigned i=0;i<16;++i){uint32_t bits;std::memcpy(&bits,observer_command_.data()+i*4,4);
+        if(!std::isfinite(std::bit_cast<float>(std::byteswap(bits))))return;}
+      native_observer_=true;
+    }
     if(const auto* delay=_wgetenv(L"OPENH3M_SKY_REPRO_ARM_DELAY_MS")){
       wchar_t* end=nullptr;const unsigned long value=std::wcstoul(delay,&end,10);
       if(!*delay||*end||value>20000)return;
@@ -164,6 +185,8 @@ class Reproduction {
   }
   std::filesystem::path directory_;
   std::array<uint8_t,112> observer_result_{};
+  std::array<uint8_t,64> observer_command_{};
+  bool native_observer_=false;
   std::array<float,9> vehicle_pose_{};
   uint32_t vehicle_tag_=0,player_tag_=0,frames_=0,stable_=0;
   uint32_t input_packets_=0;
@@ -189,4 +212,8 @@ REX_HOOK_RAW(sub_8213BC50){
   // position). Override only after both native stages have completed.
   __imp__sub_8213BC50(ctx,base);
   sky_reproduction::Reproduction::Get().Camera(ctx,base);
+}
+REX_HOOK_RAW(sub_82214BC0){
+  sky_reproduction::Reproduction::Get().ObserverInput(ctx,base);
+  __imp__sub_82214BC0(ctx,base);
 }

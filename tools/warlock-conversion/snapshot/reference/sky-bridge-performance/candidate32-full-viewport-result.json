@@ -1,0 +1,2080 @@
+{
+  "scope": "Full viewport numeric measurements and native observer-input replay; no production rendering fix",
+  "runs": [
+    {
+      "run": "work\\sky-bridge\\reproduction-15",
+      "log_directory": ".local/loading-traces/20261103-225423-25960",
+      "configuration": {
+        "region_only": true,
+        "full_viewport": true,
+        "guest_region": true,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "region": "0,0,1,1",
+        "arm_delay_ms": 15000
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "37ecb6be3797a247c9b33ab4e726d1eb41cb7cc9b87bb8c3b9f074d59b4464e4",
+        "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "probe": {
+        "measurement_stage": "guest_output_after_host_effects",
+        "events": {
+          "sample": 9600,
+          "end": 1
+        },
+        "frame_count": 300,
+        "frame_range": [
+          3378,
+          3677
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            0,
+            0,
+            1152,
+            640
+          ]
+        ],
+        "total_pixel_contributions": 221184000
+      },
+      "dark_pixels_min_max": [
+        131,
+        131
+      ],
+      "black_pulse_frames": 0,
+      "maximum_falling_pixels_per_frame": 1171,
+      "maximum_isolated_pulse_pixels_per_frame": 53,
+      "tile_maxima": [
+        {
+          "tile": 0,
+          "bounds": [
+            0,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.009775171
+        },
+        {
+          "tile": 1,
+          "bounds": [
+            144,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 4.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.208211144
+        },
+        {
+          "tile": 2,
+          "bounds": [
+            288,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 35.0,
+          "pulse_count": 8.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.480938416
+        },
+        {
+          "tile": 3,
+          "bounds": [
+            432,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 41.0,
+          "pulse_count": 2.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.193548387
+        },
+        {
+          "tile": 4,
+          "bounds": [
+            576,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 17.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.174975562
+        },
+        {
+          "tile": 5,
+          "bounds": [
+            720,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.020527859
+        },
+        {
+          "tile": 6,
+          "bounds": [
+            864,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.017595308
+        },
+        {
+          "tile": 7,
+          "bounds": [
+            1008,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.009775171
+        },
+        {
+          "tile": 8,
+          "bounds": [
+            0,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.008797654
+        },
+        {
+          "tile": 9,
+          "bounds": [
+            144,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 14.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.255131965
+        },
+        {
+          "tile": 10,
+          "bounds": [
+            288,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 72.0,
+          "pulse_count": 10.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.457478006
+        },
+        {
+          "tile": 11,
+          "bounds": [
+            432,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 40.0,
+          "pulse_count": 2.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.563049853
+        },
+        {
+          "tile": 12,
+          "bounds": [
+            576,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 994.0,
+          "pulse_count": 50.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.388074291
+        },
+        {
+          "tile": 13,
+          "bounds": [
+            720,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 17.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.117302053
+        },
+        {
+          "tile": 14,
+          "bounds": [
+            864,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 15,
+          "bounds": [
+            1008,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.00684262
+        },
+        {
+          "tile": 16,
+          "bounds": [
+            0,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.013685239
+        },
+        {
+          "tile": 17,
+          "bounds": [
+            144,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.016617791
+        },
+        {
+          "tile": 18,
+          "bounds": [
+            288,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 6.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.113391984
+        },
+        {
+          "tile": 19,
+          "bounds": [
+            432,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 58.0,
+          "pulse_count": 8.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.252199413
+        },
+        {
+          "tile": 20,
+          "bounds": [
+            576,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 127.0,
+          "pulse_count": 5.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.336265885
+        },
+        {
+          "tile": 21,
+          "bounds": [
+            720,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 22,
+          "bounds": [
+            864,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 23,
+          "bounds": [
+            1008,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.011730205
+        },
+        {
+          "tile": 24,
+          "bounds": [
+            0,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.004887586
+        },
+        {
+          "tile": 25,
+          "bounds": [
+            144,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.004887586
+        },
+        {
+          "tile": 26,
+          "bounds": [
+            288,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 27,
+          "bounds": [
+            432,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 24.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.076246334
+        },
+        {
+          "tile": 28,
+          "bounds": [
+            576,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 131.0,
+          "fall_count": 10.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.065493646
+        },
+        {
+          "tile": 29,
+          "bounds": [
+            720,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 30,
+          "bounds": [
+            864,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 31,
+          "bounds": [
+            1008,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        }
+      ],
+      "snapshot_seconds": 22.533333333333335,
+      "snapshot_sha256": "2eecab6aa9f2f65cfa71c3d9d168281e0e7ca13e1e8d5be3e4f39183957eedc1",
+      "observer": {
+        "human": {
+          "captured_blob_offset": 188,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "replay": {
+          "captured_blob_offset": 0,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.75056266784668,
+            69.42678833007812,
+            -0.24518264830112457
+          ],
+          "command_local_offset": [
+            0.09979676455259323,
+            1.2509123337167694e-07,
+            0.5053062438964844
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539758205413818,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            -0.05723685026168823,
+            0.9979540109634399,
+            -0.028490779921412468
+          ],
+          "command_up": [
+            -0.001631384831853211,
+            0.028444034978747368,
+            0.9995940923690796
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "6889102aa21b4716c7b42fd77082d5701473290cdaddc5d05c9f7a7a3048cc96"
+        },
+        "same_result": true,
+        "same_command": false,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "hash_summary": [
+        {
+          "seconds": 180.391,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-16",
+      "log_directory": ".local/loading-traces/20261103-225840-30688",
+      "configuration": {
+        "region_only": true,
+        "full_viewport": true,
+        "guest_region": false,
+        "swapchain_region": true,
+        "stage_probe": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "region": "0,0,1,1",
+        "arm_delay_ms": 15000
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "37ecb6be3797a247c9b33ab4e726d1eb41cb7cc9b87bb8c3b9f074d59b4464e4",
+        "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "probe": {
+        "measurement_stage": "application_swapchain",
+        "events": {
+          "sample": 27584,
+          "end": 1
+        },
+        "frame_count": 862,
+        "frame_range": [
+          7389,
+          8250
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            0,
+            0,
+            1280,
+            720
+          ]
+        ],
+        "total_pixel_contributions": 794419200
+      },
+      "dark_pixels_min_max": [
+        113,
+        113
+      ],
+      "black_pulse_frames": 0,
+      "maximum_falling_pixels_per_frame": 1376,
+      "maximum_isolated_pulse_pixels_per_frame": 71,
+      "tile_maxima": [
+        {
+          "tile": 0,
+          "bounds": [
+            0,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 1,
+          "bounds": [
+            160,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 4.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.145650049
+        },
+        {
+          "tile": 2,
+          "bounds": [
+            320,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 34.0,
+          "pulse_count": 10.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.427174976
+        },
+        {
+          "tile": 3,
+          "bounds": [
+            480,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 38.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.165200391
+        },
+        {
+          "tile": 4,
+          "bounds": [
+            640,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 20.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.153470186
+        },
+        {
+          "tile": 5,
+          "bounds": [
+            800,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.019550342
+        },
+        {
+          "tile": 6,
+          "bounds": [
+            960,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.020527859
+        },
+        {
+          "tile": 7,
+          "bounds": [
+            1120,
+            0,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 8,
+          "bounds": [
+            0,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 9,
+          "bounds": [
+            160,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 10.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.226783969
+        },
+        {
+          "tile": 10,
+          "bounds": [
+            320,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 68.0,
+          "pulse_count": 14.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.438905181
+        },
+        {
+          "tile": 11,
+          "bounds": [
+            480,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 34.0,
+          "pulse_count": 2.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.325513196
+        },
+        {
+          "tile": 12,
+          "bounds": [
+            640,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 1184.0,
+          "pulse_count": 69.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.356793744
+        },
+        {
+          "tile": 13,
+          "bounds": [
+            800,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 19.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.089931574
+        },
+        {
+          "tile": 14,
+          "bounds": [
+            960,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.011730205
+        },
+        {
+          "tile": 15,
+          "bounds": [
+            1120,
+            180,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 16,
+          "bounds": [
+            0,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 17,
+          "bounds": [
+            160,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.012707722
+        },
+        {
+          "tile": 18,
+          "bounds": [
+            320,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 7.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.136852395
+        },
+        {
+          "tile": 19,
+          "bounds": [
+            480,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 67.0,
+          "pulse_count": 9.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.173020528
+        },
+        {
+          "tile": 20,
+          "bounds": [
+            640,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 126.0,
+          "pulse_count": 5.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.235581623
+        },
+        {
+          "tile": 21,
+          "bounds": [
+            800,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.011730205
+        },
+        {
+          "tile": 22,
+          "bounds": [
+            960,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.011730205
+        },
+        {
+          "tile": 23,
+          "bounds": [
+            1120,
+            360,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 24,
+          "bounds": [
+            0,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.004887586
+        },
+        {
+          "tile": 25,
+          "bounds": [
+            160,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 26,
+          "bounds": [
+            320,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 27,
+          "bounds": [
+            480,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 21.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.039100684
+        },
+        {
+          "tile": 28,
+          "bounds": [
+            640,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 113.0,
+          "fall_count": 12.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.059628543
+        },
+        {
+          "tile": 29,
+          "bounds": [
+            800,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 30,
+          "bounds": [
+            960,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 31,
+          "bounds": [
+            1120,
+            540,
+            160,
+            180
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        }
+      ],
+      "snapshot_seconds": 22.5,
+      "snapshot_sha256": "f48bc5f1c5946cb6c7f43c42f794c4ecbd12966b93290f37ebf1912e97d8140e",
+      "observer": {
+        "human": {
+          "captured_blob_offset": 188,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "replay": {
+          "captured_blob_offset": 0,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.75056266784668,
+            69.42678833007812,
+            -0.24518264830112457
+          ],
+          "command_local_offset": [
+            0.09979676455259323,
+            1.2509123337167694e-07,
+            0.5053062438964844
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539758205413818,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            -0.05723685026168823,
+            0.9979540109634399,
+            -0.028490779921412468
+          ],
+          "command_up": [
+            -0.001631384831853211,
+            0.028444034978747368,
+            0.9995940923690796
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "6889102aa21b4716c7b42fd77082d5701473290cdaddc5d05c9f7a7a3048cc96"
+        },
+        "same_result": true,
+        "same_command": false,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "hash_summary": [
+        {
+          "seconds": 180.391,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-17",
+      "log_directory": ".local/loading-traces/20261103-230341-29540",
+      "configuration": {
+        "region_only": false,
+        "full_viewport": true,
+        "native_observer": true,
+        "guest_region": true,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "presented_probe": false,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "region": "0,0,1,1",
+        "arm_delay_ms": 15000
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "b73690fb8925af1a18946022ea41367900aece1fd0024ff96623f668e614b6a1",
+        "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "probe": {
+        "measurement_stage": "guest_output_after_host_effects",
+        "events": {
+          "sample": 9600,
+          "end": 1
+        },
+        "frame_count": 300,
+        "frame_range": [
+          3375,
+          3674
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            0,
+            0,
+            1152,
+            640
+          ]
+        ],
+        "total_pixel_contributions": 221184000
+      },
+      "dark_pixels_min_max": [
+        131,
+        131
+      ],
+      "black_pulse_frames": 0,
+      "maximum_falling_pixels_per_frame": 1173,
+      "maximum_isolated_pulse_pixels_per_frame": 43,
+      "tile_maxima": [
+        {
+          "tile": 0,
+          "bounds": [
+            0,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.009775171
+        },
+        {
+          "tile": 1,
+          "bounds": [
+            144,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 4.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.204301075
+        },
+        {
+          "tile": 2,
+          "bounds": [
+            288,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 33.0,
+          "pulse_count": 8.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.474095797
+        },
+        {
+          "tile": 3,
+          "bounds": [
+            432,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 22.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.193548387
+        },
+        {
+          "tile": 4,
+          "bounds": [
+            576,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 17.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.174975562
+        },
+        {
+          "tile": 5,
+          "bounds": [
+            720,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.020527859
+        },
+        {
+          "tile": 6,
+          "bounds": [
+            864,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.017595308
+        },
+        {
+          "tile": 7,
+          "bounds": [
+            1008,
+            0,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.009775171
+        },
+        {
+          "tile": 8,
+          "bounds": [
+            0,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.008797654
+        },
+        {
+          "tile": 9,
+          "bounds": [
+            144,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 13.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.257086999
+        },
+        {
+          "tile": 10,
+          "bounds": [
+            288,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 71.0,
+          "pulse_count": 10.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.455522972
+        },
+        {
+          "tile": 11,
+          "bounds": [
+            432,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 40.0,
+          "pulse_count": 2.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.563049853
+        },
+        {
+          "tile": 12,
+          "bounds": [
+            576,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 960.0,
+          "pulse_count": 40.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.38514174
+        },
+        {
+          "tile": 13,
+          "bounds": [
+            720,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 17.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.117302053
+        },
+        {
+          "tile": 14,
+          "bounds": [
+            864,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 15,
+          "bounds": [
+            1008,
+            160,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.007820137
+        },
+        {
+          "tile": 16,
+          "bounds": [
+            0,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.013685239
+        },
+        {
+          "tile": 17,
+          "bounds": [
+            144,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.016617791
+        },
+        {
+          "tile": 18,
+          "bounds": [
+            288,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 6.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.113391984
+        },
+        {
+          "tile": 19,
+          "bounds": [
+            432,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 62.0,
+          "pulse_count": 7.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.252199413
+        },
+        {
+          "tile": 20,
+          "bounds": [
+            576,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 128.0,
+          "pulse_count": 5.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.336265885
+        },
+        {
+          "tile": 21,
+          "bounds": [
+            720,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 22,
+          "bounds": [
+            864,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.010752688
+        },
+        {
+          "tile": 23,
+          "bounds": [
+            1008,
+            320,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.011730205
+        },
+        {
+          "tile": 24,
+          "bounds": [
+            0,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.004887586
+        },
+        {
+          "tile": 25,
+          "bounds": [
+            144,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.004887586
+        },
+        {
+          "tile": 26,
+          "bounds": [
+            288,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 27,
+          "bounds": [
+            432,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 24.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.076246334
+        },
+        {
+          "tile": 28,
+          "bounds": [
+            576,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 131.0,
+          "fall_count": 10.0,
+          "pulse_count": 1.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.065493646
+        },
+        {
+          "tile": 29,
+          "bounds": [
+            720,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 30,
+          "bounds": [
+            864,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        },
+        {
+          "tile": 31,
+          "bounds": [
+            1008,
+            480,
+            144,
+            160
+          ],
+          "dark_count": 0.0,
+          "fall_count": 0.0,
+          "pulse_count": 0.0,
+          "black_pulse_count": 0.0,
+          "worst_pulse_drop": 0.005865103
+        }
+      ],
+      "snapshot_seconds": 22.533333333333335,
+      "snapshot_sha256": "bac9c5589607722fa20e74d26691df77cc154e1625b8ada42655ea2437535c7e",
+      "observer": {
+        "human": {
+          "captured_blob_offset": 188,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "result_motion_vector_1": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "motion_input_user_536": [
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "replay": {
+          "captured_blob_offset": 0,
+          "result_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "result_location_bytes": "002d08b3",
+          "result_motion_vector_0": [
+            -0.08045195788145065,
+            1.4163206815719604,
+            -0.022130904719233513
+          ],
+          "result_motion_vector_1": [
+            -0.0774538666009903,
+            0.006981325335800648,
+            -17.662065505981445
+          ],
+          "result_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "result_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "result_horizontal_fov": 1.2217304706573486,
+          "result_aspect_ratio": 1.3333333730697632,
+          "command_focus": [
+            16.751903533935547,
+            69.40318298339844,
+            -0.24481379985809326
+          ],
+          "command_local_offset": [
+            0.10027884691953659,
+            1.2487849687659036e-07,
+            0.5047164559364319
+          ],
+          "command_window_shift": [
+            0.0,
+            0.0
+          ],
+          "command_distance": 1.5539028644561768,
+          "command_horizontal_fov": 1.2217304706573486,
+          "command_forward": [
+            0.23475760221481323,
+            0.9715976119041443,
+            -0.029781686142086983
+          ],
+          "command_up": [
+            0.006994579918682575,
+            0.02894865907728672,
+            0.9995564818382263
+          ],
+          "motion_input_user_496": [
+            0.08045195788145065,
+            -1.4163206815719604,
+            0.022130904719233513
+          ],
+          "motion_input_user_536": [
+            -0.0774538666009903,
+            0.006981325335800648,
+            -17.662065505981445
+          ],
+          "result_sha256": "d7da781d2ed00d348c69ff90261a94ea19a160e268fcc6886bac0ddd9b917030",
+          "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+        },
+        "same_result": false,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "hash_summary": [
+        {
+          "seconds": 180.375,
+          "event": "hash_summary",
+          "passed": 11,
+          "failed": 0
+        }
+      ],
+      "camera": {
+        "draws": 1759,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 561,
+          "albedo": 598
+        },
+        "variants": [
+          {
+            "draws": 1759,
+            "exactly_equal": true,
+            "max_absolute_constant_delta": 0.0,
+            "camera_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000"
+          }
+        ],
+        "all_candidate_cameras_exact": true,
+        "limitation": "Matches camera/projection constants only. Vehicle pose, attachment, pixels, temporal behavior and performance require separate evidence.",
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "observer_command": {
+        "source_sha256": "70f519385ec83f9abc07a5fedccb9b3ff5820358f9518e4bc970164c20f3b372",
+        "observer_address": "0xa5f00f8c",
+        "captured_blob_offset": 188,
+        "command_user_offset": 380,
+        "command_global_offset": 384,
+        "values": [
+          16.751903533935547,
+          69.40318298339844,
+          -0.24481379985809326,
+          0.10027884691953659,
+          1.2487849687659036e-07,
+          0.5047164559364319,
+          0.0,
+          0.0,
+          1.5539028644561768,
+          1.2217304706573486,
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983,
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "bytes": 64,
+        "sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "consumer": "sub_82214BC0",
+        "limitation": "Numeric camera command from the later saved human snapshot, not a complete savestate."
+      }
+    }
+  ],
+  "source_trace": {
+    "observer_result": "TLS+0x2cc, user stride 968, result global+0x110",
+    "command": "64 numeric bytes at observer global+0x180 / user+380, consumed by sub_82214BC0",
+    "command_layout": [
+      "focus xyz",
+      "local offset xyz",
+      "window shift xy",
+      "distance",
+      "horizontal FOV",
+      "forward xyz",
+      "up xyz"
+    ],
+    "native_sequence": [
+      "82214BC0 constructs camera result and calls 82215088",
+      "82213198 applies final basis transformation",
+      "822136F0 collision pass calls 82215088"
+    ],
+    "location": "82215088 calls 820CA978 and writes its valid four-byte result at user+280 / camera+12",
+    "replay_difference": "Earlier output-only replay had the exact final camera but native command basis still followed the vehicle. The optional native-observer mode supplies the recorded numeric command before 82214BC0 and stops overwriting its result.",
+    "remaining_native_difference": "Run 17 matches all 1759 attributed draw cameras exactly and its numeric command matches the human snapshot. Observer result words +0x10 through +0x24 differ: 82214BC0 reads triples at user+496 and user+536, negating the first, to produce these fields. These preceding motion inputs are not yet replayed; do not claim all native observer state matches.",
+    "human_blob_layout": "The original observer blob starts 188 bytes before the actual TLS+0x2cc allocation. Both tools resolve the pointer against the saved blob before reading fields."
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "source_hashes": {
+    "sky_reproduction.h": "36e52a087ff6391da026fc009d85bb64d5e3fc4488360e024f7a7fa615b17b5b",
+    "run-reproduction.ps1": "0294d18c35038604fdf1074eb8060233c9f9a9b8c52955daf4b095e606ac98b7",
+    "write-observer-command.py": "9fc816c8ade73e84285ff1216d1574750146929fb27959823f0e6090490fbc7d",
+    "compare-native-observer.py": "a50b9355160c320111c117c55933b577fe7ddbaa1f1e918606e702ea9193a599"
+  },
+  "build_log": "work/sky-bridge/native-observer-build/build.log",
+  "limitations": [
+    "Numeric probes are not human visual acceptance. Brightness changes can be authored animation, rain, shadows or other content.",
+    "A black flash has not been attributed to a draw, texture, shader or presentation failure.",
+    "The saved pose is not a complete native savestate. The human snapshot was captured after the flicker recording.",
+    "One-guest-frame flashes can span multiple 60 Hz paints. Isolated-pulse counts alone are insufficient; adjacent falls and dark-pixel counts are also retained.",
+    "Desktop composition after DXGI Present is not measured. Diagnostic overhead can affect timing."
+  ],
+  "next_step": "Trace native observer inputs before interpolation (82214930 and subsequent update stages). Preserve the saved view while resolving the measured motion-input discrepancy, then target any actual darkening event. Do not infer a rendering fix from negative probe runs.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
