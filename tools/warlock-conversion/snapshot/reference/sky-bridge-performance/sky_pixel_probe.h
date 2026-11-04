@@ -10,6 +10,12 @@ namespace rex::graphics::d3d12 {
 class SkyPixelProbe {
  public:
   static SkyPixelProbe& Get() { static SkyPixelProbe instance; return instance; }
+  uint32_t SampleX(uint32_t column,uint32_t width) const {
+    return std::min(width-1,uint32_t((region_[0]+(column+.5)*(region_[2]-region_[0])/16)*width));
+  }
+  uint32_t SampleY(uint32_t row,uint32_t height) const {
+    return std::min(height-1,uint32_t((region_[1]+(row+.5)*(region_[3]-region_[1])/9)*height));
+  }
   struct Slot {
     Microsoft::WRL::ComPtr<ID3D12Resource> buffer;
     uint64_t submission=0, frame=0;
@@ -70,8 +76,8 @@ class SkyPixelProbe {
         for (uint32_t row=0;row<9;++row) for (uint32_t col=0;col<16;++col) {
           uint32_t value;std::memcpy(&value,static_cast<uint8_t*>(mapped)+(row*16+col)*512,4);
           fprintf(file_,"sample,%llu,%llu,%u,%u,%u,%u,%u,%u,%u\n",slot.frame,slot.submission,
-            slot.format,slot.swizzle,slot.width,slot.height,(2*col+1)*slot.width/32,
-            (2*row+1)*slot.height/18,value);
+            slot.format,slot.swizzle,slot.width,slot.height,SampleX(col,slot.width),
+            SampleY(row,slot.height),value);
         }
         D3D12_RANGE written{0,0};slot.buffer->Unmap(0,&written);
       } else fprintf(file_,"map_failed,%llu,%llu,0,0,0,0,0,0,0\n",slot.frame,slot.submission);
@@ -103,8 +109,17 @@ class SkyPixelProbe {
     if (relative.empty() || relative.is_absolute()) return;
     for (auto& part:relative) if (part==L"..") return;
     directory_=dir;
+    if (const auto* region=std::getenv("OPENH3M_SKY_PIXEL_PROBE_REGION")) {
+      double left,top,right,bottom;char extra;
+      if (std::sscanf(region,"%lf,%lf,%lf,%lf%c",&left,&top,&right,&bottom,&extra)!=4 ||
+          !(left>=0&&top>=0&&right<=1&&bottom<=1&&left<right&&top<bottom)) {
+        directory_.clear();return;
+      }
+      region_={left,top,right,bottom};
+    }
   }
   std::filesystem::path directory_;
+  std::array<double,4> region_{0,0,1,1};
   std::array<Slot,8> slots_;
   FILE* file_=nullptr;
   uint64_t first_frame_=0;

@@ -43,6 +43,7 @@ def analyze(rows):
     ordered = sorted(frames)
     holes = sorted(set(range(ordered[0], ordered[-1]+1)) - set(ordered)) if ordered else []
     dark_pulses = []
+    decreases = []
     for frame in ordered:
         # Never bridge dropped frames or compare different viewport dimensions.
         if frame-1 not in frames or frame+1 not in frames:
@@ -53,6 +54,11 @@ def analyze(rows):
                 continue
             current = max(rgba[:3])
             baseline = min(max(before[:3]), max(after[:3]))
+            if baseline > current:
+                width, height, x, y = key
+                decreases.append({'frame':frame,'x':x,'y':y,'u':x/width,'v':y/height,
+                    'drop':baseline-current,'ratio':current/baseline,
+                    'rgb':rgba[:3],'previous_rgb':before[:3],'next_rgb':after[:3]})
             if baseline >= 0.03 and current <= 0.01 and current <= baseline * 0.15:
                 width, height, x, y = key
                 dark_pulses.append({'frame': frame, 'x': x, 'y': y,
@@ -64,6 +70,7 @@ def analyze(rows):
         'missing_frame_ids': holes,
         'incomplete_sample_grids': {f: len(points) for f, points in frames.items() if len(points) != 144},
         'dark_pulses': dark_pulses,
+        'largest_single_frame_decreases':sorted(decreases,key=lambda row:row['drop'],reverse=True)[:50],
         'events_other_than_samples': exceptions,
         'limitation': '144 isolated pre-presentation-gamma/FXAA texels per sampled frame. Sparse sampling can miss small or brief artifacts. A dark pulse is a numerical observation, not proof of a rendering defect or its cause.'}
 

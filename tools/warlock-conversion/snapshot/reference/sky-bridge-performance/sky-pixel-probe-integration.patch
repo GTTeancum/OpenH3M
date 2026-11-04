@@ -17,7 +17,7 @@
    InvalidateAllVertexBufferResidency();
    ShutdownOcclusionQueryResources();
  
-@@ -2001,6 +2004,28 @@
+@@ -2001,6 +2004,29 @@
                                                 : (frontbuffer_height ? frontbuffer_height
                                                                       : frontbuffer_height_unscaled);
    }
@@ -34,7 +34,8 @@
 +      target.pResource=destination;target.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
 +      target.PlacedFootprint.Footprint={swap_texture_srv_desc.Format,1,1,1,256};
 +      for (uint32_t row=0;row<9;++row) for (uint32_t col=0;col<16;++col) {
-+        uint32_t x=(2*col+1)*guest_output_width/32,y=(2*row+1)*guest_output_height/18;
++        uint32_t x=SkyPixelProbe::Get().SampleX(col,guest_output_width);
++        uint32_t y=SkyPixelProbe::Get().SampleY(row,guest_output_height);
 +        D3D12_BOX box{x,y,0,x+1,y+1,1};
 +        target.PlacedFootprint.Offset=(row*16+col)*512;
 +        deferred_command_list_.D3DCopyTextureRegion(&target,0,0,0,&source,&box);
@@ -46,7 +47,7 @@
    bool swap_source_scaled = frontbuffer_width_unscaled && frontbuffer_height_unscaled &&
                              (source_width_scaled != frontbuffer_width_unscaled ||
                               source_height_scaled != frontbuffer_height_unscaled);
-@@ -2310,6 +2335,12 @@
+@@ -2310,6 +2336,12 @@
  bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint32_t index_count,
                                        IndexBufferInfo* index_buffer_info,
                                        bool major_mode_explicit) {
@@ -59,7 +60,7 @@
  #if XE_GPU_FINE_GRAINED_DRAW_SCOPES
    SCOPE_profile_cpu_f("gpu");
  #endif  // XE_GPU_FINE_GRAINED_DRAW_SCOPES
-@@ -2690,6 +2721,7 @@
+@@ -2690,6 +2722,7 @@
      const uint32_t occlusion_index = BeginOcclusionDraw();
      deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
                                              0, 0);
@@ -67,7 +68,7 @@
      EndOcclusionDraw(occlusion_index);
    } else {
      D3D12_INDEX_BUFFER_VIEW index_buffer_view;
-@@ -2760,6 +2792,7 @@
+@@ -2760,6 +2793,7 @@
      const uint32_t occlusion_index = BeginOcclusionDraw();
      deferred_command_list_.D3DDrawIndexedInstanced(
          primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);

@@ -27,11 +27,19 @@ def basis(forward,up):
     if max(abs(n-1) for n in lengths)>0.002 or abs(dot)>0.002:
         raise ValueError('Pose basis is not orthonormal')
     return {'lengths':lengths,'dot':dot}
-observer=data('observer')[0x1cc:0x23c]
+observer_offset=snapshot.get('observer_result_offset',0x1cc)
+observer=data('observer')[observer_offset:observer_offset+112]
+# Accept the preserved older snapshot only when the two routes resolve to the
+# same address; the proper allocation is TLS+0x2cc, result +0x110 for user 0.
+native_observer=u(data('tls'),0x2cc)
+if int(blobs['observer']['guest_address'],16)+observer_offset!=native_observer+0x110:
+    raise ValueError('Saved result is not the native observer result')
 camera={'position':vec(observer,0),'forward':vec(observer,0x28),'up':vec(observer,0x34),
         'horizontal_fov_radians':struct.unpack_from('>f',observer,0x40)[0],
         'observer_aspect_ratio':struct.unpack_from('>f',observer,0x58)[0],
-        'location_bytes':observer[12:16].hex(),'raw_observer_result':observer.hex()}
+        'location_bytes':observer[12:16].hex(),'raw_observer_result':observer.hex(),
+        'native_layout':{'tls_offset':'0x2cc','user_stride':968,'user0_result_offset':'0x110',
+                         'source_evidence':'82098CD0 result getter; 82213440 allocates 3880 bytes; 8213BC50 final observer update'}}
 camera['basis_check']=basis(camera['forward'],camera['up'])
 player=data('players')
 handle=u(player,0x28); heads=data('object'); chain=[]

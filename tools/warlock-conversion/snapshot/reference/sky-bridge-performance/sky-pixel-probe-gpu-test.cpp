@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <algorithm>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl/client.h>
@@ -49,7 +50,7 @@ int main() {
   D3D12_TEXTURE_COPY_LOCATION a{};a.pResource=target;a.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;a.PlacedFootprint.Footprint={DXGI_FORMAT_R8G8B8A8_UNORM,1,1,1,256};
   D3D12_TEXTURE_COPY_LOCATION b{};b.pResource=texture.Get();b.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
   for(unsigned row=0;row<9;++row) for(unsigned col=0;col<16;++col) {
-   unsigned x=2*col+1,y=2*row+1;D3D12_BOX box{x,y,0,x+1,y+1,1};a.PlacedFootprint.Offset=(row*16+col)*512;
+   unsigned x=probe.SampleX(col,32),y=probe.SampleY(row,18);D3D12_BOX box{x,y,0,x+1,y+1,1};a.PlacedFootprint.Offset=(row*16+col)*512;
    list->CopyTextureRegion(&a,0,0,0,&b,&box);
   }
   barrier(D3D12_RESOURCE_STATE_COPY_SOURCE,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);

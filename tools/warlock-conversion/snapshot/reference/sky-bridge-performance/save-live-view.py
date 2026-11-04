@@ -113,7 +113,11 @@ try:
                         captured['blobs'][name]={'guest_address':hex(addr),'bytes':raw.hex()}
                         return raw
                     blob('tls',tls,0x800)
-                    observer=gu(tls+0x25c)
+                    # Native allocation and result getter: 82213440 / 82098CD0.
+                    # The older +25c/+1cc route reached this through adjacency.
+                    captured['observer_tls_offset']=0x2cc
+                    captured['observer_result_offset']=0x110
+                    observer=gu(tls+0x2cc)
                     blob('observer',observer,0xf28)
                     game=gu(tls+0x80); blob('game_globals',game,0x1000)
                     engine=gu(tls+0x64); blob('game_engine',engine,0x78)

@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <atomic>
 #include <unordered_map>
+#include "../../tools/warlock-conversion/snapshot/reference/sky-bridge-performance/sky_reproduction.h"
 
 REXCVAR_DEFINE_BOOL(halo3mp_video_sweep, false, "Diagnostics", "One process-local video sweep; requires exclusive input replay").debug_only();
 REXCVAR_DEFINE_BOOL(halo3mp_video_visual_sweep, false, "Diagnostics", "Isolated native shadow/LOD/water comparisons; requires exclusive input replay").debug_only();

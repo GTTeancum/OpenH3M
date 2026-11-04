@@ -503,3 +503,59 @@ shared GPU DLL was restored and SHA256 verified as
 979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace.
 No new rendering fix or release promotion occurred. The correction goal remains
 open. Attribution is unchanged from the source credit above.
+
+## Unattended reproduction harness
+
+`sky_reproduction.h` is an opt-in diagnostic, included by video_quality.cpp.
+It requires an exclusive process-local input replay, the Sky Bridge map, and
+a pose directory confined to this repository. It moves fresh native objects
+through 8232E8B8, turns toward the Mongoose using measured camera feedback,
+and holds the game's RB state until native seat attachment is verified.
+Simulation, lights, weather and animation continue normally. It never sends
+host input. `write-reproduction-pose.py` regenerates pose.bin from the saved
+JSON; `run-reproduction.ps1` launches a private seven-file runtime with a
+180-second watchdog and only payload-32 exposed as custom content.
+
+Source tracing corrected the observer allocation: 82213440 allocates 3880
+bytes at TLS+0x2cc; 82098CD0 returns user 0's result at +0x110 (user stride
+968). The old TLS+0x25c/+0x1cc reader reached the same address through an
+adjacent allocation in the human recording. The preserved snapshot proves
+both routes resolve to 0xa5f0109c, so the captured vectors are valid. Updated
+capture/decoding tools use or validate the proper allocation. Other projects'
+older diagnostic readers have not been modified by this work.
+
+The early ptag hook did not restore the actual rendered camera: reproduction-03
+seated the player but all 1725 candidate draws retained a different default
+vehicle view. That recording is rejected as a reproduction of the human view.
+The harness now overrides the observer result after 8213BC50 finishes both
+82213198's basis update and 822136F0's collision adjustment. Every new recording
+must pass `check-reproduction-camera.py`, which compares all candidate draws'
+camera/projection constants against the human recording. Camera equality does
+not establish that the flicker itself has been reproduced.
+
+The original 16x9 full-frame grid geometrically intersected mesh 183 at only
+two points and mesh 184 at one. `trace-sample-coverage.py` uses the actual
+vertex-program transform and triangle lists to measure this; visibility and
+occlusion remain separate questions. The probe now accepts an explicit region;
+the harness concentrates its 144 samples within (0.54,0.255)-(0.93,0.425).
+A native D3D12 WARP fixture verified all 144 coordinate-coded values for a
+non-default region, fence-completion behavior, and the existing recording
+limit. The probe still produces numeric data only, before presentation
+gamma/FXAA. No image or desktop capture is involved.
+
+`candidate32-unattended-reproduction-result.json` records reproduction-04:
+all 1763 attributed material draws across 300 frames match the human camera
+and projection constants bit-for-bit. Native seating succeeds; suspension
+settling leaves a measured 0.0235-unit vehicle-position difference. The final
+vehicle orientation and complete simulation state are not independently matched.
+The process completed its bounded recording and closed at the 180-second
+watchdog. Shared runtime files were not replaced by these private tests.
+
+The denser probe records 43,200 values across 300 complete frames, covering
+20 candidate-mesh-183 points and 45 candidate-mesh-184 points geometrically.
+No point crosses the defined near-black threshold; the largest one-frame
+max-RGB decrease is 0.13783 at pixel (720,193), frame 2920. This verifies the
+repeatable viewpoint and improved coverage, not a reproduction or explanation
+of the reported black flicker. Keep the correction goal open and trace the
+bad frame/stage before applying any rendering change. Billboard readability,
+visible outdoor rain, and final performance acceptance remain unverified.
