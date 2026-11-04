@@ -1460,3 +1460,70 @@ Evidence under `work/stock-h3-audit`: `water-channel-workflow-verification.json`
 physical water/design compatibility, 117 lighting records, 302 separate convex
 physics cases, effect decisions, official map compilation, and user-driven MCC
 review. Nothing was installed or converted to Xbox 360.
+
+## Native water physics and soft-ceiling compilation (2026-11-04)
+
+The original Reach structure-design tag was read through the official Reach API.
+All 28 water instances have five planes and eight debug triangles, the same
+20-world-unit depth (within source float precision), flow vector
+`(-0.0416306183,-0.9991330504,0)`, fog color and murkiness. The imported Foundry
+surface retains one top triangle per original convex prism. The native source
+also has one unnamed acceleration boundary containing 40 triangles and two
+planar fog sheets referencing Reach's `traxus_planar.planar_fog_parameters`.
+
+The [official H3 water physics workflow](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/guides/waterphysics)
+supports extruded water volumes, a child direction marker and native
+structure-design compilation. In Blender, the original imported water triangles
+were extruded to their verified original depth, capped and oriented outward.
+The existing Foundry coordinate transform was used, matching the main authoring
+scene. Every authored prism vertex matches original native debug geometry within
+0.000002 world units. The marker's +X axis uses the original unit flow vector.
+No custom importer, physics generator, serializer or native tool patch was used.
+
+The first Tool import made one enclosing convex volume from the single mesh.
+Further comparison found that the original top triangles fill that same outer
+rectangle; a footprint error was not established. The final Blender scene uses
+28 separate water objects to preserve the original convex partitioning. Native
+H3 consequently creates 28 named groups, `water_physics_00` through `_27`, each
+with its own direction marker. Underwater atmosphere settings must reference
+these names. The earlier claim that the first import changed the footprint was
+corrected; it changed the number of convex pieces.
+
+The soft ceiling keeps its 40 oriented original triangles and native acceleration
+type. Its original name was empty; the Foundry fallback name `soft_ceiling` is
+used in the documented `+soft_ceiling:soft_ceiling` material. The separate source
+inspection retains both fog sheets; neither was silently discarded or assigned
+an unapproved H3 appearance. They are absent from this partial design export
+until a supported stock H3 solution is established.
+
+Official H3 `structure-design` compiled the actual authored scene successfully.
+Fresh official XML export verifies one-to-one correspondence with all 28 source
+prisms (six vertices/five planes each), every flow direction, and all 40 ordered
+boundary triangles with their oriented planes. Water and soft-ceiling collision
+MOPP blocks contain data. XML has six significant digits, so coordinate checks
+allow 0.00006 world units of rounding; direction checks use 0.000001. This is
+native geometry verification, not proof of in-game physics or appearance.
+
+Current files under `work/stock-h3-audit`:
+
+- `original-structure-design.json`: native original fields and source hash.
+- `battle-canyon-h3-structure-design.blend` and
+  `h3-structure-design-authoring.json`: saved Blender scene and export provenance.
+- `h3-structure-design-verification.json`, `h3-structure-design-native.xml`,
+  `h3-structure-design-import.log`: compiled native evidence.
+- `wip/h3-structure-design-volumes.png`: inspected native Blender proof, cyan
+  water prisms and orange boundary wireframe. Diagnostic colors, not game shading.
+  The complete geometry fits the image; the saved scene remains unchanged.
+
+The exported ASS and compiled design reside inside the repository-local H3 kit
+under `levels/custom/battle_canyon_rebuild`, with the ASS in `data/.../structure_design`
+and native `.structure_design` in `tags/...`. Reproduce with
+`inspect_source_design.py`, `prepare_h3_structure_design.py` on the original
+inspection blend, `verify_h3_structure_design.py`, and
+`render_structure_design_wip.py` on the saved H3 design blend. Runtime profiles,
+logs and temporary files remain repository-local.
+
+Water atmosphere/fog and scenario linkage remain unfinished, along with main
+scene collision/lighting metadata and effects. This design-only compilation does
+not mark step 4 complete or waive full-map compilation, user-driven MCC testing,
+explicit MCC approval, or the subsequent 360 gate. No installation changed.
