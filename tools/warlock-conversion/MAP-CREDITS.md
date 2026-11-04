@@ -67,14 +67,19 @@ map's electric_02 light flashes. Removing duplicate render references left
 the modulation unchanged; suppressing only electric_02 light creation made
 the measured cylinder lighting constant for300 frames. Source timing and light
 curves are preserved. The light-muting control is private, not a shipped fix.
-Arc-particle appearance, full-map traversal and close-up ad legibility remain
-unverified; the overall goal stays open.
+Full-map traversal and close-up ad legibility remain unverified; the overall
+goal stays open.
 Further numeric GPU tracing confirms that the arc particles are alive but hidden
 by back-face culling and geometry from the saved view below them. With native
 render settings unchanged, a private observer view from above measures actual
 arc color contribution in73 frames. The source also specifies single-sided
 horizontal particles. This explains how the light can pulse without visible
-arcs in the lower view; it does not replace visual acceptance of their shape.
+arcs in the lower view. Six subsequently authorized overhead native captures
+were inspected individually in order: branching electrical arcs are clearly
+visible in frames 2, 4, 5 and 6, with frame 4 showing the strongest burst around both
+cylinders. The exact requested camera and unchanged production map/runtime were
+verified. This confirms the local arc shapes; it is not a continuous animation
+test or full-map visual acceptance. All six captures in this allowance are used.
 See `snapshot/reference/sky-bridge-performance/README.md`.
 
 

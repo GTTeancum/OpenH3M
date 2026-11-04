@@ -1,0 +1,273 @@
+{
+  "run": "work\\sky-bridge\\candidate36-route-03",
+  "logdir": ".local\\loading-traces\\20261104-114732-36280",
+  "runtime_hashes": {
+    "OpenH3M.exe": "a90c7d1d10ec7833e58df4f72ba96a7c65ebab5567cd7ba1032b69f1dd0621ad",
+    "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b",
+    "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+    "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+    "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+    "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+    "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966"
+  },
+  "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+  "observer_reader": "TLS+0x2cc/+0x110",
+  "clocks": {
+    "present_epoch_after_process_launch_ms": 7376.07271809387,
+    "alignment_spread_ms": 1.7099637603823794,
+    "note": "Input replay, process watchdog and host presentation have separate epochs. Route boundaries use actual logged input timestamps."
+  },
+  "requested_steps": [
+    {
+      "request": "110000:RSRIGHT+1600",
+      "begin": {
+        "wall_time": 1793810995.693,
+        "replay_ms": 110001,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 30000,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "end": {
+        "wall_time": 1793810997.299,
+        "replay_ms": 111607,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "request": "114000:LSUP+1500",
+      "begin": {
+        "wall_time": 1793810999.698,
+        "replay_ms": 114006,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 30000,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "end": {
+        "wall_time": 1793811001.203,
+        "replay_ms": 115511,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "request": "122000:LSUP+2000",
+      "begin": {
+        "wall_time": 1793811007.699,
+        "replay_ms": 122007,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 30000,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "end": {
+        "wall_time": 1793811009.705,
+        "replay_ms": 124013,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "request": "128000:LSRIGHT+2000",
+      "begin": {
+        "wall_time": 1793811013.709,
+        "replay_ms": 128017,
+        "state": {
+          "buttons": 0,
+          "lx": 30000,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "end": {
+        "wall_time": 1793811015.701,
+        "replay_ms": 130009,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "request": "134000:LSDOWN+2000",
+      "begin": {
+        "wall_time": 1793811019.705,
+        "replay_ms": 134014,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": -30000,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "end": {
+        "wall_time": 1793811021.713,
+        "replay_ms": 136021,
+        "state": {
+          "buttons": 0,
+          "lx": 0,
+          "ly": 0,
+          "rx": 0,
+          "ry": 0,
+          "lt": 0,
+          "rt": 0
+        }
+      },
+      "completed": true
+    }
+  ],
+  "all_requested_steps_completed": true,
+  "timing_covers_route": true,
+  "route_window": {
+    "frames": 839,
+    "span_seconds": 27.961315000000003,
+    "first_elapsed_ms": 135038.094,
+    "last_elapsed_ms": 162999.409,
+    "fps": 29.969978164474735,
+    "median_ms": 33.35800000000745,
+    "p95_ms": 33.84900000001653,
+    "maximum_ms": 49.970999999990454,
+    "over_50ms": 0,
+    "skipped_frame_numbers": 0,
+    "interval_scope": "Distinct guest_painted transitions; repeated host presents excluded"
+  },
+  "startup_inclusive_window": {
+    "frames": 1105,
+    "span_seconds": 44.977895999999994,
+    "first_elapsed_ms": 110013.479,
+    "last_elapsed_ms": 154991.375,
+    "fps": 24.61208945834194,
+    "median_ms": 33.37200000000303,
+    "p95_ms": 66.58799999998882,
+    "maximum_ms": 4987.761999999988,
+    "over_50ms": 165,
+    "skipped_frame_numbers": 3,
+    "interval_scope": "Distinct guest_painted transitions; repeated host presents excluded"
+  },
+  "observation_count": 30,
+  "sampled_path_length_world_units": 7.511121776193688,
+  "first_position": [
+    25.167339324951172,
+    52.906288146972656,
+    0.51752769947052
+  ],
+  "last_position": [
+    24.20873260498047,
+    52.08338165283203,
+    0.5192645788192749
+  ],
+  "positions_min": [
+    24.20873260498047,
+    49.25411605834961,
+    0.513086199760437
+  ],
+  "positions_max": [
+    26.47463607788086,
+    52.906288146972656,
+    0.5194005966186523
+  ],
+  "clusters": [
+    2
+  ],
+  "observer_sample_errors": 0,
+  "legacy_alias_matches_all": true,
+  "native_hash_summary": {
+    "seconds": 180.391,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "shared_unchanged": {
+    "C:\\X360\\ISOs\\H3M\\OpenH3M.exe": true,
+    "C:\\X360\\ISOs\\H3M\\rexruntime.dll": true,
+    "C:\\X360\\ISOs\\H3M\\rexgpu-xenos.dll": true,
+    "C:\\X360\\ISOs\\H3M\\halo3mp_l360.dll": true,
+    "C:\\X360\\ISOs\\H3M\\halo3mp_q10.dll": true,
+    "C:\\X360\\ISOs\\H3M\\halo3mp_waveshell-xbox.dll": true,
+    "C:\\X360\\ISOs\\H3M\\halo3mp_waveslibdll.dll": true,
+    "C:\\X360\\ISOs\\H3M\\OpenH3M.bootstrap.toml": true,
+    "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\dlc\\installed-corrections\\0000000000000000\\4D5307E6\\00000002\\C337EBA990B40F54512D18E8AB31188A2B040540\\sky_bridge.map": true
+  },
+  "visual_acceptance": false,
+  "captures": 0,
+  "audio_acceptance": false,
+  "limitation": "Coordinates prove only this short sampled path. No full-map traversal, visual or audio acceptance; 1 Hz path length is a sampled lower bound. Startup outliers are retained separately from the movement window.",
+  "status": "Exact installed candidate36 runtime completed the measured short movement route; full-map traversal remains unverified.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "rejected_prior_attempts": [
+    {
+      "run": "work/sky-bridge/candidate36-route-01",
+      "reason": "Explicitly stopped to replace the old adjacent-allocation observer reader; excluded from performance evidence."
+    },
+    {
+      "run": "work/sky-bridge/candidate36-route-02",
+      "reason": "Watchdog ended before the final requested movement and default timing stopped early; partial route metrics are retained but not accepted as complete route coverage."
+    }
+  ],
+  "evidence_hashes": {
+    "work\\sky-bridge\\candidate36-route-03\\route-analysis.json": "38776edd3241cc4f31b2458b748b7f4e077502ce71f631f6dd5ffa31cc2386e2",
+    "work\\sky-bridge\\candidate36-route-03\\preparation.json": "3825f40ec0709933aea1982f998ed0dd61b558a46cb2b548b1cc25c5b3a0457f",
+    "work\\sky-bridge\\candidate36-route-03\\result.json": "f2fde2bae35bccfac418b9ebe7d4f4417f319fec839abd46eb28e16ebda810a4",
+    ".local\\loading-traces\\20261104-114732-36280\\loading-trace.jsonl": "cf311f75dba267adc33c66b01ab9f468b9b55f6c0e857ed3299c75502e314133",
+    ".local\\loading-traces\\20261104-114732-36280\\launch-command.json": "ea9e9c8abb8e7f62ca3357327b0f38614fb7f832d53da0ac441365cda62c008d"
+  }
+}

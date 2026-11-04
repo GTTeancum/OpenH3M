@@ -2031,3 +2031,65 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Authorized overhead arc images (2026-11-04)
+
+The user granted six captures from the prepared overhead view. Run61 used
+candidate36 with native materials, culling and depth testing unchanged, all
+numeric GPU probes disabled, process-local replay and a 180-second watchdog.
+The observer snapshot exactly matches the requested overhead position and
+basis. This intentionally differs from the saved lower human view.
+
+All six unmodified 1152x640 PNGs in
+`.local/loading-traces/20261104-113912-35724` were opened individually in
+chronological order, at 115000 through 120000 ms of the native capture clock.
+Frame 2 shows a branching arc beside the right cylinder. Frame 4 shows several
+bright branching arcs around both cylinders and the connecting cables; it is
+the clearest frame. Frames 5 and 6 show smaller bursts. Frames 1 and 3 have no
+clearly distinguishable arc burst, although cylinder illumination changes.
+The arc shapes are transparent branching strokes, without opaque card borders
+in these six images. This is direct visual evidence of local electrical arcs,
+in addition to the earlier numeric proof of light and particle contributions.
+
+`candidate36-arc-visual-result.json` records each image hash and individual
+inspection, exact camera verification, runtime identities, 11 successful native
+hash checks and the unchanged shared runtime/map hashes. The six-image allowance
+is exhausted. No production files were changed. These stills do not constitute
+a continuous animation test, a full-map walkthrough, an audio check or acceptance
+of outdoor rain density and close-up billboard legibility. The source credits
+above continue to apply; the overall goal remains open.
+
+## Installed-runtime short route (2026-11-04)
+
+`run-candidate36-route.py candidate36-route-03` copied the exact seven installed
+runtime binaries and bootstrap into a private directory, with the fixed earlier
+shader-cache seed, a private title profile, candidate36 and a 180-second watchdog.
+It used process-local input, no saved-pose override, no images and no GPU probes.
+`trace-route-observer.py` applies two exact in-memory changes to the existing
+shared tracer: read the verified observer allocation at TLS+0x2cc/+0x110, and
+extend presentation logging to cover the route. The shared tracer file itself
+is preserved. The previous adjacent-allocation reader also happened to match
+the correct address in this run; the new reader does not depend on that alias.
+
+The replay, process and presentation clocks have different epochs.
+`analyze-candidate36-route.py` joins actual logged input timestamps, native
+camera samples and distinct painted-frame transitions. All five turn/walk/strafe
+requests completed, with zero observer-read errors. The 1 Hz positions cover a
+sampled path length of 7.511 world units within cluster 2. This establishes limited
+movement, not a complete indoor/outdoor/corridor walkthrough.
+
+The complete movement window contains 839 frames over 27.961 seconds:
+29.96998 FPS, median 33.358 ms, p95 33.849 ms, maximum 49.971 ms and no intervals
+above 50 ms. No painted-frame numbers were skipped in this window. The separate
+startup-inclusive 110–155-second presentation window remains recorded: 24.612 FPS,
+maximum 4987.762 ms and 165 intervals above 50 ms. These loading/menu outliers are
+not hidden by the movement result. No visual or audio acceptance is inferred.
+
+Attempt 01 was stopped to correct the observer reader. Attempt 02 is retained but
+excluded from complete route acceptance because its default timing window ended
+early and its last input request fell beyond the process watchdog. Attempt 03
+retimes the route to finish inside the same 180-second limit and logs its full
+duration. Its 11 native hash checks passed; all shared runtime/bootstrap and
+installed-map hashes remain unchanged. `candidate36-route-performance-result.json`
+contains the exact runtime hashes, clock mapping, input edges, measurements and
+limitations. The source credits above apply to this Xbox 360/OpenH3M test.
