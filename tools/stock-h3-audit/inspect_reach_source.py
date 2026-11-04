@@ -24,7 +24,8 @@ base = r'levels\dlc\cex_beaver_creek\cex_beaver_creek'
 result = {}
 try:
     for extension, requests in [
-        ('scenario', [('skies', 'sky'), ('structure bsps', 'structure bsp')]),
+        ('scenario', [('skies', 'sky'), ('structure bsps', 'structure bsp'),
+                      ('effect scenery palette', 'name'), ('scenery palette', 'name')]),
         ('scenario_structure_bsp', [('materials', 'render method')]),
     ]:
         tag = Bungie.Tags.TagFile()
@@ -37,6 +38,22 @@ try:
                     path = element.SelectField(field).Path
                     values.append(str(path.RelativePathWithExtension) if path else None)
                 result[extension][block] = values
+        finally:
+            tag.Dispose()
+    result['object_references'] = {}
+    for source in result['scenario']['skies'] + result['scenario']['effect scenery palette']:
+        tag = Bungie.Tags.TagFile()
+        try:
+            tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*source.rsplit('.', 1)))
+            first = tag.Fields[0]
+            obj = first if first.DisplayName == 'object' else first.Elements[0].Fields[0]
+            model = tag.SelectField(str(obj.FieldPath) + '/Reference:model').Path
+            attachments = []
+            for element in tag.SelectField(str(obj.FieldPath) + '/Block:attachments').Elements:
+                path = element.Fields[0].Path
+                attachments.append(str(path.RelativePathWithExtension) if path else None)
+            result['object_references'][source] = dict(model=str(model.RelativePathWithExtension) if model else None,
+                                                       attachments=attachments)
         finally:
             tag.Dispose()
     (OUT / 'reach-source-references.json').write_text(json.dumps(result, indent=2) + '\n')

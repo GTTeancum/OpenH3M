@@ -44,3 +44,27 @@ missing surface types. A name match is a candidate, not visual validation.
 No surface substitutions, fresh scene import, map compilation, or conversion
 have been performed. Required features without stock alternatives go to the
 user for a decision.
+
+## Additional source and donor evidence
+
+The same official API read now records seven effect-scenery palette entries:
+three laser emitters, dripping point, rainbow, mist and sun flare. Each resolves
+through an FX anchor model to its corresponding Reach effect. The sky resolves
+to `levels/dlc/cex_beaver_creek/beavercreek_sky/beavercreek_sky.model`.
+No stock counterpart has yet been established for the rainbow or decorative
+lasers. Do not treat a Spartan Laser weapon effect as an established substitute.
+
+Original stock Guardian, Valhalla (`riverworld`) and Sandtrap (`shrine`) tag
+inventories are saved beside the Standoff inventory. These were consulted for
+water and architectural/terrain alternatives absent from the initial donor.
+`surface-donor-candidates.csv` records seven concrete original-stock candidates;
+they are not applied mappings or visual approvals. Standoff supplies terrain
+and foliage candidates; Valhalla supplies river water, cliff terrain and red/blue
+Forerunner surfaces; Guardian supplies an architectural floor candidate.
+
+All seven candidate level-material files were absent from the partial local
+editing kit, despite the gameplay palette dependency check passing. Filling in
+the official archive's `tags/*` with 7-Zip `-aos` preserves existing files while
+adding the missing stock source tags. Extraction log:
+`work/stock-h3-audit/h3ek-complete-stock-tags-extract.log`. Verify its terminal
+result and candidate presence before relying on the completed kit.
