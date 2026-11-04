@@ -97,3 +97,17 @@ py360convert 1.0.4 with their pip-resolved dependencies. Installation output is
 The user has been asked whether unmatched decorative effects should be omitted
 or receive a specific Reach-import proposal if no stock match is found. No
 answer is assumed. Geometry authoring and effects remain unchanged.
+
+The user subsequently selected **Bring me an import proposal**. See
+`EFFECT-IMPORT-PROPOSAL.md`; that response is not approval to implement it.
+The read-only source inspection now records reference field paths inside all
+seven Reach effects. No conversion has been performed.
+
+An upstream Foundry BSP import for inspection was started with
+`inspect_geometry_foundry.py`. It disables material building, light import and
+export-on-save, and requests BSP geometry including collision. The wrapper
+contains no geometry conversion logic. Output goes to
+`work/stock-h3-audit/reach-source-inspection.blend` only on successful completion.
+Check `foundry-geometry-import.log` and the live process before rerunning; a
+silent buffered log is not evidence that the importer stopped. Mesh counts,
+if produced, are not visual validation.

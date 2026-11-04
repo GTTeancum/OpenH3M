@@ -22,6 +22,17 @@ parameters.InitializationLevel = Bungie.InitializationType.TagsOnly
 Bungie.ManagedBlamSystem.Start(str(KIT), callback, parameters)
 base = r'levels\dlc\cex_beaver_creek\cex_beaver_creek'
 result = {}
+def references(fields):
+    found = []
+    for field in fields:
+        if isinstance(field, Bungie.Tags.TagFieldReference):
+            if field.Path:
+                found.append(dict(field=str(field.FieldPath), tag=str(field.Path.RelativePathWithExtension)))
+        elif isinstance(field, (Bungie.Tags.TagFieldBlock, Bungie.Tags.TagFieldStruct)):
+            for element in field.Elements:
+                found.extend(references(element.Fields))
+    return found
+
 try:
     for extension, requests in [
         ('scenario', [('skies', 'sky'), ('structure bsps', 'structure bsp'),
@@ -56,6 +67,17 @@ try:
                                                        attachments=attachments)
         finally:
             tag.Dispose()
+    result['effect_references'] = {}
+    for obj in result['object_references'].values():
+        for source in obj['attachments']:
+            if not source or not source.endswith('.effect'):
+                continue
+            tag = Bungie.Tags.TagFile()
+            try:
+                tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*source.rsplit('.', 1)))
+                result['effect_references'][source] = references(tag.Fields)
+            finally:
+                tag.Dispose()
     (OUT / 'reach-source-references.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
 finally:
