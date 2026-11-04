@@ -1,0 +1,136 @@
+{
+  "candidates": [
+    {
+      "mesh": 183,
+      "part": 0,
+      "shader": 8562590739555380577,
+      "index_count": 28632,
+      "missing_complete_frames": [],
+      "sampler_variants": {
+        "base_map": 1,
+        "bump_map": 1,
+        "detail_map": 1
+      },
+      "varying_parameters": {}
+    },
+    {
+      "mesh": 184,
+      "part": 0,
+      "shader": 8562590739555380577,
+      "index_count": 21858,
+      "missing_complete_frames": [],
+      "sampler_variants": {
+        "base_map": 1,
+        "bump_map": 1,
+        "detail_map": 1
+      },
+      "varying_parameters": {}
+    },
+    {
+      "mesh": 183,
+      "part": 0,
+      "shader": 14617156369365479079,
+      "index_count": 28632,
+      "missing_complete_frames": [],
+      "sampler_variants": {
+        "albedo_texture": 1,
+        "dynamic_environment_map_0": 1,
+        "dynamic_environment_map_1": 1,
+        "normal_texture": 1
+      },
+      "varying_parameters": {}
+    },
+    {
+      "mesh": 184,
+      "part": 0,
+      "shader": 14617156369365479079,
+      "index_count": 21858,
+      "missing_complete_frames": [],
+      "sampler_variants": {
+        "albedo_texture": 1,
+        "dynamic_environment_map_0": 1,
+        "dynamic_environment_map_1": 1,
+        "normal_texture": 1
+      },
+      "varying_parameters": {}
+    },
+    {
+      "mesh": 183,
+      "part": 0,
+      "shader": 14007674117786981017,
+      "index_count": 28632,
+      "missing_complete_frames": [],
+      "sampler_variants": {
+        "albedo_texture": 1,
+        "dynamic_light_gel_texture": 1,
+        "normal_texture": 1,
+        "shadow_depth_map_1": 1
+      },
+      "varying_parameters": {
+        "simple_lights": 90
+      }
+    },
+    {
+      "mesh": 184,
+      "part": 0,
+      "shader": 14007674117786981017,
+      "index_count": 21858,
+      "missing_complete_frames": [
+        "1927",
+        "1928",
+        "1929",
+        "1930",
+        "1931",
+        "1932",
+        "1933",
+        "1934",
+        "1935",
+        "1936",
+        "1937",
+        "1938",
+        "1939",
+        "1940",
+        "1941",
+        "1942",
+        "1943",
+        "1944",
+        "1945",
+        "1946",
+        "1947",
+        "1948",
+        "1949",
+        "1950",
+        "1951",
+        "1952",
+        "1953",
+        "1954",
+        "1955",
+        "1956",
+        "1957"
+      ],
+      "sampler_variants": {
+        "albedo_texture": 1,
+        "dynamic_light_gel_texture": 1,
+        "normal_texture": 1,
+        "shadow_depth_map_1": 1
+      },
+      "varying_parameters": {
+        "simple_lights": 61
+      }
+    }
+  ],
+  "evidence_scope": "Meshes 183/184 are candidate upper/right envelope geometry, not conclusively identified as the user-circled surface. Reflected sampler bindings and CPU register values do not prove GPU texture content.",
+  "additional_checks": {
+    "user_clip_planes_enabled": false,
+    "all_reflected_float_inputs_finite": true,
+    "simple_light_count_range": [
+      3,
+      10
+    ],
+    "simple_light_colors_nonnegative": true,
+    "simple_light_arrays_vary": true,
+    "base_and_static_draws_present_in_all_95_complete_frames": true
+  },
+  "next_measurement": "Correlate sparse numeric swap-source GPU texels with narrowly filtered draw states using frame IDs.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

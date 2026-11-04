@@ -1,0 +1,13 @@
+{
+  "installed_path": "C:/X360/ISOs/H3M/rexgpu-xenos.dll",
+  "original_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "diagnostic_sha256": "b88d448cf3ea9008374005be108f139fed943f8f3cf7ece069d8c4350eff0242",
+  "exports_unchanged": true,
+  "build_passed": true,
+  "gpu_fixture": "Native D3D12 WARP: all 144 coordinate-coded texels exact; no sample before fence completion; 300-frame limit passed.",
+  "filtered_draw_fixture": "Two accepted draws and one excluded draw: exact deltas, only two emitted markers, no excluded-draw misattribution; frame limit passed.",
+  "measurement": "144 isolated final swap-source texels per frame as numeric CSV, before presentation gamma/FXAA. No screenshot/image output. Sparse samples may miss a small artifact.",
+  "limits": "300 frame IDs or 15 seconds; 8 asynchronous readback slots; busy slots logged, never waited on; game stays open.",
+  "shared_install_modified": false,
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

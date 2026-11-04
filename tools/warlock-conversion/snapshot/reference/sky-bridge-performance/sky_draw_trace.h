@@ -17,7 +17,9 @@ class SkyDrawTrace {
             const Shader* ps, uint32_t primitive, uint32_t count,
             uint32_t index_address, uint32_t index_length, uint32_t index_format,
             uint32_t index_endian, memory::Memory* memory) {
+    active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if (targets_only_ && (count!=28632 && count!=21858)) return;
     auto now = std::chrono::steady_clock::now();
     if (!file_) {
       if (now < poll_) return;
@@ -36,6 +38,7 @@ class SkyDrawTrace {
     }
     if (bytes_ >= 512ull * 1024 * 1024) { Finish(2); return; }
     Program(vs); Program(ps);
+    active_draw_=true;
     const uint64_t header[] = {++sequence_, frame,
       uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(now-start_).count()),
       vs ? vs->ucode_data_hash() : 0, ps ? ps->ucode_data_hash() : 0,
@@ -50,7 +53,7 @@ class SkyDrawTrace {
     Packet(2, changes_.data(), uint32_t(changes_.size() * 4));
     // CPU-visible byte prefixes identify buffers, not GPU-resolved texture content.
     Prefix(index_address, index_length, memory);
-    for (uint32_t i = 0; i < 96; ++i) {
+    for (uint32_t i = targets_only_ ? 95 : 0; i < 96; ++i) {
       const uint32_t at = 0x4800 + i * 2;
       if ((regs[at] & 3) == 3) {
         Prefix((regs[at] >> 2) << 2, ((regs[at+1] >> 2) & 0xffffff) * 4, memory);
@@ -59,10 +62,13 @@ class SkyDrawTrace {
     if (file_ && frame != last_frame_) { fflush(file_); last_frame_ = frame; }
   }
   void Emitted(uint64_t frame) {
-    if (file_) { const uint64_t row[] = {sequence_, frame}; Packet(5, row, sizeof(row)); }
+    if (file_ && active_draw_) { const uint64_t row[] = {sequence_, frame}; Packet(5, row, sizeof(row)); }
+    active_draw_=false;
   }
  private:
   SkyDrawTrace() {
+    const auto* targets=_wgetenv(L"OPENH3M_SKY_TRACE_TARGETS");
+    targets_only_=targets && wcscmp(targets,L"1")==0;
     const wchar_t* requested = _wgetenv(L"OPENH3M_SKY_TRACE_DIR");
     if (!requested || !*requested) return;
     std::error_code ec;
@@ -112,6 +118,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
+  bool targets_only_=false,active_draw_=false;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
   std::array<uint32_t, RegisterFile::kRegisterCount> previous_{};

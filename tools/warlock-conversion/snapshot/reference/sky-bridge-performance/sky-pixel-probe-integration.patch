@@ -1,0 +1,77 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -32,6 +32,8 @@
+ #include <rex/memory/utils.h>
+ #include <rex/ui/d3d12/d3d12_presenter.h>
+ #include <rex/ui/d3d12/d3d12_util.h>
++#include "sky_draw_trace.h"
++#include "sky_pixel_probe.h"
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_bindless, true, "GPU/D3D12", "Use bindless resources where available")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+@@ -1657,6 +1659,7 @@
+ 
+ void D3D12CommandProcessor::ShutdownContext() {
+   AwaitAllQueueOperationsCompletion("shutdown");
++  SkyPixelProbe::Get().Shutdown(submission_completed_);
+   InvalidateAllVertexBufferResidency();
+   ShutdownOcclusionQueryResources();
+ 
+@@ -2001,6 +2004,28 @@
+                                                : (frontbuffer_height ? frontbuffer_height
+                                                                      : frontbuffer_height_unscaled);
+   }
++  SkyPixelProbe::Get().Record(GetD3D12Provider().GetDevice(),swap_texture_resource,
++    swap_texture_srv_desc.Format,swap_texture_srv_desc.Shader4ComponentMapping,
++    guest_output_width,guest_output_height,frame_current_,submission_current_,submission_completed_,
++    [&](ID3D12Resource* destination) {
++      PushTransitionBarrier(swap_texture_resource,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
++                            D3D12_RESOURCE_STATE_COPY_SOURCE);
++      SubmitBarriers();
++      D3D12_TEXTURE_COPY_LOCATION source{};
++      source.pResource=swap_texture_resource;source.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++      D3D12_TEXTURE_COPY_LOCATION target{};
++      target.pResource=destination;target.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
++      target.PlacedFootprint.Footprint={swap_texture_srv_desc.Format,1,1,1,256};
++      for (uint32_t row=0;row<9;++row) for (uint32_t col=0;col<16;++col) {
++        uint32_t x=(2*col+1)*guest_output_width/32,y=(2*row+1)*guest_output_height/18;
++        D3D12_BOX box{x,y,0,x+1,y+1,1};
++        target.PlacedFootprint.Offset=(row*16+col)*512;
++        deferred_command_list_.D3DCopyTextureRegion(&target,0,0,0,&source,&box);
++      }
++      PushTransitionBarrier(swap_texture_resource,D3D12_RESOURCE_STATE_COPY_SOURCE,
++                            D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
++      SubmitBarriers();
++    });
+   bool swap_source_scaled = frontbuffer_width_unscaled && frontbuffer_height_unscaled &&
+                             (source_width_scaled != frontbuffer_width_unscaled ||
+                              source_height_scaled != frontbuffer_height_unscaled);
+@@ -2310,6 +2335,12 @@
+ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint32_t index_count,
+                                       IndexBufferInfo* index_buffer_info,
+                                       bool major_mode_explicit) {
++  SkyDrawTrace::Get().Draw(frame_current_, *register_file_, active_vertex_shader(),
++    active_pixel_shader(), uint32_t(primitive_type), index_count,
++    index_buffer_info ? index_buffer_info->guest_base : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->length) : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->format) : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->endianness) : 0, memory_);
+ #if XE_GPU_FINE_GRAINED_DRAW_SCOPES
+   SCOPE_profile_cpu_f("gpu");
+ #endif  // XE_GPU_FINE_GRAINED_DRAW_SCOPES
+@@ -2690,6 +2721,7 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
+                                             0, 0);
++    SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+   } else {
+     D3D12_INDEX_BUFFER_VIEW index_buffer_view;
+@@ -2760,6 +2792,7 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     deferred_command_list_.D3DDrawIndexedInstanced(
+         primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
++    SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+     if (scratch_index_buffer != nullptr) {
+       ReleaseScratchGPUBuffer(scratch_index_buffer, D3D12_RESOURCE_STATE_INDEX_BUFFER);
