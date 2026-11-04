@@ -1,0 +1,25 @@
+{
+  "trace": "work\\sky-bridge\\draw-trace-20261103-200444",
+  "exact_executable_slice_matches": 124,
+  "programs": 193,
+  "match_offsets": {
+    "64": 92,
+    "192": 11,
+    "128": 13,
+    "0": 8
+  },
+  "geometry_matches": 74659,
+  "mesh_part_shader_transform_groups": 890,
+  "reassessment": [
+    "Whole-blob hashes were too restrictive: 124 complete runtime programs match exact slices at offsets 0,64,128,192. This is not evidence of corrupt shaders.",
+    "Index-prefix-only attribution was incomplete. Analysis now also requires the matching primary vertex-buffer prefix and pixel shader material reference; ambiguous candidates are excluded.",
+    "Repeated rigid instances are separated by recorded model transform; world-space vertices ignore unused model constants.",
+    "Texture-register hash changes include unused fetch slots and cannot establish a changed sampled texture.",
+    "Stable c210-c212 values cover only those registers, not all lighting or GPU texture contents.",
+    "Projection using source rigid/world conventions places envelope meshes 183 and 184 in the upper/right view. This is a candidate localization, not yet proof that either is the circled surface.",
+    "The trace does not contain output pixels, per-frame GPU texture contents, or a marker identifying the exact black frame. Root cause remains unproven."
+  ],
+  "rendering_changes": false,
+  "runtime_restored": true,
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
