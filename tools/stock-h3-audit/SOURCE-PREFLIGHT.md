@@ -447,3 +447,79 @@ reflection response. The native face/pixel checks do not establish those.
 Full H3 scene material assignment, official map compilation and user-driven MCC
 review remain outstanding. No new Blender appearance claim is made from these
 tag checks, and nothing has been converted to 360 or installed.
+
+### Wall-family batch and native texture checks (2026-11-04)
+
+`author_wall_family.py` extends the reviewed stock Standoff wall configuration
+to all 38 matching source surfaces, including the first trial. This creates
+37 additional ordinary materials, bringing authored material tags to 44
+(38 ordinary, five terrain, one foliage). This is not 44 visually accepted
+materials. Their nine selected rendering categories match the stock donor;
+extra Reach-only inputs and retained stock inputs are listed per material.
+There are no inherited parents in this batch and all active source images exist.
+
+The official API saved 530 input assignments and 460 original functions.
+Read-back checks include bitmap references, real fields, animation type names,
+input/range names, periods and function data. Source alpha functions are retained
+as alpha functions, not treated as color functions. Stock options and the
+supplied compiled MCC template remain unchanged. The 197 recorded source-image,
+source-tag and stock-donor hashes were rechecked unchanged.
+
+The batch contains 77 distinct images: 36 base images, three detail images,
+36 normal images and two reflection cubes. Color imports use native A8Y8 only
+where all three source color channels are identical; other color inputs use
+stock DXT5. Linear inputs retain gamma 1/linear storage. Older xRGB inputs use
+the H3 sRGB import path, with that response difference explicitly recorded for
+MCC review. An explicit xRGB trial changed source pixels and was not selected.
+The first reflection cube keeps its previously verified stock cube import path;
+the second cube needs its original linear curve. A generic gamma override on
+the first cube failed pixel checks and was removed through the official API.
+
+`verify_wall_family.py` exported and inspected every image. All 39 color/detail
+images and twelve cube faces passed the pixel/alpha comparison gate. The highest
+mean channel error among color/detail images was 3.285/255. This is compression
+and channel evidence, not a visual-quality threshold. Native Tool's direct-save
+fallback for uncompressed images is recorded; decoded image contents, sizes and
+alpha are checked instead of treating a process exit code as proof. Reusing
+exports requires each exported file to be newer than its current tag.
+
+Reproduce: `author_wall_family.py --prepare`, `inspect_wall_bitmaps.py --family`,
+build the two official API wrappers, then `author_wall_family.py` and
+`verify_wall_family.py`. `--only-bitmap NAME` refreshes one import without
+repeating shader authoring. Evidence: `work/stock-h3-audit/wall-family/report.json`,
+`pixel-verification.json`, the native XML exports and per-command logs.
+
+Normal fidelity remains unresolved. The already-installed Reach `tool_fast.exe`
+supports native `export-bitmap-dds` and `export-bitmap-tga`; it successfully
+exported the original wall normal without a Blender reader. The earlier normal
+RGB extraction differs from that native XY evidence. An isolated normal import
+probe and Microsoft's documented `texconv --reconstruct-z` were tested without
+changing any production shader binding. The reconstruction preserved native XY
+exactly, but the subsequent stock H3 import still changed the raw XY range.
+That is not proof of equivalent normal direction/strength in the H3 shader.
+Do not accept normal shading from the color/alpha checks or call the probe a fix.
+No custom reconstruction algorithm or shader patch was written.
+
+The unmodified Microsoft utility is pinned to
+[DirectXTex may2026](https://github.com/microsoft/DirectXTex/releases/tag/may2026),
+at `work/stock-h3-audit/upstream/DirectXTex-may2026/texconv.exe`.
+SHA256, checked against GitHub's release asset digest:
+`dcfdec10244e02cf5037fba089c55fb7e1326b1c8181742d77d15fa5cb5eef06`.
+The [upstream command documentation](https://github.com/microsoft/DirectXTex/wiki/texconv)
+describes normal reconstruction. Probe inputs/outputs/logs are in
+`wall-family/native-reach/`; they are not a production normal replacement.
+
+The map still needs remaining materials, geometry/physics/lighting metadata,
+official map compilation and user-driven MCC review. No 360 conversion or
+shared-install write has occurred.
+
+`render_wip.py --textured --buildings` produced two additional native Blender
+WIP views of the original base panels and light strips. Both final images were
+inspected. The initial generic camera positions were occluded by cliffs; the
+camera was moved to the canyon-facing side without hiding or modifying geometry.
+The close view clearly shows the entrance, wall-panel textures and strips.
+The wider view also exposes below-ground geometry at its lower edge, and preview
+shadows remain dark. These are source-material/studio-lighting previews, not H3
+shader or gameplay captures. Images: `wip/buildings-overview.png` and
+`wip/buildings-closer.png`. The source Blender file remains unchanged at SHA256
+`30805ebe52e32b764a143ffe5abf6e60124f0e2cb7964ec1b8295579f171d43d`.

@@ -47,6 +47,8 @@ def fields_to_data(fields):
             row['value'] = str(field.GetStringData())
         elif hasattr(field, 'Value'):
             row['value'] = str(field.Value)
+            if isinstance(field, Bungie.Tags.TagFieldEnum):
+                row['enum_names'] = [str(item.EnumName) for item in field.Items]
         rows.append(row)
     return rows
 

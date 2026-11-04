@@ -18,11 +18,14 @@ public class ParameterPlan
     public string Name;
     public int Type;
     public string Bitmap;
+    public float? Real;
+    public int? Integer;
     public List<AnimationPlan> Animations;
 }
 public class AnimationPlan
 {
     public int Type;
+    public string TypeName;
     public string Input;
     public string Range;
     public float Period;
@@ -73,12 +76,17 @@ class ApplyH3ShaderPlan
                     if(!File.Exists(Confined(tags,input.Bitmap)))throw new FileNotFoundException(input.Bitmap);
                     ((TagFieldReference)parameter.SelectField("bitmap")).Path=TagPath.FromPathAndType(Path.ChangeExtension(input.Bitmap,null),"bitm*");
                 }
+                if(input.Real.HasValue)((TagFieldElementSingle)parameter.SelectField("real")).Data=input.Real.Value;
+                if(input.Integer.HasValue)((TagFieldElementInteger)parameter.SelectField("int/bool")).Data=input.Integer.Value;
                 var animations=(TagFieldBlock)parameter.SelectField("animated parameters");
                 animations.RemoveAllElements();
                 foreach(var animation in input.Animations)
                 {
                     var element=animations.AddElement();
-                    ((TagFieldEnum)element.SelectField("type")).Value=animation.Type;
+                    var type=(TagFieldEnum)element.SelectField("type");
+                    if(animation.TypeName!=null && type.Items[animation.Type].EnumName!=animation.TypeName)
+                        throw new InvalidOperationException("Animation type differs: "+animation.TypeName);
+                    type.Value=animation.Type;
                     ((TagFieldElementStringID)element.SelectField("input name")).SetStringData(animation.Input);
                     ((TagFieldElementStringID)element.SelectField("range name")).SetStringData(animation.Range);
                     ((TagFieldElementSingle)element.SelectField("time period")).Data=animation.Period;

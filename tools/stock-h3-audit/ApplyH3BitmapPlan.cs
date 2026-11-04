@@ -13,6 +13,9 @@ public class BitmapInput
     public string Usage;
     public string Format;
     public bool LinearSource;
+    public string Curve;
+    public float SourceGamma;
+    public bool ClearOverride;
 }
 class ApplyH3BitmapPlan
 {
@@ -20,7 +23,7 @@ class ApplyH3BitmapPlan
     {
         var enumeration=(TagFieldEnum)field;
         for(int i=0;i<enumeration.Items.Length;i++)
-            if(enumeration.Items[i].EnumName==value){enumeration.Value=i;return;}
+            if(enumeration.Items[i].EnumName==value){enumeration.Value=enumeration.Items[i].EnumIndex;return;}
         throw new InvalidOperationException("Unknown option: "+value);
     }
     static int Main(string[] args)
@@ -39,17 +42,24 @@ class ApplyH3BitmapPlan
             {
                 SetEnum(tag.SelectField("Usage"),input.Usage);
                 SetEnum(tag.SelectField("force bitmap format"),input.Format);
-                if(input.LinearSource)
+                if(input.ClearOverride)((TagFieldBlock)tag.SelectField("usage override")).RemoveAllElements();
+                if(input.LinearSource || input.Curve!=null)
                 {
-                    if(input.Usage!="Diffuse Map" && input.Usage!="Detail Map")
-                        throw new InvalidOperationException("Linear override supports only these 2D inputs");
+                    bool cube=input.Usage=="Cube Map (Reflection Map)";
+                    if(input.Usage!="Diffuse Map" && input.Usage!="Detail Map" && input.Usage!="ZBrush Bump Map (from Bump Map)" && !cube)
+                        throw new InvalidOperationException("Unsupported bitmap usage override");
                     var block=(TagFieldBlock)tag.SelectField("usage override");
                     if(block.Elements.Count>1)throw new InvalidOperationException("Unexpected override count");
                     var element=block.Elements.Count==0?block.AddElement():block.Elements[0];
-                    ((TagFieldElementSingle)element.SelectField("source gamma")).Data=1;
-                    SetEnum(element.SelectField("bitmap curve"),"linear");
+                    ((TagFieldElementSingle)element.SelectField("source gamma")).Data=input.LinearSource?1:input.SourceGamma;
+                    SetEnum(element.SelectField("bitmap curve"),input.LinearSource?"linear":input.Curve);
                     ((TagFieldFlags)element.SelectField("flags")).SetBit("Ignore Curve Override",true);
-                    SetEnum(element.SelectField("type"),"2D texture");
+                    SetEnum(element.SelectField("type"),cube?"cube map":"2D texture");
+                    if(cube)
+                    {
+                        SetEnum(element.SelectField("slicer"),"Cube Map Slicer");
+                        ((TagFieldFlags)element.SelectField("dicer flags")).SetBit("Rotate Cube Map to Match DirectX Format",true);
+                    }
                     SetEnum(element.SelectField("downsample filter"),"Box Filter");
                     SetEnum(element.SelectField("bitmap format"),input.Format);
                 }

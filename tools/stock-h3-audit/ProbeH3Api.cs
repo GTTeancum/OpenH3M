@@ -51,6 +51,10 @@ class ProbeH3Api
                 Console.WriteLine(field.DisplayName + " | " + field.FieldPath);
             var parameters = (TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
             Console.WriteLine("PARAMETERS " + parameters.Elements.Count);
+            var animations=(TagFieldBlock)parameters.Elements[0].SelectField("animated parameters");
+            if(animations.Elements.Count>0)
+                foreach(var item in ((TagFieldEnum)animations.Elements[0].SelectField("type")).Items)
+                    Console.WriteLine("ANIMATION_TYPE "+item.EnumName);
             foreach (var method in typeof(TagFieldBlock).GetMethods())
                 if (method.Name.Contains("Element")) Console.WriteLine(method);
             foreach (var method in typeof(TagFieldData).GetMethods())

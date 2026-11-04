@@ -10,6 +10,7 @@ OUT = ROOT / 'work/stock-h3-audit/wip'
 OUT.mkdir(exist_ok=True)
 scene = bpy.context.scene
 authoring = '--authoring' in sys.argv
+buildings = '--buildings' in sys.argv
 if authoring:
     import runpy
     import bmesh
@@ -45,6 +46,12 @@ points = []
 for instance in depsgraph.object_instances:
     ob = instance.object
     if ob.type == 'MESH' and not ob.hide_render:
+        if buildings:
+            slots={i for i,m in enumerate(ob.data.materials) if m and any(n in m.name for n in ('ca_bcreek_bb_walldetail','ca_bcreek_bb_main'))}
+            if slots:
+                vertices={v for p in ob.data.polygons if p.material_index in slots for v in p.vertices}
+                points.extend(instance.matrix_world @ ob.data.vertices[i].co for i in vertices)
+            continue
         # Weight framing by surface vertices rather than distant backdrop bounds.
         points.extend(instance.matrix_world @ ob.data.vertices[i].co
                       for i in range(0, len(ob.data.vertices), max(1, len(ob.data.vertices)//2000)))
@@ -85,13 +92,18 @@ scene.display.shading.cavity_type = 'BOTH'
 scene.display.shading.background_type = 'WORLD'
 scene.world.color = (0.08, 0.08, 0.08)
 scene.render.image_settings.file_format = 'PNG'
-for name, direction, scale in [('overview', (1, -1, 1.3), 1.5), ('closer', (-1, -1, 1.5), 1.0)]:
-    camera.location = center + Vector(direction).normalized() * span * 2
+views=[('overview', (1, -1, 1.3), 1.5), ('closer', (-1, -1, 1.5), 1.0)]
+if buildings:
+    # This base faces into the canyon along +Y; the generic overview directions
+    # put the camera behind its surrounding cliffs. Keep all geometry visible.
+    views=[('overview',(0,1,.3),1.15),('closer',(.4,1,.3),.85)]
+for name, direction, scale in views:
+    camera.location = center + Vector(direction).normalized() * span * (.7 if buildings else 2)
     camera.rotation_euler = (center - camera.location).to_track_quat('-Z', 'Y').to_euler()
     if textured:
         sun.rotation_euler = camera.rotation_euler
     camera.data.ortho_scale = span * scale
-    prefix = 'h3-authoring-' if authoring else ('textured-' if textured else '')
+    prefix = 'buildings-' if buildings else ('h3-authoring-' if authoring else ('textured-' if textured else ''))
     scene.render.filepath = str(OUT / (prefix + name + '.png'))
     bpy.ops.render.render(write_still=True)
 (OUT / (prefix + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),
