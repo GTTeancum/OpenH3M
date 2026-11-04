@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import runpy
+import re
 import sys
 import bpy
 import bmesh
@@ -25,11 +26,23 @@ assert not (authored and (precise or render_only))
 variant='-authored' if authored else ('-precise' if precise else '')+('-render-only' if render_only else '')
 stem='collision-workflow'+variant
 ass_name='boulder'+variant.replace('-','_')
+target_name=sys.argv[sys.argv.index('--target')+1] if '--target' in sys.argv else 'boulder_low035'
+if '--target' in sys.argv:
+    assert re.fullmatch(r'[a-zA-Z0-9_]+',target_name) and not authored
+    stem+='-'+target_name
+    ass_name+='_'+target_name
 assert source==OUT/'battle-canyon-h3-materials.blend'
 before=hashlib.sha256(source.read_bytes()).hexdigest()
 bindings=json.loads((OUT/'h3-material-bindings.json').read_text())
 assert before==bindings['scene_sha256']
-target=bpy.context.scene.objects['boulder_low035']
+target=bpy.context.scene.objects[target_name]
+if '--target' in sys.argv:
+    inventory=json.loads((OUT/'original-proxy-collision-inventory.json').read_text())
+    assert hashlib.sha256(Path(inventory['source']).read_bytes()).hexdigest()==inventory['sha256']
+    original=next(r for r in inventory['definitions'] if target_name in r['instances'])
+    assert original['render_bsp_count']==0 and original['imported_physics_proxies']==0
+    assert target.data.name=='instance_definition:'+str(original['definition_index'])
+    assert not any(getattr(target.data.nwo,f'proxy_physics{i}') for i in range(200))
 children=[c for c in target.children if (c.ass_jms.name_override or c.name).startswith('@')]
 assert len(children)==1
 keep={target,*children}
@@ -113,6 +126,7 @@ child=next(i for i in asset.instances if i.name.startswith('@'))
 assert asset.instances[child.parent_id] is parent
 assert hashlib.sha256(source.read_bytes()).hexdigest()==before
 report=dict(source=str(source),source_sha256=before,ass=str(path),
+    target=target_name,render_instance=parent.name,collision_child=next(iter(children)).name,
     diagnostic_precise_flag=precise,
     diagnostic_render_only_flag=render_only,
     saved_authoring_flags_checked=authored,

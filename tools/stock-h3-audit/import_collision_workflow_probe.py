@@ -12,6 +12,10 @@ OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 variant='-authored' if '--authored' in sys.argv else ('-precise' if '--precise' in sys.argv else '')+('-render-only' if '--render-only' in sys.argv else '')
 stem='collision-workflow'+variant
+if '--target' in sys.argv:
+    target=sys.argv[sys.argv.index('--target')+1]
+    assert target.replace('_','').isalnum() and variant!='-authored'
+    stem+='-'+target
 probe=json.loads((OUT/(stem+'-probe.json')).read_text())
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 assert sha(probe['ass'])==probe['ass_sha256']

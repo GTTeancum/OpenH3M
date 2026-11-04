@@ -17,10 +17,14 @@ for helper in ('check_foundry.py','check_h3_exporter.py'):
     runpy.run_path(str(ROOT/'tools/stock-h3-audit'/helper))
 variant=('-precise' if '--precise' in sys.argv else '')+('-render-only' if '--render-only' in sys.argv else '')
 stem='collision-workflow'+variant
+if '--target' in sys.argv:
+    target=sys.argv[sys.argv.index('--target')+1]
+    assert target.replace('_','').isalnum()
+    stem+='-'+target
 probe=json.loads((OUT/(stem+'-probe.json')).read_text())
 assert hashlib.sha256(Path(probe['ass']).read_bytes()).hexdigest()==probe['ass_sha256']
 source=Path(bpy.data.filepath)
-assert str(source)==probe['source']
+assert source in (Path(probe['source']),OUT/'boulder-batch-before-battle-canyon-h3-materials.blend')
 assert hashlib.sha256(source.read_bytes()).hexdigest()==probe['source_sha256']
 error=KIT/'import_errors'/('bc_collision_workflow_probe_'+Path(probe['ass']).stem+'.wrl')
 text=error.read_text() if error.is_file() else ''
@@ -62,7 +66,7 @@ for name,element in [('collision',definition),('render_bsp',definition.find('./b
     row=dict(vertices=len(vertices),edges=len(edges),surfaces=len(surfaces),
         boundary_edges=sum(int(field(e,'left surface'))<0 or int(field(e,'right surface'))<0 for e in edges))
     if name=='collision':
-        proxy=bpy.context.scene.objects['@boulder_low035_collision']
+        proxy=bpy.context.scene.objects[probe.get('collision_child','@boulder_low035_collision')]
         tree=kdtree.KDTree(len(proxy.data.vertices))
         for v in proxy.data.vertices:tree.insert(v.co*.01,v.index)
         tree.balance()

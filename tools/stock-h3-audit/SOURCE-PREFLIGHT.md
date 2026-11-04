@@ -2046,3 +2046,98 @@ Lighting-info SHA-256:
 Evidence: `h3-full-geometry-import.json` and `.log`,
 `h3-full-map-lighting-verification.json`; previous import retained as
 `h3-full-geometry-before-world-split.json` and `.log` for comparison.
+
+## Ten additional boulders through standard H3 controls (2026-11-04)
+
+The original collision inventory identifies eleven remaining boulders with no
+render BSP and no separate physics hulls, matching the already-diagnosed
+`boulder_low035` case. The existing isolated exporter/importer/comparison helpers
+now accept a target name; batch wrappers run the same unchanged exporter and
+official Tool sequentially. This follows the documented
+[H3 instance collision hierarchy](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/art/instanceobjects/collision):
+retain each original collision child beneath its render instance. No native
+compiler, exporter or collision serialization code is changed.
+
+Precise on both meshes and Render Only on the visible material copies produce
+clean isolated imports for ten targets: `boulder_low025`, `boulder_low037`,
+`boulder_low023`, `boulder_low029`, `boulder_low031`, `boulder_low043`,
+`boulder_low041`, `boulder_low027`, `boulder_low039` and `boulder_low033`.
+`boulder_west_lowz002` still reports three collision edges (including a
+seamsealer boundary); its map authoring is deliberately unchanged.
+
+Across the ten clean cases, all 8,363 render triangles match with preserved
+winding. UV differences are below 0.000001. Native render positions differ by
+up to 0.000231850 H3 world units and normal vectors by up to 0.006313263; these
+exceed the existing strict diagnostic thresholds and are not relabeled exact.
+Four cases (`low037`, `low023`, `low041`, `low027`) also exceed the 0.0001-world-unit
+collision sample threshold, with a maximum sampled difference of 0.000232461.
+All native outputs retain collision MOPP data and the original absence of a
+render BSP. The comparison samples all vertices and polygon centroids in both
+directions; it does not prove continuous-surface or gameplay equivalence.
+
+`prepare_boulder_collision_batch.py --apply` copies only those ten cases'
+material slots and changes standard flags. All 544 geometry/UV hashes remain
+unchanged, as do the target corner normals. Fresh saved-scene checks independently
+verify all 20 render/collision objects and 30 material slots, including stored
+transforms, parent relationships and other material flags. There are no lighting
+face assignments on these meshes. All 117 lighting source records / 22,690 faces
+remain checked; the world split and four water channels also still pass.
+
+Current authoring SHA-256:
+`935da3230a2a5b4f327dfcce2edcba9155f1ddc059d1072e5eff69285d96245e`.
+Current bound-scene SHA-256:
+`c132a8eee1bfec9f26fdca113b83a5168ada0cd681a01c279c8e794e5e1c8955`.
+Bindings cover 102 tags and 357 used variants, with none pending. Prior fresh
+authoring/bound scenes and reports remain under the `boulder-batch-before-`
+prefix; these are not files from the rejected rebuild.
+
+Evidence under `work/stock-h3-audit`: `boulder-batch-export.json`,
+`boulder-batch-import.json`, `boulder-batch-verification.json`, per-target
+`collision-workflow-precise-render-only-*-probe.json`, native XML/import reports
+and geometry comparisons, `h3-boulder-batch-authoring.json`, and saved/bound
+verification reports. The combined full-map error count must be established
+after reimport, not inferred from ten isolated successes.
+
+Blender proof inspected:
+`wip/h3-boulder-native-geometry-comparison-boulder_low033.png`, source on the left
+and official H3 output on the right. Silhouettes and visible facets match in this
+view; neutral shading does not establish material, shadow or MCC acceptance.
+
+Full ASS readback matches all ten diagnosed render/collision inputs exactly,
+including normals, UVs, colors, winding, material controls and parent links.
+The exported scene still has 544 unique objects, 1,177 instances and 301,566
+triangles; its 371 material records reflect the copied controls. ASS SHA-256:
+`54eab98bc965b929dea09f59e6a241b9dea1e0020d974636e599cdf5bae33195`.
+Lighting/water/world ASS checks also pass. The full import wrapper requires this
+current boulder comparison before invoking Tool.
+
+The west-boulder follow-up is read-only. Official Reach API data for definition
+418 and native error endpoints identify source vertices 27, 40 and 41: all three
+edges surround original collision face 20. Neighbor face 295 uses the same rock
+material; face 480 is the seamsealer polygon. Faces 20 and 480 share the exact
+original plane. All 499 source polygon vertex sets were matched to the native
+source edge loops before assigning these face IDs. The source collision mesh is
+closed and has no zero-area faces; the isolated H3 output also has zero negative
+surface references, despite Tool's three-error report. This is not permission to
+waive the errors or delete the triangle. Investigate the native handling of this
+shared-plane material boundary before changing source geometry.
+Evidence: `original-instance-collision-418.json`,
+`collision-workflow-precise-render-only-boulder_west_lowz002-error-inspection.json`,
+and `west-boulder-error-faces.json`.
+
+The full official import completed in 7m14.981s. All ten corrected targets have
+zero error lines in the combined scene. Total `-ERROR-` lines fall from 61 to 48:
+34 open/degenerate-edge groups and 14 bad-connection errors remain, versus the
+previous 44 and 17. The world plane-builder failure stays absent. Twelve portal
+leaks and two thin-triangle warnings remain. The wrapper correctly reports
+`clean_import_completed: false` despite Tool's return code 0 and written tags.
+
+Post-import native lighting readback again verifies all 113 material variants,
+including nine emitting variants, against the current scene and ASS hashes.
+Current BSP SHA-256:
+`cc61eded55d93be5478b1cb84d983ac67c5962fab0acc57e7889c2a1067227fb`.
+Current lighting-info SHA-256:
+`04987968afd6c451b80d17f8a7a9e5a5039b55b7d8ea784f63ce40f8c477adb8`.
+Full-map evidence is `h3-full-geometry-import.json`/`.log` and
+`h3-full-map-lighting-verification.json`. No lightmap bake, MCC test, acceptance,
+Xbox 360 conversion or installation took place in this checkpoint.

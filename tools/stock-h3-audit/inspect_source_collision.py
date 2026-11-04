@@ -8,6 +8,7 @@ import sys
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/hrek'
+definition_index=int(sys.argv[sys.argv.index('--definition')+1]) if '--definition' in sys.argv else 74
 sys.path.insert(0,str(OUT/'python-packages'))
 import clr
 clr.AddReference(str(KIT/'bin/ManagedBlam.dll'))
@@ -56,7 +57,7 @@ try:
         print('ORIGINAL_WORLD_COLLISION',json.dumps({kind:[{k:len(v) for k,v in b.items()} for b in bsps] for kind,bsps in world.items()}),flush=True)
         raise SystemExit(0)
     definitions=tag.SelectField('Struct:resource interface[0]/Block:raw_resources[0]/Struct:raw_items[0]/Block:instanced geometries definitions')
-    definition=definitions.Elements[74]
+    definition=definitions.Elements[definition_index]
     collision=read_bsp(definition.SelectField('Struct:collision info').Elements[0])
     render=[read_bsp(e) for e in definition.SelectField('Block:render bsp').Elements]
     material_indices={int(s['material']) for s in collision['surfaces']}
@@ -80,8 +81,9 @@ finally:
     tag.Dispose()
     Bungie.ManagedBlamSystem.Stop()
 assert hashlib.sha256(path.read_bytes()).hexdigest()==before
-report=dict(source=str(path),sha256=before,definition_index=74,collision=collision,render_bsp=render,materials=materials)
-(OUT/'original-boulder-collision.json').write_text(json.dumps(report,indent=2)+'\n')
+report=dict(source=str(path),sha256=before,definition_index=definition_index,collision=collision,render_bsp=render,materials=materials)
+report_name='original-instance-collision-'+str(definition_index)+'.json' if '--definition' in sys.argv else 'original-boulder-collision.json'
+(OUT/report_name).write_text(json.dumps(report,indent=2)+'\n')
 (OUT/'original-proxy-collision-inventory.json').write_text(json.dumps(dict(source=str(path),sha256=before,
     definitions=inventory,limitation='Read-only original source inventory. Matching structure does not prove other instances accept the diagnosed boulder controls.'),indent=2)+'\n')
 print('ORIGINAL_PROXY_COLLISION_INVENTORY',len(inventory),'definitions, render BSP counts',dict(collections.Counter(r['render_bsp_count'] for r in inventory)),flush=True)

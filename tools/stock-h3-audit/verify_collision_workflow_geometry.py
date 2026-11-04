@@ -16,6 +16,10 @@ from mathutils.bvhtree import BVHTree
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 stem='collision-workflow' if '--baseline' in sys.argv else 'collision-workflow-precise-render-only'
+if '--target' in sys.argv:
+    target_name=sys.argv[sys.argv.index('--target')+1]
+    assert target_name.replace('_','').isalnum()
+    stem+='-'+target_name
 for helper in ('check_foundry.py','check_h3_exporter.py'):
     runpy.run_path(str(ROOT/'tools/stock-h3-audit'/helper))
 probe=json.loads((OUT/(stem+'-probe.json')).read_text())
@@ -50,12 +54,11 @@ def texcoord(element):
 raw=next(block for block in native.findall('.//block[@name="per mesh temporary"]') if len(block)>0)[mesh_index]
 vertices=list(raw.find('./block[@name="raw vertices"]'))
 indices=[int(field(e,'word')) for e in raw.find('./block[@name="raw indices"]')]
-assert len(indices)==710*3
 from io_scene_halo.file_ass.process_file import process_file
 ass=process_file(probe['ass'])
-render=next(i for i in ass.instances if i.name=='%-?boulder_low035')
+render=next(i for i in ass.instances if i.name==probe.get('render_instance','%-?boulder_low035'))
 mesh=ass.objects[render.object_index]
-assert len(mesh.triangles)==710
+assert len(indices)==len(mesh.triangles)*3
 source_triangles=[]
 for t in mesh.triangles:
     source_triangles.append([mesh.vertices[i] for i in (t.v0,t.v1,t.v2)])
@@ -94,7 +97,7 @@ for offset in range(0,len(indices),3):
     for element,v in zip(triangle,original):
         max_uv=max(max_uv,(texcoord(element)-Vector(v.uv_set[0][:2])).length)
         max_normal=max(max_normal,(vector(element,'normal')-Vector(v.normal)).length)
-assert len(used)==710
+assert len(used)==len(mesh.triangles)
 print('RENDER_DELTAS',max_position,max_uv,max_normal,flush=True)
 native_vertices=[vector(v,'point') for v in definition.find('./block[@name="vertices"]')]
 edges=list(definition.find('./block[@name="edges"]'))
@@ -116,7 +119,7 @@ for si,surface in enumerate(surfaces):
         if current==start:break
     else:raise AssertionError('Native collision edge loop does not close')
     polygons.append(polygon)
-proxy=bpy.context.scene.objects['@boulder_low035_collision'].data
+proxy=bpy.context.scene.objects[probe.get('collision_child','@boulder_low035_collision')].data
 source_vertices=[v.co*.01 for v in proxy.vertices]
 source_polygons=[list(p.vertices) for p in proxy.polygons]
 source_bvh=BVHTree.FromPolygons(source_vertices,source_polygons)
@@ -131,7 +134,7 @@ render_bsp_count=len(definition.find('./block[@name="render bsp"]'))
 assert sha(source)==probe['source_sha256']
 report=dict(source_sha256=probe['source_sha256'],ass_sha256=probe['ass_sha256'],
     native_tag_sha256=compiled['native_tag_sha256'],native_xml_sha256=compiled['native_xml_sha256'],
-    render_triangles_matched=710,render_winding_preserved=True,max_render_position_delta_world_units=max_position,
+    render_triangles_matched=len(mesh.triangles),render_winding_preserved=True,max_render_position_delta_world_units=max_position,
     render_position_tolerance_world_units=.0001,
     max_uv_delta=max_uv,max_normal_delta=max_normal,collision_vertices=len(native_vertices),collision_surfaces=len(polygons),
     max_native_collision_sample_to_source_world_units=to_source,max_source_collision_sample_to_native_world_units=to_native,

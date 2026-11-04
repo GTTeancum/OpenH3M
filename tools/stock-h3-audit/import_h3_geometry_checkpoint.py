@@ -35,6 +35,14 @@ if (OUT/'h3-world-collision-authoring.json').is_file():
     assert world_verification['exact_visible_positions_normals_uvs_colors_winding_and_materials']
     assert world_verification['exact_diagnosed_collision_and_material_controls']
 collection=bindings['shader_collection']
+boulder_verification=None
+if (OUT/'h3-boulder-batch-authoring.json').is_file():
+    boulder_path=OUT/'boulder-batch-ass-verification.json'
+    boulder_verification=json.loads(boulder_path.read_text())
+    assert boulder_verification['scene_sha256']==bindings['scene_sha256']
+    assert boulder_verification['ass_sha256']==export['ass_sha256']
+    assert boulder_verification['exact_diagnosed_triangles_and_material_controls']
+    assert len(boulder_verification['targets'])==10
 assert sha(collection['path'])==collection['sha256']
 for binding in bindings['bindings'].values():
     assert sha(binding['authored'])==sha(binding['export_tag'])==binding['sha256']
@@ -59,6 +67,7 @@ report=dict(scene_sha256=bindings['scene_sha256'],ass_sha256=export['ass_sha256'
     limitation='Diagnostic import only. Output and issues require inspection; unresolved geometry, lighting bake, gameplay and MCC approval remain.')
 if lighting_verification:report['lighting_ass_verification_sha256']=sha(lighting_path)
 if world_verification:report['world_ass_verification_sha256']=sha(world_path)
+if boulder_verification:report['boulder_ass_verification_sha256']=sha(boulder_path)
 report['clean_import_completed']=bool(result.returncode==0 and report['import_completed']
     and not any('error' in line.lower() or 'fatal' in line.lower() for line in issues)
     and (tags/'battle_canyon.scenario_structure_bsp').is_file())
