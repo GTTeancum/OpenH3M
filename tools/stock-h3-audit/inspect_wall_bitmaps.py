@@ -24,9 +24,10 @@ paths={
 }
 parser=argparse.ArgumentParser()
 parser.add_argument('--family',action='store_true')
+parser.add_argument('--family-name',choices=['wall','lights'],default='wall')
 args=parser.parse_args()
 if args.family:
-    paths={p:p for p in json.loads((OUT/'wall-family-candidates.json').read_text())['images']}
+    paths={p:p for p in json.loads((OUT/(args.family_name+'-family-candidates.json')).read_text())['images']}
 def value(field):
     return str(field.Value) if hasattr(field,'Value') else str(field.GetStringData())
 callback=Bungie.ManagedBlamCrashCallback(lambda info:None)
@@ -49,7 +50,7 @@ try:
         finally:tag.Dispose()
         assert hashlib.sha256((KIT/'tags'/path).read_bytes()).hexdigest()==before
 finally:Bungie.ManagedBlamSystem.Stop()
-destination=OUT/'wall-family-bitmap-settings.json' if args.family else OUT/'wall-detail-trial/source-bitmap-settings.json'
+destination=OUT/(args.family_name+'-family-bitmap-settings.json') if args.family else OUT/'wall-detail-trial/source-bitmap-settings.json'
 destination.write_text(json.dumps(report,indent=2)+'\n')
 if args.family:
     from collections import Counter

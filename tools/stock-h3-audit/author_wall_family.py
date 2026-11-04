@@ -23,9 +23,17 @@ PREFIX=Path(r'levels\custom\battle_canyon_fresh')
 DONOR=r'levels\dlc\bunkerworld\shaders\bunker_plate_wall.shader'
 CATEGORIES={'albedo','bump_mapping','alpha_test','specular_mask','material_model','environment_mapping','self_illumination','blend_mode','parallax'}
 parser=argparse.ArgumentParser()
+parser.add_argument('--family',choices=['wall','lights'],default='wall')
 parser.add_argument('--prepare',action='store_true',help='Write reviewed source/image inventory only, for native metadata inspection')
 parser.add_argument('--only-bitmap',help='Reimport one named bitmap and update its existing batch evidence')
 args=parser.parse_args()
+if args.family=='lights':
+    DONOR=r'levels\multi\guardian\shaders\guardian_techstrip.shader'
+    DEST=OUT/'lights-family'
+    DEST.mkdir(exist_ok=True)
+expected_count,expected_images=(38,77) if args.family=='wall' else (9,8)
+expected_roles=({'base_map','detail_map','bump_map','environment_map'} if args.family=='wall'
+                else {'base_map','detail_map','self_illum_map','self_illum_detail_map'})
 env=os.environ.copy()
 for key,relative in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:
     env[key]=str(OUT/relative)
@@ -62,7 +70,7 @@ for source,inspection in reach_options.items():
     for element in fields['parameters']['elements']:
         row={f['name']:f for f in element};params[row['parameter name']['value']]=row
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
-    assert set(defaults)=={'base_map','detail_map','bump_map','environment_map'},source
+    assert set(defaults)==expected_roles,source
     for name,default in defaults.items():
         bitmap=params.get(name,{}).get('bitmap',{}).get('value') or default
         if bitmap.startswith('shaders\\default_bitmaps\\'):continue
@@ -74,23 +82,23 @@ for source,inspection in reach_options.items():
 # This explicitly reviewed batch is the 38 wall/Forerunner/metal surfaces whose
 # nine rendering categories match the original Standoff wall. Never expand it
 # silently when source inputs or the inventory change.
-assert len(sources)==38 and len(images)==77,(len(sources),len(images))
+assert len(sources)==expected_count and len(images)==expected_images,(len(sources),len(images))
 assert len({Path(p).name for p in images})==len(images),'Resolve image-name collisions'
 inventory=dict(donor=DONOR,sources=sorted(sources),images=sorted(images))
-(OUT/'wall-family-candidates.json').write_text(json.dumps(inventory,indent=2)+'\n')
+(OUT/(args.family+'-family-candidates.json')).write_text(json.dumps(inventory,indent=2)+'\n')
 if args.prepare:
     print('WALL_FAMILY_PREPARED',len(sources),'surfaces',len(images),'images',flush=True)
     raise SystemExit(0)
 
-metadata={r['tag']:r for r in json.loads((OUT/'wall-family-bitmap-settings.json').read_text())}
-donor=xml(OUT/'h3-shader-xml/bunker_plate_wall.shader.xml')
+metadata={r['tag']:r for r in json.loads((OUT/(args.family+'-family-bitmap-settings.json')).read_text())}
+donor=xml(OUT/'h3-shader-xml'/(Path(DONOR).name+'.xml'))
 donor_params={p.get('name'):p for p in donor.find("block[@name='parameters']")}
 remember(KIT/'tags'/DONOR)
 settings=[]
 for bitmap,entry in images.items():
     original=Path(entry['source']);remember(original);remember(REACH/'tags'/bitmap)
     assert hashes[str(REACH/'tags'/bitmap)]==metadata[bitmap]['sha256'],bitmap
-    assert len(entry['roles'])==1,entry
+    assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'},entry
     role=entry['roles'][0]
     entry['target']=str(PREFIX/'bitmaps'/Path(bitmap).name)
     target=KIT/'tags'/entry['target'];data=(KIT/'data'/entry['target']).with_suffix('.tif')
@@ -105,7 +113,10 @@ for bitmap,entry in images.items():
         entry['size']=image.size;entry['monochrome']=monochrome
     curve=int(metadata[bitmap]['bitmaps'][0]['curve'])
     assert curve in (1,3),metadata[bitmap]
-    setting=dict(Path=entry['target'],Usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)'}[role],
+    usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
+    if len(entry['roles'])>1:
+        usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
+    setting=dict(Path=entry['target'],Usage=usage,
         Format='Use Default (defined by usage)' if role=='bump_map' else ('8-bit Monochrome + 8-bit Alpha' if monochrome and role!='environment_map' else 'DXT5 (Compressed Color + Compressed 8-bit Alpha)'),
         LinearSource=curve==3 and role!='bump_map',Curve='sRGB' if curve==1 and role!='bump_map' else None,SourceGamma=2.2)
     entry['source_curve']=curve;entry['settings']=setting
@@ -162,6 +173,7 @@ for index,source in enumerate(sorted(sources)):
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
             if row['Type']==2:row['Real']=float(original['real']['value'])
+            if row['Type'] in (3,4):row['Integer']=int(original['int/bool']['value'])
             for element in original['animated parameters']['elements']:
                 f={p['name']:p for p in element}
                 data=next(p for p in f['function']['elements'][0] if p['name']=='data')['data_base64']
@@ -170,6 +182,7 @@ for index,source in enumerate(sorted(sources)):
         plan['Parameters'].append(row)
     plan_path=DEST/(Path(source).stem+'-plan.json');plan_path.write_text(json.dumps(plan,indent=2)+'\n')
     execute(OUT/'h3-api-probe/ApplyH3ShaderPlan.exe',[str(plan_path)],'shader-'+str(index))
+    native_readback={p['name']:p['functions'] for p in json.loads(Path(str(plan_path)+'.readback.json').read_text())}
     exported=DEST/(Path(source).name+'.xml')
     tool('shader-xml-'+str(index),'export-tag-to-xml',str(KIT/'tags'/plan['Target']),str(exported))
     saved=xml(exported)
@@ -181,14 +194,17 @@ for index,source in enumerate(sorted(sources)):
         assert actual is not None,row
         if row['Bitmap']:assert actual.find("field[@name='bitmap']").get('value')==row['Bitmap'].rsplit('.',1)[0]+',bitm',row
         if 'Real' in row:assert abs(float(actual.find("field[@name='real']").get('value'))-row['Real'])<1e-5,row
+        if 'Integer' in row:assert int(actual.find("field[@name='int/bool']").get('value'))==row['Integer'],row
         animations=list(actual.find("block[@name='animated parameters']"))
         assert len(animations)==len(row['Animations']),row
-        for expected,actual_animation in zip(row['Animations'],animations):
+        for animation_index,(expected,actual_animation) in enumerate(zip(row['Animations'],animations)):
             assert actual_animation.find("field[@name='type']").get('value')==expected['TypeName']
             assert actual_animation.find("field[@name='input name']").get('value')==expected['Input']
             assert actual_animation.find("field[@name='range name']").get('value')==expected['Range']
             assert abs(float(actual_animation.find("field[@name='time period']").get('value'))-expected['Period'])<1e-5
-            assert actual_animation.find("field[@name='data']").get('value')=='function_definition_data,'+expected['DataBase64'].rstrip('=')
+            assert native_readback[row['Name']][animation_index]==expected['DataBase64']
+            exported_data=actual_animation.find("field[@name='data']").get('value')
+            assert exported_data in ('function_definition_data,','function_definition_data,'+expected['DataBase64'].rstrip('=')),row
     reports.append(dict(source=source,target=plan['Target'],plan=str(plan_path),xml=str(exported),inputs=len(plan['Parameters']),functions=sum(len(p['Animations']) for p in plan['Parameters']),source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=sorted(set(active)-{p['Name'] for p in plan['Parameters']})))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path

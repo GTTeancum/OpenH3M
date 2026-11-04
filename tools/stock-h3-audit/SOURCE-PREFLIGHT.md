@@ -523,3 +523,74 @@ shadows remain dark. These are source-material/studio-lighting previews, not H3
 shader or gameplay captures. Images: `wip/buildings-overview.png` and
 `wip/buildings-closer.png`. The source Blender file remains unchanged at SHA256
 `30805ebe52e32b764a143ffe5abf6e60124f0e2cb7964ec1b8295579f171d43d`.
+
+### Stock light strips and physical-material names (2026-11-04)
+
+The additional stock-map search read Construct, The Pit (cyberdyne), High Ground
+(deadlock), Epitaph (salvation), Snowbound, Last Resort (zanzibar) and Sandbox.
+All seven original cache hashes were unchanged. Together with the earlier
+Standoff, Guardian, Valhalla and Sandtrap inventories, 658 original level-shader
+paths have corresponding editing-kit tags. Native option inspection finds an
+exact match across the nine compared rendering categories for 72 of the 90
+ordinary Reach shaders. This is a candidate inventory, not approval of every
+candidate or proof that the other 18 have no stock alternative. The search so
+far covers level shaders; stock object shader configurations remain to inspect.
+
+`ReadH3ShaderConfigurations.cs`, `inventory_additional_shaders.py` and
+`match_stock_shader_inventory.py` record those native options and provenance.
+Evidence is in `stock-shader-configurations.json`,
+`stock-shader-map-provenance.json`, `expanded-stock-shader-matches.json` and
+`additional-stock-map-integrity.json` under `work/stock-h3-audit/`.
+
+Guardian's `guardian_techstrip.shader` supplies the matching stock configuration
+for nine red, blue and white light surfaces. Its original Xbox 360 ten-option
+vector is `0,0,0,0,0,0,5,0,0,0`; the MCC tag retains that vector and adds three
+disabled options. Original-cache read evidence is `guardian-light-options.txt`.
+`author_wall_family.py --family lights` saves 70 input assignments and 28 source
+functions, using eight unchanged Reach images. All nine materials pass native
+field checks. This brings authored tags to 53: 47 ordinary, five terrain and one
+foliage. The 29 recorded light-family input/donor hashes remain unchanged.
+
+The official XML exporter omits the 872-byte function block for the white panel's
+animated self-illumination detail map. The saved native data is intact. The
+authoring wrapper now reopens each saved tag with ManagedBlam and compares every
+function byte; the XML omission alone is never accepted as proof. Independent
+`--verify` processes rechecked all 47 ordinary shaders after physical-material
+updates. The integer input with display name `int/bool` is selected from native
+fields because `/` is interpreted as a path separator by `SelectField`; its
+saved value is checked in the XML as well.
+
+`verify_wall_family.py --family lights` inspected all eight native texture
+exports. Color and alpha passed the existing pixel-comparison gate, with maximum
+mean channel error 1.215/255. Six inputs retain linear curves and two legacy xRGB
+inputs use the documented H3 sRGB import choice. These textures are not shared
+with the earlier wall batch. Evidence is in `lights-family/report.json`,
+`pixel-verification.json`, plans, native readbacks and command logs. Light color,
+animation and bloom still require actual MCC inspection; Blender source previews
+do not establish those results.
+
+The donor-copy audit also caught physical-material names still set to stock
+donor defaults, including metal on the distant-cliff shader. The native Reach
+reader now inventories outer material-name fields. `author_physical_materials.py`
+reads original Standoff's global-material names through unmodified TagTool,
+checks every selected name there, then uses `ApplyH3MaterialNames.cs` to assign
+only existing H3 names through the official API. The native H3 globals are also
+checked before any write. All 52 applicable shaders required a correction:
+47 ordinary shaders and five terrain shaders. Their 67 material-name fields now
+match the source names exactly, using six existing stock materials. The foliage
+source has an empty name, so its selected stock `soft_organic_plant_leafy` remains.
+No new physical-material definition or global tag was authored.
+
+Native reopen checks confirm all assignments. The original Standoff cache,
+53 original Reach shader tags and H3 globals remain unchanged. Evidence:
+`physical-material-plan.json`, `physical-material-report.json`,
+`physical-material-evidence.json`, `standoff-global-materials.txt` and its cache
+integrity report. **Run `author_physical_materials.py` after any donor-copy
+authoring batch**, since copying a donor resets these outer fields. It is an
+idempotent native authoring step. Impact effects/audio and terrain material
+selection still require MCC gameplay verification.
+
+No map compilation, MCC acceptance, 360 conversion or shared-install change has
+occurred. Remaining geometry, material configurations, normal fidelity and
+effects review are still open. The native API workflow follows the
+[ManagedBlam documentation](https://reclaimers.net/general/mod-tools/managed-blam/).

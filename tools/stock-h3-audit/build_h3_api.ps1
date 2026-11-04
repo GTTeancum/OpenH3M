@@ -1,5 +1,5 @@
 # Compile only automation of the installed official H3 API.
-param([ValidateSet('ProbeH3Api','ApplyH3ShaderPlan','ApplyH3BitmapPlan')][string]$Name='ApplyH3ShaderPlan')
+param([ValidateSet('ProbeH3Api','ApplyH3ShaderPlan','ApplyH3BitmapPlan','ReadH3ShaderConfigurations','ApplyH3MaterialNames')][string]$Name='ApplyH3ShaderPlan')
 $ErrorActionPreference='Stop'
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $audit=Join-Path $repo 'work\stock-h3-audit'

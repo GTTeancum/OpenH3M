@@ -12,7 +12,9 @@ OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 parser=argparse.ArgumentParser()
 parser.add_argument('--kind',choices=['terrain','shader'],default='terrain')
-kind=parser.parse_args().kind
+parser.add_argument('--only',help='One exported shader filename; merge its inspection into the existing report')
+args=parser.parse_args()
+kind=args.kind
 group='shader_terrain' if kind=='terrain' else 'shader'
 DEST=OUT/('h3-'+kind+'-option-xml')
 DEST.mkdir(exist_ok=True)
@@ -29,8 +31,11 @@ if not definition_path.exists():
 definition=xml(definition_path)
 categories=list(definition.find("block[@name='categories']"))
 options={}
-report={}
+report_path=OUT/('h3-effective-'+kind+'-options.json')
+report=json.loads(report_path.read_text()) if args.only and report_path.exists() else {}
+inspected=0
 for path in sorted((OUT/'h3-shader-xml').glob('*.'+group+'.xml')):
+    if args.only and path.name!=args.only+'.xml':continue
     shader=xml(path)
     selected=list(shader.find("block[@name='options']"))
     assert len(selected)<=len(categories)
@@ -59,5 +64,7 @@ for path in sorted((OUT/'h3-shader-xml').glob('*.'+group+'.xml')):
             fields=options[tag]
         resolved.append(dict(category=category.get('name'),index=index,option=option.get('name'),parameters=fields,defaulted_missing_option=ci>=len(selected)))
     report[shader.get('id')+'.'+group]=resolved
-(OUT/('h3-effective-'+kind+'-options.json')).write_text(json.dumps(report,indent=2)+'\n')
+    inspected+=1
+assert inspected>0,'No matching shader export'
+report_path.write_text(json.dumps(report,indent=2)+'\n')
 print('STOCK_H3_OPTIONS',kind,len(report),'shaders',len(options),'option tags',flush=True)

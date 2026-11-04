@@ -61,7 +61,8 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.
 - [x] Compare stock and MCC dependencies; record MCC-only additions and stock alternatives before authoring.
 - [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
-- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Five terrain, one foliage and 38 ordinary materials have saved-field checks; these are not visual acceptance.
+- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Five terrain, one foliage and 47 ordinary materials have saved-field checks; these are not visual acceptance.
+- [x] Preserve stock H3 physical-material choices: 52 authored surfaces now use exact source names present in original Standoff; retain stock leafy material where the Reach foliage name is empty. Verify impact behavior in MCC.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
 - [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
 - [ ] Import, compile and light using official H3 MCC tools.

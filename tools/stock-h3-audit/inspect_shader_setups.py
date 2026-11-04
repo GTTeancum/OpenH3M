@@ -58,6 +58,7 @@ parameters = Bungie.ManagedBlamStartupParameters()
 parameters.InitializationLevel = Bungie.InitializationType.TagsOnly
 Bungie.ManagedBlamSystem.Start(str(kit), callback, parameters)
 result = {}
+physical_materials = {}
 try:
     for path in paths:
         tag = Bungie.Tags.TagFile()
@@ -65,6 +66,8 @@ try:
         before=hashlib.sha256(original.read_bytes()).hexdigest()
         try:
             tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*path.rsplit('.', 1)))
+            physical_materials[path] = [dict(name=str(f.DisplayName), value=str(f.GetStringData()))
+                                        for f in tag.Fields if hasattr(f, 'GetStringData')]
             method = tag.SelectField('Struct:render_method').Elements[0]
             result[path] = fields_to_data(method.Fields)
             reference = method.SelectField('reference').Path
@@ -77,6 +80,7 @@ try:
         assert hashlib.sha256(original.read_bytes()).hexdigest()==before, path
     target = OUT / (args.game + '-shader-setups.json')
     target.write_text(json.dumps(result, indent=2) + '\n')
+    (OUT / (args.game + '-physical-materials.json')).write_text(json.dumps(physical_materials, indent=2) + '\n')
     print('SHADER_SETUP_INSPECTION', args.game, len(result), str(target), flush=True)
 finally:
     Bungie.ManagedBlamSystem.Stop()

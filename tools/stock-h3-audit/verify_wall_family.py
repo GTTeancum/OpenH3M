@@ -10,7 +10,11 @@ import sys
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
-DEST=OUT/'wall-family'
+parser=argparse.ArgumentParser()
+parser.add_argument('--family',choices=['wall','lights'],default='wall')
+parser.add_argument('--reuse-exports',action='store_true',help='Compare existing native exports without rerunning export commands')
+args=parser.parse_args()
+DEST=OUT/(args.family+'-family')
 PIXELS=DEST/'verified-pixels'
 PIXELS.mkdir(exist_ok=True)
 sys.path.insert(0,str(OUT/'python-packages'))
@@ -18,9 +22,6 @@ from PIL import Image,ImageChops,ImageStat
 env=os.environ.copy()
 for key,relative in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:env[key]=str(OUT/relative)
 report=json.loads((DEST/'report.json').read_text())
-parser=argparse.ArgumentParser()
-parser.add_argument('--reuse-exports',action='store_true',help='Compare existing native exports without rerunning export commands')
-args=parser.parse_args()
 results=[]
 problems=[]
 for index,(path,entry) in enumerate(report['images'].items()):

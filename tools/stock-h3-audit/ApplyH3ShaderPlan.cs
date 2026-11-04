@@ -42,7 +42,10 @@ class ApplyH3ShaderPlan
     }
     static int Main(string[] args)
     {
-        if(args.Length!=1)throw new ArgumentException("Expected shader authoring plan JSON");
+        if(args.Length<1 || args.Length>2 || (args.Length==2 && args[1]!="--verify"))
+            throw new ArgumentException("Expected shader authoring plan JSON and optional --verify");
+        bool verifyOnly=args.Length==2;
+        args[0]=Path.GetFullPath(args[0]);
         var plan=new JavaScriptSerializer().Deserialize<ShaderPlan>(File.ReadAllText(args[0]));
         var tags=Path.Combine(plan.Kit,"tags");
         if(!plan.Target.StartsWith(@"levels\custom\battle_canyon_fresh\shaders\",StringComparison.OrdinalIgnoreCase))
@@ -52,10 +55,10 @@ class ApplyH3ShaderPlan
         var original=File.ReadAllBytes(Confined(tags,plan.Donor));
         var destination=Confined(tags,plan.Target);
         Directory.CreateDirectory(Path.GetDirectoryName(destination));
-        File.Copy(Confined(tags,plan.Donor),destination,true);
+        if(!verifyOnly)File.Copy(Confined(tags,plan.Donor),destination,true);
         Directory.SetCurrentDirectory(plan.Kit);
         ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly,plan.Kit);
-        using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
+        if(!verifyOnly)using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
         {
             var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
             foreach(var input in plan.Parameters)
@@ -77,7 +80,16 @@ class ApplyH3ShaderPlan
                     ((TagFieldReference)parameter.SelectField("bitmap")).Path=TagPath.FromPathAndType(Path.ChangeExtension(input.Bitmap,null),"bitm*");
                 }
                 if(input.Real.HasValue)((TagFieldElementSingle)parameter.SelectField("real")).Data=input.Real.Value;
-                if(input.Integer.HasValue)((TagFieldElementInteger)parameter.SelectField("int/bool")).Data=input.Integer.Value;
+                if(input.Integer.HasValue)
+                {
+                    // The display name contains '/', which SelectField treats
+                    // as a path separator. Select the native field by its name.
+                    TagFieldElementInteger integer=null;
+                    foreach(var field in parameter.Fields)
+                        if(field.DisplayName=="int/bool")integer=field as TagFieldElementInteger;
+                    if(integer==null)throw new InvalidOperationException("Missing integer input field");
+                    integer.Data=input.Integer.Value;
+                }
                 var animations=(TagFieldBlock)parameter.SelectField("animated parameters");
                 animations.RemoveAllElements();
                 foreach(var animation in input.Animations)
@@ -96,6 +108,31 @@ class ApplyH3ShaderPlan
             }
             tag.Save();
         }
+        // Reopen through the native API: Tool's XML data export may omit long
+        // function blobs. Never treat that omission as successful preservation.
+        var verified=new List<object>();
+        using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
+        {
+            var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
+            foreach(var input in plan.Parameters)
+            {
+                TagElement parameter=null;
+                foreach(var element in parameters.Elements)
+                    if(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()==input.Name)parameter=element;
+                if(parameter==null)throw new InvalidOperationException("Saved parameter missing: "+input.Name);
+                var animations=(TagFieldBlock)parameter.SelectField("animated parameters");
+                if(animations.Elements.Count!=input.Animations.Count)throw new InvalidOperationException("Saved animation count differs: "+input.Name);
+                var functions=new List<string>();
+                for(int i=0;i<input.Animations.Count;i++)
+                {
+                    var actual=Convert.ToBase64String(((TagFieldData)animations.Elements[i].SelectField("Struct:function/Data:data")).GetData());
+                    if(actual!=input.Animations[i].DataBase64)throw new InvalidOperationException("Saved function differs: "+input.Name+" "+i+" bytes "+Convert.FromBase64String(actual).Length);
+                    functions.Add(actual);
+                }
+                verified.Add(new {name=input.Name,functions=functions});
+            }
+        }
+        File.WriteAllText(args[0]+".readback.json",new JavaScriptSerializer().Serialize(verified));
         var after=File.ReadAllBytes(Confined(tags,plan.Donor));
         if(original.Length!=after.Length)throw new InvalidOperationException("Stock donor changed");
         for(int i=0;i<original.Length;i++)if(original[i]!=after[i])throw new InvalidOperationException("Stock donor changed");
