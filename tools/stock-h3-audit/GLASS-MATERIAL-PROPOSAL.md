@@ -1,8 +1,8 @@
 # Battle Canyon glass: stock H3 proposal
 
 Status: user approved this approach on 2026-11-04. Blender channel preparation
-and native H3 bitmap import passed. The three shader/UV assignments and MCC
-appearance review remain pending.
+and native H3 bitmap import passed. All three shader/UV assignments passed
+native verification. MCC appearance review remains pending.
 
 Keep the original Reach artwork, repack its existing transparency channel with
 Blender's standard compositor, and use stock H3 shaders. Use stock H3 glass
@@ -82,5 +82,28 @@ checked by inspecting the actual output, not accepted from its exit code.
 
 The reproducible compositor scene, images, source hashes, import fields and
 pixel comparisons are under `work/stock-h3-audit/glass-channel-preparation/`.
-This working texture is not yet attached to the three glass surfaces. Use
-`import_glass_channels.py --verify-only` for subsequent read-only checks.
+The working texture is assigned to all three glass surfaces. Use
+`import_glass_channels.py --verify-only` for subsequent read-only pixel checks.
+
+## Native material assignment (2026-11-04)
+
+The two interior surfaces now use the Foundry donor, and the exterior uses the
+Cold Storage donor. All seven family image records passed native pixel/mip
+checks; the packed color/opacity image remains separately verified.
+
+`inspect_glass_sources.py` reads the actual Reach tags through unmodified
+Foundry/ManagedBlam. `verify_glass_materials.py` compares saved H3 references
+and functions against those native source controls: packed base/opacity stays
+at 2x, original base alpha as the separate specular mask stays at 1x, and normal
+and cubemap inputs/functions remain unchanged. Each source tag hash is checked.
+
+The exterior preserves all three stock Cold Storage Fresnel controls, including
+its authored steepness 15. The generic default comparison must not remove that
+stock override just because the Reach Cook-Torrance option has an identically
+named parameter with default 5. The native verification compares these controls
+to the donor directly. No replacement Fresnel function was created.
+
+Evidence: `glass-native-source-controls.json`, `glass-native-bindings.json`,
+`glass-material-verification.json`, `glass_interior-family/` and
+`glass_exterior-family/` beneath `work/stock-h3-audit`. Transparency sorting,
+reflection strength, both-sided viewing and visual similarity still require MCC.

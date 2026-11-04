@@ -63,6 +63,25 @@ stock_names={c['category']:c['option'] for c in stock_options}
 flat_normal=family.get('stock_flat_normal',False)
 disabled_environment=family.get('stock_environment_disabled',False)
 stock_unlit=family.get('stock_unlit_sky',False)
+glass=family.get('approved_glass_channels')
+dynamic_reflections=family.get('approved_dynamic_reflections',False)
+if dynamic_reflections:
+    assert kind=='shader' and stock_names['environment_mapping']=='dynamic'
+stock_glass_controls={'fresnel_coefficient','fresnel_curve_steepness','fresnel_curve_bias'} if glass=='exterior' else set()
+prepared_glass=None
+if glass:
+    assert glass in ('interior','exterior') and kind=='shader'
+    assert stock_names['specular_mask']=='specular_mask_from_texture'
+    assert stock_names['material_model']==('glass' if glass=='exterior' else 'cook_torrance')
+    prepared_glass=json.loads((OUT/'glass-channel-preparation/native-import-report.json').read_text())
+    assert prepared_glass['max_rgba_errors']==[0,0,0,0]
+    assert sha(KIT/'tags'/prepared_glass['target'])==prepared_glass['target_sha256']
+    assert sha(Path(prepared_glass['source']))==prepared_glass['source_sha256']
+    remember(KIT/'tags'/prepared_glass['target']);remember(Path(prepared_glass['source']))
+    glass_sources={r['source']:r for r in json.loads((OUT/'glass-native-source-controls.json').read_text())}
+    for path,digest in json.loads((OUT/'glass-channel-preparation/report.json').read_text())['source_hashes'].items():
+        assert sha(Path(path))==digest,path
+        remember(Path(path))
 flat_normal_tag=r'shaders\default_bitmaps\bitmaps\default_vector.bitmap'
 if flat_normal:
     assert kind=='shader' and stock_names['bump_mapping']=='standard'
@@ -100,10 +119,31 @@ for source,inspection in reach_options.items():
     if stock_unlit:
         assert selected['material_model']=='none',source
         selected['material_model']='diffuse_only'
+    if glass:
+        assert selected['specular_mask']=='specular_mask_from_diffuse'
+        assert selected['material_model']=='cook_torrance'
+        assert selected['alpha_blend_source']=='from_opacity_map_rgb'
+        selected['specular_mask']='specular_mask_from_texture'
+        if glass=='exterior':selected['material_model']='glass'
+    if dynamic_reflections:
+        assert selected['environment_mapping']=='per_pixel',source
+        selected['environment_mapping']='dynamic'
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
     params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
     assert set(defaults)==expected_roles,source
+    if dynamic_reflections:
+        # User approved replacing this fixed Reach cube with stock H3 cluster
+        # reflections. Do not import an unused cube or invent a roughness map.
+        assert params['environment_map']['bitmap']['value']==r'levels\reference\material_samples\bitmaps\cubemaps\d_cubemap_vertical_noise.bitmap'
+        defaults.pop('environment_map')
+    if glass:
+        # Opacity was packed by Blender and verified through native H3 import.
+        # The original base image is still imported for its specular alpha.
+        assert params['base_map']['bitmap']['value']==r'levels\multi\forge_halo\bitmaps\forge_halo_forerunner_glass_diff.bitmap'
+        assert params['opacity_texture']['bitmap']['value']==r'levels\multi\forge_halo\bitmaps\forge_halo_forerunner_glass_opacity.bitmap'
+        assert sha(REACH/'tags'/source)==glass_sources[source]['source_sha256']
+        defaults.pop('opacity_texture')
     resolved_bitmaps[source]={}
     for name,default in defaults.items():
         bitmap=params.get(name,{}).get('bitmap',{}).get('value') or default
@@ -196,7 +236,7 @@ for bitmap,entry in images.items():
     assert curve in (1,3),metadata[bitmap]
     if kind=='terrain':
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
-    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)'}[role]
+    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','detail_map2':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)'}[role]
     if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
@@ -291,13 +331,17 @@ for index,source in enumerate(sorted(sources)):
             Animations=[dict(Type=0,TypeName='value',Input='',Range='',Period=0,Constant=0)]))
     for name,definition in active.items():
         if disabled_environment and name=='environment_map_specular_contribution':continue
-        if name not in source_active:continue
-        original=params.get(name)
+        if name in stock_glass_controls:continue
+        source_name={'base_map':'opacity_texture','specular_mask_texture':'base_map'}.get(name,name) if glass else name
+        if source_name not in source_active:continue
+        original=params.get(source_name)
         if original is None and name not in defaults:continue
         row=dict(Name=name,Type=types[definition['parameter type']],Bitmap=None,Animations=[])
         if row['Type']==0:
-            bitmap=resolved_bitmaps[source][name]
-            row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
+            if glass and name=='base_map':row['Bitmap']=prepared_glass['target']
+            else:
+                bitmap=resolved_bitmaps[source]['base_map' if glass and name=='specular_mask_texture' else name]
+                row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
             source_type=int(original['parameter type']['value'])
@@ -329,7 +373,8 @@ for index,source in enumerate(sorted(sources)):
             color.update(Input=stock_color['input'],Range=stock_color['range'],Period=stock_color['period'],
                          DataBase64=stock_color['data_base64'],StockControl=True)
         plan['Parameters'].append(row)
-    default_changes=native_defaults.plan(source,DONOR,{p['Name'] for p in plan['Parameters']})
+    default_changes=native_defaults.plan(source,DONOR,{p['Name'] for p in plan['Parameters']}|stock_glass_controls)
+    default_changes['retained']=sorted(set(default_changes['retained'])|stock_glass_controls)
     plan['RemoveParameters']=default_changes['remove']
     plan['Parameters'].extend(default_changes['overrides'])
     plan_path=DEST/(Path(source).stem+'-plan.json');plan_path.write_text(json.dumps(plan,indent=2)+'\n')
@@ -369,11 +414,15 @@ for index,source in enumerate(sorted(sources)):
         stock_control_functions=int(disabled_environment)+int(stock_unlit),
         stock_environment_disabled=disabled_environment,
         stock_unlit_sky=stock_unlit,
+        approved_glass_channels=glass,
+        approved_dynamic_reflections=dynamic_reflections,
+        source_input_bindings={'base_map':'opacity_texture','specular_mask_texture':'base_map'} if glass else {},
         retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path
 report=dict(donor=DONOR,materials=reports,images=images,source_hashes=hashes,
+    prepared_glass=prepared_glass,
     stock_flat_normal=flat_normal_evidence,
     limitation='Saved native fields verified, not MCC appearance. Stock H3 sRGB imports replace legacy xRGB color response; normals, mips and reflections require visual review. Source-only inputs are not fabricated in H3.')
 (DEST/'report.json').write_text(json.dumps(report,indent=2)+'\n')

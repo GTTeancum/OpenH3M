@@ -1112,3 +1112,68 @@ Evidence: `unlit_sky-family`, `unlit_sky-donor-integrity.json`,
 
 Official documentation: [H3 material model](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel)
 and [self-illumination inputs](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/selfillumination).
+
+
+## Approved glass and panel assignments (2026-11-04)
+
+All three approved glass surfaces are now authored and bound. Native Reach
+inspection and native H3 readback prove the packed opacity texture retains its
+2x source transform, while the unchanged original specular alpha remains at 1x.
+Normal/cubemap references and source functions are preserved. The exterior uses
+the stock Cold Storage Fresnel coefficient, steepness and bias unchanged. Its
+steepness override (15) is deliberately retained instead of being removed by a
+same-named Reach default (5). These are saved-field checks, not MCC appearance.
+
+The user separately approved stock H3 local reflections for both circular
+panels and the Forge panel. The selected Standoff Chopper and Rat's Nest metal
+shaders match the other eight shared categories. All artwork/detail/glow inputs
+are retained; the old fixed Reach noise cubemap is intentionally replaced by
+H3 cluster cubemaps. Official Tool cubemap generation remains an MCC build step.
+Native cache options, donor hashes, imported pixels and original mip counts
+passed. See [the approved panel decision](PANEL-REFLECTION-PROPOSAL.md).
+
+The Blender scene has 99 authored tags (89 ordinary, nine terrain, one foliage)
+bound across 149 used variants. Three source tags / five variants remain:
+river water; shared dirty glass (two variants); invalid shader metadata (one
+collision-only and one lightmap-only variant). Geometry metadata, collision,
+effects, scenario preparation and MCC build/testing remain separate unfinished
+work; the material count does not establish a playable map.
+
+The native checkpoint covers 912 ordinary source functions, 29 source-default
+scalar corrections and 307 matching ordinary defaults. Including five generic
+terrain families gives 1,044 source functions and 355 matching defaults. There
+are 244 family image records covering 181 original-image imports; the packed
+glass bitmap is checked separately. The checkpoint verifies 602 input/donor
+hashes and no duplicate authored input names. Physical materials: 92 exact
+stock names and seven retained empty-source cases.
+
+A native Blender Workbench assignment preview is saved at
+`work/stock-h3-audit/wip/h3-material-assignments-bridge.png`. Cyan identifies
+assigned glass in the actual geometry; these diagnostic colors are not H3
+material appearance. The render does not modify the saved authoring scene.
+The initial general-base views did not expose the highlighted surfaces, so the
+camera was moved to the actual glass-bridge region before choosing the proof.
+
+Evidence: `glass-material-verification.json`, `glass-native-source-controls.json`,
+`panel-reflection-proposal-evidence.json`, four material-family reports,
+`h3-material-bindings.json`, `active-input-checkpoint.json`, and the WIP capture
+metadata under `work/stock-h3-audit`. Full map compilation and MCC acceptance
+have not occurred.
+
+
+The refreshed unmodified ASS export and reader passed with all 99 bound tags,
+157 material variants, 543 unique objects, 1,247 instances and 247,855 triangles.
+The five unresolved material slots remain explicitly reported. The bound Blender
+scene hash stayed `b851b6d8e5add3f6d7c3ae8077948aea8b26752252a7cfc3797c113a08088e33`.
+The 141,546,246-byte ASS hash is
+`4044c7a02e6b18ecbf78cc7a203a8d2c93d85192441210f8a5a021efc8c99c4e`.
+The optional upstream lxml warning concerns bitmap generation, which this
+export does not request; the separate official Tool pixel checks are recorded
+above. This roundtrip does not waive geometry metadata or map-build requirements.
+
+Remaining metadata follow-up: the original stock inventory contains
+`shaders/invalid.shader` in Standoff and 23 other available maps, and the official
+H3 kit has its tag. It is a candidate for the two nonvisual surface variants;
+their source emission/collision metadata still needs native H3 export mapping.
+Only the active Foundry face-property type should be transferred: the inspection
+record also includes unrelated default values from other property types.

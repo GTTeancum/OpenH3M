@@ -1,5 +1,6 @@
 """Render actual imported geometry using Blender; no desktop capture/input."""
 import json
+import hashlib
 import sys
 from pathlib import Path
 import bpy
@@ -10,7 +11,9 @@ OUT = ROOT / 'work/stock-h3-audit/wip'
 OUT.mkdir(exist_ok=True)
 scene = bpy.context.scene
 authoring = '--authoring' in sys.argv
-buildings = '--buildings' in sys.argv
+assignment_preview = '--material-assignments' in sys.argv
+buildings = '--buildings' in sys.argv or assignment_preview
+source_hash = hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest()
 if authoring:
     import runpy
     import bmesh
@@ -47,7 +50,10 @@ for instance in depsgraph.object_instances:
     ob = instance.object
     if ob.type == 'MESH' and not ob.hide_render:
         if buildings:
-            slots={i for i,m in enumerate(ob.data.materials) if m and any(n in m.name for n in ('ca_bcreek_bb_walldetail','ca_bcreek_bb_main'))}
+            if assignment_preview:
+                slots={i for i,m in enumerate(ob.data.materials) if m and m.nwo.shader_path.endswith('ca_bcreek_glass_bridge.shader')}
+            else:
+                slots={i for i,m in enumerate(ob.data.materials) if m and any(n in m.name for n in ('ca_bcreek_bb_walldetail','ca_bcreek_bb_main'))}
             if slots:
                 vertices={v for p in ob.data.polygons if p.material_index in slots for v in p.vertices}
                 points.extend(instance.matrix_world @ ob.data.vertices[i].co for i in vertices)
@@ -86,6 +92,23 @@ scene.render.resolution_percentage = 100
 scene.display.shading.light = 'STUDIO'
 scene.display.shading.color_type = 'SINGLE'
 scene.display.shading.single_color = (0.55, 0.58, 0.61)
+highlighted = {}
+if assignment_preview:
+    assert authoring and not textured
+    bindings = json.loads((OUT.parent / 'h3-material-bindings.json').read_text())
+    assert bpy.data.filepath == bindings['scene'] and source_hash == bindings['scene_sha256']
+    scene.display.shading.color_type = 'MATERIAL'
+    families = json.loads((ROOT/'tools/stock-h3-audit/material_families.json').read_text())
+    for material in bpy.data.materials:
+        source = material.nwo.shader_path
+        selected = next((family for family in ('glass_interior', 'glass_exterior', 'circle_panels', 'forge_panel')
+                         if source in families[family]['sources']), None)
+        material.diffuse_color = (0.38, 0.41, 0.44, 1)
+        if selected:
+            assert source in bindings['bindings']
+            material.diffuse_color = (0.02, 0.75, 0.95, 1) if selected.startswith('glass_') else (1, 0.32, 0.04, 1)
+            highlighted[source] = bindings['bindings'][source]['export_tag']
+    assert len(highlighted) == 6
 scene.display.shading.show_shadows = True
 scene.display.shading.show_cavity = True
 scene.display.shading.cavity_type = 'BOTH'
@@ -102,6 +125,8 @@ if buildings:
         from io_scene_foundry import utils
         rotation=Matrix.Rotation(utils.rotation_diff_from_forward('y-','x'),3,'Z')
         views=[(name,rotation @ Vector(direction),scale) for name,direction,scale in views]
+if assignment_preview:
+    views=[('bridge',Vector((1,-.25,.45)),1.3)]
 for name, direction, scale in views:
     camera.location = center + Vector(direction).normalized() * span * (.7 if buildings else 2)
     camera.rotation_euler = (center - camera.location).to_track_quat('-Z', 'Y').to_euler()
@@ -109,9 +134,14 @@ for name, direction, scale in views:
         sun.rotation_euler = camera.rotation_euler
     camera.data.ortho_scale = span * scale
     prefix = ('h3-buildings-' if authoring else 'buildings-') if buildings else ('h3-authoring-' if authoring else ('textured-' if textured else ''))
+    if assignment_preview:
+        prefix = 'h3-material-assignments-'
     scene.render.filepath = str(OUT / (prefix + name + '.png'))
     bpy.ops.render.render(write_still=True)
 (OUT / (prefix + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),
     source_scene=bpy.data.filepath,
     label='Blender authoring geometry WIP, not H3 MCC' if authoring else 'Original Reach geometry imported by Foundry; Blender WIP, not H3 MCC',
+    highlighted=highlighted, source_sha256=source_hash,
+    preview_colors='Cyan: assigned glass; orange: assigned panels. Diagnostic colors, not game shading.' if assignment_preview else None,
     textured=textured, lighting='Studio preview lighting, not map lighting'), indent=2)+'\n')
+assert hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest() == source_hash

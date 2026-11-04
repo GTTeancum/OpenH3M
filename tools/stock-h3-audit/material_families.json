@@ -526,5 +526,74 @@
       "self_illum_detail_map"
     ],
     "stock_unlit_sky": true
+  },
+  "glass_interior": {
+    "donor": "levels\\dlc\\warehouse\\shaders\\ware_glass_overhead_a.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_glass_bridge.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_glass_tunnel.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "material_texture",
+      "environment_map",
+      "opacity_texture"
+    ],
+    "approved_glass_channels": "interior"
+  },
+  "glass_exterior": {
+    "donor": "levels\\dlc\\chillout\\shaders\\chillout_glass_panel.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_exterior_glass.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "material_texture",
+      "environment_map",
+      "opacity_texture"
+    ],
+    "approved_glass_channels": "exterior"
+  },
+  "circle_panels": {
+    "donor": "objects\\vehicles\\brute_chopper\\shaders\\brute_chopper_exposed.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_circle_quarter.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_circle_quarter_red.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map",
+      "environment_map",
+      "material_texture",
+      "self_illum_detail_map",
+      "self_illum_map"
+    ],
+    "approved_dynamic_reflections": true
+  },
+  "forge_panel": {
+    "donor": "levels\\dlc\\armory\\shaders\\metal_black_ibeam_unwrap.shader",
+    "sources": [
+      "levels\\multi\\forge_halo\\shaders\\for_forge_gen_panel_02.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map",
+      "detail_map2",
+      "environment_map",
+      "material_texture"
+    ],
+    "approved_dynamic_reflections": true
   }
 }
