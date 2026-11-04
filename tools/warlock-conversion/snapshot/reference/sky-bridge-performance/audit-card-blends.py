@@ -7,7 +7,8 @@ sys.path.insert(0, 'tools/warlock-conversion/snapshot/tools')
 from cache_reader import Cache
 
 source = Cache('D:/SteamLibrary/steamapps/workshop/content/976730/3003239190/maps/s3d_sky_bridgenew.map', True)
-target = Cache('work/sky-bridge/zanzibar-29.map')
+target_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('work/sky-bridge/zanzibar-29.map')
+target = Cache(str(target_path))
 try:
     sbsp = source.tags[10471]['offset']
     source_materials = source.block(sbsp + 208, 36)
@@ -48,7 +49,8 @@ try:
     report = dict(meshes_checked=len(source_meshes), exact_part_records=checked,
         mismatches=list(mismatches.values()),
         limitation='Material mismatches are established; screenshot-to-mesh assignment and visible correction remain unproven.')
-    out = Path('work/sky-bridge/card-blend-audit.json')
+    report['target_cache'] = str(target_path)
+    out = target_path.parent / (target_path.stem + '-card-blend-audit.json')
     out.write_text(json.dumps(report, indent=2))
     print(json.dumps(dict(meshes=len(source_meshes), exact_parts=checked,
                          mismatched_materials=len(mismatches),
