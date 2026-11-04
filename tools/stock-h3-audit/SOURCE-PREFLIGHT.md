@@ -1630,3 +1630,60 @@ saved material assignments; final ASS readback still determines acceptance.
 `export_h3_inspection.py` now checks bindings before its expensive export as well
 as afterward and updates Blender's view layer. Neither upstream add-on was
 modified. Current log: `h3-native-saved-binding-export.log`.
+
+## Corrected full import and isolated collision diagnostic (2026-11-04)
+
+The fresh Blender process completed the saved-bound-scene export/readback:
+102 tags, 157 material records, 543 unique objects, 1,176 instances and 247,855
+triangles. The current ASS SHA-256 is
+`aeab8f2a0ec09aeadcc25c937c812c8975fd866e321cd8e0774a7b7baab37b8d`.
+The separate water verifier also passed all four UV channels on 42 triangles /
+126 corners. This supersedes the pending-export status immediately above.
+
+Official Tool completed the corrected full import in 7m24.477s. It wrote BSP,
+lighting-info and scenario tags, but `import_h3_geometry_checkpoint.py` correctly
+returned failure: Tool's exit code was zero despite geometry errors. Its report
+records 525 issue lines, one plane-builder convergence failure and 46 groups of
+open/degenerate edges. Missing shader lookups and multiple defining instances
+are absent. No resulting map is accepted, baked, installed or converted.
+Evidence: `h3-full-geometry-import.log/.json` and the native
+`import_errors/battle_canyon_fresh_battle_canyon*.wrl` files inside the local kit.
+
+Read-only Blender topology inspection confirms all 44 explicit collision meshes
+have zero boundary edges and zero zero-area faces. Three contain nonmanifold
+edges (definitions 18, 153 and 328). In particular, `boulder_low035`'s collision
+mesh has 190 vertices / 338 polygons, consistent winding and no boundary or
+nonmanifold edges. Its polygons are not perfectly planar: maximum deviation is
+0.006366 authoring units. These facts do not establish native compatibility.
+
+`export_collision_workflow_probe.py` isolates that original render mesh and its
+existing collision child in memory, without modifying either mesh or the saved
+scene. It adds a diagnostic-only enclosing sky box because Tool rejects an
+instance-only structure. The unmodified exporter writes
+`data/levels/custom/bc_collision_workflow_probe/structure/boulder.ass` in the
+local H3 kit. Native Tool needs Windows backslashes in the relative input path;
+an initial forward-slash command was rejected, as was the initial instance-only
+probe. Neither was treated as a successful test.
+
+The valid diagnostic imports in 0.925s and reproduces the same 44 edge errors,
+six ambiguous connections and overlapping surfaces as the full scene. Native
+XML shows that Tool did import a separate collision mesh (190 vertices, 515
+edges, 327 surfaces), plus a separate render BSP (378 vertices, 991 edges,
+615 surfaces). Therefore the collision child was not simply ignored.
+
+`inspect_collision_workflow_errors.py` compares the native WRL error endpoints
+against Blender mesh positions. Of 88 open-edge endpoints, 60 are within 0.001
+authoring units of render vertices, versus six for collision-proxy vertices.
+This supports investigating render-BSP construction separately; it does not
+prove a repair or waive the errors. Both final native edge graphs have zero
+negative surface references. The native collision vertex count matches the
+source, but positions do not match exactly: the largest nearest-source distance
+is 0.018470 world units. Native plane/vertex processing and the original eleven
+seamsealer polygons still need examination before collision fidelity is claimed.
+
+Evidence under `work/stock-h3-audit`: `collision-workflow-probe.json`,
+`collision-workflow-import.log`, `collision-workflow-bsp.xml`, and
+`collision-workflow-error-inspection.json`. XML parsing only escapes Tool's
+literal `<unavailable>` placeholder in memory. No upstream exporter, compiler,
+engine, serializer or source geometry was patched. The lighting proposal remains
+pending; this diagnostic does not apply it or constitute MCC visual acceptance.
