@@ -1,6 +1,9 @@
-import array,collections,hashlib,json,struct
+import argparse,array,collections,hashlib,json,struct
 from pathlib import Path
-root=Path('work/sky-bridge/draw-trace-20261103-200444')
+parser=argparse.ArgumentParser()
+parser.add_argument('--trace-dir',type=Path,default=Path('work/sky-bridge/draw-trace-20261103-200444'))
+root=parser.parse_args().trace_dir
+root.resolve().relative_to(Path(__file__).resolve().parents[5])
 prefixes=json.loads((root/'geometry-prefix-matches.json').read_text())['matches']
 shader_rows=json.loads((root/'program-slice-matches.json').read_text())
 shader_materials={r['shader']:{m['id'] for s in r['matches'] for p in s['programs'] for t in p['templates'] for m in t['materials']} for r in shader_rows}

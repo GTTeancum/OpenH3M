@@ -471,3 +471,35 @@ The other chat reported research-only activity and no concurrent shared writes. 
 The normal shared game was launched for manual review, with no input harness, capture, or shutdown timer. Timing logs are enabled in the repository and are not an automatic stop timer. human-candidate32.ps1 validates only unless passed -Run. candidate32-human-launch.json records the initial PID and log path; revalidate the process instead of treating this record as proof it remains live. A user report on indoor streaked panels, hanging black cards, corridor rectangle, window transparency and screen animation is pending. Neither launch nor successful structural checks establishes visual acceptance.
 
 Attribution: Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project supplies Xbox 360/OpenH3M adaptation.
+
+## Numeric probe and saved reproduction view, 2026-11-03
+
+The user confirmed that the surface flickered during the second recording.
+`candidate32-pixel-probe-result.json` records 300 complete 144-point GPU sample
+grids and 2122 emitted candidate draws. No sampled point showed a black pulse.
+This is an unresolved coverage/stage limitation, not a negative reproduction
+result. The material draw states do not establish a rendering cause.
+
+The user cannot remain available for repeated manual tests and requested saving
+the player vectors and coordinates for unattended repetition. `save-live-view.py`
+captured the existing process at a verified native frame entry, restored its
+single debugger breakpoint, and detached without changing guest state. The
+private snapshot is under
+`work/sky-bridge/pixel-probe-20261103-203123/reproduction-view-full/`.
+It includes full player/Mongoose records, observer state, map variant, and bounded
+TLS blocks. No host input, window control, screenshot or image capture was used.
+
+`candidate32-flicker-reproduction-view.json`, produced by `decode-live-view.py`,
+contains the portable pose. The seated player's position is relative to its
+parent node; the Mongoose world position is (16.75514984, 69.34661102,
+-0.43672475). Camera position (16.41066551, 67.99089050, 0.30618051) exactly
+matches the recorded GPU draw constants. Forward/up bases pass normalization
+and orthogonality checks. Do not copy raw pointers or object handles into a new
+session, or describe this diagnostic snapshot as a complete save state.
+Unattended replay has not yet been validated.
+
+The finished diagnostic session was closed after the snapshot. The original
+shared GPU DLL was restored and SHA256 verified as
+979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace.
+No new rendering fix or release promotion occurred. The correction goal remains
+open. Attribution is unchanged from the source credit above.

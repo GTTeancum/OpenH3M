@@ -1,9 +1,12 @@
-import sys,json,struct,hashlib,collections
+import argparse,sys,json,struct,hashlib,collections
 from pathlib import Path
 sys.path.insert(0,'tools/warlock-conversion/snapshot/tools')
 from cache_reader import Cache
 from resource_reader import Resource
-root=Path('work/sky-bridge/draw-trace-20261103-200444')
+parser=argparse.ArgumentParser()
+parser.add_argument('--trace-dir',type=Path,default=Path('work/sky-bridge/draw-trace-20261103-200444'))
+root=parser.parse_args().trace_dir
+root.resolve().relative_to(Path(__file__).resolve().parents[5])
 c=Cache('work/sky-bridge/payload-32/sky_bridge.map')
 c.shared_paths={'maps\\shared.map':Path('C:/X360/ISOs/H3M/maps/shared.map')};c.decoded_pages={}
 materials=json.loads(Path('work/sky-bridge/card-material-geometry-audit.json').read_text())['materials']

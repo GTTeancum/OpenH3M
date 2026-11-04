@@ -1,0 +1,78 @@
+{
+  "trace": "work\\sky-bridge\\pixel-probe-20261103-203123",
+  "user_confirmed_flicker_during_recording": true,
+  "pixel_frames": 300,
+  "pixel_frame_range": [
+    2090,
+    2389
+  ],
+  "pixel_samples": 43200,
+  "pixel_format_swizzle_width_height": [
+    24,
+    6666,
+    1152,
+    640
+  ],
+  "missing_pixel_frames": [],
+  "incomplete_pixel_grids": {},
+  "isolated_near_black_sample_pulses": 0,
+  "largest_single_sample_one_frame_max_rgb_drop": {
+    "frame": 2280,
+    "drop": 0.06353861192570864,
+    "ratio": 0.8985959438377537,
+    "rgb": [
+      0.530791788856305,
+      0.5259042033235581,
+      0.5630498533724341
+    ],
+    "before": [
+      0.5659824046920822,
+      0.5669599217986315,
+      0.6265884652981427
+    ],
+    "after": [
+      0.5659824046920822,
+      0.5669599217986315,
+      0.6265884652981427
+    ],
+    "x": 612,
+    "y": 248,
+    "u": 0.53125,
+    "v": 0.3875
+  },
+  "draw_frame_range": [
+    2116,
+    2415
+  ],
+  "draw_attempts": 2122,
+  "draws_emitted": 2122,
+  "uniquely_attributed_material_draws": 1660,
+  "target_meshes": [
+    183,
+    184
+  ],
+  "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_envelope_03",
+  "saved_view": "candidate32-flicker-reproduction-view.json",
+  "saved_camera_matches_draw_constants_exactly": true,
+  "guest_snapshot": "work\\sky-bridge\\pixel-probe-20261103-203123\\reproduction-view-full\\guest-snapshot.json",
+  "snapshot_sha256": "70f519385ec83f9abc07a5fedccb9b3ff5820358f9518e4bc970164c20f3b372",
+  "diagnostic_process_closed": true,
+  "original_gpu_restored": true,
+  "restored_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "rendering_fix_applied": false,
+  "replay_validated": false,
+  "conclusions": [
+    "Human confirmation establishes the visible symptom occurred during this recording.",
+    "No sampled texel showed the reported black flash. Sparse spatial coverage and pre-presentation sampling prevent an absence claim.",
+    "The player, Mongoose and observer state were captured before closing the run. Camera position exactly matches all attributed draw groups.",
+    "The first draw frame is partial. Albedo appears on both target meshes on every subsequent recorded frame; static-light passes occur on all recorded frames.",
+    "Sampler descriptors remain stable for the matched material passes; this does not prove stable GPU texture content.",
+    "No root cause is established; no shader, lighting or visibility fix is justified by this run alone."
+  ],
+  "next_steps": [
+    "Validate an unattended native replay against the saved vehicle/camera transforms and original map identity.",
+    "Validate live vertex transformation and triangle coverage at sampled points before interpreting absent pulses.",
+    "Use targeted native numerical observation to locate the bad frame and its rendering pass; retain authored atmosphere and lights."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
