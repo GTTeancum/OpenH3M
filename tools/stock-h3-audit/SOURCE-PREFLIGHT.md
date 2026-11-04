@@ -1835,3 +1835,71 @@ Reach physics hulls still require an established H3 authoring route. The
 [Blender guide's object-symbol table](https://www.reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/)
 defines `$` for JMI/JMS physics export; it does not by itself establish an ASS
 instance-physics override. No such override has been applied or claimed tested.
+
+## World-collision isolation (2026-11-04)
+
+`inspect_source_collision.py --world` reads the original Reach world collision
+through its official API. The large collision BSP has 28,302 vertices, 46,178
+surfaces, 74,619 edges and 57,058 planes. No edge has a negative surface reference
+or coincident endpoints. There are 1,933 material -1 surfaces, 6,625 slip surfaces
+and 292 invisible/two-sided surfaces. The original tag hash is unchanged.
+
+Foundry's upstream structure importer combines visible cluster geometry and
+source collision-only surfaces. The resulting saved world mesh has 31,342
+vertices, 61,874 polygons and 62,664 exported triangles. Its combined topology
+has 123 boundary edges and 146 nonmanifold edges, but no zero-area polygons or
+inconsistent manifold-edge winding. Those combined counts include different
+surface modes and are not alone evidence of bad collision.
+
+`export_world_collision_probe.py` isolates this actual world mesh, optionally
+setting the standard Precise material flag in memory. It never saves or repairs
+the map scene. The first export check incorrectly equated polygons with triangles;
+it rejected the output. The corrected check uses Blender's actual loop triangles.
+`verify_world_probe_inputs.py` confirms the baseline and Precise ASS files contain
+identical geometry, normals, UVs, face indices and instance transforms. Only
+exporter-generated instance IDs are excluded from instance equality; parent
+array indices and all other fields are compared. No source geometry was changed.
+
+The isolated baseline reproduces the plane-builder convergence failure, four
+degenerate-triangle warnings and 12 open/degenerate edges. Precise eliminates
+the convergence failure but leaves three degenerate-triangle warnings, nine
+open/degenerate edges, seven degenerate collision-edge errors and one leak.
+Neither is a successful repair. These initial probes omit portals and therefore
+also exceed native per-cluster vertex/strip limits; they produce no BSP tag.
+The subsequent `--precise --portals` diagnostic retains all 67 original portals
+to address that diagnostic-induced limitation without altering native limits.
+
+The portal-preserving diagnostic completes in 180 seconds and writes a native
+BSP, with neither the plane-builder failure nor per-cluster format-limit errors.
+It still fails geometry validation: three degenerate-triangle warnings, nine
+open/degenerate edges and seven degenerate collision-edge errors remain, along
+with portal leakage and overlapping-surface diagnostics. Its source ASS hash is
+`675dc6194eba655ce15cf3f758010b1148fcd41c1952e4237a794306294b939f`;
+the resulting diagnostic BSP hash is
+`bb80b1819e8a2a6801bf81b4543e5b2b673729166c8d4b0e841e43581d4c0fd4`.
+
+`inspect_world_collision_errors.py` locates native WRL endpoints on the original
+saved world mesh, recording nearby source faces/materials/flags. The three
+degenerate-triangle warnings match source faces 13787 and 13837 (thin metal-dark
+triangles), and a triangle of sky polygon 60268. These faces are not zero-area
+Blender polygons; native degeneracy must not be equated with absent source area.
+The portal-preserving diagnostic identifies 165 adjacent source faces for further
+inspection. Endpoint proximity is not itself a repair or a reason to delete faces.
+Next investigate preserving original world collision through the standard
+collision-only/render-only authoring controls before considering topology edits.
+
+Evidence: `original-world-collision.json`, `world-collision-*-probe.json`,
+`world-collision-*-native.json`, native import logs, and
+`world-collision-input-comparison.json` under `work/stock-h3-audit`.
+Native error-location reports are `world-collision-precise-error-locations.json`
+and `world-collision-precise-portals-error-locations.json`.
+The authoritative saved/bound map and full-map import remain at the prior
+lighting checkpoint. These diagnostics do not constitute a baked or playable map.
+
+Native Blender close-up: `work/stock-h3-audit/wip/h3-world-thin-triangle-diagnostic.png`.
+It shows the actual neighboring source faces around metal triangles 13787 and
+13837, with thickened red edge overlays. This is cropped diagnostic geometry in
+neutral shading, not the final materials or MCC appearance. The first camera
+view was occluded by other world surfaces and was rejected; the final view is
+cropped to the relevant source neighborhood and faces its normals. No scene
+was saved or exported by `render_world_collision_wip.py`.

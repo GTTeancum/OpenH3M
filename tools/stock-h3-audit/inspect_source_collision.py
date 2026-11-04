@@ -43,6 +43,18 @@ before=hashlib.sha256(path.read_bytes()).hexdigest()
 tag=Bungie.Tags.TagFile()
 try:
     tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(name,'scenario_structure_bsp'))
+    if '--world' in sys.argv:
+        raw=tag.SelectField('Struct:resource interface[0]/Block:raw_resources[0]/Struct:raw_items').Elements[0]
+        world={kind:[read_bsp(e) for e in raw.SelectField('Block:'+kind).Elements]
+            for kind in ('collision bsp','large collision bsp')}
+        world_report=dict(source=str(path),sha256=before,collision=world,
+            material_names=[{str(f.DisplayName):scalar(f) for f in e.Fields}
+                for e in tag.SelectField('Block:collision materials').Elements],
+            limitation='Read-only original Reach world collision; not a generated replacement or a native H3 fidelity claim.')
+        assert hashlib.sha256(path.read_bytes()).hexdigest()==before
+        (OUT/'original-world-collision.json').write_text(json.dumps(world_report,indent=2)+'\n')
+        print('ORIGINAL_WORLD_COLLISION',json.dumps({kind:[{k:len(v) for k,v in b.items()} for b in bsps] for kind,bsps in world.items()}),flush=True)
+        raise SystemExit(0)
     definitions=tag.SelectField('Struct:resource interface[0]/Block:raw_resources[0]/Struct:raw_items[0]/Block:instanced geometries definitions')
     definition=definitions.Elements[74]
     collision=read_bsp(definition.SelectField('Struct:collision info').Elements[0])
