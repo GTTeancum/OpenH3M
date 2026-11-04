@@ -24,6 +24,36 @@ all maps and Forge palettes, including future DLC. No Halo 2-faithful substitute
 Only an explicit human-user instruction can override this policy; record its scope.
 See [repository instructions](../../AGENTS.md).
 
+## MCC source schema versions
+
+MCC format version 13 alone does not identify tag layouts. Older mod packages
+can contain materially different scenario, object, model and Forge records.
+Do not repair a failed block read with a blanket offset shift or rewrite the
+source cache to resemble a newer build.
+
+`snapshot/tools/source_schema.py` selects the retained April 2022 profile for
+the verified cache build `Apr 20 2022 11:55:21`; existing contemporary MCC and
+Xbox 360 caches retain their schema selection. The older definitions are pinned
+to [Assembly ec339292](https://github.com/XboxChaos/Assembly/tree/ec3392924d4cc179b13c2f5218a46c61204b5400/src/Assembly/Plugins/Halo3MCC),
+after the schema research/naming update and before the December layout change.
+`reference/mcc-2022/manifest.json` records upstream blobs, 31 retained overrides,
+19 structurally identical existing schemas reused, and the explicit Halo3
+inheritance list. The existing Assembly license applies. The retained overrides
+are checked against the upstream Git blob hashes.
+
+Use `load_schema(cache, group)` in source readers; do not select a schema by
+map filename. `inventory_conversion.py` and `object_dependencies.py` use it and
+validate nested blocks, data bounds and tag datums before reporting. The shared
+tests include old palettes, native packed references, invalid references and
+independent mutable XML trees. Schema readability does not establish asset
+equivalence, conversion support or runtime correctness.
+
+Current integration boundary: these two preflight tools support the 2022
+profile. Assembly stages still need version-aware source schemas and explicit
+handling of differing record layouts before an older cache can be built.
+The first such source is tracked in [DESOLATION.md](DESOLATION.md). Continue using
+the existing converter, native-asset audit and acceptance checks below.
+
 ## Current build
 
 Current candidate: `.local/integrated/lockout-release.map`, 182,239,232 bytes

@@ -5,6 +5,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from cache_reader import Cache
 from assemble_scenario import prepare
+from source_schema import load_schema, validate_tree
 
 
 def main():
@@ -18,12 +19,20 @@ def main():
     try:
         source_names = {(t['group'], source.name(i)): t for i, t in source.tags.items()}
         retail_names = {(t['group'], target.name(i)) for i, t in target.tags.items()}
-        plan = prepare(source, target, ET.parse(reference / 'mcc/scnr.xml').getroot(),
+        scenario_schema = load_schema(source, 'scnr', reference)
+        scenario_root = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+        validation = validate_tree(source, scenario_root, scenario_schema)
+        if not validation['valid']:
+            raise ValueError(f"Source scenario schema validation failed: {validation['errors'][:3]}")
+        plan = prepare(source, target, scenario_schema,
                        ET.parse(reference / 'plugins/scnr.xml').getroot())
         roots = sorted({tuple(x['tag']) for x in plan['unresolved'] if 'tag' in x})
         report = []
         for group, name in roots:
-            schema = ET.parse(reference / 'mcc' / f'{group}.xml').getroot()
+            schema = load_schema(source, group, reference)
+            validation = validate_tree(source, source_names[group, name]['offset'], schema)
+            if not validation['valid']:
+                raise ValueError(f"{group}:{name}: schema validation failed: {validation['errors'][:3]}")
             dependencies = []
 
             def walk(node, offset, depth=0):
@@ -34,7 +43,7 @@ def main():
                         continue
                     at = offset + int(field.get('offset'), 0)
                     if field.tag.lower() == 'tagref':
-                        datum = source.u(at + 12)
+                        datum = source.u(at if field.get('withGroup') == 'false' else at + 12)
                         if datum == 0xffffffff:
                             continue
                         tag = source.tags[datum & 65535]
@@ -46,7 +55,8 @@ def main():
                             walk(field, row, depth + 1)
 
             walk(schema, source_names[group, name]['offset'])
-            report.append({'group': group, 'name': name, 'dependencies': dependencies})
+            report.append({'group': group, 'name': name, 'dependencies': dependencies,
+                           'source_schema_validation': validation})
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2), encoding='utf-8')
         print(f'{len(report)} unresolved object tags inventoried; direct dependencies only.')

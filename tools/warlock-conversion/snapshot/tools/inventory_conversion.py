@@ -10,6 +10,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from cache_reader import Cache
 from scenario_placements import plan_placements
+from source_schema import load_schema, validate_tree
 
 
 def describe_reference(cache, datum):
@@ -52,9 +53,14 @@ def main():
     refs = Path(__file__).resolve().parents[1] / 'reference'
     source, target = Cache(args.source, True), Cache(args.candidate)
     try:
-        src = scenario(source, ET.parse(refs / 'mcc/scnr.xml').getroot())
+        source_schema = load_schema(source, 'scnr', refs)
+        source_root = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+        validation = validate_tree(source, source_root, source_schema)
+        if not validation['valid']:
+            raise ValueError(f"Source scenario schema validation failed: {validation['errors'][:3]}")
+        src = scenario(source, source_schema)
         dst = scenario(target, ET.parse(refs / 'plugins/scnr.xml').getroot())
-        placements = plan_placements(source, target, ET.parse(refs / 'mcc/scnr.xml').getroot(),
+        placements = plan_placements(source, target, source_schema,
                                      ET.parse(refs / 'plugins/scnr.xml').getroot())
         differences = []
         for name in sorted(src['blocks'].keys() | dst['blocks'].keys()):
@@ -66,6 +72,7 @@ def main():
                    if (t['group'], source.name(i)) not in target_names]
         report = {'note': 'Missing names are an inventory, not proof of missing runtime dependencies; imported tags may be unnamed.',
                   'source': str(args.source), 'candidate': str(args.candidate),
+                  'source_schema_validation': validation,
                   'scenario_differences': differences,
                   'source_scenario': src, 'candidate_scenario': dst,
                   'source_tags_absent_by_name': missing,
