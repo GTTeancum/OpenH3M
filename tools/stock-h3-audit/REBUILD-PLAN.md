@@ -30,7 +30,7 @@ All project writes stay inside this repository. No desktop/OS input or capture
 app. Coordinate shared-content changes with the Sky Bridge chat. Do not restore
 the rejected map from any backup, trace fixture or historical commit.
 
-## Step 1 execution state
+## Step 1 execution state (historical initial blocker)
 
 Deletion inventory and protection hashes are in `work/retirement-20261103`.
 The initial scope contains 3,381 targets and 17,316 files (about 106.64 GiB
@@ -50,3 +50,15 @@ No files have been deleted. No bypass or alternative deletion mechanism is
 authorized by this document. Steps 2 onward remain gated by step 1. Additional
 renamed copies, combined packages, shared-file fragments and historical Git
 copies still require inspection before a complete deletion claim is possible.
+
+## User-directed transition after external cleanup
+
+The user assigned cleanup to Claude. A subsequent read-only check confirmed the
+dedicated rebuild source/work folders, generated scenario directory, installed
+Battle Canyon map, cleanup inventory and handoff file were gone. Residual
+Battle Canyon-specific branches in shared converter files and five historical
+Git commits were reported to the user. The user explicitly replied **"Just move
+on"**. This authorizes advancing to stock-asset matching without asserting a
+complete historical purge. Do not reopen that cleanup gate unless the user does.
+Do not restore or reuse the rejected implementation. No old code was copied into
+the fresh stock audit. All later MCC testing and user-approval gates remain.

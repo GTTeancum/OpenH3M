@@ -50,3 +50,23 @@ not approval of MCC versions of the same assets, a new map's memory use, or a
 complete shared-resource payload audit. Matching stock materials/effects and
 checking MCC-specific changes remain subsequent authoring decisions. No map
 has been changed, built or converted by this inventory.
+
+## Initial MCC matching
+
+`compare_mcc.py` formats existing TagTool text reports and prepares read-only
+`TagDependency List` command lists. It does not parse or modify asset binaries.
+MCC input: `D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3/maps/bunkerworld.map`.
+Editing-kit tags: `work/editing-kits/h3ek/tags`.
+
+All 99 retained stock choices exist in MCC and as editing-kit files. Original
+names, costs and maximum counts match. MCC has 115 palette entries versus the
+original 106: eight additional category/tag choices and one duplicate choice.
+These additions are outside the chosen Standoff baseline; that alone does not
+mean each is exclusive to MCC or absent from all other original H3 maps.
+
+Immediate dependency queries completed for all 99 roots in each cache, without
+reported errors. Seventeen roots have different reference sets. This is not yet
+a recursive dependency audit, behavioral comparison or clearance to convert.
+Reports: `work/stock-h3-audit/standoff-mcc-comparison.json` and
+`work/stock-h3-audit/standoff-dependency-comparison.json`.
+Next: inspect those differences and recursive requirements before authoring.
