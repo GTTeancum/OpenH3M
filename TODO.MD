@@ -63,6 +63,7 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
 - [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Five terrain, one foliage and 60 ordinary materials have saved-field checks; these are not visual acceptance.
 - [x] Preserve stock H3 physical-material choices: 64 authored surfaces use exact source names present in original Standoff; two empty source names retain their selected stock material. Verify impact behavior in MCC.
+- [x] Review defaults in all 60 ordinary shaders: 226 inputs use matching native defaults; 22 differing source scalar defaults are preserved through the official function editor. Original functions and bitmap tags remain intact.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
 - [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
 - [ ] Import, compile and light using official H3 MCC tools.

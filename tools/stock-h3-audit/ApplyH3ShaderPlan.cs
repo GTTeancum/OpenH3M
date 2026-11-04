@@ -12,6 +12,7 @@ public class ShaderPlan
     public string Donor;
     public string Target;
     public List<ParameterPlan> Parameters;
+    public List<string> RemoveParameters;
 }
 public class ParameterPlan
 {
@@ -30,6 +31,7 @@ public class AnimationPlan
     public string Range;
     public float Period;
     public string DataBase64;
+    public float? Constant;
 }
 class ApplyH3ShaderPlan
 {
@@ -42,9 +44,10 @@ class ApplyH3ShaderPlan
     }
     static int Main(string[] args)
     {
-        if(args.Length<1 || args.Length>2 || (args.Length==2 && args[1]!="--verify"))
-            throw new ArgumentException("Expected shader authoring plan JSON and optional --verify");
-        bool verifyOnly=args.Length==2;
+        if(args.Length<1 || args.Length>2 || (args.Length==2 && args[1]!="--verify" && args[1]!="--update"))
+            throw new ArgumentException("Expected shader authoring plan JSON and optional --verify or --update");
+        bool verifyOnly=args.Length==2 && args[1]=="--verify";
+        bool updateExisting=args.Length==2 && args[1]=="--update";
         args[0]=Path.GetFullPath(args[0]);
         var plan=new JavaScriptSerializer().Deserialize<ShaderPlan>(File.ReadAllText(args[0]));
         var tags=Path.Combine(plan.Kit,"tags");
@@ -55,12 +58,16 @@ class ApplyH3ShaderPlan
         var original=File.ReadAllBytes(Confined(tags,plan.Donor));
         var destination=Confined(tags,plan.Target);
         Directory.CreateDirectory(Path.GetDirectoryName(destination));
-        if(!verifyOnly)File.Copy(Confined(tags,plan.Donor),destination,true);
+        if(!verifyOnly && !updateExisting)File.Copy(Confined(tags,plan.Donor),destination,true);
         Directory.SetCurrentDirectory(plan.Kit);
         ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly,plan.Kit);
         if(!verifyOnly)using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
         {
             var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
+            if(plan.RemoveParameters!=null)
+                for(int i=parameters.Elements.Count-1;i>=0;i--)
+                    if(plan.RemoveParameters.Contains(((TagFieldElementStringID)parameters.Elements[i].SelectField("parameter name")).GetStringData()))
+                        parameters.RemoveElement(i);
             foreach(var input in plan.Parameters)
             {
                 TagElement parameter=null;
@@ -102,7 +109,17 @@ class ApplyH3ShaderPlan
                     ((TagFieldElementStringID)element.SelectField("input name")).SetStringData(animation.Input);
                     ((TagFieldElementStringID)element.SelectField("range name")).SetStringData(animation.Range);
                     ((TagFieldElementSingle)element.SelectField("time period")).Data=animation.Period;
-                    ((TagFieldData)element.SelectField("Struct:function/Data:data")).SetData(Convert.FromBase64String(animation.DataBase64));
+                    if(animation.Constant.HasValue)
+                    {
+                        if(animation.Type!=0 || animation.DataBase64!=null)throw new ArgumentException("Expected scalar default value only");
+                        var editor=((TagFieldCustomFunctionEditor)element.SelectField("animation function")).Value;
+                        // Same native basic-function operation used by Foundry.
+                        // The official editor creates the function data.
+                        editor.MasterType=(FunctionEditorMasterType)0;
+                        editor.IsRanged=false;
+                        editor.ClampRangeMin=animation.Constant.Value;
+                    }
+                    else ((TagFieldData)element.SelectField("Struct:function/Data:data")).SetData(Convert.FromBase64String(animation.DataBase64));
                 }
                 Console.WriteLine("AUTHORED_INPUT "+input.Name+" "+input.Animations.Count);
             }
@@ -114,22 +131,47 @@ class ApplyH3ShaderPlan
         using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
         {
             var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
+            if(plan.RemoveParameters!=null)
+                foreach(var element in parameters.Elements)
+                    if(plan.RemoveParameters.Contains(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()))
+                        throw new InvalidOperationException("Removed donor override is still present");
             foreach(var input in plan.Parameters)
             {
                 TagElement parameter=null;
                 foreach(var element in parameters.Elements)
                     if(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()==input.Name)parameter=element;
                 if(parameter==null)throw new InvalidOperationException("Saved parameter missing: "+input.Name);
+                if(((TagFieldEnum)parameter.SelectField("parameter type")).Value!=input.Type)throw new InvalidOperationException("Saved parameter type differs");
+                if(input.Real.HasValue && ((TagFieldElementSingle)parameter.SelectField("real")).Data!=input.Real.Value)throw new InvalidOperationException("Saved real differs");
                 var animations=(TagFieldBlock)parameter.SelectField("animated parameters");
                 if(animations.Elements.Count!=input.Animations.Count)throw new InvalidOperationException("Saved animation count differs: "+input.Name);
                 var functions=new List<string>();
+                var constants=new List<float?>();
                 for(int i=0;i<input.Animations.Count;i++)
                 {
-                    var actual=Convert.ToBase64String(((TagFieldData)animations.Elements[i].SelectField("Struct:function/Data:data")).GetData());
-                    if(actual!=input.Animations[i].DataBase64)throw new InvalidOperationException("Saved function differs: "+input.Name+" "+i+" bytes "+Convert.FromBase64String(actual).Length);
+                    var element=animations.Elements[i];
+                    var expected=input.Animations[i];
+                    if(((TagFieldEnum)element.SelectField("type")).Value!=expected.Type ||
+                       ((TagFieldElementStringID)element.SelectField("input name")).GetStringData()!=expected.Input ||
+                       ((TagFieldElementStringID)element.SelectField("range name")).GetStringData()!=expected.Range ||
+                       ((TagFieldElementSingle)element.SelectField("time period")).Data!=expected.Period)
+                        throw new InvalidOperationException("Saved animation controls differ: "+input.Name);
+                    var actual=Convert.ToBase64String(((TagFieldData)element.SelectField("Struct:function/Data:data")).GetData());
+                    if(expected.Constant.HasValue)
+                    {
+                        var editor=((TagFieldCustomFunctionEditor)element.SelectField("animation function")).Value;
+                        if((int)editor.MasterType!=0 || editor.IsRanged || editor.ClampRangeMin!=expected.Constant.Value)
+                            throw new InvalidOperationException("Saved native constant differs: "+input.Name);
+                        constants.Add(editor.ClampRangeMin);
+                    }
+                    else
+                    {
+                        if(actual!=expected.DataBase64)throw new InvalidOperationException("Saved function differs: "+input.Name+" "+i+" bytes "+Convert.FromBase64String(actual).Length);
+                        constants.Add(null);
+                    }
                     functions.Add(actual);
                 }
-                verified.Add(new {name=input.Name,functions=functions});
+                verified.Add(new {name=input.Name,functions=functions,constant_values=constants});
             }
         }
         File.WriteAllText(args[0]+".readback.json",new JavaScriptSerializer().Serialize(verified));

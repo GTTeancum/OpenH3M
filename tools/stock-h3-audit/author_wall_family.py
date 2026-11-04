@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from shader_defaults import ShaderDefaults
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
@@ -185,6 +186,7 @@ if args.only_bitmap:
     raise SystemExit(0)
 
 types={'bitmap':0,'color':1,'real':2,'int':3,'bool':4,'argb color':5}
+native_defaults=ShaderDefaults()
 reports=[]
 for index,source in enumerate(sorted(sources)):
     remember(REACH/'tags'/source)
@@ -207,12 +209,16 @@ for index,source in enumerate(sorted(sources)):
                 atype=int(f['type']['value'])
                 row['Animations'].append(dict(Type=atype,TypeName=f['type']['enum_names'][atype],Input=f['input name']['value'],Range=f['range name']['value'],Period=float(f['time period']['value']),DataBase64=data))
         plan['Parameters'].append(row)
+    default_changes=native_defaults.plan(source,DONOR,{p['Name'] for p in plan['Parameters']})
+    plan['RemoveParameters']=default_changes['remove']
+    plan['Parameters'].extend(default_changes['overrides'])
     plan_path=DEST/(Path(source).stem+'-plan.json');plan_path.write_text(json.dumps(plan,indent=2)+'\n')
     execute(OUT/'h3-api-probe/ApplyH3ShaderPlan.exe',[str(plan_path)],'shader-'+str(index))
-    native_readback={p['name']:p['functions'] for p in json.loads(Path(str(plan_path)+'.readback.json').read_text())}
+    native_readback={p['name']:p for p in json.loads(Path(str(plan_path)+'.readback.json').read_text())}
     exported=DEST/(Path(source).name+'.xml')
     tool('shader-xml-'+str(index),'export-tag-to-xml',str(KIT/'tags'/plan['Target']),str(exported))
     saved=xml(exported)
+    assert not set(plan['RemoveParameters']) & {p.get('name') for p in saved.find("block[@name='parameters']")}
     assert [int(e.find('field').get('value')) for e in saved.find("block[@name='options']")]==[c['index'] for c in stock_options]
     template=saved.find("block[@name='postprocess']/element/field[@name='shader template']").get('value').rsplit(',',1)[0]
     assert (KIT/'tags'/(template+'.render_method_template')).is_file()
@@ -229,10 +235,16 @@ for index,source in enumerate(sorted(sources)):
             assert actual_animation.find("field[@name='input name']").get('value')==expected['Input']
             assert actual_animation.find("field[@name='range name']").get('value')==expected['Range']
             assert abs(float(actual_animation.find("field[@name='time period']").get('value'))-expected['Period'])<1e-5
-            assert native_readback[row['Name']][animation_index]==expected['DataBase64']
-            exported_data=actual_animation.find("field[@name='data']").get('value')
-            assert exported_data in ('function_definition_data,','function_definition_data,'+expected['DataBase64'].rstrip('=')),row
-    reports.append(dict(source=source,target=plan['Target'],plan=str(plan_path),xml=str(exported),inputs=len(plan['Parameters']),functions=sum(len(p['Animations']) for p in plan['Parameters']),source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=sorted(set(active)-{p['Name'] for p in plan['Parameters']})))
+            if 'Constant' in expected:
+                assert abs(native_readback[row['Name']]['constant_values'][animation_index]-expected['Constant'])<1e-6
+            else:
+                assert native_readback[row['Name']]['functions'][animation_index]==expected['DataBase64']
+                exported_data=actual_animation.find("field[@name='data']").get('value')
+                assert exported_data in ('function_definition_data,','function_definition_data,'+expected['DataBase64'].rstrip('=')),row
+    reports.append(dict(source=source,target=plan['Target'],plan=str(plan_path),xml=str(exported),inputs=len(plan['Parameters']),
+        functions=sum('Constant' not in a for p in plan['Parameters'] for a in p['Animations']),
+        native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
+        source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path
 report=dict(donor=DONOR,materials=reports,images=images,source_hashes=hashes,

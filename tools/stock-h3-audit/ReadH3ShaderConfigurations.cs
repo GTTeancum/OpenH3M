@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 using Bungie;
 using Bungie.Tags;
 
-public class ShaderInventoryPlan { public string Kit; public List<string> Tags; public string Output; }
+public class ShaderInventoryPlan { public string Kit; public List<string> Tags; public List<string> Options; public string Output; }
 class ReadH3ShaderConfigurations
 {
     static string Hash(string path)
@@ -24,6 +24,41 @@ class ReadH3ShaderConfigurations
         ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly,plan.Kit);
         var results=new List<object>();
         var tagsRoot=Path.GetFullPath(Path.Combine(plan.Kit,"tags"))+Path.DirectorySeparatorChar;
+        if(plan.Options!=null)
+        {
+            foreach(var path in plan.Options)
+            {
+                var absolute=Path.GetFullPath(Path.Combine(tagsRoot,path));
+                if(!absolute.StartsWith(tagsRoot,StringComparison.OrdinalIgnoreCase)||!path.EndsWith(".render_method_option"))
+                    throw new ArgumentException("Expected native option tag: "+path);
+                var before=Hash(absolute);
+                using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(path,null),"rmop")))
+                {
+                    var parameters=new List<object>();
+                    foreach(var element in ((TagFieldBlock)tag.SelectField("Block:parameters")).Elements)
+                    {
+                        var fields=new Dictionary<string,object>();
+                        foreach(var field in element.Fields)
+                        {
+                            var property=field.GetType().GetProperty("Data");
+                            if(property!=null)fields[field.DisplayName]=property.GetValue(field,null);
+                            var enumeration=field as TagFieldEnum;
+                            if(enumeration!=null)fields[field.DisplayName]=enumeration.Items[enumeration.Value].EnumName;
+                            var reference=field as TagFieldReference;
+                            if(reference!=null)fields[field.DisplayName]=reference.Path==null?null:reference.Path.RelativePathWithExtension;
+                            var id=field as TagFieldElementStringID;
+                            if(id!=null)fields[field.DisplayName]=id.GetStringData();
+                        }
+                        parameters.Add(fields);
+                    }
+                    results.Add(new {path=path,sha256=before,parameters=parameters});
+                }
+                if(before!=Hash(absolute))throw new InvalidOperationException("Stock option tag changed");
+            }
+            File.WriteAllText(plan.Output,json.Serialize(results));
+            Console.WriteLine("STOCK_OPTION_DEFAULTS_READ "+results.Count);
+            return 0;
+        }
         foreach(var path in plan.Tags)
         {
             var absolute=Path.GetFullPath(Path.Combine(tagsRoot,path));

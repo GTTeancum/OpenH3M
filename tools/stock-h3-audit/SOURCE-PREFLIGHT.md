@@ -663,3 +663,72 @@ describes native name/collection lookup; setting only Foundry's shader-path
 property is insufficient for the ASS export route. Geometry, effects and actual
 MCC testing remain pending. No shader code, serializer, engine patch, 360
 conversion or shared-install change was introduced.
+
+### Native defaults and inherited source functions (2026-11-04)
+
+The donor-default review is now applied to all 60 ordinary shaders. Native
+read-only inspection covered 39 original Reach option tags and 67 H3 option
+tags. `ReadH3ShaderConfigurations.cs` also supports option-default inspection;
+`inspect_reach_option_defaults.py` reads the corresponding Reach fields. Color
+defaults are compared as the API's native channel arrays, with no custom color
+decoding or function-data construction.
+
+For 226 inputs without a source override, the relevant native default fields
+match exactly between Reach and H3. Unrelated donor overrides are removed for
+those inputs, allowing the existing H3 option defaults to apply. Twenty-two
+source scalar defaults differ from H3: seventeen `specular_coefficient` values
+are 1 instead of 0, four `analytical_specular_contribution` values are 0.1 instead
+of 0.5, and one `area_specular_contribution` is 0 instead of 0.5. These values
+are entered with the official basic-function editor. The native API generates
+the function data; no byte writer, custom curve encoder or shader code is used.
+
+`shader_defaults.py` plans these authoring operations from the inspected native
+fields. `ApplyH3ShaderPlan --update` applies them to existing fresh tags, leaving
+their texture bindings and physical-material names intact. Native reopen checks
+confirm the scalar functions' basic type, value, non-ranged state, input names
+and period. Separate verification confirms that all 577 original source
+functions remain byte-identical. Current XML exports also confirm unchanged
+stock option vectors and corrected physical names. All 106 bitmap tags retain
+their previous verified hashes; no textures were reimported for this step.
+
+Seventy-two H3-specific input slots retain the selected stock behavior, including
+six engine-supplied dynamic-environment texture slots. They have no corresponding
+Reach input name and are not fabricated as source data. Existing per-material
+reports distinguish these retained inputs from matching option defaults and
+the 22 explicitly authored scalar defaults.
+
+`apply_shader_defaults.py` performs this update and verification for existing
+batches. The normal `author_wall_family.py` path now applies the same decisions
+before saving new shaders. The `monitor_base` family was reauthored through that
+path as a regression check, including its native default function and reuse of
+three verified bitmap tags. Physical-material names were reapplied afterward.
+The 309 recorded source/donor hashes and all inspected option-tag hashes remained
+unchanged. Evidence: `reach-option-defaults.json`, `h3-option-defaults.json`,
+`default-correction-inventory.json`, `default-correction-source-hashes.json`,
+`default-correction-checkpoint.json`, `default-corrections/` and the refreshed
+family reports under `work/stock-h3-audit/`.
+
+The [documented ManagedBlam function-editor operations](https://reclaimers.net/general/mod-tools/managed-blam/)
+and the pinned, unmodified Foundry `ShaderTag._setup_function_parameters` method
+provide the native authoring path. The H3 API probe confirms that the same basic
+function and clamp-value properties are supported by this installed H3 kit.
+
+`inspect_inherited_functions.py` ran inside background Blender with unmodified
+Foundry. It checked all seven source shaders with parent templates: 135 effective
+functions, of which 71 come from an ancestor. Foundry's own effective-value reader
+was compared with its complete function reader on the selected original entry,
+including periodic/curve controls and colors, rather than comparing only names.
+The report retains the exact original native function bytes and their source
+tag/entry provenance. All 22 touched source files remained unchanged. Evidence:
+`inherited-function-inspection.json` and `.log`. This establishes function
+inheritance for subsequent authoring; it does not yet authorize treating bitmap
+inheritance or the remaining shader configurations as resolved.
+
+The native source inspection also exposes non-default texture filter/flag and
+sharpening controls. These still need a semantic comparison with H3 controls;
+raw numeric fields are not being copied across games without that check. Final
+Blender/ASS shader assignment, normals, unresolved materials/effects, geometry
+metadata and MCC visual/gameplay review remain open. Native field checks do not
+establish the rendered specular response. No new Blender render or MCC capture
+was produced in this checkpoint, and the map has not been compiled or converted
+to 360.

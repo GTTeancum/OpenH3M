@@ -53,8 +53,20 @@ class ProbeH3Api
             Console.WriteLine("PARAMETERS " + parameters.Elements.Count);
             var animations=(TagFieldBlock)parameters.Elements[0].SelectField("animated parameters");
             if(animations.Elements.Count>0)
+            {
                 foreach(var item in ((TagFieldEnum)animations.Elements[0].SelectField("type")).Items)
                     Console.WriteLine("ANIMATION_TYPE "+item.EnumName);
+                foreach(var field in animations.Elements[0].Fields)
+                {
+                    Console.WriteLine("ANIMATION_FIELD "+field.DisplayName+" "+field.GetType().Name);
+                    if(field is TagFieldCustomFunctionEditor)
+                    {
+                        var editor=((TagFieldCustomFunctionEditor)field).Value;
+                        foreach(var property in editor.GetType().GetProperties())
+                            Console.WriteLine("EDITOR_PROPERTY "+property.Name+" "+property.PropertyType+" writable="+property.CanWrite);
+                    }
+                }
+            }
             foreach (var method in typeof(TagFieldBlock).GetMethods())
                 if (method.Name.Contains("Element")) Console.WriteLine(method);
             foreach (var method in typeof(TagFieldData).GetMethods())
