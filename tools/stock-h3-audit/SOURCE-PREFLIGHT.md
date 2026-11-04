@@ -111,3 +111,23 @@ contains no geometry conversion logic. Output goes to
 Check `foundry-geometry-import.log` and the live process before rerunning; a
 silent buffered log is not evidence that the importer stopped. Mesh counts,
 if produced, are not visual validation.
+
+## Live import diagnosis and H3 export tool
+
+The first inspection import remained live as Blender PID 20836, execution
+session 50995. A read-only py-spy 0.4.3 stack capture succeeded and located its
+active thread in upstream `utils.connect_verts_on_edge` (line 4778), called by
+`ScenarioStructureBspTag.to_blend_objects` at line 302. This routine checks each
+mesh vertex against each edge after merging the structure. It explains the
+long-running CPU work; the empty redirected log alone was not treated as a
+failure. The process was neither restarted nor modified. Evidence:
+`work/stock-h3-audit/foundry-live-stack.txt`. Revalidate the live handle before
+making any subsequent run decision.
+
+The unmodified General-101 Halo Asset Blender Development Toolset was downloaded
+at commit `81e86bf98aee4607a2159ff9a22a223a1a91c9d7` into the repo-local upstream
+directory. `check_h3_exporter.py` enabled it in background Blender 4.5.8 LTS,
+exit 0, log marker `H3_EXPORTER_BACKGROUND_LOAD_OK`. Use the same isolated
+environment as the Foundry check. Its registered export operators include
+`export_scene.ass` and `export_scene.jms`. No actual export has been attempted;
+registration does not establish compatibility or geometry fidelity.
