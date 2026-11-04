@@ -1610,3 +1610,93 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Searchlight stored-depth values and actual writer (2026-11-04)
+
+`candidate36-searchlight-depth-values-result.json` records runs46/47. These
+are diagnostic experiments on candidate36, with the default depth settings.
+No further rendering correction or shared installation change follows from them.
+
+`sky_depth_value_probe.h` reads the bound host depth resource at four fixed
+locations: (501,175), (503,173), (497,178), and fabric control (711,197).
+It uses a compute SRV and restores the resource state. Only a private UAV
+receives writes; each output/readback allocation is bounded to 512 KiB.
+Readback waits for the submission fence. The probe rejects guest-query,
+memexport, non-host, missing-depth, unsupported-format and out-of-bounds
+scopes explicitly. It stops at 300 frames, 15 seconds or 8192 records.
+It creates no images and copies no complete textures. The pre-draw hook runs
+after render-target cache updates; the post-draw hook uses the saved draw
+sequence because the ordinary emitted-draw notification clears that sequence.
+
+Copy the probe header beside the private SDK's other diagnostic headers and
+apply `sky-depth-value-probe-integration.patch` with
+`git apply --ignore-space-change --unidiff-zero`. The tracked patch is LF;
+the run46 patch's original mixed line endings and recorded hash remain in
+`work/sky-bridge/depth-value-build/integration-run46-original.patch`.
+Replaying the tracked patch into all three baseline source copies reproduces
+the built SDK source after line-ending normalization. Reverse checking passes.
+`build-depth-value-probe-test.cmd` builds the WARP fixture. With trace output
+directed to a fresh repository-local child directory, the fixture verifies
+40 exact depth samples on 1x/4x resources, actual reversed-depth/stencil draw
+coverage of 262142/1048568, caller PSO invalidation, guarded scopes and
+completed-fence draining. Default and writer modes pass. The optional D3D12
+debug layer is unavailable. An initial fixture failure was a test-parser
+false positive matching the CSV column header; the corrected check passes.
+
+Run46 uses `-ModelPassProbe -StageProbe -CoverageTrace -DepthValueTrace
+-NativeObserver -Candidate 36`. `read-depth-value-probe.py` joins 3600
+depth records (14400 numeric samples) into 1800 complete searchlight draw
+pairs over 300 frames. The same host depth resource persists between the
+last searchlight albedo draw and its first static-light draw in all frames.
+All three searchlight locations acquire substantially larger reversed-depth
+values in that interval; the fabric control remains bit-identical. The
+increments are approximately 0.0000928 to 0.0001587, rather than tiny depth
+roundoff. Stored-depth values alone do not identify the writer.
+
+The probe preserves actual coverage on all 3179 matching input keys across
+13 model/pass groups against run42, including 606 fabric keys. Run46 records
+11308 unambiguous model draws with complete color pairs and coverage queries.
+The corrected fabric still has zero black overwrites across 610 lighting
+draws. All 9000 checked camera matrices and the native observer match the
+saved human view exactly.
+
+Run47 uses isolated `-DepthWriterTrace -NativeObserver -Candidate 36`.
+This mode preserves index/vertex prefixes and limits the CPU trace to four
+frames. It records 12029 emitted draws, but its depth probe reaches the
+8192-record cap in the second frame: 4096 complete pairs and 32768 samples.
+Only the first two searchlight intervals have depth evidence. The 330
+missing-depth, 200 unsafe-scope and 2150 out-of-bounds events remain in the
+analysis. Do not describe this as four frames of sampled depth.
+The original run47 configuration incorrectly reports `pixel_probe: true`;
+the launch code explicitly removes its environment variable and no pixel
+CSV is produced. The decoder records this discrepancy without rewriting the
+original evidence; the harness's configuration field is now corrected.
+
+`read-depth-writer-probe.py` identifies the same actual draw in both sampled
+intervals: sequences 354/3399, lightmap owner9894, mesh118, part0, material9275
+`ca_rattler_oni_trim_plain_01_alt_metal`, with 3666 indices. Index/vertex
+byte prefixes and the shader's material references give one candidate.
+Its pre/post samples show the depth increase at all three searchlight points
+on the same resource; there are no between-sample depth changes in those
+intervals. Its camera constants exactly match the saved human view.
+The resulting depths are 0.0001584836573, 0.0001583599806 and
+0.0001587159932 at (501,175), (503,173) and (497,178), respectively.
+
+This attributes the nearer depth to intervening metal geometry, consistent
+with ordinary occlusion of the searchlight. It does not establish an authored
+geometry defect, depth precision failure or reason to disable depth testing.
+The sampled searchlight has not been conclusively identified as the protrusion
+in the user's report. Actual fragment depths, full raster masks and visual
+appearance remain unmeasured. Both runs finish their 180-second watchdogs,
+pass all eleven native header checks, and preserve exact native observer
+commands/results. Run47's 284 checked model camera matrices also match.
+Use the separate probe-free runs44/45 for timing, not these diagnostics.
+Keep the default depth settings and candidate36's proven fabric/billboard
+corrections while assessing remaining visual evidence. No release promotion,
+full visual/traversal/audio acceptance, physical Xbox 360 or system-link
+verification is claimed.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

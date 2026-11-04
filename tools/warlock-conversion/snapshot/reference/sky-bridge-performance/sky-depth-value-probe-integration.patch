@@ -1,0 +1,49 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -39,0 +40 @@
++#include "sky_depth_value_probe.h"
+@@ -1670,0 +1672 @@
++  SkyDepthValueProbe::Get().Shutdown(submission_completed_);
+@@ -2505,0 +2508,4 @@
++  const uint64_t sky_depth_sequence=SkyDrawTrace::Get().ActiveSequence();
++  render_target_cache_->ProbeSkyDepth(frame_current_,sky_depth_sequence,
++    active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,0,
++    active_occlusion_query_.valid,memexport_used,submission_current_,submission_completed_);
+@@ -2909,0 +2916,3 @@
++  render_target_cache_->ProbeSkyDepth(frame_current_,sky_depth_sequence,
++    active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,
++    active_occlusion_query_.valid,memexport_used,submission_current_,submission_completed_);
+--- a/src/graphics/d3d12/render_target_cache.cpp
++++ b/src/graphics/d3d12/render_target_cache.cpp
+@@ -40,0 +41 @@
++#include "sky_depth_value_probe.h"
+@@ -1126,0 +1128,21 @@
++}
++
++void D3D12RenderTargetCache::ProbeSkyDepth(uint64_t frame,uint64_t sequence,uint64_t shader,
++    uint32_t count,uint32_t phase,bool guest_query,bool memexport,uint64_t submission,uint64_t completed) {
++  auto& probe=SkyDepthValueProbe::Get();if(!probe.Enabled())return;
++  const bool host=GetPath()==Path::kHostRenderTargets;
++  auto* depth=host&&(GetLastUpdateBoundRenderTargets()&1)
++      ?static_cast<D3D12RenderTarget*>(last_update_accumulated_render_targets()[0]):nullptr;
++  auto& cp=command_processor_;
++  probe.Record(cp.GetD3D12Provider().GetDevice(),cp.GetDeferredCommandList(),depth?depth->resource():nullptr,
++    depth?GetDepthSRVDepthDXGIFormat(depth->key().GetDepthFormat()):DXGI_FORMAT_UNKNOWN,
++    depth?depth->resource_state():D3D12_RESOURCE_STATE_COMMON,
++    frame,sequence,shader,count,phase,guest_query,memexport,host,submission,completed,
++    [&](D3D12_CPU_DESCRIPTOR_HANDLE& cpu,D3D12_GPU_DESCRIPTOR_HANDLE& gpu){
++      ui::d3d12::util::DescriptorCpuGpuHandlePair handles;
++      if(!cp.RequestOneUseSingleViewDescriptors(1,&handles))return false;
++      cpu=handles.first;gpu=handles.second;return true;
++    },
++    [&](ID3D12PipelineState* pipeline){cp.SetExternalPipeline(pipeline);},
++    [&](ID3D12Resource* resource,D3D12_RESOURCE_STATES before,D3D12_RESOURCE_STATES after){cp.PushTransitionBarrier(resource,before,after);},
++    [&](){cp.SubmitBarriers();});
+--- a/include/rex/graphics/d3d12/render_target_cache.h
++++ b/include/rex/graphics/d3d12/render_target_cache.h
+@@ -97,0 +98,3 @@
++  void ProbeSkyDepth(uint64_t frame,uint64_t sequence,uint64_t shader,
++                     uint32_t count,uint32_t phase,bool guest_query,bool memexport,
++                     uint64_t submission,uint64_t completed);
+@@ -231,0 +235 @@
++    D3D12_RESOURCE_STATES resource_state() const { return resource_state_; }

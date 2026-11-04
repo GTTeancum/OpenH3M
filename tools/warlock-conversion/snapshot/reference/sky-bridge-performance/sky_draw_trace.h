@@ -77,7 +77,7 @@ class SkyDrawTrace {
       Packet(0, version, sizeof(version));
       if(compact_){const uint32_t ranges[]={1,0x2000,0x2400,0x4000,RegisterFile::kRegisterCount};Packet(8,ranges,sizeof(ranges));}
     }
-    if (frame - first_frame_ >= 300 || now - start_ >= std::chrono::seconds(15)) {
+    if (frame - first_frame_ >= frame_limit_ || now - start_ >= std::chrono::seconds(15)) {
       Finish(1); return;
     }
     if (bytes_ >= 512ull * 1024 * 1024) { Finish(2); return; }
@@ -137,6 +137,8 @@ class SkyDrawTrace {
     rain_only_=rain && wcscmp(rain,L"1")==0;
     const auto* compact=_wgetenv(L"OPENH3M_SKY_TRACE_COMPACT");
     compact_=compact && wcscmp(compact,L"1")==0;
+    const auto* limit=_wgetenv(L"OPENH3M_SKY_TRACE_FRAME_LIMIT");
+    if(limit){wchar_t* end=nullptr;const auto n=wcstoul(limit,&end,10);if(end!=limit&&!*end&&n>=1&&n<=300)frame_limit_=uint32_t(n);}
     const wchar_t* requested = _wgetenv(L"OPENH3M_SKY_TRACE_DIR");
     if (!requested || !*requested) return;
     std::error_code ec;
@@ -187,6 +189,7 @@ class SkyDrawTrace {
   FILE* file_ = nullptr;
   bool finished_ = false;
   bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false;
+  uint32_t frame_limit_=300;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
   std::array<uint32_t, RegisterFile::kRegisterCount> previous_{};

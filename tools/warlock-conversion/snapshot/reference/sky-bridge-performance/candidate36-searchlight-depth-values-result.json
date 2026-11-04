@@ -1,0 +1,804 @@
+{
+  "status": "Sparse depth writer attributed; diagnostic only, no searchlight or production runtime change",
+  "candidate": 36,
+  "map": {
+    "path": "work\\sky-bridge\\payload-36\\sky_bridge.map",
+    "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+  },
+  "conclusion": [
+    "All 300 sampled frames gain substantially closer depth at the three searchlight locations between albedo and lighting; the fabric control stays identical.",
+    "Two fully recorded intervals attribute that increase to the actual opaque metal geometry draw: lightmap owner 9894, mesh 118, part 0, material 9275.",
+    "The measured rejection is consistent with later-drawn closer geometry occluding the searchlight. It is not evidence for a depth precision fix or disabling depth tests.",
+    "The human-reported protrusion is not conclusively identified as this measured searchlight; authored appearance remains unverified."
+  ],
+  "probe": {
+    "header": {
+      "path": "tools\\warlock-conversion\\snapshot\\reference\\sky-bridge-performance\\sky_depth_value_probe.h",
+      "sha256": "298154303168c48827e66a0b3a80465719f07c968073a692c4ededc830cc2683"
+    },
+    "integration_patch": {
+      "path": "tools\\warlock-conversion\\snapshot\\reference\\sky-bridge-performance\\sky-depth-value-probe-integration.patch",
+      "sha256": "45430012904cf1dd7d346285ae2955f97ce5f4ec3f8271100f2ce2a60dff849e"
+    },
+    "run46_original_header": {
+      "path": "work\\sky-bridge\\depth-value-build\\sky_depth_value_probe.run46.h",
+      "sha256": "8a2ad89d77cf5a153d66960e2f140d7d8482b0e571b24574b530abb057243ea4"
+    },
+    "run46_original_patch": {
+      "path": "work\\sky-bridge\\depth-value-build\\integration-run46-original.patch",
+      "sha256": "e517924fe737bb808cbee2f2c943e9697026eb12c7cb4ffcd7b7eff6781e54d9"
+    },
+    "patch_validation": {
+      "path": "work\\sky-bridge\\depth-value-build\\patch-replay-validation.json",
+      "sha256": "5d6d1a3bd75612372a9edf9817c6e22bc732809f5e34319ff56d42d2c023561a"
+    },
+    "patch_command": "git apply --ignore-space-change --unidiff-zero sky-depth-value-probe-integration.patch",
+    "patch_note": "Tracked patch normalized to LF after run46; the exact original patch and recorded hash are preserved. Replaying all three hunks into baseline copies reproduces the built SDK source after line-ending normalization; reverse-check also passes.",
+    "points": [
+      [
+        501,
+        175
+      ],
+      [
+        503,
+        173
+      ],
+      [
+        497,
+        178
+      ],
+      [
+        711,
+        197
+      ]
+    ],
+    "limits": {
+      "frames": 300,
+      "seconds": 15,
+      "depth_records": 8192,
+      "gpu_output_bytes": 524288,
+      "gpu_readback_bytes": 524288,
+      "cpu_draw_trace_bytes": 536870912,
+      "writer_cpu_frames": 4,
+      "unattended_process_seconds": 180
+    },
+    "changes_guest_depth_or_stencil": false,
+    "creates_images": false,
+    "fixture": {
+      "default_mode": {
+        "path": "work\\sky-bridge\\depth-value-build\\fixture-02\\depth-values.csv",
+        "sha256": "93c0c7fe63c86e22da3e6189812a41d36f2a7e7faff9fa614fc80dc1ad6b6bb0"
+      },
+      "writer_mode": {
+        "path": "work\\sky-bridge\\depth-value-build\\fixture-03\\depth-values.csv",
+        "sha256": "fd65e75fd4f3bb85f65eded8bf9d2a8550ac691bb386d42c145d5d7da9ba111e"
+      },
+      "default_log": {
+        "path": "work\\sky-bridge\\depth-value-build\\test.log",
+        "sha256": "baf895cc64eeddc91705356101c769e248651afab5db0c36f436af3b6f446a58"
+      },
+      "writer_log": {
+        "path": "work\\sky-bridge\\depth-value-build\\writer-test.log",
+        "sha256": "baf895cc64eeddc91705356101c769e248651afab5db0c36f436af3b6f446a58"
+      },
+      "device": "D3D12 WARP",
+      "tested_depth_format": "R32_FLOAT_X8X24_TYPELESS",
+      "tested_samples": [
+        1,
+        4
+      ],
+      "exact_numeric_samples": 40,
+      "unsafe_scope_guards": 3,
+      "expected_actual_draw_coverage": [
+        262142,
+        1048568
+      ],
+      "checks": [
+        "Exact depth bits before and after actual guest-like draws",
+        "Guest depth/stencil contents preserve expected subsequent coverage",
+        "Caller pipeline-cache invalidation",
+        "Completed-fence-only readback and sequence-zero drain",
+        "Guest query, memexport and non-host guards allocate no descriptors"
+      ],
+      "unavailable": "Optional D3D12 debug layer; no debug-message validation claimed",
+      "early_fixture_failure": "fixture-01 falsely matched the CSV header sample,depth_bits as data; corrected newline-anchored check passes fixture-02/03."
+    }
+  },
+  "run46": {
+    "experiment": {
+      "change": "Sparse read-only depth probe; original default depth settings",
+      "dll_sha256": "420769b73752405a95a57b6a93ffdcfcfdfce39577ab8604f87985937316581c",
+      "source_header_sha256": "8a2ad89d77cf5a153d66960e2f140d7d8482b0e571b24574b530abb057243ea4",
+      "integration_patch_sha256": "e517924fe737bb808cbee2f2c943e9697026eb12c7cb4ffcd7b7eff6781e54d9",
+      "comparison_run": "work/sky-bridge/reproduction-42",
+      "points": [
+        [
+          501,
+          175
+        ],
+        [
+          503,
+          173
+        ],
+        [
+          497,
+          178
+        ],
+        [
+          711,
+          197
+        ]
+      ],
+      "fixture": "work/sky-bridge/depth-value-build/fixture-02",
+      "test_log_sha256": "baf895cc64eeddc91705356101c769e248651afab5db0c36f436af3b6f446a58"
+    },
+    "result": {
+      "path": "work\\sky-bridge\\reproduction-46\\depth-value-analysis.json",
+      "sha256": "492df4e73f00d156ed79812661b74ef59d80c2f1770382cb840527ded2823780"
+    },
+    "events": {
+      "sample": 14400
+    },
+    "records": 3600,
+    "paired_draws": 1800,
+    "frames": 300,
+    "same_resource_intervals": 300,
+    "interval_summary": [
+      {
+        "x": 497,
+        "y": 178,
+        "sample": 0,
+        "frames": 300,
+        "equal": 0,
+        "larger": 300,
+        "smaller": 0,
+        "delta_range": [
+          0.00015871599316596985,
+          0.00015871599316596985
+        ],
+        "bit_delta_range": [
+          958819584,
+          958819584
+        ]
+      },
+      {
+        "x": 501,
+        "y": 175,
+        "sample": 0,
+        "frames": 300,
+        "equal": 0,
+        "larger": 300,
+        "smaller": 0,
+        "delta_range": [
+          9.284044790547341e-05,
+          9.291842434322461e-05
+        ],
+        "bit_delta_range": [
+          10257588,
+          10268305
+        ]
+      },
+      {
+        "x": 503,
+        "y": 173,
+        "sample": 0,
+        "frames": 300,
+        "equal": 0,
+        "larger": 300,
+        "smaller": 0,
+        "delta_range": [
+          9.276191849494353e-05,
+          0.00015835998055990785
+        ],
+        "bit_delta_range": [
+          10255294,
+          958795119
+        ]
+      },
+      {
+        "x": 711,
+        "y": 197,
+        "sample": 0,
+        "frames": 300,
+        "equal": 300,
+        "larger": 0,
+        "smaller": 0,
+        "delta_range": [
+          0.0,
+          0.0
+        ],
+        "bit_delta_range": [
+          0,
+          0
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "part": 0,
+        "vs": 12627602885350085323,
+        "ps": 8562590739555380577,
+        "draws": 300,
+        "depth_changed_draws": 272,
+        "depth_changed_samples": 328,
+        "zero_coverage_draws": 0,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.0,
+        "depth_max": 0.0001458288897993043
+      },
+      {
+        "part": 1,
+        "vs": 11600849241261448272,
+        "ps": 6159915361788144154,
+        "draws": 300,
+        "depth_changed_draws": 234,
+        "depth_changed_samples": 234,
+        "zero_coverage_draws": 0,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.0,
+        "depth_max": 0.0001458288897993043
+      },
+      {
+        "part": 0,
+        "vs": 15518101065676308936,
+        "ps": 12021865740332317413,
+        "draws": 300,
+        "depth_changed_draws": 0,
+        "depth_changed_samples": 0,
+        "zero_coverage_draws": 300,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.00014563696458935738,
+        "depth_max": 0.00015871599316596985
+      },
+      {
+        "part": 1,
+        "vs": 10556403050914701579,
+        "ps": 17893540736724855907,
+        "draws": 300,
+        "depth_changed_draws": 0,
+        "depth_changed_samples": 0,
+        "zero_coverage_draws": 300,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.00014563696458935738,
+        "depth_max": 0.00015871599316596985
+      },
+      {
+        "part": 0,
+        "vs": 1802336714319958646,
+        "ps": 14007674117786981017,
+        "draws": 300,
+        "depth_changed_draws": 0,
+        "depth_changed_samples": 0,
+        "zero_coverage_draws": 300,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.00014563696458935738,
+        "depth_max": 0.00015871599316596985
+      },
+      {
+        "part": 1,
+        "vs": 7141575655502862876,
+        "ps": 10996139680788563763,
+        "draws": 300,
+        "depth_changed_draws": 0,
+        "depth_changed_samples": 0,
+        "zero_coverage_draws": 300,
+        "resource_shapes": [
+          [
+            21,
+            1200,
+            2192,
+            1
+          ]
+        ],
+        "depth_min": 0.00014563696458935738,
+        "depth_max": 0.00015871599316596985
+      }
+    ],
+    "model_draws": 11308,
+    "complete_model_color_pairs": 11308,
+    "coverage_comparison": {
+      "path": "work\\sky-bridge\\depth-value-build\\coverage-comparison.json",
+      "sha256": "f6e91e09768ccdba5edd7ae84e10511f1ee904a71082ad48d11e387268cc08c3"
+    },
+    "matched_coverage_keys": 3179,
+    "different_coverage_keys": 0,
+    "fabric_matched_coverage_keys": 606,
+    "fabric_black_writes": 0,
+    "fabric_lighting_draws": 610,
+    "native_observer_exact": true,
+    "camera_draws": 9000,
+    "camera_exact": true,
+    "loading_log": ".local/loading-traces/20261104-042011-16080",
+    "native_header_checks": {
+      "seconds": 180.407,
+      "event": "hash_summary",
+      "passed": 11,
+      "failed": 0
+    },
+    "process_watchdog": {
+      "seconds": 180.0,
+      "event": "watchdog",
+      "seconds_limit": 180
+    }
+  },
+  "run47": {
+    "experiment": {
+      "mode": "Four frames of all draws and sparse depth values",
+      "map_candidate": 36,
+      "dll_sha256": "d294a70511a4c77ecb3037c0c00561ab5c95da0f478274664a23833120e2437e",
+      "depth_header_sha256": "298154303168c48827e66a0b3a80465719f07c968073a692c4ededc830cc2683",
+      "trace_header_sha256": "37d084a6007825af1cb852a2b47629daaac1201fa5fbe81f99e6315d90f3a3b2",
+      "fixture": "work/sky-bridge/depth-value-build/fixture-03"
+    },
+    "result": {
+      "path": "work\\sky-bridge\\reproduction-47\\depth-writer-analysis.json",
+      "sha256": "d37e57014333f080200e8366d4166e7ac573fc3f709eb45109f9eccf4623d1f2"
+    },
+    "events": {
+      "no_depth": 330,
+      "unsafe_scope": 200,
+      "out_of_bounds": 2150,
+      "limit": 1,
+      "sample": 32768
+    },
+    "records": 8192,
+    "cpu_draws": 12029,
+    "cpu_frames": 4,
+    "depth_frames": [
+      3384,
+      3385
+    ],
+    "complete_pairs": 4096,
+    "incomplete_pairs": [],
+    "intervals": [
+      {
+        "frame": 3384,
+        "albedo_sequence": 200,
+        "static_sequence": 1105,
+        "records": 1746,
+        "resource": 2122108861280,
+        "points": [
+          {
+            "x": 497,
+            "y": 178,
+            "sample": 0,
+            "before_bits": 0,
+            "after_bits": 958819584,
+            "before": 0.0,
+            "after": 0.00015871599316596985
+          },
+          {
+            "x": 501,
+            "y": 175,
+            "sample": 0,
+            "before_bits": 948535457,
+            "after_bits": 958803618,
+            "before": 6.556628068210557e-05,
+            "after": 0.00015848365728743374
+          },
+          {
+            "x": 503,
+            "y": 173,
+            "sample": 0,
+            "before_bits": 948537184,
+            "after_bits": 958795119,
+            "before": 6.557884626090527e-05,
+            "after": 0.00015835998055990785
+          },
+          {
+            "x": 711,
+            "y": 197,
+            "sample": 0,
+            "before_bits": 957925827,
+            "after_bits": 957925827,
+            "before": 0.00014571011706721038,
+            "after": 0.00014571011706721038
+          }
+        ],
+        "transitions": [
+          {
+            "kind": "actual_draw",
+            "from_sequence": 354,
+            "from_phase": 0,
+            "to_sequence": 354,
+            "to_phase": 1,
+            "same_resource": true,
+            "changes": [
+              {
+                "x": 501,
+                "y": 175,
+                "sample": 0,
+                "before_bits": 948535457,
+                "after_bits": 958803618,
+                "before": 6.556628068210557e-05,
+                "after": 0.00015848365728743374
+              },
+              {
+                "x": 503,
+                "y": 173,
+                "sample": 0,
+                "before_bits": 948537184,
+                "after_bits": 958795119,
+                "before": 6.557884626090527e-05,
+                "after": 0.00015835998055990785
+              },
+              {
+                "x": 497,
+                "y": 178,
+                "sample": 0,
+                "before_bits": 0,
+                "after_bits": 958819584,
+                "before": 0.0,
+                "after": 0.00015871599316596985
+              }
+            ],
+            "writer": {
+              "sequence": 354,
+              "frame": 3384,
+              "vs": 18363955305835246292,
+              "ps": 8562590739555380577,
+              "index_count": 3666,
+              "candidates": [],
+              "color_mask": 255,
+              "mode_control": 4,
+              "depth_control": 7374439,
+              "surface_info": 301991088,
+              "geometry_candidates": [
+                {
+                  "owner": 9894,
+                  "owner_group": "sLdT",
+                  "mesh": 118,
+                  "part": 0,
+                  "material_slot": 25,
+                  "index_start": 0,
+                  "index_count": 3666,
+                  "vertex_format": 2,
+                  "vertex_stride": 24,
+                  "vertex_count": 2557,
+                  "vertex_prefix_sha256": "4890a13c12ccb883c3bdec17059693c68b0beea3f72f1f865bc127a72dc7d2de",
+                  "vertex_prefix_length": 512,
+                  "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\ca_rattler_oni_trim_plain_01_alt_metal",
+                  "target_material": 9275
+                }
+              ],
+              "index_address": 328399440,
+              "vertex_address": 285002848,
+              "index_prefix_sha256": [
+                "2fa905c16769fb9eacbc55a3dd424a67c4d724dd94faee09132fc3939c798054"
+              ],
+              "vertex_prefix_sha256": [
+                "4890a13c12ccb883c3bdec17059693c68b0beea3f72f1f865bc127a72dc7d2de"
+              ],
+              "camera_exact": true,
+              "camera_constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000",
+              "model_constants_16_18": "0000803f000000000000000077918c41000000000000803f000000006408ba4200000000000000000000803f2f880e40",
+              "registers": {
+                "0x2000": "0x120004b0",
+                "0x2002": "0x10000",
+                "0x2104": "0xff",
+                "0x2200": "0x708667",
+                "0x2208": "0x4",
+                "0x2080": "0x0",
+                "0x2081": "0x0",
+                "0x2082": "0x2800480",
+                "0x2100": "0xffffff",
+                "0x2101": "0x0",
+                "0x2102": "0x0",
+                "0x2103": "0xffff",
+                "0x210f": "0x44100000",
+                "0x2110": "0x44100000",
+                "0x2111": "0xc3a00000",
+                "0x2112": "0x43a00000",
+                "0x2113": "0x3f800000",
+                "0x2114": "0x0"
+              }
+            }
+          }
+        ],
+        "excluded_sequences": [
+          1024,
+          1029,
+          1030,
+          1031,
+          1032,
+          1033,
+          1034,
+          1035,
+          1036,
+          1037,
+          1038,
+          1039,
+          1040,
+          1041,
+          1042,
+          1043,
+          1044,
+          1045,
+          1046,
+          1047,
+          1048,
+          1049,
+          1050,
+          1051,
+          1052,
+          1053,
+          1054
+        ]
+      },
+      {
+        "frame": 3385,
+        "albedo_sequence": 3245,
+        "static_sequence": 4150,
+        "records": 1746,
+        "resource": 2122108861280,
+        "points": [
+          {
+            "x": 497,
+            "y": 178,
+            "sample": 0,
+            "before_bits": 0,
+            "after_bits": 958819584,
+            "before": 0.0,
+            "after": 0.00015871599316596985
+          },
+          {
+            "x": 501,
+            "y": 175,
+            "sample": 0,
+            "before_bits": 948535488,
+            "after_bits": 958803618,
+            "before": 6.556650623679161e-05,
+            "after": 0.00015848365728743374
+          },
+          {
+            "x": 503,
+            "y": 173,
+            "sample": 0,
+            "before_bits": 948537021,
+            "after_bits": 958795119,
+            "before": 6.557766027981415e-05,
+            "after": 0.00015835998055990785
+          },
+          {
+            "x": 711,
+            "y": 197,
+            "sample": 0,
+            "before_bits": 957925872,
+            "after_bits": 957925872,
+            "before": 0.00014571077190339565,
+            "after": 0.00014571077190339565
+          }
+        ],
+        "transitions": [
+          {
+            "kind": "actual_draw",
+            "from_sequence": 3399,
+            "from_phase": 0,
+            "to_sequence": 3399,
+            "to_phase": 1,
+            "same_resource": true,
+            "changes": [
+              {
+                "x": 501,
+                "y": 175,
+                "sample": 0,
+                "before_bits": 948535488,
+                "after_bits": 958803618,
+                "before": 6.556650623679161e-05,
+                "after": 0.00015848365728743374
+              },
+              {
+                "x": 503,
+                "y": 173,
+                "sample": 0,
+                "before_bits": 948537021,
+                "after_bits": 958795119,
+                "before": 6.557766027981415e-05,
+                "after": 0.00015835998055990785
+              },
+              {
+                "x": 497,
+                "y": 178,
+                "sample": 0,
+                "before_bits": 0,
+                "after_bits": 958819584,
+                "before": 0.0,
+                "after": 0.00015871599316596985
+              }
+            ],
+            "writer": {
+              "sequence": 3399,
+              "frame": 3385,
+              "vs": 18363955305835246292,
+              "ps": 8562590739555380577,
+              "index_count": 3666,
+              "candidates": [],
+              "color_mask": 255,
+              "mode_control": 4,
+              "depth_control": 7374439,
+              "surface_info": 301991088,
+              "geometry_candidates": [
+                {
+                  "owner": 9894,
+                  "owner_group": "sLdT",
+                  "mesh": 118,
+                  "part": 0,
+                  "material_slot": 25,
+                  "index_start": 0,
+                  "index_count": 3666,
+                  "vertex_format": 2,
+                  "vertex_stride": 24,
+                  "vertex_count": 2557,
+                  "vertex_prefix_sha256": "4890a13c12ccb883c3bdec17059693c68b0beea3f72f1f865bc127a72dc7d2de",
+                  "vertex_prefix_length": 512,
+                  "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\ca_rattler_oni_trim_plain_01_alt_metal",
+                  "target_material": 9275
+                }
+              ],
+              "index_address": 328399440,
+              "vertex_address": 285002848,
+              "index_prefix_sha256": [
+                "2fa905c16769fb9eacbc55a3dd424a67c4d724dd94faee09132fc3939c798054"
+              ],
+              "vertex_prefix_sha256": [
+                "4890a13c12ccb883c3bdec17059693c68b0beea3f72f1f865bc127a72dc7d2de"
+              ],
+              "camera_exact": true,
+              "camera_constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000",
+              "model_constants_16_18": "0000803f000000000000000077918c41000000000000803f000000006408ba4200000000000000000000803f2f880e40",
+              "registers": {
+                "0x2000": "0x120004b0",
+                "0x2002": "0x10000",
+                "0x2104": "0xff",
+                "0x2200": "0x708667",
+                "0x2208": "0x4",
+                "0x2080": "0x0",
+                "0x2081": "0x0",
+                "0x2082": "0x2800480",
+                "0x2100": "0xffffff",
+                "0x2101": "0x0",
+                "0x2102": "0x0",
+                "0x2103": "0xffff",
+                "0x210f": "0x44100000",
+                "0x2110": "0x44100000",
+                "0x2111": "0xc3a00000",
+                "0x2112": "0x43a00000",
+                "0x2113": "0x3f800000",
+                "0x2114": "0x0"
+              }
+            }
+          }
+        ],
+        "excluded_sequences": [
+          4069,
+          4074,
+          4075,
+          4076,
+          4077,
+          4078,
+          4079,
+          4080,
+          4081,
+          4082,
+          4083,
+          4084,
+          4085,
+          4086,
+          4087,
+          4088,
+          4089,
+          4090,
+          4091,
+          4092,
+          4093,
+          4094,
+          4095,
+          4096,
+          4097,
+          4098,
+          4099
+        ]
+      }
+    ],
+    "missing_intervals": [
+      {
+        "frame": 3386,
+        "albedo_sequence": 6286,
+        "static_sequence": 7191,
+        "reason": "Depth recording limit or skipped endpoint",
+        "has_albedo_after": false,
+        "has_static_before": false
+      },
+      {
+        "frame": 3387,
+        "albedo_sequence": 9331,
+        "static_sequence": 10236,
+        "reason": "Depth recording limit or skipped endpoint",
+        "has_albedo_after": false,
+        "has_static_before": false
+      }
+    ],
+    "configuration_correction": {
+      "original_pixel_probe_field": true,
+      "actual_pixel_probe": false,
+      "pixel_files_present": [],
+      "reason": "Writer mode explicitly removes OPENH3M_SKY_PIXEL_PROBE_DIR; original configuration field omitted this mode."
+    },
+    "native_observer_exact": true,
+    "camera_draws": 284,
+    "camera_exact": true,
+    "loading_log": ".local/loading-traces/20261104-042816-3204",
+    "native_header_checks": {
+      "seconds": 180.359,
+      "event": "hash_summary",
+      "passed": 11,
+      "failed": 0
+    },
+    "process_watchdog": {
+      "seconds": 180.0,
+      "event": "watchdog",
+      "seconds_limit": 180
+    }
+  },
+  "limitations": [
+    "Four fixed locations are sparse stored-depth evidence, not a complete image or fragment output.",
+    "Actual-draw attribution requires the same resource and paired before/after samples.",
+    "Between-sample changes may include unsampled draws, render-target transfers or clears.",
+    "Skipped scopes and depth-record limits remain explicit; CPU frame count is not depth coverage.",
+    "A closer metal surface is consistent with occlusion; this does not prove authored geometry or visual correctness.",
+    "The measured searchlight is not conclusively identified as the protrusion in the human report.",
+    "Replay matches the saved view, not full simulation or animation phase.",
+    "The probe does not record fragment depths, complete vertex output or full raster masks.",
+    "Diagnostic timings are not performance measurements; use the separately recorded probe-free runs44/45.",
+    "No complete visual, traversal/audio, physical Xbox 360 or system-link acceptance."
+  ],
+  "next_step": "Keep candidate36 fabric/billboard corrections and default depth settings. Reassess remaining visual evidence before any additional rendering change; never treat searchlight draw rejection alone as a defect.",
+  "shared_installation_unchanged": true,
+  "release_promoted": false,
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "shared_gpu": {
+    "path": "C:\\X360\\ISOs\\H3M\\rexgpu-xenos.dll",
+    "sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "unchanged": true
+  },
+  "installed_map": {
+    "path": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\dlc\\installed-corrections\\0000000000000000\\4D5307E6\\00000002\\C337EBA990B40F54512D18E8AB31188A2B040540\\sky_bridge.map",
+    "sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+    "unchanged": true
+  }
+}
