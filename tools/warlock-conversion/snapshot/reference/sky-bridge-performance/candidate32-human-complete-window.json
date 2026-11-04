@@ -1,0 +1,109 @@
+{
+  "scope": "Complete 110-165 second window of human-controlled candidate32 session. Scene and traversal unconfirmed; not a gameplay acceptance result.",
+  "present_interval_ms": {
+    "n": 1550,
+    "median": 33.37749999999505,
+    "p95": 66.41400000000431,
+    "maximum": 67.47400000001653
+  },
+  "observed_frames_per_second": 28.18816256844427,
+  "intervals_over_50ms": 209,
+  "nonconsecutive_frame_transitions": 0,
+  "gpu_ms_per_observed_frame": {
+    "n": 1551,
+    "median": 26.882,
+    "p95": 28.974,
+    "maximum": 33.199
+  },
+  "submissions_per_observed_frame": {
+    "n": 1551,
+    "median": 3,
+    "p95": 4,
+    "maximum": 7
+  },
+  "wait_ms_by_caller": {
+    "resolve-cache-miss": {
+      "n": 471,
+      "median": 30.688,
+      "p95": 37.411,
+      "maximum": 42.509
+    }
+  },
+  "resolve_miss_reasons": {
+    "previous_submission_in_flight": 471
+  },
+  "resolve_miss_addresses": {
+    "1FC24000": 471
+  },
+  "resolve_miss_examples": [
+    {
+      "frame": "3053",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "0",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8439",
+      "completed": "8438",
+      "current": "8442"
+    },
+    {
+      "frame": "3055",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "1",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8446",
+      "completed": "8445",
+      "current": "8449"
+    },
+    {
+      "frame": "3057",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "0",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8453",
+      "completed": "8452",
+      "current": "8456"
+    },
+    {
+      "frame": "3059",
+      "address": "1FC24000",
+      "bytes": "8192",
+      "slot": "1",
+      "buffer": "true",
+      "mapped": "true",
+      "capacity": "262144",
+      "written": "8192",
+      "previous": "8460",
+      "completed": "8459",
+      "current": "8463"
+    }
+  ],
+  "wait_total_ms_by_caller": {
+    "resolve-cache-miss": 14370.204
+  },
+  "first_sample": [
+    110010.251,
+    3053
+  ],
+  "last_sample": [
+    164997.872,
+    4603
+  ],
+  "map_log_evidence": [],
+  "caveats": [
+    "Waits under 5ms are not logged.",
+    "GPU timings and CPU waits overlap; do not add them.",
+    "Map/autosave log records alone do not verify visible gameplay."
+  ]
+}
