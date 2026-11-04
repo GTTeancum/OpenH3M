@@ -1,6 +1,7 @@
 # Battle Canyon: native H3 baked-lighting proposal
 
-Status: proposed, not approved. This concerns the fresh Reach-to-H3 MCC rebuild.
+Status: approved by the user on 2026-11-04: "Approve native H3 lighting approach".
+This concerns the fresh Reach-to-H3 MCC rebuild.
 It does not change the MCC review gate or authorize any 360 conversion.
 
 ## Preserve
@@ -43,8 +44,8 @@ before baking and checked for the later 360 conversion.
   normal BSP lighting policy, retaining all geometry. This may change lightmap
   allocation and visual smoothness. Instance lighting policies remain separate.
 
-Approval would allow those native H3 differences, followed by the user's MCC
-review. It would not authorize removing lights, inventing replacement geometry,
+Approval allows those native H3 differences, followed by the user's MCC
+review. It does not authorize removing lights, inventing replacement geometry,
 retuning brightness to hide defects, patching the exporter/compiler, or claiming
 visual fidelity from field checks. Any additional unmapped setting stays open.
 
@@ -68,5 +69,5 @@ are preserved; Tool scales attenuation distances by 0.01. For example, the
 source sun's authoring cutoff 1,500 becomes 15 native H3 world units, matching
 the existing Foundry distance conversion. Evidence is
 `work/stock-h3-audit/lighting-workflow-verification.json` and the two native XML
-exports. No map lighting has been changed by this diagnostic, and the proposal
-remains pending user approval.
+exports. No map lighting was changed by this diagnostic. Approval is recorded;
+applying the inputs to the map, native verification, baking and MCC review remain.

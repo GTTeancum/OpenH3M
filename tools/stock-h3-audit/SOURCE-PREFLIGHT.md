@@ -1687,3 +1687,89 @@ Evidence under `work/stock-h3-audit`: `collision-workflow-probe.json`,
 literal `<unavailable>` placeholder in memory. No upstream exporter, compiler,
 engine, serializer or source geometry was patched. The lighting proposal remains
 pending; this diagnostic does not apply it or constitute MCC visual acceptance.
+
+## Native boulder authoring correction and lighting approval (2026-11-04)
+
+The user approved the native H3 lighting proposal: "Approve native H3 lighting
+approach". The proposal document and to-do now record approval. Transferring the
+shared source inputs, baking, and MCC review remain outstanding; older references
+to pending approval above are historical.
+
+`inspect_source_collision.py` reads original Reach definition 74 through its
+official ManagedBlam API. It has 190 collision vertices, 338 surfaces and no
+render BSP. Eleven surfaces have material -1; they are neither invalid nor
+invisible. Foundry represents them with the existing +seamsealer material.
+The original tag remains unchanged. Evidence: `original-boulder-collision.json`.
+
+The [H3 material controls](https://www.reclaimers.net/h3/source-data/h3-materials/)
+include Precise (prevent normal BSP point/triangle adjustment) and Render Only
+(exclude those faces from collision). The existing collision-child workflow
+still supplies the separate physical surface. Isolated native diagnostics show:
+
+| Authoring setting | Native geometry result |
+| --- | --- |
+| Original exported settings | 44 open edges, six ambiguous connections, overlapping surfaces |
+| Precise | 44 open edges; ambiguity/overlap errors gone |
+| Render Only on render faces, unchanged collision child | Open-edge errors gone; ambiguity/overlap remain |
+| Both settings, Precise also on collision faces | No geometry errors; separate collision and MOPP retained |
+
+The first Precise diagnostic did not actually export its in-memory property
+changes. Readback found no BM_FLAGS records, so that run is not evidence about
+Precise behavior. Explicit Blender material/mesh update_tag/update calls make
+the unchanged exporter observe the authoring properties; the helper now asserts
+the exact exported flags. No upstream add-on or compiler was patched.
+
+`verify_collision_workflow_geometry.py` compares native XML to the original ASS.
+Native render positions/UVs are stored in compression-bound coordinates, and
+native V uses the opposite origin from Blender/ASS. Applying those documented
+coordinate interpretations is essential; comparing raw values gave false
+position/UV differences. All 710 triangles match with preserved winding.
+
+| Measured deviation | Original settings | Both native controls |
+| --- | ---: | ---: |
+| Maximum render vertex distance, world units | 0.0194583 | 0.000174122 |
+| Maximum UV distance | 0.000000644 | 0.000000644 |
+| Maximum normal-vector distance | 0.00450878 | 0.00450878 |
+| Native collision samples to source, world units | 0.0158590 | 0.000038179 |
+| Source collision samples to native, world units | 0.0162365 | 0.000038414 |
+
+Collision samples include every vertex and polygon centroid in both directions,
+not exhaustive continuous-surface or gameplay testing. Native output has 190
+collision vertices, 336 surfaces and 3,502 bytes of MOPP data; its render BSP is
+empty, as in the original Reach definition. The remaining render position and
+normal differences fail the diagnostic's strict 0.0001 thresholds. They are
+recorded explicitly, not relabeled exact preservation or silently waived. UV
+and collision-sample checks pass. The normal difference is unchanged from the
+baseline; the new controls greatly reduce geometric deviation.
+
+`prepare_boulder_collision_authoring.py` applies only those standard controls to
+the one diagnosed boulder in the saved authoring scene. It copies three local
+material slots, preserving all vertices, faces and UVs, the original collision
+child and material/shader choices. It preserves the exact +seamsealer keyword
+when making a local copy; the first material rebind rejected the suffixed name
+and no invalid bound scene was accepted. Water UV provenance was rechecked.
+Material rebinding now succeeds with 102 tags / 156 used variants / no pending
+slots. A fresh-process `--authored` diagnostic reads the saved bound file,
+asserts its flags, and imports without geometry errors. Its raw render data,
+compression data and complete instance collision definition match the diagnosed
+prototype exactly. Texture-disposal warnings remain in Tool's log.
+
+Current authoring SHA-256:
+`521054e6461af95406a423f9b255a82fa3649a3bbe3ddc1734d1962684d0b8a9`.
+Current bound scene SHA-256:
+`fbac8876c297067c0eef6458d0de4bbb7fe8c40c4dd415d84a9a3db138f0c1c2`.
+The full-map ASS/import evidence still refers to the earlier scene. Do not pass
+it off as the latest export; refresh after authoring the approved lighting inputs.
+
+Native Blender proof was rendered and visually inspected at
+`work/stock-h3-audit/wip/h3-boulder-native-geometry-comparison.png`: original ASS
+render mesh on the left, actual official-H3 compiled mesh on the right, both in
+neutral diagnostic shading. Their visible silhouettes and surface features
+match in this view; this does not validate Reach textures, baked lighting,
+shadows or MCC gameplay. No desktop capture/control was used.
+
+Evidence includes `collision-workflow*-probe.json`, native import/XML outputs,
+the two `*-geometry-comparison.json` reports, `h3-boulder-collision-authoring.json`
+and `collision-workflow-authored-equivalence.json`. The helper commands use
+`--precise`, `--render-only`, both together, or `--authored` for the saved result.
+No blanket application to the other 43 collision-child definitions is implied.

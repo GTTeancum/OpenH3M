@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import runpy
+import sys
 import bpy
 import bmesh
 from mathutils import Vector
@@ -17,6 +18,13 @@ KIT=ROOT/'work/editing-kits/h3ek'
 for helper in ('check_foundry.py','check_h3_exporter.py'):
     runpy.run_path(str(ROOT/'tools/stock-h3-audit'/helper))
 source=Path(bpy.data.filepath)
+precise='--precise' in sys.argv
+render_only='--render-only' in sys.argv
+authored='--authored' in sys.argv
+assert not (authored and (precise or render_only))
+variant='-authored' if authored else ('-precise' if precise else '')+('-render-only' if render_only else '')
+stem='collision-workflow'+variant
+ass_name='boulder'+variant.replace('-','_')
 assert source==OUT/'battle-canyon-h3-materials.blend'
 before=hashlib.sha256(source.read_bytes()).hexdigest()
 bindings=json.loads((OUT/'h3-material-bindings.json').read_text())
@@ -42,6 +50,21 @@ for obj in keep:
     bm.free()
 for obj in list(bpy.context.scene.objects):
     if obj not in keep:bpy.data.objects.remove(obj,do_unlink=True)
+if precise or render_only:
+    if render_only:
+        for i,material in enumerate(list(target.data.materials)):
+            copied=material.copy()
+            copied.ass_jms.is_bm=True
+            copied.ass_jms.render_only=True
+            target.data.materials[i]=copied
+    for material in {m for o in keep for m in o.data.materials}:
+        if precise:
+            material.ass_jms.is_bm=True
+            material.ass_jms.precise=True
+        material.update_tag()
+    for obj in keep:
+        obj.data.update()
+        obj.update_tag(refresh={'DATA'})
 bpy.context.view_layer.update()
 # Tool requires world geometry even for an instance diagnostic. This enclosing
 # sky box belongs only to this test and is never added to the map authoring file.
@@ -65,13 +88,24 @@ bpy.context.view_layer.update()
 from io_scene_halo.file_ass import export_ass
 from io_scene_halo.global_functions import global_functions
 from io_scene_halo.file_ass.process_file import process_file
-path=KIT/'data/levels/custom/bc_collision_workflow_probe/structure/boulder.ass'
+path=KIT/'data/levels/custom/bc_collision_workflow_probe/structure'/(ass_name+'.ass')
 path.parent.mkdir(parents=True,exist_ok=True)
 result=export_ass.write_file(bpy.context,str(path),7,'halo3',False,True,True,
     True,True,True,global_functions.EdgeSplit(False,False,0.0,False),
     False,1.0,lambda level,message:print(level,message,flush=True))
 assert result=={'FINISHED'}
 asset=process_file(str(path))
+if precise:
+    for material in asset.materials:
+        if material.name=='+sky':continue
+        flags=next(s.split()[1] for s in material.lighting_info if s.startswith('BM_FLAGS '))
+        assert flags[13]=='1',(material.name,flags)
+if render_only:
+    assert any(s.startswith('BM_FLAGS ') and s.split()[1][3]=='1' for m in asset.materials for s in m.lighting_info)
+if authored:
+    flags=[s.split()[1] for m in asset.materials for s in m.lighting_info if s.startswith('BM_FLAGS ')]
+    assert len(flags)==3 and all(f[13]=='1' for f in flags)
+    assert sum(f[3]=='1' for f in flags)==1
 assert len(asset.instances)==4
 parent=next(i for i in asset.instances if i.name==(target.ass_jms.name_override or target.name))
 child=next(i for i in asset.instances if i.name.startswith('@'))
@@ -79,9 +113,12 @@ child=next(i for i in asset.instances if i.name.startswith('@'))
 assert asset.instances[child.parent_id] is parent
 assert hashlib.sha256(source.read_bytes()).hexdigest()==before
 report=dict(source=str(source),source_sha256=before,ass=str(path),
+    diagnostic_precise_flag=precise,
+    diagnostic_render_only_flag=render_only,
+    saved_authoring_flags_checked=authored,
     ass_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),geometry=geometry,
     instances=[dict(name=i.name,object_index=i.object_index,unique_id=i.unique_id,parent_id=i.parent_id) for i in asset.instances],
     materials=[m.name for m in asset.materials],
     limitation='Exact isolated instance input plus diagnostic-only enclosing sky box; no geometry repair or native collision acceptance implied.')
-(OUT/'collision-workflow-probe.json').write_text(json.dumps(report,indent=2)+'\n')
+(OUT/(stem+'-probe.json')).write_text(json.dumps(report,indent=2)+'\n')
 print('H3_COLLISION_WORKFLOW_PROBE',json.dumps(report),flush=True)

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import runpy
+import sys
 import xml.etree.ElementTree as ET
 import bpy
 from mathutils import Vector, kdtree
@@ -14,13 +15,15 @@ OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 for helper in ('check_foundry.py','check_h3_exporter.py'):
     runpy.run_path(str(ROOT/'tools/stock-h3-audit'/helper))
-probe=json.loads((OUT/'collision-workflow-probe.json').read_text())
+variant=('-precise' if '--precise' in sys.argv else '')+('-render-only' if '--render-only' in sys.argv else '')
+stem='collision-workflow'+variant
+probe=json.loads((OUT/(stem+'-probe.json')).read_text())
 assert hashlib.sha256(Path(probe['ass']).read_bytes()).hexdigest()==probe['ass_sha256']
 source=Path(bpy.data.filepath)
 assert str(source)==probe['source']
 assert hashlib.sha256(source.read_bytes()).hexdigest()==probe['source_sha256']
-error=KIT/'import_errors/bc_collision_workflow_probe_boulder.wrl'
-text=error.read_text()
+error=KIT/'import_errors'/('bc_collision_workflow_probe_'+Path(probe['ass']).stem+'.wrl')
+text=error.read_text() if error.is_file() else ''
 blocks=[]
 for part in text.split('geometry DEF ')[1:]:
     label=re.match(r'"([^"]+)"',part).group(1)
@@ -43,13 +46,16 @@ for row in probe['geometry']:
         for label,points in blocks:by_label[label].extend(tree.find(p)[2] for p in points)
         data[space]={label:dict(points=len(ds),within_001=sum(d<.001 for d in ds),maximum_distance=max(ds),mean_distance=sum(ds)/len(ds)) for label,ds in by_label.items()}
     meshes[obj.name]=data
-xml=OUT/'collision-workflow-bsp.xml'
+xml=OUT/(stem+'-bsp.xml')
 native=ET.fromstring(xml.read_text().replace('<unavailable>','&lt;unavailable&gt;'))
 definition=native.find('.//block[@name="instanced geometries definitions"]/element')
 assert definition is not None
 native_geometry={}
 def field(e,name):return e.find('./field[@name="'+name+'"]').attrib['value']
 for name,element in [('collision',definition),('render_bsp',definition.find('./block[@name="render bsp"]/element'))]:
+    if element is None:
+        native_geometry[name]=None
+        continue
     vertices=element.find('./block[@name="vertices"]')
     edges=element.find('./block[@name="edges"]')
     surfaces=element.find('./block[@name="surfaces"]')
@@ -62,12 +68,12 @@ for name,element in [('collision',definition),('render_bsp',definition.find('./b
         tree.balance()
         distances=[tree.find(Vector(tuple(float(x) for x in field(v,'point').split(','))))[2] for v in vertices]
         row['maximum_distance_to_source_proxy_world_units']=max(distances)
-        row['all_source_proxy_vertices_retained']=len(vertices)==len(proxy.data.vertices) and max(distances)<.00001
+        row['source_proxy_vertex_positions_match']=len(vertices)==len(proxy.data.vertices) and max(distances)<.00001
     native_geometry[name]=row
 report=dict(source_sha256=probe['source_sha256'],ass_sha256=probe['ass_sha256'],
-    native_error_sha256=hashlib.sha256(error.read_bytes()).hexdigest(),meshes=meshes,
+    native_error_sha256=hashlib.sha256(error.read_bytes()).hexdigest() if error.is_file() else None,meshes=meshes,
     native_bsp_xml_sha256=hashlib.sha256(xml.read_bytes()).hexdigest(),native_geometry=native_geometry,
     limitation='Endpoint proximity identifies which authored surface matches an error; it does not establish the cause or authorize a geometry change.')
 assert hashlib.sha256(source.read_bytes()).hexdigest()==probe['source_sha256']
-(OUT/'collision-workflow-error-inspection.json').write_text(json.dumps(report,indent=2)+'\n')
+(OUT/(stem+'-error-inspection.json')).write_text(json.dumps(report,indent=2)+'\n')
 print('H3_COLLISION_ERROR_LOCATIONS',json.dumps(report),flush=True)
