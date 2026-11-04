@@ -196,8 +196,12 @@ scale and material assignments must be configured before exporting. Its README
 also states missing UVW W support; do not treat exporter registration as proof
 that every source attribute survives. No ASS export has occurred yet.
 
-H3's installed `ManagedBlamSystem.Start` throws `NotImplementedException` for
-both overloads. Do not keep retrying or patch that DLL. The official `tool.exe`
+Correction (2026-11-04): the earlier H3 API probe incorrectly used Reach's
+`ManagedBlamSystem.Start`. H3's documented entry point is
+`ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly, kitPath)`;
+it works in the installed kit. The successful .NET host and native authoring
+checks are recorded below. The earlier `NotImplementedException` was not
+evidence that H3's authoring API was unavailable. The official `tool.exe`
 provides `export-tag-to-xml`, `get-tag-field-value`, `patch-tag-field` and bitmap
 commands. `export_shader_donors.ps1` exported all seven candidate stock shaders,
 verified their source hashes unchanged and inspected the XML. Export requires
@@ -387,3 +391,59 @@ categories remain separately reported. The wall-detail shader has Standoff
 and glowing wall-detail setups have no exact nine-category candidate in this
 set. Inspect active inputs and animation layouts next. Do not use obsolete
 parameter-name overlap or these category matches alone to assign materials.
+
+### Official H3 API and first building material (2026-11-04)
+
+The [ManagedBlam initialization documentation](https://reclaimers.net/general/mod-tools/managed-blam/)
+distinguishes H3's `InitializeProject` from Reach's `Start`. `ProbeH3Api.cs`
+successfully loaded the stock Standoff wall shader in a .NET Framework x64
+host built with `/highentropyva-`. A Python host initialized H3 but stalled at
+tag reading and was stopped; it is not the production host. The installed
+ManagedBlam DLL is copied unchanged next to the wrappers. No DLL patches,
+custom tag serializer or shader implementation were introduced.
+
+`ApplyH3ShaderPlan.cs` uses the official parameter/animation block operations,
+reference setters, function-data setters and `TagFile.Save`. The first building
+material, `ca_bcreek_bb_walldetail.shader`, reuses stock Standoff
+`bunker_plate_wall.shader`. Ten original Reach inputs and eight original
+functions are assigned, including separate detail scales X=4 and Y=8. Other
+stock H3 inputs remain stock. Native Tool re-export checks references, parameter
+types, animation types, input/range names, periods and function bytes.
+
+The official API expands the donor's ten options to thirteen MCC options. The
+first ten remain unchanged; appended distortion, soft-fade and miscellaneous
+attribute-animation options are all disabled. The matching thirteen-option
+template and its compiled shaders already exist in the official kit. No shader
+code compilation or Xbox 360 conversion is needed for this authoring step.
+The original ten-option counterpart remains recorded for the later approved
+conversion stage. This normalization is an explicit MCC/360 difference.
+
+Pixel checks caught unsuitable donor bitmap import settings: the reflection
+template forced monochrome, while the detail image imported at brightness 45
+instead of its original 116. Original Reach metadata identifies the base and
+detail images as linear. `ApplyH3BitmapPlan.cs` sets source gamma 1, linear
+storage, matching 2D usage and the native box mip filter through official API
+fields. Both images are actually monochrome with alpha, so native A8Y8 retains
+their channels exactly. All four RGBA channels match the source in native Tool
+exports, including the base alpha range 0..239 and detail alpha range 80..255.
+
+The reflection uses H3's stock DXT5 color format and native cube import. All six
+128x128 faces match the occupied cells of the original 512x384 plate, after
+accounting for Tool's face rotations, with mean channel errors below 0.44/255.
+The source plate's top/bottom cells are in its first column, not the second;
+the verifier follows the inspected source layout. No source pixels were edited.
+Original source and stock donor hashes remain unchanged.
+
+Reproduce with installed Blender Python: `inspect_wall_bitmaps.py`, build both
+`ApplyH3ShaderPlan` and `ApplyH3BitmapPlan` using `build_h3_api.ps1 -Name ...`,
+then `author_wall_detail.py` and `verify_wall_detail.py`. All paths are under
+`tools/stock-h3-audit`; run from the repository. Evidence is in
+`work/stock-h3-audit/wall-detail-trial/`, especially `report.json`,
+`source-bitmap-settings.json`, `saved.shader.xml` and `pixel-verification.json`.
+
+Limits: DXN normal direction/strength is still unverified, as are mip appearance,
+world-space reflection orientation and the source xRGB versus stock sRGB
+reflection response. The native face/pixel checks do not establish those.
+Full H3 scene material assignment, official map compilation and user-driven MCC
+review remain outstanding. No new Blender appearance claim is made from these
+tag checks, and nothing has been converted to 360 or installed.

@@ -53,19 +53,25 @@ F7 is available because Advanced Forge now activates automatically and uses the 
 
 ## 5. Battle Canyon rebuild
 
-- [ ] Finish the original Reach → H3 Editing Kit/H3 MCC → original Xbox 360 conversion pipeline.
-- [ ] Resolve outstanding material semantics.
-- [ ] Resolve lighting warnings.
-- [ ] Resolve UV warnings.
-- [ ] Resolve geometry issues.
-- [ ] Resolve helper issues.
-- [ ] Finish gameplay integration.
-- [ ] Finish audio integration.
-- [ ] Finish effect integration.
-- [ ] Finish the remaining Forge entries.
-- [ ] Complete resource accounting.
+Current status (2026-11-04): fresh Reach-to-H3 MCC authoring, step 4 of the
+approved process. The earlier implementation was rejected and is not an input.
+No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 
-Implementation notes: [the conversion process](tools/warlock-conversion/REACH-CONVERSION-PROCESS.md) and [the rebuild notes](tools/battle-canyon-rebuild/README.md).
+- [x] Advance after Claude's cleanup, per the user's "Just move on" instruction; do not reuse the rejected work. Residual history/shared code was disclosed, not certified erased.
+- [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.
+- [x] Compare stock and MCC dependencies; record MCC-only additions and stock alternatives before authoring.
+- [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
+- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Five terrain materials, one foliage material and the first wall-detail material have saved-field checks; these are not visual acceptance.
+- [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
+- [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
+- [ ] Import, compile and light using official H3 MCC tools.
+- [ ] Test in actual MCC with the user driving: compare Reach appearance; inspect sky, flicker/clipping, collision, traversal, audio, gameplay and Forge.
+- [ ] Obtain explicit user approval of the MCC version before ANY Xbox 360 conversion.
+- [ ] Apply the established MCC-to-H3 Xbox 360 process with the verified stock asset list.
+- [ ] Verify converted visuals, behavior, performance and native limits, then coordinate deployment into the shared installation.
+
+Process: [approved nine steps](tools/stock-h3-audit/REBUILD-PLAN.md).
+Evidence and limitations: [fresh source/authoring preflight](tools/stock-h3-audit/SOURCE-PREFLIGHT.md).
 
 ## 6. Queued map conversions
 

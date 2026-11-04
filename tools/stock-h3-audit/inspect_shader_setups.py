@@ -13,7 +13,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'work/stock-h3-audit'
 parser = argparse.ArgumentParser()
-parser.add_argument('game', choices=('hrek',), help='H3 uses export_shader_donors.ps1; its ManagedBlam Start is unimplemented.')
+parser.add_argument('game', choices=('hrek',), help='Reach reader. H3 uses export_shader_donors.ps1 or its InitializeProject API via the .NET wrappers.')
 args = parser.parse_args()
 kit = ROOT / 'work/editing-kits' / args.game
 os.environ['TEMP'] = os.environ['TMP'] = str(OUT / 'temp')
