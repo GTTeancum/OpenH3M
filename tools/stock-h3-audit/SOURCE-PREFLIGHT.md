@@ -68,3 +68,32 @@ the official archive's `tags/*` with 7-Zip `-aos` preserves existing files while
 adding the missing stock source tags. Extraction log:
 `work/stock-h3-audit/h3ek-complete-stock-tags-extract.log`. Verify its terminal
 result and candidate presence before relying on the completed kit.
+
+Extraction subsequently exited 0 with `Everything is Ok`; all seven candidate
+material files now exist. The log reports 57,442 processed files, 27,973,636,020
+bytes; this is not a count of newly created files because existing files were
+skipped. Source assets were not uploaded or installed into the live game.
+
+## Background tool readiness
+
+Unmodified Foundry 1.1.61 successfully enabled in Blender 4.5.8 LTS, with its
+scene properties registered. Evidence: `foundry-background-check.log` records
+`FOUNDRY_BACKGROUND_LOAD_OK 4.5.8 LTS`, process exit 0. This only verifies add-on
+loading, not source import, geometry fidelity or export compatibility.
+
+Run `check_foundry.py` through Blender with `--background --factory-startup
+--python-exit-code 1 --python`. For that subprocess set APPDATA and LOCALAPPDATA
+to `work/stock-h3-audit/profile/roaming` and `profile/local`, BLENDER_USER_CONFIG
+to `profile/blender`, and TEMP/TMP to `work/stock-h3-audit/temp` (absolute paths).
+The initial load attempt occurred before dependency installation had finished
+and failed on missing networkx; after the installer exited successfully the
+load check passed without upstream modifications.
+
+On top of the official tag API dependencies, the isolated Python directory
+contains networkx 3.4.2, scipy 1.16.0, pillow 11.3.0, pymem 1.13.1 and
+py360convert 1.0.4 with their pip-resolved dependencies. Installation output is
+`foundry-dependencies.log`. No pymem process-control functionality was invoked.
+
+The user has been asked whether unmatched decorative effects should be omitted
+or receive a specific Reach-import proposal if no stock match is found. No
+answer is assumed. Geometry authoring and effects remain unchanged.
