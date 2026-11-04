@@ -1,0 +1,1232 @@
+{
+  "classification": "Experimental candidate33: both source chains retained in the map; scrolling-text chain binds correctly, scanline chain still has a zero native mip pointer. Not promoted.",
+  "original_flicker_unresolved": true,
+  "production_changes": false,
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "installed_map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "private_build": {
+    "basis_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+    "stock_audit": {
+      "checked": [
+        "armory.map",
+        "bunkerworld.map",
+        "chill.map",
+        "chillout.map",
+        "construct.map",
+        "cyberdyne.map",
+        "deadlock.map",
+        "descent.map",
+        "docks.map",
+        "fortress.map",
+        "ghosttown.map",
+        "guardian.map",
+        "isolation.map",
+        "lockout.map",
+        "mainmenu.map",
+        "midship.map",
+        "riverworld.map",
+        "salvation.map",
+        "sandbox.map",
+        "shrine.map",
+        "sidewinder.map",
+        "snowbound.map",
+        "spacecamp.map",
+        "warehouse.map",
+        "zanzibar.map"
+      ],
+      "names": [
+        "levels\\shared\\bitmaps\\human\\crop_01",
+        "objects\\bitmaps\\screen_maps\\screen_line_01"
+      ],
+      "matches": [],
+      "shared_resource_policy": "shared.map is a resource store, with named owners in the audited map tag tables; no named matching stock owner exists."
+    },
+    "textures": [
+      {
+        "source": 12513,
+        "target": 9767,
+        "name": "levels\\shared\\bitmaps\\human\\crop_01",
+        "source_sha256": "e0d4c49e9abb36e5afd23b68e8fe20797afa6120aa3a99839c9ae9b3a161095d",
+        "before_mips": 1,
+        "after_mips": 9,
+        "old_resource": 2432700807,
+        "new_resource": 2432701520,
+        "old_raw_bytes": 262144,
+        "raw_bytes": 352256,
+        "raw_sha256": "4dbb20d6611ed8b52d7606e4146caf640c16022ff5183c7d83de6632e4721362",
+        "levels": [
+          {
+            "level": 0,
+            "bytes": 262144,
+            "sha256": "823511c72deacf6041efb1291c581a6913b11ad858f5f15de54ca93944f814b9"
+          },
+          {
+            "level": 1,
+            "bytes": 65536,
+            "sha256": "32191b356de583a8995d3aa2d38ef0b3476602d28c97ff962509a047b610b9cd"
+          },
+          {
+            "level": 2,
+            "bytes": 16384,
+            "sha256": "79262dfd8d9ff6b21603db2131d97e57898e53f159536cb64f43b95a86fd078b"
+          },
+          {
+            "level": 3,
+            "bytes": 4096,
+            "sha256": "396391757148d012c9f2413ef6ccbe54737950dea2398ded4595698dc2b46c73"
+          },
+          {
+            "level": 4,
+            "bytes": 1024,
+            "sha256": "9ae13157741ebf1e978374708ccbf1c0228106a802afde3626ac4d22a2fe2169"
+          },
+          {
+            "level": 5,
+            "bytes": 256,
+            "sha256": "dded551e34fc5045d99c3d3fec9546d283030182a70bd134945be9eff6b49e00"
+          },
+          {
+            "level": 6,
+            "bytes": 64,
+            "sha256": "26ffd687d653569111b163d8b7a2583d30573b4842ebc0fae0c5fe7f22bea760"
+          },
+          {
+            "level": 7,
+            "bytes": 16,
+            "sha256": "738dfb915d9089f46982c40a4c058a1ef094fdc57d975cd0a5d0a87e6450c795"
+          },
+          {
+            "level": 8,
+            "bytes": 4,
+            "sha256": "74ef47a582ac36429e8ec401ebea158274536411a1bfad56c2427ecbf1677aa1"
+          }
+        ]
+      },
+      {
+        "source": 12519,
+        "target": 9772,
+        "name": "objects\\bitmaps\\screen_maps\\screen_line_01",
+        "source_sha256": "2d7a8477335935dfb5f3a035212edd99c256b2060e4eaa81ad86d0c6392008ee",
+        "before_mips": 1,
+        "after_mips": 8,
+        "old_resource": 2432700808,
+        "new_resource": 2432701521,
+        "old_raw_bytes": 4096,
+        "raw_bytes": 4096,
+        "raw_sha256": "63bada0043211741706d3eae83b799ed7f5e1aba3536373ec9286bd56fce7780",
+        "levels": [
+          {
+            "level": 0,
+            "bytes": 1024,
+            "sha256": "b738dd85c4991634526fa308e5d9299758e22aa125a828e73414400dfb433cc7"
+          },
+          {
+            "level": 1,
+            "bytes": 256,
+            "sha256": "d2e7b1047dbc4abae7f42e420c7117f6829c576f39f8e11c932c76b2d52178a2"
+          },
+          {
+            "level": 2,
+            "bytes": 64,
+            "sha256": "b8c54a90d399cf4d7407955faa56ed90317e54704a219d0163aba441c5a7fee1"
+          },
+          {
+            "level": 3,
+            "bytes": 32,
+            "sha256": "f46baf1be4bd5accbe76ede44eb16856e3a8dcbf2f41d175d2ed03787cd89ae4"
+          },
+          {
+            "level": 4,
+            "bytes": 16,
+            "sha256": "c90c5fe742985c60dbe441206ee8aec476ad140c524e3b1c72dd5790039968d4"
+          },
+          {
+            "level": 5,
+            "bytes": 8,
+            "sha256": "2ad0952017e644a24bf29ecf9236f5b2540f875559be81074818654f818632a6"
+          },
+          {
+            "level": 6,
+            "bytes": 8,
+            "sha256": "2ad0952017e644a24bf29ecf9236f5b2540f875559be81074818654f818632a6"
+          },
+          {
+            "level": 7,
+            "bytes": 8,
+            "sha256": "2ad0952017e644a24bf29ecf9236f5b2540f875559be81074818654f818632a6"
+          }
+        ]
+      }
+    ],
+    "map": "work\\sky-bridge\\payload-33\\sky_bridge.map",
+    "sha256": "1705dc69c655d5a0d1e10e1163d45f7ce9e45743bcd7192efce9306ba371ac3c",
+    "bytes": 194351104,
+    "added_resource_bytes": 356352,
+    "native_runtime_verified": false,
+    "limitation": "Mip byte retention and map structure only; native bindings, filtering and visual readability require runtime verification.",
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "scope_verification": {
+    "original_metadata_bytes": 35454976,
+    "changed_original_metadata_bytes": 40,
+    "all_changes_within_two_bitmaps_and_resource_table_relocation": true,
+    "all_existing_tag_addresses_and_salts_preserved": true,
+    "original_raw_section_byte_exact": true,
+    "materials_geometry_gameplay_unchanged": true
+  },
+  "written_resource_verification": [
+    {
+      "target": 9767,
+      "mips": 9,
+      "raw_sha256": "4dbb20d6611ed8b52d7606e4146caf640c16022ff5183c7d83de6632e4721362",
+      "all_source_bytes_exact": true
+    },
+    {
+      "target": 9772,
+      "mips": 8,
+      "raw_sha256": "63bada0043211741706d3eae83b799ed7f5e1aba3536373ec9286bd56fce7780",
+      "all_source_bytes_exact": true
+    }
+  ],
+  "native_address_verification": {
+    "native_address_blocks": 177,
+    "compared_bytes": 1416,
+    "all_source_blocks_exact": true,
+    "native_functions": "GetPackedMipOffset and GetTiledOffset2D extracted unchanged from the active SDK util.cpp; minimal log2/align/BC1 format scaffolding",
+    "sdk_source_sha256": "c16fb6f11fbfe4327d8e648353b8f10f661d5f3b7520ef831cfc67ce1569b81d",
+    "fixture_source_sha256": "50c2f659114e4f24c6c4412b9d3eb17424f16133846544d8f788a365202e9bb3",
+    "limitations": "CPU address verification, not yet runtime fetch-header validation"
+  },
+  "probe_fixture": {
+    "samples": 32,
+    "coordinate_values_exact": true,
+    "frame_cap_passed": true,
+    "premature_read_check_passed": true
+  },
+  "source_material_audit": [
+    {
+      "source": 12508,
+      "target": 9765,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_main",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 7,
+      "target_consumers": 7,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {
+        "edge_fade_edge_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "edge_fade_center_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "edge_fade_power": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "source": 12512,
+      "target": 9768,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_words_scroll_x",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 14,
+      "target_consumers": 14,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {}
+    },
+    {
+      "source": 12522,
+      "target": 9776,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_x_02",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 21,
+      "target_consumers": 21,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {}
+    },
+    {
+      "source": 12524,
+      "target": 9778,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_y_01",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 7,
+      "target_consumers": 7,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {
+        "edge_fade_edge_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "edge_fade_center_tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "edge_fade_power": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "source": 12525,
+      "target": 9779,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_dots",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 14,
+      "target_consumers": 14,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {}
+    },
+    {
+      "source": 12515,
+      "target": 9773,
+      "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+      "function_bytes_and_metadata_equal": true,
+      "source_consumers": 24,
+      "target_consumers": 24,
+      "missing_consumers": [],
+      "added_consumers": [],
+      "source_invalid": [],
+      "target_invalid": [],
+      "changed_constants": {},
+      "missing_constants": {},
+      "extra_constants": {}
+    }
+  ],
+  "runs": {
+    "25": {
+      "path": "work\\sky-bridge\\reproduction-25",
+      "frames": 299,
+      "draws": 1800,
+      "events": {
+        "sample": 57408
+      },
+      "incomplete_pairs": [
+        1795,
+        1796,
+        1797,
+        1798,
+        1799,
+        1800
+      ],
+      "layers": {
+        "3": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 3,
+            "material_slot": 195,
+            "index_start": 2784,
+            "index_count": 6,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_y_01",
+            "target_material": 9778
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 299,
+          "changed_points": 1196,
+          "positive_rgb_sum": 1016.0823529411764,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7490196078431373,
+          "newly_saturated_channels": 331,
+          "after_saturated_channels": 2225,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.13427524297454477
+        },
+        "5": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 5,
+            "material_slot": 187,
+            "index_start": 2850,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_words_scroll_x",
+            "target_material": 9768
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 132,
+          "changed_points": 132,
+          "positive_rgb_sum": 1.1960784313725479,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.015686274509803977,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 1393,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.0001580617176592762
+        },
+        "7": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 7,
+            "material_slot": 194,
+            "index_start": 2874,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_main",
+            "target_material": 9765
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 299,
+          "changed_points": 4784,
+          "positive_rgb_sum": 5583.59215686278,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7647058823529411,
+          "newly_saturated_channels": 3135,
+          "after_saturated_channels": 3205,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.7378714839041364
+        },
+        "4": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 4,
+            "material_slot": 196,
+            "index_start": 2790,
+            "index_count": 60,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_dots",
+            "target_material": 9779
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 0,
+          "changed_points": 0,
+          "positive_rgb_sum": 0.0,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.0,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 1769,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.0
+        },
+        "6": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 6,
+            "material_slot": 191,
+            "index_start": 2862,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_x_02",
+            "target_material": 9776
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 37,
+          "changed_points": 37,
+          "positive_rgb_sum": 31.25882352941177,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.5058823529411764,
+          "newly_saturated_channels": 14,
+          "after_saturated_channels": 1443,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.004130852299875711
+        },
+        "8": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 8,
+            "material_slot": 189,
+            "index_start": 2940,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+            "target_material": 9773
+          },
+          "draws": 300,
+          "complete_pairs": 299,
+          "changed_draws": 299,
+          "changed_points": 4148,
+          "positive_rgb_sum": 935.0313725490154,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.39607843137254906,
+          "newly_saturated_channels": 1690,
+          "after_saturated_channels": 5170,
+          "sampled_channels": 14352,
+          "share_of_measured_positive_rgb": 0.12356435910378381
+        }
+      },
+      "native_observer": {
+        "same_result": true,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "fd4f8da8786c21e5b7bc9029b18f1b476b4d12f73d831d07cad8ab11f1b58a7d",
+        "rexgpu-xenos.dll": "0c5903fe6c69d0586fc043b1047b1087044d68443b5a16c0ea5b0158fb576270",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "evidence_sha256": {
+        "draws.bin": "136ec5cc4115a8672f43a351e89a699fe52ce19e910f9d9d8a13d7997ce8bc4c",
+        "stages.csv": "3b5357f29f7c0efa1cf9c27e2b0acddf420a205613b87597326391dff9bfa0c3",
+        "native-state.bin": "f493b4e5667b5bb1aeffc77cfa547c3ade13280a93dd6e478dd068c2493c5da8"
+      },
+      "game_seconds": 22.5
+    },
+    "26": {
+      "path": "work\\sky-bridge\\reproduction-26",
+      "frames": 300,
+      "draws": 1800,
+      "events": {
+        "sample": 57600,
+        "end": 1
+      },
+      "incomplete_pairs": [],
+      "layers": {
+        "7": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 7,
+            "material_slot": 194,
+            "index_start": 2874,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_main",
+            "target_material": 9765
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 4800,
+          "positive_rgb_sum": 5593.019607843166,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7647058823529411,
+          "newly_saturated_channels": 3152,
+          "after_saturated_channels": 3230,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.7364411934496807
+        },
+        "5": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 5,
+            "material_slot": 187,
+            "index_start": 2850,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_words_scroll_x",
+            "target_material": 9768
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 128,
+          "changed_points": 128,
+          "positive_rgb_sum": 1.0823529411764699,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.01568627450980392,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 1758,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.00014251501829459038
+        },
+        "4": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 4,
+            "material_slot": 196,
+            "index_start": 2790,
+            "index_count": 60,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_dots",
+            "target_material": 9779
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 0,
+          "changed_points": 0,
+          "positive_rgb_sum": 0.0,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.0,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 1904,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.0
+        },
+        "3": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 3,
+            "material_slot": 195,
+            "index_start": 2784,
+            "index_count": 6,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_y_01",
+            "target_material": 9778
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 1200,
+          "positive_rgb_sum": 1028.8117647058823,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7490196078431373,
+          "newly_saturated_channels": 325,
+          "after_saturated_channels": 2159,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.13546517211786566
+        },
+        "6": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 6,
+            "material_slot": 191,
+            "index_start": 2862,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_x_02",
+            "target_material": 9776
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 37,
+          "changed_points": 37,
+          "positive_rgb_sum": 31.384313725490202,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.5058823529411764,
+          "newly_saturated_channels": 16,
+          "after_saturated_channels": 1419,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.004132419171781187
+        },
+        "8": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 8,
+            "material_slot": 189,
+            "index_start": 2940,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+            "target_material": 9773
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 4164,
+          "positive_rgb_sum": 940.3607843137213,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.39607843137254894,
+          "newly_saturated_channels": 1694,
+          "after_saturated_channels": 5187,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.12381870024237784
+        }
+      },
+      "native_observer": {
+        "same_result": true,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "fd4f8da8786c21e5b7bc9029b18f1b476b4d12f73d831d07cad8ab11f1b58a7d",
+        "rexgpu-xenos.dll": "9b535d7ba5157ad5ea598501a9abf6c6e7bb8a933d4931ac9d3184adbf3417dc",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "evidence_sha256": {
+        "draws.bin": "e994c94e89dd3103523582bfb7fc35465904660b2e9851e7bf5d8f64b845e56a",
+        "stages.csv": "2d44fe7af02bdd3969304eed5668043e001af5bb7c6d34e3aafade8d358bf04a",
+        "native-state.bin": "1aae81e14b38f9e45ba34f60f8a9cc3f052a53d9936756f59c5f8f8f0efe66bd"
+      },
+      "game_seconds": 22.5,
+      "camera_all_draws": {
+        "draws": 1800,
+        "frames": 300,
+        "different": 0,
+        "max_absolute_constant_delta": 0,
+        "expected_sha256": "05aa35ccaf62b063a1044401ecd798fd68ddcc0ff08725fd00b4e54f39fb3a2b",
+        "all_camera_projection_constants_bit_exact": true
+      },
+      "bindings": {
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "textures": [
+          {
+            "tag": 9767,
+            "dimensions": [
+              256,
+              256
+            ],
+            "mips": 1,
+            "raw_bytes": 262144,
+            "prefix_sha256": "13b2abad110c46475ef475c3650785a357d27c26464a61b0486a309175ffe632"
+          },
+          {
+            "tag": 9772,
+            "dimensions": [
+              128,
+              16
+            ],
+            "mips": 1,
+            "raw_bytes": 4096,
+            "prefix_sha256": "d9b3417cab8d6dc484bcd1c318c4a50609899e4df83d2ac7f271f71266bb56eb"
+          }
+        ],
+        "states": [
+          {
+            "tag": 9767,
+            "shader": 10494309294728871449,
+            "slot": 0,
+            "draws": 900,
+            "min_lod": 1,
+            "max_lod": 0,
+            "packed_mips": false,
+            "base_address": "0x1007d000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x82000002",
+              "0x1007d086",
+              "0x1fe0ff",
+              "0xa80c14",
+              "0x7",
+              "0x218"
+            ]
+          },
+          {
+            "tag": 9767,
+            "shader": 3413622546942440597,
+            "slot": 0,
+            "draws": 300,
+            "min_lod": 1,
+            "max_lod": 0,
+            "packed_mips": false,
+            "base_address": "0x1007d000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x82000002",
+              "0x1007d086",
+              "0x1fe0ff",
+              "0xa80c14",
+              "0x7",
+              "0x218"
+            ]
+          },
+          {
+            "tag": 9772,
+            "shader": 8658708157452486949,
+            "slot": 0,
+            "draws": 300,
+            "min_lod": 1,
+            "max_lod": 0,
+            "packed_mips": false,
+            "base_address": "0x100bd000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x810000fe",
+              "0x100bd073",
+              "0x1e07f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ]
+          },
+          {
+            "tag": 9772,
+            "shader": 8658708157452486949,
+            "slot": 2,
+            "draws": 300,
+            "min_lod": 1,
+            "max_lod": 0,
+            "packed_mips": false,
+            "base_address": "0x100bd000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x810000fe",
+              "0x100bd073",
+              "0x1e07f",
+              "0xa80d10",
+              "0x7",
+              "0x218"
+            ]
+          }
+        ],
+        "frames_by_texture": {
+          "9767": 300,
+          "9772": 300
+        },
+        "limitation": "Dimensions and CPU resource prefix identify the binding; native header validation does not prove every GPU texel or visual readability.",
+        "all_declared_levels_addressable": true,
+        "all_authored_levels_addressable": false
+      }
+    },
+    "27": {
+      "path": "work\\sky-bridge\\reproduction-27",
+      "frames": 300,
+      "draws": 1800,
+      "events": {
+        "sample": 57600,
+        "end": 1
+      },
+      "incomplete_pairs": [],
+      "layers": {
+        "4": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 4,
+            "material_slot": 196,
+            "index_start": 2790,
+            "index_count": 60,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_dots",
+            "target_material": 9779
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 0,
+          "changed_points": 0,
+          "positive_rgb_sum": 0.0,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.0,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 834,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.0
+        },
+        "6": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 6,
+            "material_slot": 191,
+            "index_start": 2862,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_x_02",
+            "target_material": 9776
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 244,
+          "changed_points": 244,
+          "positive_rgb_sum": 122.2392156862745,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.4431372549019608,
+          "newly_saturated_channels": 70,
+          "after_saturated_channels": 1722,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.01594908327692239
+        },
+        "5": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 5,
+            "material_slot": 187,
+            "index_start": 2850,
+            "index_count": 12,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_words_scroll_x",
+            "target_material": 9768
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 91,
+          "changed_points": 91,
+          "positive_rgb_sum": 0.4196078431372544,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.007843137254902044,
+          "newly_saturated_channels": 0,
+          "after_saturated_channels": 1370,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 5.4748064246597596e-05
+        },
+        "3": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 3,
+            "material_slot": 195,
+            "index_start": 2784,
+            "index_count": 6,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_scroll_y_01",
+            "target_material": 9778
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 1200,
+          "positive_rgb_sum": 1065.8823529411798,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7450980392156863,
+          "newly_saturated_channels": 356,
+          "after_saturated_channels": 2083,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.13907031646939524
+        },
+        "7": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 7,
+            "material_slot": 194,
+            "index_start": 2874,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_banners_main",
+            "target_material": 9765
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 4800,
+          "positive_rgb_sum": 5561.333333333323,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.7607843137254902,
+          "newly_saturated_channels": 3272,
+          "after_saturated_channels": 3372,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.7256114002866343
+        },
+        "8": {
+          "geometry": {
+            "owner": 9894,
+            "owner_group": "sLdT",
+            "mesh": 144,
+            "part": 8,
+            "material_slot": 189,
+            "index_start": 2940,
+            "index_count": 66,
+            "vertex_format": 2,
+            "vertex_stride": 24,
+            "vertex_count": 1300,
+            "vertex_prefix_sha256": "572118e4d0fe291c77e2e898f2920b5ade3beabfce7ba24102f48304acf65485",
+            "vertex_prefix_length": 512,
+            "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\screen_lines",
+            "target_material": 9773
+          },
+          "draws": 300,
+          "complete_pairs": 300,
+          "changed_draws": 300,
+          "changed_points": 4161,
+          "positive_rgb_sum": 914.4666666666599,
+          "negative_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.392156862745098,
+          "newly_saturated_channels": 1691,
+          "after_saturated_channels": 5389,
+          "sampled_channels": 14400,
+          "share_of_measured_positive_rgb": 0.11931445190280156
+        }
+      },
+      "native_observer": {
+        "same_result": true,
+        "same_command": true,
+        "position_max_abs_delta": 0.0,
+        "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "fd4f8da8786c21e5b7bc9029b18f1b476b4d12f73d831d07cad8ab11f1b58a7d",
+        "rexgpu-xenos.dll": "9b535d7ba5157ad5ea598501a9abf6c6e7bb8a933d4931ac9d3184adbf3417dc",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "evidence_sha256": {
+        "draws.bin": "ecb8c27c6170a5d0911b2e7f9b840f900c1eb801507948e056e8821e55f6eaa5",
+        "stages.csv": "94d86faca7e37c9edaf02690f0117a209c53f6856f8a35d44b521187f25f9bd9",
+        "native-state.bin": "6123f754ba615f37375a4ac2fea30114c4599397eda1cebc17a3f33ef0336e67"
+      },
+      "game_seconds": 20.1,
+      "camera_all_draws": {
+        "draws": 1800,
+        "frames": 300,
+        "different": 0,
+        "max_absolute_constant_delta": 0,
+        "expected_sha256": "05aa35ccaf62b063a1044401ecd798fd68ddcc0ff08725fd00b4e54f39fb3a2b",
+        "all_camera_projection_constants_bit_exact": true
+      },
+      "bindings": {
+        "candidate": 33,
+        "map_sha256": "1705dc69c655d5a0d1e10e1163d45f7ce9e45743bcd7192efce9306ba371ac3c",
+        "textures": [
+          {
+            "tag": 9767,
+            "dimensions": [
+              256,
+              256
+            ],
+            "mips": 9,
+            "raw_bytes": 352256,
+            "prefix_sha256": "13b2abad110c46475ef475c3650785a357d27c26464a61b0486a309175ffe632"
+          },
+          {
+            "tag": 9772,
+            "dimensions": [
+              128,
+              16
+            ],
+            "mips": 8,
+            "raw_bytes": 4096,
+            "prefix_sha256": "da16003ed4e4ad3324e6b90191a625d5ced4087f0dda12e3ab5ea52707ca4373"
+          }
+        ],
+        "states": [
+          {
+            "tag": 9767,
+            "shader": 10494309294728871449,
+            "slot": 0,
+            "draws": 900,
+            "min_lod": 0,
+            "max_lod": 8,
+            "packed_mips": true,
+            "base_address": "0x1a286000",
+            "mip_address": "0x1a2c6000",
+            "effective_max_lod": 8,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x82000002",
+              "0x1a286086",
+              "0x1fe0ff",
+              "0xa80c14",
+              "0x203",
+              "0x1a2c6a18"
+            ]
+          },
+          {
+            "tag": 9767,
+            "shader": 3413622546942440597,
+            "slot": 0,
+            "draws": 300,
+            "min_lod": 0,
+            "max_lod": 8,
+            "packed_mips": true,
+            "base_address": "0x1a286000",
+            "mip_address": "0x1a2c6000",
+            "effective_max_lod": 8,
+            "missing_mip_address": false,
+            "fetch_words": [
+              "0x82000002",
+              "0x1a286086",
+              "0x1fe0ff",
+              "0xa80c14",
+              "0x203",
+              "0x1a2c6a18"
+            ]
+          },
+          {
+            "tag": 9772,
+            "shader": 8658708157452486949,
+            "slot": 0,
+            "draws": 300,
+            "min_lod": 0,
+            "max_lod": 7,
+            "packed_mips": true,
+            "base_address": "0x1a2dc000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": true,
+            "fetch_words": [
+              "0x810000fe",
+              "0x1a2dc073",
+              "0x1e07f",
+              "0xa80d10",
+              "0x1c3",
+              "0xa18"
+            ]
+          },
+          {
+            "tag": 9772,
+            "shader": 8658708157452486949,
+            "slot": 2,
+            "draws": 300,
+            "min_lod": 0,
+            "max_lod": 7,
+            "packed_mips": true,
+            "base_address": "0x1a2dc000",
+            "mip_address": "0x0",
+            "effective_max_lod": 0,
+            "missing_mip_address": true,
+            "fetch_words": [
+              "0x810000fe",
+              "0x1a2dc073",
+              "0x1e07f",
+              "0xa80d10",
+              "0x1c3",
+              "0xa18"
+            ]
+          }
+        ],
+        "frames_by_texture": {
+          "9767": 300,
+          "9772": 300
+        },
+        "limitation": "Dimensions and CPU resource prefix identify the binding; native header validation does not prove every GPU texel or visual readability.",
+        "all_declared_levels_addressable": false,
+        "all_authored_levels_addressable": false
+      }
+    }
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "limitations": [
+    "Run25 dropped six final paired draws; SDK drain fix and runs26/27 have all1800 pairs.",
+    "Same native observer and all billboard camera/projection constants do not reproduce the entire game state or time; run26 and run27 animation phases differ.",
+    "The 16-point paired probes measure contribution and quantized saturation, not full visual readability. No image or performance acceptance.",
+    "Candidate33 restores the eight source scanline mip levels, but native min/max0/7 and packed=true have mip_address=0 in all600 bindings; active GetSubresourcesFromFetchConstant clamps this to mip0.",
+    "Scrolling-text crop_01 has nine source levels, native min/max0/8, and mip address base+262144; every retained source byte matches.",
+    "Next: trace the native bitmap interop/header path for the packed tail at level0 before choosing a resource or runtime correction. Do not infer a generic host alias fix.",
+    "Incremental patch only; full converter integration, LIVE packaging, physical Xbox360, system-link, black-flash resolution and final visual/performance acceptance remain outstanding."
+  ]
+}

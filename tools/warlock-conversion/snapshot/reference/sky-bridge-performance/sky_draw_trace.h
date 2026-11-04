@@ -20,6 +20,19 @@ class SkyDrawTrace {
             uint32_t index_endian, memory::Memory* memory) {
     active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if(screen_only_){
+      if(!ps||(ps->ucode_data_hash()!=3413622546942440597ull&&
+               ps->ucode_data_hash()!=10494309294728871449ull&&
+               ps->ucode_data_hash()!=8658708157452486949ull))return;
+      const uint32_t address=regs[0x48be]&0xfffffffcu;
+      if(!address||address>0x20000000u-512)return;
+      std::array<uint8_t,512> bytes{};SIZE_T read=0;
+      if(!ReadProcessMemory(GetCurrentProcess(),memory->TranslatePhysical(address),
+            bytes.data(),bytes.size(),&read)||read!=bytes.size())return;
+      uint64_t hash=14695981039346656037ull;
+      for(auto value:bytes)hash=(hash^value)*1099511628211ull;
+      if(hash!=8328660242665232542ull)return; // Candidate32 mesh 144 vertex witness.
+    }
     if (rain_only_ && (!ps || ps->ucode_data_hash()!=13459420923560293274ull)) return;
     if (water_only_ && (!ps || ps->ucode_data_hash()!=11015601269670120444ull)) return;
     if (targets_only_ && (count!=28632 && count!=21858)) return;
@@ -61,6 +74,8 @@ class SkyDrawTrace {
     if(!compact_)Prefix(index_address, index_length, memory);
     // Rain uses texture sampler 0; retain a bounded CPU payload witness.
     // This identifies the uploaded asset, not GPU sampling correctness.
+    if(screen_only_)for(uint32_t sampler=0;sampler<32;++sampler)
+      if((regs[0x4800+sampler*6]&3)==2)Prefix(regs[0x4801+sampler*6]&0xfffff000u,512,memory);
     if(rain_only_)Prefix(regs[0x4801]&0xfffff000u,512,memory);
     for (uint32_t i = compact_?96:(targets_only_ ? 95 : 0); i < 96; ++i) {
       const uint32_t at = 0x4800 + i * 2;
@@ -80,6 +95,8 @@ class SkyDrawTrace {
     targets_only_=targets && wcscmp(targets,L"1")==0;
     const auto* water=_wgetenv(L"OPENH3M_SKY_TRACE_WATER");
     water_only_=water && wcscmp(water,L"1")==0;
+    const auto* screen=_wgetenv(L"OPENH3M_SKY_TRACE_SCREEN");
+    screen_only_=screen && wcscmp(screen,L"1")==0;
     const auto* rain=_wgetenv(L"OPENH3M_SKY_TRACE_RAIN");
     rain_only_=rain && wcscmp(rain,L"1")==0;
     const auto* compact=_wgetenv(L"OPENH3M_SKY_TRACE_COMPACT");
@@ -133,7 +150,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
-  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false;
+  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
   std::array<uint32_t, RegisterFile::kRegisterCount> previous_{};

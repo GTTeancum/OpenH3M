@@ -1016,3 +1016,66 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Saved-view billboard tracing and candidate33 (2026-11-04)
+
+`candidate33-screen-mips-result.json` records the latest investigation. The
+saved player/vehicle pose and native observer command remain available for
+unattended replay. In runs 26 and 27, all 1800 billboard draws across 300 frames
+match the human recording's camera/projection constants byte for byte. The
+native observer result and command also match exactly. This reproduces the
+view, not the complete simulation: the original recording was at 607.67 game
+seconds, versus 22.5 and 20.1 seconds in these private runs.
+
+`-ScreenPassProbe -StageProbe` selects mesh 144 by its vertex prefix and three
+pixel program identities. `read-screen-pass-probe.py` independently joins the
+index, vertex and material witnesses and checks paired samples from 16 points
+inside the projected billboard. Six authored layers are present. Run 25 lost
+its last six pairs because the inactive CPU sequence stopped pending GPU
+readbacks from draining; the integration patch fixes that. Runs 26 and 27 each
+contain all 1800 pairs / 57600 numeric samples, with no incomplete pairs. The
+native WARP fixture passes coordinate values, fence protection and frame cap.
+
+All six materials retain their source animation functions, named consumers and
+shared constants. The scanline intensity of 38.72549 is authored. Two texture
+chains were discarded by the converter: `crop_01` retained one of nine levels,
+and `screen_line_01` retained one of eight. The latter's 128×16 dimensions are
+outside the general encoder's supported packed-chain path. A fresh inventory
+of all 25 installed stock tag caches found neither named custom texture;
+`shared.map` is a resource store whose named owners are in those tag caches.
+
+`restore-screen-mips.py OUTPUT.map` builds a private incremental candidate from
+the pinned candidate32 hash. It preserves every authored texel/compressed block
+and changes only the two bitmap records and resource bookkeeping. All old raw
+data, tag addresses, geometry, materials and gameplay data are unchanged; only
+40 bytes change within the original metadata region. The two new resource
+payloads total 356352 bytes. Candidate33 is
+`1705dc69c655d5a0d1e10e1163d45f7ce9e45743bcd7192efce9306ba371ac3c`.
+It is not a release or a full-converter integration.
+
+The 128×16 scanline chain places level zero in the packed tail. Every one of
+its 177 BC1 blocks was verified against unchanged `GetPackedMipOffset` and
+`GetTiledOffset2D` functions extracted from the active SDK; both completed map
+resources also untile to all 17 authored levels exactly. Fixture sources,
+outputs and hashes remain in `work/sky-bridge/screen-pass-build`.
+
+Run 27 loads candidate33 with `-Candidate 33` and reaches the exact saved view.
+`audit-screen-bindings.py` finds `crop_01` bound with min/max LOD 0/8 and a mip
+address 262144 bytes after its base. However, both scanline samplers have
+min/max LOD 0/7 and packed mips enabled but **a zero mip address**, across all
+300 frames. The active `GetSubresourcesFromFetchConstant` implementation then
+restricts the texture to level zero. Thus merely restoring the small scanline
+chain has not enabled its filtering. Trace the native bitmap interop and
+header-construction path next; do not assume a general host aliasing fix.
+
+The paired color results are complete measurements, not an image, perceptual
+readability verdict or performance acceptance. Animation phase differs between
+runs, so aggregate differences do not establish an improvement. The original
+black flash and protrusion lighting remain unresolved. All private games ended
+at their 180-second watchdogs. Shared GPU and installed candidate32 hashes
+remain unchanged. No human positioning is needed to repeat this view.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

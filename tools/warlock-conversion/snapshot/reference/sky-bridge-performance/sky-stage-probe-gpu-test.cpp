@@ -52,7 +52,7 @@ int main() {
   a.PlacedFootprint.Footprint={DXGI_FORMAT_R16G16B16A16_FLOAT,1,1,1,256};
   D3D12_TEXTURE_COPY_LOCATION b{};b.pResource=texture.Get();b.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
   for(unsigned i=0;i<probe.PointCount();++i) {
-   auto p=probe.points[i];D3D12_BOX box{p[0],p[1],0,p[0]+1,p[1]+1,1};a.PlacedFootprint.Offset=i*512;
+   auto p=probe.Points()[i];D3D12_BOX box{p[0],p[1],0,p[0]+1,p[1]+1,1};a.PlacedFootprint.Offset=i*512;
    list->CopyTextureRegion(&a,0,0,0,&b,&box);
   }
   barrier(D3D12_RESOURCE_STATE_COPY_SOURCE,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
