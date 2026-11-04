@@ -1,0 +1,1553 @@
+{
+  "source": {
+    "effect": "levels\\multi\\s3d_sky_bridgenew\\fx\\electric_02\\electric_02",
+    "light": "levels\\multi\\s3d_sky_bridgenew\\fx\\electric_02\\electric_02",
+    "particle": "fx\\particles\\energy\\electric_arcs_blue_n4",
+    "source_tags": [
+      4462,
+      4463,
+      4464,
+      4465
+    ],
+    "target_tags": [
+      10418,
+      10419,
+      10420,
+      10421
+    ],
+    "light_maximum_distance": 2.5,
+    "light_lifetime": 0.4000000059604645,
+    "events": [
+      {
+        "index": 0,
+        "skip_delay_duration": [
+          0.0,
+          0.4000000059604645,
+          0.6000000238418579,
+          0.10000000149011612,
+          0.20000000298023224
+        ],
+        "light_relative_offset": [
+          2.5,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "index": 1,
+        "skip_delay_duration": [
+          0.0,
+          0.6000000238418579,
+          0.30000001192092896,
+          0.5,
+          0.10000000149011612
+        ],
+        "light_relative_offset": [
+          2.5,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "functions": [
+      {
+        "name": "color",
+        "bytes": 52,
+        "exact_endian_conversion": true,
+        "source_sha256": "cec66dee2d505e8a4046e3e68f363f2ec9d0d796f7db11decac46ed91d0ee7dc",
+        "native_sha256": "f49117d5ed52d9cefdaa3b632643568d26a5a77bb6bf3511480112146376710e"
+      },
+      {
+        "name": "intensity",
+        "bytes": 84,
+        "exact_endian_conversion": true,
+        "source_sha256": "abf018f5dd7ec86abab6939119a8460bb9b7076138a57bcecf4d5d645fd33ff7",
+        "native_sha256": "d9f3199554ea4d5bc670a99a3fd1b28488dd2ad3fa519d687d60f18a8bdf70c4"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "run": 51,
+      "candidate": 36,
+      "frames": 300,
+      "events": {
+        "sample": 102240,
+        "end": 1
+      },
+      "draws": 3395,
+      "observed_meshes": [
+        121,
+        357
+      ],
+      "marked_light_present_frames": 133,
+      "pixel_rgb_states": [
+        [
+          32,
+          33,
+          51
+        ],
+        [
+          33,
+          34,
+          52
+        ],
+        [
+          33,
+          34,
+          53
+        ],
+        [
+          33,
+          35,
+          54
+        ],
+        [
+          34,
+          35,
+          55
+        ],
+        [
+          34,
+          36,
+          56
+        ],
+        [
+          35,
+          36,
+          56
+        ],
+        [
+          37,
+          38,
+          61
+        ],
+        [
+          38,
+          40,
+          64
+        ],
+        [
+          44,
+          46,
+          70
+        ]
+      ],
+      "input_variants": {
+        "camera": 1,
+        "exposure": 1,
+        "material": 1,
+        "environment0": 1,
+        "environment1": 1,
+        "albedo": 1,
+        "normal": 1
+      },
+      "lighting_points": [
+        {
+          "x": 643,
+          "y": 182,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.2
+          ],
+          "after_max_rgb": [
+            0.17254901960784313,
+            0.1803921568627451,
+            0.27450980392156865
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.07450980392156864
+        },
+        {
+          "x": 646,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "after_max_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "after_max_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 653,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 184,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 655,
+          "y": 183,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "after_max_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 642,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.396078431372549,
+            0.4,
+            0.5411764705882353
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.34509803921568627
+        },
+        {
+          "x": 646,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.11764705882352941,
+            0.12156862745098039,
+            0.1843137254901961
+          ],
+          "after_max_rgb": [
+            0.2549019607843137,
+            0.2627450980392157,
+            0.3686274509803922
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.1843137254901961
+        },
+        {
+          "x": 650,
+          "y": 176,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "after_max_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 654,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "after_max_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 658,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "after_max_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 185,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "after_max_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 635,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "after_max_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 665,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "after_max_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 168,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "after_max_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 195,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        }
+      ],
+      "observer": true
+    },
+    {
+      "run": 52,
+      "candidate": 37,
+      "frames": 300,
+      "events": {
+        "sample": 19200,
+        "end": 1
+      },
+      "draws": 600,
+      "observed_meshes": [
+        357
+      ],
+      "marked_light_present_frames": 138,
+      "pixel_rgb_states": [
+        [
+          32,
+          33,
+          51
+        ],
+        [
+          33,
+          34,
+          52
+        ],
+        [
+          33,
+          34,
+          53
+        ],
+        [
+          33,
+          35,
+          54
+        ],
+        [
+          34,
+          35,
+          55
+        ],
+        [
+          34,
+          36,
+          56
+        ],
+        [
+          35,
+          36,
+          56
+        ],
+        [
+          37,
+          38,
+          61
+        ],
+        [
+          38,
+          40,
+          64
+        ],
+        [
+          44,
+          46,
+          70
+        ]
+      ],
+      "input_variants": {
+        "camera": 1,
+        "exposure": 1,
+        "material": 1,
+        "environment0": 1,
+        "environment1": 1,
+        "albedo": 1,
+        "normal": 1
+      },
+      "lighting_points": [
+        {
+          "x": 643,
+          "y": 182,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.2
+          ],
+          "after_max_rgb": [
+            0.17254901960784313,
+            0.1803921568627451,
+            0.27450980392156865
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.07450980392156864
+        },
+        {
+          "x": 646,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "after_max_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "after_max_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 653,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.08235294117647059,
+            0.13725490196078433
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.08235294117647059,
+            0.13725490196078433
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 184,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 655,
+          "y": 183,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.06274509803921569,
+            0.06666666666666667,
+            0.11764705882352941
+          ],
+          "after_max_rgb": [
+            0.06274509803921569,
+            0.06666666666666667,
+            0.11764705882352941
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 642,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.396078431372549,
+            0.4,
+            0.5411764705882353
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.34509803921568627
+        },
+        {
+          "x": 646,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.11764705882352941,
+            0.12156862745098039,
+            0.1843137254901961
+          ],
+          "after_max_rgb": [
+            0.2549019607843137,
+            0.2627450980392157,
+            0.3686274509803922
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.1843137254901961
+        },
+        {
+          "x": 650,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.16470588235294117
+          ],
+          "after_max_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.16470588235294117
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 654,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "after_max_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 658,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "after_max_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 185,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "after_max_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 635,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "after_max_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 665,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "after_max_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 168,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "after_max_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 195,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        }
+      ],
+      "observer": true
+    },
+    {
+      "run": 53,
+      "candidate": 38,
+      "frames": 300,
+      "events": {
+        "sample": 102336,
+        "end": 1
+      },
+      "draws": 3400,
+      "observed_meshes": [
+        121,
+        357
+      ],
+      "marked_light_present_frames": 142,
+      "pixel_rgb_states": [
+        [
+          32,
+          33,
+          51
+        ],
+        [
+          33,
+          34,
+          52
+        ],
+        [
+          33,
+          34,
+          53
+        ],
+        [
+          33,
+          35,
+          54
+        ],
+        [
+          34,
+          35,
+          55
+        ],
+        [
+          34,
+          36,
+          56
+        ],
+        [
+          35,
+          36,
+          56
+        ],
+        [
+          37,
+          38,
+          61
+        ],
+        [
+          38,
+          40,
+          64
+        ],
+        [
+          44,
+          46,
+          70
+        ]
+      ],
+      "input_variants": {
+        "camera": 1,
+        "exposure": 1,
+        "material": 1,
+        "environment0": 1,
+        "environment1": 1,
+        "albedo": 1,
+        "normal": 1
+      },
+      "lighting_points": [
+        {
+          "x": 643,
+          "y": 182,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.2
+          ],
+          "after_max_rgb": [
+            0.17254901960784313,
+            0.1803921568627451,
+            0.27450980392156865
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.07450980392156864
+        },
+        {
+          "x": 646,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "after_max_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "after_max_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 653,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 184,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 655,
+          "y": 183,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "after_max_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 642,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.396078431372549,
+            0.4,
+            0.5411764705882353
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.34509803921568627
+        },
+        {
+          "x": 646,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.11764705882352941,
+            0.12156862745098039,
+            0.1843137254901961
+          ],
+          "after_max_rgb": [
+            0.2549019607843137,
+            0.2627450980392157,
+            0.3686274509803922
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.1843137254901961
+        },
+        {
+          "x": 650,
+          "y": 176,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "after_max_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 654,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "after_max_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 658,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "after_max_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 185,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "after_max_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 635,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "after_max_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 665,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "after_max_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 168,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "after_max_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 195,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        }
+      ],
+      "observer": true
+    },
+    {
+      "run": 54,
+      "candidate": 39,
+      "frames": 300,
+      "events": {
+        "sample": 102272,
+        "end": 1
+      },
+      "draws": 3392,
+      "observed_meshes": [
+        121,
+        357
+      ],
+      "marked_light_present_frames": 0,
+      "pixel_rgb_states": [
+        [
+          32,
+          33,
+          51
+        ]
+      ],
+      "input_variants": {
+        "camera": 1,
+        "exposure": 1,
+        "material": 1,
+        "environment0": 1,
+        "environment1": 1,
+        "albedo": 1,
+        "normal": 1
+      },
+      "lighting_points": [
+        {
+          "x": 643,
+          "y": 182,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.2
+          ],
+          "after_max_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.2
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "after_max_rgb": [
+            0.10980392156862745,
+            0.11372549019607843,
+            0.17254901960784313
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 180,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "after_max_rgb": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.15294117647058825
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 653,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.0784313725490196,
+            0.13333333333333333
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 184,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "after_max_rgb": [
+            0.07058823529411765,
+            0.07450980392156863,
+            0.12156862745098039
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 655,
+          "y": 183,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "after_max_rgb": [
+            0.058823529411764705,
+            0.06666666666666667,
+            0.10980392156862745
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 642,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.12549019607843137,
+            0.12941176470588237,
+            0.19607843137254902
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.11764705882352941,
+            0.12156862745098039,
+            0.1843137254901961
+          ],
+          "after_max_rgb": [
+            0.11764705882352941,
+            0.12156862745098039,
+            0.1843137254901961
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 176,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "after_max_rgb": [
+            0.09019607843137255,
+            0.09803921568627451,
+            0.16470588235294117
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 654,
+          "y": 176,
+          "pairs": 300,
+          "changed": 300,
+          "after_min_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "after_max_rgb": [
+            0.21176470588235294,
+            0.1843137254901961,
+            0.24313725490196078
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 658,
+          "y": 180,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "after_max_rgb": [
+            0.07450980392156863,
+            0.07450980392156863,
+            0.11372549019607843
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 646,
+          "y": 185,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "after_max_rgb": [
+            0.3058823529411765,
+            0.27058823529411763,
+            0.2784313725490196
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 635,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "after_max_rgb": [
+            0.35294117647058826,
+            0.3686274509803922,
+            0.4235294117647059
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 665,
+          "y": 182,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "after_max_rgb": [
+            0.8117647058823529,
+            0.7333333333333333,
+            0.7098039215686275
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 168,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "after_max_rgb": [
+            0.2980392156862745,
+            0.2784313725490196,
+            0.3058823529411765
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        },
+        {
+          "x": 650,
+          "y": 195,
+          "pairs": 300,
+          "changed": 0,
+          "after_min_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "after_max_rgb": [
+            0.19607843137254902,
+            0.16862745098039217,
+            0.19607843137254902
+          ],
+          "maximum_adjacent_after_rgb_delta": 0.0
+        }
+      ],
+      "observer": true
+    }
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "limitation": "Paired GPU color and authored-source evidence; no new captures. Arc-particle appearance is not isolated by the light control.",
+  "status": "Marked cylinder lighting pulse causally traced to authored electric_02 lights; six additional native frames individually reviewed. Distant arc-particle shapes remain unverified. No experimental map promoted.",
+  "diagnostic_gpu_sha256": "b83ab4f2f1764662857217153f33eb5006f5986fafb6ba41e0e25587d52f316c",
+  "controls": {
+    "37": "Eight render bucket counts zeroed for five audited duplicate instances. Duplicate draws eliminated, lighting jump unchanged.",
+    "38": "Two light part debug flags set. Native runtime still created the lights; inconclusive control.",
+    "39": "Two electric_02 light part counts zeroed; particles and other map bytes unchanged. Marked light absent; marked lighting values constant for all 300 frames. Diagnostic only, not a fix."
+  },
+  "new_native_capture_authorization": {
+    "answer": "Allow six additional native captures",
+    "prepared_run": 55,
+    "images": 6,
+    "status": "Completed, all six authorized captures used"
+  },
+  "visual_review": {
+    "run": 55,
+    "logdir": ".local\\loading-traces\\20261104-095149-6756",
+    "native_observer_exact": true,
+    "numeric_probes_disabled": true,
+    "image_edits": 0,
+    "frames": [
+      {
+        "order": 1,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_115000ms.png",
+        "sha256": "96337960d874df15943c2deacd8d9df40c60a1b5cf48a017688133679ac20468",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          54,
+          53,
+          70
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      },
+      {
+        "order": 2,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_116000ms.png",
+        "sha256": "b720c6ec94859d2b205df39655dcbfd9449fd1fab08e4d8b755365274f39e6ba",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          53,
+          54,
+          74
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      },
+      {
+        "order": 3,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_117000ms.png",
+        "sha256": "8043efc6b5ae38327ea847adc33f16935dfe89e5e6365b991b23e8f9e5070fec",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          53,
+          53,
+          68
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      },
+      {
+        "order": 4,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_118000ms.png",
+        "sha256": "cfa11cf6656e5ac8bcf4f87a98739944aea105273484540f40399679d7626bd4",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          57,
+          57,
+          82
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      },
+      {
+        "order": 5,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_119000ms.png",
+        "sha256": "3cffbf0be9eb54e22ba2b26e1802a481eeb043f61019cb6586eaedbfdf58c334",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          51,
+          50,
+          64
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      },
+      {
+        "order": 6,
+        "path": ".local\\loading-traces\\20261104-095149-6756\\proof-loaded_120000ms.png",
+        "sha256": "197d32eef76a76e9df36a705e3bd2f236810f981f9ea214fa7283b4300636ca5",
+        "size": [
+          1152,
+          640
+        ],
+        "rgb_643_182": [
+          48,
+          49,
+          62
+        ],
+        "review": "Inspected individually at native resolution; cylinder and surrounding geometry retained. Arc shape cannot be confidently distinguished at this distance."
+      }
+    ],
+    "verdict": "Cylinder dim/blue-lit states visible; no confident identification of individual arc shapes at this distance.",
+    "installed_map_and_shared_gpu_unchanged": true
+  },
+  "probe_validation": {
+    "warp_coordinate_coded_pairs": 16,
+    "samples": 32,
+    "completion_fence_checked": true,
+    "frame_limit_checked": 300,
+    "fixture": "work/sky-bridge/cylinder-probe-build/fixture/stages.csv",
+    "sdk_build_log": "work/sky-bridge/cylinder-probe-build/build.log"
+  }
+}

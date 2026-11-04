@@ -61,9 +61,13 @@ fix. Its LIVE package passed native installation and saved-view loading.
 Six authorized native frames were individually inspected: transparent rain,
 shaded fabric and changing billboard content are visible. The existing map alone
 was replaced, with a verified rollback copy and unrelated files preserved.
-The corrected LIVE archive is ready. The user subsequently marked the small
-protruding object and rejected it as solved: its non-black lighting flicker
-remains unresolved. Full-map traversal and close-up ad legibility remain
+The corrected LIVE archive is ready. The subsequently marked cylinder's
+non-black brightness modulation has now been causally traced to the source
+map's electric_02 light flashes. Removing duplicate render references left
+the modulation unchanged; suppressing only electric_02 light creation made
+the measured cylinder lighting constant for300 frames. Source timing and light
+curves are preserved. The light-muting control is private, not a shipped fix.
+Arc-particle appearance, full-map traversal and close-up ad legibility remain
 unverified; the overall goal stays open.
 See `snapshot/reference/sky-bridge-performance/README.md`.
 

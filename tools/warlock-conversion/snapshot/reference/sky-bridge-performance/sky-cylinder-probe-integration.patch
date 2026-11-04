@@ -1,0 +1,12 @@
+--- a/src/graphics/d3d12/render_target_cache.cpp
++++ b/src/graphics/d3d12/render_target_cache.cpp
+@@ -1095,7 +1095,8 @@
+     uint32_t count,uint32_t phase,uint64_t submission,uint64_t completed) {
+   auto& probe=SkyStageProbe::Get();
+   if(!probe.Enabled())return;
+-  if(probe.ModelDraws()){ /* CPU sequence is restricted by model-buffer witnesses. */ }
++  if(probe.CylinderDraws()){ /* CPU trace requires exact cylinder vertex witnesses. */ }
++  else if(probe.ModelDraws()){ /* CPU sequence is restricted by model-buffer witnesses. */ }
+   else if(probe.ScreenDraws()){if(shader!=3413622546942440597ull&&shader!=10494309294728871449ull&&shader!=8658708157452486949ull)return;}
+   else if(probe.RainDraws()){if(shader!=13459420923560293274ull)return;}
+   else if(probe.WaterDraws()){if(shader!=11015601269670120444ull)return;}

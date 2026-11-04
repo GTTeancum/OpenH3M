@@ -945,6 +945,7 @@ The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
 
 
+
 ## Authored water modulation and outdoor rain (2026-11-04)
 
 The saved human player/vehicle pose, camera vectors, FOV and native observer
@@ -1893,6 +1894,71 @@ does not remove the tested rain. The measured contribution is subtle; outdoor
 density, visibility at other distances and overall authored appearance remain
 visually unverified. Do not describe the weather as missing, or the rain as
 fully visually accepted, from these indoor captures.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
+
+## Marked cylinder: causal lighting trace (2026-11-04)
+
+The later cylinder probe measures the actual marked pixels, including (643,182)
+and (646,176). Its private SDK mode requires the recorded vertex-buffer witnesses
+for meshes121/357 and retains exact index/vertex prefixes for offline matching.
+The WARP fixture verifies both phases of all16 coordinate-coded samples, waits
+for the completion fence, and checks the300-frame limit. Shared runtime files
+are not replaced. Each private run has a180-second watchdog and records300 frames;
+all four observer snapshots exactly match the saved native camera.
+
+`audit-cylinder-overlap.py` verifies each triangle of the four original cylinder
+instances637–640 against visible merged instances1032/1071, within0.0021 world
+units, with matching material slots. Instance1073 duplicates1032 exactly. The
+source flag64 evidence is real, but its native runtime meaning remains unproven.
+Candidate37 changes only eight render bucket counts to exclude those redundant
+references. Run52 shows the original cylinder draws disappear, while the marked
+lighting modulation is unchanged. **Duplicate rendering is not the cause of this
+reported lighting pulse.** Candidate37 is private and has not been installed.
+
+The variable shader inputs identify a different cause: authored `electric_02`
+lights. Source efsc4462 attaches effect4463, whose two events reference light4464
+and blue electrical-arc particle4465. Native counterparts are10418–10421. Source
+and target event delays/durations, local light offset(2.5,0,0), maximum distance2.5,
+lifetime0.4seconds, and both color/intensity curves match after exact endian
+conversion. The nearby GPU light position is(25.1179733,97.4719696,6.8190403).
+Camera, exposure, material parameters and relevant sampler bindings are stable;
+the active simple-light array changes as these events run.
+
+`audit-cylinder-lighting.py` and `candidate36-cylinder-lighting-result.json`
+record the source checks and paired GPU evidence. The maximum adjacent-frame
+channel jump immediately after the marked cylinder's lighting draw is:
+
+| Private run | Condition | (643,182) | (646,176) |
+| --- | --- | --- | --- |
+|51 / candidate36|Installed-map baseline|19/255|47/255|
+|52 / candidate37|Duplicate cylinder render references removed|19/255|47/255|
+|53 / candidate38|Light parts marked debug-disabled; native lights still created|19/255|47/255|
+|54 / candidate39|Only the two electric_02 light creation counts set to zero|0|0|
+
+The candidate38 control is inconclusive because its flag did not suppress the
+lights. Candidate39 changes only two bytes, leaving the electrical particles,
+collision, geometry, other lights, shaders and other map data intact. Its trace
+contains no nearby electric_02 light, and the measured pixel is exactly
+(32,33,51) for all300 frames, versus ten distinct RGB states in the baseline.
+**This identifies the non-black lighting pulse as the source map's electrical
+light effect. Muting it is a diagnostic control, not a correction to ship.**
+Candidates37–39 remain private; installed candidate36 and the LIVE archive are
+unchanged. Full visual acceptance still requires checking the arc particles,
+which this numeric light control does not establish. The six previous captures
+were also reopened sequentially; no claim that distant arc shapes are validated
+is made from those images. The user approved six additional native captures for
+that review. Run55 completed all six at115–120seconds of the native capture
+clock, within its180-second process watchdog, with all numeric probes disabled.
+All six were inspected individually in order. The cylinder's dim/blue-lit
+appearance is visible, but its distant arc-particle shapes remain too small for
+confident visual acceptance. The report records all six unmodified PNG hashes
+from `.local/loading-traces/20261104-095149-6756`, the exact native observer match,
+and unchanged hashes of the shared candidate36 map and production GPU DLL.
+All authorized additional captures have been used. The game is closed.
 
 Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).

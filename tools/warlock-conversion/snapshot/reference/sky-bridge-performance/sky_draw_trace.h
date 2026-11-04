@@ -21,6 +21,18 @@ class SkyDrawTrace {
             uint32_t index_endian, memory::Memory* memory) {
     active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if(cylinder_only_){
+      if(count!=1761&&count!=3522)return;
+      const uint32_t address=regs[0x48be]&0xfffffffcu;
+      if(!address||address>0x20000000u-512)return;
+      std::array<uint8_t,512> bytes{};SIZE_T read=0;
+      if(!ReadProcessMemory(GetCurrentProcess(),memory->TranslatePhysical(address),
+          bytes.data(),bytes.size(),&read)||read!=bytes.size())return;
+      uint64_t hash=14695981039346656037ull;
+      for(auto value:bytes)hash=(hash^value)*1099511628211ull;
+      // Native sLdT9894 meshes121/357, full SHA256 checked by offline decoder.
+      if(hash!=15479487708123365866ull&&hash!=14777336781968831334ull)return;
+    }
     if(model_only_){
       if(!vs)return;
       switch(vs->ucode_data_hash()){
@@ -131,6 +143,8 @@ class SkyDrawTrace {
     water_only_=water && wcscmp(water,L"1")==0;
     const auto* screen=_wgetenv(L"OPENH3M_SKY_TRACE_SCREEN");
     screen_only_=screen && wcscmp(screen,L"1")==0;
+    const auto* cylinder=_wgetenv(L"OPENH3M_SKY_TRACE_CYLINDER");
+    cylinder_only_=cylinder && wcscmp(cylinder,L"1")==0;
     const auto* model=_wgetenv(L"OPENH3M_SKY_TRACE_MODEL");
     model_only_=model && wcscmp(model,L"1")==0;
     const auto* rain=_wgetenv(L"OPENH3M_SKY_TRACE_RAIN");
@@ -188,7 +202,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
-  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false;
+  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false,cylinder_only_=false;
   uint32_t frame_limit_=300;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
