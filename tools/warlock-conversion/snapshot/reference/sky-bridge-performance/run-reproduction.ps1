@@ -1,5 +1,5 @@
 # Private, bounded, process-local replay; never modifies the shared runtime.
-param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe)
+param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425')
 $ErrorActionPreference='Stop'
 $repo='C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Set-Location -LiteralPath $repo
@@ -16,11 +16,13 @@ $env:OPENH3M_SKY_REPRO_DIR=$run
 $env:OPENH3M_SKY_TRACE_DIR=$run
 $env:OPENH3M_SKY_TRACE_TARGETS='1'
 $env:OPENH3M_SKY_PIXEL_PROBE_DIR=$run
-$env:OPENH3M_SKY_PIXEL_PROBE_REGION='0.54,0.255,0.93,0.425'
+$env:OPENH3M_SKY_PIXEL_PROBE_REGION=$PixelRegion
 if($StageProbe) { $env:OPENH3M_SKY_STAGE_PROBE_DIR=$run }
 else { Remove-Item Env:OPENH3M_SKY_STAGE_PROBE_DIR -ErrorAction SilentlyContinue }
 if($PresentedProbe) { $env:OPENH3M_SKY_PIXEL_PROBE_PRESENTED='1' }
 else { Remove-Item Env:OPENH3M_SKY_PIXEL_PROBE_PRESENTED -ErrorAction SilentlyContinue }
+if($RegionProbe) { $env:OPENH3M_SKY_REGION_PROBE_DIR=$run; $env:OPENH3M_SKY_REGION_PROBE_REGION='0.45,0.10,1,0.50' }
+else { Remove-Item Env:OPENH3M_SKY_REGION_PROBE_DIR -ErrorAction SilentlyContinue }
 & 'C:/Users/smmel/AppData/Local/Programs/Python/Python312/python.exe' -B tools/warlock-conversion/snapshot/tools/trace_loading.py `
     --project C:/X360/ISOs/H3M --game C:/X360/ISOs/H3M `
     --exe (Join-Path $run 'runtime/OpenH3M.exe') --expected-exe-sha256 $hashes.'OpenH3M.exe' `

@@ -1,0 +1,56 @@
+{
+  "scope": "Opt-in native guest-output aggregate tracing; no renderer fix",
+  "source_files": {
+    "sky_region_probe.h": "6844afc9898243789b15c70ef1b578ca6b9d9e91e9015861d292c76520948aa2",
+    "sky-region-probe-gpu-test.cpp": "5e522569cd52fb19d0eb6b50cf6f1e68de81516b751927dec1f6a70b8d2f036f",
+    "sky-region-probe-integration.patch": "9124e4a5e90a1c5ddc9dd60992b1fec9a5ab259ed1606ec91de9448f4664d138",
+    "read-region-probe.py": "d68efeb43d8f6c64da5db2994cd1d1fff8befad2a7865c6bf629909895ae622b"
+  },
+  "gpu_sha256": "e986ba7a61caced7cf163c94d7c2ccada360250ad43a5e2f8b79addbef346d70",
+  "build_log": "work/sky-bridge/region-probe-build/build.log",
+  "fixture": "work/sky-bridge/region-probe-build/fixture-01/verification.json",
+  "fixture_result": {
+    "frames": [
+      10,
+      11,
+      12,
+      14,
+      15
+    ],
+    "roi": [
+      8,
+      4,
+      24,
+      14
+    ],
+    "pixels_per_frame": 160,
+    "black_flash_frame": 11,
+    "black_flash_pixels": 16,
+    "frame_gap_reset": true,
+    "all_checks_passed": true
+  },
+  "privacy": "Readback pixel arrays remain within the target process; only 32 aggregate tile rows per frame and one worst-change coordinate/value per tile are persisted. No image or desktop capture.",
+  "bounds": {
+    "frame_ids": 300,
+    "seconds": 15,
+    "region": [
+      0.45,
+      0.1,
+      1,
+      0.5
+    ],
+    "readback_slots": 8,
+    "viewport_maximum": [
+      4096,
+      2160
+    ],
+    "game_watchdog_seconds": 180
+  },
+  "thresholds": {
+    "max_channel_dark": "<=10/1023",
+    "fall_or_isolated_pulse": "drop >51/1023 and current <=70% of baseline",
+    "black_isolated_pulse": "baseline >=31/1023, current <=10/1023 and current <=15% of baseline",
+    "pulse_baseline": "minimum of preceding and following frame values at the same pixel; missing frames reset history"
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

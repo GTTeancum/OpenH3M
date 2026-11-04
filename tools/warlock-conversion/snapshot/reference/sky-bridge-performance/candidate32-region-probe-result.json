@@ -1,0 +1,173 @@
+{
+  "scope": "Full-region numeric coverage and comparison against the human recording; not a visual acceptance or renderer fix",
+  "runs": [
+    {
+      "run": "work/sky-bridge/reproduction-07",
+      "native_log": ".local/loading-traces/20261103-215121-19244/trace-runtime.log",
+      "camera": {
+        "draws": 1762,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 564,
+          "albedo": 598
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "private_runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "bae11d6ac110e005d80ec4a722ca81df6fd3e1bfcbf374f5af5c0606f05434c5",
+        "rexgpu-xenos.dll": "e986ba7a61caced7cf163c94d7c2ccada360250ad43a5e2f8b79addbef346d70",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+      "probe_summary": {
+        "events": {
+          "sample": 9600,
+          "end": 1
+        },
+        "frame_count": 300,
+        "frame_range": [
+          2938,
+          3237
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            518,
+            64,
+            1152,
+            320
+          ]
+        ],
+        "total_pixel_contributions": 48691200
+      },
+      "near_black_pixels_in_any_frame": 0,
+      "black_pulse_frames": 0,
+      "largest_isolated_pulse_pixel_count": 45,
+      "right_subregion_bounds": [
+        756,
+        128,
+        1073,
+        256
+      ],
+      "right_subregion_largest_isolated_max_channel_drop": 0.009775171,
+      "right_subregion_fall_pixel_events": 0,
+      "right_subregion_pulse_pixel_events": 0,
+      "per_draw_stage_probe_enabled": false,
+      "process_closed_by_watchdog": true,
+      "watchdog_seconds": 180,
+      "artifacts_sha256": {
+        "draws.bin": "7c0e93e03d1d839c07c3cda40ed63c34c7e8707f702fb020697cf910d60f096d",
+        "pixels.csv": "d30c532f5789dbe672017f75397d6a1c18709872c715c3e3e4312ad68ca45c26",
+        "presented.csv": "9b61bb5146a4594904027e2fc59bb23206e0095d8eae1831a094104a78dec6e5",
+        "region.csv": "7ab693b1961b80edfde4bf7edff46905dcc1940fdc5b0e357560ff9de29456cf"
+      }
+    },
+    {
+      "run": "work/sky-bridge/reproduction-08",
+      "native_log": ".local/loading-traces/20261103-215706-16252/trace-runtime.log",
+      "camera": {
+        "draws": 1761,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 563,
+          "albedo": 598
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "private_runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "bae11d6ac110e005d80ec4a722ca81df6fd3e1bfcbf374f5af5c0606f05434c5",
+        "rexgpu-xenos.dll": "e986ba7a61caced7cf163c94d7c2ccada360250ad43a5e2f8b79addbef346d70",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+      "probe_summary": {
+        "events": {
+          "sample": 9600,
+          "end": 1
+        },
+        "frame_count": 300,
+        "frame_range": [
+          2933,
+          3232
+        ],
+        "missing_frame_ids": [],
+        "incomplete_frames": {},
+        "region_bounds": [
+          [
+            518,
+            64,
+            1152,
+            320
+          ]
+        ],
+        "total_pixel_contributions": 48691200
+      },
+      "near_black_pixels_in_any_frame": 0,
+      "black_pulse_frames": 0,
+      "largest_isolated_pulse_pixel_count": 41,
+      "right_subregion_bounds": [
+        756,
+        128,
+        1073,
+        256
+      ],
+      "right_subregion_largest_isolated_max_channel_drop": 0.009775171,
+      "right_subregion_fall_pixel_events": 0,
+      "right_subregion_pulse_pixel_events": 0,
+      "per_draw_stage_probe_enabled": false,
+      "process_closed_by_watchdog": true,
+      "watchdog_seconds": 180,
+      "artifacts_sha256": {
+        "draws.bin": "89815fe616c46634dca5ceb99cce341456ab40946a86df5e558de423b2657c5a",
+        "pixels.csv": "2e7f8c336d1e11a443d963cb767993709d305dcb4fc7e5a6b4d497d46692f2eb",
+        "presented.csv": "c47d467f0076044a09f5214dd1857c04db6629a3f6fbf2b6ac64fda221fe5b86",
+        "region.csv": "b63a9d3de3d0b0118cfb8b8c89bfcfbd1484af64d41bc6ed1c911d6f04463a4f"
+      }
+    }
+  ],
+  "human_comparison": {
+    "source": "work/sky-bridge/pixel-probe-20261103-203123/pixels.csv",
+    "source_sha256": "a43144db603dabb9300fac73c6aeed6c14b31819ea36c602c38616a33ed4ce75",
+    "matched_points": 144,
+    "upper_right_points": 10,
+    "maximum_upper_right_median_channel_difference": 0.01173020527859242,
+    "all_upper_right_channel_ranges_overlap": true,
+    "full_report": "work/sky-bridge/reproduction-08/human-comparison.json",
+    "limitations": "Lower-body/player samples differ more, up to 0.3177 in a median channel. The entire simulation and vehicle pose are not identical; these distributions are not time-aligned."
+  },
+  "findings": [
+    "Two runs each inspect every one of 162304 texels in x=[518,1152), y=[64,320) for 300 frames after gamma/FXAA. No sampled texel is near black by the stated threshold.",
+    "In the right subregion x=[756,1073), y=[128,256), the greatest isolated max-channel dip is 10/1023, with zero >30% / >51/1023 fall or pulse events. The larger changes occur farther left.",
+    "The earlier changing point (720,193) cannot by itself establish the cause of the human-circled right-hand flash. Its target albedo and static draws sometimes change the pixel and sometimes leave it unchanged. Position-producing vertex constants and reflected albedo constants/sampler descriptors are stable across run 06. Preceding draw/depth/texture contents remain unmeasured.",
+    "The new pre-host full-frame 144-point grid matches the original human recording coordinates exactly. Ten upper-right point distributions have overlapping RGB ranges and at most 12/1023 median-channel difference. This supports similar scene output at those points, not full visual equivalence."
+  ],
+  "map_payload_and_installed_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "shared_runtime_modified": false,
+  "rendering_changed": false,
+  "human_reported_flash_reproduced": false,
+  "root_cause_established": false,
+  "limitations": [
+    "Only the native guest-output resource after host gamma/FXAA is covered. The presenter scaling/sharpening and swapchain image have not yet been measured.",
+    "All texels contribute within the reported region, but this does not prove the initial human-circled feature has exactly the same pixel bounds in this later saved view.",
+    "The probe adds GPU readback and CPU aggregation work and may change timing. This is not a performance benchmark.",
+    "The original human confirmed flicker, but that recording only contains sparse pre-host samples. No negative claim about the human observation follows from these private runs.",
+    "Remaining billboard readability, outdoor rain visibility, final performance acceptance and final LIVE promotion remain unresolved."
+  ],
+  "next_step": "Trace numeric region statistics on the application-owned swapchain back buffer after native presenter effects, using the existing paint submission fence; inspect session/presentation differences if the symptom remains absent. Do not use desktop capture or modify render behavior speculatively.",
+  "presenter_source_location": "work/rexglue-sdk/src/ui/d3d12/d3d12_presenter.cpp, immediately before the RTV-to-PRESENT transition; final rendering includes the guest-output paint flow and optional UI.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

@@ -1,0 +1,42 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -35,6 +35,7 @@
+ #include "sky_draw_trace.h"
+ #include "sky_pixel_probe.h"
+ #include "sky_stage_probe.h"
++#include "sky_region_probe.h"
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_bindless, true, "GPU/D3D12", "Use bindless resources where available")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+@@ -1663,6 +1664,7 @@
+   SkyPixelProbe::Get().Shutdown(submission_completed_);
+   SkyPixelProbe::GetPresented().Shutdown(submission_completed_);
+   SkyStageProbe::Get().Shutdown(submission_completed_);
++  SkyRegionProbe::Get().Shutdown(submission_completed_);
+   InvalidateAllVertexBufferResidency();
+   ShutdownOcclusionQueryResources();
+ 
+@@ -2329,6 +2331,23 @@
+               D3D12_BOX box{x,y,0,x+1,y+1,1};target.PlacedFootprint.Offset=(row*16+col)*512;
+               deferred_command_list_.D3DCopyTextureRegion(&target,0,0,0,&source,&box);
+             }
++            PushTransitionBarrier(guest_output_resource,D3D12_RESOURCE_STATE_COPY_SOURCE,initial);
++            SubmitBarriers();
++          });
++
++        SkyRegionProbe::Get().Record(device,guest_output_resource,
++          guest_output_width,guest_output_height,frame_current_,submission_current_,submission_completed_,
++          [&](const SkyRegionProbe::Slot& slot){
++            const auto initial=ui::d3d12::D3D12Presenter::kGuestOutputInternalState;
++            PushTransitionBarrier(guest_output_resource,initial,D3D12_RESOURCE_STATE_COPY_SOURCE);
++            SubmitBarriers();
++            D3D12_TEXTURE_COPY_LOCATION source{};source.pResource=guest_output_resource;
++            source.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++            D3D12_TEXTURE_COPY_LOCATION target{};target.pResource=slot.buffer.Get();
++            target.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
++            target.PlacedFootprint.Footprint={ui::d3d12::D3D12Presenter::kGuestOutputFormat,slot.width,slot.height,1,slot.pitch};
++            D3D12_BOX box{slot.left,slot.top,0,slot.left+slot.width,slot.top+slot.height,1};
++            deferred_command_list_.D3DCopyTextureRegion(&target,0,0,0,&source,&box);
+             PushTransitionBarrier(guest_output_resource,D3D12_RESOURCE_STATE_COPY_SOURCE,initial);
+             SubmitBarriers();
+           });

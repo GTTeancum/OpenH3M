@@ -618,3 +618,51 @@ and `read-pixel-probe.py`. For `presented.csv`, supply
 depth/geometry writes and improve coverage of the reported region before
 altering rendering. Billboard readability, visible outdoor rain and final
 performance acceptance remain pending. Source credit is unchanged above.
+
+## Full-region numeric coverage and human-recording comparison
+
+`candidate32-region-probe-result.json` records reproductions 07 and 08. The
+new `sky_region_probe.h` reads every texel in the native guest-output region
+x=[518,1152), y=[64,320), after gamma/FXAA. Arrays remain in process memory;
+only 32 aggregate tile rows per frame and each tile's largest isolated change
+are persisted. There is no image file or desktop capture. Both runs contain
+300 complete frames and 48,691,200 pixel contributions. The per-draw stage
+probe was disabled for these runs. Both private games exited at 180 seconds;
+the shared runtime and installed map remain unchanged.
+
+The fixture `sky-region-probe-gpu-test.cpp` uses native D3D12 WARP with a known
+16-pixel black patch for one frame, recovery, and a deliberate missing frame.
+All 800 pixel contributions and the exact region partition pass verification;
+the missing frame resets temporal history. Fence and frame-limit checks pass.
+The fixture and build evidence are under `work/sky-bridge/region-probe-build/`;
+`sky-region-probe-build.json` records hashes and thresholds. Apply
+`sky-region-probe-integration.patch` after the stage-probe patch, and copy the
+new header into the SDK D3D12 source folder. The launcher adds `-RegionProbe`.
+`read-region-probe.py` validates the recorded tile partition and temporal IDs.
+
+No pixel within the measured region reaches the near-black threshold in either
+private run. In the right subregion x=[756,1073), y=[128,256), the greatest
+isolated max-channel decrease is 10/1023; no pixel meets the larger fall/pulse
+threshold. Larger changes occur farther left. This means the changing sample
+at (720,193) is insufficient evidence for the reported circled flash. Its
+albedo and static-lighting draws sometimes write the pixel and sometimes leave
+it unchanged despite stable position-producing constants and reflected albedo
+constants/sampler descriptors. Earlier depth/geometry writes and actual texture
+contents remain unmeasured; no defect is attributed to those stages yet.
+
+Run 08 uses `-PixelRegion '0,0,1,1'` to restore the original human recording's
+144 sample coordinates. `compare-pixel-recordings.py` compares decoded RGB
+distributions at identical coordinates. Ten upper-right points have overlapping
+RGB ranges and at most 12/1023 median-channel difference. Lower-body/player
+points differ more, so this is not a claim of identical simulation state or
+full visual equivalence. Camera/projection checks pass for all 1762 attributed
+draws in run 07 and all 1761 in run 08, across 300 frames each.
+
+The user's confirmed flash remains unresolved. The next unmeasured stage is
+the application's native presenter: scaling/sharpening, final UI composition,
+then the swapchain back buffer. Its existing paint-submission fence provides
+an observation point before RTV-to-PRESENT in d3d12_presenter.cpp. Extend
+numeric statistics there without desktop capture; do not infer a renderer fix
+from the absence of the symptom in these private runs. Source credits and
+remaining weather, billboard, performance and final-promotion requirements
+remain unchanged.
