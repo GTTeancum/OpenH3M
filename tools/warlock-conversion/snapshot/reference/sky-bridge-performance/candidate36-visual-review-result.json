@@ -1,0 +1,186 @@
+{
+  "status": "Six authorized native frames inspected sequentially; saved-view appearance supports installing candidate36 corrections",
+  "authorization": {
+    "date": "2026-11-04",
+    "answer": "Allow six native game captures",
+    "scope": "Six game-native PNGs total, process-local replay, 180-second watchdog per attempt, repository-local output. No desktop capture or host input. Retry follows zero-image first attempt; no increase in capture count."
+  },
+  "failed_attempt": {
+    "run": "work/sky-bridge/reproduction-49",
+    "logdir": ".local/loading-traces/20261104-060900-34624",
+    "captured_images": 0,
+    "watchdog_seconds": 180,
+    "native_headers_passed": 11,
+    "native_headers_failed": 0,
+    "reason": "Capture clock begins at StartHostTools after pipeline-cache initialization. First requested image would occur around process second185, beyond watchdog. Source and logged title-FPS start establish the clock offset.",
+    "first_host_tools_log": "2026-11-04 06:09:39.754",
+    "first_saved_view_log": "2026-11-04 06:11:30.483"
+  },
+  "run": "work\\sky-bridge\\reproduction-50",
+  "logdir": ".local\\loading-traces\\20261104-061303-10988",
+  "configuration": {
+    "native_visual_capture": true,
+    "native_capture_times_ms": [
+      115000,
+      116000,
+      117000,
+      118000,
+      119000,
+      120000
+    ],
+    "native_live_package": true,
+    "live_package": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\live-candidate-36\\5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "live_package_sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+    "depth_writer_trace": false,
+    "depth_value_trace": false,
+    "depth_test_trace": false,
+    "coverage_trace": false,
+    "command_trace": false,
+    "blend_trace": false,
+    "model_pass_probe": false,
+    "timing_only": false,
+    "header_trace": false,
+    "candidate": 36,
+    "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+    "region_only": false,
+    "full_viewport": false,
+    "native_observer": true,
+    "guest_region": false,
+    "swapchain_region": false,
+    "stage_probe": false,
+    "late_pass_probe": false,
+    "water_pass_probe": false,
+    "rain_pass_probe": false,
+    "screen_pass_probe": false,
+    "all_draw_trace": false,
+    "presented_probe": false,
+    "draw_trace": false,
+    "pixel_probe": false,
+    "pixel_region": "0.54,0.255,0.93,0.425",
+    "region": "0.45,0.10,1,0.50",
+    "arm_delay_ms": 15000,
+    "vehicle_tolerance": 0.03
+  },
+  "frames": [
+    {
+      "order": 1,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_115000ms.png",
+      "bytes": 673133,
+      "sha256": "95701117eadae7e5035a5be5c1d1b917c26d6ac9ccbe82be9b1b5c10f0080f63",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 115000,
+      "capture_log": "[2026-11-04 06:15:37.076] [info] [core] [t18948] Halo3MP guest-output capture at 115000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_115000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Transparent fine rain streaks in the doorway; courtyard and directional sign visible through it. Upper fabric has grey folds and shading. Billboard shows cyan horizontal bands, central white graphic and small bright lower marks."
+    },
+    {
+      "order": 2,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_116000ms.png",
+      "bytes": 671334,
+      "sha256": "5c3c904517ef7526a1bbbdf714e337c26f6eba7139ac130733f80cf5d9091b18",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 116000,
+      "capture_log": "[2026-11-04 06:15:38.144] [info] [core] [t18948] Halo3MP guest-output capture at 116000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_116000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Same clear doorway and shaded fabric. Billboard lower markings change to brighter white clusters; no opaque striped sheet or black card appears in the saved view."
+    },
+    {
+      "order": 3,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_117000ms.png",
+      "bytes": 670650,
+      "sha256": "cd8a4d04818461f46774d71fbe3cb10058b3a686046c639369648e84b584ed1c",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 117000,
+      "capture_log": "[2026-11-04 06:15:39.215] [info] [core] [t18948] Halo3MP guest-output capture at 117000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_117000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Upper-right billboard lettering/marks differ from the prior frame. Fabric remains shaded; courtyard geometry and red indoor illumination remain visible."
+    },
+    {
+      "order": 4,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_118000ms.png",
+      "bytes": 673103,
+      "sha256": "8ddcb2421837a7d4d7778f460b373a72715b67d5c0eda977c722cd182753791b",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 118000,
+      "capture_log": "[2026-11-04 06:15:40.284] [info] [core] [t18948] Halo3MP guest-output capture at 118000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_118000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Billboard lower markings shift toward magenta/white clusters. Fine rain streaks remain transparent; no black replacement appears on the visible upper fabric."
+    },
+    {
+      "order": 5,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_119000ms.png",
+      "bytes": 671416,
+      "sha256": "420a0368b55c788c8ffb02b5af733e2e24c8426639254686d0d0644e15ac41ae",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 119000,
+      "capture_log": "[2026-11-04 06:15:41.351] [info] [core] [t18948] Halo3MP guest-output capture at 119000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_119000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Billboard lower markings change to bright white clusters again. Fine vertical streaks appear at different locations. Fabric, doorway and indoor/outdoor brightness remain consistent."
+    },
+    {
+      "order": 6,
+      "path": ".local\\loading-traces\\20261104-061303-10988\\proof-loaded_120000ms.png",
+      "bytes": 672573,
+      "sha256": "7707330be6be1646f45784cd70b97d0cbfdba229855fdaee7abdaec7c24f2c7e",
+      "dimensions": [
+        1152,
+        640
+      ],
+      "requested_ms_from_host_tools_start": 120000,
+      "capture_log": "[2026-11-04 06:15:42.420] [info] [core] [t18948] Halo3MP guest-output capture at 120000 ms wrote C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\.local\\loading-traces\\20261104-061303-10988\\proof-loaded_120000ms.png",
+      "inspected_individually": true,
+      "visual_observation": "Billboard upper-left and lower marks change again. Visible fabric remains grey and shaded; doorway stays transparent and no solid black panel appears in this frame."
+    }
+  ],
+  "native_observer_exact": true,
+  "native_headers": {
+    "seconds": 180.312,
+    "event": "hash_summary",
+    "passed": 11,
+    "failed": 0
+  },
+  "watchdog": {
+    "seconds": 180.0,
+    "event": "watchdog",
+    "seconds_limit": 180
+  },
+  "findings": [
+    "Doorway rain streaks are transparent; the formerly opaque striped-sheet appearance is absent in these saved-view frames.",
+    "Visible upper courtyard fabric retains grey folds, cutout edges and shading in all six images, with no solid black overwrite visible.",
+    "Billboard content visibly changes between all inspected frames; the overlay is running rather than frozen. It remains bright and difficult to read at this distance.",
+    "Red indoor illumination, cooler outdoor lighting, bright door-edge bloom and visible scene detail persist across the six images.",
+    "No hanging solid-black card is visible in this view. The old left-corridor and every exterior angle were not revisited."
+  ],
+  "corroborating_evidence": [
+    "candidate35-fabric-coverage-result.json",
+    "candidate36-combined-result.json",
+    "candidate36-searchlight-depth-values-result.json",
+    "candidate36-native-live-result.json"
+  ],
+  "decision": "Install the tested fabric/mip corrections into the existing shared Sky Bridge map, with rollback and unrelated-file preservation. Keep the overall goal open.",
+  "limitations": [
+    "Six time-separated stills are not a consecutive-frame recording and cannot independently prove that all one-frame flicker is gone.",
+    "The separate 300-frame traces establish zero sampled fabric black overwrites, not complete pixel coverage of the map.",
+    "The small protruding feature is too distant here for definitive lighting/animation acceptance; searchlight depth attribution remains a separate finding.",
+    "Billboard animation is visible, but close-up legibility and exact authored appearance are not fully verified.",
+    "All six images use one saved pose. This is not a complete indoor/courtyard/left-corridor traversal or an audio test.",
+    "Native observer equality is checked at the saved snapshot; the capture images and bracketing logs support the held view but are not GPU matrix traces.",
+    "Physical Xbox 360 and system-link behavior remain untested."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

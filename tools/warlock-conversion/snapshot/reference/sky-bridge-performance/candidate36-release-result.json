@@ -1,0 +1,37 @@
+{
+  "status": "Candidate36 correction installed; six saved-view native frames reviewed; overall goal remains open",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "archive": {
+    "path": ".local\\releases\\sky-bridge-corrected-20261104\\Sky-Bridge-Corrected-LIVE-DLC.zip",
+    "bytes": 162840371,
+    "sha256": "e25dcdca07087a4d39aeee0afa3ccda7baff5cca5697896feb02d055670ef88a",
+    "all_entries_byte_exact": true
+  },
+  "package": {
+    "path": "Content/0000000000000000/4D5307E6/00000002/5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "bytes": 197779456,
+    "sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+    "content_id": "5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "title_id": "4D5307E6",
+    "content_type": "00000002",
+    "signature": "unsigned; OpenH3M and RGH/JTAG targets"
+  },
+  "package_unchanged_from_native_verified_candidate": true,
+  "original_candidate_archive_preserved": true,
+  "manifest_sha256": "8bc995fde5cfd168ddeafe778ac328bac9dd2473a11d0683e2c8d02c1bcc0c97",
+  "readme_sha256": "6d05dc572d9395ef6cb01f79a05d89c4003b9edeb47061e8f70e8e1658385545",
+  "evidence_sha256": {
+    "candidate36-native-live-result.json": "ae07b7dfd5f06ce70a1f774d90c3a3f3a857d6644061a6804cf3f1d5cac7c1ac",
+    "candidate36-visual-review-result.json": "498bfd49d36ef82181e9ef90b4d2398b59e6663266bb3151000475dc039b8689",
+    "candidate36-install-result.json": "5a55c59b4dc1a3cf63521f8264e02ca11e01e6b641f33644137608ba3b02dc6c"
+  },
+  "remaining": [
+    "Six time-separated stills are not a consecutive-frame recording and cannot independently prove that all one-frame flicker is gone.",
+    "The separate 300-frame traces establish zero sampled fabric black overwrites, not complete pixel coverage of the map.",
+    "The small protruding feature is too distant here for definitive lighting/animation acceptance; searchlight depth attribution remains a separate finding.",
+    "Billboard animation is visible, but close-up legibility and exact authored appearance are not fully verified.",
+    "All six images use one saved pose. This is not a complete indoor/courtyard/left-corridor traversal or an audio test.",
+    "Native observer equality is checked at the saved snapshot; the capture images and bracketing logs support the held view but are not GPU matrix traces.",
+    "Physical Xbox 360 and system-link behavior remain untested."
+  ]
+}

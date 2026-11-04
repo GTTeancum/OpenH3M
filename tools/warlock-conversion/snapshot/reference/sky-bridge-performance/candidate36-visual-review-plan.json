@@ -1,17 +1,17 @@
 {
-  "status": "Prepared; capture permission requested and pending; not launched",
+  "status": "Authorized six-frame review completed in reproduction50; all frames inspected individually",
   "permission_reason": "Active goal says do not import other images; earlier runtime tests authorized text-only/no captures.",
-  "run": "work\\sky-bridge\\reproduction-49",
+  "run": "work/sky-bridge/reproduction-50",
   "candidate": 36,
   "native_live_package": true,
   "maximum_process_seconds": 180,
   "capture_times_ms": [
-    145000,
-    146000,
-    147000,
-    148000,
-    149000,
-    150000
+    115000,
+    116000,
+    117000,
+    118000,
+    119000,
+    120000
   ],
   "maximum_images": 6,
   "capture_implementation": "Halo3MP StartCaptureThread -> Presenter::CaptureGuestOutput -> own D3D12 guest_output_resources_ texture -> repository-local PNG",
@@ -19,8 +19,8 @@
   "input": "Existing exclusive process-local replay and saved native observer; no host OS input",
   "desktop_capture": false,
   "shared_writes": false,
-  "captures_created": false,
-  "command": "tools/warlock-conversion/snapshot/reference/sky-bridge-performance/run-reproduction.ps1 -RunDirectory work/sky-bridge/reproduction-49 -Candidate 36 -NativeLivePackage -NativeVisualCapture -NativeObserver -ArmDelayMs 15000 -ProfileSeed work/dlc/installed-corrections/4D5307E6/profile/User",
+  "captures_created": true,
+  "command": "tools/warlock-conversion/snapshot/reference/sky-bridge-performance/run-reproduction.ps1 -RunDirectory work/sky-bridge/reproduction-50 -Candidate 36 -NativeLivePackage -NativeVisualCapture -NativeObserver -ArmDelayMs 15000 -ProfileSeed work/dlc/installed-corrections/4D5307E6/profile/User",
   "runtime_hashes": {
     "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
     "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
@@ -34,5 +34,23 @@
   "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
   "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
   "limitation": "Six stills are not a complete frame sequence or proof that no transient flicker remains. Compare actual visuals with supplied screenshots and combine with existing 300-frame numeric evidence.",
-  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "authorization": {
+    "date": "2026-11-04",
+    "answer": "Allow six native game captures",
+    "scope": "Six game-native PNGs total, process-local replay, 180-second watchdog per attempt, repository-local output. No desktop capture or host input. Retry follows zero-image first attempt; no increase in capture count."
+  },
+  "failed_attempt": {
+    "run": "work/sky-bridge/reproduction-49",
+    "logdir": ".local/loading-traces/20261104-060900-34624",
+    "captured_images": 0,
+    "watchdog_seconds": 180,
+    "native_headers_passed": 11,
+    "native_headers_failed": 0,
+    "reason": "Capture clock begins at StartHostTools after pipeline-cache initialization. First requested image would occur around process second185, beyond watchdog. Source and logged title-FPS start establish the clock offset.",
+    "first_host_tools_log": "2026-11-04 06:09:39.754",
+    "first_saved_view_log": "2026-11-04 06:11:30.483"
+  },
+  "captured_images": 6,
+  "result": "candidate36-visual-review-result.json"
 }

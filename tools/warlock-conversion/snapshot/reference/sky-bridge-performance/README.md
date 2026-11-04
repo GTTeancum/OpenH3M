@@ -1703,6 +1703,10 @@ Xbox 360/OpenH3M adaptation.
 
 ## Candidate36 native LIVE installation and promotion preparation (2026-11-04)
 
+This is the preparation record. The authorized visual review and subsequent
+shared installation are recorded in the next section; the earlier candidate
+archive and its pending-review metadata remain intact as historical evidence.
+
 `candidate36-native-live-result.json` records private reproduction48. The new
 `-NativeLivePackage` mode is pinned to candidate36's verified package hash and
 passes `--dlc-package` to the existing loader. The application's native content
@@ -1756,6 +1760,73 @@ the native observer, and excludes timing/probe modes. Do not run it before the
 user permits these additional images. Six stills alone cannot establish the
 absence of a one-frame flicker; combine visual inspection with the recorded
 300-frame draw/color evidence and keep any remaining uncertainty explicit.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
+
+## Six-frame visual review and candidate36 installation (2026-11-04)
+
+The user authorized six native game captures. Reproduction49 produced none:
+the capture clock starts at `StartHostTools`, after pipeline-cache initialization,
+so its original 145–150-second schedule extended beyond the 180-second process
+watchdog. Its native loading/observer checks passed; the harness then correctly
+reported incomplete visual evidence. The failed attempt and logs are retained.
+The corrected schedule is 115–120 seconds from host-tools startup. This is a
+timing correction, not an extension of the watchdog or capture allowance.
+
+Reproduction50 saved exactly six 1152x640 game-native PNGs, totaling 4032209 bytes,
+in `.local/loading-traces/20261104-061303-10988`. Each was inspected individually,
+in sequence. `candidate36-visual-review-result.json` records every hash, native
+capture log and observation. All eleven native header checks pass, the native
+observer command/result match exactly, and the game ends at the 180-second
+watchdog. Draw/color/depth probes are disabled. The capture facility copies the
+game's own guest-output texture; no desktop capture or host input is involved.
+The six-image authorization is exhausted; do not launch this capture mode again
+without additional authorization.
+
+The doorway rain is fine and transparent, with the courtyard visible through it.
+The upper fabric retains gray folds, cutout edges and shading in all six images.
+No solid black fabric overwrite or hanging black card appears in this view.
+The billboard's white/magenta marks visibly change between frames, confirming
+animation, but it remains bright and difficult to read from this distance.
+Red indoor lighting, cooler exterior detail and door-edge bloom remain visible.
+These six time-separated images do not establish continuous absence of a
+one-frame flicker. The separate repeated 300-frame traces establish zero
+sampled fabric black overwrites. The tiny protruding feature cannot be accepted
+visually from this distance; its identity is not conclusively tied to the
+separately traced searchlight. The full corridor/outdoor walkthrough, close-up
+ad appearance, audio, physical Xbox 360 and system-link testing remain open.
+
+`install-candidate36.py` prepared a verified old-map backup and new-map staging
+file, rechecked the current content/cache/runtime inventory and absence of game
+processes, then atomically replaced only the existing shared `sky_bridge.map`.
+`candidate36-install-result.json` records its SHA256
+`39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245`.
+All other 85 content/profile/header files, both cache files, seven runtime
+binaries and bootstrap settings remain byte-identical. The content directory,
+menu identity and six support files are retained. Battle Canyon's current
+absence is preserved; no stale inventory was restored. No external file changed.
+The old map is `work/sky-bridge/candidate36-install/sky_bridge.previous.map`,
+SHA256 `311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d`.
+The full before/after preservation record is alongside it in `installed.json`.
+
+`human-candidate36.ps1` verifies the installed map and production runtime by
+default. Its optional `-Run` launches the normal shared game with user controls,
+repository-local logs, and no input harness, capture request or shutdown timer.
+Only its default validation was run here; the game remains closed.
+
+`package-candidate36.py` produced
+`.local/releases/sky-bridge-corrected-20261104/Sky-Bridge-Corrected-LIVE-DLC.zip`,
+162840371 bytes, SHA256
+`e25dcdca07087a4d39aeee0afa3ccda7baff5cca5697896feb02d055670ef88a`.
+The LIVE container is byte-identical to the native-tested candidate36 package;
+its README and manifest now record the completed limited review and shared
+installation. Archive CRCs and every decompressed entry's SHA256 pass.
+`candidate36-release-result.json` records these checks. Both older release
+archives are retained. The overall goal remains open as requested; this is
+installation of the verified corrections, not complete-map final acceptance.
 
 Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).

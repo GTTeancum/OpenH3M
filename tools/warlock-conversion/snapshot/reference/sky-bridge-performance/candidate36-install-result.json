@@ -1,0 +1,49 @@
+{
+  "status": "Candidate36 installed in the existing shared Sky Bridge map; overall goal remains open",
+  "target": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\dlc\\installed-corrections\\0000000000000000\\4D5307E6\\00000002\\C337EBA990B40F54512D18E8AB31188A2B040540\\sky_bridge.map",
+  "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+  "old_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "backup": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\candidate36-install\\sky_bridge.previous.map",
+  "backup_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "changed_files": [
+    "0000000000000000/4D5307E6/00000002/C337EBA990B40F54512D18E8AB31188A2B040540/sky_bridge.map"
+  ],
+  "unchanged_content_files": 85,
+  "cache_files_unchanged": 2,
+  "runtime_and_bootstrap_unchanged": true,
+  "runtime_hashes": {
+    "C:\\X360\\ISOs\\H3M\\OpenH3M.exe": "a90c7d1d10ec7833e58df4f72ba96a7c65ebab5567cd7ba1032b69f1dd0621ad",
+    "C:\\X360\\ISOs\\H3M\\rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b",
+    "C:\\X360\\ISOs\\H3M\\rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "C:\\X360\\ISOs\\H3M\\halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+    "C:\\X360\\ISOs\\H3M\\halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+    "C:\\X360\\ISOs\\H3M\\halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+    "C:\\X360\\ISOs\\H3M\\halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+    "C:\\X360\\ISOs\\H3M\\OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966"
+  },
+  "bootstrap_sha256": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+  "external_writes": [],
+  "native_live_package": {
+    "path": "Content/0000000000000000/4D5307E6/00000002/5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "bytes": 197779456,
+    "sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+    "content_id": "5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "title_id": "4D5307E6",
+    "content_type": "00000002",
+    "signature": "unsigned; OpenH3M and RGH/JTAG targets"
+  },
+  "visual_report_sha256": "498bfd49d36ef82181e9ef90b4d2398b59e6663266bb3151000475dc039b8689",
+  "visual_scope": "Six saved-view native images plus existing paired numeric traces; not a complete map walkthrough",
+  "remaining": [
+    "Six time-separated stills are not a consecutive-frame recording and cannot independently prove that all one-frame flicker is gone.",
+    "The separate 300-frame traces establish zero sampled fabric black overwrites, not complete pixel coverage of the map.",
+    "The small protruding feature is too distant here for definitive lighting/animation acceptance; searchlight depth attribution remains a separate finding.",
+    "Billboard animation is visible, but close-up legibility and exact authored appearance are not fully verified.",
+    "All six images use one saved pose. This is not a complete indoor/courtyard/left-corridor traversal or an audio test.",
+    "Native observer equality is checked at the saved snapshot; the capture images and bracketing logs support the held view but are not GPU matrix traces.",
+    "Physical Xbox 360 and system-link behavior remain untested."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "preservation_report": "work\\sky-bridge\\candidate36-install\\installed.json",
+  "preservation_report_sha256": "15805afd71878f6cef0d2e2b62f775917a9ab95d9608ba64ab65999eca6eb1b5"
+}
