@@ -1,0 +1,687 @@
+{
+  "classification": "progress; measured pulse attributed, human black flash unresolved",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "shared_runtime_or_map_changed": false,
+  "replay": {
+    "player_vehicle_and_camera_saved": true,
+    "native_observer_result_and_command_exact": true,
+    "object_transform_differences": 3,
+    "complete_savestate": false,
+    "watchdog_seconds": 180,
+    "manual_positioning_required": false
+  },
+  "runs": {
+    "reproduction-20": {
+      "path": "work/sky-bridge/reproduction-20",
+      "files": {
+        "draws.bin": {
+          "bytes": 303849244,
+          "sha256": "5ad316c34e99e503c081e35fb8e0302d520ad8633a5d118b6f1804ecd438df29"
+        },
+        "stages.csv": {
+          "bytes": 44006780,
+          "sha256": "1410e2d00b990e22a6f05141b34c1590c56f3438b253b9f7a4af5d2c00f70362"
+        },
+        "pixels.csv": {
+          "bytes": 2376099,
+          "sha256": "3356f4f2043e40a2c44133f6387482b117d91dd8431ca014095ecf23abcd6866"
+        },
+        "presented.csv": {
+          "bytes": 2376099,
+          "sha256": "0c1517df1dcb5adaab6372aa550e9113976743bb7ce45e1418620087f88d8780"
+        },
+        "native-state.bin": {
+          "bytes": 1219151,
+          "sha256": "17f0f5eff47205ce8c5eaee8400f03d8a87328987e5ea8b445260da5a9143c49"
+        },
+        "runtime-hashes.json": {
+          "bytes": 748,
+          "sha256": "5a44ca9c9be28c81300382123c4313edeb59cdec1ef8b8bc1e953770a842f863"
+        },
+        "recording-configuration.json": {
+          "bytes": 405,
+          "sha256": "197d97685f2fece96f19f09687f5c0f6e7e1029d36788aa03c00b345df4a6a4f"
+        },
+        "native-observer-comparison.json": {
+          "bytes": 3797,
+          "sha256": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+        }
+      },
+      "runtime": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "af0e48f52fa6935004a6bf2cb6dbd6531f96c5ab8f35149a084b745d9dd996e1",
+        "rexgpu-xenos.dll": "d64d9787a3633b27858e2fa078536b401dc511650ff6b51bca1f63ddcd2dbbf0",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "configuration": {
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": true,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.6145833333333333,0.3171875,0.6284722222222222,0.33125",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000
+      }
+    },
+    "reproduction-21": {
+      "path": "work/sky-bridge/reproduction-21",
+      "files": {
+        "draws.bin": {
+          "bytes": 5439204,
+          "sha256": "5dbac337640e7286d524a8c24173a067073c5be363691e2fe9c9f6718108b76d"
+        },
+        "stages.csv": {
+          "bytes": 499801,
+          "sha256": "88374e18ef978acc5d791500c58ed5f21c8ce421f323801e02aee3b18891f1a5"
+        },
+        "pixels.csv": {
+          "bytes": 2376099,
+          "sha256": "2a93a7e498c6d4f92cb4e02e5fedb87a475edbeea5906cf9bba0c2366ac85624"
+        },
+        "presented.csv": {
+          "bytes": 2376099,
+          "sha256": "538b548219e956c3cbbafeba137423e83c57cc33c3d34b45cde7636f04f47905"
+        },
+        "native-state.bin": {
+          "bytes": 1219151,
+          "sha256": "46a1a7ab1da30472d9668c6b364031dee1eca3883272e92f3915b612fe321019"
+        },
+        "runtime-hashes.json": {
+          "bytes": 748,
+          "sha256": "ab1517ed01bff118ca898fe208342efd3eb607369be58bbfe1f6bf292b6c9398"
+        },
+        "recording-configuration.json": {
+          "bytes": 435,
+          "sha256": "0ffb3df02a2be68c5d0602c5f8c423be091171cd3ed976ca053ce7e314c8ef3f"
+        },
+        "native-observer-comparison.json": {
+          "bytes": 3797,
+          "sha256": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+        }
+      },
+      "runtime": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "af0e48f52fa6935004a6bf2cb6dbd6531f96c5ab8f35149a084b745d9dd996e1",
+        "rexgpu-xenos.dll": "314130eee37731565622103c54d51b3dc1cacadf64c074638e63f94c21e2d45d",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "configuration": {
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": true,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.6145833333333333,0.3171875,0.6284722222222222,0.33125",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000
+      }
+    }
+  },
+  "all_draw_probe": {
+    "events": {
+      "unsupported": 2567,
+      "sample": 403766,
+      "busy": 4270,
+      "end": 1
+    },
+    "emitted_frame_count": 300,
+    "point_frame_count": 172,
+    "point_samples": 403766,
+    "draw_trace_stop_reasons": [
+      1
+    ],
+    "declared_register_ranges": [
+      [
+        1,
+        8192,
+        9216,
+        16384,
+        20483
+      ]
+    ]
+  },
+  "paired_water_probe": {
+    "events": {
+      "sample": 4800,
+      "end": 1
+    },
+    "incomplete_pairs": [],
+    "stage_frames": 300,
+    "source_frames": 300,
+    "presented_frames": 300,
+    "emitted_counts": {
+      "1596": 300,
+      "834": 300,
+      "1584": 300,
+      "6": 600,
+      "84": 600,
+      "156": 300
+    },
+    "stop_reasons": [
+      1
+    ],
+    "changed_draws": 252
+  },
+  "attribution": {
+    "runtime_pixel_shader": 11015601269670120444,
+    "pixel_shader_tag": 9409,
+    "program_index": 3,
+    "exact_microcode_slice_offset": 128,
+    "material_tag": 9415,
+    "source_material_id": 12310,
+    "source_material_name": "levels\\multi\\s3d_sky_bridgenew\\fx\\shaders\\settlement_pipe_small_water_02",
+    "geometry_owner": 9894,
+    "mesh": 7,
+    "part": 0,
+    "material_slot": 19,
+    "index_count": 84,
+    "proof": "Unique index-buffer plus vertex-buffer prefix match and shader microcode/material dependency; both GPU sample phases join the submitted CPU draw."
+  },
+  "measured_events": [
+    {
+      "frame": 3389,
+      "complete_three_frame_stage_window": false,
+      "presented_peak_ratio_to_darker_neighbor": 0.5867620751341682,
+      "water_before_after": {
+        "3389": {
+          "sequence": 7,
+          "before": [
+            0.27058823529411763,
+            0.26666666666666666,
+            0.3058823529411765,
+            0.0
+          ],
+          "after": [
+            0.28627450980392155,
+            0.2784313725490196,
+            0.3215686274509804,
+            0.0
+          ]
+        },
+        "3390": {
+          "sequence": 16,
+          "before": [
+            0.27058823529411763,
+            0.27058823529411763,
+            0.3058823529411765,
+            0.0
+          ],
+          "after": [
+            0.4392156862745098,
+            0.4196078431372549,
+            0.49019607843137253,
+            0.0
+          ]
+        }
+      },
+      "source": {
+        "3388": [
+          0.8103616813294232,
+          0.7810361681329423,
+          0.8465298142717498,
+          1.0
+        ],
+        "3389": [
+          0.6402737047898338,
+          0.6256109481915934,
+          0.6510263929618768,
+          1.0
+        ],
+        "3390": [
+          0.7741935483870968,
+          0.7556207233626588,
+          0.804496578690127,
+          1.0
+        ]
+      },
+      "presented": {
+        "3388": [
+          0.5571847507331378,
+          0.5024437927663734,
+          0.6207233626588465,
+          1.0
+        ],
+        "3389": [
+          0.30596285434995113,
+          0.2854349951124145,
+          0.3206256109481916,
+          1.0
+        ],
+        "3390": [
+          0.4897360703812317,
+          0.4496578690127077,
+          0.5464320625610948,
+          1.0
+        ]
+      }
+    },
+    {
+      "frame": 3445,
+      "complete_three_frame_stage_window": true,
+      "presented_peak_ratio_to_darker_neighbor": 0.5867620751341682,
+      "water_before_after": {
+        "3444": {
+          "sequence": 502,
+          "before": [
+            0.27058823529411763,
+            0.26666666666666666,
+            0.30980392156862746,
+            0.0
+          ],
+          "after": [
+            0.4392156862745098,
+            0.41568627450980394,
+            0.49411764705882355,
+            0.0
+          ]
+        },
+        "3445": {
+          "sequence": 511,
+          "before": [
+            0.27058823529411763,
+            0.26666666666666666,
+            0.30980392156862746,
+            0.0
+          ],
+          "after": [
+            0.2784313725490196,
+            0.27450980392156865,
+            0.3176470588235294,
+            0.0
+          ]
+        },
+        "3446": {
+          "sequence": 520,
+          "before": [
+            0.27058823529411763,
+            0.26666666666666666,
+            0.3137254901960784,
+            0.0
+          ],
+          "after": [
+            0.4392156862745098,
+            0.4196078431372549,
+            0.49019607843137253,
+            0.0
+          ]
+        }
+      },
+      "source": {
+        "3444": [
+          0.7741935483870968,
+          0.7497556207233627,
+          0.8074291300097751,
+          1.0
+        ],
+        "3445": [
+          0.6344086021505376,
+          0.6197458455522972,
+          0.6510263929618768,
+          1.0
+        ],
+        "3446": [
+          0.7741935483870968,
+          0.7556207233626588,
+          0.804496578690127,
+          1.0
+        ]
+      },
+      "presented": {
+        "3444": [
+          0.4897360703812317,
+          0.4389051808406647,
+          0.552297165200391,
+          1.0
+        ],
+        "3445": [
+          0.2981427174975562,
+          0.2805474095796676,
+          0.3206256109481916,
+          1.0
+        ],
+        "3446": [
+          0.4897360703812317,
+          0.4496578690127077,
+          0.5464320625610948,
+          1.0
+        ]
+      }
+    },
+    {
+      "frame": 3509,
+      "complete_three_frame_stage_window": true,
+      "presented_peak_ratio_to_darker_neighbor": 0.5933333333333334,
+      "water_before_after": {
+        "3508": {
+          "sequence": 1078,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.4823529411764706,
+            0.4549019607843137,
+            0.5529411764705883,
+            0.0
+          ]
+        },
+        "3509": {
+          "sequence": 1087,
+          "before": [
+            0.2823529411764706,
+            0.2784313725490196,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.2980392156862745,
+            0.2901960784313726,
+            0.34509803921568627,
+            0.0
+          ]
+        },
+        "3510": {
+          "sequence": 1096,
+          "before": [
+            0.28627450980392155,
+            0.2784313725490196,
+            0.3254901960784314,
+            0.0
+          ],
+          "after": [
+            0.4627450980392157,
+            0.43529411764705883,
+            0.5215686274509804,
+            0.0
+          ]
+        }
+      },
+      "source": {
+        "3508": [
+          0.8054740957966764,
+          0.7810361681329423,
+          0.8484848484848485,
+          1.0
+        ],
+        "3509": [
+          0.6490713587487781,
+          0.6314760508308895,
+          0.6715542521994134,
+          1.0
+        ],
+        "3510": [
+          0.7908113391984359,
+          0.7673509286412512,
+          0.8269794721407625,
+          1.0
+        ]
+      },
+      "presented": {
+        "3508": [
+          0.5483870967741935,
+          0.5024437927663734,
+          0.624633431085044,
+          1.0
+        ],
+        "3509": [
+          0.31867057673509286,
+          0.29423264907135877,
+          0.3479960899315738,
+          1.0
+        ],
+        "3510": [
+          0.5219941348973607,
+          0.4760508308895406,
+          0.5865102639296188,
+          1.0
+        ]
+      }
+    },
+    {
+      "frame": 3569,
+      "complete_three_frame_stage_window": true,
+      "presented_peak_ratio_to_darker_neighbor": 0.5973154362416108,
+      "water_before_after": {
+        "3568": {
+          "sequence": 1618,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.3333333333333333,
+            0.0
+          ],
+          "after": [
+            0.5058823529411764,
+            0.47058823529411764,
+            0.5764705882352941,
+            0.0
+          ]
+        },
+        "3569": {
+          "sequence": 1627,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.30196078431372547,
+            0.29411764705882354,
+            0.34509803921568627,
+            0.0
+          ]
+        },
+        "3570": {
+          "sequence": 1636,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.3333333333333333,
+            0.0
+          ],
+          "after": [
+            0.4549019607843137,
+            0.43137254901960786,
+            0.5176470588235295,
+            0.0
+          ]
+        }
+      },
+      "source": {
+        "3568": [
+          0.8220918866080157,
+          0.7927663734115347,
+          0.8651026392961877,
+          1.0
+        ],
+        "3569": [
+          0.6510263929618768,
+          0.6373411534701857,
+          0.6715542521994134,
+          1.0
+        ],
+        "3570": [
+          0.7859237536656891,
+          0.7644183773216031,
+          0.8250244379276638,
+          1.0
+        ]
+      },
+      "presented": {
+        "3568": [
+          0.5786901270772239,
+          0.5249266862170088,
+          0.6500488758553274,
+          1.0
+        ],
+        "3569": [
+          0.3206256109481916,
+          0.3020527859237537,
+          0.3479960899315738,
+          1.0
+        ],
+        "3570": [
+          0.5112414467253177,
+          0.46920821114369504,
+          0.5826001955034213,
+          1.0
+        ]
+      }
+    },
+    {
+      "frame": 3625,
+      "complete_three_frame_stage_window": true,
+      "presented_peak_ratio_to_darker_neighbor": 0.6006884681583475,
+      "water_before_after": {
+        "3624": {
+          "sequence": 2122,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.4549019607843137,
+            0.43137254901960786,
+            0.5137254901960784,
+            0.0
+          ]
+        },
+        "3625": {
+          "sequence": 2131,
+          "before": [
+            0.28627450980392155,
+            0.2823529411764706,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.29411764705882354,
+            0.2901960784313726,
+            0.33725490196078434,
+            0.0
+          ]
+        },
+        "3626": {
+          "sequence": 2140,
+          "before": [
+            0.2823529411764706,
+            0.2784313725490196,
+            0.32941176470588235,
+            0.0
+          ],
+          "after": [
+            0.45098039215686275,
+            0.43137254901960786,
+            0.5058823529411764,
+            0.0
+          ]
+        }
+      },
+      "source": {
+        "3624": [
+          0.7849462365591398,
+          0.7644183773216031,
+          0.8220918866080157,
+          1.0
+        ],
+        "3625": [
+          0.6451612903225806,
+          0.6314760508308895,
+          0.6656891495601173,
+          1.0
+        ],
+        "3626": [
+          0.7820136852394917,
+          0.7644183773216031,
+          0.8162267839687195,
+          1.0
+        ]
+      },
+      "presented": {
+        "3624": [
+          0.5102639296187683,
+          0.46920821114369504,
+          0.5786901270772239,
+          1.0
+        ],
+        "3625": [
+          0.3128054740957967,
+          0.29423264907135877,
+          0.3411534701857282,
+          1.0
+        ],
+        "3626": [
+          0.5043988269794721,
+          0.46920821114369504,
+          0.5679374389051809,
+          1.0
+        ]
+      }
+    }
+  ],
+  "findings": [
+    "The sampled underlying surface remains around RGB 0.27-0.33 before the water draw during the events. The water draw adds substantially less brightness for one frame, without replacing the underlying pixel with black.",
+    "Across complete event triplets, texture descriptors stay fixed. The reflected non-light parameters that change are five animated texture-coordinate offsets. This does not prove all shader inputs or sampled GPU texture contents are correct.",
+    "Both 84-index water draws share an index pattern. The vertex bytes disambiguate mesh 7 from mesh 15; only mesh 7 changes this point.",
+    "The geometry matcher now resolves current material IDs from candidate32 BSP records. The earlier material audit has stable source names/slots but stale target IDs."
+  ],
+  "fixtures": [
+    {
+      "mode": "legacy",
+      "samples": 32,
+      "coordinate_values_exact": true,
+      "frame_cap_passed": true,
+      "premature_read_check_passed": true
+    },
+    {
+      "mode": "all-draws",
+      "samples": 2,
+      "coordinate_values_exact": true,
+      "frame_cap_passed": true,
+      "premature_read_check_passed": true
+    },
+    {
+      "mode": "paired-water",
+      "samples": 2,
+      "both_phases": true,
+      "coordinate_values_exact": true,
+      "frame_cap_passed": true,
+      "premature_read_check_passed": true
+    }
+  ],
+  "limitations": [
+    "Run20 samples only 172 frames before its row cap and logs 4270 busy observations plus 2567 unsupported targets; it is discovery evidence, not complete all-draw coverage.",
+    "Run21 has five final-output decreases; the first lacks the preceding stage frame. Four full before/event/after stage windows support the paired attribution.",
+    "The reported full black flash has not been reproduced numerically or explained. The water pulse is not established as the same symptom.",
+    "No rendering fix, visual acceptance or performance acceptance is claimed. Billboard readability, visible outdoor rain and protrusion lighting remain pending.",
+    "All diagnostics remain repository-local. No desktop input or capture was used. No production runtime or map edits were made."
+  ],
+  "next_action": "Compare measured water-sheet contribution against authored shader/texture behavior and keep the unresolved human black flash distinct; broaden attribution only with measured evidence.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

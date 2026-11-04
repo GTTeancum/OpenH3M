@@ -883,3 +883,63 @@ The shared GPU and installed map hashes remain unchanged; both runs ended at
 their 180-second watchdogs. No performance or visual release acceptance is
 claimed. Billboard readability and visible outdoor rain remain open. Source
 credits are unchanged above.
+
+## Later-draw attribution and paired water measurements
+
+`candidate32-water-pulse-attribution-result.json` records runs 20–21. Both
+replay snapshots again match the complete human observer result and command.
+The player/vehicle coordinates and view vectors remain saved for unattended
+reproduction; no further human positioning is required. This is still not a
+complete savestate: three object transforms differ slightly.
+
+`-LatePassProbe -StageProbe` samples (714,210) after supported color-0 draws
+and records all shader identities with compact register deltas. Run 20 records
+852956 submitted draws across 300 frames. Its point probe reaches its row cap
+after 172 frames, with 403766 completed samples, 4270 busy observations and
+2567 unsupported targets. Pending readback slots can complete after the row
+limit. This is incomplete discovery coverage, not a claim to observe every
+draw. `read-late-pass-probe.py` joins samples to actual emitted sequences.
+
+Two covered event windows change strongly after pixel shader
+11015601269670120444, an exact microcode match for the converted animated water
+materials. `-WaterPassProbe -StageProbe` therefore captures paired observations
+immediately around that shader's draws, with full register and buffer-prefix
+evidence. Run 21 contains 2400 complete pairs across 300 frames, 4800 numeric
+samples, and no missing pairs or busy/unsupported events. Its five final-output
+decreases include four complete before/event/after stage windows; the first
+event precedes the start of stage coverage by one neighboring frame.
+
+`trace-match-geometry.py` and `trace-analyze-geometry-state.py` uniquely identify
+all 2400 submitted water draws. The former now reads current target material
+IDs from the candidate32 BSP table: an older audit has stable source names and
+slots but stale target IDs. Two 84-index draws share an index pattern, so their
+vertex bytes are required to distinguish them. The changing draw is mesh 7,
+part 0, material slot 19 / tag 9415, source `settlement_pipe_small_water_02`.
+Mesh 15's corresponding draw does not change this point.
+
+`read-water-pass-probe.py` verifies paired resource/draw identity and correlates
+the results with final output. At frame 3445, for example, the underlying pixel
+is approximately (0.271,0.267,0.310) both before and during the event. The water
+draw changes it to (0.278,0.275,0.318), whereas the adjacent frames end near
+(0.439,0.416,0.494). The water contributes much less light for that frame; it
+does not replace the underlying pixel with black. Texture descriptors remain
+fixed in the four complete event windows. The changing reflected non-light
+parameters are five animated texture-coordinate offsets. These observations
+do not establish that all shader inputs or sampled texture contents are right.
+
+The measured water pulse is **not yet established as the human-reported black
+flash**. No shader, lighting, map or production-runtime correction follows from
+this result. Continue tracing that distinction and authored water behavior;
+billboard readability, visible outdoor rain and protrusion lighting remain open.
+The native WARP fixture passed in legacy, all-draw and paired-water modes with
+exact coordinate-coded values, fence ordering and frame-cap checks. The compact
+CPU recorder fixture passed its declared register-range and delta checks.
+`sky-late-pass-probe-integration.patch` records the narrow SDK integration.
+
+Both private game runs ended under their 180-second watchdogs. The original
+shared GPU and installed candidate32 map remain hash-verified and unchanged.
+No screenshots, desktop input or performance acceptance are claimed. Source:
+Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

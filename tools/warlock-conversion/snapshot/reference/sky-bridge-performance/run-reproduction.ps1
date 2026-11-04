@@ -1,5 +1,5 @@
 # Private, bounded, process-local replay; never modifies the shared runtime.
-param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed,[ValidateRange(0,20000)][int]$ArmDelayMs=0,[switch]$RegionOnly,[switch]$FullViewport,[switch]$NativeObserver)
+param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed,[ValidateRange(0,20000)][int]$ArmDelayMs=0,[switch]$RegionOnly,[switch]$FullViewport,[switch]$NativeObserver,[switch]$LatePassProbe,[switch]$WaterPassProbe)
 $ErrorActionPreference='Stop'
 $repo='C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Set-Location -LiteralPath $repo
@@ -10,6 +10,8 @@ foreach($name in @('arm','draws.bin','pixels.csv','region.csv','swapchain-region
     if (Test-Path -LiteralPath (Join-Path $run $name)) { throw 'Run already contains evidence' }
 }
 if($RegionOnly -and (($RegionProbe -eq $SwapchainProbe) -or $StageProbe -or $PresentedProbe)) { throw 'RegionOnly requires exactly one region probe and no other probe switches' }
+if(($LatePassProbe -or $WaterPassProbe) -and (-not $StageProbe -or $RegionOnly)) { throw 'Pass probes require StageProbe and draw tracing' }
+if($LatePassProbe -and $WaterPassProbe) { throw 'Select one pass probe' }
 $hashes=Get-Content -Raw -LiteralPath (Join-Path $run 'runtime-hashes.json') | ConvertFrom-Json
 foreach ($entry in $hashes.PSObject.Properties) {
     if ((Get-FileHash -LiteralPath (Join-Path $run ('runtime/'+$entry.Name))).Hash.ToLowerInvariant() -ne $entry.Value) { throw 'Private runtime changed' }
@@ -23,6 +25,16 @@ if($NativeObserver) {
 } else { Remove-Item Env:OPENH3M_SKY_REPRO_NATIVE_OBSERVER -ErrorAction SilentlyContinue }
 $env:OPENH3M_SKY_TRACE_DIR=$run
 $env:OPENH3M_SKY_TRACE_TARGETS='1'
+if($LatePassProbe) {
+    $env:OPENH3M_SKY_TRACE_TARGETS='0'
+    $env:OPENH3M_SKY_TRACE_COMPACT='1'
+    $env:OPENH3M_SKY_STAGE_ALL_DRAWS='1'
+} else { Remove-Item Env:OPENH3M_SKY_TRACE_COMPACT,Env:OPENH3M_SKY_STAGE_ALL_DRAWS -ErrorAction SilentlyContinue }
+if($WaterPassProbe) {
+    $env:OPENH3M_SKY_TRACE_TARGETS='0'
+    $env:OPENH3M_SKY_TRACE_WATER='1'
+    $env:OPENH3M_SKY_STAGE_WATER_DRAWS='1'
+} else { Remove-Item Env:OPENH3M_SKY_TRACE_WATER,Env:OPENH3M_SKY_STAGE_WATER_DRAWS -ErrorAction SilentlyContinue }
 $env:OPENH3M_SKY_PIXEL_PROBE_DIR=$run
 $env:OPENH3M_SKY_PIXEL_PROBE_REGION=$PixelRegion
 if($RegionOnly) {
@@ -40,7 +52,7 @@ if($SwapchainProbe) { $env:OPENH3M_SKY_SWAPCHAIN_REGION_PROBE_DIR=$run }
 else { Remove-Item Env:OPENH3M_SKY_SWAPCHAIN_REGION_PROBE_DIR -ErrorAction SilentlyContinue }
 $profileArgs=@()
 if($ProfileSeed) { $profileArgs=@('--profile-seed',$ProfileSeed) }
-[ordered]@{region_only=[bool]$RegionOnly;full_viewport=[bool]$FullViewport;native_observer=[bool]$NativeObserver;guest_region=[bool]$RegionProbe;swapchain_region=[bool]$SwapchainProbe;stage_probe=[bool]$StageProbe;presented_probe=[bool]$PresentedProbe;draw_trace=(-not $RegionOnly);pixel_probe=(-not $RegionOnly);region=$env:OPENH3M_SKY_REGION_PROBE_REGION;arm_delay_ms=$ArmDelayMs} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $run 'recording-configuration.json')
+[ordered]@{region_only=[bool]$RegionOnly;full_viewport=[bool]$FullViewport;native_observer=[bool]$NativeObserver;guest_region=[bool]$RegionProbe;swapchain_region=[bool]$SwapchainProbe;stage_probe=[bool]$StageProbe;late_pass_probe=[bool]$LatePassProbe;water_pass_probe=[bool]$WaterPassProbe;presented_probe=[bool]$PresentedProbe;draw_trace=(-not $RegionOnly);pixel_probe=(-not $RegionOnly);pixel_region=$PixelRegion;region=$env:OPENH3M_SKY_REGION_PROBE_REGION;arm_delay_ms=$ArmDelayMs} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $run 'recording-configuration.json')
 & 'C:/Users/smmel/AppData/Local/Programs/Python/Python312/python.exe' -B tools/warlock-conversion/snapshot/tools/trace_loading.py `
     --project C:/X360/ISOs/H3M --game C:/X360/ISOs/H3M `
     --exe (Join-Path $run 'runtime/OpenH3M.exe') --expected-exe-sha256 $hashes.'OpenH3M.exe' `

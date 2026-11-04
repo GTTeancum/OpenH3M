@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <vector>
 
 namespace rex::graphics::d3d12 {
 class SkyStageProbe {
@@ -23,6 +24,9 @@ class SkyStageProbe {
     uint32_t phase=0,count=0,format=0,resource_format=0,bytes=0,width=0,height=0;
   };
   bool Enabled()const{return !directory_.empty();}
+  bool AllDraws()const{return all_draws_;}
+  bool WaterDraws()const{return water_draws_;}
+  uint32_t PointCount()const{return (all_draws_||water_draws_)?1:uint32_t(points.size());}
   template<typename Copy>
   void Record(ID3D12Device* device,ID3D12Resource* source,DXGI_FORMAT format,
               uint64_t frame,uint64_t sequence,uint64_t shader,uint32_t count,
@@ -37,7 +41,7 @@ class SkyStageProbe {
       fprintf(file_,"event,frame,sequence,phase,shader,index_count,submission,resource,format,resource_format,width,height,x,y,bytes,w0,w1,w2,w3\n");
       first_frame_=frame;start_=now;
     }
-    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=100000){
+    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=(all_draws_?400000:100000)){
       fprintf(file_,"end,%llu,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",frame);
       fflush(file_);finished_=true;return;
     }
@@ -56,16 +60,16 @@ class SkyStageProbe {
       default:break;
     }
     const auto desc=source->GetDesc();
-    if(!bytes||desc.SampleDesc.Count!=1||desc.Width<=1029||desc.Height<=253){
+    if(!bytes||desc.SampleDesc.Count!=1||desc.Width<=(PointCount()==1?714:1029)||desc.Height<=(PointCount()==1?210:257)){
       fprintf(file_,"unsupported,%llu,%llu,%u,%llu,%u,0,0,%u,%u,%llu,%u,0,0,0,0,0,0,0\n",
         frame,sequence,phase,shader,count,uint32_t(format),uint32_t(desc.Format),desc.Width,desc.Height);
-      fflush(file_);finished_=true;return;
+      fflush(file_);if(!all_draws_)finished_=true;return;
     }
     Slot* slot=nullptr;for(auto& candidate:slots_)if(!candidate.submission){slot=&candidate;break;}
     if(!slot){fprintf(file_,"busy,%llu,%llu,%u,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",frame,sequence,phase);return;}
     if(!slot->buffer){
       D3D12_RESOURCE_DESC buffer{};
-      ui::d3d12::util::FillBufferResourceDesc(buffer,points.size()*512,D3D12_RESOURCE_FLAG_NONE);
+      ui::d3d12::util::FillBufferResourceDesc(buffer,PointCount()*512,D3D12_RESOURCE_FLAG_NONE);
       if(FAILED(device->CreateCommittedResource(&ui::d3d12::util::kHeapPropertiesReadback,
         D3D12_HEAP_FLAG_NONE,&buffer,D3D12_RESOURCE_STATE_COPY_DEST,nullptr,IID_PPV_ARGS(&slot->buffer)))){
         fprintf(file_,"allocation_failed,%llu,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",frame);
@@ -82,9 +86,9 @@ class SkyStageProbe {
     if(!file_)return;
     for(auto& slot:slots_){
       if(!slot.submission||slot.submission>completed)continue;
-      D3D12_RANGE range{0,points.size()*512};void* mapped=nullptr;
+      D3D12_RANGE range{0,PointCount()*512};void* mapped=nullptr;
       if(SUCCEEDED(slot.buffer->Map(0,&range,&mapped))){
-        for(uint32_t i=0;i<points.size();++i){
+        for(uint32_t i=0;i<PointCount();++i){
           std::array<uint32_t,4> value{};std::memcpy(value.data(),static_cast<uint8_t*>(mapped)+i*512,slot.bytes);
           fprintf(file_,"sample,%llu,%llu,%u,%llu,%u,%llu,%llu,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\n",
             slot.frame,slot.sequence,slot.phase,slot.shader,slot.count,slot.submission,slot.resource,
@@ -112,10 +116,14 @@ class SkyStageProbe {
     auto dir=std::filesystem::canonical(requested,ec);if(ec||dir==root)return;
     auto relative=dir.lexically_relative(root);if(relative.empty()||relative.is_absolute())return;
     for(auto& part:relative)if(part==L"..")return;
+    if(const auto* all=std::getenv("OPENH3M_SKY_STAGE_ALL_DRAWS"))all_draws_=std::strcmp(all,"1")==0;
+    if(const auto* water=std::getenv("OPENH3M_SKY_STAGE_WATER_DRAWS"))water_draws_=std::strcmp(water,"1")==0;
+    slots_.resize(all_draws_?4096:128);
     directory_=dir;
   }
   std::filesystem::path directory_;
-  std::array<Slot,128> slots_;
+  std::vector<Slot> slots_;
+  bool all_draws_=false,water_draws_=false;
   FILE* file_=nullptr;bool finished_=false;
   uint64_t first_frame_=0,rows_=0;
   std::chrono::steady_clock::time_point start_;

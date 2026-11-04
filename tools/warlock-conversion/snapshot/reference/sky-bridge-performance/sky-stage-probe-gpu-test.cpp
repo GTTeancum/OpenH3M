@@ -51,7 +51,7 @@ int main() {
   D3D12_TEXTURE_COPY_LOCATION a{};a.pResource=target;a.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
   a.PlacedFootprint.Footprint={DXGI_FORMAT_R16G16B16A16_FLOAT,1,1,1,256};
   D3D12_TEXTURE_COPY_LOCATION b{};b.pResource=texture.Get();b.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-  for(unsigned i=0;i<probe.points.size();++i) {
+  for(unsigned i=0;i<probe.PointCount();++i) {
    auto p=probe.points[i];D3D12_BOX box{p[0],p[1],0,p[0]+1,p[1]+1,1};a.PlacedFootprint.Offset=i*512;
    list->CopyTextureRegion(&a,0,0,0,&b,&box);
   }
@@ -75,5 +75,5 @@ int main() {
  if(WaitForSingleObject(event,10000)!=WAIT_OBJECT_0)throw std::runtime_error("GPU wait failed");CloseHandle(event);
  probe.Poll(fence->GetCompletedValue());
  probe.Record(device.Get(),texture.Get(),DXGI_FORMAT_R16G16B16A16_FLOAT,310,0,14617156369365479079ull,21858,0,2,1,[](ID3D12Resource*){throw std::runtime_error("Limit failed");});
- probe.Shutdown(1);puts("Native WARP probe test completed; verify both phases and all 16 numeric pixels.");
+ probe.Shutdown(1);printf("Native WARP probe test completed; verify both phases and %u numeric points.\n",probe.PointCount());
 }

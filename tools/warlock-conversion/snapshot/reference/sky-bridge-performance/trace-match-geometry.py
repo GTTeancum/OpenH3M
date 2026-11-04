@@ -11,6 +11,12 @@ c=Cache('work/sky-bridge/payload-32/sky_bridge.map')
 c.shared_paths={'maps\\shared.map':Path('C:/X360/ISOs/H3M/maps/shared.map')};c.decoded_pages={}
 materials=json.loads(Path('work/sky-bridge/card-material-geometry-audit.json').read_text())['materials']
 material_by_slot={m['slot']:m for m in materials}
+# Source names are stable by material slot, but inserted shader dependencies
+# changed target tag IDs after the older card audit. Resolve IDs from this map.
+bsp_materials=[c.block(t['offset']+192,36) for t in c.tags.values()
+              if t['group']=='sbsp' and c.u(t['offset']+192)==len(materials)]
+if len(bsp_materials)!=1:raise ValueError('Ambiguous BSP material table')
+target_material_by_slot={slot:c.u(row+12)&65535 for slot,row in enumerate(bsp_materials[0])}
 blobs=collections.defaultdict(list); meshes=[]
 for tid,t in c.tags.items():
  roots=[]
@@ -35,7 +41,7 @@ for tid,t in c.tags.items():
     e=dict(owner=tid,owner_group=t['group'],mesh=mi,part=pi,material_slot=slot,index_start=start,index_count=length,
       vertex_format=fmt,vertex_stride=stride,vertex_count=count,
       vertex_prefix_sha256=hashlib.sha256(positions[:512]).hexdigest(),vertex_prefix_length=min(512,len(positions)),
-      material=material_by_slot.get(slot,{}).get('source'),target_material=material_by_slot.get(slot,{}).get('target_id'))
+      material=material_by_slot.get(slot,{}).get('source'),target_material=target_material_by_slot.get(slot))
     prefix=indices[start*2:start*2+min(512,length*2)]
     if prefix:blobs[hashlib.sha256(prefix).hexdigest()].append(e)
    meshes.append((tid,mi,count,fmt,stride))

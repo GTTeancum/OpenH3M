@@ -20,6 +20,7 @@ class SkyDrawTrace {
             uint32_t index_endian, memory::Memory* memory) {
     active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if (water_only_ && (!ps || ps->ucode_data_hash()!=11015601269670120444ull)) return;
     if (targets_only_ && (count!=28632 && count!=21858)) return;
     auto now = std::chrono::steady_clock::now();
     if (!file_) {
@@ -33,6 +34,7 @@ class SkyDrawTrace {
       start_ = now; first_frame_ = frame;
       const uint32_t version[] = {1, RegisterFile::kRegisterCount};
       Packet(0, version, sizeof(version));
+      if(compact_){const uint32_t ranges[]={1,0x2000,0x2400,0x4000,RegisterFile::kRegisterCount};Packet(8,ranges,sizeof(ranges));}
     }
     if (frame - first_frame_ >= 300 || now - start_ >= std::chrono::seconds(15)) {
       Finish(1); return;
@@ -46,15 +48,17 @@ class SkyDrawTrace {
       primitive, count, index_address, index_length, index_format, index_endian};
     Packet(1, header, sizeof(header));
     changes_.clear();
-    for (uint32_t i = 0; i < RegisterFile::kRegisterCount; ++i) {
+    auto capture=[&](uint32_t begin,uint32_t end){for (uint32_t i = begin; i < end; ++i) {
       if (sequence_ == 1 || previous_[i] != regs[i]) {
         changes_.push_back(i); changes_.push_back(regs[i]); previous_[i] = regs[i];
       }
-    }
+    }};
+    if(compact_){capture(0x2000,0x2400);capture(0x4000,RegisterFile::kRegisterCount);}
+    else capture(0,RegisterFile::kRegisterCount);
     Packet(2, changes_.data(), uint32_t(changes_.size() * 4));
     // CPU-visible byte prefixes identify buffers, not GPU-resolved texture content.
-    Prefix(index_address, index_length, memory);
-    for (uint32_t i = targets_only_ ? 95 : 0; i < 96; ++i) {
+    if(!compact_)Prefix(index_address, index_length, memory);
+    for (uint32_t i = compact_?96:(targets_only_ ? 95 : 0); i < 96; ++i) {
       const uint32_t at = 0x4800 + i * 2;
       if ((regs[at] & 3) == 3) {
         Prefix((regs[at] >> 2) << 2, ((regs[at+1] >> 2) & 0xffffff) * 4, memory);
@@ -70,6 +74,10 @@ class SkyDrawTrace {
   SkyDrawTrace() {
     const auto* targets=_wgetenv(L"OPENH3M_SKY_TRACE_TARGETS");
     targets_only_=targets && wcscmp(targets,L"1")==0;
+    const auto* water=_wgetenv(L"OPENH3M_SKY_TRACE_WATER");
+    water_only_=water && wcscmp(water,L"1")==0;
+    const auto* compact=_wgetenv(L"OPENH3M_SKY_TRACE_COMPACT");
+    compact_=compact && wcscmp(compact,L"1")==0;
     const wchar_t* requested = _wgetenv(L"OPENH3M_SKY_TRACE_DIR");
     if (!requested || !*requested) return;
     std::error_code ec;
@@ -119,7 +127,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
-  bool targets_only_=false,active_draw_=false;
+  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
   std::array<uint32_t, RegisterFile::kRegisterCount> previous_{};

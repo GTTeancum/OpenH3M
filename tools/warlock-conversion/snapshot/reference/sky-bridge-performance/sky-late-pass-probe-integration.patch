@@ -1,0 +1,23 @@
+--- a/src/graphics/d3d12/render_target_cache.cpp
++++ b/src/graphics/d3d12/render_target_cache.cpp
+@@ -1093,7 +1093,10 @@
+ void D3D12RenderTargetCache::ProbeSkyDraw(uint64_t frame,uint64_t sequence,uint64_t shader,
+     uint32_t count,uint32_t phase,uint64_t submission,uint64_t completed) {
+   auto& probe=SkyStageProbe::Get();
+-  if(!probe.Enabled()||(count!=28632&&count!=21858)||
++  if(!probe.Enabled())return;
++  if(probe.WaterDraws()){if(shader!=11015601269670120444ull)return;}
++  else if(probe.AllDraws()){if(phase!=1)return;}
++  else if((count!=28632&&count!=21858)||
+      (shader!=8562590739555380577ull&&shader!=14617156369365479079ull&&shader!=14007674117786981017ull))return;
+   if(GetPath()!=Path::kHostRenderTargets||!(GetLastUpdateBoundRenderTargets()&2))return;
+   auto* target=static_cast<D3D12RenderTarget*>(last_update_accumulated_render_targets()[1]);
+@@ -1110,7 +1113,7 @@
+       D3D12_TEXTURE_COPY_LOCATION output{};output.pResource=destination;
+       output.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+       output.PlacedFootprint.Footprint={resource->GetDesc().Format,1,1,1,256};
+-      for(uint32_t i=0;i<probe.points.size();++i){
++      for(uint32_t i=0;i<probe.PointCount();++i){
+         const auto& p=probe.points[i];D3D12_BOX box{p[0],p[1],0,p[0]+1,p[1]+1,1};
+         output.PlacedFootprint.Offset=i*512;
+         command_processor_.GetDeferredCommandList().D3DCopyTextureRegion(&output,0,0,0,&source,&box);
