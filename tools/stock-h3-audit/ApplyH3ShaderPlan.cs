@@ -41,6 +41,7 @@ class ApplyH3ShaderPlan
         {
             case ".shader":return "rmsh*";
             case ".shader_terrain":return "rmtr*";
+            case ".shader_water":return "rmw *";
             default:throw new ArgumentException("Unsupported shader group: "+path);
         }
     }

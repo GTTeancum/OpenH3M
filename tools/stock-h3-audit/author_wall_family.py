@@ -29,7 +29,7 @@ parser.add_argument('--only-bitmap',help='Reimport one named bitmap and update i
 args=parser.parse_args()
 family=families[args.family]
 kind=family.get('kind','shader')
-group='shader_terrain' if kind=='terrain' else 'shader'
+group={'shader':'shader','terrain':'shader_terrain','water':'shader_water'}[kind]
 source_group=family.get('source_group',group)
 DONOR=family['donor']
 DEST=OUT/(args.family+'-family')
@@ -58,7 +58,18 @@ source_inputs=SourceShaderInputs()
 native_defaults=ShaderDefaults(kind)
 reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text())
 stock_options=json.loads((OUT/('h3-effective-'+kind+'-options.json')).read_text())[DONOR]
-if kind=='terrain':CATEGORIES={c['category'] for c in stock_options}
+if kind in ('terrain','water'):CATEGORIES={c['category'] for c in stock_options}
+reused_bitmaps={}
+if kind=='water':
+    assert family.get('approved_stock_water_behavior')
+    waves=json.loads((OUT/'water-wave-asset-verification.json').read_text())
+    for wave in waves['arrays']:
+        assert all(c['exact_decoded_match'] for c in wave['comparisons'])
+        for game in ('h3','reach'):
+            entry=wave['exports'][game]
+            assert sha(Path(entry['source']))==entry['sha256']
+            remember(Path(entry['source']))
+        reused_bitmaps[wave['tag']]=wave['tag']
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
 flat_normal=family.get('stock_flat_normal',False)
@@ -169,6 +180,7 @@ for source,inspection in reach_options.items():
             assert bitmap==override['source'],('Approved source reference changed',source,name,bitmap)
             bitmap=override['replacement']
         resolved_bitmaps[source][name]=bitmap
+        if bitmap in reused_bitmaps:continue
         if bitmap.startswith('shaders\\default_bitmaps\\'):continue
         image=(REACH/'data'/bitmap).with_suffix('.tiff')
         assert image.is_file(),image
@@ -251,6 +263,7 @@ for bitmap,entry in images.items():
                           {'noise_map_a','noise_map_b','alpha_mask_map'},
                           {'base_map','material_texture'},
                           {'base_map','detail_map'}]
+        if kind=='water':shared_role_sets.append({'foam_texture','foam_texture_detail'})
         assert len(entry['roles'])==1 or any(set(entry['roles'])<=roles for roles in shared_role_sets),entry
     role=entry['roles'][0]
     normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
@@ -274,13 +287,23 @@ for bitmap,entry in images.items():
     assert curve in (1,3) or unknown_cube,metadata[bitmap]
     if kind=='terrain':
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
-    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','detail_map2':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)'}[role]
+    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','detail_map2':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)','watercolor_texture':'Diffuse Map','global_shape_texture':'Diffuse Map','foam_texture':'Diffuse Map','foam_texture_detail':'Diffuse Map'}[role]
     if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
         Format='Use Default (defined by usage)' if normal else ('8-bit Monochrome + 8-bit Alpha' if monochrome and role!='environment_map' else 'DXT5 (Compressed Color + Compressed 8-bit Alpha)'),
         LinearSource=curve==3 and not normal,Curve='sRGB' if curve==1 and not normal else None,SourceGamma=2.2)
     entry['source_curve']=curve;entry['settings']=setting
+    if kind=='water' and role=='watercolor_texture':
+        # The original narrow color/opacity strip is uncompressed ARGB.
+        # Recompressing it as DXT5 failed the native pixel comparison.
+        assert int(metadata[bitmap]['bitmaps'][0]['format'])==11
+        setting['Format']='24-bit Color + 8-bit Alpha'
+        assert curve==1
+        # Tool's native Diffuse Map defaults preserve this strip exactly;
+        # an explicit gamma override changes its low-valued color channels.
+        setting.update(Curve=None,ClearOverride=True,SourceGamma=0)
+        entry['retained_uncompressed_source']=True
     if 'max mipmap level' in metadata[bitmap]['fields']:
         setting['MaxMipmapLevel']=int(metadata[bitmap]['fields']['max mipmap level'])
     compiled=metadata[bitmap]['bitmaps'][0]
@@ -345,8 +368,9 @@ for index,entry in enumerate(images.values()):
     if entry.get('source_unknown_curve'):
         assert saved['curve']=='sRGB',entry
         entry['native_curve_selection']='Official Tool sRGB usage override; original extracted image unchanged.'
+    elif entry.get('retained_uncompressed_source'):assert saved['curve']=='sRGB',entry
     elif not normal:assert saved['curve']==('linear' if entry['source_curve']==3 else 'sRGB'),entry
-    assert saved['format']==('dxn' if normal else ('a8y8' if entry['monochrome'] and role!='environment_map' else 'dxt5')),entry
+    assert saved['format']==('a8r8g8b8' if entry.get('retained_uncompressed_source') else 'dxn' if normal else ('a8y8' if entry['monochrome'] and role!='environment_map' else 'dxt5')),entry
     entry['xml']=str(exported);entry['saved']=saved
     if index%8==0:print('BITMAPS_IMPORTED',index+1,'of',len(images),flush=True)
 
@@ -392,7 +416,7 @@ for index,source in enumerate(sorted(sources)):
             if glass and name=='base_map':row['Bitmap']=prepared_glass['target']
             else:
                 bitmap=resolved_bitmaps[source]['base_map' if glass and name=='specular_mask_texture' else name]
-                row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
+                row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') or bitmap in reused_bitmaps else images[bitmap]['target']
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
             source_type=int(original['parameter type']['value'])
@@ -474,6 +498,7 @@ for index,source in enumerate(sorted(sources)):
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path
 report=dict(donor=DONOR,materials=reports,images=images,source_hashes=hashes,
+    reused_native_bitmaps=reused_bitmaps,approved_stock_water_behavior=family.get('approved_stock_water_behavior',False),
     prepared_glass=prepared_glass,
     stock_flat_normal=flat_normal_evidence,
     stock_full_specular_mask=full_specular_evidence,

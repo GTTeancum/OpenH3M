@@ -28,6 +28,10 @@ for family in args.family:
     kind=families[family].get('kind','shader')
     selected_configs=configs if kind=='shader' else {r['path']:r for r in json.loads((OUT/'stock-terrain-configurations.json').read_text())}
     selected_provenance=provenance if kind=='shader' else json.loads((OUT/'stock-terrain-provenance.json').read_text())
+    if kind=='water':
+        water=json.loads((OUT/'stock-water-comparison.json').read_text())
+        selected_configs={r['target']:dict(options=r['options'],sha256=water['source_hashes'][str(KIT/'tags'/r['target'])]) for r in water['candidates']}
+        selected_provenance={r['target']:r['maps'] for r in water['candidates']}
     map_name=selected_provenance[donor][0]
     cache=Path('C:/X360/ISOs/H3M/maps')/('bunkerworld.map' if map_name=='standoff' else map_name+'.map')
     before=sha(cache)
@@ -38,7 +42,7 @@ for family in args.family:
     assert run.returncode==0 and sha(cache)==before
     options=[int(v) for v in re.findall(rb'OptionIndex: Int16 = (\d+)',run.stdout)]
     expected=selected_configs[donor]['options']
-    count=10 if kind=='shader' else 6
+    count={'shader':10,'terrain':6,'water':8}[kind]
     assert len(options)==count and options==expected[:count],(donor,options,expected)
     world_witness=None
     if kind=='shader':

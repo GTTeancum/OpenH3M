@@ -62,7 +62,7 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Compare stock and MCC dependencies; record MCC-only additions and stock alternatives before authoring.
 - [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
 - [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Nine terrain, one foliage and 90 ordinary materials have saved-field checks; these are not visual acceptance.
-- [x] Bind 100 authored tags and one unchanged stock nonvisual tag through short Blender export names (101 tags / 153 used variants). Only the water material remains unassigned; geometry metadata still prevents final native map import.
+- [x] Bind 101 authored tags and one unchanged stock nonvisual tag through short Blender export names (102 tags / 154 used variants). No material slots remain unassigned; water coordinates and other geometry metadata still prevent final native map import.
 - [x] Author the four remaining terrain surfaces with exact stock H3 configurations; replace the initial ground trial with the matching four-layer specular setup. The user approved the existing Reach creek cubemap for the missing cliff reflection texture.
 - [x] Preserve stock H3 physical-material choices: 93 authored surfaces use exact source names present in original Standoff; seven empty source names retain their selected stock material. Verify impact behavior in MCC.
 - [x] Review defaults in all 90 ordinary shaders: 315 inputs use matching native defaults; 30 differing source scalar defaults are preserved through the official function editor. The 918 selected source functions pass native readback checks, including three parent-template materials.
@@ -76,11 +76,12 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Apply the approved [stock H3 panel reflections](tools/stock-h3-audit/PANEL-REFLECTION-PROPOSAL.md) to the two circular panels and Forge panel; retain Reach artwork/detail/glow. Native source and pixel checks passed.
 - [ ] Generate the required local H3 cluster cubemaps with official Tool during MCC preparation and review panel reflections in MCC.
 - [x] Bind shared dirty glass to stock Snowbound glass with unchanged Reach artwork/base alpha, native white specular mask and flat normal. All three image checks pass; four skylight meshes retain two-sided transparency and breakable flags. Native Blender assignment WIP captured; actual appearance and breaking remain for MCC.
-- [ ] Finish the water material and collision-only/lightmap-only metadata.
+- [x] Apply approved stock H3 water behavior using Longshore's donor and Reach artwork. Native checks verify 32 source functions and all four imported images; the river color/alpha strip matches exactly after retaining uncompressed storage and native Tool color defaults. Water coordinates remain pending.
+- [ ] Finish collision-only/lightmap-only lighting metadata.
 - [x] Verify Standoff's stock invalid tag and bind it only to the six collision-only box faces and 32 lightmap-only sun faces. Native exporter flag checks passed; this does not resolve emission metadata.
 - [ ] Resolve 117 source lighting records: 103 lightmap-resolution selections, 12 emission selections, one chart group and one lightmap type. Confirm source units and resolution semantics before transfer.
-- [ ] Resolve water coordinates and Reach-only foam controls: native source audit maps 42 water vertices across three meshes to their original main/water UVs; the documented H3 workflow needs four channels. No arbitrary channel weights have been authored. Preserve collision-only and lightmap-only invalid-material surfaces and finish their metadata.
-- [x] Full unmodified ASS export/readback passed at the 100-tag checkpoint: 1,247 instances and 247,855 triangles. The newer 101-tag scene has saved-binding checks; refresh the full export after remaining authoring.
+- [ ] Resolve water coordinates: native source audit maps 42 water vertices across three meshes to their original main/water UVs; the documented H3 workflow needs four channels. The user approved [stock H3 water behavior](tools/stock-h3-audit/WATER-MATERIAL-PROPOSAL.md), including differences where Reach-only controls have no counterpart. No arbitrary channel weights have been authored.
+- [x] Full unmodified ASS export/readback passed at the 100-tag checkpoint: 1,247 instances and 247,855 triangles. The newer 102-tag scene has saved-binding checks; refresh the full export after remaining authoring.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
 - [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
 - [ ] Import, compile and light using official H3 MCC tools.

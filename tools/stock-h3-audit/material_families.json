@@ -588,6 +588,14 @@
     "stock_flat_normal": true,
     "stock_full_specular_mask": true
   },
+  "water": {
+    "kind": "water",
+    "donor": "levels\\dlc\\docks\\shaders\\water\\dock_water_2.shader_water",
+    "sources": ["levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_river.shader_water"],
+    "image_count": 4,
+    "bitmap_roles": ["wave_displacement_array", "wave_slope_array", "watercolor_texture", "environment_map", "global_shape_texture", "foam_texture", "foam_texture_detail"],
+    "approved_stock_water_behavior": true
+  },
   "forge_panel": {
     "donor": "levels\\dlc\\armory\\shaders\\metal_black_ibeam_unwrap.shader",
     "sources": [

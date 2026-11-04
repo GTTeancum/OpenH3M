@@ -85,7 +85,7 @@ for material in sorted(used,key=lambda m:m.name):
         assert sha(alias)==digest
         bindings[original]=dict(name=name,authored=str(target),export_tag=str(alias),sha256=digest)
     row=bindings[original]
-    material.ass_jms.name_override=row['name']
+    material.ass_jms.name_override=("'" if original.endswith('.shader_water') else '')+row['name']
     exported=mesh_processing.append_material_symbols(material,'halo3',True)
     assert len(exported)<=32,(material.name,exported)
     assigned.append(dict(material=material.name,source=original,export_name=exported))

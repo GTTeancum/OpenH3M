@@ -1330,3 +1330,62 @@ Evidence: `h3-effective-water-options.json`, `original-water-geometry.json`,
 `water-wave-asset-verification.json`, native XML/TGA exports and logs under
 `water-bitmap-pixels`, and `extra-reach-bitmap-extractions.json`, all under
 `work/stock-h3-audit`. The saved scene remains at 101 bound tags; water is pending.
+
+## Approved H3 water authored and bound (2026-11-04)
+
+The user approved Longshore's stock H3 water behavior where Reach-only controls
+have no counterpart, retaining Reach geometry and artwork. The decision and
+remaining limits are in [WATER-MATERIAL-PROPOSAL.md](WATER-MATERIAL-PROPOSAL.md).
+The native H3 water tag is authored and bound; geometry channels remain pending.
+
+The read-only official H3 API audit found six Longshore meshes containing 1,555
+water vertices. All have `local info` `(10,0,0)`, plus varying velocity fields
+and base-coordinate W of zero or 0.5. Reach exposes only its base float2 in the
+additional water block. General101's unmodified ASS exporter writes W=0.
+These facts constrain the remaining authoring; no extra coordinates or custom
+exporter modifications were invented. `InspectH3WaterGeometry.cs` records the
+original BSP hash before/after and reads data without saving the tag.
+
+The same native audit records H3 material properties in their actual properties
+block. Longshore uses continuous lightmap-resolution values such as 0.001, 0.25,
+1 and 6. Foundry's Reach exporter sends its seven-level selection as an integer
+with default 3. This does not establish a direct numeric transfer; the 117
+lighting metadata records remain unresolved. The initial Python H3 probe was
+stopped after its initializer remained live without progress; the existing
+working C# API initialization path completed the read successfully. An initial
+direct-field lookup was corrected to read H3's actual material-properties block.
+
+Material automation now accepts the official `shader_water` group (`rmw `,
+including its significant space). The Longshore donor was rechecked against
+the original 360 cache: eight options match, source and donor files unchanged.
+The authored river retains 32 source function blobs and one differing shared
+scalar default through the native function editor. H3-only donor controls remain
+native; Reach-only foam/slope/normal controls are recorded, not reconstructed.
+The two matching H3 wave arrays are referenced directly without reimport.
+
+Four image inputs pass native export comparisons: original river color/alpha,
+shape, foam, and the previously verified creek cube. The color strip initially
+failed under generic DXT5/sRGB import settings. Its original is uncompressed
+ARGB; retaining that storage corrected alpha but an explicit gamma override still
+changed color. Native H3 Diffuse Map defaults with the override cleared produce
+an exact RGBA match to both the extracted TIFF and original Reach Tool export.
+The final saved H3 curve is sRGB. No pixels or verifier thresholds were edited.
+Shape channel means are below 1.13/255; foam below 0.30/255. Cube-face appearance
+and all rendered water behavior remain for MCC review.
+
+The saved scene now binds 102 tags / 154 used variants, with no pending material
+slots. `verify_water_bindings.py` checks all current authored/alias hashes and
+the river's three meshes / 42 faces. The unmodified exporter emits the documented
+water material apostrophe. The two original UV layers remain unchanged; this is
+not a final water-geometry export. Physical names remain 93 exact stock matches,
+with eight empty-source cases retaining native donors, including water.
+
+Native Blender proof `wip/h3-water-assignments-river.png` was inspected: cyan
+river surfaces run between the bases, partly occluded by the actual rock arch.
+This is a diagnostic assignment view, not water texture/shading acceptance.
+The render leaves the saved scene unchanged. The full ASS checkpoint is still
+the earlier 100-tag scene; the broad `active-input-checkpoint.json` remains the
+101-tag historical checkpoint. Current river evidence is in `water-family`,
+`water-material-binding-verification.json`, `h3-material-bindings.json`,
+`water-donor-integrity.json`, and `h3-docks-water-geometry.json` under
+`work/stock-h3-audit`. No MCC or 360 acceptance is claimed.
