@@ -57,6 +57,7 @@ reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text()
 stock_options=json.loads((OUT/'h3-effective-shader-options.json').read_text())[DONOR]
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
+stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
 sources=[]
 images={}
 parameters={}
@@ -199,6 +200,7 @@ for index,source in enumerate(sorted(sources)):
     remember(REACH/'tags'/source)
     params,defaults=parameters[source]
     source_active=native_defaults.source_parameters(source)
+    retained_color_storage=[]
     plan=dict(Kit=str(KIT),Donor=DONOR,Target=str(PREFIX/'shaders'/Path(source).name),Parameters=[])
     for name,definition in active.items():
         if name not in source_active:continue
@@ -210,6 +212,19 @@ for index,source in enumerate(sorted(sources)):
             row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
+            source_type=int(original['parameter type']['value'])
+            if name=='env_tint_color' and source_type==5 and row['Type']==1:
+                # Official stock H3 shaders also store this RGB option's
+                # function in an ARGB parameter. Retain original storage and
+                # bytes, rather than encode or discard its alpha channel.
+                witness=r'objects\characters\sentinel_constructor\shaders\sentinel_constructor.shader'
+                configuration=stock_configurations[witness]
+                assert configuration['options'][5]==1
+                assert any(p['name']==name and p['type']==5 for p in configuration['parameters'])
+                remember(KIT/'tags'/witness)
+                assert hashes[str(KIT/'tags'/witness)]==configuration['sha256']
+                row['Type']=source_type
+                retained_color_storage.append(dict(name=name,source_type=source_type,option_type=1,stock_witness=witness))
             assert int(original['parameter type']['value'])==row['Type'],(source,name,original['parameter type'],row['Type'])
             if row['Type']==2:row['Real']=float(original['real']['value'])
             if row['Type'] in (3,4):row['Integer']=int(original['int/bool']['value'])
@@ -255,6 +270,7 @@ for index,source in enumerate(sorted(sources)):
         functions=sum('Constant' not in a for p in plan['Parameters'] for a in p['Animations']),
         native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
         input_provenance=provenance[source],inactive_source_inputs=sorted(set(params)-set(source_active)),
+        retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path

@@ -19,14 +19,20 @@ def sha(path):
 evidence=[]
 # Other stock levels are inspected for configurations absent from Standoff,
 # Guardian, Valhalla and Sandtrap. They do not expand the chosen Forge palette.
-additional=['construct','cyberdyne','deadlock','salvation','snowbound','zanzibar','sandbox']
+additional=['construct','cyberdyne','deadlock','salvation','snowbound','zanzibar','sandbox',
+            'armory','chill','chillout','descent','docks','fortress','ghosttown',
+            'isolation','lockout','midship','sidewinder','spacecamp','warehouse',
+            'mainmenu','shared']
 for name in additional:
     path=MAPS/(name+'.map');before=sha(path);log=OUT/(name+'-all-tags.txt')
     run=subprocess.run([str(OUT/'bin/TagTool.exe'),str(path),'ListTags'],cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
     log.write_bytes(run.stdout)
-    assert run.returncode==0 and b'[Index:' in run.stdout,log
+    assert run.returncode==0,log
+    assert b'[Index:' in run.stdout or name=='shared',log
     after=sha(path);assert before==after,path
-    evidence.append(dict(map=str(path),sha256=before,unchanged=True,log=str(log)))
+    evidence.append(dict(map=str(path),sha256=before,unchanged=True,log=str(log),
+                         listed_tags=run.stdout.count(b'[Index:'),
+                         limitation='Shared resource cache returned no standalone tag entries' if name=='shared' else None))
     print('STOCK_MAP_READ',name,flush=True)
 (OUT/'additional-stock-map-integrity.json').write_text(json.dumps(evidence,indent=2)+'\n')
 provenance={}

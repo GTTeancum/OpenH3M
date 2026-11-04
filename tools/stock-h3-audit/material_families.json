@@ -243,6 +243,30 @@
       "detail_map"
     ]
   },
+  "sentinel_metal": {
+    "donor": "objects\\characters\\sentinel_constructor\\shaders\\sentinel_constructor.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_deadlock_metal_panels.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_forge_halo_forerunner_pipe_red.shader"
+    ],
+    "image_count": 6,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map", "material_texture", "environment_map"]
+  },
+  "forerunner_metal": {
+    "donor": "objects\\levels\\dlc\\shared\\shaders\\man_cannon_metal2.shader",
+    "sources": ["levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_metal.shader"],
+    "image_count": 2,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map", "bump_detail_map", "material_texture"]
+  },
+  "inherited_cook_metal": {
+    "donor": "levels\\dlc\\spacecamp\\shaders\\metal_backwall_a.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_circle_quarter_no.shader",
+      "levels\\multi\\forge_halo\\shaders\\forge_halo_forerunner_wall_vert.shader"
+    ],
+    "image_count": 6,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map", "bump_detail_map", "material_texture", "environment_map"]
+  },
   "inherited_tech_bank": {
     "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_tech_bank.shader",
     "sources": [

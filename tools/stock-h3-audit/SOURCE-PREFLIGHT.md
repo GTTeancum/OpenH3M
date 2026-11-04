@@ -791,3 +791,72 @@ then geometry metadata and the official H3 MCC compile. Normal fidelity,
 texture filtering, effects and actual MCC visual/gameplay testing remain open.
 No new Blender preview, MCC run, 360 conversion or shared-install change is
 claimed by this saved-field checkpoint.
+
+### Stock search expansion and Blender export bindings (2026-11-04)
+
+The additional stock-cache search now includes every remaining map in the
+available original H3 multiplayer installation, plus mainmenu and shared.
+Together with the initial four maps, 25 caches supply tag-name inventories.
+`shared.map` returned no standalone tag entries; it was hash-checked but this
+does not establish a complete shared-resource dependency audit. Native MCC
+inspection now covers 2,537 stock-provenance ordinary shader tags. Three
+mainmenu player-color shader paths are absent from the kit and remain recorded
+as missing. Exact nine-category matches remain 77 of 90 source ordinary
+shaders. A separate search through stock ordinary render-method-template names
+also found no exact configurations for the same 13 unmatched sources. This
+does not authorize stripping their features or inventing replacement shaders.
+
+Five more ordinary materials were authored: the two `sentinel_metal` surfaces,
+`forerunner_metal`, and the two `inherited_cook_metal` surfaces. Donors are the
+stock Sentinel constructor, Standoff man-cannon metal and Orbital metal backwall.
+The expanded inventory supplied the Orbital world-material setup; the earlier
+candidate list was restricted to weapon or water materials for those sources.
+`prepare_family_donors.py` verifies original-cache option vectors, unchanged
+cache/tag hashes, world misc settings and zero additional MCC options, then
+exports the native tags. It automates TagTool and official Tool commands only.
+
+The two new parent-template materials preserve 11 and 12 inherited functions
+respectively, plus their original inherited detail texture reference. One
+native input needed a storage-type review: source `env_tint_color` uses ARGB
+storage while the active option declares RGB. The official stock Sentinel
+shader uses that same ARGB storage for its active per-pixel environment tint.
+Authoring retains this original storage and function bytes rather than rewriting
+color data or removing alpha. Other type mismatches still fail the check.
+
+Totals are now 73 ordinary, five terrain and one foliage material. Native
+readback verifies 714 selected source functions, 268 matching option defaults
+and 23 scalar defaults entered through the official editor. The checkpoint
+covers 156 image references / 136 distinct bitmap tags and 415 source/donor
+hashes. New native color/alpha exports pass the existing checks; normals remain
+unverified. Physical-name authoring now covers 76 exact stock names and three
+empty-source cases retaining their donor choice.
+
+`inspect_h3_material_assignments.py` inspected every used Blender face material:
+157 material variants, 102 distinct source shader references, no unassigned
+faces. The source `invalid.shader` is used by `box003` (six faces) and
+`emissive_sun` (32 faces); these are pending metadata/material review, not
+silently replaced. Special sky, portal and seamsealer materials retain their
+native names.
+
+Following the exporter's documented shader lookup, `assign_h3_materials.py`
+sets short material name overrides and stages byte-identical copies of the
+reviewed tags in the fresh asset's `export_shaders` directory. It preserves
+face flags, geometry and original source shader provenance. No global shader
+collection edit is needed: these names are intended for asset-root lookup.
+Rerun this staging step after updating an authored tag; exports reject stale
+tag copies by hash. The saved working scene is
+`work/stock-h3-audit/battle-canyon-h3-materials.blend`.
+
+The unmodified community ASS exporter and reader verified 79 bindings across
+115 used material variants. The full ASS remains at 157 materials, 543 unique
+objects, 1,247 instances and 247,855 triangles, matching the prior inspection
+counts. Another 23 source shaders / 39 used variants remain explicitly pending.
+Evidence: `h3-material-assignment-inspection.json`, `h3-material-bindings.json`,
+`h3-bound-ass-inspection-report.json`, the family reports, and the refreshed
+`active-input-checkpoint.json` under `work/stock-h3-audit`. The optional add-on
+lxml bitmap-generation warning does not establish a failed binding; no bitmap
+generation was requested in this Blender naming/export step.
+
+Native H3 Tool lookup, map compilation, normal/reflection appearance, unresolved
+materials/effects and collision/physics metadata still require work. No MCC
+visual acceptance, 360 conversion or shared-install change occurred.
