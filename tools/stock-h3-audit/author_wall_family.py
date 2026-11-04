@@ -13,6 +13,7 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from shader_defaults import ShaderDefaults
+from source_shader_inputs import SourceShaderInputs
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
@@ -50,7 +51,8 @@ def execute(exe,arguments,label):
     assert not any(s in run.stdout.decode(errors='replace').lower() for s in ["can't resolve",'failed to','-error-','fatal error']),log
 def tool(label,*arguments):execute(KIT/'tool.exe',list(arguments),label)
 
-setups=json.loads((OUT/'hrek-shader-setups.json').read_text())
+source_inputs=SourceShaderInputs()
+native_defaults=ShaderDefaults()
 reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text())
 stock_options=json.loads((OUT/'h3-effective-shader-options.json').read_text())[DONOR]
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
@@ -58,16 +60,13 @@ stock_names={c['category']:c['option'] for c in stock_options}
 sources=[]
 images={}
 parameters={}
+provenance={}
 for source,inspection in reach_options.items():
     if source not in family['sources']:continue
     if not source.endswith('.shader'):continue
     selected={c['category']:c['option'] for c in inspection['categories']}
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
-    fields={f['name']:f for f in setups[source]}
-    assert not fields['reference'].get('value'),'Inherited inputs require separate review'
-    params={}
-    for element in fields['parameters']['elements']:
-        row={f['name']:f for f in element};params[row['parameter name']['value']]=row
+    params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
     assert set(defaults)==expected_roles,source
     for name,default in defaults.items():
@@ -109,8 +108,9 @@ settings=[]
 for bitmap,entry in images.items():
     original=Path(entry['source']);remember(original);remember(REACH/'tags'/bitmap)
     assert hashes[str(REACH/'tags'/bitmap)]==metadata[bitmap]['sha256'],bitmap
-    assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'},entry
+    assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'} or set(entry['roles'])<={'bump_map','bump_detail_map'},entry
     role=entry['roles'][0]
+    normal=role in ('bump_map','bump_detail_map')
     entry['target']=str(PREFIX/'bitmaps'/Path(bitmap).name)
     target=KIT/'tags'/entry['target'];data=(KIT/'data'/entry['target']).with_suffix('.tif')
     if data.exists():assert sha(data)==sha(original),data
@@ -127,12 +127,12 @@ for bitmap,entry in images.items():
         entry['size']=image.size;entry['monochrome']=monochrome
     curve=int(metadata[bitmap]['bitmaps'][0]['curve'])
     assert curve in (1,3),metadata[bitmap]
-    usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
-    if len(entry['roles'])>1:
+    usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
+    if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
-        Format='Use Default (defined by usage)' if role=='bump_map' else ('8-bit Monochrome + 8-bit Alpha' if monochrome and role!='environment_map' else 'DXT5 (Compressed Color + Compressed 8-bit Alpha)'),
-        LinearSource=curve==3 and role!='bump_map',Curve='sRGB' if curve==1 and role!='bump_map' else None,SourceGamma=2.2)
+        Format='Use Default (defined by usage)' if normal else ('8-bit Monochrome + 8-bit Alpha' if monochrome and role!='environment_map' else 'DXT5 (Compressed Color + Compressed 8-bit Alpha)'),
+        LinearSource=curve==3 and not normal,Curve='sRGB' if curve==1 and not normal else None,SourceGamma=2.2)
     entry['source_curve']=curve;entry['settings']=setting
     if 'max mipmap level' in metadata[bitmap]['fields']:
         setting['MaxMipmapLevel']=int(metadata[bitmap]['fields']['max mipmap level'])
@@ -146,6 +146,13 @@ for bitmap,entry in images.items():
         old_settings=dict(old['settings'])
         if 'MaxMipmapLevel' in setting and 'MaxMipmapLevel' not in old_settings:
             old_settings['MaxMipmapLevel']=int(xml(Path(old['xml'])).find("field[@name='max mipmap level']").get('value'))
+        if old_settings.get('MaxMipmapLevel')!=setting.get('MaxMipmapLevel'):
+            # A cap above the full chain and 0 (unlimited) already produced the
+            # same verified source mip count. Reuse that unchanged bitmap;
+            # do not reimport pixels merely to normalize an import setting.
+            assert int(old['saved']['mipmap count'])==int(metadata[bitmap]['bitmaps'][0]['mipmap count'])
+            entry['retained_equivalent_mip_limit']=dict(source=setting.get('MaxMipmapLevel'),existing=old_settings.get('MaxMipmapLevel'),mipmap_count=int(old['saved']['mipmap count']))
+            setting['MaxMipmapLevel']=old_settings['MaxMipmapLevel']
         assert old_settings==setting,('Shared texture import settings differ',entry['target'],old_settings,setting)
         assert old['path']==entry['path'] and sha(Path(old['source']))==sha(original)
         entry.update(saved=old['saved'],xml=old['xml'],reused_verified_tag=True,reused_tag_sha256=digest)
@@ -161,18 +168,19 @@ for index,entry in enumerate(images.values()):
     tool('bitmap-'+str(index),'bitmap_single',str(Path(entry['target']).with_suffix('.tif')))
     exported=DEST/(Path(entry['path']).stem+'.bitmap.xml')
     tool('bitmap-xml-'+str(index),'export-tag-to-xml',str(KIT/'tags'/entry['target']),str(exported))
-    bitmap=xml(exported).find("block[@name='bitmaps']/element")
-    assert bitmap is not None,exported
-    saved={f.get('name'):f.get('value') for f in bitmap.findall('field')}
+    bitmap_element=xml(exported).find("block[@name='bitmaps']/element")
+    assert bitmap_element is not None,exported
+    saved={f.get('name'):f.get('value') for f in bitmap_element.findall('field')}
     role=entry['roles'][0]
+    normal=role in ('bump_map','bump_detail_map')
     expected_size=entry['size'] if role!='environment_map' else (entry['size'][0]//4,entry['size'][1]//3)
     assert (int(saved['width']),int(saved['height']))==tuple(expected_size),entry
     assert int(saved['mipmap count'])>0,entry
-    if 'mipmap count' in metadata[bitmap]['bitmaps'][0]:
-        assert int(saved['mipmap count'])==int(metadata[bitmap]['bitmaps'][0]['mipmap count']),entry
+    if 'mipmap count' in metadata[entry['path']]['bitmaps'][0]:
+        assert int(saved['mipmap count'])==int(metadata[entry['path']]['bitmaps'][0]['mipmap count']),entry
     if role=='environment_map':assert saved['type']=='cube map'
-    if role!='bump_map':assert saved['curve']==('linear' if entry['source_curve']==3 else 'sRGB'),entry
-    assert saved['format']==('dxn' if role=='bump_map' else ('a8y8' if entry['monochrome'] and role!='environment_map' else 'dxt5')),entry
+    if not normal:assert saved['curve']==('linear' if entry['source_curve']==3 else 'sRGB'),entry
+    assert saved['format']==('dxn' if normal else ('a8y8' if entry['monochrome'] and role!='environment_map' else 'dxt5')),entry
     entry['xml']=str(exported);entry['saved']=saved
     if index%8==0:print('BITMAPS_IMPORTED',index+1,'of',len(images),flush=True)
 
@@ -186,13 +194,14 @@ if args.only_bitmap:
     raise SystemExit(0)
 
 types={'bitmap':0,'color':1,'real':2,'int':3,'bool':4,'argb color':5}
-native_defaults=ShaderDefaults()
 reports=[]
 for index,source in enumerate(sorted(sources)):
     remember(REACH/'tags'/source)
     params,defaults=parameters[source]
+    source_active=native_defaults.source_parameters(source)
     plan=dict(Kit=str(KIT),Donor=DONOR,Target=str(PREFIX/'shaders'/Path(source).name),Parameters=[])
     for name,definition in active.items():
+        if name not in source_active:continue
         original=params.get(name)
         if original is None and name not in defaults:continue
         row=dict(Name=name,Type=types[definition['parameter type']],Bitmap=None,Animations=[])
@@ -201,6 +210,7 @@ for index,source in enumerate(sorted(sources)):
             row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
+            assert int(original['parameter type']['value'])==row['Type'],(source,name,original['parameter type'],row['Type'])
             if row['Type']==2:row['Real']=float(original['real']['value'])
             if row['Type'] in (3,4):row['Integer']=int(original['int/bool']['value'])
             for element in original['animated parameters']['elements']:
@@ -244,6 +254,7 @@ for index,source in enumerate(sorted(sources)):
     reports.append(dict(source=source,target=plan['Target'],plan=str(plan_path),xml=str(exported),inputs=len(plan['Parameters']),
         functions=sum('Constant' not in a for p in plan['Parameters'] for a in p['Animations']),
         native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
+        input_provenance=provenance[source],inactive_source_inputs=sorted(set(params)-set(source_active)),
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path

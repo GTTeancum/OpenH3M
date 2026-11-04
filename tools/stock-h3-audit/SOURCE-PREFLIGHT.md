@@ -732,3 +732,62 @@ metadata and MCC visual/gameplay review remain open. Native field checks do not
 establish the rendered specular response. No new Blender render or MCC capture
 was produced in this checkpoint, and the map has not been compiled or converted
 to 360.
+
+### Eight additional materials and active source inputs (2026-11-04)
+
+The saved-tag total is now 74: 68 ordinary shaders, five terrain and one foliage.
+The new ordinary families are `metal_detail` (four surfaces), `panel_detail`,
+`rock_small`, `giant_bark` and `inherited_tech_bank` (one each). Their stock donors
+are Salvation's panel-deco trim, the stock tripmine metal, Standoff's tech
+monitor, Standoff's tree bark and Standoff's tech bank. Original Xbox 360 option
+vectors were compared with the corresponding MCC tags before authoring; the
+selected misc option and the additional MCC options are zero. These are native
+stock configurations with Reach textures, not newly generated shaders.
+
+`source_shader_inputs.py` selects existing original inputs using the previously
+verified Foundry inheritance report. The first parented material is
+`ca_bcreek_metal_oni_tech_a_illum_light_a`: four functions originate in its
+brushed-aluminum parent template. Their bytes and controls pass native readback.
+Its active image references are local to the child; this batch does not establish
+rendered correctness for inherited texture controls. Parent/source hash checks
+remain mandatory. Source rows with obsolete parameter types are distinguished
+from the type declared by the active native option.
+
+Twenty-six previously authored surfaces contained an inactive Reach
+`analytical_anti_shadow_control` field. It is absent from their active Reach
+option definitions and should not override the H3 setting. Those surfaces were
+reauthored using active source inputs only. The selected H3 donor's shadow
+control is retained and checked against the donor export. Five new surfaces
+also exclude that stale field. This supersedes the earlier 577-function count:
+the current 68 ordinary shaders preserve 650 selected source functions, with
+253 matching native defaults and 22 scalar defaults entered through the
+official function editor.
+
+The tripmine donor contains stale duplicate input entries. The official-API
+wrapper now keeps one correctly typed entry per authored input and removes the
+other same-name entries from the fresh target only. Native reopen requires
+exactly one match. All 68 current ordinary shaders passed this check; no stock
+donor was edited. This prevents XML and native readers from inspecting different
+entries under the same input name.
+
+Detail normal images use the same official bitmap-import path as base normals.
+They are explicitly excluded from color-error acceptance: direction and strength
+remain unverified. An existing mip cap may be retained when its verified saved
+count equals the source count and all other import settings and source/tag hashes
+match. The bitmap metadata lookup was also corrected to use the source path
+rather than a shadowed XML variable; newly imported images exercised this check.
+
+The current checkpoint covers 142 image references, 124 unique bitmap tags and
+374 source/donor hashes. New color/alpha exports pass the existing pixel check,
+all source mip counts match, and all current bitmap hashes match their native
+export evidence. Physical names were reapplied through the official API: 71
+surfaces use exact existing Standoff names; three empty source names retain
+their stock donor choice. Evidence is in `active-input-checkpoint.json`, the
+five family reports and pixel-verification files, `*-stock-options.txt`, and
+the physical-material evidence under `work/stock-h3-audit`.
+
+Next: finish the remaining material configurations and Blender/ASS assignment,
+then geometry metadata and the official H3 MCC compile. Normal fidelity,
+texture filtering, effects and actual MCC visual/gameplay testing remain open.
+No new Blender preview, MCC run, 360 conversion or shared-install change is
+claimed by this saved-field checkpoint.

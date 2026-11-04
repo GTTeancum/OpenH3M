@@ -70,6 +70,19 @@ class ApplyH3ShaderPlan
                         parameters.RemoveElement(i);
             foreach(var input in plan.Parameters)
             {
+                // Stock tags can contain obsolete entries with the same name
+                // but a different type. Keep one correctly typed input so
+                // native import and readback cannot select different entries.
+                int keep=-1;
+                for(int i=0;i<parameters.Elements.Count;i++)
+                    if(((TagFieldElementStringID)parameters.Elements[i].SelectField("parameter name")).GetStringData()==input.Name &&
+                       ((TagFieldEnum)parameters.Elements[i].SelectField("parameter type")).Value==input.Type && keep<0)keep=i;
+                for(int i=parameters.Elements.Count-1;i>=0;i--)
+                    if(i!=keep && ((TagFieldElementStringID)parameters.Elements[i].SelectField("parameter name")).GetStringData()==input.Name)
+                    {
+                        parameters.RemoveElement(i);
+                        Console.WriteLine("REMOVED_STALE_INPUT "+input.Name);
+                    }
                 TagElement parameter=null;
                 foreach(var element in parameters.Elements)
                     if(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()==input.Name)parameter=element;
@@ -138,8 +151,10 @@ class ApplyH3ShaderPlan
             foreach(var input in plan.Parameters)
             {
                 TagElement parameter=null;
+                int matches=0;
                 foreach(var element in parameters.Elements)
-                    if(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()==input.Name)parameter=element;
+                    if(((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData()==input.Name){parameter=element;matches++;}
+                if(matches!=1)throw new InvalidOperationException("Ambiguous saved input: "+input.Name);
                 if(parameter==null)throw new InvalidOperationException("Saved parameter missing: "+input.Name);
                 if(((TagFieldEnum)parameter.SelectField("parameter type")).Value!=input.Type)throw new InvalidOperationException("Saved parameter type differs");
                 if(input.Real.HasValue && ((TagFieldElementSingle)parameter.SelectField("real")).Data!=input.Real.Value)throw new InvalidOperationException("Saved real differs");

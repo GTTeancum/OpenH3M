@@ -26,9 +26,12 @@ class ShaderDefaults:
                'argb color':['default color','default real value']}[row['parameter type']]
         return {k:row[k] for k in ['parameter type','source extern',*names]}
 
+    def source_parameters(self,source):
+        return {v['parameter name']:v for c in self.reach_options[source]['categories'] if c['tag']
+                for v in self.reach[c['tag']]['parameters']}
+
     def plan(self,source,donor,explicit_names):
-        reach={v['parameter name']:v for c in self.reach_options[source]['categories'] if c['tag']
-               for v in self.reach[c['tag']]['parameters']}
+        reach=self.source_parameters(source)
         h3={}
         for category in self.stock_options[donor]:
             path=self.categories[category['category']].find(f"block[@name='options']/element[@index='{category['index']}']/field[@name='option']").get('value').rsplit(',',1)[0]

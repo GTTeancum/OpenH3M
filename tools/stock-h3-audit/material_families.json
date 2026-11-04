@@ -186,5 +186,74 @@
       "detail_map",
       "self_illum_map"
     ]
+  },
+  "metal_detail": {
+    "donor": "levels\\multi\\salvation\\shaders\\panel_deco_trim.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_light.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_panel_dark.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_reactor.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_reactor_base.shader"
+    ],
+    "image_count": 11,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map",
+      "environment_map"
+    ]
+  },
+  "panel_detail": {
+    "donor": "objects\\equipment\\shaders\\tripmine_metal.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_wall_d.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map"
+    ]
+  },
+  "rock_small": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_tech_monitor.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_rock_small.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map"
+    ]
+  },
+  "giant_bark": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\temp\\bunkerworld_treebark.shader",
+    "sources": [
+      "levels\\shared\\shaders\\nature\\tree\\giant_tree_bark.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "bump_detail_map",
+      "bump_map",
+      "detail_map"
+    ]
+  },
+  "inherited_tech_bank": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_tech_bank.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_oni_tech_a_illum_light_a.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "self_illum_map"
+    ]
   }
 }
