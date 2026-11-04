@@ -1,5 +1,11 @@
 # Sky Bridge performance attribution preparation
 
+Current status, 2026-11-04: **pending final review**, at the user's request.
+Candidate36 remains installed and its corrected LIVE archive is retained.
+The former Sky Bridge goal was cleared; active work has moved to Desolation.
+The chronological investigation below is preserved as evidence, including
+its limited visual coverage and outstanding final-review items.
+
 Sky Bridge from Halo Online; upstream H3 conversion by GeneralHeed / Priception,
 Halo Online Map Pack For Halo 3:
 https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original

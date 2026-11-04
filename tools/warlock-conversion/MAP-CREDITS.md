@@ -46,7 +46,10 @@ and tool revisions are recorded in `tools/battle-canyon-rebuild/README.md` and
 its provenance records. This pending entry does not claim final acceptance or
 deployment.
 
-## Sky Bridge (candidate36 installed; limited visual review complete)
+## Sky Bridge (candidate36 installed; pending final review)
+
+Status set by the user on 2026-11-04. Active conversion work has moved to
+Desolation; the existing installed map and corrected LIVE archive are retained.
 
 Original lineage: Halo Online, as identified by the source pack description.
 Source: `3003239190/maps/s3d_sky_bridgenew.map`, from
@@ -67,8 +70,7 @@ map's electric_02 light flashes. Removing duplicate render references left
 the modulation unchanged; suppressing only electric_02 light creation made
 the measured cylinder lighting constant for300 frames. Source timing and light
 curves are preserved. The light-muting control is private, not a shipped fix.
-Full-map traversal and close-up ad legibility remain unverified; the overall
-goal stays open.
+Full-map traversal and close-up ad legibility remain final-review items.
 Further numeric GPU tracing confirms that the arc particles are alive but hidden
 by back-face culling and geometry from the saved view below them. With native
 render settings unchanged, a private observer view from above measures actual
@@ -81,6 +83,20 @@ cylinders. The exact requested camera and unchanged production map/runtime were
 verified. This confirms the local arc shapes; it is not a continuous animation
 test or full-map visual acceptance. All six captures in this allowance are used.
 See `snapshot/reference/sky-bridge-performance/README.md`.
+
+## Desolation (active source preflight, 2026-11-04)
+
+Requested lineage: Desolation from Halo 2. The user supplied MythicJaqui's
+[Halo 3 Desolation Map Port (H3MO)](https://www.nexusmods.com/halothemasterchiefcollection/mods/1897),
+version 1.0, updated 2022-05-18, as a Downloads archive. The map is an MCC U13
+Waterfall replacement with scenario `levels\multi\derelict\derelict`; it is not
+an original Halo 2 cache. Exact original-geometry provenance remains to be traced.
+The package page credits MythicJaqui for the port, Krevil for its Halo Infinite
+HUD and Mackaye99 for its MA5K model. Those custom gameplay assets do not override
+this project's stock-Halo 3 asset policy. Source page checked 2026-11-04.
+This project's role is Xbox 360/OpenH3M adaptation. Initial cache and collision
+format checks passed; no native candidate or installation is claimed.
+See `DESOLATION.md` for source hashes, scope and remaining validation.
 
 
 ## Fresh Battle Canyon installation - 2026-11-03

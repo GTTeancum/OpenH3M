@@ -79,7 +79,7 @@ Evidence and limitations: [fresh source/authoring preflight](tools/stock-h3-audi
 
 ## 6. Queued map conversions
 
-The conversion goal is paused; preserve this order for when work resumes. Keep existing installed maps and the shared DLC bundle intact. Reflection's duplicate entry was intentionally removed.
+Desolation is active by user request (2026-11-04). Sky Bridge is pending final review. Preserve the remaining queue order, existing installed maps and shared DLC bundle. Reflection's duplicate entry was intentionally removed.
 
 ### 1. Reflection (Reach)
 
@@ -102,13 +102,15 @@ Pending user feedback
 
 ### 4. Sky Bridge
 
-- [ ] Finish lamp shaders on the H3 MCC conversion.
-- [ ] Finish hologram shaders.
+Pending final review (2026-11-04). Candidate36 remains installed; corrected LIVE archive and visual/performance evidence are retained.
 
 ### 5. Desolation
 
-- [ ] Inspect the located H3MO archive before conversion.
-- [ ] Confirm the source against the current source policy.
+Active goal (2026-11-04), using the source selected by the user in Downloads.
+
+- [x] Locate and hash the H3MO archive; extract its map into repository-local work storage and verify the MCC U13 cache and scenario.
+- [ ] Complete source geometry/dependency and stock-H3 asset audits before conversion.
+- [ ] Convert, validate and prepare Desolation for review through the existing Halo 3/OpenH3M pipeline.
 
 ### 6. High Noon (Reach)
 
