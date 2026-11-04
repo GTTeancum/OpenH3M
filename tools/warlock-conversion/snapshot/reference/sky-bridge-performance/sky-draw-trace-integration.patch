@@ -1,0 +1,39 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -32,6 +32,7 @@
+ #include <rex/memory/utils.h>
+ #include <rex/ui/d3d12/d3d12_presenter.h>
+ #include <rex/ui/d3d12/d3d12_util.h>
++#include "sky_draw_trace.h"
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_bindless, true, "GPU/D3D12", "Use bindless resources where available")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+@@ -2310,6 +2311,12 @@
+ bool D3D12CommandProcessor::IssueDraw(xenos::PrimitiveType primitive_type, uint32_t index_count,
+                                       IndexBufferInfo* index_buffer_info,
+                                       bool major_mode_explicit) {
++  SkyDrawTrace::Get().Draw(frame_current_, *register_file_, active_vertex_shader(),
++    active_pixel_shader(), uint32_t(primitive_type), index_count,
++    index_buffer_info ? index_buffer_info->guest_base : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->length) : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->format) : 0,
++    index_buffer_info ? uint32_t(index_buffer_info->endianness) : 0, memory_);
+ #if XE_GPU_FINE_GRAINED_DRAW_SCOPES
+   SCOPE_profile_cpu_f("gpu");
+ #endif  // XE_GPU_FINE_GRAINED_DRAW_SCOPES
+@@ -2690,6 +2697,7 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
+                                             0, 0);
++    SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+   } else {
+     D3D12_INDEX_BUFFER_VIEW index_buffer_view;
+@@ -2760,6 +2768,7 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     deferred_command_list_.D3DDrawIndexedInstanced(
+         primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
++    SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+     if (scratch_index_buffer != nullptr) {
+       ReleaseScratchGPUBuffer(scratch_index_buffer, D3D12_RESOURCE_STATE_INDEX_BUFFER);
