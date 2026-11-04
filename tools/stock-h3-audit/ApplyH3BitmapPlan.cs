@@ -16,6 +16,7 @@ public class BitmapInput
     public string Curve;
     public float SourceGamma;
     public bool ClearOverride;
+    public int? MaxMipmapLevel;
 }
 class ApplyH3BitmapPlan
 {
@@ -42,6 +43,8 @@ class ApplyH3BitmapPlan
             {
                 SetEnum(tag.SelectField("Usage"),input.Usage);
                 SetEnum(tag.SelectField("force bitmap format"),input.Format);
+                if(input.MaxMipmapLevel.HasValue)
+                    ((TagFieldElementInteger)tag.SelectField("max mipmap level")).Data=input.MaxMipmapLevel.Value;
                 if(input.ClearOverride)((TagFieldBlock)tag.SelectField("usage override")).RemoveAllElements();
                 if(input.LinearSource || input.Curve!=null)
                 {

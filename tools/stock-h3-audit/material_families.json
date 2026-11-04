@@ -1,0 +1,190 @@
+{
+  "wall": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_plate_wall.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_bb_walldetail.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_cyberdyne_metal_panel_a.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_distant_cliffs.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_512_panel_vert_symetric.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_f.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_k.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_thin_strips.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_window.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_plate.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_tread.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_guardian_floor_a.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_guardian_floor_ramp.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_guardian_minilift_floor.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_guardian_panel_tech_trim.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_beams.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_beams_exterior.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_panel_a.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_deco_trim2.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_indus_trims_a_shiny.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_tower2.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_tower_3b.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_tower_4b.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_tower_b.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_trim.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_wall_b.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_wall_c.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_side_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_top_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_tower_01.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_tower_02.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_v1_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_v2_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_v3_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_v4_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_v5_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_vent.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_metal_floor_a.shader"
+    ],
+    "image_count": 77,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "environment_map"
+    ]
+  },
+  "lights": {
+    "donor": "levels\\multi\\guardian\\shaders\\guardian_techstrip.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_blue_light.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_blue_light_trim.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_blue_light_trim2.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_pipe_illum_white.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_red_light.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_red_light_trim.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_red_light_trim2.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_white_light_trim.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_white_light_trim2.shader"
+    ],
+    "image_count": 8,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_detail_map",
+      "self_illum_map"
+    ]
+  },
+  "monitor_innards": {
+    "donor": "objects\\characters\\monitor\\shaders\\monitor_innards.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_bb_walldetail_glow.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_512_panel_vert_symetric_glow.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_panel_railing.shader"
+    ],
+    "image_count": 11,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "environment_map",
+      "self_illum_map"
+    ]
+  },
+  "road": {
+    "donor": "levels\\dlc\\bunkerworld\\sky\\shaders\\road.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_light_thin_strips.shader",
+      "levels\\multi\\classic\\ascension\\shaders\\forerunner_flat_dark_scratchy.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map"
+    ]
+  },
+  "light_techbit_cool": {
+    "donor": "levels\\multi\\salvation\\shaders\\light_techbit_cool.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_light_bands.shader"
+    ],
+    "image_count": 1,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  },
+  "bunker_tech_computer": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_tech_computer.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal2.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  },
+  "guardian_int_light_cool": {
+    "donor": "levels\\multi\\guardian\\shaders\\guardian_int_light_cool.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_pipe.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  },
+  "bunker_ceiling": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_ceiling.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_wall_vert.shader",
+      "levels\\solo\\m50\\shaders\\paneling\\wall_panel_v_light.shader"
+    ],
+    "image_count": 5,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map"
+    ]
+  },
+  "monitor_base": {
+    "donor": "objects\\characters\\monitor\\shaders\\monitor_base.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_wall_light.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  },
+  "box_cardboard": {
+    "donor": "objects\\gear\\human\\industrial\\shaders\\box_cardboard.shader",
+    "sources": [
+      "levels\\shared\\shaders\\nature\\tree\\tree_boreal_trunk.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "base_map",
+      "bump_map",
+      "detail_map"
+    ]
+  },
+  "deadlock_light_warm_illum": {
+    "donor": "levels\\multi\\deadlock\\shaders\\deadlock_light_warm_illum.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_forerunner_light_strips.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  }
+}

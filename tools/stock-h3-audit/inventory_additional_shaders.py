@@ -33,7 +33,9 @@ provenance={}
 missing=[]
 for name in ['standoff','guardian','riverworld','shrine',*additional]:
     for line in (OUT/(name+'-all-tags.txt')).read_text(encoding='utf-8-sig').splitlines():
-        match=re.search(r'\] (levels\\.+\.shader)$',line)
+        # Stock object/equipment shaders can provide missing native setups too.
+        # Names must still occur in these original 360 cache inventories.
+        match=re.search(r'\] (.+\.shader)$',line)
         if not match:continue
         path=match[1]
         if (KIT/'tags'/path).is_file():provenance.setdefault(path,[]).append(name)

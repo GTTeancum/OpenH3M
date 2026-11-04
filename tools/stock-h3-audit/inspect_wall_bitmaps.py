@@ -24,7 +24,7 @@ paths={
 }
 parser=argparse.ArgumentParser()
 parser.add_argument('--family',action='store_true')
-parser.add_argument('--family-name',choices=['wall','lights'],default='wall')
+parser.add_argument('--family-name',choices=sorted(json.loads(Path(__file__).with_name('material_families.json').read_text())),default='wall')
 args=parser.parse_args()
 if args.family:
     paths={p:p for p in json.loads((OUT/(args.family_name+'-family-candidates.json')).read_text())['images']}
@@ -41,8 +41,8 @@ try:
         tag=Bungie.Tags.TagFile()
         try:
             tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*path.rsplit('.',1)))
-            settings={str(f.DisplayName):value(f) for f in tag.Fields if str(f.DisplayName) in ['Usage','curve mode','force bitmap format']}
-            bitmaps=[{str(f.DisplayName):value(f) for f in e.Fields if str(f.DisplayName) in ['width','height','type','format','curve']}
+            settings={str(f.DisplayName):value(f) for f in tag.Fields if str(f.DisplayName) in ['Usage','curve mode','force bitmap format'] or 'mipmap' in str(f.DisplayName)}
+            bitmaps=[{str(f.DisplayName):value(f) for f in e.Fields if str(f.DisplayName) in ['width','height','type','format','curve','mipmap count']}
                      for e in tag.SelectField('Block:bitmaps').Elements]
             overrides=[{str(f.DisplayName):value(f) for f in e.Fields if hasattr(f,'Value') or hasattr(f,'GetStringData')}
                        for e in tag.SelectField('Block:usage override').Elements]

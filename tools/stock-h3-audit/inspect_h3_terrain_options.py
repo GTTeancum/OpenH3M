@@ -12,7 +12,7 @@ OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 parser=argparse.ArgumentParser()
 parser.add_argument('--kind',choices=['terrain','shader'],default='terrain')
-parser.add_argument('--only',help='One exported shader filename; merge its inspection into the existing report')
+parser.add_argument('--only',action='append',help='Exported shader filename; repeat to merge several inspections into the report')
 args=parser.parse_args()
 kind=args.kind
 group='shader_terrain' if kind=='terrain' else 'shader'
@@ -35,7 +35,7 @@ report_path=OUT/('h3-effective-'+kind+'-options.json')
 report=json.loads(report_path.read_text()) if args.only and report_path.exists() else {}
 inspected=0
 for path in sorted((OUT/'h3-shader-xml').glob('*.'+group+'.xml')):
-    if args.only and path.name!=args.only+'.xml':continue
+    if args.only and path.name not in {name+'.xml' for name in args.only}:continue
     shader=xml(path)
     selected=list(shader.find("block[@name='options']"))
     assert len(selected)<=len(categories)

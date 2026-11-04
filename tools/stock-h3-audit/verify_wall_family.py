@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 parser=argparse.ArgumentParser()
-parser.add_argument('--family',choices=['wall','lights'],default='wall')
+parser.add_argument('--family',choices=sorted(json.loads(Path(__file__).with_name('material_families.json').read_text())),default='wall')
 parser.add_argument('--reuse-exports',action='store_true',help='Compare existing native exports without rerunning export commands')
 args=parser.parse_args()
 DEST=OUT/(args.family+'-family')
@@ -22,6 +22,7 @@ from PIL import Image,ImageChops,ImageStat
 env=os.environ.copy()
 for key,relative in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:env[key]=str(OUT/relative)
 report=json.loads((DEST/'report.json').read_text())
+source_settings={v['tag']:v for v in json.loads((OUT/(args.family+'-family-bitmap-settings.json')).read_text())}
 results=[]
 problems=[]
 for index,(path,entry) in enumerate(report['images'].items()):
@@ -39,6 +40,9 @@ for index,(path,entry) in enumerate(report['images'].items()):
     role=entry['roles'][0]
     row=dict(source=path,target=entry['target'],role=role,source_curve=entry['source_curve'],h3_curve=entry['saved']['curve'],exports=[str(f) for f in files],native_direct_save_fallback=b'attempting to save directly' in output)
     row['target_sha256']=hashlib.sha256(target.read_bytes()).hexdigest()
+    row['source_mipmaps']=int(source_settings[path]['bitmaps'][0]['mipmap count'])
+    row['h3_mipmaps']=int(entry['saved']['mipmap count'])
+    assert row['h3_mipmaps']==row['source_mipmaps'],('Mipmap count differs',path,row['source_mipmaps'],row['h3_mipmaps'])
     if role=='environment_map':
         assert len(files)==6,path
         size=source.width//4

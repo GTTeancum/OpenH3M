@@ -594,3 +594,72 @@ No map compilation, MCC acceptance, 360 conversion or shared-install change has
 occurred. Remaining geometry, material configurations, normal fidelity and
 effects review are still open. The native API workflow follows the
 [ManagedBlam documentation](https://reclaimers.net/general/mod-tools/managed-blam/).
+
+### Additional panels, illumination and bark (2026-11-04)
+
+The stock inventory now includes ordinary shaders used by objects as well as
+level geometry in the same eleven original map inventories: 1,286 unique paths,
+all present in the editing kit. This adds five exact nine-category candidates,
+bringing the candidate count to 77 of 90 ordinary Reach shaders. The remaining
+13 lack a match in this inventory; that does not prove no stock alternative
+exists. Existing inventory/match reports were refreshed, and the seven additional
+cache hashes again remained unchanged.
+
+`material_families.json` records explicit source lists, stock donors, expected
+image counts and active texture roles for eleven reviewed batches. New batches
+cover thirteen surfaces: three glowing wall/railing materials, two simple
+diffuse surfaces, a light-band material, computer/panel illumination, two
+ceiling/panel materials, a wall light, tree bark and a thin light strip. Their
+nine stock donors are the existing `monitor_innards`, Standoff `road`,
+`light_techbit_cool`, `bunker_tech_computer`, `guardian_int_light_cool`,
+`bunker_ceiling`, `monitor_base`, `box_cardboard` and
+`deadlock_light_warm_illum` shaders. Original 360 ten-option vectors were checked
+against MCC, including the miscellaneous option; the three MCC additions are
+disabled. A first-person-sometimes Elite candidate was not selected when a
+stock world-light configuration was available. Read-only query evidence is in
+`next-materials-*.commands` and `.txt` under `work/stock-h3-audit/`.
+
+The new thirteen shaders have 122 native input assignments and 89 source
+functions. All passed native field/function readbacks, including separate
+verification after physical-material authoring. The total is now 66 authored
+tags: 60 ordinary shaders, five terrain shaders and one foliage shader. This
+does not establish final Blender assignments or H3 rendering acceptance.
+
+The batch uses 28 distinct images; 21 are newly imported. Shared images reuse
+an existing native tag only when its verified current hash, source pixels and
+import settings match. Eleven image references took this reuse path across the
+nine batches. A donor that omits an explicit bitmap input uses that input's
+native H3 option-default bitmap as the import seed; there is no fabricated tag.
+All new color/alpha exports passed the existing comparison gate. New normal
+imports still need the normal-fidelity/MCC checks already noted above.
+
+The thin-strip emission import initially had no mipmaps because the stock donor
+bitmap set `max mipmap level` to 1. The original Reach texture uses limit 0 and
+has eight mip levels. Setting the existing H3 field through the official API
+restored all eight levels, and the pixel check passed. The source inspector now
+records mip limits/counts; authoring preserves that field and verifies the
+resulting count. A complete count audit covered 117 image references / 106
+distinct ordinary-family images, with no source/H3 count differences. This
+checks mip presence, not rendered mip filtering or normal strength.
+
+Current evidence: `material-family-checkpoint.json`, `family-mipmap-audit.json`,
+each `*-family/report.json`, `pixel-verification.json`, native XML exports and
+readback logs. All 309 unique recorded source/donor hashes remained unchanged,
+and every current imported bitmap still matched its verified native tag hash.
+Physical names were reapplied: 64 shaders use exact existing stock names; the
+two empty source-name cases retain their selected H3 donor material.
+
+Reproduce a batch with `author_wall_family.py --family NAME --prepare`,
+`inspect_wall_bitmaps.py --family --family-name NAME`,
+`author_wall_family.py --family NAME`, then
+`verify_wall_family.py --family NAME`. Build `ApplyH3BitmapPlan` after updating
+the mip-limit wrapper. Run `author_physical_materials.py` after donor-copy batches.
+
+Outstanding: inherited source inputs, the remaining configurations, retained
+donor scalar/color defaults where source overrides are absent, normal fidelity,
+and final Blender/export shader naming all need resolution before acceptance.
+The [exporter's material documentation](https://c20.reclaimers.net/h3/source-data/h3-materials/)
+describes native name/collection lookup; setting only Foundry's shader-path
+property is insufficient for the ASS export route. Geometry, effects and actual
+MCC testing remain pending. No shader code, serializer, engine patch, 360
+conversion or shared-install change was introduced.
