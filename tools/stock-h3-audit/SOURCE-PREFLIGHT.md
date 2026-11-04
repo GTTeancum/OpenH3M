@@ -131,3 +131,32 @@ exit 0, log marker `H3_EXPORTER_BACKGROUND_LOAD_OK`. Use the same isolated
 environment as the Foundry check. Its registered export operators include
 `export_scene.ass` and `export_scene.jms`. No actual export has been attempted;
 registration does not establish compatibility or geometry fidelity.
+
+## Texture mandate clarified by the user
+
+The user explicitly selected **Reach textures, H3 shaders**. Preserve original
+Reach surface images; the H3 material donor list supplies shader/setup candidates,
+not authorization to replace Reach rock, terrain or building textures with H3
+images. The official API read of 102 source materials found 234 distinct direct
+bitmap references, saved in `reach-surface-texture-tags.json`.
+
+The user also requested Blender WIP proof images. A separate `--preview` mode
+uses Foundry's existing render-only import option for inspection. It does not
+replace the ongoing full import or establish collision/export readiness.
+`render_wip.py` renders the actual imported scene with Blender Workbench using
+a neutral single-color display; these previews must be labelled untextured
+source geometry rather than an H3 MCC result. Source bitmap extraction, H3
+shader assignment, lighting and MCC validation remain unfinished.
+
+The render-only import completed successfully in roughly two minutes: 1,011
+mesh objects, 533,913 polygons, 104 Blender materials. The source BSP SHA256
+was unchanged before/after: `5f32272631e5fd419bab35ed37546b353911d9aef4c2d8750d46454698322766`.
+Saved scene: `work/stock-h3-audit/reach-render-preview.blend`.
+Native Workbench renders: `work/stock-h3-audit/wip/overview.png` and `closer.png`.
+Both final images were opened and visually inspected: canyon terrain, bases,
+rock arch and foliage geometry are visible. The initial framing included distant
+backdrop pieces and was replaced with tighter camera framing. No map geometry
+was changed for framing. These are untextured geometry previews; foliage alpha,
+surface shading and lighting are not represented faithfully. Neither image
+proves full collision import, gameplay or MCC readiness. The separate full
+import remains a distinct live job until its process/result says otherwise.

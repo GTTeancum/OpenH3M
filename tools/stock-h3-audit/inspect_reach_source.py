@@ -78,6 +78,16 @@ try:
                 result['effect_references'][source] = references(tag.Fields)
             finally:
                 tag.Dispose()
+    result['surface_references'] = {}
+    for source in sorted(set(result['scenario_structure_bsp']['materials'])):
+        if not source:
+            continue
+        tag = Bungie.Tags.TagFile()
+        try:
+            tag.Load(Bungie.Tags.TagPath.FromPathAndExtension(*source.rsplit('.', 1)))
+            result['surface_references'][source] = references(tag.Fields)
+        finally:
+            tag.Dispose()
     (OUT / 'reach-source-references.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
 finally:
