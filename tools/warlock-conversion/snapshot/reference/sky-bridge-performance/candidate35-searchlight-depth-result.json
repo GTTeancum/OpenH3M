@@ -1,0 +1,1653 @@
+{
+  "classification": "Static searchlight lighting and dynamic lamp-face passes are rejected by depth; enabling host float24 conversion regresses all traced model coverage and is rejected",
+  "runs": [
+    {
+      "run": 40,
+      "configuration": {
+        "depth_test_trace": true,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 35,
+        "map_sha256": "9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9df7f99f104749377ab9e91bd83e6f19b40d92072c53ce61cd1ee556074c42e9",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "experiment": "Original private candidate35 settings",
+      "frames": 300,
+      "attributed_draws": 11297,
+      "queries": 7192,
+      "all_queries_and_color_pairs_complete": true,
+      "camera_draws": 8990,
+      "camera_constants_exact": true,
+      "observer_command_and_result_exact": true,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.407,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "depth_test_groups": [
+        {
+          "part": 0,
+          "vs": 15518101065676308936,
+          "ps": 12021865740332317413,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            24,
+            0,
+            24
+          ],
+          "variant_max": [
+            0,
+            32,
+            0,
+            32
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                24,
+                0,
+                24
+              ],
+              "draws": 13
+            },
+            {
+              "samples": [
+                0,
+                25,
+                0,
+                25
+              ],
+              "draws": 14
+            },
+            {
+              "samples": [
+                0,
+                26,
+                0,
+                26
+              ],
+              "draws": 26
+            },
+            {
+              "samples": [
+                0,
+                27,
+                0,
+                27
+              ],
+              "draws": 51
+            },
+            {
+              "samples": [
+                0,
+                28,
+                0,
+                28
+              ],
+              "draws": 54
+            },
+            {
+              "samples": [
+                0,
+                29,
+                0,
+                29
+              ],
+              "draws": 42
+            },
+            {
+              "samples": [
+                0,
+                30,
+                0,
+                30
+              ],
+              "draws": 71
+            },
+            {
+              "samples": [
+                0,
+                31,
+                0,
+                31
+              ],
+              "draws": 26
+            },
+            {
+              "samples": [
+                0,
+                32,
+                0,
+                32
+              ],
+              "draws": 3
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 10556403050914701579,
+          "ps": 17893540736724855907,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            7,
+            0,
+            7
+          ],
+          "variant_max": [
+            0,
+            10,
+            0,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                7,
+                0,
+                7
+              ],
+              "draws": 75
+            },
+            {
+              "samples": [
+                0,
+                8,
+                0,
+                8
+              ],
+              "draws": 153
+            },
+            {
+              "samples": [
+                0,
+                9,
+                0,
+                9
+              ],
+              "draws": 53
+            },
+            {
+              "samples": [
+                0,
+                10,
+                0,
+                10
+              ],
+              "draws": 19
+            }
+          ]
+        },
+        {
+          "part": 0,
+          "vs": 1802336714319958646,
+          "ps": 14007674117786981017,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 0,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "variant_max": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "draws": 300
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 7141575655502862876,
+          "ps": 10996139680788563763,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            7,
+            0,
+            7
+          ],
+          "variant_max": [
+            0,
+            10,
+            0,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                7,
+                0,
+                7
+              ],
+              "draws": 75
+            },
+            {
+              "samples": [
+                0,
+                8,
+                0,
+                8
+              ],
+              "draws": 153
+            },
+            {
+              "samples": [
+                0,
+                9,
+                0,
+                9
+              ],
+              "draws": 53
+            },
+            {
+              "samples": [
+                0,
+                10,
+                0,
+                10
+              ],
+              "draws": 19
+            }
+          ]
+        },
+        {
+          "part": 0,
+          "vs": 12627602885350085323,
+          "ps": 8562590739555380577,
+          "draws": 299,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 0,
+          "zero_original_depth_restores": 0,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 299,
+          "variant_min": [
+            24,
+            24,
+            24,
+            24
+          ],
+          "variant_max": [
+            32,
+            32,
+            32,
+            32
+          ],
+          "combinations": [
+            {
+              "samples": [
+                24,
+                24,
+                24,
+                24
+              ],
+              "draws": 13
+            },
+            {
+              "samples": [
+                25,
+                25,
+                25,
+                25
+              ],
+              "draws": 14
+            },
+            {
+              "samples": [
+                26,
+                26,
+                26,
+                26
+              ],
+              "draws": 26
+            },
+            {
+              "samples": [
+                27,
+                27,
+                27,
+                27
+              ],
+              "draws": 51
+            },
+            {
+              "samples": [
+                28,
+                28,
+                28,
+                28
+              ],
+              "draws": 53
+            },
+            {
+              "samples": [
+                29,
+                29,
+                29,
+                29
+              ],
+              "draws": 42
+            },
+            {
+              "samples": [
+                30,
+                30,
+                30,
+                30
+              ],
+              "draws": 71
+            },
+            {
+              "samples": [
+                31,
+                31,
+                31,
+                31
+              ],
+              "draws": 26
+            },
+            {
+              "samples": [
+                32,
+                32,
+                32,
+                32
+              ],
+              "draws": 3
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 11600849241261448272,
+          "ps": 6159915361788144154,
+          "draws": 299,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 299,
+          "zero_original_depth_restores": 0,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 299,
+          "variant_min": [
+            7,
+            7,
+            7,
+            7
+          ],
+          "variant_max": [
+            10,
+            10,
+            10,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                7,
+                7,
+                7,
+                7
+              ],
+              "draws": 75
+            },
+            {
+              "samples": [
+                8,
+                8,
+                8,
+                8
+              ],
+              "draws": 152
+            },
+            {
+              "samples": [
+                9,
+                9,
+                9,
+                9
+              ],
+              "draws": 53
+            },
+            {
+              "samples": [
+                10,
+                10,
+                10,
+                10
+              ],
+              "draws": 19
+            }
+          ]
+        }
+      ],
+      "positive_coverage_groups": 26,
+      "coverage_groups": 43,
+      "contributing_color_groups": 18,
+      "fabric_black_writes": 0,
+      "clip_plane_audit": {
+        "run": "work\\sky-bridge\\reproduction-40",
+        "frames": 300,
+        "vertices": 383,
+        "indices": 562,
+        "all_frames_have_fully_excluding_plane": true,
+        "largest_closest_excluding_distance": -4.931825246682393,
+        "limitations": [
+          "Mathematical reconstruction with float64 intermediates, not bit-exact GPU vertex execution.",
+          "Uses the byte-attributed model buffer and observed transforms, but does not directly capture post-VS positions.",
+          "Consistent with native light-volume clipping; does not by itself prove the authored light or shader is visually correct."
+        ]
+      }
+    },
+    {
+      "run": 41,
+      "configuration": {
+        "depth_test_trace": true,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 35,
+        "map_sha256": "9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "dc4d876e61b86b57d028b439dbdface01f9b61027d7bf6fd40b62b6b442f48c7",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9df7f99f104749377ab9e91bd83e6f19b40d92072c53ce61cd1ee556074c42e9",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "experiment": {
+        "basis": "reproduction-40",
+        "change": "depth_float24_convert_in_pixel_shader = true",
+        "depth_comparison": "Unchanged guest GREATER_EQUAL",
+        "rounding": "Unchanged default false (truncate)",
+        "purpose": "Isolate host float32 versus guest float24 depth representation",
+        "promotion": false
+      },
+      "frames": 300,
+      "attributed_draws": 11278,
+      "queries": 7200,
+      "all_queries_and_color_pairs_complete": true,
+      "camera_draws": 9000,
+      "camera_constants_exact": true,
+      "observer_command_and_result_exact": true,
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.406,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "depth_test_groups": [
+        {
+          "part": 0,
+          "vs": 12627602885350085323,
+          "ps": 8562590739555380577,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            24,
+            0,
+            24
+          ],
+          "variant_max": [
+            0,
+            31,
+            0,
+            31
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                24,
+                0,
+                24
+              ],
+              "draws": 13
+            },
+            {
+              "samples": [
+                0,
+                25,
+                0,
+                25
+              ],
+              "draws": 14
+            },
+            {
+              "samples": [
+                0,
+                26,
+                0,
+                26
+              ],
+              "draws": 16
+            },
+            {
+              "samples": [
+                0,
+                27,
+                0,
+                27
+              ],
+              "draws": 58
+            },
+            {
+              "samples": [
+                0,
+                28,
+                0,
+                28
+              ],
+              "draws": 59
+            },
+            {
+              "samples": [
+                0,
+                29,
+                0,
+                29
+              ],
+              "draws": 54
+            },
+            {
+              "samples": [
+                0,
+                30,
+                0,
+                30
+              ],
+              "draws": 71
+            },
+            {
+              "samples": [
+                0,
+                31,
+                0,
+                31
+              ],
+              "draws": 15
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 11600849241261448272,
+          "ps": 6159915361788144154,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            7,
+            0,
+            7
+          ],
+          "variant_max": [
+            0,
+            10,
+            0,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                7,
+                0,
+                7
+              ],
+              "draws": 60
+            },
+            {
+              "samples": [
+                0,
+                8,
+                0,
+                8
+              ],
+              "draws": 156
+            },
+            {
+              "samples": [
+                0,
+                9,
+                0,
+                9
+              ],
+              "draws": 57
+            },
+            {
+              "samples": [
+                0,
+                10,
+                0,
+                10
+              ],
+              "draws": 27
+            }
+          ]
+        },
+        {
+          "part": 0,
+          "vs": 15518101065676308936,
+          "ps": 12021865740332317413,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            24,
+            0,
+            24
+          ],
+          "variant_max": [
+            0,
+            31,
+            0,
+            31
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                24,
+                0,
+                24
+              ],
+              "draws": 13
+            },
+            {
+              "samples": [
+                0,
+                25,
+                0,
+                25
+              ],
+              "draws": 14
+            },
+            {
+              "samples": [
+                0,
+                26,
+                0,
+                26
+              ],
+              "draws": 16
+            },
+            {
+              "samples": [
+                0,
+                27,
+                0,
+                27
+              ],
+              "draws": 58
+            },
+            {
+              "samples": [
+                0,
+                28,
+                0,
+                28
+              ],
+              "draws": 59
+            },
+            {
+              "samples": [
+                0,
+                29,
+                0,
+                29
+              ],
+              "draws": 54
+            },
+            {
+              "samples": [
+                0,
+                30,
+                0,
+                30
+              ],
+              "draws": 71
+            },
+            {
+              "samples": [
+                0,
+                31,
+                0,
+                31
+              ],
+              "draws": 15
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 10556403050914701579,
+          "ps": 17893540736724855907,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            7,
+            0,
+            7
+          ],
+          "variant_max": [
+            0,
+            10,
+            0,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                7,
+                0,
+                7
+              ],
+              "draws": 60
+            },
+            {
+              "samples": [
+                0,
+                8,
+                0,
+                8
+              ],
+              "draws": 156
+            },
+            {
+              "samples": [
+                0,
+                9,
+                0,
+                9
+              ],
+              "draws": 57
+            },
+            {
+              "samples": [
+                0,
+                10,
+                0,
+                10
+              ],
+              "draws": 27
+            }
+          ]
+        },
+        {
+          "part": 0,
+          "vs": 1802336714319958646,
+          "ps": 14007674117786981017,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 0,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "variant_max": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "draws": 300
+            }
+          ]
+        },
+        {
+          "part": 1,
+          "vs": 7141575655502862876,
+          "ps": 10996139680788563763,
+          "draws": 300,
+          "host_state": {
+            "depth_enabled": 1,
+            "depth_func": 7,
+            "stencil_enabled": 1,
+            "stencil_front_func": 7,
+            "stencil_read_mask": 31,
+            "cull": 3,
+            "sample_mask": 4294967295
+          },
+          "actual_matches_readonly_original": 300,
+          "zero_original_depth_restores": 300,
+          "zero_original_stencil_restores": 0,
+          "both_equals_depth": 300,
+          "variant_min": [
+            0,
+            7,
+            0,
+            7
+          ],
+          "variant_max": [
+            0,
+            10,
+            0,
+            10
+          ],
+          "combinations": [
+            {
+              "samples": [
+                0,
+                7,
+                0,
+                7
+              ],
+              "draws": 60
+            },
+            {
+              "samples": [
+                0,
+                8,
+                0,
+                8
+              ],
+              "draws": 156
+            },
+            {
+              "samples": [
+                0,
+                9,
+                0,
+                9
+              ],
+              "draws": 57
+            },
+            {
+              "samples": [
+                0,
+                10,
+                0,
+                10
+              ],
+              "draws": 27
+            }
+          ]
+        }
+      ],
+      "positive_coverage_groups": 0,
+      "coverage_groups": 43,
+      "contributing_color_groups": 0,
+      "fabric_black_writes": 0,
+      "clip_plane_audit": {
+        "run": "work\\sky-bridge\\reproduction-41",
+        "frames": 300,
+        "vertices": 383,
+        "indices": 562,
+        "all_frames_have_fully_excluding_plane": true,
+        "largest_closest_excluding_distance": -4.931825246682393,
+        "limitations": [
+          "Mathematical reconstruction with float64 intermediates, not bit-exact GPU vertex execution.",
+          "Uses the byte-attributed model buffer and observed transforms, but does not directly capture post-VS positions.",
+          "Consistent with native light-volume clipping; does not by itself prove the authored light or shader is visually correct."
+        ]
+      }
+    }
+  ],
+  "diagnosed_rejection": {
+    "static_body": "300/300 draws: original0, stencil bypass0, depth ALWAYS24\u201332, both bypass24\u201332",
+    "static_lamp_face": "300/300 draws: original0, stencil bypass0, depth ALWAYS7\u201310, both bypass7\u201310",
+    "dynamic_lamp_face": "300/300 draws: original0, stencil bypass0, depth ALWAYS7\u201310, both bypass7\u201310",
+    "dynamic_body": "All four variants0 in300 draws. Captured native user clip planes fully exclude the mathematically projected body in every frame, consistent with light-volume clipping.",
+    "unresolved": "Which stored depth rejects the static body/lamp face, and whether the rejection comes from intervening occlusion or mismatched fragment depths."
+  },
+  "probe_effect_comparison": {
+    "runs": [
+      "work\\sky-bridge\\reproduction-39",
+      "work\\sky-bridge\\reproduction-40"
+    ],
+    "key_fields": [
+      "position_inputs_sha256",
+      "depth_control",
+      "color_mask",
+      "surface_info",
+      "raster_control"
+    ],
+    "matched_fabric_cutout_keys": 607,
+    "different_fabric_cutout_keys": 0,
+    "limitations": [
+      "Equal aggregate passing-sample counts do not establish an identical coverage mask.",
+      "Keys match referenced position constants and selected raster/depth state, not every pixel-shader input or other scene objects.",
+      "Different simulation times are matched by exact input values, not by CPU/GPU frame number.",
+      "Zero passing samples alone do not identify occlusion, depth/stencil rejection, culling, or shader discard."
+    ]
+  },
+  "probe_effect_groups": [
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 0,
+      "vs": 1802336714319958646,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          14007674117786981017
+        ],
+        [
+          14007674117786981017
+        ]
+      ],
+      "matched_keys": 282,
+      "equal_keys": 282,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 0,
+      "vs": 12627602885350085323,
+      "draws": [
+        299,
+        299
+      ],
+      "ranges": [
+        [
+          19,
+          27
+        ],
+        [
+          19,
+          27
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          8562590739555380577
+        ],
+        [
+          8562590739555380577
+        ]
+      ],
+      "matched_keys": 281,
+      "equal_keys": 281,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 0,
+      "vs": 15518101065676308936,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          12021865740332317413
+        ],
+        [
+          12021865740332317413
+        ]
+      ],
+      "matched_keys": 282,
+      "equal_keys": 282,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 1,
+      "vs": 7141575655502862876,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          10996139680788563763
+        ],
+        [
+          10996139680788563763
+        ]
+      ],
+      "matched_keys": 282,
+      "equal_keys": 282,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 1,
+      "vs": 10556403050914701579,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          17893540736724855907
+        ],
+        [
+          17893540736724855907
+        ]
+      ],
+      "matched_keys": 282,
+      "equal_keys": 282,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 1,
+      "vs": 11600849241261448272,
+      "draws": [
+        299,
+        299
+      ],
+      "ranges": [
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          10
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          6159915361788144154
+        ],
+        [
+          6159915361788144154
+        ]
+      ],
+      "matched_keys": 281,
+      "equal_keys": 281,
+      "different": []
+    },
+    {
+      "owner": 10122,
+      "mesh": 0,
+      "part": 2,
+      "vs": 10556403050914701579,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          0,
+          317
+        ],
+        [
+          0,
+          317
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          5599679742806490281
+        ],
+        [
+          5599679742806490281
+        ]
+      ],
+      "matched_keys": 282,
+      "equal_keys": 282,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 0,
+      "vs": 1802336714319958646,
+      "draws": [
+        10,
+        10
+      ],
+      "ranges": [
+        [
+          548,
+          550
+        ],
+        [
+          548,
+          550
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          14007674117786981017
+        ],
+        [
+          14007674117786981017
+        ]
+      ],
+      "matched_keys": 10,
+      "equal_keys": 10,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 0,
+      "vs": 12627602885350085323,
+      "draws": [
+        299,
+        299
+      ],
+      "ranges": [
+        [
+          1969,
+          1985
+        ],
+        [
+          1969,
+          1985
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          8562590739555380577
+        ],
+        [
+          8562590739555380577
+        ]
+      ],
+      "matched_keys": 298,
+      "equal_keys": 298,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 0,
+      "vs": 15518101065676308936,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          545,
+          548
+        ],
+        [
+          545,
+          548
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          12021865740332317413
+        ],
+        [
+          12021865740332317413
+        ]
+      ],
+      "matched_keys": 299,
+      "equal_keys": 299,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 1,
+      "vs": 1802336714319958646,
+      "draws": [
+        10,
+        10
+      ],
+      "ranges": [
+        [
+          850,
+          870
+        ],
+        [
+          850,
+          870
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          13278562841511040574
+        ],
+        [
+          13278562841511040574
+        ]
+      ],
+      "matched_keys": 10,
+      "equal_keys": 10,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 1,
+      "vs": 12627602885350085323,
+      "draws": [
+        299,
+        299
+      ],
+      "ranges": [
+        [
+          2323,
+          2349
+        ],
+        [
+          2323,
+          2349
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          4890100476837072910
+        ],
+        [
+          4890100476837072910
+        ]
+      ],
+      "matched_keys": 298,
+      "equal_keys": 298,
+      "different": []
+    },
+    {
+      "owner": 10177,
+      "mesh": 0,
+      "part": 1,
+      "vs": 15518101065676308936,
+      "draws": [
+        300,
+        300
+      ],
+      "ranges": [
+        [
+          850,
+          873
+        ],
+        [
+          850,
+          873
+        ]
+      ],
+      "pixel_shaders": [
+        [
+          9664450347325391613
+        ],
+        [
+          9664450347325391613
+        ]
+      ],
+      "matched_keys": 299,
+      "equal_keys": 299,
+      "different": []
+    }
+  ],
+  "rejected_float24_experiment": {
+    "changed_setting": "depth_float24_convert_in_pixel_shader=true; rounding default false unchanged",
+    "runtime_binaries_identical": true,
+    "all_43_traced_model_groups_zero_coverage": true,
+    "matching_fabric_input_keys": 496,
+    "different_fabric_coverage_keys": 496,
+    "note": "Zero black-write events in this run are not success: no traced model passes contribute color or coverage."
+  },
+  "fixture": {
+    "backend": "D3D12 WARP",
+    "path": "work/sky-bridge/searchlight-depth-build/fixture-04",
+    "all_tests_pass": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "depth_rejects": [
+      0,
+      64,
+      0,
+      64
+    ],
+    "stencil_rejects": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "original_guest_coverage": [
+      64,
+      0,
+      0
+    ],
+    "color_unchanged_by_probe": true,
+    "guest_pipeline_restored": true,
+    "guest_query_memexport_non_host_guards": true,
+    "completed_fence_drain": true,
+    "debug_layer_available": false
+  },
+  "probe": {
+    "variant_order": [
+      "original tests",
+      "depth comparison ALWAYS",
+      "stencil disabled",
+      "both bypassed"
+    ],
+    "writes": "All eight render-target masks0, depth-write mask0, stencil-write mask0, all stencil operations KEEP. Original pipeline restored afterward.",
+    "scope": "Only witnessed model draws with562 or11 indices and one of six known pixel programs, host targets, no memexport and no active guest visibility query.",
+    "bounds": "8192 single-use queries,128 pipeline registrations; existing300-frame/15-second/512-MiB trace limits and180-second game watchdog.",
+    "readback_bytes": 65536,
+    "diagnostic_only": true
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "installed_map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "shared_files_unchanged": true,
+  "next_step": "Measure sparse stored depth and actual fragment depth at the searchlight before/after relevant passes; trace the writer responsible. Keep depth testing intact in any production correction.",
+  "limitations": [
+    "No full visual acceptance, performance acceptance, physical Xbox360 or system-link result is established.",
+    "The private searchlight measurements do not conclusively identify the protrusion in the original human report.",
+    "Offline clipping uses float64 mathematical reconstruction, not bit-exact GPU vertex capture.",
+    "Aggregate queries distinguish rejection tests but do not identify the prior depth writer or provide a full image.",
+    "Candidate34 billboard mip addressing is still separate from candidate35 fabric correction. No map, LIVE package, shared runtime or default setting was promoted."
+  ],
+  "evidence_sha256": {
+    "work\\sky-bridge\\reproduction-40\\depth-tests.csv": "2486773aa8e26ce1c67c86802bee6e46bdfe43b944adcc4fc2bffffd90c5db62",
+    "work\\sky-bridge\\reproduction-40\\depth-test-analysis.json": "87ba98131e812e5f05c4b891ca91e91ae55b6f5423cc46182c7f6aee9c5f19f5",
+    "work\\sky-bridge\\reproduction-40\\depth-test-draws.json": "6dbd8689c70b7a7153779f4d24a680f9a11aa7b73bbeb0302edf6918f8eb9a17",
+    "work\\sky-bridge\\reproduction-40\\coverage.csv": "b2a804ca75fc7f36462d14789885c986d16c94904d2e75e095c11ad60ce2cfa8",
+    "work\\sky-bridge\\reproduction-40\\coverage-analysis.json": "e7ac062876faedb8a695a8a95497d43770e8df6daf01e765c39dd0829d00928c",
+    "work\\sky-bridge\\reproduction-40\\coverage-draws.json": "35fe1df0a3fe22f813f281f11148e5e7082b3bac8cafea6fa3f504f1bb07050e",
+    "work\\sky-bridge\\reproduction-40\\draws.bin": "99b65ad80c41d5b3ba3fea2df0a6448f899da4387edb646df61c7e3c052cf280",
+    "work\\sky-bridge\\reproduction-40\\stages.csv": "dc483ff047984c591c8689eef9ea351a39578cafee9a82fd972790e3f623c210",
+    "work\\sky-bridge\\reproduction-40\\model-draw-calls.json": "a70c10ccaa22321e2dd3625faeb891cda524341344b284016b92f7831e1aa542",
+    "work\\sky-bridge\\reproduction-40\\model-draw-analysis.json": "a4a6feafc1136d52c0e31841f6c1d49288b390fd8aacc0bf0234dd01b1f0896e",
+    "work\\sky-bridge\\reproduction-40\\model-pass-analysis.json": "6e28532fb1d431edff0d62966e2fd3bf55d83c74d7ddebfaa2e7a1d426985546",
+    "work\\sky-bridge\\reproduction-40\\camera-reproduction-check.json": "008f2925598e48a1d776a87198a3f123c2f6a4b2de6a32e96e7fb9c788bfc486",
+    "work\\sky-bridge\\reproduction-40\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-40\\fabric-blackening-analysis.json": "dd1b602bcca02a000caffd42346693517ce17efb75985bb9afc67b040205bb94",
+    "work\\sky-bridge\\reproduction-40\\searchlight-clip-plane-audit.json": "3c7ebd3cbdae0ba0f5adfdfedf689c4da50c6e7ae281e2fd61f6062df6f92dfe",
+    "work\\sky-bridge\\reproduction-40\\runtime-hashes.json": "47b940d64b842303cc1ef8641d1d30cf77e2497e57bee9fd164b4db48eaa9533",
+    "work\\sky-bridge\\reproduction-40\\recording-configuration.json": "fed8d2a24b6bda1a6bc0b515319c24667437652c517279481cfe2012a831d31b",
+    ".local\\loading-traces\\20261104-032703-18540\\launch-command.json": "215e72a4e7f4d0daa052f25795fe01ad5b535891ed947846d29d1dbd15a43bd5",
+    ".local\\loading-traces\\20261104-032703-18540\\loading-trace.jsonl": "05ce3f804b95122808bc83d55ce105f2b96ccd3f8707ef49ed6cddabc889aadd",
+    "work\\sky-bridge\\reproduction-41\\depth-tests.csv": "6daaace5489f28d0ba4d6a58fb1944a429611ca65defff1123dd94f50045a073",
+    "work\\sky-bridge\\reproduction-41\\depth-test-analysis.json": "bdd3ec64312dd6e311b4cde1dcfc6e4c15faaa239af239de266bcb72b43a471d",
+    "work\\sky-bridge\\reproduction-41\\depth-test-draws.json": "c945ac30c664fb9cc47b2172c6d98c167ff73ba12f55b3b059c45d1de307bedb",
+    "work\\sky-bridge\\reproduction-41\\coverage.csv": "ee62a55a196b7e27110cf3dfb5bcee31600168cfba49117b96c5ea5081b87b22",
+    "work\\sky-bridge\\reproduction-41\\coverage-analysis.json": "97eda9c80e15e07be98daec5865b2cf3f3e98480d6c7ddc6f2e9c9fd3046fbd4",
+    "work\\sky-bridge\\reproduction-41\\coverage-draws.json": "4a930ef4375934bad5870fb97fc990c6b41383778b3bee9263d29835c94495c8",
+    "work\\sky-bridge\\reproduction-41\\draws.bin": "2ec34681cc7679956a644cec7ec46c4b3558257f21c1a648330d68da92469210",
+    "work\\sky-bridge\\reproduction-41\\stages.csv": "02d46f11bf6dbbfeec2e02e3d631891ed7eadb35cdb269b891edc50b4c2e02a3",
+    "work\\sky-bridge\\reproduction-41\\model-draw-calls.json": "730ba90730ed840b491ff6ad64a31fe5a952a57e1f21ca0bc2285da3ff97a53d",
+    "work\\sky-bridge\\reproduction-41\\model-draw-analysis.json": "f2514c91049a61e9d268189c1bfdddc81e8d3cae3343264ccdbe550c56bc30c2",
+    "work\\sky-bridge\\reproduction-41\\model-pass-analysis.json": "96afa3adf31a58ed3cd14153e12dd2991990f25c6aaa47e907997e6149bcdd78",
+    "work\\sky-bridge\\reproduction-41\\camera-reproduction-check.json": "ce064537ed0aaa1eff05158336aba0789219e17ee25a60f4b00f47dfc5c26440",
+    "work\\sky-bridge\\reproduction-41\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-41\\fabric-blackening-analysis.json": "2c532785a32cf14bb7977316bcdeb8203eff30f5d4d68aa4cbea1056cfc0b3ec",
+    "work\\sky-bridge\\reproduction-41\\searchlight-clip-plane-audit.json": "5c410c0d345d8fbd40f8faac83059ea479eeb7309f340ca992e368f4bc76c0c1",
+    "work\\sky-bridge\\reproduction-41\\runtime-hashes.json": "98c186e98b3ed18b318cb133c9ca54a5b71cda53a1c2a1ca43f2ad5f589eb705",
+    "work\\sky-bridge\\reproduction-41\\recording-configuration.json": "fed8d2a24b6bda1a6bc0b515319c24667437652c517279481cfe2012a831d31b",
+    ".local\\loading-traces\\20261104-033423-30708\\launch-command.json": "8b0e478eaccba1fc56c856c6104f7f5523d042b5e4c754320bb674b6e52815e2",
+    ".local\\loading-traces\\20261104-033423-30708\\loading-trace.jsonl": "999f78f50e74a43ddc933cbaae266987307df113d1fe17c91eb5b396bddd9bfb",
+    "work\\sky-bridge\\searchlight-depth-build\\test.log": "c3f753b7ba85d4ede45763d5cca679d1f005e4bf16d45d405139d532ffa15c31",
+    "work\\sky-bridge\\searchlight-depth-build\\fixture-04\\depth-tests.csv": "6626adf9f36bd29c585c57bf4c6aeb716edb24d54de4776a80f795a2f23a3d44",
+    "work\\sky-bridge\\searchlight-depth-build\\fixture-04\\coverage.csv": "d69e494f132ee5319f3d17300c0e4efb9c051a1f270dcd0d1af00015d6a13996",
+    "work\\sky-bridge\\searchlight-depth-build\\probe-effect-coverage.json": "a3b145e8c36e26952a46c0ecbfe0f6cdbc223d7d720bf3ade4dbfd4d471968e2",
+    "work\\sky-bridge\\searchlight-depth-build\\float24-coverage-comparison.json": "21d8c997ca598c2555924ae5614204dd00b3b4957fd19a5161ba1af0f97e72bb",
+    "work\\sky-bridge\\searchlight-depth-build\\dynamic-vs.ucode": "7188f80d5be393be187a0c3da82d8e3a52244b249a36cec95ff58b8a184a6a51",
+    "work\\sky-bridge\\searchlight-depth-build\\dynamic-vs.disasm.txt": "5465b96bce953f07a6f5e185b635974a1ec8e8c17dcaef85d4cb0c663a609767"
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

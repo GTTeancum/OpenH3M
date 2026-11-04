@@ -1454,3 +1454,91 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Searchlight depth rejection isolated (2026-11-04)
+
+`candidate35-searchlight-depth-result.json` records private replays 40/41.
+The new `sky_depth_test_probe.h` tests four pipeline variants immediately
+before each selected actual draw: original tests, depth comparison ALWAYS,
+stencil disabled, and both bypassed. Every variant disables all color,
+depth and stencil writes and uses KEEP for every stencil operation. The
+original pipeline is restored before the normal draw. No guest memory,
+material flags, normal draw state, or game visibility query is modified.
+These diagnostic variants are not proposed rendering fixes.
+
+Recording is opt-in with `-DepthTestTrace -CoverageTrace -ModelPassProbe -StageProbe`. It accepts only the witnessed searchlight body/face draw sizes
+and six known pixel programs, excludes memexport and non-host render targets,
+and refuses an active guest visibility query. There are at most 8192
+single-use queries and 128 registered pipelines, within the existing trace
+and 180-second process limits. Copy the header to the private SDK and apply
+`sky-depth-test-probe-integration.patch` with `git apply --unidiff-zero`.
+Reverse-apply verification passed. `read-depth-test-probe.py` joins all four
+variants to exact recorded draw identities and actual coverage counts.
+
+The WARP fixture built by `build-depth-test-probe-test.cmd` verifies the
+four-count patterns 64/64/64/64 when all tests pass, 0/64/0/64 when only depth
+rejects, and 0/0/64/64 when only stencil rejects. Actual subsequent guest
+draws retain expected coverage 64/0/0. A float-color sample proves the
+diagnostic writes no color, and the normal draw afterward proves its pipeline
+was restored. Guest-query, memexport and non-host guards prevent diagnostic
+draws; the completed-fence drain also passes. The optional debug layer is
+unavailable and remains explicitly unverified. An initial depth-only fixture
+exposed that disabling both tests with no pixel shader can skip rasterization;
+the final probe uses depth ALWAYS while retaining the original depth-enable
+state, which keeps that test meaningful.
+
+Run40 records 300 frames, 11297 attributed actual draws and 7192 variant
+queries for 1798 searchlight draws. The first frame begins after the albedo
+pass; every recorded draw has all four variants. No pairs, queries or
+identities are missing. Every static body draw has 0 passing samples under
+the original tests, 0 with only stencil bypassed, and 24–32 with depth
+bypassed. Static and dynamic lamp-face draws similarly go from 0 to 7–10.
+The actual lighting draws agree with the read-only original-test variant in
+all 300 frames. This establishes depth rejection; it does not identify the
+prior depth writer or distinguish correct occlusion from a depth mismatch.
+Albedo body counts differ when depth writes are disabled, as self-occlusion
+can change within that draw; the decoder keeps that distinction explicit.
+
+The body dynamic-light pass remains zero under all four variants. Its native
+pixel program contains no discard, hardware alpha testing is disabled, and
+the captured draw enables six user clip planes. The native vertex program's
+weighted position/projection sequence and the host clip-plane implementation
+were inspected. `audit-searchlight-clip-planes.py` reconstructs its 383 used
+vertices mathematically: every frame has planes excluding the entire body,
+with the closest excluding margin still below -4.93. This is consistent with
+native light-volume clipping. It is float64 offline arithmetic, not captured
+GPU vertex output, and does not establish correct authored lighting.
+
+The extra queries preserve actual coverage for every matched geometry input
+against run39, including 607 matching fabric-part keys. The fabric correction
+still records zero black overwrites, and 18 of 43 model/pass groups change a
+sampled color. All 8990 traced base/lit camera matrices and the native observer
+command/result remain exact.
+
+Run41 changes only the private bootstrap setting
+`depth_float24_convert_in_pixel_shader=true`; rounding remains at its false
+default. The guest requests D24FS8, while the normal host path uses float32
+without this per-pixel conversion. This is a controlled precision experiment,
+not a release candidate. It fails: all 43 traced model/pass groups have zero
+actual coverage and zero sampled color contribution across 300 frames.
+Depth ALWAYS restores diagnostic searchlight coverage, but ordinary draws
+remain rejected. All 496 matched fabric input keys differ from run40. Zero
+black-write events in this run are therefore not a successful correction.
+The setting is rejected; preserve run41 as evidence and use run40/default
+settings for further work. Both binaries are identical, both observer/camera
+checks pass, and both runs finish at their 180-second watchdogs with 11 native
+header checks passed.
+
+The next trace needs sparse stored-depth values and actual fragment depths
+around the searchlight passes, then attribution of the rejecting depth writer.
+Do not disable depth testing or infer an animation defect from these results.
+The measured searchlight is not yet conclusively tied to the protrusion in
+the original human report. No full visual/performance acceptance, physical
+Xbox 360 or system-link verification is claimed. Candidate34's billboard
+correction remains separate; shared runtime, installed map and LIVE package
+are unchanged, and no release was promoted.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

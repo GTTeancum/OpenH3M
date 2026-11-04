@@ -1,0 +1,26 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -38,0 +39 @@
++#include "sky_depth_test_probe.h"
+@@ -1668,0 +1670 @@
++  SkyDepthTestProbe::Get().Shutdown(submission_completed_);
+@@ -2767,0 +2770,5 @@
++    SkyDepthTestProbe::Get().Record(GetD3D12Provider().GetDevice(),deferred_command_list_,
++      pipeline_cache_->GetD3D12PipelineByHandle(pipeline_handle),active_occlusion_query_.valid,
++      memexport_used,host_render_targets_used,frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,
++      submission_current_,submission_completed_,[&](){deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count,1,0,0);});
+@@ -2846,0 +2854,5 @@
++    SkyDepthTestProbe::Get().Record(GetD3D12Provider().GetDevice(),deferred_command_list_,
++      pipeline_cache_->GetD3D12PipelineByHandle(pipeline_handle),active_occlusion_query_.valid,
++      memexport_used,host_render_targets_used,frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,
++      submission_current_,submission_completed_,[&](){deferred_command_list_.D3DDrawIndexedInstanced(primitive_processing_result.host_draw_vertex_count,1,0,0,0);});
+--- a/src/graphics/d3d12/pipeline_cache.cpp
++++ b/src/graphics/d3d12/pipeline_cache.cpp
+@@ -35,0 +36 @@
++#include "sky_depth_test_probe.h"
+@@ -3071,0 +3073,3 @@
++  SkyDepthTestProbe::Get().Register(device,state,state_desc,
++    runtime_description.pixel_shader?runtime_description.pixel_shader->shader().ucode_data_hash():0,
++    !edram_rov_used);
