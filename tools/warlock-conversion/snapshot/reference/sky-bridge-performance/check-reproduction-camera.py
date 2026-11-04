@@ -9,7 +9,9 @@ import struct
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('trace_dir',type=Path)
 parser.add_argument('--billboard',action='store_true')
+parser.add_argument('--models',action='store_true',help='Compare skinned albedo and lit model passes')
 args=parser.parse_args();root=args.trace_dir
+if args.models and args.billboard:parser.error('Choose one geometry family')
 reference=Path(__file__).parent
 root.resolve().relative_to(reference.resolve().parents[4])
 pose=json.loads((reference/'candidate32-flicker-reproduction-view.json').read_text())
@@ -28,11 +30,12 @@ with (root/'draws.bin').open('rb') as stream:
         if kind==1:draw=struct.unpack('<11Q',data)
         elif kind==2:
             for index,value in struct.iter_unpack('<II',data):registers[index]=value
-        elif kind==5 and draw[4] in passes:
+        elif kind==5 and ((args.models and draw[3] in (12627602885350085323,15518101065676308936)) or (not args.models and draw[4] in passes)):
             sequence,frame=struct.unpack('<QQ',data)
             if (sequence,frame)!=(draw[0],draw[1]):raise ValueError('Mismatched emitted draw')
             variants[registers[0x4000:0x4020].tobytes()]+=1
-            frames.add(frame);counts[passes[draw[4]]]+=1;draws+=1
+            label=('skinned_albedo' if draw[3]==12627602885350085323 else 'skinned_lit') if args.models else passes[draw[4]]
+            frames.add(frame);counts[label]+=1;draws+=1
 if not draws:raise ValueError('No emitted candidate material draws')
 results=[]
 for raw,count in variants.items():

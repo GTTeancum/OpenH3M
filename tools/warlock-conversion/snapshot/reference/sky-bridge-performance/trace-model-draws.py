@@ -100,6 +100,7 @@ def analyze(run):
         for f in program['reflection'] if f['register_set'] == 2} for p in programs}
     regs = array.array('I', [0])*0x5003
     groups, lookup, previous_palettes = {}, {}, {}
+    calls, stops = [], []
     draws, ambiguous = 0, 0
     for kind, raw in packets(run/'draws.bin'):
         if kind == 1:
@@ -117,6 +118,11 @@ def analyze(run):
                     and prefixes.get(vertex_address) == {m['vertex_prefix_sha256']}
                     and m['material'] in materials.get(ps, set())]
             matched = lookup[key]
+            call = dict(sequence=seq, frame=frame, vs=vs, ps=ps, index_count=count,
+                candidates=[dict(owner=m['owner'], mesh=m['mesh'], part=m['part']) for m in matched],
+                color_mask=regs[0x2104], mode_control=regs[0x2208],
+                depth_control=regs[0x2200], surface_info=regs[0x2000])
+            calls.append(call)
             if not matched:
                 continue
             draws += 1
@@ -124,6 +130,7 @@ def analyze(run):
             group_key = tuple((m['owner'],m['mesh'],m['part']) for m in matched), vs, ps
             if group_key not in groups:
                 groups[group_key] = dict(candidates=matched, vs=vs, ps=ps, frames=Counter(),
+                    first_vertex_constants_0_255=regs[0x4000:0x4400].tobytes().hex(),
                     camera_constants=defaultdict(list), vertex_parameters={}, pixel_parameters={},
                     draw_index_format=fmt, draw_index_endian=endian, primitive=primitive,
                     vertex_lighting_constants_240_243=defaultdict(list),
@@ -158,6 +165,8 @@ def analyze(run):
                     begin = base+f['register']*4
                     value = regs[begin:begin+f['count']*4].tobytes().hex()
                     g[field].setdefault(name, {}).setdefault(value, []).append(frame)
+        elif kind == 9:
+            stops.append(struct.unpack('<Q', raw)[0])
     result = dict(trace=str(run.relative_to(REPO)), candidate_models=selected, parts=meshes,
         attributed_draws=draws, ambiguous_draws=ambiguous, groups=list(groups.values()),
         limitations=['CPU index/vertex prefixes and exact shader material references identify submissions only.',
@@ -167,6 +176,7 @@ def analyze(run):
             'Object roots and undeformed bounds do not prove visible triangle ownership.',
             'No bad-frame attribution, animation correctness or performance acceptance follows from this decoder.'])
     (run/'model-draw-analysis.json').write_text(json.dumps(result, indent=2)+'\n')
+    (run/'model-draw-calls.json').write_text(json.dumps(dict(calls=calls, stop_reasons=stops))+'\n')
     print(json.dumps(dict(attributed_draws=draws, ambiguous_draws=ambiguous,
         groups=[dict(models=[m['name'].split('\\')[-1] for m in g['candidates']],
                      vs=g['vs'], ps=g['ps'], frames=len(g['frames']), draws=sum(g['frames'].values()))

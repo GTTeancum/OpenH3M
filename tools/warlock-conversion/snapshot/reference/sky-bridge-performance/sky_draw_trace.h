@@ -20,6 +20,32 @@ class SkyDrawTrace {
             uint32_t index_endian, memory::Memory* memory) {
     active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if(model_only_){
+      if(!vs)return;
+      switch(vs->ucode_data_hash()){
+        case 1802336714319958646ull:case 7141575655502862876ull:
+        case 10556403050914701579ull:case 11600849241261448272ull:
+        case 12627602885350085323ull:case 15518101065676308936ull:break;
+        default:return;
+      }
+      const uint32_t address=regs[0x48be]&0xfffffffcu;
+      if(!address||address>0x20000000u-512)return;
+      std::array<uint8_t,512> bytes{};SIZE_T read=0;
+      if(!ReadProcessMemory(GetCurrentProcess(),memory->TranslatePhysical(address),
+            bytes.data(),bytes.size(),&read)||read!=bytes.size())return;
+      uint64_t hash=14695981039346656037ull;
+      for(auto value:bytes)hash=(hash^value)*1099511628211ull;
+      // Candidate32 custom skinned fabric/searchlight buffers. Decoder also
+      // requires exact SHA256 index/vertex bytes and material references.
+      switch(hash){
+        case 9662007140038914464ull:case 10229115344860097749ull:
+        case 10870458500461632232ull:case 11433928260866509930ull:
+        case 18034727321692321148ull:case 13483863012266607246ull:
+        case 12605106421409165796ull:case 14266292004935899496ull:
+        case 15321219261967389672ull:case 8029256831735778222ull:break;
+        default:return;
+      }
+    }
     if(screen_only_){
       if(!ps||(ps->ucode_data_hash()!=3413622546942440597ull&&
                ps->ucode_data_hash()!=10494309294728871449ull&&
@@ -97,6 +123,8 @@ class SkyDrawTrace {
     water_only_=water && wcscmp(water,L"1")==0;
     const auto* screen=_wgetenv(L"OPENH3M_SKY_TRACE_SCREEN");
     screen_only_=screen && wcscmp(screen,L"1")==0;
+    const auto* model=_wgetenv(L"OPENH3M_SKY_TRACE_MODEL");
+    model_only_=model && wcscmp(model,L"1")==0;
     const auto* rain=_wgetenv(L"OPENH3M_SKY_TRACE_RAIN");
     rain_only_=rain && wcscmp(rain,L"1")==0;
     const auto* compact=_wgetenv(L"OPENH3M_SKY_TRACE_COMPACT");
@@ -150,7 +178,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
-  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false;
+  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;
   std::array<uint32_t, RegisterFile::kRegisterCount> previous_{};

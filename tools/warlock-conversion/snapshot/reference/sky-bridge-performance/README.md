@@ -1196,3 +1196,62 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Animated-model probes reproduce fabric blackening (2026-11-04)
+
+`candidate32-model-pass-blackening-result.json` records private runs 32 and 33.
+`-ModelPassProbe -StageProbe` restricts detailed CPU recording by observed
+skinned vertex programs and candidate32 vertex-buffer witnesses. The decoder
+then requires exact SHA256 index/vertex prefixes and shader material references.
+Sixteen numeric color-0 points are read before and after each selected draw;
+initial positions came from projected weighted model vertices. These positions
+alone do not prove coverage. The native WARP fixture verifies the selected
+coordinates, exact readback values, completed-fence guard and frame cap.
+
+Both runs produce 11308 unambiguous model draws over 300 frames, with 361856
+samples, complete pairs, and no busy/unsupported/incomplete events. Eighteen
+of 43 model/pass groups actually change a sampled RGBA value. All 9000 base
+and lit skinned draws per run match the saved human camera/projection constants
+exactly. Native observer command/result snapshots also match. The private
+games both terminate at their 180-second watchdogs.
+
+There is now a repeatable blackening event: model 10177
+`sbr_panel_fabric_b_anim_01`, mesh 0 part 1, uses material 9821
+`sbr_envelope_04_akill`. At (711,197), its dynamic-light pixel program
+2673597551499054088 replaces previously lit RGB with zero. This occurs on ten
+frames in three windows of four, three and three frames in each run.
+The captured guest `RB_BLENDCONTROL0` is `0x00010001` (ONE + ZERO), while
+the adjacent opaque dynamic-light draw uses `0x01010101` (ONE + ONE).
+This attributes the overwrite to an actual draw and guest blend state;
+it does not yet explain why the native material path chooses that state.
+
+Run 33 shifts the existing sparse final-output grid to include the exact same
+point. After host gamma/FXAA, its largest RGB channel falls from boundary
+values 0.3030–0.3196 to 0.0841–0.1281 during all ten black-write frames and
+recovers afterward. `read-fabric-blackening.py` joins these records by frame
+within the same run and decodes their actual 10-bit format/component mapping.
+The earlier isolated-one-frame near-zero detector reports no pulse: these are
+longer dark windows, and later composition contributes nonzero color. That
+negative metric does not contradict the measured black overwrite.
+
+The pixel program matches stock template 225, program 227 index 4. Template
+entry-point/pass records match original Zanzibar, where that template is used
+by LOD weapon materials. No shared template was changed. The next step is
+tracing native material-state selection to establish why this alpha-tested
+dynamic-light pass replaces the existing light. A global blend override or
+removing the animated model would not follow from the evidence.
+
+The searchlight's base/hologram passes also change sampled values, but their
+correctness and relation to the reported protrusion remain unresolved. These
+private events are not claimed to identify the original human bad frame.
+Sixteen points do not establish the full affected surface, and the saved pose
+is not a complete simulation savestate. No visual/performance acceptance,
+rendering fix or release promotion is claimed. The shared GPU and installed
+candidate32 map remain hash-verified and unchanged. The prior human CPU
+analysis retains its recorded hash; the expanded first-constant projection
+input is preserved separately as `model-draw-analysis-with-constants.json`.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
