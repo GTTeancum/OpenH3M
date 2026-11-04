@@ -69,4 +69,43 @@ reported errors. Seventeen roots have different reference sets. This is not yet
 a recursive dependency audit, behavioral comparison or clearance to convert.
 Reports: `work/stock-h3-audit/standoff-mcc-comparison.json` and
 `work/stock-h3-audit/standoff-dependency-comparison.json`.
-Next: inspect those differences and recursive requirements before authoring.
+The immediate differences are sixteen roots losing references (pickup sounds,
+equipment HUDs, and an energy-sword weapon reference) and the soccer ball gaining
+a material-effects and impact-sound reference. No replacement behavior was authored.
+
+## Recursive reference preflight
+
+Run `python tools/stock-h3-audit/trace_dependencies.py 360`, then the same command
+with `mcc`, then `python tools/stock-h3-audit/compare_closures.py`. The wrapper
+only batches upstream `TagDependency List` commands and interprets their text.
+Each process has a 180-second timeout. No asset parser or conversion logic is
+implemented. All temporary files and subprocess working directories stay here.
+
+Both traversals completed in nine waves without reported errors: 4,580 stock
+tags and 4,760 MCC tags, with 4,304 shared names. The 456 MCC-only names relative
+to this stock closure include shader templates/options, colored weapon effects,
+materials and sounds. They are not 456 new gameplay objects. The 276 stock-only
+names include platform shader templates, sounds and equipment HUD definitions.
+Do not delete platform shader infrastructure just because names differ.
+
+The local kit was missing 22 files present in both graphs (21 bitmaps and one
+shader). All 22 were found in the official installed archive
+`D:/SteamLibrary/steamapps/common/H3EK/H3EK.7z` and restored using 7-Zip with
+`-aos` (skip existing files), the explicit include list
+`work/stock-h3-audit/h3ek-missing-files.txt`, and destination
+`work/editing-kits/h3ek`. Archive listing and extraction logs are beside the list.
+After extraction, zero MCC closure names lack an editing-kit file. Remaining
+257 original-stock names absent from the kit are 85 sets of compiled shader
+templates/pixel/vertex shaders, one weapon and one damage-response definition.
+Those are available in the original stock cache; do not fabricate equivalents.
+
+Authoring policy: keep the 99 original nonvehicle choices, original limits and
+budget 800; omit the additional MCC palette choices/duplicate. Retain the
+official MCC dependency infrastructure needed for MCC compilation. At the later
+approved conversion stage, use original stock objects and their dependencies,
+not MCC cosmetic variants. This preselection reduces object-conversion scope;
+it does not promise that no platform-specific conversion work remains.
+
+This is a tag-reference preflight, not a shared-resource payload audit or visual
+acceptance. Original map geometry, sky, surface-material selection and effects
+still need their own authoring review. No fresh map has been authored or compiled.
