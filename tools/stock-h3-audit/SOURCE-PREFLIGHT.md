@@ -934,3 +934,68 @@ bindings present, 157 material variants, 543 unique objects, 1,247 instances and
 option defaults as part of preparation, so new terrain families do not depend
 on a separate manual metadata-merge step. This reads official API fields and
 does not modify stock tags.
+
+## Seven additional stock material assignments (2026-11-04)
+
+The caustics use Standoff's stock power-drain active shader configuration; the
+sky panel uses High Ground's lake shader. The source caustics image is shared
+by its two noise inputs and alpha mask. The sky panel uses its original image
+for both base color and material texture, with the original material-texture
+boolean enabled. These bindings are preserved without channel packing or image
+edits. All four native image exports pass color/alpha comparison; normal
+direction and reflection orientation still require rendered review.
+
+Four smooth source materials have bump mapping off. Two use Standoff's
+`bunker_plate_brackets` shader; two use the stock Sentinel Constructor shader.
+The other eight shared categories match. These native donors have standard
+bump mapping, so their patterned normal is replaced with the official option's
+existing `shaders/default_bitmaps/bitmaps/default_vector.bitmap`. Native Tool
+exports verify its DXN format and constant X/Y values of 128. No new normal
+texture is generated. Inactive source bump functions are excluded from this
+H3-only input. This uses stock H3 shader controls and assets; rendered
+highlights remain a specific MCC check.
+
+The decorative trim uses stock `bolt_thrower_shiny`. Its misc option is
+`first_person_sometimes`, not `first_person_always`. Original Standoff's Spiker
+world render model explicitly references this shader. Preparation now requires
+that original-cache witness for this option rather than rejecting all nonzero
+misc values. The donor's complete option vector is retained. This establishes
+stock world-model use, not acceptance of the new BSP material in MCC.
+
+There are 90 authored tags: 80 ordinary, nine terrain and one foliage. Native
+readback covers 812 ordinary source functions, 24 scalar defaults entered with
+the official function editor and 284 matching ordinary defaults. Including the
+five generic terrain families, the checkpoint verifies 944 source functions,
+222 image references / 170 distinct bitmap tags, 543 unchanged source/donor
+hashes and no duplicate authored inputs. The four earlier terrain materials and
+foliage retain their separate evidence. Physical material names were reapplied:
+86 exact source names exist in stock Standoff, and four empty source names
+retain their selected stock donor choice.
+
+The refreshed Blender scene has 90 short-name bindings across 137 used variants.
+Twelve source shaders / 17 variants remain unresolved: sky rocks/towers, arch
+rock, exterior/bridge/tunnel glass, two circular illuminated panels, Forge
+panel, river water, shared glass and the source invalid material on two metadata
+objects. Two fresh native Workbench base views were inspected individually.
+They show actual facade/doorway geometry, not H3 shading or lighting acceptance.
+
+`inspect_stock_water.py` compares all five water shaders in the available
+original-360 cache inventories against native MCC tags and verifies the original
+cache option vectors and unchanged hashes. Longshore's `dock_water_2` matches
+all eight shared Reach river options. Reach also has a separate `detail=repeat`
+category; its semantics and the unmodified exporter's UVW limitation remain
+open. No water substitution or authored water shader is claimed.
+
+Evidence is in the `caustics`, `sky_panel`, `smooth_phong`, `smooth_cook` and
+`deco_trim` family reports, their donor-integrity/native-image logs,
+`stock-water-comparison.json`, `active-input-checkpoint.json` and
+`h3-material-bindings.json` under `work/stock-h3-audit`. Documentation consulted:
+[official H3 material-texture controls](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialtexture)
+and [bump mapping controls](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/bumpmapping).
+No MCC map test, approval, Xbox 360 conversion or shared installation change.
+
+The refreshed unmodified ASS exporter and reader passed with all 90 bindings,
+157 material variants, 543 unique objects, 1,247 instances and 247,855 triangles.
+The bound source blend remained unchanged. Optional upstream `lxml` bitmap-
+generation warnings do not validate or invalidate the independently verified
+official Tool bitmap imports; this export does not request bitmap generation.

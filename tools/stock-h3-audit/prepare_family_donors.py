@@ -40,7 +40,23 @@ for family in args.family:
     expected=selected_configs[donor]['options']
     count=10 if kind=='shader' else 6
     assert len(options)==count and options==expected[:count],(donor,options,expected)
-    if kind=='shader':assert options[9]==0 and not any(expected[10:]),('Review non-world or MCC-specific options',donor,expected)
+    world_witness=None
+    if kind=='shader':
+        assert not any(expected[10:]),('Review MCC-specific options',donor,expected)
+        if options[9]!=0:
+            # "Sometimes" supports stock third-person/world models as well as
+            # first-person use. Require an actual original-cache reference;
+            # never infer world use from the option's label alone.
+            model=families[family].get('stock_world_model')
+            assert options[9]==1 and model,('Review stock rendering context',donor,expected)
+            commands=OUT/(family+'-world-model.commands')
+            commands.write_text('EditTag '+model+'\nForEach Materials ListFields RenderMethod\n')
+            run=subprocess.run([str(OUT/'bin/TagTool.exe'),str(cache),'RunCommands',str(commands)],cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
+            (OUT/(family+'-world-model.log')).write_bytes(run.stdout)
+            assert run.returncode==0 and sha(cache)==before
+            references=re.findall(r'RenderMethod: CachedTag = \[0x[0-9A-Fa-f]+\] (\S+)',run.stdout.decode(errors='replace'))
+            assert donor in references,('Stock world model does not reference donor',model,donor)
+            world_witness=dict(model=model,material=donor,misc_option='first_person_sometimes')
     tag=KIT/'tags'/donor
     tag_hash=sha(tag)
     assert tag_hash==selected_configs[donor]['sha256']
@@ -70,5 +86,5 @@ for family in args.family:
         if row['path'] in merged:assert merged[row['path']]['sha256']==row['sha256'],'Previously inspected stock option changed'
         merged[row['path']]=row
     default_path.write_text(json.dumps(list(merged.values()),indent=2)+'\n')
-    (OUT/(family+'-donor-integrity.json')).write_text(json.dumps(dict(cache=str(cache),sha256=before,donor=donor,donor_sha256=tag_hash,stock_options=options,mcc_options=expected),indent=2)+'\n')
+    (OUT/(family+'-donor-integrity.json')).write_text(json.dumps(dict(cache=str(cache),sha256=before,donor=donor,donor_sha256=tag_hash,stock_options=options,mcc_options=expected,stock_world_witness=world_witness),indent=2)+'\n')
     print('REVIEWED_DONOR_READY',family,donor,flush=True)

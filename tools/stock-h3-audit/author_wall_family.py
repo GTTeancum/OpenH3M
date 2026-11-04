@@ -60,6 +60,11 @@ stock_options=json.loads((OUT/('h3-effective-'+kind+'-options.json')).read_text(
 if kind=='terrain':CATEGORIES={c['category'] for c in stock_options}
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
+flat_normal=family.get('stock_flat_normal',False)
+flat_normal_tag=r'shaders\default_bitmaps\bitmaps\default_vector.bitmap'
+if flat_normal:
+    assert kind=='shader' and stock_names['bump_mapping']=='standard'
+    assert active['bump_map']['default bitmap']==flat_normal_tag.rsplit('.',1)[0]+',bitm'
 stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
 sources=[]
 images={}
@@ -70,6 +75,9 @@ for source,inspection in reach_options.items():
     if source not in family['sources']:continue
     if not source.endswith('.'+group):continue
     selected={c['category']:c['option'] for c in inspection['categories']}
+    if flat_normal:
+        assert selected['bump_mapping']=='off',source
+        selected['bump_mapping']='standard'
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
     params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
@@ -99,6 +107,24 @@ if args.prepare:
     print('WALL_FAMILY_PREPARED',len(sources),'surfaces',len(images),'images',flush=True)
     raise SystemExit(0)
 
+flat_normal_evidence=None
+if flat_normal:
+    remember(KIT/'tags'/flat_normal_tag)
+    normal_xml=DEST/'stock-default-vector.bitmap.xml'
+    tool('stock-flat-normal-metadata','export-tag-to-xml',str(KIT/'tags'/flat_normal_tag),str(normal_xml))
+    compiled=xml(normal_xml).find("block[@name='bitmaps']/element")
+    assert compiled.find("field[@name='format']").get('value')=='dxn'
+    pixels=DEST/'stock-flat-normal';pixels.mkdir(exist_ok=True)
+    tool('stock-flat-normal-export','export-bitmap-tga',flat_normal_tag.rsplit('.',1)[0],str(pixels)+os.sep)
+    files=list(pixels.glob('default_vector_00_*.tga'))
+    assert len(files)==1
+    with Image.open(files[0]) as image:
+        ranges=image.convert('RGBA').getextrema()
+        assert ranges[:2]==((128,128),(128,128)),ranges
+    flat_normal_evidence=dict(tag=flat_normal_tag,sha256=hashes[str(KIT/'tags'/flat_normal_tag)],
+                              native_export=str(files[0]),format='dxn',ranges=ranges,
+                              decision='Source bump mapping is off. Reuse the stock standard option with its native neutral XY normal bitmap; preserve the other eight shared category selections.')
+
 metadata={r['tag']:r for r in json.loads((OUT/(args.family+'-family-bitmap-settings.json')).read_text())}
 donor=xml(OUT/'h3-shader-xml'/(Path(DONOR).name+'.xml'))
 donor_params={p.get('name'):p for p in donor.find("block[@name='parameters']")}
@@ -119,7 +145,14 @@ settings=[]
 for bitmap,entry in images.items():
     original=Path(entry['source']);remember(original);remember(REACH/'tags'/bitmap)
     assert hashes[str(REACH/'tags'/bitmap)]==metadata[bitmap]['sha256'],bitmap
-    if kind!='terrain':assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'} or set(entry['roles'])<={'bump_map','bump_detail_map'},entry
+    if kind!='terrain':
+        # These inputs share an original bitmap, not a synthesized channel pack.
+        shared_role_sets=[{'base_map','self_illum_map','self_illum_detail_map'},
+                          {'bump_map','bump_detail_map'},
+                          {'noise_map_a','noise_map_b','alpha_mask_map'},
+                          {'base_map','material_texture'},
+                          {'base_map','detail_map'}]
+        assert len(entry['roles'])==1 or any(set(entry['roles'])<=roles for roles in shared_role_sets),entry
     role=entry['roles'][0]
     normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
     if kind=='terrain':assert all(r.startswith(('bump_map','bump_detail_map','detail_bump'))==normal for r in entry['roles']),entry
@@ -141,7 +174,7 @@ for bitmap,entry in images.items():
     assert curve in (1,3),metadata[bitmap]
     if kind=='terrain':
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
-    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
+    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map'}[role]
     if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
@@ -224,6 +257,11 @@ for index,source in enumerate(sorted(sources)):
     source_active=native_defaults.source_parameters(source)
     retained_color_storage=[]
     plan=dict(Kit=str(KIT),Donor=DONOR,Target=str(PREFIX/'shaders'/Path(source).name),Parameters=[])
+    if flat_normal:
+        # Source bump inputs are inactive. Do not carry their stale functions
+        # into this H3-only default input, or retain the donor's patterned bump.
+        assert 'bump_map' not in source_active
+        plan['Parameters'].append(dict(Name='bump_map',Type=0,Bitmap=flat_normal_tag,Animations=[]))
     for name,definition in active.items():
         if name not in source_active:continue
         original=params.get(name)
@@ -298,6 +336,7 @@ for index,source in enumerate(sorted(sources)):
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
 for path,expected in hashes.items():assert sha(Path(path))==expected,path
 report=dict(donor=DONOR,materials=reports,images=images,source_hashes=hashes,
+    stock_flat_normal=flat_normal_evidence,
     limitation='Saved native fields verified, not MCC appearance. Stock H3 sRGB imports replace legacy xRGB color response; normals, mips and reflections require visual review. Source-only inputs are not fabricated in H3.')
 (DEST/'report.json').write_text(json.dumps(report,indent=2)+'\n')
 print('WALL_FAMILY_AUTHORED',len(reports),'materials',len(images),'images',flush=True)

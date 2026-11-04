@@ -421,5 +421,80 @@
       "detail_map_m_2",
       "detail_map_m_3"
     ]
+  },
+  "caustics": {
+    "donor": "objects\\equipment\\shaders\\powerdrain_active.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_caustics.shader"
+    ],
+    "image_count": 1,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "noise_map_a",
+      "noise_map_b",
+      "alpha_mask_map"
+    ]
+  },
+  "sky_panel": {
+    "donor": "levels\\multi\\deadlock\\sky\\shaders\\lake.shader",
+    "sources": [
+      "levels\\multi\\classic\\ascension\\shaders\\forerunner_panel_skybox.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "bump_detail_map",
+      "material_texture",
+      "environment_map"
+    ]
+  },
+  "smooth_phong": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_plate_brackets.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_base_building.shader",
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_dark.shader"
+    ],
+    "image_count": 5,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "environment_map"
+    ],
+    "stock_flat_normal": true
+  },
+  "smooth_cook": {
+    "donor": "objects\\characters\\sentinel_constructor\\shaders\\sentinel_constructor.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_metal_light_details.shader",
+      "objects\\props\\human\\pioneer\\furniture\\shaders\\metal_scratched.shader"
+    ],
+    "image_count": 4,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "material_texture",
+      "environment_map"
+    ],
+    "stock_flat_normal": true
+  },
+  "deco_trim": {
+    "donor": "objects\\weapons\\rifle\\spike_rifle\\shaders\\bolt_thrower_shiny.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_panel_deco_trim.shader"
+    ],
+    "image_count": 5,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "bump_detail_map",
+      "material_texture",
+      "environment_map",
+      "self_illum_map"
+    ],
+    "stock_world_model": "objects\\weapons\\rifle\\spike_rifle\\spike_rifle.render_model"
   }
 }
