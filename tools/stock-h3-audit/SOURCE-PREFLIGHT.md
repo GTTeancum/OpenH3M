@@ -160,3 +160,26 @@ was changed for framing. These are untextured geometry previews; foliage alpha,
 surface shading and lighting are not represented faithfully. Neither image
 proves full collision import, gameplay or MCC readiness. The separate full
 import remains a distinct live job until its process/result says otherwise.
+
+## Full import completed; source-material preview
+
+The full import exited 0 after 15 minutes 4 seconds, creating structure collision
+and portals through upstream Foundry. Saved `reach-source-inspection.blend` has
+1,131 mesh objects, 546,074 polygons and 108 materials. The source BSP hash
+remained unchanged. This establishes import completion, not correct collision
+in H3. The former session 50995/PID 20836 is now terminal; do not restart it.
+
+The material preview initially raised 101 identical errors. A diagnostic trace
+proved they occurred in the optional node-editor layout stage, which divides
+by Blender's zero UI scale in background mode. The automation now invokes
+Foundry's existing ShaderTag/ShaderTerrainTag/ShaderFoliageTag/ShaderGlassTag
+`to_nodes` methods directly. No upstream implementation was modified, no custom
+shader-building logic was introduced, and no replacement nodes were fabricated.
+All 101 attempted readers completed without error. The water material is
+explicitly skipped because this upstream preview reader substitutes generic
+Basic Water; it is not claimed as imported faithfully.
+
+`reach-textured-preview.blend` is a Reach-material inspection scene, not H3
+shader assignment. Native Cycles renders use studio lighting for readability,
+not source-map lighting. These remain WIP proof only. The source texture
+mandate, H3 material target and outstanding effects approval are unchanged.
