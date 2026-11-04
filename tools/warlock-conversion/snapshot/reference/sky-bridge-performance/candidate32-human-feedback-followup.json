@@ -1,0 +1,37 @@
+{
+  "user_confirmed": [
+    "Previously opaque rain cards now look like raindrops and are fixed"
+  ],
+  "remaining": [
+    {
+      "issue": "Circled upper courtyard surface flashes black for one frame every second or two",
+      "evidence": "Human report; not captured in the attached still"
+    },
+    {
+      "issue": "Protruding feature at upper left of circled region flickers with lighting",
+      "evidence": "Human report; exact mesh/material not identified"
+    },
+    {
+      "issue": "Advertisement overlay difficult to read",
+      "evidence": "Second attached still; visual correctness uncertain"
+    }
+  ],
+  "weather": {
+    "source_outdoor": "skybridge_outdoor references rain_angle_01 weather effect",
+    "source_indoor": "skybridge_indoor has null weather effect",
+    "candidate32": "Corresponding weather effect imported as target 10701; six source rain placement objects remain at placement indices 60-65 with translated attachment effects",
+    "limitations": "Emitter behavior, cluster assignment and outdoor rendering still need verification"
+  },
+  "advertisement": {
+    "materials_checked": 25,
+    "constant_mismatches": 0,
+    "limitation": "Matching source constants, blend and function counts do not prove correct layering, animation routes, exposure, readability or screenshot material identity"
+  },
+  "next": [
+    "Map circled region to mesh/material and inspect periodic animation/render-state/visibility paths; user asked whether flicker occurs with stationary camera",
+    "Trace outdoor weather emitters and cluster bindings",
+    "Audit billboard layer sampling/animation and output against source before changing intensity"
+  ],
+  "constraints": "Read-only runtime observation; no shared-content writes during other chat cleanup. No capture/UI input. No claim remaining flicker fixed.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
