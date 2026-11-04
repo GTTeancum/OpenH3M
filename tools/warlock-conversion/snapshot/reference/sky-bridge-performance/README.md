@@ -1960,6 +1960,73 @@ from `.local/loading-traces/20261104-095149-6756`, the exact native observer mat
 and unchanged hashes of the shared candidate36 map and production GPU DLL.
 All authorized additional captures have been used. The game is closed.
 
+## Electrical arc visibility trace (2026-11-04)
+
+The cylinder light pulse and the visible arc particles are separate outputs of
+`electric_02`. Proving the light pulse did not establish particle visibility.
+`audit-arc-material.py` verifies source particle4465 against native10421: main
+flags32, appearance flags4103, billboard style7 (local horizontal), sequences,
+named material constants, blend mode9 and texture settings match. Appearance
+bit9 (double-sided) is absent in both. Imported native debug names are omitted;
+the effect dependency chain identifies the imported tags. The native arc shader
+is PS16104069050768599808, with bitmap10422 bound as both base and alpha maps.
+
+The opt-in arc probe records three nonzero 512-byte texture witnesses at offsets
+0x3800,0x25800 and0x72e00, plus texture dimensions. It pairs color samples around
+each actual draw. Run56 attributes all1638 draws over300 frames to this bitmap;
+none changes the16 marked-cylinder sample locations. This sparse result alone
+does not prove that the particles are absent.
+
+The subsequent GPU buffer probe reads the actual80-byte particle records used
+by the native vertex program, after GPU completion. Halfword fields follow the
+native fetch swizzles, rather than treating an8-in32 byte swap as field order.
+Run58 contains8499 live particle observations over299 sampled frames, with
+nonzero alpha and authored intensity400. The source/runtime billboard is
+horizontal; the saved camera is below these particles. All1602 actual arc draws
+over300 frames have zero depth-passing fragments. Bypassing depth, stencil, or
+both while preserving culling still produces zero. These controls write no
+color, depth or stencil and restore the original pipeline.
+
+Run59 adds two culling controls, with1595 complete comparisons over300 frames:
+
+| Diagnostic draw condition | Draws with fragments | Total fragments |
+| --- | ---: | ---: |
+| Native tests and culling |0|0|
+| Depth/stencil bypassed, native culling |0|0|
+| Native depth/stencil, culling disabled |0|0|
+| Depth/stencil and culling bypassed |1252|113650|
+
+Thus both back-face rejection and geometry hide these arc sheets from the saved
+view. The independent light can still illuminate the cylinder. This is not a
+reason to ship disabled depth testing or changed particle sidedness.
+
+Run60 changes only the process-local native observer command, to
+(25.1179733,94.4719696,10.3190403), looking down toward the source effect at
+(25.1179733,97.4719696,4.3190403). Candidate36 and native depth/culling remain
+intact. All606 recorded arc draws have exact texture attribution and complete
+paired samples. Actual fragment coverage is nonzero in274 draws. Arc draws
+change14 of16 sampled locations in78 draws across73 frames, with maximum channel
+change204/255. This proves actual color contribution from above; it does not
+establish the full particle shape or final visual acceptance. The observer
+snapshot matches the intentionally changed command, rather than the saved
+human view. The probe has277 distinct frames containing arc draws; do not label
+this a300-frame arc sequence.
+
+WARP fixtures verify paired numeric color, custom sample locations, the exact
+GPU particle-buffer bytes and fence ordering, and the culling variants. The
+culling fixture checks that diagnostic draws preserve color/depth/stencil,
+restore the guest pipeline, and skip active guest queries, memexport and
+non-host render targets. The optional D3D12 debug layer was unavailable. These
+diagnostic runs are excluded from performance acceptance.
+
+`candidate36-arc-rendering-result.json` records the compact evidence and hashes.
+No native captures were taken in runs56–60, and no shared runtime or map files
+were changed. Run61 is prepared for six native captures from above with numeric
+probes disabled, but requires a new user image exception before execution.
+Both previous six-capture allowances have been used. The overall goal remains
+open; close-up arc appearance, full traversal and other outstanding visual
+acceptance checks remain separate from these numeric results.
+
 Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the

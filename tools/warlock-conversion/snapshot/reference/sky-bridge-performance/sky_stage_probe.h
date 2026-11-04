@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <vector>
 
 namespace rex::graphics::d3d12 {
@@ -33,7 +34,7 @@ class SkyStageProbe {
     {643,182},{646,180},{650,180},{653,180},{650,184},{655,183},
     {642,176},{646,176},{650,176},{654,176},{658,180},{646,185},
     {635,182},{665,182},{650,168},{650,195}}};
-  const auto& Points()const{return cylinder_draws_?cylinder_points:model_draws_?model_points:screen_draws_?screen_points:points;}
+  const auto& Points()const{return arc_draws_?arc_points_:cylinder_draws_?cylinder_points:model_draws_?model_points:screen_draws_?screen_points:points;}
   struct Slot {
     Microsoft::WRL::ComPtr<ID3D12Resource> buffer;
     uint64_t submission=0,frame=0,sequence=0,shader=0,resource=0;
@@ -44,6 +45,7 @@ class SkyStageProbe {
   bool WaterDraws()const{return water_draws_;}
   bool RainDraws()const{return rain_draws_;}
   bool ScreenDraws()const{return screen_draws_;}
+  bool ArcDraws()const{return arc_draws_;}
   bool CylinderDraws()const{return cylinder_draws_;}
   bool ModelDraws()const{return model_draws_;}
   uint32_t PointCount()const{return (all_draws_||water_draws_)?1:uint32_t(points.size());}
@@ -61,7 +63,7 @@ class SkyStageProbe {
       fprintf(file_,"event,frame,sequence,phase,shader,index_count,submission,resource,format,resource_format,width,height,x,y,bytes,w0,w1,w2,w3\n");
       first_frame_=frame;start_=now;
     }
-    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=((model_draws_||cylinder_draws_)?600000:all_draws_?400000:rain_draws_?300000:100000)){
+    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)||rows_>=((model_draws_||cylinder_draws_||arc_draws_)?600000:all_draws_?400000:rain_draws_?300000:100000)){
       fprintf(file_,"end,%llu,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",frame);
       fflush(file_);finished_=true;return;
     }
@@ -142,12 +144,21 @@ class SkyStageProbe {
     if(const auto* screen=std::getenv("OPENH3M_SKY_STAGE_SCREEN_DRAWS"))screen_draws_=std::strcmp(screen,"1")==0;
     if(const auto* model=std::getenv("OPENH3M_SKY_STAGE_MODEL_DRAWS"))model_draws_=std::strcmp(model,"1")==0;
     if(const auto* cylinder=std::getenv("OPENH3M_SKY_STAGE_CYLINDER_DRAWS"))cylinder_draws_=std::strcmp(cylinder,"1")==0;
-    slots_.resize(all_draws_?4096:(model_draws_||cylinder_draws_)?512:128);
+    if(const auto* arc=std::getenv("OPENH3M_SKY_STAGE_ARC_DRAWS"))arc_draws_=std::strcmp(arc,"1")==0;
+    slots_.resize(all_draws_?4096:(model_draws_||cylinder_draws_||arc_draws_)?512:128);
+    if(arc_draws_){
+      std::ifstream points_file(dir/"arc-points.txt");
+      if(points_file){
+        for(auto& point:arc_points_)if(!(points_file>>point[0]>>point[1])||point[0]>=8192||point[1]>=8192)return;
+        std::string extra;if(points_file>>extra)return;
+      }
+    }
     directory_=dir;
   }
+  std::array<std::array<uint32_t,2>,16> arc_points_=cylinder_points;
   std::filesystem::path directory_;
   std::vector<Slot> slots_;
-  bool all_draws_=false,water_draws_=false,rain_draws_=false,screen_draws_=false,model_draws_=false,cylinder_draws_=false;
+  bool all_draws_=false,water_draws_=false,rain_draws_=false,screen_draws_=false,model_draws_=false,cylinder_draws_=false,arc_draws_=false;
   FILE* file_=nullptr;bool finished_=false;
   uint64_t first_frame_=0,rows_=0;
   std::chrono::steady_clock::time_point start_;

@@ -1,0 +1,1152 @@
+{
+  "status": "Numeric cause and contribution established; close-up arc appearance awaiting image exception.",
+  "material_audit": {
+    "source": {
+      "particle": "fx\\particles\\energy\\electric_arcs_blue_n4",
+      "tag": 4465,
+      "flags": 32,
+      "appearance_flags": 4103,
+      "billboard_style": 7,
+      "sequences": [
+        0,
+        0,
+        0
+      ],
+      "template": "shaders\\particle_templates\\_5_8_0_0_0_1_0_0_0_0",
+      "template_tag": 4388,
+      "pixel_shader": 4390,
+      "vertex_shader": 4389,
+      "named_real_constants": {
+        "depth_fade_range": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "albedo": [
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ],
+        "blend_mode": [
+          8.0,
+          8.0,
+          8.0,
+          8.0
+        ],
+        "specialized_rendering": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "lighting": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fog": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "frame_blend": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "self_illumination": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "unused_real_constants": [],
+      "textures": {
+        "base_map": {
+          "tag": 4466,
+          "name": "fx\\particles\\energy\\_bitmaps\\electric_arcs_02",
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        },
+        "palette": {
+          "tag": 16,
+          "name": "shaders\\default_bitmaps\\bitmaps\\gray_50_percent",
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        },
+        "alpha_map": {
+          "tag": 4466,
+          "name": "fx\\particles\\energy\\_bitmaps\\electric_arcs_02",
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        }
+      },
+      "blend_mode": 9
+    },
+    "target": {
+      "particle": null,
+      "tag": 10421,
+      "flags": 32,
+      "appearance_flags": 4103,
+      "billboard_style": 7,
+      "sequences": [
+        0,
+        0,
+        0
+      ],
+      "template": "shaders\\particle_templates\\_5_8_0_0_0_1_0_0_0_0",
+      "template_tag": 5321,
+      "pixel_shader": 5323,
+      "vertex_shader": 5322,
+      "named_real_constants": {
+        "depth_fade_range": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "albedo": [
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ],
+        "blend_mode": [
+          8.0,
+          8.0,
+          8.0,
+          8.0
+        ],
+        "specialized_rendering": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "lighting": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fog": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "frame_blend": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "self_illumination": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "unused_real_constants": [],
+      "textures": {
+        "base_map": {
+          "tag": 10422,
+          "name": null,
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        },
+        "palette": {
+          "tag": 18,
+          "name": "shaders\\default_bitmaps\\bitmaps\\gray_50_percent",
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        },
+        "alpha_map": {
+          "tag": 10422,
+          "name": null,
+          "bitmap_index": 0,
+          "address_filter": [
+            17,
+            0
+          ],
+          "external_transform": [
+            0,
+            -1
+          ]
+        }
+      },
+      "blend_mode": 9
+    },
+    "checks": {
+      "flags": true,
+      "appearance_flags": true,
+      "billboard_style": true,
+      "sequences": true,
+      "template": true,
+      "named_real_constants": true,
+      "blend_mode": true,
+      "texture_fields": true
+    },
+    "limitations": [
+      "Imported native tags omit debug names; source/native tag identities follow the electric_02 dependency chain.",
+      "Named material equality does not prove runtime particle visibility or correct shape."
+    ],
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "runs": [
+    {
+      "run": 56,
+      "configuration": {
+        "arc_pass_probe": true,
+        "cylinder_pass_probe": false,
+        "native_visual_capture": false,
+        "native_capture_times_ms": null,
+        "native_live_package": false,
+        "live_package": null,
+        "live_package_sha256": null,
+        "depth_writer_trace": false,
+        "depth_value_trace": false,
+        "depth_test_trace": false,
+        "coverage_trace": false,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.5546875,0.2671875,0.5755208333,0.3046875",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "7d389d52398eb81cbe78c4fcdbff3138571525652f37ef949cf0b18e924cc74e",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "draws": 1638,
+      "frames_with_arc_draws": 300,
+      "exactly_attributed_draws": 1638,
+      "complete_pairs": 1638,
+      "changed_draws": 0,
+      "changed_frames": 0,
+      "changed_points": {},
+      "max_abs_rgb_delta": 0,
+      "evidence_sha256": {
+        "draws.bin": "a60b50097879fe5ea804e098236dd4fc67e804d80b72643f8264a97d6a514b18",
+        "stages.csv": "c94f240cfa5ebc8e5cc2e6ffca22354af74114b19ed38a950ece387ed7b273a2",
+        "arc-pass-analysis.json": "17cf3133d164102538699ee33d506203e7d07bd776994325381e8215cb5f73ab",
+        "native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+      },
+      "matches_saved_human_observer": true
+    },
+    {
+      "run": 57,
+      "configuration": {
+        "arc_pass_probe": true,
+        "cylinder_pass_probe": false,
+        "native_visual_capture": false,
+        "native_capture_times_ms": null,
+        "native_live_package": false,
+        "live_package": null,
+        "live_package_sha256": null,
+        "depth_writer_trace": false,
+        "depth_value_trace": false,
+        "depth_test_trace": false,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.5546875,0.2671875,0.5755208333,0.3046875",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "a01bec5381458935dae1e0397f63208c25fb7e6afb6eb587dbfc2a7ba95cb142",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "draws": 975,
+      "frames_with_arc_draws": 180,
+      "exactly_attributed_draws": 975,
+      "complete_pairs": 975,
+      "changed_draws": 0,
+      "changed_frames": 0,
+      "changed_points": {},
+      "max_abs_rgb_delta": 0,
+      "evidence_sha256": {
+        "draws.bin": "f9eee7f4a057b03cd6878e387f347f0d30aad722d59fdfc4acd87f959aed85e8",
+        "stages.csv": "9cce49f42b38197163f95b86481657d875543ca09774b6486baf9e12d87c0cbb",
+        "arc-pass-analysis.json": "b1cad1355a5d91e511028e4154ab6dead697de3af66d23a1646a72decd45c9b1",
+        "native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+      },
+      "state": {
+        "draws": 975,
+        "state_rows": 975,
+        "state_events": {
+          "sample": 975
+        },
+        "coverage_events": {
+          "sample": 979
+        },
+        "queries": 975,
+        "coverage_records_outside_flushed_draw_trace": 4,
+        "nonzero_coverage_draws": 0,
+        "depth_passing_samples": 0,
+        "particles": 8844,
+        "live_particles": 5172,
+        "live_frames": 180,
+        "near_marked_live_particles": 1049,
+        "world_min": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_max": [
+          28.193174362182617,
+          107.09630584716797,
+          6.045628547668457
+        ],
+        "limitations": [
+          "Projected corners follow the traced shader and authored local-horizontal billboard path; they are not GPU vertex-output captures.",
+          "Occlusion query counts cover the whole draw and do not prove visible color or a particular object.",
+          "Color bytes are the vertex-buffer fetch order (BGRA), with alpha last."
+        ]
+      },
+      "matches_saved_human_observer": true
+    },
+    {
+      "run": 58,
+      "configuration": {
+        "arc_pass_probe": true,
+        "cylinder_pass_probe": false,
+        "native_visual_capture": false,
+        "native_capture_times_ms": null,
+        "native_live_package": false,
+        "live_package": null,
+        "live_package_sha256": null,
+        "depth_writer_trace": false,
+        "depth_value_trace": false,
+        "depth_test_trace": true,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.5546875,0.2671875,0.5755208333,0.3046875",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "742f9a91bf1b5533ebab0704269fb4ba4bab6a209105678e57983013a010537d",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "draws": 1602,
+      "frames_with_arc_draws": 300,
+      "exactly_attributed_draws": 1602,
+      "complete_pairs": 1602,
+      "changed_draws": 0,
+      "changed_frames": 0,
+      "changed_points": {},
+      "max_abs_rgb_delta": 0,
+      "evidence_sha256": {
+        "draws.bin": "a65dfd28df6d4fadca90d9553238d523de306eb3375ad97f0223726e1d9cac74",
+        "stages.csv": "47ae3bcd4d3c26777a7bd915026926ef8cdceec34abc778ad6f445b2c411804e",
+        "arc-pass-analysis.json": "aa68201e1773c8a16b8584011b80ab882ae7da438c08ae4fb6bfa8966fd2c70a",
+        "native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+      },
+      "state": {
+        "draws": 1602,
+        "state_rows": 1593,
+        "state_events": {
+          "sample": 1593
+        },
+        "coverage_events": {
+          "sample": 1602
+        },
+        "queries": 1602,
+        "coverage_records_outside_flushed_draw_trace": 0,
+        "nonzero_coverage_draws": 0,
+        "depth_passing_samples": 0,
+        "particles": 13195,
+        "live_particles": 8499,
+        "live_frames": 299,
+        "near_marked_live_particles": 2105,
+        "world_min": [
+          4.992476463317871,
+          93.93867492675781,
+          4.288074016571045
+        ],
+        "world_max": [
+          28.41392707824707,
+          107.18643951416016,
+          6.045628547668457
+        ],
+        "limitations": [
+          "Projected corners follow the traced shader and authored local-horizontal billboard path; they are not GPU vertex-output captures.",
+          "Occlusion query counts cover the whole draw and do not prove visible color or a particular object.",
+          "Color bytes are the vertex-buffer fetch order (BGRA), with alpha last."
+        ]
+      },
+      "depth_culling": {
+        "events": {
+          "sample": 6408
+        },
+        "attributed_draws": 1602,
+        "complete_comparisons": 1602,
+        "frames": 300,
+        "incomplete_comparisons": 0,
+        "records_outside_flushed_draw_trace": 0,
+        "variants": {
+          "0": {
+            "draws": 1602,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "1": {
+            "draws": 1602,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "2": {
+            "draws": 1602,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "3": {
+            "draws": 1602,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          }
+        },
+        "actual_matches_readonly_native": 1602,
+        "variant_order": [
+          "native tests and culling",
+          "depth ALWAYS",
+          "stencil disabled",
+          "depth/stencil bypassed"
+        ],
+        "host_states": [
+          {
+            "variant": 0,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 1,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 2,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 3,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          }
+        ],
+        "evidence_sha256": {
+          "draws.bin": "a65dfd28df6d4fadca90d9553238d523de306eb3375ad97f0223726e1d9cac74",
+          "coverage.csv": "9ebba65a673390ff87092a1dfdab6783a089f63c1716d5a27c7f0a147d848cd2",
+          "depth-tests.csv": "e46aea0e8453cc14029b7e62cbb874d428ae17c678d19f0a88324de0b06f03b8"
+        },
+        "limitations": [
+          "All variant draws disable color/depth/stencil writes and restore the native pipeline.",
+          "Fragment counts prove rasterization and rejection, not visible particle color or correct shape.",
+          "Bounded watchdog may stop a probe before its own frame limit; only joined complete comparisons are reported."
+        ],
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "matches_saved_human_observer": true
+    },
+    {
+      "run": 59,
+      "configuration": {
+        "arc_pass_probe": true,
+        "cylinder_pass_probe": false,
+        "native_visual_capture": false,
+        "native_capture_times_ms": null,
+        "native_live_package": false,
+        "live_package": null,
+        "live_package_sha256": null,
+        "depth_writer_trace": false,
+        "depth_value_trace": false,
+        "depth_test_trace": true,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.5546875,0.2671875,0.5755208333,0.3046875",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "a7f9d5434ff6ceb94a69d5a6b9e8628cc58db9596d7019e59931afde230f20ee",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "draws": 1595,
+      "frames_with_arc_draws": 300,
+      "exactly_attributed_draws": 1595,
+      "complete_pairs": 1595,
+      "changed_draws": 0,
+      "changed_frames": 0,
+      "changed_points": {},
+      "max_abs_rgb_delta": 0,
+      "evidence_sha256": {
+        "draws.bin": "c10f6738037e91ae3fc80b7fac2c91defc5074b56da0b258a7052e15f55883e5",
+        "stages.csv": "da7ade3194875c3a46783713ab879cadbc7ad113a783571f5bf8c64a7374e8bb",
+        "arc-pass-analysis.json": "cda7c4a8264a9c9f5d5beb5e5d3dd59a2a8c154a00e0c7543f0c94ea2ce8079c",
+        "native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748"
+      },
+      "depth_culling": {
+        "events": {
+          "sample": 9570
+        },
+        "attributed_draws": 1595,
+        "complete_comparisons": 1595,
+        "frames": 300,
+        "incomplete_comparisons": 0,
+        "records_outside_flushed_draw_trace": 0,
+        "variants": {
+          "0": {
+            "draws": 1595,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "1": {
+            "draws": 1595,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "2": {
+            "draws": 1595,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "3": {
+            "draws": 1595,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          },
+          "4": {
+            "draws": 1595,
+            "nonzero_draws": 1252,
+            "total_samples": 113650,
+            "maximum_samples": 358
+          },
+          "5": {
+            "draws": 1595,
+            "nonzero_draws": 0,
+            "total_samples": 0,
+            "maximum_samples": 0
+          }
+        },
+        "actual_matches_readonly_native": 1595,
+        "variant_order": [
+          "native tests and culling",
+          "depth ALWAYS",
+          "stencil disabled",
+          "depth/stencil bypassed",
+          "depth/stencil bypassed and culling disabled",
+          "native depth/stencil, culling disabled"
+        ],
+        "host_states": [
+          {
+            "variant": 0,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 1,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 2,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 3,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 3,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 4,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 1,
+            "sample_mask": 4294967295
+          },
+          {
+            "variant": 5,
+            "original_depth_enabled": 1,
+            "original_depth_func": 7,
+            "original_stencil_enabled": 0,
+            "effective_cull": 1,
+            "sample_mask": 4294967295
+          }
+        ],
+        "evidence_sha256": {
+          "draws.bin": "c10f6738037e91ae3fc80b7fac2c91defc5074b56da0b258a7052e15f55883e5",
+          "coverage.csv": "c1ac6749b6103fc9e958bb81413154d19ac587d9883281ff41da768ed0b4fa68",
+          "depth-tests.csv": "2725e5533393c83bcff7309895ef455f7337b93a0e48ccb214806952826e0a55"
+        },
+        "limitations": [
+          "All variant draws disable color/depth/stencil writes and restore the native pipeline.",
+          "Fragment counts prove rasterization and rejection, not visible particle color or correct shape.",
+          "Bounded watchdog may stop a probe before its own frame limit; only joined complete comparisons are reported."
+        ],
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "matches_saved_human_observer": true,
+      "state": {
+        "draws": 1595,
+        "state_rows": 1591,
+        "state_events": {
+          "sample": 1591
+        },
+        "coverage_events": {
+          "sample": 1595
+        },
+        "queries": 1595,
+        "coverage_records_outside_flushed_draw_trace": 0,
+        "nonzero_coverage_draws": 0,
+        "depth_passing_samples": 0,
+        "particles": 13093,
+        "live_particles": 7590,
+        "live_frames": 298,
+        "near_marked_live_particles": 1697,
+        "world_min": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_max": [
+          28.033145904541016,
+          107.07836151123047,
+          6.045628547668457
+        ],
+        "limitations": [
+          "Projected corners follow the traced shader and authored local-horizontal billboard path; they are not GPU vertex-output captures.",
+          "Occlusion query counts cover the whole draw and do not prove visible color or a particular object.",
+          "Color bytes are the vertex-buffer fetch order (BGRA), with alpha last."
+        ]
+      }
+    },
+    {
+      "run": 60,
+      "configuration": {
+        "arc_pass_probe": true,
+        "cylinder_pass_probe": false,
+        "native_visual_capture": false,
+        "native_capture_times_ms": null,
+        "native_live_package": false,
+        "live_package": null,
+        "live_package_sha256": null,
+        "depth_writer_trace": false,
+        "depth_value_trace": false,
+        "depth_test_trace": false,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.46,0.45,0.54,0.55",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "306fe848d4b37b3476506631f5f64e9fda70daae663958deccff169ee5851e1a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "draws": 606,
+      "frames_with_arc_draws": 277,
+      "exactly_attributed_draws": 606,
+      "complete_pairs": 606,
+      "changed_draws": 78,
+      "changed_frames": 73,
+      "changed_points": {
+        "(576, 320)": 22,
+        "(592, 320)": 23,
+        "(592, 336)": 18,
+        "(576, 304)": 19,
+        "(576, 352)": 8,
+        "(544, 304)": 18,
+        "(560, 304)": 16,
+        "(608, 304)": 13,
+        "(608, 320)": 11,
+        "(592, 304)": 16,
+        "(608, 336)": 13,
+        "(576, 336)": 19,
+        "(560, 320)": 18,
+        "(560, 336)": 6
+      },
+      "max_abs_rgb_delta": 0.8,
+      "evidence_sha256": {
+        "draws.bin": "676c8f74279f451884b07ef18992e08f1d942af1ac7c7bf0cdc313d1cee845ba",
+        "stages.csv": "d3bb37fc5c4469ca7029d15557b8e35c1277fa8eed459794382e6cec1a4d4a5f",
+        "arc-pass-analysis.json": "cac857806ebedaaac0eaff4981080841040978b84b9633a16e2ea9db0df44463",
+        "native-observer-comparison.json": "cac5f76224ed658ea5f4a865c57f6218bcf37d738e2d18d0db22c0a2db1ba837"
+      },
+      "state": {
+        "draws": 606,
+        "state_rows": 604,
+        "state_events": {
+          "sample": 604
+        },
+        "coverage_events": {
+          "sample": 606
+        },
+        "queries": 606,
+        "coverage_records_outside_flushed_draw_trace": 0,
+        "nonzero_coverage_draws": 274,
+        "depth_passing_samples": 2336308,
+        "particles": 5366,
+        "live_particles": 3480,
+        "live_frames": 266,
+        "near_marked_live_particles": 33,
+        "world_min": [
+          -1.9073488033427566e-07,
+          2.582868141587369e-08,
+          3.3187869121320546e-05
+        ],
+        "world_max": [
+          28.349557876586914,
+          105.68389892578125,
+          4.319374084472656
+        ],
+        "limitations": [
+          "Projected corners follow the traced shader and authored local-horizontal billboard path; they are not GPU vertex-output captures.",
+          "Occlusion query counts cover the whole draw and do not prove visible color or a particular object.",
+          "Color bytes are the vertex-buffer fetch order (BGRA), with alpha last."
+        ]
+      },
+      "matches_saved_human_observer": false,
+      "intentional_above_view": {
+        "purpose": "View the authored single-sided horizontal arc particles from above with native culling and depth intact.",
+        "target": [
+          25.11797332763672,
+          97.47196960449219,
+          4.319040298461914
+        ],
+        "requested_camera_position": [
+          25.11797332763672,
+          94.47196960449219,
+          10.319040298461914
+        ],
+        "forward": [
+          0,
+          0.4472135954999579,
+          -0.8944271909999159
+        ],
+        "up": [
+          0,
+          0.8944271909999159,
+          0.4472135954999579
+        ],
+        "original_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "command_sha256": "73b5139ff4e9004bfeef3097b89cd87b625b8570a5158726ed58567a798e1702",
+        "points": [
+          [
+            544,
+            304
+          ],
+          [
+            560,
+            304
+          ],
+          [
+            576,
+            304
+          ],
+          [
+            592,
+            304
+          ],
+          [
+            608,
+            304
+          ],
+          [
+            544,
+            320
+          ],
+          [
+            560,
+            320
+          ],
+          [
+            576,
+            320
+          ],
+          [
+            592,
+            320
+          ],
+          [
+            608,
+            320
+          ],
+          [
+            544,
+            336
+          ],
+          [
+            560,
+            336
+          ],
+          [
+            576,
+            336
+          ],
+          [
+            592,
+            336
+          ],
+          [
+            608,
+            336
+          ],
+          [
+            576,
+            352
+          ]
+        ],
+        "native_captures": 0,
+        "map_changes": false,
+        "player_pose_changes": false,
+        "limitation": "Intentional diagnostic camera change; not the saved human view."
+      },
+      "exact_requested_observer_result": true,
+      "paired_color_examples": [
+        {
+          "sequence": 1,
+          "frame": 3351,
+          "point": [
+            576,
+            320
+          ],
+          "before": [
+            0.12941176470588237,
+            0.1450980392156863,
+            0.23529411764705882,
+            0.0
+          ],
+          "after": [
+            0.1843137254901961,
+            0.2,
+            0.2901960784313726,
+            0.0
+          ]
+        },
+        {
+          "sequence": 1,
+          "frame": 3351,
+          "point": [
+            592,
+            320
+          ],
+          "before": [
+            0.12549019607843137,
+            0.1450980392156863,
+            0.23529411764705882,
+            0.0
+          ],
+          "after": [
+            0.1411764705882353,
+            0.1607843137254902,
+            0.25098039215686274,
+            0.0
+          ]
+        },
+        {
+          "sequence": 2,
+          "frame": 3352,
+          "point": [
+            576,
+            320
+          ],
+          "before": [
+            0.12941176470588237,
+            0.1450980392156863,
+            0.23529411764705882,
+            0.0
+          ],
+          "after": [
+            0.8196078431372549,
+            0.8352941176470589,
+            0.9254901960784314,
+            0.0
+          ]
+        },
+        {
+          "sequence": 2,
+          "frame": 3352,
+          "point": [
+            592,
+            320
+          ],
+          "before": [
+            0.12549019607843137,
+            0.1450980392156863,
+            0.23529411764705882,
+            0.0
+          ],
+          "after": [
+            0.12941176470588237,
+            0.14901960784313725,
+            0.23921568627450981,
+            0.0
+          ]
+        }
+      ]
+    }
+  ],
+  "fixtures": {
+    "color": {
+      "samples": 32,
+      "points": 16,
+      "both_phases_exact": true,
+      "frame_limit": true,
+      "gpu_fence_checked_by_fixture": true
+    },
+    "gpu_state": {
+      "state_bytes_exact": 80,
+      "state_address_exact": 80,
+      "color_samples_exact": 32,
+      "pre_fence_read_absent": true
+    },
+    "custom_points": {
+      "custom_points": 16,
+      "samples_exact": 32
+    },
+    "culling": {
+      "passed": true,
+      "variants": 6,
+      "native_fragment_count": 0,
+      "unculled_fragment_count": 64,
+      "guest_color_depth_stencil_preserved": true,
+      "native_pipeline_restored": true,
+      "fence_and_unsafe_scope_guards": true,
+      "d3d12_debug_layer_available": false,
+      "csv_sha256": "c6c01db8c3dba37edf5065d02d65f890e5b617aaed186cac51087174f27ab56c"
+    }
+  },
+  "shared_unchanged": {
+    "shared_gpu": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "installed_map": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+  },
+  "native_captures_this_turn": 0,
+  "pending_capture_run": 61,
+  "pending_capture_count": 6,
+  "capture_authorization": "Requested, not yet granted. Both earlier six-image allowances consumed.",
+  "production_map_changed": false,
+  "shared_runtime_changed": false,
+  "limitations": [
+    "Numeric contribution does not establish complete arc shapes or visual acceptance.",
+    "No performance claim from instrumented runs.",
+    "Runs57/58 GPU buffer files stop with some final in-flight records not drained by the process watchdog; counts report completed records only.",
+    "The full world state differs from the human snapshot; the native observer result is exact in runs56\u201359."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "emitter_gpu_fields": {
+    "exact_source_target_matches": 424,
+    "audit_sha256": "8eaffcfa0759dfa1c4d3d6365a45d1ea635863479287b796d8fece92cee62885"
+  }
+}

@@ -1,0 +1,15 @@
+@echo off
+setlocal
+cd /d C:\X360\ISOs\H3M\.local\OpenH3M-source
+set TEMP=%CD%\.local\build-temp
+set TMP=%TEMP%
+call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat" >nul
+if errorlevel 1 exit /b 1
+"C:\Program Files\LLVM\bin\clang++.exe" -std=c++17 -D_CRT_SECURE_NO_WARNINGS tools/warlock-conversion/snapshot/reference/sky-bridge-performance/sky-stage-probe-gpu-test.cpp -o work/sky-bridge/arc-probe-build/gpu-test.exe -ld3d12 -ldxgi
+if errorlevel 1 exit /b 1
+"C:\Program Files\LLVM\bin\clang++.exe" -std=c++17 -D_CRT_SECURE_NO_WARNINGS tools/warlock-conversion/snapshot/reference/sky-bridge-performance/sky-arc-state-gpu-test.cpp -o work/sky-bridge/arc-probe-build/state-gpu-test.exe -ld3d12 -ldxgi
+if errorlevel 1 exit /b 1
+"C:\Program Files\LLVM\bin\clang++.exe" -std=c++17 -D_CRT_SECURE_NO_WARNINGS tools/warlock-conversion/snapshot/reference/sky-bridge-performance/sky-arc-cull-probe-gpu-test.cpp -o work/sky-bridge/arc-probe-build/cull-gpu-test.exe -ld3d12 -ldxgi -ld3dcompiler
+if errorlevel 1 exit /b 1
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja\ninja.exe" -C work/rexglue-sdk/out/pacing-release rexgpu-xenos.dll > work/sky-bridge/arc-probe-build/build.log 2>&1
+exit /b %errorlevel%

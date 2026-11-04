@@ -21,6 +21,7 @@ class SkyDrawTrace {
             uint32_t index_endian, memory::Memory* memory) {
     active_draw_=false;
     if (directory_.empty() || finished_) return;
+    if(arc_only_ && (!ps || ps->ucode_data_hash()!=16104069050768599808ull))return;
     if(cylinder_only_){
       if(count!=1761&&count!=3522)return;
       const uint32_t address=regs[0x48be]&0xfffffffcu;
@@ -122,6 +123,13 @@ class SkyDrawTrace {
     // This identifies the uploaded asset, not GPU sampling correctness.
     if(screen_only_)for(uint32_t sampler=0;sampler<32;++sampler)
       if((regs[0x4800+sampler*6]&3)==2)Prefix(regs[0x4801+sampler*6]&0xfffff000u,512,memory);
+    if(arc_only_)for(uint32_t sampler:{0u,2u}){
+      const uint32_t base=regs[0x4801+sampler*6]&0xfffff000u;
+      const uint32_t dimensions=regs[0x4802+sampler*6];
+      Prefix(base,512,memory);
+      if((dimensions&8191)==511&&((dimensions>>13)&8191)==511&&base<0x20000000u-0x73000u)
+        for(uint32_t offset:{0x3800u,0x25800u,0x72e00u})Prefix(base+offset,512,memory);
+    }
     if(rain_only_)Prefix(regs[0x4801]&0xfffff000u,512,memory);
     for (uint32_t i = compact_?96:(targets_only_ ? 95 : 0); i < 96; ++i) {
       const uint32_t at = 0x4800 + i * 2;
@@ -143,6 +151,8 @@ class SkyDrawTrace {
     water_only_=water && wcscmp(water,L"1")==0;
     const auto* screen=_wgetenv(L"OPENH3M_SKY_TRACE_SCREEN");
     screen_only_=screen && wcscmp(screen,L"1")==0;
+    const auto* arc=_wgetenv(L"OPENH3M_SKY_TRACE_ARC");
+    arc_only_=arc && wcscmp(arc,L"1")==0;
     const auto* cylinder=_wgetenv(L"OPENH3M_SKY_TRACE_CYLINDER");
     cylinder_only_=cylinder && wcscmp(cylinder,L"1")==0;
     const auto* model=_wgetenv(L"OPENH3M_SKY_TRACE_MODEL");
@@ -202,7 +212,7 @@ class SkyDrawTrace {
   std::filesystem::path directory_;
   FILE* file_ = nullptr;
   bool finished_ = false;
-  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false,cylinder_only_=false;
+  bool targets_only_=false,active_draw_=false,compact_=false,water_only_=false,rain_only_=false,screen_only_=false,model_only_=false,cylinder_only_=false,arc_only_=false;
   uint32_t frame_limit_=300;
   uint64_t sequence_=0, first_frame_=0, last_frame_=0, bytes_=0;
   std::chrono::steady_clock::time_point start_, poll_;

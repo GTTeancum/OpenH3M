@@ -1,0 +1,50 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -36,6 +36,7 @@
+ #include "sky_pixel_probe.h"
+ #include "sky_stage_probe.h"
+ #include "sky_coverage_probe.h"
++#include "sky_arc_state_probe.h"
+ #include "sky_depth_test_probe.h"
+ #include "sky_depth_value_probe.h"
+ #include "sky_region_probe.h"
+@@ -1668,6 +1669,7 @@
+   SkyPixelProbe::GetPresented().Shutdown(submission_completed_);
+   SkyStageProbe::Get().Shutdown(submission_completed_);
+   SkyCoverageProbe::Get().Shutdown(submission_completed_);
++  SkyArcStateProbe::Get().Shutdown(submission_completed_);
+   SkyDepthTestProbe::Get().Shutdown(submission_completed_);
+   SkyDepthValueProbe::Get().Shutdown(submission_completed_);
+   SkyRegionProbe::Get().Shutdown(submission_completed_);
+@@ -2789,6 +2791,15 @@
+     SkyCoverageProbe::Get().End(deferred_command_list_,coverage_index);
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);
++    SkyArcStateProbe::Get().Record(GetD3D12Provider().GetDevice(),frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,
++      (*register_file_)[0x48bc]&0xfffffffcu,(((*register_file_)[0x48bd]>>2)&0xffffff)*4,
++      (*register_file_)[0x2102]&0xffffff,index_count,submission_current_,submission_completed_,
++      [&](ID3D12Resource* target,uint32_t address,uint32_t size){
++        shared_memory_->UseAsCopySource();SubmitBarriers();
++        deferred_command_list_.D3DCopyBufferRegion(target,0,shared_memory_->GetBuffer(),address,size);
++        shared_memory_->UseForReading();SubmitBarriers();
++      });
+     SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+   } else {
+@@ -2873,6 +2884,15 @@
+     SkyCoverageProbe::Get().End(deferred_command_list_,coverage_index);
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);
++    SkyArcStateProbe::Get().Record(GetD3D12Provider().GetDevice(),frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,
++      (*register_file_)[0x48bc]&0xfffffffcu,(((*register_file_)[0x48bd]>>2)&0xffffff)*4,
++      (*register_file_)[0x2102]&0xffffff,index_count,submission_current_,submission_completed_,
++      [&](ID3D12Resource* target,uint32_t address,uint32_t size){
++        shared_memory_->UseAsCopySource();SubmitBarriers();
++        deferred_command_list_.D3DCopyBufferRegion(target,0,shared_memory_->GetBuffer(),address,size);
++        shared_memory_->UseForReading();SubmitBarriers();
++      });
+     SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+     if (scratch_index_buffer != nullptr) {

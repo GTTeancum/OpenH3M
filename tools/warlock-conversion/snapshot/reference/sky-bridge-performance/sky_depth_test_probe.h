@@ -15,12 +15,13 @@ namespace rex::graphics::d3d12 {
 class SkyDepthTestProbe {
  public:
   static SkyDepthTestProbe& Get(){static SkyDepthTestProbe p;return p;}
-  static constexpr uint32_t kCapacity=8192;
+  static constexpr uint32_t kCapacity=32768;
   static bool Selected(uint64_t shader){
     switch(shader){
       case 8562590739555380577ull:case 6159915361788144154ull:
       case 12021865740332317413ull:case 17893540736724855907ull:
-      case 14007674117786981017ull:case 10996139680788563763ull:return true;
+      case 14007674117786981017ull:case 10996139680788563763ull:
+      case 16104069050768599808ull:return true;
       default:return false;
     }
   }
@@ -41,12 +42,14 @@ class SkyDepthTestProbe {
     }
     copy.CachedPSO={};
     // 0: original tests; 1: depth ALWAYS; 2: stencil disabled; 3: both bypassed.
+    // Arc-only variants4/5 remove culling with tests bypassed/native respectively.
     // Keep depth enabled when it was enabled originally: a depth-only fixture
     // with no PS and both tests disabled may legally skip rasterization.
-    for(uint32_t variant=0;variant<4;++variant){
+    for(uint32_t variant=0;variant<(shader==16104069050768599808ull?6u:4u);++variant){
       copy.DepthStencilState.DepthEnable=desc.DepthStencilState.DepthEnable;
-      copy.DepthStencilState.DepthFunc=(variant&1)?D3D12_COMPARISON_FUNC_ALWAYS:desc.DepthStencilState.DepthFunc;
-      copy.DepthStencilState.StencilEnable=(variant&2)?FALSE:desc.DepthStencilState.StencilEnable;
+      copy.DepthStencilState.DepthFunc=((variant<4&&(variant&1))||variant==4)?D3D12_COMPARISON_FUNC_ALWAYS:desc.DepthStencilState.DepthFunc;
+      copy.DepthStencilState.StencilEnable=((variant<4&&(variant&2))||variant==4)?FALSE:desc.DepthStencilState.StencilEnable;
+      copy.RasterizerState.CullMode=variant>=4?D3D12_CULL_MODE_NONE:desc.RasterizerState.CullMode;
       entry.result=device->CreateGraphicsPipelineState(&copy,IID_PPV_ARGS(&entry.variants[variant]));
       if(FAILED(entry.result))break;
     }
@@ -59,7 +62,7 @@ class SkyDepthTestProbe {
               uint64_t completed,Draw draw){
     if(!enabled_||failed_)return;
     if(file_)Poll(completed);
-    if(!sequence||!Selected(shader)||(indices!=562&&indices!=11))return;
+    if(!sequence||!Selected(shader)||(shader!=16104069050768599808ull&&indices!=562&&indices!=11))return;
     if(!file_&&!Initialize(device))return;
     if(guest_query_active||memexport||!host_targets){
       fprintf(file_,"unsafe_scope,%llu,%llu,0,%llu,%u,0,0,0,0,0,0,0,0,0,0\n",frame,sequence,shader,indices);return;
@@ -76,10 +79,10 @@ class SkyDepthTestProbe {
     if(FAILED(entry.result)){
       fprintf(file_,"pipeline_failed,%llu,%llu,0,%llu,%u,0,0,0,0,0,0,0,0,0,%u\n",frame,sequence,shader,indices,uint32_t(entry.result));failed_=true;return;
     }
-    if(records_.size()+4>kCapacity){fprintf(file_,"capacity,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n");failed_=true;return;}
-    for(uint32_t variant=0;variant<4;++variant){
+    if(records_.size()+(shader==16104069050768599808ull?6:4)>kCapacity){fprintf(file_,"capacity,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n");failed_=true;return;}
+    for(uint32_t variant=0;variant<(shader==16104069050768599808ull?6u:4u);++variant){
       const auto query=uint32_t(records_.size());
-      records_.push_back({frame,sequence,shader,submission,indices,variant,entry.depth,entry.raster.CullMode,entry.sample_mask});
+      records_.push_back({frame,sequence,shader,submission,indices,variant,entry.depth,variant>=4?D3D12_CULL_MODE_NONE:entry.raster.CullMode,entry.sample_mask});
       commands.D3DSetPipelineState(entry.variants[variant].Get());
       commands.D3DBeginQuery(heap_.Get(),D3D12_QUERY_TYPE_OCCLUSION,query);
       draw();
@@ -99,7 +102,7 @@ class SkyDepthTestProbe {
  private:
   struct Entry{
     Microsoft::WRL::ComPtr<ID3D12PipelineState> original;
-    std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>,4> variants;
+    std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>,6> variants;
     D3D12_DEPTH_STENCIL_DESC depth{};D3D12_RASTERIZER_DESC raster{};
     uint32_t sample_mask=0;HRESULT result=S_OK;
   };

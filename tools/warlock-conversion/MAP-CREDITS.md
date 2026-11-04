@@ -69,6 +69,12 @@ the measured cylinder lighting constant for300 frames. Source timing and light
 curves are preserved. The light-muting control is private, not a shipped fix.
 Arc-particle appearance, full-map traversal and close-up ad legibility remain
 unverified; the overall goal stays open.
+Further numeric GPU tracing confirms that the arc particles are alive but hidden
+by back-face culling and geometry from the saved view below them. With native
+render settings unchanged, a private observer view from above measures actual
+arc color contribution in73 frames. The source also specifies single-sided
+horizontal particles. This explains how the light can pulse without visible
+arcs in the lower view; it does not replace visual acceptance of their shape.
 See `snapshot/reference/sky-bridge-performance/README.md`.
 
 
