@@ -26,7 +26,7 @@ try {
         $launch=Get-Content -Raw "$build/latest-launch.json" | ConvertFrom-Json
         $process=Get-Process -Id $launch.pid -ErrorAction Stop
         if ($process.Path -ne 'C:\X360\ISOs\H3M\OpenH3M.exe') { throw 'Target process changed' }
-        if ($process.StartTime.ToUniversalTime().ToString('o') -ne $launch.process_start_utc) { throw 'PID was reused' }
+        if ($process.StartTime.ToUniversalTime().Ticks -ne ([datetime]$launch.process_start_utc).ToUniversalTime().Ticks) { throw 'PID was reused' }
         New-Item -ItemType File -Path (Join-Path $launch.trace_directory 'arm') | Out-Null
         Write-Output 'Trace armed. Recording stops automatically; game stays open.'; return
     }
