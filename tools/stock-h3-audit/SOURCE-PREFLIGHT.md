@@ -1177,3 +1177,50 @@ H3 kit has its tag. It is a candidate for the two nonvisual surface variants;
 their source emission/collision metadata still needs native H3 export mapping.
 Only the active Foundry face-property type should be transferred: the inspection
 record also includes unrelated default values from other property types.
+
+## Stock nonvisual bindings (2026-11-04)
+
+`prepare_stock_material_bindings.py` verifies the original Standoff option
+vector against the unchanged official-kit `shaders/invalid.shader`; the stock
+cache hash is checked before and after the read-only TagTool command. Its H3
+tag hash is `5456ab171493cd99557f55964c6796970467da67028ad8e84294940520a7a94b`.
+This direct reuse is restricted to existing sphere-collision-only/lightmap-only
+materials. It is not an available substitute for unresolved visible surfaces.
+
+The saved Blender scene now binds 100 tags across 151 used variants: 99 authored
+tags plus this unchanged stock tag. The remaining three variants use water and
+shared dirty glass. `verify_nonvisual_materials.py` reopens the saved scene,
+checks the byte-identical alias, and calls the unmodified exporter's material
+routine to verify the collision flag on six `box003` faces and the lightmap-only
+flag on 32 `emissive_sun` faces. No mesh or emission setting is changed.
+
+The same read-only audit records only active source lighting properties:
+103 resolution selections, 12 emission selections, one chart group and one
+lightmap type (117 records total). These remain unresolved. In particular,
+Foundry stores a discrete 1–7 resolution selection while the H3 exporter exposes
+a floating-point scale; equivalence must be established before copying values.
+The converted scene's sun has stored imported intensity about 0.02 but a
+scale-dependent getter about 0.0000185806. A subsequent read-only official
+ManagedBlam inspection confirms the original lighting-info entry 5 has power
+0.02, focus 0.5, per-unit-area enabled and attenuation cutoff 1500. BSP material
+119 references this entry. `inspect_source_lighting.py` records all 193 original
+BSP material settings and ten lighting-info entries, with both source hashes
+unchanged. H3 units and attenuation still require verification before transfer;
+the converted getter must not silently replace the original value.
+
+Evidence: `stock-material-bindings.json`, `invalid-stock-binding.log`,
+`h3-material-bindings.json`, `nonvisual-material-verification.json`, and
+`verify-nonvisual-ass.log`, plus `original-material-lighting.json`, under
+`work/stock-h3-audit`. These are saved-field and
+export-control checks; lighting, actual MCC appearance and gameplay are pending.
+
+The refreshed full unmodified ASS export/readback passes with 100 bound tags,
+157 material variants, 543 unique objects, 1,247 instances and 247,855 triangles.
+Three material slots remain pending. Current scene SHA-256:
+`08df3ad55e9c60588ea6930dd5520e4b3d6010def8ff4b36ec6502acdf72b28e`;
+ASS SHA-256: `990e82b49897e9370105460d4b2040d3647f474aa76382aee3a00db9e25ae9c2`.
+These replace the earlier 99-binding inspection hashes above.
+The nonvisual verification also passed against the actual exported triangle
+material references. Both variants intentionally share one shader name and use
+separate native flag records; the verifier resolves each object's references
+rather than assuming the shader name uniquely identifies its face behavior.

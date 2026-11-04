@@ -1,0 +1,8 @@
+{
+  "shaders\\invalid.shader": {
+    "target": "shaders\\invalid.shader",
+    "original_map": "bunkerworld",
+    "allowed_face_modes": ["sphere_collision_only", "lightmap_only"],
+    "reason": "Reuse the stock H3 invalid material only for the source's nonvisual collision/lightmap surfaces; preserve their separate metadata."
+  }
+}

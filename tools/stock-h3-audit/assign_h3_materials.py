@@ -28,6 +28,11 @@ project.tags_directory=str(ROOT/'work/editing-kits/hrek/tags')
 project.data_directory=str(ROOT/'work/editing-kits/hrek/data')
 project.corinth=False
 reviewed={}
+stock_bindings=json.loads((OUT/'stock-material-bindings.json').read_text())
+for original,binding in stock_bindings.items():
+    assert sha(KIT/'tags'/binding['target'])==binding['target_sha256']
+    assert sha(ROOT/'work/editing-kits/hrek/tags'/original)==binding['source_sha256']
+    reviewed[original]=binding['target']
 for family in json.loads((ROOT/'tools/stock-h3-audit/material_families.json').read_text()):
     report=json.loads((OUT/(family+'-family/report.json')).read_text())
     for material in report['materials']:reviewed[material['source']]=material['target']
@@ -63,6 +68,9 @@ for material in sorted(used,key=lambda m:m.name):
     if original not in reviewed:
         pending.append(dict(material=material.name,source=original))
         continue
+    if original in stock_bindings:
+        # Stock invalid is not a substitute for unfinished visible artwork.
+        assert any(getattr(material.ass_jms,mode) for mode in stock_bindings[original]['allowed_face_modes']),material.name
     target=KIT/'tags'/reviewed[original]
     digest=sha(target)
     if original not in bindings:
