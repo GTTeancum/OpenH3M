@@ -1282,3 +1282,51 @@ Evidence under `work/stock-h3-audit`: `dirty_glass-donor-integrity.json`,
 `dirty_glass-family/report.json`, `dirty_glass-family/pixel-verification.json`,
 `dirty-glass-geometry.json`, `h3-material-bindings.json`,
 `active-input-checkpoint.json`, and the native WIP capture metadata.
+
+## Native water source audit (2026-11-04)
+
+Longshore's `dock_water_2` remains the stock donor candidate. Its eight shared
+option selections match Reach's river. Native H3 option exports show that
+`detail_slope_scale_x/y/z` and `detail_slope_steepness` already belong to its
+default waveshape option. Reach's additional `detail=repeat` category alone
+therefore does not establish an unsupported feature. Saved control behavior
+and the final MCC appearance still need verification.
+
+`verify_water_wave_assets.py` uses only official H3 Tool and Reach Tool exports.
+Both kits' `rasterizer/water/wave_new/wave_new_displ_water` and
+`wave_new_slope_water` contain 16 slices at 128x128. Every decoded top-mip RGBA
+pixel matches exactly across all 32 slices. Native metadata also matches:
+array depth 16, seven mip levels, DXT1/linear displacement and DXN/unknown-curve
+slope. Original tags remain unchanged. Reusing these existing H3-formatted
+assets can avoid rebuilding Reach artwork. Lower mip pixels, rendered wave
+behavior and original-360 stock provenance are not proven by this comparison.
+The available stock-map tag inventories did not contain these exact names;
+official H3-kit inclusion is not being described as original-360 provenance.
+
+`inspect_water_source.py` reads original Reach BSP geometry with ManagedBlam.
+Native meshes 450, 458 and 468 contain 10, 11 and 21 water vertices and 9, 10
+and 23 water faces. It maps each local water vertex to its original mesh vertex
+and records both main texture coordinates and the additional water coordinates.
+Selected source vertex colors and lightmap coordinates are zero. Foundry
+preserves the two texture-coordinate sets in the Blender scene, with its normal
+V flip. The exposed additional water records contain float2 coordinates;
+the audit does not infer a third component or invent wave/color weights.
+
+The documented [H3 Blender water workflow](https://www.reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/)
+uses four UV channels and separate structure-design water physics. Mapping the
+two source sets into those controls remains pending. H3's selected foam option
+exposes `foam_height` and `foam_pow`, while source `foam_cut` and
+`foam_coefficient` have no same-name inputs. Source foam coefficient zero must
+not be silently discarded and thereby introduce foam. Resolve native control
+semantics before authoring; consult the user for a required unsupported change.
+
+Original river color/shape textures were extracted with unmodified Foundry.
+The source foam tag was initially absent from the selectively extracted kit,
+but exists in the original HREK archive and has now been extracted inside the
+repository. This was not a missing official asset. No water shader, geometry
+channels or final material bindings changed in this audit.
+
+Evidence: `h3-effective-water-options.json`, `original-water-geometry.json`,
+`water-wave-asset-verification.json`, native XML/TGA exports and logs under
+`water-bitmap-pixels`, and `extra-reach-bitmap-extractions.json`, all under
+`work/stock-h3-audit`. The saved scene remains at 101 bound tags; water is pending.

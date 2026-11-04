@@ -11,11 +11,11 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 parser=argparse.ArgumentParser()
-parser.add_argument('--kind',choices=['terrain','shader'],default='terrain')
+parser.add_argument('--kind',choices=['terrain','shader','water'],default='terrain')
 parser.add_argument('--only',action='append',help='Exported shader filename; repeat to merge several inspections into the report')
 args=parser.parse_args()
 kind=args.kind
-group='shader_terrain' if kind=='terrain' else 'shader'
+group={'terrain':'shader_terrain','shader':'shader','water':'shader_water'}[kind]
 DEST=OUT/('h3-'+kind+'-option-xml')
 DEST.mkdir(exist_ok=True)
 env=os.environ.copy()
