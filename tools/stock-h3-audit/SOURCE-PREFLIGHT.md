@@ -1063,3 +1063,52 @@ Evidence: `arch_rock-family`, `arch_rock-donor-integrity.json`,
 References: [native H3 reflection controls](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel),
 [native H3 height maps](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/parallax),
 and [the exporter's H3 water workflow](https://reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/).
+
+
+## Stock unlit sky and approved glass preparation (2026-11-04)
+
+Native inspection of Blackout's and Sandbox's stock `space.shader` tags found
+an existing black `albedo_color` function. This is a usable stock setting for
+Reach's two unlit sky materials: retain that donor function, keep source alpha
+functions unchanged, and keep the separate Reach self-illumination inputs.
+The stock H3 diffuse-only model itself still receives diffuse lighting; the
+zero base RGB suppresses that contribution. No material code, shader compiler
+or function encoder was added. This is an authoring candidate that still needs
+actual MCC verification, including distant rocks, transparency and fog.
+
+Both sky materials now use the Blackout donor. Original-360 options and source
+cache hashes were checked through TagTool; native MCC donor color/functions
+were read through the official API. Native readback preserves the original
+source alpha and illumination functions and reuses the donor's black RGB
+function. Both original Reach bitmap imports passed pixel and mip checks.
+`ReadH3ShaderConfigurations` now optionally reads native animation controls,
+colors and function bytes without saving tags. `prepare_family_donors.py`
+regenerates the sky witness when preparing the `unlit_sky` family.
+
+The checkpoint now has 93 authored/bound tags (83 ordinary, nine terrain,
+one foliage), across 140 used variants. Nine source shaders / 14 variants
+remain pending. Ordinary source-function checks cover 836 functions; two
+additional stock color controls are counted separately, as is the arch's
+zero-reflection control. Including five generic terrain families yields 968
+source functions, 229 image references, 173 distinct images and 559 unchanged
+source/donor hashes. Physical material names: 87 exact stock matches and six
+retained empty-source cases. The full ASS check still covers the earlier
+90-binding scene; no updated full export or map build is claimed.
+
+The user approved the glass proposal. Blender prepared the packed image using
+its standard compositor nodes after native source inspection confirmed both
+images are linear. Every opacity pixel is preserved exactly, with maximum RGB
+rounding error 1/255. Official H3 Tool imported the packed image as linear a8y8
+with nine mip levels; every exported RGBA pixel matches that prepared image.
+Source images and tags remain unchanged. The separate original specular alpha
+must still be assigned at its original UV scale when the three glass shaders
+are authored. Glass shader assignment, exterior H3 behavior and MCC appearance
+remain pending; see [the approved proposal](GLASS-MATERIAL-PROPOSAL.md).
+
+Evidence: `unlit_sky-family`, `unlit_sky-donor-integrity.json`,
+`stock-sky-native-functions.json`, `active-input-checkpoint.json`,
+`assign_h3_materials-current.log`, and `glass-channel-preparation/` beneath
+`work/stock-h3-audit`.
+
+Official documentation: [H3 material model](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel)
+and [self-illumination inputs](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/selfillumination).

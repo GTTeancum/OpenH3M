@@ -1,7 +1,8 @@
 # Battle Canyon glass: stock H3 proposal
 
-Status: awaiting the user's decision. No glass material or packed image has
-been authored under this proposal.
+Status: user approved this approach on 2026-11-04. Blender channel preparation
+and native H3 bitmap import passed. The three shader/UV assignments and MCC
+appearance review remain pending.
 
 Keep the original Reach artwork, repack its existing transparency channel with
 Blender's standard compositor, and use stock H3 shaders. Use stock H3 glass
@@ -60,5 +61,26 @@ incorrect channel assignment. Native rendered testing remains required.
 References: [H3 alpha blending](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/blendmode),
 [H3 glass material model](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel).
 
-Requested decision: approve this source-channel repacking and stock H3 exterior
-glass alternative, or keep these three surfaces pending for another approach.
+User decision (2026-11-04): "Approve this glass approach." The approval covers
+this source-channel repacking and stock H3 exterior glass alternative; it does
+not approve the MCC map or authorize Xbox 360 conversion.
+
+## Preparation evidence (2026-11-04)
+
+`prepare_glass_channels.py` uses native Blender Separate/Combine Color and
+Alpha Convert nodes. Both source bitmaps have native curve 3 (linear), so the
+images use Non-Color inputs and Raw output without a gamma transform. Alpha
+matches every original opacity pixel exactly. RGB differs by at most 1/255
+following Blender's straight/premultiplied conversion and 8-bit output. The
+original base alpha is preserved in the unchanged original image for the
+separate H3 specular input; no original asset was edited.
+
+`import_glass_channels.py` imports the working image with official H3 Tool as
+linear a8y8, 512x512, retaining nine mip levels. All exported native RGBA pixels
+match the prepared image exactly. Tool's a8y8 direct-save export fallback was
+checked by inspecting the actual output, not accepted from its exit code.
+
+The reproducible compositor scene, images, source hashes, import fields and
+pixel comparisons are under `work/stock-h3-audit/glass-channel-preparation/`.
+This working texture is not yet attached to the three glass surfaces. Use
+`import_glass_channels.py --verify-only` for subsequent read-only checks.

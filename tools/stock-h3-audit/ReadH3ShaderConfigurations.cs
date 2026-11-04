@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 using Bungie;
 using Bungie.Tags;
 
-public class ShaderInventoryPlan { public string Kit; public List<string> Tags; public List<string> Options; public string Output; }
+public class ShaderInventoryPlan { public string Kit; public List<string> Tags; public List<string> Options; public string Output; public bool IncludeFunctions; }
 class ReadH3ShaderConfigurations
 {
     static string Group(string path)
@@ -84,9 +84,34 @@ class ReadH3ShaderConfigurations
                 foreach(var element in ((TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters")).Elements)
                 {
                     var bitmap=((TagFieldReference)element.SelectField("bitmap")).Path;
-                    parameters.Add(new {name=((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData(),
-                        type=((TagFieldEnum)element.SelectField("parameter type")).Value,
-                        bitmap=bitmap==null?null:bitmap.RelativePathWithExtension});
+                    var parameter=new Dictionary<string,object>();
+                    parameter["name"]=((TagFieldElementStringID)element.SelectField("parameter name")).GetStringData();
+                    parameter["type"]=((TagFieldEnum)element.SelectField("parameter type")).Value;
+                    parameter["bitmap"]=bitmap==null?null:bitmap.RelativePathWithExtension;
+                    if(plan.IncludeFunctions)
+                    {
+                        var functions=new List<object>();
+                        foreach(var animation in ((TagFieldBlock)element.SelectField("animated parameters")).Elements)
+                        {
+                            var editor=((TagFieldCustomFunctionEditor)animation.SelectField("animation function")).Value;
+                            var colors=new List<object>();
+                            for(int i=0;i<editor.ColorCount;i++)
+                            {
+                                var color=editor.GetColor(i);
+                                if((int)color.ColorMode==1)color=color.ToRgb();
+                                colors.Add(new {red=color.Red,green=color.Green,blue=color.Blue});
+                            }
+                            functions.Add(new {type=((TagFieldEnum)animation.SelectField("type")).Value,
+                                input=((TagFieldElementStringID)animation.SelectField("input name")).GetStringData(),
+                                range=((TagFieldElementStringID)animation.SelectField("range name")).GetStringData(),
+                                period=((TagFieldElementSingle)animation.SelectField("time period")).Data,
+                                master_type=(int)editor.MasterType,color_graph_type=(int)editor.ColorGraphType,
+                                is_ranged=editor.IsRanged,clamp_min=editor.ClampRangeMin,clamp_max=editor.ClampRangeMax,
+                                colors=colors,data_base64=Convert.ToBase64String(((TagFieldData)animation.SelectField("Struct:function/Data:data")).GetData())});
+                        }
+                        parameter["functions"]=functions;
+                    }
+                    parameters.Add(parameter);
                 }
                 var material=path.EndsWith(".shader") ? ((TagFieldElementStringID)tag.SelectField("StringId:material name")).GetStringData() : null;
                 results.Add(new {path=path,sha256=before,options=options,parameters=parameters,material=material});

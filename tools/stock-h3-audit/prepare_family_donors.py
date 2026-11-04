@@ -87,4 +87,14 @@ for family in args.family:
         merged[row['path']]=row
     default_path.write_text(json.dumps(list(merged.values()),indent=2)+'\n')
     (OUT/(family+'-donor-integrity.json')).write_text(json.dumps(dict(cache=str(cache),sha256=before,donor=donor,donor_sha256=tag_hash,stock_options=options,mcc_options=expected,stock_world_witness=world_witness),indent=2)+'\n')
+    if families[family].get('stock_unlit_sky'):
+        # Read the donor's actual native color function, rather than inventing
+        # function bytes or assuming that "diffuse_only" means unlit.
+        functions_plan=OUT/'stock-sky-native-functions-plan.json'
+        functions_plan.write_text(json.dumps(dict(Kit=str(KIT),Tags=[donor],IncludeFunctions=True,
+            Output=str(OUT/'stock-sky-native-functions.json')),indent=2)+'\n')
+        run=subprocess.run([str(OUT/'h3-api-probe/ReadH3ShaderConfigurations.exe'),str(functions_plan)],
+            cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
+        (OUT/'stock-sky-native-functions.log').write_bytes(run.stdout)
+        assert run.returncode==0,run.stdout.decode(errors='replace')
     print('REVIEWED_DONOR_READY',family,donor,flush=True)

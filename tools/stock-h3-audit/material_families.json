@@ -511,5 +511,20 @@
       "height_map"
     ],
     "stock_environment_disabled": true
+  },
+  "unlit_sky": {
+    "donor": "levels\\dlc\\lockout\\sky\\shaders\\space.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\beavercreek_sky\\beaver_creek_sky_rock.shader",
+      "levels\\dlc\\cex_beaver_creek\\beavercreek_sky\\beaver_creek_sky_towers.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_map",
+      "self_illum_detail_map"
+    ],
+    "stock_unlit_sky": true
   }
 }

@@ -62,6 +62,7 @@ active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
 flat_normal=family.get('stock_flat_normal',False)
 disabled_environment=family.get('stock_environment_disabled',False)
+stock_unlit=family.get('stock_unlit_sky',False)
 flat_normal_tag=r'shaders\default_bitmaps\bitmaps\default_vector.bitmap'
 if flat_normal:
     assert kind=='shader' and stock_names['bump_mapping']=='standard'
@@ -70,6 +71,16 @@ if disabled_environment:
     assert kind=='shader' and stock_names['environment_mapping'] in ('dynamic','per_pixel')
     assert stock_names['material_model']=='two_lobe_phong'
     assert active['environment_map_specular_contribution']['parameter type']=='real'
+if stock_unlit:
+    assert kind=='shader' and stock_names['material_model']=='diffuse_only'
+    assert stock_names['self_illumination']=='illum_detail' and stock_names['environment_mapping']=='none'
+    witness=next(r for r in json.loads((OUT/'stock-sky-native-functions.json').read_text()) if r['path']==DONOR)
+    assert sha(KIT/'tags'/DONOR)==witness['sha256']
+    stock_color=next(p for p in witness['parameters'] if p['name']=='albedo_color')
+    assert stock_color['type']==5 and len(stock_color['functions'])==1
+    stock_color=stock_color['functions'][0]
+    assert stock_color['type']==1 and stock_color['master_type']==0 and not stock_color['is_ranged']
+    assert stock_color['colors']==[dict(red=0,green=0,blue=0)]
 stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
 sources=[]
 images={}
@@ -86,6 +97,9 @@ for source,inspection in reach_options.items():
     if disabled_environment:
         assert selected['environment_mapping']=='none',source
         selected['environment_mapping']=stock_names['environment_mapping']
+    if stock_unlit:
+        assert selected['material_model']=='none',source
+        selected['material_model']='diffuse_only'
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
     params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
@@ -307,6 +321,13 @@ for index,source in enumerate(sorted(sources)):
                 data=next(p for p in f['function']['elements'][0] if p['name']=='data')['data_base64']
                 atype=int(f['type']['value'])
                 row['Animations'].append(dict(Type=atype,TypeName=f['type']['enum_names'][atype],Input=f['input name']['value'],Range=f['range name']['value'],Period=float(f['time period']['value']),DataBase64=data))
+        if stock_unlit and name=='albedo_color':
+            # Reuse the stock sky's zero-RGB function. Keep Reach alpha controls
+            # and separate self-illumination artwork/functions unchanged.
+            assert row['Type']==5 and sum(a['Type']==1 for a in row['Animations'])==1
+            color=next(a for a in row['Animations'] if a['Type']==1)
+            color.update(Input=stock_color['input'],Range=stock_color['range'],Period=stock_color['period'],
+                         DataBase64=stock_color['data_base64'],StockControl=True)
         plan['Parameters'].append(row)
     default_changes=native_defaults.plan(source,DONOR,{p['Name'] for p in plan['Parameters']})
     plan['RemoveParameters']=default_changes['remove']
@@ -341,12 +362,13 @@ for index,source in enumerate(sorted(sources)):
                 exported_data=actual_animation.find("field[@name='data']").get('value')
                 assert exported_data in ('function_definition_data,','function_definition_data,'+expected['DataBase64'].rstrip('=')),row
     reports.append(dict(source=source,target=plan['Target'],plan=str(plan_path),xml=str(exported),inputs=len(plan['Parameters']),
-        functions=sum('Constant' not in a for p in plan['Parameters'] for a in p['Animations']),
+        functions=sum('Constant' not in a and not a.get('StockControl',False) for p in plan['Parameters'] for a in p['Animations']),
         native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
         input_provenance=provenance[source],inactive_source_inputs=sorted(set(params)-set(source_active)),
         bitmap_substitutions=family.get('bitmap_overrides',{}),
-        stock_control_functions=1 if disabled_environment else 0,
+        stock_control_functions=int(disabled_environment)+int(stock_unlit),
         stock_environment_disabled=disabled_environment,
+        stock_unlit_sky=stock_unlit,
         retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)
