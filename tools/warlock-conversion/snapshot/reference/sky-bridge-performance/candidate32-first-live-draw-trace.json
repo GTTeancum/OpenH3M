@@ -1,0 +1,22 @@
+{
+  "trace_directory": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\draw-trace-20261103-200444",
+  "human_ready": "Ready at the flickering view",
+  "human_result": "Yes, it flickered during recording",
+  "trace_sha256": "f94a700b7e655cf0650f0a81bb766e5e0cb8c37ec5de0b4b14b58dbecfc0b334",
+  "trace_bytes": 97592052,
+  "frame_ids": 97,
+  "draw_attempts": 267409,
+  "submitted_draws": 265028,
+  "shader_programs": 193,
+  "exact_map_program_matches": 8,
+  "completion_reason": 1,
+  "original_runtime_restored": true,
+  "restored_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "finding": "Live evidence collected during human-observed flicker. Most runtime programs do not match cache microcode byte-for-byte; identity requires further tracing. No root cause or fix established.",
+  "limitations": [
+    "CPU-side bindings and submitted draw records, no rendered-pixel capture",
+    "Diagnostic overhead means this is not a performance measurement",
+    "First and final frame records are partial"
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
