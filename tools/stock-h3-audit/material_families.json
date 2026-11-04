@@ -496,5 +496,20 @@
       "self_illum_map"
     ],
     "stock_world_model": "objects\\weapons\\rifle\\spike_rifle\\spike_rifle.render_model"
+  },
+  "arch_rock": {
+    "donor": "objects\\levels\\dlc\\warehouse\\shaders\\dlc_ware_bridge1.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_arch_rock.shader"
+    ],
+    "image_count": 5,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "bump_map",
+      "bump_detail_map",
+      "height_map"
+    ],
+    "stock_environment_disabled": true
   }
 }

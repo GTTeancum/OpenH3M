@@ -49,7 +49,7 @@ class ApplyH3BitmapPlan
                 if(input.LinearSource || input.Curve!=null)
                 {
                     bool cube=input.Usage=="Cube Map (Reflection Map)";
-                    if(input.Usage!="Diffuse Map" && input.Usage!="Detail Map" && input.Usage!="Self-Illum Map" && input.Usage!="ZBrush Bump Map (from Bump Map)" && !cube)
+                    if(input.Usage!="Diffuse Map" && input.Usage!="Detail Map" && input.Usage!="Self-Illum Map" && input.Usage!="ZBrush Bump Map (from Bump Map)" && input.Usage!="Height Map (for Parallax)" && !cube)
                         throw new InvalidOperationException("Unsupported bitmap usage override");
                     var block=(TagFieldBlock)tag.SelectField("usage override");
                     if(block.Elements.Count>1)throw new InvalidOperationException("Unexpected override count");

@@ -61,10 +61,15 @@ if kind=='terrain':CATEGORIES={c['category'] for c in stock_options}
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
 flat_normal=family.get('stock_flat_normal',False)
+disabled_environment=family.get('stock_environment_disabled',False)
 flat_normal_tag=r'shaders\default_bitmaps\bitmaps\default_vector.bitmap'
 if flat_normal:
     assert kind=='shader' and stock_names['bump_mapping']=='standard'
     assert active['bump_map']['default bitmap']==flat_normal_tag.rsplit('.',1)[0]+',bitm'
+if disabled_environment:
+    assert kind=='shader' and stock_names['environment_mapping'] in ('dynamic','per_pixel')
+    assert stock_names['material_model']=='two_lobe_phong'
+    assert active['environment_map_specular_contribution']['parameter type']=='real'
 stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
 sources=[]
 images={}
@@ -78,6 +83,9 @@ for source,inspection in reach_options.items():
     if flat_normal:
         assert selected['bump_mapping']=='off',source
         selected['bump_mapping']='standard'
+    if disabled_environment:
+        assert selected['environment_mapping']=='none',source
+        selected['environment_mapping']=stock_names['environment_mapping']
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
     params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
@@ -174,7 +182,7 @@ for bitmap,entry in images.items():
     assert curve in (1,3),metadata[bitmap]
     if kind=='terrain':
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
-    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map'}[role]
+    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)'}[role]
     if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
@@ -262,7 +270,13 @@ for index,source in enumerate(sorted(sources)):
         # into this H3-only default input, or retain the donor's patterned bump.
         assert 'bump_map' not in source_active
         plan['Parameters'].append(dict(Name='bump_map',Type=0,Bitmap=flat_normal_tag,Animations=[]))
+    if disabled_environment:
+        # Official H3 documentation specifies zero to suppress reflections.
+        # Reach's stored contribution is dormant when its env option is none.
+        plan['Parameters'].append(dict(Name='environment_map_specular_contribution',Type=2,Bitmap=None,Real=0,
+            Animations=[dict(Type=0,TypeName='value',Input='',Range='',Period=0,Constant=0)]))
     for name,definition in active.items():
+        if disabled_environment and name=='environment_map_specular_contribution':continue
         if name not in source_active:continue
         original=params.get(name)
         if original is None and name not in defaults:continue
@@ -331,6 +345,8 @@ for index,source in enumerate(sorted(sources)):
         native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
         input_provenance=provenance[source],inactive_source_inputs=sorted(set(params)-set(source_active)),
         bitmap_substitutions=family.get('bitmap_overrides',{}),
+        stock_control_functions=1 if disabled_environment else 0,
+        stock_environment_disabled=disabled_environment,
         retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)

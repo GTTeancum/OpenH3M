@@ -999,3 +999,67 @@ The refreshed unmodified ASS exporter and reader passed with all 90 bindings,
 The bound source blend remained unchanged. Optional upstream `lxml` bitmap-
 generation warnings do not validate or invalidate the independently verified
 official Tool bitmap imports; this export does not request bitmap generation.
+
+## Arch parallax and remaining-feature review (2026-11-04)
+
+The arch rock now uses Standoff's existing Foundry bridge shader
+`objects/levels/dlc/warehouse/shaders/dlc_ware_bridge1.shader`. Its simple
+parallax, detail normals, specular mask and material model match the source.
+The extra H3 environment reflection is suppressed through the documented
+`environment_map_specular_contribution=0` control, entered with the native
+function editor. Reach's stored contribution was dormant because its selected
+environment option is `none`; copying that dormant 0.2 value into a reflective
+H3 donor would incorrectly add reflections. No shader implementation changed.
+
+The original `rock_craggy_parallax.bitmap` existed but had no extracted image.
+Unmodified Foundry `BitmapTag.save_to_tiff(blue_channel_fix=False)` extracted it.
+The source tag hash is unchanged. Official H3 Tool imported it with its native
+Height Map usage, retaining the source pixels and nine mip levels. All five
+arch images passed native export checks. The source height-scale function
+(approximately 0.01), texture transforms and 13 selected source functions are
+preserved. One additional native zero-valued control disables H3 reflections.
+
+The checkpoint now covers 81 ordinary materials, 825 ordinary source functions,
+24 scalar default functions and 289 matching ordinary defaults. Combined with
+the five generic terrain families: 957 source functions, 227 image references,
+171 distinct imported bitmap tags and 551 unchanged source/donor hashes. The
+native zero-reflection control is separate from the source/default counts.
+Physical names were reapplied: 87 exact stock names and four retained empty
+source cases. The Blender scene now has 91 bindings across 138 used variants;
+11 source shaders / 16 variants remain pending. The last complete ASS check
+covers the previous 90-binding scene; no new full export or map build is claimed.
+
+The original glass opacity image was extracted through the same unmodified
+Foundry path. It differs materially from the alpha channel already used for
+specular control, and its UV scale is 2 rather than 1. Directly using the
+unchanged base image for H3 transparency would be wrong. The detailed
+[glass proposal](GLASS-MATERIAL-PROPOSAL.md) records a stock-H3 approach and its
+exterior view-angle limitation. The user has been asked to decide; no glass
+repacking or shader authoring is authorized by the proposal alone.
+
+Read-only Blender inspection confirms the 38 source `invalid.shader` faces
+are not visible artwork: six are sphere-collision-only (`box003`), and 32 are
+lightmap-only (`emissive_sun`). Their existing flags are preserved; the latter's
+emission metadata still requires native H3 authoring. The three water meshes
+have only two UV channels. The documented H3 workflow uses four, so the current
+scene is not water-export-ready. Mapping the original wave/shape inputs remains
+open; no missing channels or W values have been invented.
+
+An additional read-only inventory found 147 original-cache halogram shader
+names, of which 146 exist in the available MCC kit. The missing native tag is
+`objects/levels/multi/salvation/shaders/plasma_large_red.shader_halogram`.
+None of the inspected candidates matches default albedo, detailed illumination
+and alpha blending together for the two sky materials. This does not establish
+that stock H3 has no viable sky approach, and no additive-only substitute was
+assigned. Native read support now includes the halogram group; no halogram
+writer or shader compiler was added.
+
+Evidence: `arch_rock-family`, `arch_rock-donor-integrity.json`,
+`arch-rock-original-height-extraction.json`, `extra-reach-bitmap-extractions.json`,
+`pending-material-input-review.json`, `pending-geometry-inspection.json`,
+`stock-halogram-configurations.json`, `stock-unlit-sky-candidates.json`, and
+`active-input-checkpoint.json` under `work/stock-h3-audit`.
+
+References: [native H3 reflection controls](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel),
+[native H3 height maps](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/parallax),
+and [the exporter's H3 water workflow](https://reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/).
