@@ -1,0 +1,16 @@
+EditTag levels\dlc\bunkerworld\bunkerworld.scenario
+ListFields SandboxBudget
+Echo CATEGORY Vehicles
+ForEach SandboxVehicles ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Weapons
+ForEach SandboxWeapons ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Equipment
+ForEach SandboxEquipment ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Scenery
+ForEach SandboxScenery ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Teleporters
+ForEach SandboxTeleporters ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Goals
+ForEach SandboxGoalObjects ListFields Object,Name,MaxAllowed,Cost
+Echo CATEGORY Spawning
+ForEach SandboxSpawning ListFields Object,Name,MaxAllowed,Cost
