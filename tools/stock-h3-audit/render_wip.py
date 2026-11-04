@@ -11,6 +11,8 @@ OUT = ROOT / 'work/stock-h3-audit/wip'
 OUT.mkdir(exist_ok=True)
 scene = bpy.context.scene
 authoring = '--authoring' in sys.argv
+world_split = '--world-collision-split' in sys.argv
+assert not world_split or authoring
 assignment_preview = '--material-assignments' in sys.argv
 dirty_glass_preview = '--dirty-glass' in sys.argv
 water_preview = '--water' in sys.argv
@@ -24,7 +26,7 @@ if authoring:
     runpy.run_path(str(ROOT / 'tools/stock-h3-audit/check_foundry.py'))
     runpy.run_path(str(ROOT / 'tools/stock-h3-audit/check_h3_exporter.py'))
     for ob in bpy.data.objects:
-        if ob.type == 'MESH' and (ob.name.startswith('@') or ob.nwo.mesh_type in {'_connected_geometry_mesh_type_portal', '_connected_geometry_mesh_type_collision', '_connected_geometry_mesh_type_physics'}):
+        if ob.type == 'MESH' and (ob.name=='bc_world_collision' or ob.name.startswith('@') or ob.nwo.mesh_type in {'_connected_geometry_mesh_type_portal', '_connected_geometry_mesh_type_collision', '_connected_geometry_mesh_type_physics'}):
             ob.hide_render = True
     # Workbench ignores Halo's per-face visibility flags. Filter preview copies
     # only; never save this temporary render scene over the authoring .blend.
@@ -147,6 +149,7 @@ for name, direction, scale in views:
         prefix = 'h3-material-assignments-'
         if dirty_glass_preview:prefix='h3-dirty-glass-assignments-'
         if water_preview:prefix='h3-water-assignments-'
+    if world_split:prefix='h3-world-split-'
     scene.render.filepath = str(OUT / (prefix + name + '.png'))
     bpy.ops.render.render(write_still=True)
 (OUT / (prefix + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),

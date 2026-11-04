@@ -67,7 +67,7 @@ for expected in saved['expected_native_materials']:
         matches.append(material['index'])
     assert matches,('Missing native material lighting',expected)
     verified.append(dict(material=expected['material'],native_material_indices=matches,emitting=expected['power']>0))
-assert len(verified)==104
+assert len(verified)==saved['material_variants']==len(saved['expected_native_materials'])
 for path in paths.values():assert sha(path)==imported['native_outputs'][path.name]
 report=dict(scene_sha256=saved['scene_sha256'],ass_sha256=ass['ass_sha256'],
     native_tags=imported['native_outputs'],lighting_xml_sha256=sha(xml),

@@ -1974,3 +1974,75 @@ paths remain under `work/stock-h3-audit`. No source tag, compiler or exporter wa
 patched. Applying this standard split to the saved authoring scene must preserve
 visible normals/UVs and refresh lighting face-selection provenance before a full
 reimport. The main-map import and MCC gates remain incomplete.
+
+## Apply original world collision to the saved map (2026-11-04)
+
+The diagnosed split is now applied to the fresh authoring scene through standard
+Blender material controls. `plan_world_collision_authoring.py` first proves that
+none of the 2,079 nonvisual faces being replaced carries a lighting assignment.
+`prepare_world_collision_authoring.py` preserves source face/corner IDs, removes
+those nonvisual faces, and appends the verified original collision. The 59,795
+visible world faces use Precise and Render Only; collision-only, sphere-collision
+and slip flags are cleared only on their render material copies. The complete
+original collision retains its sky, slip and two-sided sphere selections.
+
+All visible positions, normals, UVs, winding and material references survive the
+edit and fresh saved-scene reload. No visible face is removed or remeshed.
+Lighting face selections are remapped through their retained source IDs; all
+117 source records and 22,690 selected faces remain verified. Material copies
+increase the used lighting variants from 104 to 113 without changing their
+lighting values. Other source meshes retain their geometry/UV hashes. Water
+UV checks also pass after rebinding and export.
+
+`verify_world_collision_ass.py` compares the actual exported arrays: all 59,795
+visible triangles exactly match the earlier full ASS in positions, normals,
+UVs, colors, winding and material names. All 56,580 collision triangles and
+their material controls exactly match the successful original-collision
+diagnostic. These are input-equality checks, not a claim that H3's compiled
+collision is numerically identical to Reach; the earlier native comparison's
+documented deviations still apply.
+
+Current files under `work/stock-h3-audit`:
+
+- `battle-canyon-h3-authoring.blend`: SHA-256
+  `874b04187bcb5d9b38aba78a7b8fe1dc379ca16716f37d700a6d55df9bbe3688`.
+- `battle-canyon-h3-materials.blend`: SHA-256
+  `9c0c23f58be644d0ebb6b45a5e0c66365aab3f2c0255852c6a91b1bcd52585d2`.
+- `h3-bound-inspection.ass`: SHA-256
+  `e784c3b71c6dd969dca77a9028b7451238bf7b66883e646cd2abd9647c28ac64`;
+  341 material records, 544 unique objects, 1,177 instances, 301,566 triangles.
+- `h3-world-collision-authoring.json`, `world-collision-saved-verification.json`,
+  `world-collision-bound-verification.json`, `world-collision-ass-verification.json`
+  record the edit, source provenance and preservation checks. Bound shader
+  assignments cover 102 tags and 337 used variants, with none pending.
+- Native Blender WIP: `wip/h3-world-split-overview.png` and
+  `wip/h3-world-split-closer.png`. Both were inspected: they show the base walls,
+  ramp/entry and nearby rocks with the nonvisual collision mesh hidden. Neutral
+  Workbench shading does not verify final textures, baked lighting or MCC visuals.
+
+The import wrapper now requires current scene/ASS hashes and both world
+preservation checks before running official Tool. Original Reach source files,
+Foundry, the ASS exporter and the native compiler remain unchanged. Remaining
+instance collision/physics and thin-triangle/portal warnings are separate work;
+there is still no playable-map acceptance or permission to convert to Xbox 360.
+
+The full official import completed in 7m03.476s and wrote native tags. The world
+plane-builder convergence failure is gone. Error lines fall from 64 to 61:
+44 instance open/degenerate-edge groups and 17 instance bad-connection errors
+remain. Portal-leak warnings fall from 39 to 12; two thin visible triangles still
+warn. Other warnings, including similar-instance geometry and outside-map
+instances, remain in the full report and are not waived. There are no new missing
+shader or duplicate-definition errors. This is still a failed geometry gate.
+
+`verify_native_map_lighting.py` passed after this full import: all 113 lighting
+variants, including nine emitting variants, match the expected native fields.
+It also verifies unchanged shader hashes and current native output hashes. This
+checks compiled inputs only; no lightmap bake or user-driven MCC test occurred.
+
+Current native BSP SHA-256:
+`aae76a0c56edb12a181fdc733f1906d97f785564617437586911e226ca6c1168`.
+Lighting-info SHA-256:
+`d1fdf29cd89910e7fdc51d99f07351093dfc5702611d0802065b1d9c212b46e8`.
+Evidence: `h3-full-geometry-import.json` and `.log`,
+`h3-full-map-lighting-verification.json`; previous import retained as
+`h3-full-geometry-before-world-split.json` and `.log` for comparison.

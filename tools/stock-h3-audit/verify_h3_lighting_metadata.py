@@ -45,6 +45,7 @@ for name,digest in report['geometry_and_uv_hashes'].items():assert geometry_hash
 for row in report['records']:
     attr=bpy.data.meshes[row['mesh']].attributes[row['attribute']]
     assert [i for i,v in enumerate(attr.data) if v.value]==row['faces']
+world_report=json.loads((OUT/report['world_collision_authoring']).read_text()) if report.get('world_collision_authoring') else None
 for row in report['assignments']:
     mesh=bpy.data.meshes[row['mesh']]
     material=mesh.materials[mesh.polygons[row['face']].material_index]
@@ -53,9 +54,16 @@ for row in report['assignments']:
     assert material.nwo.shader_path==original.nwo.shader_path
     p=material.ass_jms
     assert p.is_bm
+    overrides=row.get('world_geometry_flags',{})
+    if overrides:
+        assert row['mesh']=='cluster:0'
+        assert overrides==dict(is_bm=True,precise=True,render_only=True,collision_only=False,sphere_collision_only=False,slip_surface=False)
+        assert world_report is not None
+        assert world_report['scene_sha256']==report['scene_sha256'] and world_report['render_flag_overrides']==overrides
     for prop in p.bl_rna.properties:
         if prop.type=='BOOLEAN' and prop.identifier not in ('is_bm','attenuation_enabled','power_per_unit_area','use_shader_gel'):
-            assert getattr(p,prop.identifier)==getattr(original.ass_jms,prop.identifier),(material.name,prop.identifier)
+            expected=overrides.get(prop.identifier,getattr(original.ass_jms,prop.identifier))
+            assert getattr(p,prop.identifier)==expected,(material.name,prop.identifier)
     settings=row['settings']
     if 'lightmap_res' in settings:assert abs(p.lightmap_res-settings['lightmap_res'])<1e-6
     if 'emission_index' in settings:
