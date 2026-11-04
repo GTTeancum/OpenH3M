@@ -1,0 +1,1905 @@
+{
+  "classification": "Native alpha-test setup disables additive blending after material binding; exact command bytes reach all ten black fabric draws",
+  "runs": [
+    {
+      "run": "work\\sky-bridge\\reproduction-34",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "9719f92574cfe253afec91d22d5d8f250087916f6b4d920552fa257d87869e77",
+        "rexgpu-xenos.dll": "2444e0e721c1c71f69e874b9bedc08b1b39b2b57067f4c9798afe69f2d65bfd9",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "configuration": {
+        "blend_trace": true,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "draws": 11308,
+      "frames": 300,
+      "complete_pairs": 11308,
+      "sample_count": 361856,
+      "black_writes": 10,
+      "black_frames": [
+        3433,
+        3434,
+        3435,
+        3436,
+        3539,
+        3540,
+        3541,
+        3648,
+        3649,
+        3650
+      ],
+      "black_windows": [
+        {
+          "first_frame": 3433,
+          "last_frame": 3436,
+          "frames": 4,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6060606060606061,
+                0.5679374389051809,
+                1.0
+              ],
+              "after": [
+                0.6383186705767351,
+                0.5796676441837733,
+                0.5620723362658846,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6383186705767351,
+              "during": [
+                {
+                  "frame": 3433,
+                  "rgba": [
+                    0.3479960899315738,
+                    0.30791788856304986,
+                    0.2844574780058651,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.545176110260337
+                },
+                {
+                  "frame": 3434,
+                  "rgba": [
+                    0.37927663734115347,
+                    0.3831867057673509,
+                    0.3196480938416422,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6003062787136294
+                },
+                {
+                  "frame": 3435,
+                  "rgba": [
+                    0.396871945259042,
+                    0.4066471163245357,
+                    0.36656891495601174,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6370597243491578
+                },
+                {
+                  "frame": 3436,
+                  "rgba": [
+                    0.3118279569892473,
+                    0.26099706744868034,
+                    0.24731182795698925,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.4885145482388974
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.27174975562072334,
+                0.2404692082111437,
+                1.0
+              ],
+              "after": [
+                0.30303030303030304,
+                0.25024437927663734,
+                0.23460410557184752,
+                1.0
+              ],
+              "baseline_max_rgb": 0.30303030303030304,
+              "during": [
+                {
+                  "frame": 3433,
+                  "rgba": [
+                    0.0967741935483871,
+                    0.08211143695014662,
+                    0.07233626588465299,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3193548387096774
+                },
+                {
+                  "frame": 3434,
+                  "rgba": [
+                    0.10948191593352884,
+                    0.11241446725317693,
+                    0.08699902248289346,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3709677419354839
+                },
+                {
+                  "frame": 3435,
+                  "rgba": [
+                    0.12121212121212122,
+                    0.12805474095796676,
+                    0.10361681329423265,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.4225806451612903
+                },
+                {
+                  "frame": 3436,
+                  "rgba": [
+                    0.08406647116324535,
+                    0.0635386119257087,
+                    0.05767350928641251,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.27741935483870966
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3539,
+          "last_frame": 3541,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6119257086999023,
+                0.5826001955034213,
+                1.0
+              ],
+              "after": [
+                0.6490713587487781,
+                0.6060606060606061,
+                0.5826001955034213,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6490713587487781,
+              "during": [
+                {
+                  "frame": 3539,
+                  "rgba": [
+                    0.4066471163245357,
+                    0.3812316715542522,
+                    0.38807429130009774,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6265060240963856
+                },
+                {
+                  "frame": 3540,
+                  "rgba": [
+                    0.3949169110459433,
+                    0.3519061583577713,
+                    0.364613880742913,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.608433734939759
+                },
+                {
+                  "frame": 3541,
+                  "rgba": [
+                    0.3890518084066471,
+                    0.34017595307917886,
+                    0.364613880742913,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5993975903614458
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.2756598240469208,
+                0.25219941348973607,
+                1.0
+              ],
+              "after": [
+                0.31867057673509286,
+                0.27174975562072334,
+                0.25219941348973607,
+                1.0
+              ],
+              "baseline_max_rgb": 0.31867057673509286,
+              "during": [
+                {
+                  "frame": 3539,
+                  "rgba": [
+                    0.12805474095796676,
+                    0.11143695014662756,
+                    0.11534701857282502,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.401840490797546
+                },
+                {
+                  "frame": 3540,
+                  "rgba": [
+                    0.11925708699902249,
+                    0.09872922776148582,
+                    0.10263929618768329,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.37423312883435583
+                },
+                {
+                  "frame": 3541,
+                  "rgba": [
+                    0.11632453567937438,
+                    0.093841642228739,
+                    0.10263929618768329,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.36503067484662577
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3648,
+          "last_frame": 3650,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6520039100684262,
+                0.6060606060606061,
+                0.5767350928641252,
+                1.0
+              ],
+              "after": [
+                0.6490713587487781,
+                0.6001955034213099,
+                0.5738025415444771,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6490713587487781,
+              "during": [
+                {
+                  "frame": 3648,
+                  "rgba": [
+                    0.3655913978494624,
+                    0.30596285434995113,
+                    0.31867057673509286,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5632530120481928
+                },
+                {
+                  "frame": 3649,
+                  "rgba": [
+                    0.3763440860215054,
+                    0.30498533724340177,
+                    0.32942326490713586,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5798192771084337
+                },
+                {
+                  "frame": 3650,
+                  "rgba": [
+                    0.38220918866080156,
+                    0.3284457478005865,
+                    0.3411534701857282,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.588855421686747
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3225806451612903,
+                0.27174975562072334,
+                0.2482893450635386,
+                1.0
+              ],
+              "after": [
+                0.31867057673509286,
+                0.26588465298142716,
+                0.24535679374389052,
+                1.0
+              ],
+              "baseline_max_rgb": 0.31867057673509286,
+              "during": [
+                {
+                  "frame": 3648,
+                  "rgba": [
+                    0.10263929618768329,
+                    0.08113391984359726,
+                    0.08602150537634409,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3220858895705522
+                },
+                {
+                  "frame": 3649,
+                  "rgba": [
+                    0.10850439882697947,
+                    0.08113391984359726,
+                    0.08993157380254155,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3404907975460123
+                },
+                {
+                  "frame": 3650,
+                  "rgba": [
+                    0.11143695014662756,
+                    0.08993157380254155,
+                    0.09481915933528837,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3496932515337423
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "camera_check": {
+        "draws": 9000,
+        "frame_count": 300,
+        "passes": {
+          "skinned_albedo": 4500,
+          "skinned_lit": 4500
+        },
+        "variants": [
+          {
+            "draws": 9000,
+            "exactly_equal": true,
+            "max_absolute_constant_delta": 0.0,
+            "camera_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000"
+          }
+        ],
+        "all_candidate_cameras_exact": true,
+        "limitation": "Matches camera/projection constants only. Vehicle pose, attachment, pixels, temporal behavior and performance require separate evidence.",
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "hashes": {
+        "draws.bin": "1be5d21f51b97f1f5a8d4f83828c60ca3153a0e1ceac7aef6dd2787817c6b5f9",
+        "stages.csv": "f225ceee472fb4f44443d6c4de7bd83ada178ca25b95aa62fe9ca7fbd943cd0f",
+        "presented.csv": "81ada8ad93a2adf8968fff49f3ea43e4fca18813cb798f45adf83c9015a26341",
+        "fabric-blackening-analysis.json": "00c2effafb15637c60c5f389fb00efdaee215e0592dddf89fecad5c5a60f94f9",
+        "camera-reproduction-check.json": "ce064537ed0aaa1eff05158336aba0789219e17ee25a60f4b00f47dfc5c26440"
+      },
+      "native_trace": {
+        "rows": 100000,
+        "seconds": 2.3749233,
+        "state_read_failures": 0,
+        "material_read_failures": 0,
+        "paired_calls": 50000,
+        "unpaired_exits": [],
+        "unfinished_entries": [],
+        "row_cap_reached": true,
+        "input_sha256": "251a52ec572360cabd396fa4afe10df5d4c29c665f4f337fddc0350314040fbb"
+      }
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-35",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "9719f92574cfe253afec91d22d5d8f250087916f6b4d920552fa257d87869e77",
+        "rexgpu-xenos.dll": "ecd33bf8f7f22713f521d27a64ca631228607922c1a2cbc7c55adb95f38280c1",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "configuration": {
+        "command_trace": true,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "draws": 11292,
+      "frames": 300,
+      "complete_pairs": 11292,
+      "sample_count": 361344,
+      "black_writes": 10,
+      "black_frames": [
+        3466,
+        3467,
+        3468,
+        3469,
+        3572,
+        3573,
+        3574,
+        3681,
+        3682,
+        3683
+      ],
+      "black_windows": [
+        {
+          "first_frame": 3466,
+          "last_frame": 3469,
+          "frames": 4,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6060606060606061,
+                0.570869990224829,
+                1.0
+              ],
+              "after": [
+                0.6383186705767351,
+                0.5826001955034213,
+                0.5620723362658846,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6383186705767351,
+              "during": [
+                {
+                  "frame": 3466,
+                  "rgba": [
+                    0.3479960899315738,
+                    0.30791788856304986,
+                    0.2844574780058651,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.545176110260337
+                },
+                {
+                  "frame": 3467,
+                  "rgba": [
+                    0.37927663734115347,
+                    0.3831867057673509,
+                    0.3196480938416422,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6003062787136294
+                },
+                {
+                  "frame": 3468,
+                  "rgba": [
+                    0.396871945259042,
+                    0.4066471163245357,
+                    0.36656891495601174,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6370597243491578
+                },
+                {
+                  "frame": 3469,
+                  "rgba": [
+                    0.31085043988269795,
+                    0.26099706744868034,
+                    0.24731182795698925,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.4869831546707504
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.27174975562072334,
+                0.2434017595307918,
+                1.0
+              ],
+              "after": [
+                0.30303030303030304,
+                0.25219941348973607,
+                0.23460410557184752,
+                1.0
+              ],
+              "baseline_max_rgb": 0.30303030303030304,
+              "during": [
+                {
+                  "frame": 3466,
+                  "rgba": [
+                    0.0967741935483871,
+                    0.08211143695014662,
+                    0.07233626588465299,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3193548387096774
+                },
+                {
+                  "frame": 3467,
+                  "rgba": [
+                    0.10948191593352884,
+                    0.11241446725317693,
+                    0.08699902248289346,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3709677419354839
+                },
+                {
+                  "frame": 3468,
+                  "rgba": [
+                    0.12121212121212122,
+                    0.12805474095796676,
+                    0.10361681329423265,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.4225806451612903
+                },
+                {
+                  "frame": 3469,
+                  "rgba": [
+                    0.08308895405669599,
+                    0.0635386119257087,
+                    0.05767350928641251,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.27419354838709675
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3572,
+          "last_frame": 3574,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6060606060606061,
+                0.5826001955034213,
+                1.0
+              ],
+              "after": [
+                0.6490713587487781,
+                0.6060606060606061,
+                0.5826001955034213,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6490713587487781,
+              "during": [
+                {
+                  "frame": 3572,
+                  "rgba": [
+                    0.4066471163245357,
+                    0.3812316715542522,
+                    0.38807429130009774,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6265060240963856
+                },
+                {
+                  "frame": 3573,
+                  "rgba": [
+                    0.3890518084066471,
+                    0.34017595307917886,
+                    0.364613880742913,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5993975903614458
+                },
+                {
+                  "frame": 3574,
+                  "rgba": [
+                    0.3890518084066471,
+                    0.3284457478005865,
+                    0.35288367546432065,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5993975903614458
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.27174975562072334,
+                0.25219941348973607,
+                1.0
+              ],
+              "after": [
+                0.31867057673509286,
+                0.27174975562072334,
+                0.25219941348973607,
+                1.0
+              ],
+              "baseline_max_rgb": 0.31867057673509286,
+              "during": [
+                {
+                  "frame": 3572,
+                  "rgba": [
+                    0.12805474095796676,
+                    0.11143695014662756,
+                    0.11534701857282502,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.401840490797546
+                },
+                {
+                  "frame": 3573,
+                  "rgba": [
+                    0.11632453567937438,
+                    0.093841642228739,
+                    0.10263929618768329,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.36503067484662577
+                },
+                {
+                  "frame": 3574,
+                  "rgba": [
+                    0.11632453567937438,
+                    0.08993157380254155,
+                    0.09872922776148582,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.36503067484662577
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3681,
+          "last_frame": 3683,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6520039100684262,
+                0.6119257086999023,
+                0.5826001955034213,
+                1.0
+              ],
+              "after": [
+                0.6529814271749755,
+                0.5884652981427175,
+                0.5767350928641252,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6520039100684262,
+              "during": [
+                {
+                  "frame": 3681,
+                  "rgba": [
+                    0.3655913978494624,
+                    0.30596285434995113,
+                    0.3176930596285435,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.56071964017991
+                },
+                {
+                  "frame": 3682,
+                  "rgba": [
+                    0.3763440860215054,
+                    0.31671554252199413,
+                    0.32942326490713586,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5772113943028486
+                },
+                {
+                  "frame": 3683,
+                  "rgba": [
+                    0.3831867057673509,
+                    0.3284457478005865,
+                    0.35288367546432065,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5877061469265368
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3225806451612903,
+                0.2756598240469208,
+                0.25219941348973607,
+                1.0
+              ],
+              "after": [
+                0.3235581622678397,
+                0.2570869990224829,
+                0.2482893450635386,
+                1.0
+              ],
+              "baseline_max_rgb": 0.3225806451612903,
+              "during": [
+                {
+                  "frame": 3681,
+                  "rgba": [
+                    0.10263929618768329,
+                    0.08113391984359726,
+                    0.08602150537634409,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.31818181818181823
+                },
+                {
+                  "frame": 3682,
+                  "rgba": [
+                    0.10850439882697947,
+                    0.08602150537634409,
+                    0.08993157380254155,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.33636363636363636
+                },
+                {
+                  "frame": 3683,
+                  "rgba": [
+                    0.11241446725317693,
+                    0.08993157380254155,
+                    0.09872922776148582,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3484848484848485
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "camera_check": {
+        "draws": 8985,
+        "frame_count": 300,
+        "passes": {
+          "skinned_lit": 4500,
+          "skinned_albedo": 4485
+        },
+        "variants": [
+          {
+            "draws": 8985,
+            "exactly_equal": true,
+            "max_absolute_constant_delta": 0.0,
+            "camera_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000"
+          }
+        ],
+        "all_candidate_cameras_exact": true,
+        "limitation": "Matches camera/projection constants only. Vehicle pose, attachment, pixels, temporal behavior and performance require separate evidence.",
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "hashes": {
+        "draws.bin": "3fe80cd64729996ec545386cef8ec8881df2940737d62939575fb00bf56a243c",
+        "stages.csv": "0e56a481f8f91b4990fcdca3d4942b86ed4a7d9d9778217007495671e676129d",
+        "presented.csv": "bd1bddbf7bb42416b4de95a38af10247d03430d47478a8e14327fa005babb758",
+        "fabric-blackening-analysis.json": "061e6eea1d056a1761ee175447e618353fc5b785bfa7de5ef2c83c430cf9fa40",
+        "camera-reproduction-check.json": "77ddfd14278c4421ce5e776c3317eb7c713e6143801f75d25932dd2bb11408ee"
+      },
+      "gpu_commands": {
+        "witnessed_draws": 11292,
+        "all_latest_writes_match_draw_register": true,
+        "input_sha256": "3fe80cd64729996ec545386cef8ec8881df2940737d62939575fb00bf56a243c"
+      }
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-36",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "ecd33bf8f7f22713f521d27a64ca631228607922c1a2cbc7c55adb95f38280c1",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "configuration": {
+        "command_trace": true,
+        "blend_trace": true,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "draws": 11292,
+      "frames": 300,
+      "complete_pairs": 11292,
+      "sample_count": 361344,
+      "black_writes": 10,
+      "black_frames": [
+        3437,
+        3438,
+        3439,
+        3440,
+        3543,
+        3544,
+        3545,
+        3651,
+        3652,
+        3653
+      ],
+      "black_windows": [
+        {
+          "first_frame": 3437,
+          "last_frame": 3440,
+          "frames": 4,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6060606060606061,
+                0.570869990224829,
+                1.0
+              ],
+              "after": [
+                0.6383186705767351,
+                0.5826001955034213,
+                0.5620723362658846,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6383186705767351,
+              "during": [
+                {
+                  "frame": 3437,
+                  "rgba": [
+                    0.34701857282502446,
+                    0.30791788856304986,
+                    0.2844574780058651,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5436447166921899
+                },
+                {
+                  "frame": 3438,
+                  "rgba": [
+                    0.37927663734115347,
+                    0.3831867057673509,
+                    0.3196480938416422,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6003062787136294
+                },
+                {
+                  "frame": 3439,
+                  "rgba": [
+                    0.396871945259042,
+                    0.4066471163245357,
+                    0.36656891495601174,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6370597243491578
+                },
+                {
+                  "frame": 3440,
+                  "rgba": [
+                    0.3225806451612903,
+                    0.2727272727272727,
+                    0.24731182795698925,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5053598774885145
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.27174975562072334,
+                0.2434017595307918,
+                1.0
+              ],
+              "after": [
+                0.30303030303030304,
+                0.25219941348973607,
+                0.23460410557184752,
+                1.0
+              ],
+              "baseline_max_rgb": 0.30303030303030304,
+              "during": [
+                {
+                  "frame": 3437,
+                  "rgba": [
+                    0.0967741935483871,
+                    0.08211143695014662,
+                    0.07233626588465299,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3193548387096774
+                },
+                {
+                  "frame": 3438,
+                  "rgba": [
+                    0.10948191593352884,
+                    0.11241446725317693,
+                    0.08699902248289346,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3709677419354839
+                },
+                {
+                  "frame": 3439,
+                  "rgba": [
+                    0.12121212121212122,
+                    0.12805474095796676,
+                    0.10361681329423265,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.4225806451612903
+                },
+                {
+                  "frame": 3440,
+                  "rgba": [
+                    0.08797653958944282,
+                    0.06744868035190615,
+                    0.05767350928641251,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.2903225806451613
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3543,
+          "last_frame": 3545,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6500488758553274,
+                0.6060606060606061,
+                0.5826001955034213,
+                1.0
+              ],
+              "after": [
+                0.6490713587487781,
+                0.6119257086999023,
+                0.5767350928641252,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6490713587487781,
+              "during": [
+                {
+                  "frame": 3543,
+                  "rgba": [
+                    0.40078201368523947,
+                    0.375366568914956,
+                    0.38220918866080156,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.6174698795180723
+                },
+                {
+                  "frame": 3544,
+                  "rgba": [
+                    0.3890518084066471,
+                    0.3284457478005865,
+                    0.35288367546432065,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5993975903614458
+                },
+                {
+                  "frame": 3545,
+                  "rgba": [
+                    0.3831867057673509,
+                    0.3284457478005865,
+                    0.35288367546432065,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5903614457831325
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3196480938416422,
+                0.27174975562072334,
+                0.25219941348973607,
+                1.0
+              ],
+              "after": [
+                0.31867057673509286,
+                0.2756598240469208,
+                0.2482893450635386,
+                1.0
+              ],
+              "baseline_max_rgb": 0.31867057673509286,
+              "during": [
+                {
+                  "frame": 3543,
+                  "rgba": [
+                    0.1241446725317693,
+                    0.10752688172043011,
+                    0.11143695014662756,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3895705521472393
+                },
+                {
+                  "frame": 3544,
+                  "rgba": [
+                    0.11632453567937438,
+                    0.08993157380254155,
+                    0.09872922776148582,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.36503067484662577
+                },
+                {
+                  "frame": 3545,
+                  "rgba": [
+                    0.11241446725317693,
+                    0.08993157380254155,
+                    0.09872922776148582,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.35276073619631904
+                }
+              ]
+            }
+          }
+        },
+        {
+          "first_frame": 3651,
+          "last_frame": 3653,
+          "frames": 3,
+          "stages": {
+            "pixels.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.6520039100684262,
+                0.6119257086999023,
+                0.5826001955034213,
+                1.0
+              ],
+              "after": [
+                0.6529814271749755,
+                0.6001955034213099,
+                0.5767350928641252,
+                1.0
+              ],
+              "baseline_max_rgb": 0.6520039100684262,
+              "during": [
+                {
+                  "frame": 3651,
+                  "rgba": [
+                    0.3763440860215054,
+                    0.3176930596285435,
+                    0.32942326490713586,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5772113943028486
+                },
+                {
+                  "frame": 3652,
+                  "rgba": [
+                    0.3831867057673509,
+                    0.3284457478005865,
+                    0.3411534701857282,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5877061469265368
+                },
+                {
+                  "frame": 3653,
+                  "rgba": [
+                    0.3831867057673509,
+                    0.3284457478005865,
+                    0.35288367546432065,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.5877061469265368
+                }
+              ]
+            },
+            "presented.csv": {
+              "exact_point_available": true,
+              "before": [
+                0.3225806451612903,
+                0.2756598240469208,
+                0.25219941348973607,
+                1.0
+              ],
+              "after": [
+                0.3235581622678397,
+                0.26588465298142716,
+                0.2482893450635386,
+                1.0
+              ],
+              "baseline_max_rgb": 0.3225806451612903,
+              "during": [
+                {
+                  "frame": 3651,
+                  "rgba": [
+                    0.10850439882697947,
+                    0.08602150537634409,
+                    0.08993157380254155,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.33636363636363636
+                },
+                {
+                  "frame": 3652,
+                  "rgba": [
+                    0.11241446725317693,
+                    0.08993157380254155,
+                    0.09481915933528837,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3484848484848485
+                },
+                {
+                  "frame": 3653,
+                  "rgba": [
+                    0.11241446725317693,
+                    0.08993157380254155,
+                    0.09872922776148582,
+                    1.0
+                  ],
+                  "ratio_to_boundary": 0.3484848484848485
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "camera_check": {
+        "draws": 8985,
+        "frame_count": 300,
+        "passes": {
+          "skinned_lit": 4500,
+          "skinned_albedo": 4485
+        },
+        "variants": [
+          {
+            "draws": 8985,
+            "exactly_equal": true,
+            "max_absolute_constant_delta": 0.0,
+            "camera_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000"
+          }
+        ],
+        "all_candidate_cameras_exact": true,
+        "limitation": "Matches camera/projection constants only. Vehicle pose, attachment, pixels, temporal behavior and performance require separate evidence.",
+        "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+      },
+      "hashes": {
+        "draws.bin": "b2ba2e43a6e5d86220ab7bba1cd08e64b7b4c4ac9bebe4542d10bb7995a23ba6",
+        "stages.csv": "65e9b95609d4667e6706e6da7c2fe693a4c20f170e887363958c03dd131209f4",
+        "presented.csv": "c4f8e7e733d9b0eaf5dee70223471d04ea59a41f8db02fef7121c706f5f3c62f",
+        "fabric-blackening-analysis.json": "1810b9d0b1a6a41ee0410945446c9b10a72a1e4972e8f33deec2a0a20a878c58",
+        "camera-reproduction-check.json": "77ddfd14278c4421ce5e776c3317eb7c713e6143801f75d25932dd2bb11408ee"
+      },
+      "native_trace": {
+        "rows": 100000,
+        "seconds": 10.9478865,
+        "state_read_failures": 0,
+        "material_read_failures": 0,
+        "paired_calls": 50000,
+        "unpaired_exits": [],
+        "unfinished_entries": [],
+        "row_cap_reached": true,
+        "input_sha256": "5658ca5fee6b5d052639efbf6e7570b0f723fdf3446b5df83f868f70413eec7d"
+      },
+      "gpu_commands": {
+        "witnessed_draws": 11292,
+        "all_latest_writes_match_draw_register": true,
+        "input_sha256": "b2ba2e43a6e5d86220ab7bba1cd08e64b7b4c4ac9bebe4542d10bb7995a23ba6"
+      }
+    }
+  ],
+  "material": {
+    "id": 9821,
+    "source_name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_envelope_04_akill",
+    "post_pointer": "0xbdcb3e70",
+    "post_flag_108": 2,
+    "native_post_matches_map_byte_exact": true,
+    "post_sha256": "f0bf323d0c90ecc1e4217e98cba44b04ddf0fce42bbb68ffce0f98962de67b85"
+  },
+  "native_gpu_join": {
+    "fabric_draws": 10,
+    "unique_matches": 10,
+    "unmatched": 0,
+    "ambiguous": 0,
+    "native_flushes": 17126,
+    "skipped_flushes": [],
+    "draws": [
+      {
+        "frame": 3437,
+        "draw_sequence": 1603,
+        "write": {
+          "write_sequence": 289349,
+          "value": "0x10001",
+          "packet_physical_address": "0x546e7d8",
+          "remaining_bytes": 6144,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 11559,
+            "native_frame": 2664,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa546e7d8",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            11555,
+            11556,
+            11557,
+            11558,
+            11559,
+            11560
+          ]
+        }
+      },
+      {
+        "frame": 3438,
+        "draw_sequence": 1644,
+        "write": {
+          "write_sequence": 289634,
+          "value": "0x10001",
+          "packet_physical_address": "0x51f5288",
+          "remaining_bytes": 105320,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 11899,
+            "native_frame": 2665,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa51f5288",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            11895,
+            11896,
+            11897,
+            11898,
+            11899,
+            11900
+          ]
+        }
+      },
+      {
+        "frame": 3439,
+        "draw_sequence": 1685,
+        "write": {
+          "write_sequence": 289919,
+          "value": "0x10001",
+          "packet_physical_address": "0x52f7748",
+          "remaining_bytes": 105576,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 12239,
+            "native_frame": 2666,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa52f7748",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            12235,
+            12236,
+            12237,
+            12238,
+            12239,
+            12240
+          ]
+        }
+      },
+      {
+        "frame": 3440,
+        "draw_sequence": 1724,
+        "write": {
+          "write_sequence": 290202,
+          "value": "0x10001",
+          "packet_physical_address": "0x53fb488",
+          "remaining_bytes": 101728,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 12569,
+            "native_frame": 2667,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa53fb488",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            12565,
+            12566,
+            12567,
+            12568,
+            12569,
+            12570
+          ]
+        }
+      },
+      {
+        "frame": 3543,
+        "draw_sequence": 5537,
+        "write": {
+          "write_sequence": 318848,
+          "value": "0x10001",
+          "packet_physical_address": "0x53a40a8",
+          "remaining_bytes": 101676,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 43753,
+            "native_frame": 2770,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa53a40a8",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            43749,
+            43750,
+            43751,
+            43752,
+            43753,
+            43754
+          ]
+        }
+      },
+      {
+        "frame": 3544,
+        "draw_sequence": 5576,
+        "write": {
+          "write_sequence": 319130,
+          "value": "0x10001",
+          "packet_physical_address": "0x5126508",
+          "remaining_bytes": 11812,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 44077,
+            "native_frame": 2771,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa5126508",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            44073,
+            44074,
+            44075,
+            44076,
+            44077,
+            44078
+          ]
+        }
+      },
+      {
+        "frame": 3545,
+        "draw_sequence": 5615,
+        "write": {
+          "write_sequence": 319410,
+          "value": "0x10001",
+          "packet_physical_address": "0x52314d8",
+          "remaining_bytes": 95596,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 44389,
+            "native_frame": 2772,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa52314d8",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            44385,
+            44386,
+            44387,
+            44388,
+            44389,
+            44390
+          ]
+        }
+      },
+      {
+        "frame": 3651,
+        "draw_sequence": 9623,
+        "write": {
+          "write_sequence": 348958,
+          "value": "0x10001",
+          "packet_physical_address": "0x512cc78",
+          "remaining_bytes": 100104,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 77419,
+            "native_frame": 2878,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa512cc78",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            77415,
+            77416,
+            77417,
+            77418,
+            77419,
+            77420
+          ]
+        }
+      },
+      {
+        "frame": 3652,
+        "draw_sequence": 9664,
+        "write": {
+          "write_sequence": 349238,
+          "value": "0x10001",
+          "packet_physical_address": "0x52337c8",
+          "remaining_bytes": 86864,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 77729,
+            "native_frame": 2879,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa52337c8",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            77725,
+            77726,
+            77727,
+            77728,
+            77729,
+            77730
+          ]
+        }
+      },
+      {
+        "frame": 3653,
+        "draw_sequence": 9705,
+        "write": {
+          "write_sequence": 349518,
+          "value": "0x10001",
+          "packet_physical_address": "0x5353af8",
+          "remaining_bytes": 84212,
+          "prefix_words": [
+            "0x32201",
+            "0x10001",
+            "0x8700000e",
+            "0x13",
+            "0x80000",
+            "0x22209",
+            "0x10001",
+            "0x10001"
+          ]
+        },
+        "matches": [
+          {
+            "native_sequence": 78039,
+            "native_frame": 2880,
+            "caller": "0x82184f28",
+            "source": "0x40004834",
+            "device_blend": "0x10001",
+            "command_begin": "0xa5353af8",
+            "packet": [
+              "0x32201",
+              "0x10001",
+              "0x8700000e",
+              "0x13",
+              "0x80000"
+            ]
+          }
+        ],
+        "consecutive_native_chain_verified": true,
+        "native_chain": {
+          "material_pointer": "0xbdcb3d90",
+          "post_pointer": "0xbdcb3e70",
+          "stage": 9,
+          "post_flags": 2,
+          "material_blend_after": "0x1010101",
+          "disable_blend_caller": "0x8217fdf4",
+          "blend_after_disable": "0x10001",
+          "native_sequences": [
+            78035,
+            78036,
+            78037,
+            78038,
+            78039,
+            78040
+          ]
+        }
+      }
+    ],
+    "consecutive_native_chains": 10,
+    "limitations": [
+      "CPU and GPU frame IDs are not equated.",
+      "Joins require equal packet address and bytes; reused-address ambiguities remain explicit."
+    ]
+  },
+  "source_trace": [
+    {
+      "function": "sub_82465478",
+      "source": "halo3mp/generated/default/halo3mp_recomp.63.cpp",
+      "meaning": "Entry point 9/17 selects ONE+ONE; material 9821 returns from entry 9 with 0x01010101."
+    },
+    {
+      "function": "sub_821845F8",
+      "source": "halo3mp/generated/default/halo3mp_recomp.88.cpp",
+      "meaning": "After material binding, tests post+108 bit 1 and calls sub_8217FDA0(1) at 0x8218478C."
+    },
+    {
+      "function": "sub_8217FDA0",
+      "source": "halo3mp/generated/default/halo3mp_recomp.107.cpp",
+      "meaning": "When enabled and global 0x828E6889 is zero, sets engine cached mode 0 and calls sub_82178C10(device,0) at 0x8217FDF4, then enables alpha testing."
+    },
+    {
+      "function": "sub_8215FC78",
+      "source": "halo3mp/generated/default/halo3mp_recomp.28.cpp",
+      "meaning": "Called from 0x82184F28: serializes the recorded device state into type-0 packets. Exact packet address and full packet bytes uniquely match the GPU witness for each bad draw."
+    }
+  ],
+  "diagnostic_validation": {
+    "command_fixture": "PASS: wrapped packets, nested scope restoration, exact history; bytes and read/write cursors unchanged",
+    "fixture_log": "work/sky-bridge/native-blend-build/fixture-result.txt",
+    "bounds": "Native trace: 15 seconds/100000 records (28.8 MB); GPU trace retains 300 frames/15 seconds/512 MiB. Each private game terminated at 180 seconds."
+  },
+  "shared_unchanged": {
+    "gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d"
+  },
+  "next_step": "Audit suitable native alpha-cutout shader paths; preserve cutout coverage while keeping additive dynamic lighting. The stock LOD donor also has post flag 2, so changing a shared template or clearing the flag without preserving alpha testing is not justified.",
+  "limitations": [
+    "No rendering fix or release promotion yet.",
+    "This identifies the repeatable private fabric event, not every reported surface or the original human bad frame.",
+    "The saved pose is exact but is not a complete simulation savestate.",
+    "Searchlight, billboard visual acceptance, traversal/performance and physical Xbox/system-link acceptance remain incomplete."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

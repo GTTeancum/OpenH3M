@@ -944,6 +944,7 @@ Halo Online Sky Bridge via GeneralHeed / Priception's
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
 
+
 ## Authored water modulation and outdoor rain (2026-11-04)
 
 The saved human player/vehicle pose, camera vectors, FOV and native observer
@@ -1250,6 +1251,59 @@ rendering fix or release promotion is claimed. The shared GPU and installed
 candidate32 map remain hash-verified and unchanged. The prior human CPU
 analysis retains its recorded hash; the expanded first-constant projection
 input is preserved separately as `model-draw-analysis-with-constants.json`.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
+
+## Native alpha-test setup traced to the fabric overwrite (2026-11-04)
+
+`candidate32-native-blend-cause-result.json` records private runs 34–36.
+The saved observer command/result remain byte-exact. All traced base/lit
+camera constants match, and all three runs reproduce ten black writes in
+three short windows with matching final-output darkening. These are numeric
+samples at the affected point, not full-image visual acceptance.
+
+The native material hook disproves a material-binding blend-mode error:
+`sub_82465478` returns from dynamic-light entry 9 with additive blending
+`0x01010101`. Material 9821's complete 132-byte post block is identical to
+the generated map, including flag 2 at +108. After binding,
+`sub_821845F8` tests that flag and invokes `sub_8217FDA0(1)`. With the
+observed global bypass byte zero, that function calls the blend-enable
+setter with zero at `0x8217FDF4`, producing `0x00010001`, then enables
+hardware alpha testing. The following draw therefore replaces lit color.
+
+Run 36 joins every one of the ten black fabric draws to its native state
+flush using equal command-buffer addresses and complete type-0 packet
+bytes. All ten have the consecutive recorded sequence: material bind
+returns additive; the native alpha-test setup disables blending; the flush
+at `0x82184F28` submits replacement blending; the GPU consumes that packet.
+There are no unmatched or ambiguous target joins. CPU and GPU frame
+counters are not equated. This establishes the cause of these private
+blackening events without inferring it from a frame counter or shader name.
+
+Apply `sky-command-witness-integration.patch` to the private SDK with
+`git apply --unidiff-zero`; copy `sky_command_witness.h` beside the existing
+D3D12 trace header. The reverse-apply check passed against the tested SDK.
+
+The diagnostics are opt-in (`-BlendTrace`, `-CommandTrace`) and preserve
+guest arguments, results and render state. Native records stop at 15 seconds
+or 100000 records; run 34 hit the record cap at 2.37 seconds, while the
+filtered run 36 reached 10.95 seconds and covered all ten target events.
+Run 36 records 17126 relevant state flushes with complete call pairs and
+no failed state reads. The GPU trace keeps its existing 300-frame,
+15-second, 512-MiB bounds. The native command-witness fixture verifies
+wrapped packet reads, nested indirect-buffer scope restoration, exact
+blend history, and unchanged source bytes and reader cursors. All private
+games terminated at their 180-second watchdogs.
+
+The stock Zanzibar LOD donor also has post flag 2. Removing that flag alone
+would remove required alpha testing; changing the shared donor would affect
+stock assets. The next correction must retain authored cutout coverage
+while preserving additive dynamic lighting on these converted fabric
+materials. No rendering fix or promotion is included in this tracing change.
+Shared GPU and installed candidate32 map hashes remain unchanged.
 
 Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).

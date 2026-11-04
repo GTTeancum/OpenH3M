@@ -11,6 +11,7 @@
 #include <string_view>
 #include "sky_state_snapshot.h"
 #include "sky_bitmap_header_trace.h"
+#include "sky_blend_state_trace.h"
 
 extern "C" void __imp__sub_8232F3D8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
@@ -105,6 +106,7 @@ class Reproduction {
       seated,std::sqrt(error),F(base,camera),F(base,camera+4),F(base,camera+8),U(base,player+0x10));
   }
   void FrameState(PPCContext& ctx,uint8_t* base) {
+    sky_blend_state_trace::Trace::Get().Frame();
     if(!snapshot_requested_.load())return;
     uint32_t tls;if(!World(ctx,base,tls))return;
     if(!snapshot_requested_.exchange(false))return;

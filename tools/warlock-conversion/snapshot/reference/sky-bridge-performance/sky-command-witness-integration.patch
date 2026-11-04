@@ -1,0 +1,11 @@
+--- a/src/graphics/command_processor.cpp
++++ b/src/graphics/command_processor.cpp
+@@ -36 +36,2 @@
+ #include <rex/system/user_module.h>
++#include "d3d12/sky_command_witness.h"
+@@ -343 +344,2 @@
+ void CommandProcessor::WriteRegister(uint32_t index, uint32_t value) {
++  sky_command_witness::Write(index,value);
+@@ -665 +667,2 @@
+ bool CommandProcessor::ExecutePacket(memory::RingBuffer* reader) {
++  sky_command_witness::Scope command_scope(reader,memory_->TranslatePhysical(0));

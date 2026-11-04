@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
+#include "sky_command_witness.h"
 
 namespace rex::graphics::d3d12 {
 class SkyDrawTrace {
@@ -87,6 +88,13 @@ class SkyDrawTrace {
       vs ? vs->ucode_data_hash() : 0, ps ? ps->ucode_data_hash() : 0,
       primitive, count, index_address, index_length, index_format, index_endian};
     Packet(1, header, sizeof(header));
+    if(sky_command_witness::Enabled()){
+      std::array<uint64_t,82> command{};command[0]=sequence_;command[1]=frame;
+      std::copy(sky_command_witness::packet.begin(),sky_command_witness::packet.end(),command.begin()+2);
+      for(unsigned i=0;i<4;++i)std::copy(sky_command_witness::blend[i].begin(),
+        sky_command_witness::blend[i].end(),command.begin()+18+i*16);
+      Packet(10,command.data(),uint32_t(sizeof(command)));
+    }
     changes_.clear();
     auto capture=[&](uint32_t begin,uint32_t end){for (uint32_t i = begin; i < end; ++i) {
       if (sequence_ == 1 || previous_[i] != regs[i]) {
