@@ -1,0 +1,37 @@
+{
+  "target_material": 9405,
+  "animations": 5,
+  "animation_routes": 50,
+  "source_constants_exact": true,
+  "animation_consumers_exact": true,
+  "source_function_payloads_endian_exact": true,
+  "sampler_controls_exact": true,
+  "blend_mode": 1,
+  "textures": [
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\fx\\bitmaps\\raindrops_01",
+      "target": 9401
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\fx\\bitmaps\\pipes_small_macro_alpha_01",
+      "target": 9402
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\fx\\bitmaps\\raindrops_01",
+      "target": 9401
+    },
+    {
+      "source": "levels\\multi\\s3d_sky_bridgenew\\fx\\bitmaps\\pipes_small_macro_alpha_02",
+      "target": 9403
+    },
+    {
+      "source": "levels\\multi\\s3d_powerhouse\\bitmaps\\waterfall_zbump",
+      "target": 9404
+    },
+    {
+      "source": "shaders\\default_bitmaps\\bitmaps\\default_vector",
+      "target": 32
+    }
+  ],
+  "limitation": "Structural evidence only; runtime appearance and performance unverified"
+}

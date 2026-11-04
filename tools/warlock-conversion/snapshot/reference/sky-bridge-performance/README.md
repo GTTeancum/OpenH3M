@@ -427,3 +427,36 @@ The independent sbr_window_glass_01 material uses 36 opaque parts in both source
 and target, so its name alone is not grounds to force transparency. Light-volume
 part types and flags also match source. No installed data or runtime was changed,
 no game was launched or controlled, and no image was imported by a tool.
+
+
+## Candidate 30: authored additive water cards
+
+Previous turn established eleven blend losses. Source rmdf categories now prove
+both settlement_pipe_small_water materials use two_detail_overlay, detail bump,
+from-diffuse specular mask, two-lobe Phong, dynamic environment, from-albedo
+self-illumination, and additive blending; distortion/soft-fade are disabled.
+They use rain-drop and pipe-mask textures with five/ten animation functions.
+Stock inventory found no exact template in 25 readable tagged maps; Salvation
+provides the close native _6_2_0_1_2_2_0_0_0_0 donor. shared.map is a resource
+cache and cannot be read as an ordinary tagged map by this reader; its parse
+error is retained, not reported as an empty tag inventory.
+
+Compiled 13 Xbox 360 pixel programs; donor consumes 12. All donor input
+signatures and fixed-register comparisons pass. Added persistent b0/c12
+bindings are independently proven against Salvation's native transparent/
+emissive template 74, including absence from material/external route uploads.
+All 150 named animation consumers are audited; no animation was specialized
+away. Scoped binder and opt-in OPENH3M_SKY_WATER_CARD_SHADER_DIR dispatch are
+implemented. Dirty importer edits are captured as a narrow integration patch.
+
+Candidate 30 built successfully after correcting a JSON int/string-key audit
+comparison (first build stopped before output). Both emitted materials have
+exact source constants, booleans, sampler controls, function bytes and all
+50/100 remapped animation routes; additive blend is restored. Twenty-four
+emitted shader payloads, reflection tables and GPR counts match compilation.
+Candidate SHA256: 75afb6db7e220f43805f65afa70246d06482dfb4f5c4f3d5ec88bc2fe282aae7.
+Artifacts and reproducible tools: ../sky-bridge-water-card-shaders. This addresses
+eight parts; nine other blend-mismatched materials remain. The framed stripe
+surfaces still need geometry attribution. Candidate 30 is not installed,
+packaged or visually accepted. Shared installation and the user's running game
+were not changed; no images were imported, and no game was launched/controlled.

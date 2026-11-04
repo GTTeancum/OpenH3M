@@ -1,0 +1,172 @@
+[
+  {
+    "id": 12310,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\fx\\shaders\\settlement_pipe_small_water_02",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "two_detail_overlay",
+        "vertex": "",
+        "pixel": "calc_albedo_two_detail_overlay_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail",
+        "vertex": "",
+        "pixel": "calc_bumpmap_detail_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "vertex": "",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_diffuse",
+        "vertex": "",
+        "pixel": "calc_specular_mask_from_diffuse_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "two_lobe_phong",
+        "vertex": "",
+        "pixel": "two_lobe_phong"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "vertex": "",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "from_diffuse",
+        "vertex": "",
+        "pixel": "calc_self_illumination_from_albedo_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "additive",
+        "vertex": "",
+        "pixel": "additive"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "vertex": "",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "vertex": "",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "vertex": "",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "vertex": "",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "vertex": "",
+        "pixel": ""
+      }
+    ],
+    "animation_functions": 5
+  },
+  {
+    "id": 12318,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\fx\\shaders\\settlement_pipe_small_water_01",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "two_detail_overlay",
+        "vertex": "",
+        "pixel": "calc_albedo_two_detail_overlay_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail",
+        "vertex": "",
+        "pixel": "calc_bumpmap_detail_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "vertex": "",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_diffuse",
+        "vertex": "",
+        "pixel": "calc_specular_mask_from_diffuse_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "two_lobe_phong",
+        "vertex": "",
+        "pixel": "two_lobe_phong"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "vertex": "",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "from_diffuse",
+        "vertex": "",
+        "pixel": "calc_self_illumination_from_albedo_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "additive",
+        "vertex": "",
+        "pixel": "additive"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "vertex": "",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "vertex": "",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "vertex": "",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "vertex": "",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "vertex": "",
+        "pixel": ""
+      }
+    ],
+    "animation_functions": 10
+  }
+]

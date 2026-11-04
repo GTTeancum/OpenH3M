@@ -1,0 +1,51 @@
+--- a/tools/warlock-conversion/snapshot/tools/material_importer.py
++++ b/tools/warlock-conversion/snapshot/tools/material_importer.py
+@@ -864,6 +864,18 @@
+             variants = [6, 2, 0, 1, 2, 2, 0, 1, 0, 0]
+             sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
+             prisoner_template = True
++        water_card_directory = os.environ.get('OPENH3M_SKY_WATER_CARD_SHADER_DIR')
++        sky_water_card = bool(water_card_directory and source_filename == 's3d_sky_bridgenew.map'
++            and key[0] == 'rmsh' and key[1] in (
++                r'levels\multi\s3d_sky_bridgenew\fx\shaders\settlement_pipe_small_water_01',
++                r'levels\multi\s3d_sky_bridgenew\fx\shaders\settlement_pipe_small_water_02'))
++        sky_water_card_evidence = None
++        if sky_water_card:
++            if s.name(s.u(source_post+12)&65535) != r'shaders\shader_templates\_6_2_0_1_2_2_4_1_0_0_0_0_0':
++                raise ValueError('Sky water-card source profile changed')
++            variants = [6,2,0,1,2,2,4,1,0,0]
++            sky_template = r'shaders\shader_templates\_6_2_0_1_2_2_0_0_0_0'
++            prisoner_template = True
+         window_directory = os.environ.get('OPENH3M_SKY_WINDOW_SHADER_DIR')
+         sky_window = bool(window_directory and source_filename == 's3d_sky_bridgenew.map'
+             and key == ('rmsh', r'levels\multi\s3d_sky_bridgenew\shaders\sbr_window_01'))
+@@ -916,7 +928,12 @@
+                 donor_options = dict(preferred_map='armory.map')
+             if sky_screen:
+                 donor_options = dict(preferred_map='zanzibar.map')
++            if sky_water_card:
++                donor_options = dict(preferred_map='salvation.map')
+             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
++            if sky_water_card:
++                from sky_bridge_water_card import bind_water_card
++                native_sky_post, names, sky_water_card_evidence = bind_water_card(self, native_sky_post, names, water_card_directory, datum & 65535)
+             if sky_window:
+                 from sky_bridge_window import bind_window
+                 native_sky_post, names, sky_window_evidence = bind_window(self, native_sky_post, names, window_directory)
+@@ -1057,7 +1074,7 @@
+                 bitmap = self.bitmap(bitmap_datum)
+             struct.pack_into('>I', textures, index * 24 + 12, bitmap)
+             if prisoner_template and (getattr(self, 'boarding_action', False) or
+-                    source_filename == 's3d_powerhouse.map' or sky_screen or sky_window):
++                    source_filename == 's3d_powerhouse.map' or sky_screen or sky_window or sky_water_card):
+                 # Exact shader programs do not imply identical material sampling.
+                 # Preserve authored image/address/filter/external selection while
+                 # retaining the donor's name-matched constant transform index.
+@@ -1216,6 +1233,7 @@
+                 if autoturret_emission else None),
+             'native_neutral_emission_detail': lockout_neutral_emission_detail,
+             'powerhouse_screen_inert_specular_mask': powerhouse_screen,
++            'sky_bridge_compiled_water_card': sky_water_card_evidence,
+             'sky_bridge_compiled_window': sky_window_evidence,
+             'sky_bridge_compiled_screen': screen_evidence,
+             'powerhouse_compiled_concrete': compiled_concrete_evidence,
