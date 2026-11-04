@@ -18,6 +18,14 @@ bindings=json.loads((OUT/'h3-material-bindings.json').read_text())
 assert not bindings['pending']
 assert export['source_sha256']==bindings['scene_sha256']==sha(bindings['scene'])
 assert sha(export['ass'])==export['ass_sha256']
+lighting_verification=None
+if (OUT/'h3-lighting-metadata-authoring.json').is_file():
+    lighting_path=OUT/'h3-lighting-metadata-ass-verification.json'
+    lighting_verification=json.loads(lighting_path.read_text())
+    assert lighting_verification['scene_sha256']==bindings['scene_sha256']
+    assert lighting_verification['ass_sha256']==export['ass_sha256']
+    assert lighting_verification['source_selections_checked']==117
+    assert lighting_verification['ass_faces_checked']>0
 collection=bindings['shader_collection']
 assert sha(collection['path'])==collection['sha256']
 for binding in bindings['bindings'].values():
@@ -40,7 +48,8 @@ outputs={p.name:sha(p) for suffix in ('scenario_structure_bsp','scenario_structu
          for p in tags.glob('*.'+suffix)}
 report=dict(scene_sha256=bindings['scene_sha256'],ass_sha256=export['ass_sha256'],
     returncode=result.returncode,import_completed='=== imported structure' in text,issues=issues,native_outputs=outputs,
-    limitation='Diagnostic import only. Output and issues require inspection; unresolved authoring, lighting proposal, gameplay and MCC approval remain.')
+    limitation='Diagnostic import only. Output and issues require inspection; unresolved geometry, lighting bake, gameplay and MCC approval remain.')
+if lighting_verification:report['lighting_ass_verification_sha256']=sha(lighting_path)
 report['clean_import_completed']=bool(result.returncode==0 and report['import_completed']
     and not any('error' in line.lower() or 'fatal' in line.lower() for line in issues)
     and (tags/'battle_canyon.scenario_structure_bsp').is_file())

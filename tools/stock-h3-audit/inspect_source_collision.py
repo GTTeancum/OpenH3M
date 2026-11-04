@@ -51,12 +51,28 @@ try:
     materials={}
     for i,e in enumerate(tag.SelectField('Block:collision materials').Elements):
         if i in material_indices:materials[i]={str(f.DisplayName):scalar(f) for f in e.Fields}
+    inventory=[]
+    authored=json.loads((OUT/'h3-collision-authoring-inspection.json').read_text())
+    for row in authored['definitions']:
+        if not row['collision_children']:continue
+        index=int(row['mesh'].split(':')[1])
+        item=definitions.Elements[index]
+        collision_info=item.SelectField('Struct:collision info').Elements[0]
+        inventory.append(dict(definition_index=index,instances=row['instances'],
+            collision_vertices=int(collision_info.SelectField('Block:vertices').Elements.Count),
+            collision_surfaces=int(collision_info.SelectField('Block:surfaces').Elements.Count),
+            render_bsp_count=int(item.SelectField('Block:render bsp').Elements.Count),
+            surface_mapping_count=int(item.SelectField('Block:surfaces').Elements.Count),
+            imported_physics_proxies=len(row['physics_proxies'])))
 finally:
     tag.Dispose()
     Bungie.ManagedBlamSystem.Stop()
 assert hashlib.sha256(path.read_bytes()).hexdigest()==before
 report=dict(source=str(path),sha256=before,definition_index=74,collision=collision,render_bsp=render,materials=materials)
 (OUT/'original-boulder-collision.json').write_text(json.dumps(report,indent=2)+'\n')
+(OUT/'original-proxy-collision-inventory.json').write_text(json.dumps(dict(source=str(path),sha256=before,
+    definitions=inventory,limitation='Read-only original source inventory. Matching structure does not prove other instances accept the diagnosed boulder controls.'),indent=2)+'\n')
+print('ORIGINAL_PROXY_COLLISION_INVENTORY',len(inventory),'definitions, render BSP counts',dict(collections.Counter(r['render_bsp_count'] for r in inventory)),flush=True)
 print('ORIGINAL_BOULDER_COLLISION',json.dumps(dict(collision={k:len(v) for k,v in collision.items()},
     render_bsp=[{k:len(v) for k,v in b.items()} for b in render],
     surface_materials=dict(collections.Counter(s['material'] for s in collision['surfaces'])),materials=materials)),flush=True)

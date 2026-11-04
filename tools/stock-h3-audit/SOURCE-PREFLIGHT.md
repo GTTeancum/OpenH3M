@@ -1773,3 +1773,65 @@ the two `*-geometry-comparison.json` reports, `h3-boulder-collision-authoring.js
 and `collision-workflow-authored-equivalence.json`. The helper commands use
 `--precise`, `--render-only`, both together, or `--authored` for the saved result.
 No blanket application to the other 43 collision-child definitions is implied.
+
+## Approved lighting authored and verified in the full import (2026-11-04)
+
+This checkpoint supersedes the earlier scene hashes and pending-lighting state.
+`prepare_h3_lighting_metadata.py --apply` authors the approved shared controls
+through Blender's existing H3 material properties. It resolves all 117 original
+face-property selections: 103 resolution, 12 emission, one chart group and one
+per-face BSP lighting policy. The latter two use the explicitly approved native
+H3 behavior. Original Foundry properties remain as provenance.
+
+There are 104 local material variants on 22,690 faces across 99 meshes. All 543
+mesh geometry/UV hashes remain unchanged. Source emission values come from the
+original native tag readback, not Blender's display-unit getters. Resolution
+ratios preserve the approved source categories; source RGB, power, quality,
+focus, power-per-area flags and attenuation are assigned through stock controls.
+Materials keep their shader paths and prior flags. Rebinding yields 102 tags,
+244 used variants and no pending slots.
+
+Fresh-process `verify_h3_lighting_metadata.py` checks saved source selections,
+assignments and inputs. Its `--ass` mode checks actual exported triangles by
+mesh-local position and material lighting strings, preserving multiplicity;
+all 22,690 selected faces pass. The full unmodified ASS export contains 248
+material records, 543 unique objects, 1,176 instances and 247,855 triangles.
+Water saved bindings and the four-channel, 42-triangle / 126-corner ASS check
+also pass against the current bound scene.
+
+Current authoring SHA-256:
+`7994103001f05d59b75f86bef74b3786d239e7618b08f1575dcb8c504f8eacdf`.
+Current bound scene SHA-256:
+`f3a13035fb20c5ace55782818b7e079629a2cb5d627ec4cbaeb92e639cb4bcb8`.
+Current full ASS SHA-256:
+`4ea660b7b854385f54e3763aabf90c32501aa0cdff67a08e87b18f279aa1c9cf`.
+
+Official full Tool import completed, but remains a failed geometry diagnostic:
+498 issue lines include one plane-builder convergence failure and 45
+open/degenerate-edge groups. The corrected boulder no longer reports errors.
+There are no missing-shader or duplicate-defining-instance errors. Tool's zero
+exit code and generated tags are not a clean import or accepted map.
+
+`verify_native_map_lighting.py` reads actual BSP material properties through the
+existing official-API inspector and exports the small lighting-info tag through
+official Tool. It checks the current scene/ASS/native-output hashes, shader
+references, resolution properties and emitting fields. All 104 authored variants
+pass, including nine emitting variants. Tool's 0.01 attenuation scaling is
+verified again on the full map. This establishes compiled lighting inputs only;
+geometry repairs, baking, visual review and gameplay remain open.
+
+Evidence under `work/stock-h3-audit`: `h3-lighting-metadata-plan.json`,
+`h3-lighting-metadata-authoring.json`, the saved/bound/ASS verification reports,
+`h3-full-geometry-import.json` and log, `h3-full-map-lighting-verification.json`,
+`h3-lighting-native-materials.json`, and `h3-full-map-lighting-info.xml`.
+The previous full-import evidence is preserved as
+`h3-full-geometry-pre-lighting.json` and `.log`.
+
+The expanded read-only original collision inventory covers all 44 definitions
+with explicit collision children: 17 have no original render BSP, while 27 have
+one. Evidence: `original-proxy-collision-inventory.json`. Do not generalize the
+single boulder's Render Only solution to all definitions. The remaining 207
+Reach physics hulls still require an established H3 authoring route. The
+[Blender guide's object-symbol table](https://www.reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/)
+defines `$` for JMI/JMS physics export; it does not by itself establish an ASS
+instance-physics override. No such override has been applied or claimed tested.

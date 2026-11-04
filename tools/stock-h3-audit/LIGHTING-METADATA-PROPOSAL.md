@@ -69,5 +69,13 @@ are preserved; Tool scales attenuation distances by 0.01. For example, the
 source sun's authoring cutoff 1,500 becomes 15 native H3 world units, matching
 the existing Foundry distance conversion. Evidence is
 `work/stock-h3-audit/lighting-workflow-verification.json` and the two native XML
-exports. No map lighting was changed by this diagnostic. Approval is recorded;
-applying the inputs to the map, native verification, baking and MCC review remain.
+exports. No map lighting was changed by that initial diagnostic.
+
+The approved inputs have now been applied to the map: all 117 source selections
+are resolved, with 104 local material variants on 22,690 faces. Saved Blender
+and ASS checks preserve the original geometry/UVs and selected face assignments.
+Official full-map import/readback verifies all 104 variants, including nine
+emitting variants. Evidence: `h3-lighting-metadata-*-verification.json` and
+`h3-full-map-lighting-verification.json` under `work/stock-h3-audit`.
+Geometry import errors remain an independent gate. Baking and the user's MCC
+review remain outstanding; field preservation does not establish appearance.
