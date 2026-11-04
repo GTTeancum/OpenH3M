@@ -8,6 +8,7 @@ import struct
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('trace_dir',type=Path)
+parser.add_argument('--billboard',action='store_true')
 args=parser.parse_args();root=args.trace_dir
 reference=Path(__file__).parent
 root.resolve().relative_to(reference.resolve().parents[4])
@@ -17,6 +18,8 @@ if len(expected)!=1:raise ValueError('Human recording had multiple camera matric
 expected=expected.pop();expected_floats=struct.unpack('<32f',expected)
 registers=array.array('I',[0])*0x5003
 passes={8562590739555380577:'albedo',14617156369365479079:'static',14007674117786981017:'dynamic'}
+if args.billboard:
+    passes={3413622546942440597:'banner',10494309294728871449:'text',8658708157452486949:'scanline'}
 variants=collections.Counter();frames=set();counts=collections.Counter();draws=0
 with (root/'draws.bin').open('rb') as stream:
     while header:=stream.read(8):

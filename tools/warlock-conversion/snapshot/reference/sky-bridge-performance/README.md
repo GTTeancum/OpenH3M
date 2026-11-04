@@ -1079,3 +1079,69 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Native scanline mip addressing and candidate34 (2026-11-04)
+
+`candidate34-screen-header-result.json` records the native cause of candidate33's
+zero scanline mip address and the map metadata correction. The optional
+`-HeaderTrace` hooks observe bitmap interop and header construction without
+changing guest data. Outputs stay in the private run directory and stop after
+400 selected descriptors / 2000 rows. `read-bitmap-header-trace.py` verifies the
+construction/addressing sequence and joins it to the subsequent GPU fetches.
+
+The 128×16 scanline's eight levels share one packed tail starting at offset
+zero. Native `82298970` chooses the addressing path using descriptor byte 47.
+The generic `826085A8` path supplies a zero mip base when the constructed mip
+offset is zero. Run 28 directly records that path, and both later GPU samplers
+therefore remain restricted to level zero. This is independent of the saved
+camera, which matches the human recording exactly.
+
+Candidate34 selects the native explicit-address path through `82097828`. Its
+primary and secondary data references both point to the same 4096-byte resource
+allocation. No pixels are duplicated or changed. Run 29 records both addresses
+as `0xba2dc000`; later GPU fetches use physical address `0x1a2dc000` for both,
+with minimum LOD 0 and maximum LOD 7 throughout all 300 sampled frames. The
+other repaired texture, `crop_01`, retains all nine addressable levels. No host
+renderer workaround or gameplay change is needed.
+
+Compared with candidate33, only the scanline resource's secondary length,
+address-mode flag and secondary fixup change. Its bitmap record and raw mip
+bytes remain identical. `restore-screen-mips.py --explicit-tail-addresses`
+reconstructs candidate34 from the pinned candidate32 baseline. The result is
+194351104 bytes, SHA256
+`70e5c7aaed939be2c8c718535d8113deb334cd66ed428bd995c7b8573e93aa59`.
+
+`sky_bridge_screen_mips.py` integrates both texture corrections into the real
+material importer after stock/native asset lookup. It is guarded by source map,
+exact custom texture names, dimensions, formats, mip counts, pixel hashes and
+color curves. Its produced records, control bytes, raw data and fixups match
+the runtime-tested candidate34 resources exactly. Actual importer calls also
+verify resource creation and repeated-import reuse. No full scenario rebuild
+was attempted amid unrelated pending conversion edits. The private candidate34
+LIVE package passes container integrity and extracted-payload checks; it has
+not been installed or promoted.
+
+Runs 28 and 29 each contain 1800 complete paired billboard draws / 57600 numeric
+samples, with exact native observer result/command and camera/projection
+matches. Their snapshots both occur at 22.5333 game seconds. This does not
+establish identical animation phase throughout the runs or reproduce the human
+recording's complete simulation state. Scanline filtering changes the measured
+contribution: its peak increment falls, while aggregate brightness and
+saturation rise. These measurements do not establish better readability.
+
+A static audit of 255 small multi-level texture descriptors across 25 stock
+tag caches found the generic address mode in each. This correction remains
+specific to the two audited custom textures. Other captured native headers
+are compared by descriptor fields, without claiming named stock attribution.
+
+Both games ended under their 180-second watchdogs. The shared GPU and installed
+candidate32 map remain hash-verified and unchanged. No image capture, visual
+acceptance, performance acceptance, physical Xbox 360 or system-link test is
+claimed. The original black flash and protrusion lighting remain unresolved.
+The saved player/vehicle pose and exact camera replay remain available, without
+requiring the user to reposition for another test.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

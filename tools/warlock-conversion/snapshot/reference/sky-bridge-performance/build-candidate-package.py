@@ -5,12 +5,13 @@ sys.path.insert(0,'tools/warlock-conversion/snapshot/tools')
 from build_dlc_live import build
 from verify_dlc_stfs import verify,verify_payload
 parser=argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--candidate',type=int,choices=(29,32),default=29)
+parser.add_argument('--candidate',type=int,choices=(29,32,34),default=29)
 args=parser.parse_args()
 root=Path.cwd();payload=root/f'work/sky-bridge/payload-{args.candidate}';out=root/f'work/sky-bridge/live-candidate-{args.candidate}'
 assert not out.exists()
 expected={29:'506cdc953bed8c2a80c751b8ddbc8422a61549e9143d73446276947707d06e36',
-          32:'311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d'}[args.candidate]
+          32:'311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d',
+          34:'70e5c7aaed939be2c8c718535d8113deb334cd66ed428bd995c7b8573e93aa59'}[args.candidate]
 assert hashlib.sha256((payload/'sky_bridge.map').read_bytes()).hexdigest()==expected
 result=build(payload,out/'candidate')
 container=Path(result['package'])

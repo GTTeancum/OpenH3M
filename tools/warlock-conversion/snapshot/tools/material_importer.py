@@ -55,6 +55,10 @@ class MaterialImporter:
                 self.done[key] = native
                 return native
         rows = s.block(s.tags[tag]['offset'] + 0x60, 0x38)
+        from sky_bridge_screen_mips import import_bitmap as import_sky_screen_bitmap
+        screen_bitmap = import_sky_screen_bitmap(self, tag)
+        if screen_bitmap is not None:
+            return screen_bitmap
         if rows and all(s.unpack('H', row + 10)[0] == 2 for row in rows) and key[1] != r'levels\multi\snowbound\bitmaps\cube_icecave_a_cubemap':
             from encode_bitmap import encode_cubemap_base
             root = bytearray(0xa4)

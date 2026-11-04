@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string_view>
 #include "sky_state_snapshot.h"
+#include "sky_bitmap_header_trace.h"
 
 extern "C" void __imp__sub_8232F3D8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);

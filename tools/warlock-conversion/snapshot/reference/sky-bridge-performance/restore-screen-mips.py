@@ -96,7 +96,7 @@ def verify_levels(pixels, raw, width, height, fmt, count):
     return result
 
 
-def build(output):
+def build(output, explicit_tail_addresses=False):
     output = output.resolve()
     output.relative_to(REPO / 'work/sky-bridge')
     if output.exists() or not output.parent.is_dir():
@@ -110,7 +110,8 @@ def build(output):
     b = MapBuilder(basis, 0x200000)
     r = CacheRegistry(b, resource_salt('C:/X360/ISOs/H3M/default.xex'))
     c = b.cache
-    report = {'basis_sha256': BASIS_SHA, 'stock_audit': stock, 'textures': []}
+    report = {'basis_sha256': BASIS_SHA, 'stock_audit': stock, 'textures': [],
+              'explicit_tail_addresses': explicit_tail_addresses}
     try:
         assert len(c.block(r.manifest_field, 120)) == 1
         for src, dst, name, expected, source_hash in ASSETS:
@@ -132,10 +133,22 @@ def build(output):
             old_raw = tile_base(pixels, expected[0], expected[1], expected[2])
             assert old_resource.raw[0] == old_raw
             levels = verify_levels(pixels, raw, *expected)
+            fixups = [(12, 0x40000000), (52, 0x20000000)]
+            if explicit_tail_addresses and src == 12519:
+                # All levels share the same packed tail. The stock interop's
+                # generic offset path skips a zero mip offset (826085A8).
+                # Its explicit-address path (82298970 -> 82097828) accepts
+                # separate data references. Both reference this one allocation,
+                # so no image is duplicated or resampled and min LOD stays zero.
+                control = bytearray(control)
+                struct.pack_into('>I', control, 20, len(raw))
+                control[47] = 1
+                fixups.insert(1, (32, 0x40000000))
+                control = bytes(control)
             owner = (t['salt'] << 16) | dst
             resource = r.add_resource(owner, 'bitmap_texture_interop_resource',
                 {'control': control, 'raw': raw, 'root': 52,
-                 'fixups': [(12, 0x40000000), (52, 0x20000000)], 'interops': [(0x20000034, 2)]})
+                 'fixups': fixups, 'interops': [(0x20000034, 2)]})
             start = r.address(row) - b.base
             b.meta[start:start+48] = record
             b.put(r.address(handle), 'I', resource)
@@ -143,6 +156,7 @@ def build(output):
                 'source_sha256': source_hash, 'before_mips': 1, 'after_mips': expected[3],
                 'old_resource': c.u(handle), 'new_resource': resource,
                 'old_raw_bytes': len(old_raw), 'raw_bytes': len(raw), 'raw_sha256': digest(raw),
+                'control_sha256': digest(control), 'fixups': fixups,
                 'levels': levels})
         r.finalize()
         assert not r.simulation_added and len(r.tags)//8 == r.first_tag
@@ -162,4 +176,6 @@ def build(output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
-    build(parser.parse_args().output)
+    parser.add_argument('--explicit-tail-addresses', action='store_true')
+    args = parser.parse_args()
+    build(args.output, args.explicit_tail_addresses)
