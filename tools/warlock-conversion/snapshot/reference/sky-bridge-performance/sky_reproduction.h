@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string_view>
+#include "sky_state_snapshot.h"
 
 extern "C" void __imp__sub_8232F3D8(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
@@ -92,10 +93,22 @@ class Reproduction {
       // Native suspension settles the fresh vehicle 0.025 units from the
       // recorded pose; retain and report that measured difference.
       stable_=error<.0009f?stable_+1:0;
-      if(stable_==60){std::ofstream(directory_/"arm").put('\n');REXLOG_INFO("[sky-repro] stable seated view armed");}
+      const auto now=std::chrono::steady_clock::now();
+      if(stable_==60)ready_at_=now;
+      if(stable_>=60&&!snapshot_scheduled_&&now-ready_at_>=std::chrono::milliseconds(arm_delay_ms_)){
+        snapshot_scheduled_=true;snapshot_requested_.store(true);
+      }
     }
     if(++frames_%60==0)REXLOG_INFO("[sky-repro] view seated={} vehicle_error={} camera={},{},{} parent={:08X}",
       seated,std::sqrt(error),F(base,camera),F(base,camera+4),F(base,camera+8),U(base,player+0x10));
+  }
+  void FrameState(PPCContext& ctx,uint8_t* base) {
+    if(!snapshot_requested_.load())return;
+    uint32_t tls;if(!World(ctx,base,tls))return;
+    if(!snapshot_requested_.exchange(false))return;
+    // Same native function entry and TLS context as the saved human snapshot.
+    SaveNativeState(base,tls,0x82160F28,directory_);
+    std::ofstream(directory_/"arm").put('\n');REXLOG_INFO("[sky-repro] stable seated view armed");
   }
   void Input(PPCContext& ctx,uint8_t* base,uint32_t user,uint32_t destination) {
     uint32_t tls;
@@ -141,6 +154,11 @@ class Reproduction {
     input.read(reinterpret_cast<char*>(vehicle_pose_.data()),sizeof(vehicle_pose_));
     if(!input||input.peek()!=std::ifstream::traits_type::eof())return;
     for(float v:vehicle_pose_)if(!std::isfinite(v))return;
+    if(const auto* delay=_wgetenv(L"OPENH3M_SKY_REPRO_ARM_DELAY_MS")){
+      wchar_t* end=nullptr;const unsigned long value=std::wcstoul(delay,&end,10);
+      if(!*delay||*end||value>20000)return;
+      arm_delay_ms_=uint32_t(value);
+    }
     vehicle_tag_=header[3];player_tag_=header[4];directory_=directory;
     REXLOG_INFO("[sky-repro] diagnostic pose loaded; exclusive process-local replay required");
   }
@@ -149,6 +167,10 @@ class Reproduction {
   std::array<float,9> vehicle_pose_{};
   uint32_t vehicle_tag_=0,player_tag_=0,frames_=0,stable_=0;
   uint32_t input_packets_=0;
+  uint32_t arm_delay_ms_=0;
+  bool snapshot_scheduled_=false;
+  std::atomic<bool> snapshot_requested_{false};
+  std::chrono::steady_clock::time_point ready_at_{};
   std::chrono::steady_clock::time_point entry_pulse_{};
   std::atomic<uint32_t> vehicle_{0xffffffff},player_{0xffffffff};
 };

@@ -155,6 +155,7 @@ REX_HOOK_RAW(sub_8218E788) {
 }
 
 REX_HOOK_RAW(sub_82160F28) {
+  sky_reproduction::Reproduction::Get().FrameState(ctx, base);
   // The original chooses the current map's authored ptag and split-screen row.
   __imp__sub_82160F28(ctx, base);
   Sweep(ctx, base);

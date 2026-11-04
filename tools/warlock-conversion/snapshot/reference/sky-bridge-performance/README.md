@@ -741,3 +741,50 @@ visual/performance acceptance also remain pending. Source: Halo Online Sky
 Bridge via GeneralHeed / Priception's [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual map creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Native state and later recording window
+
+`candidate32-native-state-result.json` records runs 12–14. The replay reaches
+the seated view at 7.5 gameplay seconds. The original human recording's file
+timestamps and later saved game clock suggest a window around 22.9–33.2
+gameplay seconds, assuming continuous simulation between recording and snapshot.
+That estimate is not a game-clock measurement at the reported bad frame.
+
+`-ArmDelayMs 15000` moves the replay's recording start to 22.5 gameplay seconds.
+Run 13 then captured 300 guest frames and 899 paint submissions, with all 1762
+attributed draw cameras exactly matching the human recording. No measured
+pixel in the stated region reached near-black, and no qualifying fall occurred
+in the right-side tiles. This later window still does not reproduce the flash.
+
+`sky_state_snapshot.h` saves one bounded, versioned native-state snapshot before
+arming the probes. It uses the existing hook in `video_quality.cpp` at native
+function entry `0x82160F28`, matching the original human snapshot. An initial
+run captured at observer update instead: its TLS context differed, so run 12's
+effect-table differences must not be treated as a renderer-state comparison.
+Runs 13 and 14 use the matching entry. `compare-native-state.py` validates the
+file trailer and compares portable fields; it never restores pointers or data.
+
+All 450 object identities and 447 transforms match. The three differences are
+the moved Mongoose, seated player and attached weapon. Native variant counts
+match; its object-row difference is confined to row 2, plus metadata bytes.
+The source and private runtime's driver-seat-power values are both enabled
+and 1.0. Native `sub_820F99E0`, the retail string table and the vehicle attachment
+definition identify that value as the Mongoose headlight control.
+
+Run 14 uses the original GPU/runtime DLLs and captures complete effect, light
+and particle tables, plus full biped/vehicle bodies. `inspect-native-effects.py`
+checks nonzero salt rows against the table count and validates tag references.
+Weather effect 10701 occupies effect slot 376 and is referenced by particle
+system slots 155 and 156. This establishes native weather instantiation; GPU
+emission and visible rain contribution remain unverified. The older human
+snapshot contains only four complete light records and one partial record,
+so its additional light allocations cannot be identified from that payload.
+Differences in later light/particle counts do not attribute the flash.
+
+Each run closed under the 180-second watchdog. Snapshot payload is bounded to
+16 MiB; all bytes stay inside the private repository run. No image, desktop
+capture, host input, shared-runtime write or rendering correction was made.
+Next broaden numeric coverage beyond the current region while reducing the
+number of enabled probe stages, preserving the exact view and measured start
+time. Billboard readability, actual rain rendering, lighting flicker and final
+visual/performance acceptance remain open. Source credits are unchanged above.

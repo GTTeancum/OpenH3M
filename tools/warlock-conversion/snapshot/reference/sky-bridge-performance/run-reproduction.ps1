@@ -1,5 +1,5 @@
 # Private, bounded, process-local replay; never modifies the shared runtime.
-param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed)
+param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed,[ValidateRange(0,20000)][int]$ArmDelayMs=0)
 $ErrorActionPreference='Stop'
 $repo='C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Set-Location -LiteralPath $repo
@@ -13,6 +13,7 @@ foreach ($entry in $hashes.PSObject.Properties) {
 }
 $env:TEMP=Join-Path $repo '.local/build-temp';$env:TMP=$env:TEMP
 $env:OPENH3M_SKY_REPRO_DIR=$run
+$env:OPENH3M_SKY_REPRO_ARM_DELAY_MS=[string]$ArmDelayMs
 $env:OPENH3M_SKY_TRACE_DIR=$run
 $env:OPENH3M_SKY_TRACE_TARGETS='1'
 $env:OPENH3M_SKY_PIXEL_PROBE_DIR=$run

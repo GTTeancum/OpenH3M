@@ -1,0 +1,306 @@
+{
+  "scope": "Native-state comparison and later saved-view recording; no renderer fix or visual acceptance",
+  "previous_turn_classification": "progress: final application-buffer probe, profile replay and cache comparison were implemented and verified",
+  "runs": [
+    {
+      "run": "work\\sky-bridge\\reproduction-12",
+      "log_directory": ".local/loading-traces/20261103-223137-26904",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d77936280893495b59b0919075975d827414734a0ad71f78e374094ba9788942",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "snapshot_sha256": "021c227212915b76f01e1acba08bc718b9916c373415955ffbff6d6606793739",
+      "snapshot_bytes": 756384,
+      "capture_sites": {
+        "human": "0x82160f28",
+        "replay": "0x0",
+        "same_native_entry": false
+      },
+      "game_seconds_at_snapshot": 7.5,
+      "object_counts": [
+        450,
+        450
+      ],
+      "different_object_indexes": [
+        9,
+        448,
+        449
+      ],
+      "different_table_header_count": 61,
+      "same_map_variant_counts": true,
+      "snapshot_only": true,
+      "watchdog_seconds": 180
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-13",
+      "log_directory": ".local/loading-traces/20261103-223649-3668",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "0262009d06febd619dbc329d43c36ac4ea5cddafea160ece1924b995baf74e23",
+        "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "snapshot_sha256": "10c8935d1e1b87678c0abc0ba61af37bc2088d7ca4af19d4d410e0ebb17821a0",
+      "snapshot_bytes": 726600,
+      "capture_sites": {
+        "human": "0x82160f28",
+        "replay": "0x82160f28",
+        "same_native_entry": true
+      },
+      "game_seconds_at_snapshot": 22.5,
+      "object_counts": [
+        450,
+        450
+      ],
+      "different_object_indexes": [
+        9,
+        448,
+        449
+      ],
+      "different_table_header_count": 15,
+      "same_map_variant_counts": true,
+      "snapshot_only": false,
+      "watchdog_seconds": 180
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-14",
+      "log_directory": ".local/loading-traces/20261103-224322-31980",
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "37ecb6be3797a247c9b33ab4e726d1eb41cb7cc9b87bb8c3b9f074d59b4464e4",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "snapshot_sha256": "a9725170dd046aeaa28cd383dd1208543aaed428b21f5a3d7fa713db5d3d58ba",
+      "snapshot_bytes": 1219151,
+      "capture_sites": {
+        "human": "0x82160f28",
+        "replay": "0x82160f28",
+        "same_native_entry": true
+      },
+      "game_seconds_at_snapshot": 22.5,
+      "object_counts": [
+        450,
+        450
+      ],
+      "different_object_indexes": [
+        9,
+        448,
+        449
+      ],
+      "different_table_header_count": 15,
+      "same_map_variant_counts": true,
+      "snapshot_only": true,
+      "watchdog_seconds": 180
+    }
+  ],
+  "human_snapshot_game_seconds": 607.6666666666666,
+  "estimated_human_recording_game_seconds": {
+    "arm": 22.887320915857913,
+    "pixels.csv": 33.23923484484351
+  },
+  "time_estimate_limitation": "Uses the later saved game clock and original file timestamps, assuming uninterrupted 30 Hz simulation between recording and snapshot. It is not a measured game clock at the bad frame.",
+  "camera": {
+    "draws": 1762,
+    "frame_count": 300,
+    "passes": {
+      "albedo": 600,
+      "static": 600,
+      "dynamic": 562
+    },
+    "all_candidate_cameras_exact": true
+  },
+  "later_recording_probes": [
+    {
+      "measurement_stage": "guest_output_after_host_effects",
+      "events": {
+        "sample": 9600,
+        "end": 1
+      },
+      "frame_count": 300,
+      "frame_range": [
+        3403,
+        3702
+      ],
+      "region_bounds": [
+        [
+          518,
+          64,
+          1152,
+          320
+        ]
+      ],
+      "missing_frame_ids": [],
+      "incomplete_frames": {},
+      "total_pixel_contributions": 48691200,
+      "black_pulse_frames": 0,
+      "maximum_dark_count_per_tile": 0,
+      "right_subregion_maximum_isolated_max_channel_drop": 0.009775171,
+      "right_subregion_falls": 0
+    },
+    {
+      "measurement_stage": "application_swapchain",
+      "events": {
+        "sample": 28768,
+        "end": 1
+      },
+      "frame_count": 899,
+      "frame_range": [
+        7411,
+        8309
+      ],
+      "region_bounds": [
+        [
+          576,
+          72,
+          1280,
+          360
+        ]
+      ],
+      "missing_frame_ids": [],
+      "incomplete_frames": {},
+      "total_pixel_contributions": 182274048,
+      "black_pulse_frames": 0,
+      "maximum_dark_count_per_tile": 0,
+      "right_subregion_maximum_isolated_max_channel_drop": 0.007820137,
+      "right_subregion_falls": 0
+    }
+  ],
+  "map_variant_comparison": [
+    {
+      "run": "12",
+      "different_bytes": 30,
+      "different_object_rows": [
+        2
+      ]
+    },
+    {
+      "run": "13",
+      "different_bytes": 30,
+      "different_object_rows": [
+        2
+      ]
+    },
+    {
+      "run": "14",
+      "different_bytes": 30,
+      "different_object_rows": [
+        2
+      ]
+    }
+  ],
+  "state_findings": [
+    "All 450 object identities and 447 transforms match the saved human snapshot. Transform differences are confined to the Mongoose, seated player and attached weapon.",
+    "The initial snapshot at observer update used a different TLS context. Run 12 effect-table differences are not a comparable renderer-state result; runs 13 and 14 capture at the same 0x82160F28 entry as the human snapshot.",
+    "The native map-variant counts match. Only object row 2 differs, plus metadata bytes; the moved vehicle was placed during native creation in the replay.",
+    "Later state at 22.5 gameplay seconds still produces no near-black pulse in the measured guest/application regions. No cause is established.",
+    "Light/particle allocation counts differ in the later human snapshot; the missing human light payload prevents identifying its additional entries. Count differences do not explain the flash."
+  ],
+  "native_weather": {
+    "allocated_effects": 58,
+    "allocated_lights": 63,
+    "allocated_particle_systems": 167,
+    "weather_references": {
+      "0x88": [
+        {
+          "index": 376,
+          "datum": "0x99d20178",
+          "reference": {
+            "datum": "0x900029cd",
+            "index": 10701,
+            "group": "effe",
+            "name": null
+          }
+        }
+      ],
+      "0x154": [
+        {
+          "index": 155,
+          "datum": "0xe20b009b",
+          "reference": {
+            "datum": "0x900029cd",
+            "index": 10701,
+            "group": "effe",
+            "name": null
+          }
+        },
+        {
+          "index": 156,
+          "datum": "0xe20c009c",
+          "reference": {
+            "datum": "0x900029cd",
+            "index": 10701,
+            "group": "effe",
+            "name": null
+          }
+        }
+      ]
+    },
+    "limitations": [
+      "Nonzero salt rows match the captured table count; this is allocated state, not proof of visible light or particle contribution.",
+      "Weather effect 10701 is instantiated and referenced by two particle systems. GPU particle emission, draw contribution and visibility are not established by these references.",
+      "Human light payload coverage ends after four complete records and one partial record. The two additional light entries in that later snapshot cannot be identified from it.",
+      "The human snapshot was captured after its flicker recording. Count differences do not attribute the flash."
+    ]
+  },
+  "mongoose": {
+    "human_light_handle": "0xe9720006",
+    "replay_light_handle": "0xe9720006",
+    "light_record": {
+      "index": 6,
+      "datum": "0xe9720006",
+      "reference": {
+        "datum": "0xebde0a68",
+        "index": 2664,
+        "group": "ligh",
+        "name": "objects\\vehicles\\mongoose\\fx\\running\\headlights"
+      }
+    },
+    "driver_seat_power": {
+      "human_enabled": true,
+      "human_value": 1.0,
+      "replay_enabled": true,
+      "replay_value": 1.0,
+      "field_evidence": "Native sub_820F99E0 string-ID 561 branch at 820F9AB4 reads bit 0 of byte +683 and float +684; actual retail StringTable resolves 0x231 to driver_seat_power. vehi Attachments +0xBC uses this primary scale for headlights."
+    }
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "build": {
+    "log": "work/sky-bridge/native-state-build/build-effect-tables.log",
+    "source_hashes": {
+      "sky_state_snapshot.h": "8de57ba6d5c9c0cbd817790b014a1d5841e579dc62ccdc5080ead1a1e0db3ed7",
+      "sky_reproduction.h": "9acf0216a63976f09388dd2c715d838a5226e0172da6d30d8054607fc6a2af0c",
+      "compare-native-state.py": "e151c146204084a8a941af7f29e1eac8ab3b09e87ad39eee49484cdc7c6c755d",
+      "inspect-native-effects.py": "962a31d4923258a4c9bb4d93a59315b077b99d9c6e50e14950979cc87b698f59",
+      "run-reproduction.ps1": "015eedd181cedc8476b261553817bd7c7fc69316ac346cd6314554bd72e049f5"
+    },
+    "video_quality_sha256": "def9264e94b66bffcb5f1f21969a8a130f8500abf1853257f9db9ee1cb4a5405",
+    "snapshot_version": 2,
+    "snapshot_maximum_payload_bytes": 16777216,
+    "snapshot_frame_entry": "0x82160F28",
+    "snapshot_restored_to_guest": false
+  },
+  "remaining": [
+    "Black flash and protruding-object lighting remain unconfirmed in replay.",
+    "Probe coverage remains the stated region; the actual flickering pixels were not independently localized in the human numeric recording.",
+    "Native weather is instantiated; particle emission and visible contribution still need verification.",
+    "Billboard readability and final visual/performance acceptance remain pending."
+  ],
+  "next_step": "Broaden native numeric coverage to the entire viewport and reduce enabled diagnostic stages to test coverage and instrumentation effects. Preserve the exact camera and measured gameplay-time start; do not infer a shader fix from absent pulses.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
