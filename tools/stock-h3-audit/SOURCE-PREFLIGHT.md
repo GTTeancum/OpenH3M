@@ -1903,3 +1903,74 @@ neutral shading, not the final materials or MCC appearance. The first camera
 view was occluded by other world surfaces and was rejected; the final view is
 cropped to the relevant source neighborhood and faces its normals. No scene
 was saved or exported by `render_world_collision_wip.py`.
+
+## Original world collision through the standard H3 workflow (2026-11-04)
+
+`inspect_world_source_foundry.py` imports the complete original world collision
+using unchanged Foundry `StructureCollision.to_object`, in an isolated copy of
+the current scene. It does not rebuild collision from the visible triangles.
+The initial expected polygon count failed: Foundry's `set_two_sided` combines
+146 coincident front/back pairs into 146 two-sided polygons. This explains the
+46,178 original surfaces becoming 46,032 Blender faces; no original surface is
+unaccounted for. The paired surfaces are invisible/sphere-collision surfaces.
+
+Fresh saved-scene verification checks all 28,302 vertices against Foundry's exact
+float32 unit conversion, all original surface vertex sets and winding, shader
+references, slip flags and sphere/two-sided selections. It passes. Collision
+bounds exactly match the combined world mesh bounds. All 49 material bindings
+already exist in the approved H3 material set.
+
+`export_world_source_collision_probe.py` applies standard H3 Precise,
+Render Only and Collision Only controls in memory. The original collision
+supplies 2,079 nonvisual faces formerly carried in the combined world mesh;
+59,795 visible world faces and all 67 portals remain. Original sky polygons
+retain +sky; slip and two-sided sphere-collision selections remain explicit.
+The unchanged ASS exporter/readback checks the actual output flags and triangle
+counts. This is a diagnostic only; the authoritative authoring scene is unchanged.
+
+Official Tool imports the diagnostic in 215.7 seconds with no ERROR lines and
+writes an H3 BSP. Its native collision has 28,302 vertices, 74,747 edges, 46,306
+surfaces and 50,618 planes, with zero negative surface references on edges.
+The earlier plane-builder failure and open/degenerate collision-edge errors
+are gone. Thirty-four warning lines remain: 11 collision flags on noncollidable
+render copies, two degenerate visible triangles, ten portal-leak warnings and
+their paths, and a texture-disposal warning. These are not silently waived.
+Remove slip controls from the render-only copies when applying this authoring
+split, since the original collision already carries them. Portal behavior still
+needs the full surrounding instances; the two thin visible triangles also remain.
+
+Diagnostic scene SHA-256:
+`2152e3c7c67ea477e290057e2099ea7e73607712002c9020c2348dd5dc850aa7`.
+ASS SHA-256:
+`e6aa20d2424ff471e6e8d018fc9be44d12f663d6e6d0274eea2c255fc6309faf`.
+Native BSP SHA-256:
+`18714bc97cded59b514b1732464b97d7af1b8d7629ba626def1adb3abe655320`.
+
+`inspect_native_world_collision.py` exports official Tool XML and streams its
+collision blocks. Tool's XML rounds coordinates, so precise comparison uses
+`ReadH3WorldCollision.cs` through the official H3 `InitializeProject` API instead.
+The API reader is read-only and checks the tag hash before/after. It reads actual
+named flags, rather than assuming Reach and H3 flag layouts match.
+
+`compare_native_world_collision.py` checks every vertex and every polygon
+centroid in both directions. Maximum nearest-vertex distance is 0.000489234 H3
+world units (about 1.49 mm); this is not entirely explained by the modeled
+float32 unit round trip. Maximum centroid distances are 0.00147309 source-to-H3
+and 0.00298339 H3-to-source world units. Respectively 368 and 418 centroids exceed
+the diagnostic's strict 0.0001 threshold. Four source and two native centroids
+find a nearer different shader boundary; all agree on collision flags. Matching
+shader/flag surfaces exist nearby, with maximum distance 0.000937149 world units.
+These are sampled distance checks, not proof of continuous-surface equivalence.
+Do not relabel them exact preservation or MCC collision acceptance.
+
+Evidence under `work/stock-h3-audit`: `world-source-collision-inspection.json`
+and `.blend`, `world-source-collision-saved-verification.json`,
+`world-collision-source-probe.json`, `world-collision-source-native.json` and
+import log, official XML and extracted collision JSON, the native-API report,
+and `world-collision-source-comparison.json`. Native API helper compilation uses
+the installed .NET Framework x64 compiler, the repository H3 kit's
+`bin/ManagedBlam.dll` and System.Web.Extensions; executable/output/profile/temp
+paths remain under `work/stock-h3-audit`. No source tag, compiler or exporter was
+patched. Applying this standard split to the saved authoring scene must preserve
+visible normals/UVs and refresh lighting face-selection provenance before a full
+reimport. The main-map import and MCC gates remain incomplete.

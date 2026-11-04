@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 stem='world-collision'+('-precise' if '--precise' in sys.argv else '-baseline')+('-portals' if '--portals' in sys.argv else '')
+if '--source-collision' in sys.argv:stem='world-collision-source'
 probe=json.loads((OUT/(stem+'-probe.json')).read_text())
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 assert sha(probe['ass'])==probe['ass_sha256'] and sha(probe['source'])==probe['source_sha256']
