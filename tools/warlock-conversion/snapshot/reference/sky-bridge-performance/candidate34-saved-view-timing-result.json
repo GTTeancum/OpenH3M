@@ -1,0 +1,543 @@
+{
+  "classification": "Private stationary timing comparison; not final visual/performance acceptance",
+  "runs": [
+    {
+      "timing": {
+        "candidate": 32,
+        "run": "work\\sky-bridge\\reproduction-30",
+        "logdir": ".local\\loading-traces\\20261104-011152-10764",
+        "first_seated_log": "[2026-11-04 01:14:17.760] [info] [core] [t29652] [sky-repro] view seated=true vehicle_error=0.024826441 camera=16.410666,67.99089,0.3061805 parent=E2780009",
+        "first_seated_present_elapsed_ms": 137380.05590820312,
+        "log_clock_origin_spread_ms": 5.22998046875,
+        "start_ms": 137406.063,
+        "end_ms": 154990.246,
+        "frames": 528,
+        "fps": 29.970115756870786,
+        "median_ms": 33.36500000001979,
+        "p95_ms": 33.961000000010245,
+        "maximum_ms": 50.570000000006985,
+        "over_50ms": 10,
+        "startup_inclusive": [
+          {
+            "start": 110,
+            "end": 155,
+            "frames": 1152,
+            "actual_start_ms": 110012.049,
+            "actual_end_ms": 154990.246,
+            "fps": 25.65687548569365,
+            "median_ms": 33.369000000006054,
+            "p95_ms": 66.66200000001118,
+            "maximum_ms": 3519.9089999999997,
+            "over_50ms": 170
+          },
+          {
+            "start": 115,
+            "end": 155,
+            "frames": 1028,
+            "actual_start_ms": 115033.683,
+            "actual_end_ms": 154990.246,
+            "fps": 25.777992967012697,
+            "median_ms": 33.36849999999686,
+            "p95_ms": 66.56500000000233,
+            "maximum_ms": 3519.9089999999997,
+            "over_50ms": 119
+          },
+          {
+            "start": 120,
+            "end": 150,
+            "frames": 761,
+            "actual_start_ms": 120022.004,
+            "actual_end_ms": 149985.242,
+            "fps": 25.364414887336277,
+            "median_ms": 33.36500000000524,
+            "p95_ms": 50.44100000000617,
+            "maximum_ms": 3519.9089999999997,
+            "over_50ms": 62
+          }
+        ],
+        "observer": {
+          "human": {
+            "captured_blob_offset": 188,
+            "result_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "result_location_bytes": "002d08b3",
+            "result_motion_vector_0": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "result_motion_vector_1": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "result_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "result_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "result_horizontal_fov": 1.2217304706573486,
+            "result_aspect_ratio": 1.3333333730697632,
+            "command_focus": [
+              16.751903533935547,
+              69.40318298339844,
+              -0.24481379985809326
+            ],
+            "command_local_offset": [
+              0.10027884691953659,
+              1.2487849687659036e-07,
+              0.5047164559364319
+            ],
+            "command_window_shift": [
+              0.0,
+              0.0
+            ],
+            "command_distance": 1.5539028644561768,
+            "command_horizontal_fov": 1.2217304706573486,
+            "command_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "command_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "motion_input_user_496": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "motion_input_user_536": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+            "target_equals_current_command": true,
+            "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+            "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+          },
+          "replay": {
+            "captured_blob_offset": 0,
+            "result_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "result_location_bytes": "002d08b3",
+            "result_motion_vector_0": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "result_motion_vector_1": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "result_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "result_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "result_horizontal_fov": 1.2217304706573486,
+            "result_aspect_ratio": 1.3333333730697632,
+            "command_focus": [
+              16.751903533935547,
+              69.40318298339844,
+              -0.24481379985809326
+            ],
+            "command_local_offset": [
+              0.10027884691953659,
+              1.2487849687659036e-07,
+              0.5047164559364319
+            ],
+            "command_window_shift": [
+              0.0,
+              0.0
+            ],
+            "command_distance": 1.5539028644561768,
+            "command_horizontal_fov": 1.2217304706573486,
+            "command_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "command_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "motion_input_user_496": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "motion_input_user_536": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+            "target_equals_current_command": true,
+            "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+            "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+          },
+          "same_result": true,
+          "same_command": true,
+          "position_max_abs_delta": 0.0,
+          "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+        },
+        "limitations": [
+          "The first logged seated marker gives a conservative start; no earlier interval is relabeled as seated.",
+          "Startup-inclusive results remain included, including the load/placement stall.",
+          "Original GPU/runtime DLLs, replay executable and one bounded native snapshot remain in use.",
+          "This is a stationary view comparison with timing logs, not full traversal, visual acceptance or a production performance guarantee."
+        ]
+      },
+      "runtime": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "configuration": {
+        "timing_only": true,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "pixel_region": "0.54,0.255,0.93,0.425",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "pose": {
+        "purpose": "Saved-view timing with original GPU/runtime DLLs and all draw/pixel/header probes disabled",
+        "source": "work\\sky-bridge\\reproduction-29",
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "evidence_sha256": {
+        "work\\sky-bridge\\reproduction-30\\native-state.bin": "5338ab82c517fd95f661a98cb7dc0cb333d00b18ab3719e00ff724cb1d7efa10",
+        "work\\sky-bridge\\reproduction-30\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+        ".local\\loading-traces\\20261104-011152-10764\\launch-command.json": "47f214a7b28e6ab9b075d8ab205f7d328f1644242a870af774314800a4509bb2",
+        ".local\\loading-traces\\20261104-011152-10764\\loading-trace.jsonl": "40ce7ffddd9d9d079c54d5fea532333fdf6d60d11fdc9a1d3a6c4651bba8e5b5"
+      },
+      "runtime_log_sha256": {
+        ".local\\loading-traces\\20261104-011152-10764\\trace-runtime.1.log": "aca64a30786329926b27376e46317cd6a3f9140b5acdec2b703476aee8967818",
+        ".local\\loading-traces\\20261104-011152-10764\\trace-runtime.log": "0fe85c81666790153b449e8f7fd2d4db8c17cba1bcf62c681b56b464762843f3"
+      }
+    },
+    {
+      "timing": {
+        "candidate": 34,
+        "run": "work\\sky-bridge\\reproduction-31",
+        "logdir": ".local\\loading-traces\\20261104-011504-2116",
+        "first_seated_log": "[2026-11-04 01:17:27.947] [info] [core] [t31080] [sky-repro] view seated=true vehicle_error=0.024826441 camera=16.410666,67.99089,0.3061805 parent=E2780009",
+        "first_seated_present_elapsed_ms": 135836.291015625,
+        "log_clock_origin_spread_ms": 1.342041015625,
+        "start_ms": 135847.071,
+        "end_ms": 154999.375,
+        "frames": 575,
+        "fps": 29.970284515116294,
+        "median_ms": 33.37299999999232,
+        "p95_ms": 33.87200000000303,
+        "maximum_ms": 50.15200000000186,
+        "over_50ms": 3,
+        "startup_inclusive": [
+          {
+            "start": 110,
+            "end": 155,
+            "frames": 1161,
+            "actual_start_ms": 110005.049,
+            "actual_end_ms": 154999.375,
+            "fps": 25.825478528114857,
+            "median_ms": 33.379499999988184,
+            "p95_ms": 66.56999999999243,
+            "maximum_ms": 3486.805999999997,
+            "over_50ms": 149
+          },
+          {
+            "start": 115,
+            "end": 155,
+            "frames": 1035,
+            "actual_start_ms": 115043.138,
+            "actual_end_ms": 154999.375,
+            "fps": 25.928367578758735,
+            "median_ms": 33.37899999998626,
+            "p95_ms": 66.46600000000035,
+            "maximum_ms": 3486.805999999997,
+            "over_50ms": 100
+          },
+          {
+            "start": 120,
+            "end": 150,
+            "frames": 767,
+            "actual_start_ms": 120031.292,
+            "actual_end_ms": 149994.468,
+            "fps": 25.56471316658822,
+            "median_ms": 33.376000000018394,
+            "p95_ms": 50.24700000000303,
+            "maximum_ms": 3486.805999999997,
+            "over_50ms": 53
+          }
+        ],
+        "observer": {
+          "human": {
+            "captured_blob_offset": 188,
+            "result_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "result_location_bytes": "002d08b3",
+            "result_motion_vector_0": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "result_motion_vector_1": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "result_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "result_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "result_horizontal_fov": 1.2217304706573486,
+            "result_aspect_ratio": 1.3333333730697632,
+            "command_focus": [
+              16.751903533935547,
+              69.40318298339844,
+              -0.24481379985809326
+            ],
+            "command_local_offset": [
+              0.10027884691953659,
+              1.2487849687659036e-07,
+              0.5047164559364319
+            ],
+            "command_window_shift": [
+              0.0,
+              0.0
+            ],
+            "command_distance": 1.5539028644561768,
+            "command_horizontal_fov": 1.2217304706573486,
+            "command_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "command_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "motion_input_user_496": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "motion_input_user_536": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+            "target_equals_current_command": true,
+            "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+            "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+          },
+          "replay": {
+            "captured_blob_offset": 0,
+            "result_position": [
+              16.41066551208496,
+              67.99089050292969,
+              0.30618050694465637
+            ],
+            "result_location_bytes": "002d08b3",
+            "result_motion_vector_0": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "result_motion_vector_1": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "result_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "result_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "result_horizontal_fov": 1.2217304706573486,
+            "result_aspect_ratio": 1.3333333730697632,
+            "command_focus": [
+              16.751903533935547,
+              69.40318298339844,
+              -0.24481379985809326
+            ],
+            "command_local_offset": [
+              0.10027884691953659,
+              1.2487849687659036e-07,
+              0.5047164559364319
+            ],
+            "command_window_shift": [
+              0.0,
+              0.0
+            ],
+            "command_distance": 1.5539028644561768,
+            "command_horizontal_fov": 1.2217304706573486,
+            "command_forward": [
+              0.23475760221481323,
+              0.9715976119041443,
+              -0.029781686142086983
+            ],
+            "command_up": [
+              0.006994579918682575,
+              0.02894865907728672,
+              0.9995564818382263
+            ],
+            "motion_input_user_496": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "motion_input_user_536": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+            "target_equals_current_command": true,
+            "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+            "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+          },
+          "same_result": true,
+          "same_command": true,
+          "position_max_abs_delta": 0.0,
+          "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+        },
+        "limitations": [
+          "The first logged seated marker gives a conservative start; no earlier interval is relabeled as seated.",
+          "Startup-inclusive results remain included, including the load/placement stall.",
+          "Original GPU/runtime DLLs, replay executable and one bounded native snapshot remain in use.",
+          "This is a stationary view comparison with timing logs, not full traversal, visual acceptance or a production performance guarantee."
+        ]
+      },
+      "runtime": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "configuration": {
+        "timing_only": true,
+        "header_trace": false,
+        "candidate": 34,
+        "map_sha256": "70e5c7aaed939be2c8c718535d8113deb334cd66ed428bd995c7b8573e93aa59",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "pixel_region": "0.54,0.255,0.93,0.425",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "pose": {
+        "purpose": "Saved-view timing with original GPU/runtime DLLs and all draw/pixel/header probes disabled",
+        "source": "work\\sky-bridge\\reproduction-29",
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "evidence_sha256": {
+        "work\\sky-bridge\\reproduction-31\\native-state.bin": "82f08cefb1dbc7138112620425f7472c9453406fabea3a17adbb1416a4e84c86",
+        "work\\sky-bridge\\reproduction-31\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+        ".local\\loading-traces\\20261104-011504-2116\\launch-command.json": "c489e0682935fe848158a686421ff3bb823f18c936ec684e53577c8a006ac908",
+        ".local\\loading-traces\\20261104-011504-2116\\loading-trace.jsonl": "f473f520123bf07fcba137144d69cd3dc97136aba85b1c2d885f8c289e6c3f8b"
+      },
+      "runtime_log_sha256": {
+        ".local\\loading-traces\\20261104-011504-2116\\trace-runtime.1.log": "cb51d797faccdc1cec0be6d0ab0f13795991eb868a9ed8d6e3ad3b64397d0cd8",
+        ".local\\loading-traces\\20261104-011504-2116\\trace-runtime.log": "e7f09f657025ad80c0fae54f690dd7e0171bae3cb465d27b4996f1806f4ff0f1"
+      }
+    }
+  ],
+  "initial_cache": {
+    "source": "work\\sky-bridge\\reproduction-29\\cache",
+    "files": {
+      "shaders\\shareable\\4D5307E6.rtv.d3d12.xpso": "da845be4d7aeb60131466a1239f0502d974bebd41cbd45a6b48d2efb57e40056",
+      "shaders\\shareable\\4D5307E6.xsh": "a2368bf4b0992a15b4bee4d027ba85637a69821f39c56b8426d3b847c275f384"
+    }
+  },
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "installed_map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "promoted": false,
+  "conclusion": "Both saved-view intervals measure 29.970 FPS with no measured stationary regression. Startup-inclusive intervals retain the approximately 3.5-second load/placement stall in both runs. Traversal and visual acceptance remain open.",
+  "limits": [
+    "One run per candidate, with different seated interval lengths of 17.58 and 19.15 seconds.",
+    "Timing logs, the private pose harness and one bounded native snapshot remain active; this is not an uninstrumented production benchmark.",
+    "Original GPU/runtime DLLs are used and no GPU/draw/header probes produced output. No new image or audio observations.",
+    "Seated timestamps come from millisecond log timestamps; origin spread is included, not treated as perfect clock alignment."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

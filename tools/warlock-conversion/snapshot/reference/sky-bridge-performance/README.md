@@ -1145,3 +1145,54 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Candidate34 stationary timing and moving-model attribution (2026-11-04)
+
+`-TimingOnly` disables every GPU/draw/header probe and enables host present
+timing. It rejects combinations with probe switches. Private runs 30 and 31
+use identical initial shader caches and runtime files, including the original
+GPU/runtime DLLs and the private pose executable. They compare candidate32 and
+candidate34 respectively; both exit at the 180-second watchdog. Native observer
+result and command match the saved human state exactly in each snapshot.
+
+`analyze-seated-timing.py LOG_DIRECTORY RUN_DIRECTORY` starts at the first
+logged seated-view marker and retains the older startup-inclusive windows.
+Candidate32 measures 29.9701 FPS over 17.58 seconds, with median/p95 intervals
+33.365/33.961 ms. Candidate34 measures 29.9703 FPS over 19.15 seconds, with
+median/p95 33.373/33.872 ms. Maximum intervals are 50.570 and 50.152 ms.
+The approximately 3.5-second stall in both startup-inclusive windows precedes
+the seated view, during loading/placement. It is not silently discarded from
+the report. `candidate34-saved-view-timing-result.json` records both scopes,
+cache provenance, clocks and hashes. One run per candidate, unequal interval
+lengths, timing logs and the private replay harness limit this comparison;
+it does not establish traversal performance or visual acceptance.
+
+The original detailed geometry matcher covered BSP and lightmap geometry,
+omitting `mode` resources. `trace-model-draws.py` now independently attributes
+moving fabric and searchlight geometry using exact index and vertex prefixes
+plus pixel-program material references. The original human CPU recording has
+3609 unambiguous matching submissions in 43 groups. Nine moving models have
+base and lit submissions across all 96 complete observed frames. This recording
+uses camera (16.98436,69.54246,0.30509), different from the later GPU recording
+and saved replay; their frame identities and surface coverage must not be merged.
+
+The skinned lit vertex program reads constants c240 through c243 directly,
+despite having no named vertex reflection entries. Those values remain stable
+in each of the 15 observed lit part/pass groups. Referenced bone-palette
+matrices are finite: fabric determinants remain within about 0.000002 of one,
+and the searchlight remains near 1.089808. Palette indices include zero-weight
+entries, and the wider register digest includes inactive slots. These checks
+do not execute weighted skinning or establish correct positions, normals,
+animation or visible output. Animated simple-light values also vary.
+
+`candidate32-moving-model-attribution-result.json` preserves this expanded
+coverage and its limits. The next target is actual skinned-model coverage and
+paired output from the fabric and searchlight passes. The original black flash
+remains unresolved; these data do not justify changing animation or lighting.
+Both games are closed. Shared GPU and installed candidate32 hashes remain
+unchanged; no release promotion, image capture or final acceptance occurred.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
