@@ -2205,3 +2205,109 @@ The authoritative map is unchanged at the previous ten-boulder checkpoint:
 import. Apply this diagnosed standard authoring approach only after checking
 each eligible source definition's collision flags, physics and lighting
 provenance. The other 56 definitions' separate physics work remains open.
+
+## Two original render-BSP cases applied; trims held (2026-11-04)
+
+All four original render-BSP definitions without extra physics were tested
+individually with unchanged Foundry, Blender Join/Smart UV Project and official
+H3 Tool. Definitions 160 (`baseblue_ent`) and 339 (`object372`) pass every
+existing strict render-position, UV, normal, collision-child sample and
+render-BSP material-group sample check. Both native imports have no errors,
+retain nonzero render tangent/binormal vectors, and have closed render-BSP
+edges with matching physical flags. Original render-BSP counts are retained:
+18 vertices / 15 surfaces for 160 and 20 vertices / 16 surfaces for 339.
+
+Blender Join introduced inverse-transform roundoff on the newly appended
+collision vertices for definition 160. Restoring only those vertices to their
+original local coordinates before saving preserves the imported source data;
+all visible positions, polygon indices, UVs and normals remain untouched.
+The helper records the roundoff and the exact original appended arrays.
+
+The first four-case application stopped at definition 261's failed collision
+sample check before saving. The authoring hash remained
+`935da3230a2a5b4f327dfcce2edcba9155f1ddc059d1072e5eff69285d96245e`.
+Both trims remain unchanged: definition 53 exceeds strict render position and
+normal thresholds; definition 261 additionally reaches 0.000181339 world units
+in collision-child sample distance, above the unchanged 0.0001 threshold.
+Their clean isolated Tool imports are not treated as passing those checks.
+
+Only definitions 160 and 339 were then applied. Fresh saved-scene readback
+verifies exact visible geometry, UVs, corner normals, transforms and original
+collision children, plus the complete appended original render-BSP geometry
+and standard material flags. The two pending trims are checked unchanged.
+The source authoring SHA-256 is
+`0524d3870173dca7af7721973cd4b656f1e40e4b77664fcdc4acf6944560d23c`;
+the rebound scene SHA-256 is
+`76e65cd69a85fcc51730a7ed8c4b8c78799759c96499820f4c7ce74feb4e127e`.
+The unchanged material binding workflow assigns 102 tags / 363 used variants
+with no pending slots. Water, lighting and previous world/boulder source
+preservation checks remain required around the full export.
+
+Evidence is in `work/stock-h3-audit/h3-render-bsp-authoring.json`,
+`render-bsp-saved-verification.json`, the per-target
+`collision-workflow-precise-render-only-original-render-bsp-*-*` reports,
+and `original-render-bsp-native-comparison-*.json`.
+`wip/h3-original-render-bsp-comparison-baseblue_ent.png` was inspected: source
+on the left and native compiled H3 geometry on the right retain the same panel
+outline and lower lip. This neutral Blender proof does not show H3 materials,
+baked lighting or MCC gameplay. No lighting bake, MCC launch, 360 conversion
+or installation was performed for this geometry checkpoint.
+
+The full export passes saved-scene, world, ten-boulder, two render-BSP, water
+and lighting checks: 1,177 instances, 301,630 triangles, 380 ASS material
+records. ASS SHA-256 is
+`0a3b1b6aca6adbf509d5595d569f918eccae7b6afd4376c02ec494963f1b2969`.
+
+## Return to playable MCC setup (2026-11-04 user steering)
+
+The user called out excessive diagnostic detail and instructed "Move it
+along." Prioritize the full-map build, scenario, source sky and lighting;
+retain numeric discrepancies in evidence without expanding isolated checks.
+Final acceptance still requires the user's MCC review.
+
+The generated `battle_canyon_fresh.scenario` was still an empty solo template:
+one BSP, zero skies, zone sets, starting profiles or starting locations, and
+no structure-design link. `PrepareH3Scenario.cs` automates only official
+ManagedBlam editor fields to create the multiplayer basics using budget 800,
+the stock Standoff starting profile, the original Reach scenario's initial
+position/facing and the already compiled original water/soft-ceiling design.
+It does not fabricate object placement or make the map playable by itself.
+Original source placement evidence is `original-lighting-scenario.xml`.
+The sky and completed multiplayer placements remain separate work.
+
+The original sky was imported through unchanged Foundry into
+`work/stock-h3-audit/battle-canyon-original-sky.blend`: one mesh with 6,577
+vertices, 11,637 faces and 13 source materials. This is the source sky model,
+not the background rocks already present in the BSP. Native source SHA-256:
+`d525e52bec85f9af2627141c7e80d32c7ac720ea4ef317b3b211fb6b46b088ad`.
+Saved scene SHA-256:
+`a5569eaf92b9ba80c09d29454d10276837c54fc97291e3e6735aab1b611d94b6`.
+H3 shader binding, model compilation and the scenario sky reference remain.
+See `original-sky-import.json` for source material references.
+
+Official workflow references: [scenario/sky setup](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/quickstart/process/step5)
+and [native lighting calculation](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/quickstart/process/step6).
+The repository-local kit's unchanged `calc_lm_farm_local.py` supports `draft`
+quality; its outputs remain in the kit under the repository.
+
+The full official geometry import completed in 8m32.021s. Error lines fell
+from 48 to 45: 32 open/degenerate-edge groups and 13 bad-connection errors.
+Both newly applied definitions have no errors; `object372` retains its
+transparent-material/two-sided warning. Twelve portal-leak warnings and other
+previous geometry/texture warnings remain. All 113 material-lighting variants,
+including nine emitting variants, pass actual native readback. Native BSP
+SHA-256: `ddf066af7653c5aabb6efd468517762407a0b0aa854ff7f99d27b85e70f643b7`.
+This remains an unaccepted diagnostic compile, not an MCC-ready cache.
+
+After the import, the multiplayer scenario setup was saved and verified via
+official Tool XML. It now has all 99 original-360 Standoff Forge choices,
+matched individually against their MCC authoring references, display names,
+costs and limits; the vehicle category stays empty. The original Reach map ID
+10020 and initial location (-1.02144, 0.560463, -0.113322), stock H3 Standoff
+starting profile, budget 800, one active BSP zone and the existing fresh
+structure-design link all pass saved readback. Scenario SHA-256 is
+`69415d853be90a2e573a1ed9ef95017baa5bbb4e4219418316a8008ac3514c15`.
+`h3-scenario-basic-setup.json` records this later scenario revision; the full
+geometry-import report retains its earlier scenario hash. Actual multiplayer
+spawn/object placements, sky, atmosphere and lighting are still unfinished.
+Do not infer a playable MCC build from this setup.

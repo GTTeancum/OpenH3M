@@ -2,6 +2,7 @@
 import collections
 import hashlib
 import json
+import sys
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from mathutils import Vector
@@ -9,10 +10,13 @@ from mathutils.bvhtree import BVHTree
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit';KIT=ROOT/'work/editing-kits/h3ek'
-stem='collision-workflow-precise-render-only-original-render-bsp-teleporter_trimlowside003'
+target=sys.argv[sys.argv.index('--target')+1] if '--target' in sys.argv else 'teleporter_trimlowside003'
+assert target.replace('_','').isalnum()
+stem='collision-workflow-precise-render-only-original-render-bsp-'+target
 def read(name):return json.loads((OUT/name).read_text())
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-source=read('original-instance-collision-53.json');probe=read(stem+'-probe.json');compiled=read(stem+'-native.json')
+probe=read(stem+'-probe.json');compiled=read(stem+'-native.json')
+source=read('original-instance-collision-'+str(probe['original_render_bsp']['definition_index'])+'.json')
 bindings=read('h3-material-bindings.json')
 assert sha(source['source'])==source['sha256']==probe['original_render_bsp']['source_tag_sha256']
 assert sha(probe['ass'])==probe['ass_sha256']==compiled['ass_sha256']
@@ -80,6 +84,7 @@ report=dict(source_tag_sha256=source['sha256'],ass_sha256=probe['ass_sha256'],na
     source_vertices=len(source_vertices),native_vertices=len(native_vertices),source_surfaces=len(source_faces),native_surfaces=len(native_faces),
     native_boundary_edges=boundary,physical_flags_match=True,material_groups=rows,within_sample_tolerance=passed,
     limitation='All vertices and polygon centroids compared within matching shader groups; not continuous-surface equivalence, MCC traversal or final appearance.')
-(OUT/'original-render-bsp-native-comparison.json').write_text(json.dumps(report,indent=2)+'\n')
+name='original-render-bsp-native-comparison'+('-'+target if '--target' in sys.argv else '')+'.json'
+(OUT/name).write_text(json.dumps(report,indent=2)+'\n')
 print('ORIGINAL_RENDER_BSP_NATIVE_COMPARISON',json.dumps(report),flush=True)
 raise SystemExit(0 if passed else 1)

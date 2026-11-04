@@ -81,6 +81,12 @@ bpy.ops.object.select_all(action='DESELECT')
 target.select_set(True);collision.select_set(True);bpy.context.view_layer.objects.active=target
 bpy.ops.object.join()
 joined=target.data
+offset=len(before_vertices)
+join_collision_delta=max((v.co-co).length for v,co in zip(joined.vertices[offset:],original_collision_vertices))
+# Join transforms through world space. Restore only appended collision vertices
+# to their original local coordinates, avoiding inverse-matrix roundoff.
+for vertex,co in zip(joined.vertices[offset:],original_collision_vertices):vertex.co=co
+joined.update()
 assert [v.co for v in joined.vertices[:len(before_vertices)]]==before_vertices
 assert [list(p.vertices) for p in joined.polygons[:len(before_faces)]]==before_faces
 for layer,uvs in before_uvs.items():assert [v.uv for v in joined.uv_layers[layer].data[:len(uvs)]]==uvs
@@ -91,7 +97,6 @@ if normal_delta>1e-6:
     normals[:len(before_normals)]=before_normals
     joined.normals_split_custom_set(normals);joined.update()
 assert max((n.vector-v).length for n,v in zip(joined.corner_normals,before_normals))<1e-6
-offset=len(before_vertices)
 assert [v.co for v in joined.vertices[offset:]]==original_collision_vertices
 assert [list(p.vertices) for p in joined.polygons[len(before_faces):]]==[[i+offset for i in face] for face in original_collision_faces]
 assert [joined.materials[p.material_index].ass_jms.name_override for p in joined.polygons[len(before_faces):]]==original_collision_materials
@@ -101,6 +106,10 @@ report=dict(definition_index=definition_index,source_tag_sha256=source['sha256']
     source_materials=dict(collections.Counter(original_collision_materials)),
     visible_vertices=len(before_vertices),visible_faces=len(before_faces),visible_corners=len(before_normals),
     visible_geometry_normals_uvs_preserved=True,
+    collision_join_roundoff_restored_authoring_units=join_collision_delta,
+    collision_vertices_authoring=[list(v) for v in original_collision_vertices],
+    collision_faces_authoring=original_collision_faces,
+    collision_materials_authoring=original_collision_materials,
     nonvisual_collision_uvs='Blender Smart UV Project; no visible UV or source geometry changes',
     limitation='Isolated standard authoring diagnostic; native render-BSP/collision fidelity and MCC remain unverified.')
-print('ORIGINAL_RENDER_BSP_APPENDED',json.dumps(report),flush=True)
+print('ORIGINAL_RENDER_BSP_APPENDED',json.dumps({k:v for k,v in report.items() if k not in ('collision_vertices_authoring','collision_faces_authoring','collision_materials_authoring')}),flush=True)

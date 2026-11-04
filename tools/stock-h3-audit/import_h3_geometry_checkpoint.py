@@ -44,6 +44,15 @@ if (OUT/'h3-boulder-batch-authoring.json').is_file():
     assert boulder_verification['exact_diagnosed_triangles_and_material_controls']
     assert len(boulder_verification['targets'])==10
 assert sha(collection['path'])==collection['sha256']
+render_bsp_verification=None
+if (OUT/'h3-render-bsp-authoring.json').is_file():
+    render_bsp_path=OUT/'render-bsp-ass-verification.json'
+    render_bsp_verification=json.loads(render_bsp_path.read_text())
+    render_bsp_authoring=json.loads((OUT/'h3-render-bsp-authoring.json').read_text())
+    assert render_bsp_verification['scene_sha256']==bindings['scene_sha256']
+    assert render_bsp_verification['ass_sha256']==export['ass_sha256']
+    assert render_bsp_verification['exact_diagnosed_triangles_and_material_controls']
+    assert {r['target'] for r in render_bsp_verification['targets']}=={r['target'] for r in render_bsp_authoring['cases']}
 for binding in bindings['bindings'].values():
     assert sha(binding['authored'])==sha(binding['export_tag'])==binding['sha256']
 ass=KIT/'data/levels/custom/battle_canyon_fresh/structure/battle_canyon.ass'
@@ -68,6 +77,7 @@ report=dict(scene_sha256=bindings['scene_sha256'],ass_sha256=export['ass_sha256'
 if lighting_verification:report['lighting_ass_verification_sha256']=sha(lighting_path)
 if world_verification:report['world_ass_verification_sha256']=sha(world_path)
 if boulder_verification:report['boulder_ass_verification_sha256']=sha(boulder_path)
+if render_bsp_verification:report['render_bsp_ass_verification_sha256']=sha(render_bsp_path)
 report['clean_import_completed']=bool(result.returncode==0 and report['import_completed']
     and not any('error' in line.lower() or 'fatal' in line.lower() for line in issues)
     and (tags/'battle_canyon.scenario_structure_bsp').is_file())
