@@ -61,8 +61,10 @@ fix. Its LIVE package passed native installation and saved-view loading.
 Six authorized native frames were individually inspected: transparent rain,
 shaded fabric and changing billboard content are visible. The existing map alone
 was replaced, with a verified rollback copy and unrelated files preserved.
-The corrected LIVE archive is ready. Full-map traversal, close-up ad legibility
-and the small protruding feature remain unverified; the overall goal stays open.
+The corrected LIVE archive is ready. The user subsequently marked the small
+protruding object and rejected it as solved: its non-black lighting flicker
+remains unresolved. Full-map traversal and close-up ad legibility remain
+unverified; the overall goal stays open.
 See `snapshot/reference/sky-bridge-performance/README.md`.
 
 

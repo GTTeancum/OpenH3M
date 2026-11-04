@@ -1,0 +1,665 @@
+{
+  "status": "User confirms marked object remains unresolved; six-image review revisited",
+  "date": "2026-11-04",
+  "all_six_frames_reinspected_individually": true,
+  "new_captures": 0,
+  "image_edits": 0,
+  "marked_region_xyxy": [
+    640,
+    170,
+    668,
+    194
+  ],
+  "object_core": {
+    "region_xyxy": [
+      642,
+      175,
+      658,
+      189
+    ],
+    "most_variable_pixel": [
+      643,
+      182
+    ],
+    "channel": 2,
+    "range": 35,
+    "rgb_by_frame": [
+      [
+        48,
+        49,
+        61
+      ],
+      [
+        51,
+        51,
+        64
+      ],
+      [
+        51,
+        51,
+        65
+      ],
+      [
+        52,
+        52,
+        69
+      ],
+      [
+        71,
+        73,
+        96
+      ],
+      [
+        48,
+        48,
+        61
+      ]
+    ],
+    "fixed_point_rgb": {
+      "646,180": [
+        [
+          41,
+          40,
+          53
+        ],
+        [
+          48,
+          47,
+          61
+        ],
+        [
+          47,
+          47,
+          61
+        ],
+        [
+          50,
+          49,
+          61
+        ],
+        [
+          50,
+          50,
+          61
+        ],
+        [
+          47,
+          47,
+          59
+        ]
+      ],
+      "650,180": [
+        [
+          42,
+          44,
+          55
+        ],
+        [
+          44,
+          44,
+          56
+        ],
+        [
+          45,
+          46,
+          57
+        ],
+        [
+          47,
+          47,
+          59
+        ],
+        [
+          44,
+          44,
+          56
+        ],
+        [
+          44,
+          43,
+          56
+        ]
+      ],
+      "653,180": [
+        [
+          33,
+          33,
+          46
+        ],
+        [
+          40,
+          40,
+          54
+        ],
+        [
+          40,
+          40,
+          52
+        ],
+        [
+          42,
+          43,
+          55
+        ],
+        [
+          40,
+          40,
+          53
+        ],
+        [
+          41,
+          43,
+          56
+        ]
+      ],
+      "650,184": [
+        [
+          45,
+          49,
+          56
+        ],
+        [
+          40,
+          40,
+          51
+        ],
+        [
+          38,
+          39,
+          51
+        ],
+        [
+          42,
+          41,
+          54
+        ],
+        [
+          41,
+          40,
+          52
+        ],
+        [
+          40,
+          39,
+          51
+        ]
+      ]
+    }
+  },
+  "earlier_searchlight_location": [
+    501,
+    175
+  ],
+  "marked_location": [
+    650,
+    180
+  ],
+  "prior_searchlight_does_not_clear_marked_object": true,
+  "duplicate_geometry_lead": [
+    {
+      "sequence": 363,
+      "frame": 3384,
+      "vs": 18363955305835246292,
+      "ps": 8562590739555380577,
+      "geometry": {
+        "owner": 9894,
+        "owner_group": "sLdT",
+        "mesh": 121,
+        "part": 0,
+        "material_slot": 182,
+        "index_start": 0,
+        "index_count": 1761,
+        "vertex_format": 2,
+        "vertex_stride": 24,
+        "vertex_count": 741,
+        "vertex_prefix_sha256": "07489eb4f833b346f2bbb0b0b09db4d9f5cba0e98a47e5f38832b0c3b5189b93",
+        "vertex_prefix_length": 512,
+        "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_building_block_06_metal",
+        "target_material": 9763
+      },
+      "projection": {
+        "hit_pixels": 533,
+        "hit_xy_min": [
+          640,
+          170
+        ],
+        "hit_xy_max": [
+          667,
+          191
+        ],
+        "sample_depths": [
+          {
+            "x": 651,
+            "y": 178,
+            "ndc_z": [
+              0.00025421221699316966,
+              0.00026608160309432225
+            ]
+          },
+          {
+            "x": 646,
+            "y": 180,
+            "ndc_z": [
+              0.0002539836428451488,
+              0.00026165214039659606
+            ]
+          },
+          {
+            "x": 650,
+            "y": 180,
+            "ndc_z": [
+              0.00025370388665905833,
+              0.0002655582864995891
+            ]
+          },
+          {
+            "x": 653,
+            "y": 180,
+            "ndc_z": [
+              0.0002537250875587238,
+              0.0002671795376310595
+            ]
+          },
+          {
+            "x": 655,
+            "y": 183,
+            "ndc_z": [
+              0.00025455954492305304,
+              0.00026845746860181387
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 794,
+      "frame": 3384,
+      "vs": 18363955305835246292,
+      "ps": 8562590739555380577,
+      "geometry": {
+        "owner": 9894,
+        "owner_group": "sLdT",
+        "mesh": 357,
+        "part": 0,
+        "material_slot": 182,
+        "index_start": 0,
+        "index_count": 3522,
+        "vertex_format": 2,
+        "vertex_stride": 24,
+        "vertex_count": 1482,
+        "vertex_prefix_sha256": "761dff083ee1c65a7b4b37961e479199db85cb129f99a4e6669d0005a9c8ea87",
+        "vertex_prefix_length": 512,
+        "material": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_building_block_06_metal",
+        "target_material": 9763
+      },
+      "projection": {
+        "hit_pixels": 533,
+        "hit_xy_min": [
+          640,
+          170
+        ],
+        "hit_xy_max": [
+          667,
+          191
+        ],
+        "sample_depths": [
+          {
+            "x": 651,
+            "y": 178,
+            "ndc_z": [
+              0.0002542122378610176,
+              0.0002660817110462728
+            ]
+          },
+          {
+            "x": 646,
+            "y": 180,
+            "ndc_z": [
+              0.0002539835171371969,
+              0.0002616528284157774
+            ]
+          },
+          {
+            "x": 650,
+            "y": 180,
+            "ndc_z": [
+              0.0002537038422198468,
+              0.0002655586761413276
+            ]
+          },
+          {
+            "x": 653,
+            "y": 180,
+            "ndc_z": [
+              0.00025372534389862654,
+              0.0002671797622221284
+            ]
+          },
+          {
+            "x": 655,
+            "y": 183,
+            "ndc_z": [
+              0.0002545595446413629,
+              0.0002684573918587888
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "related_instances": [
+    {
+      "index": 637,
+      "name": "?turf_cilinder_07",
+      "definition": 121,
+      "mesh": 121,
+      "compression": 121,
+      "flags": "0x48",
+      "position": [
+        26.563974380493164,
+        104.67361450195312,
+        4.274184703826904
+      ],
+      "transform": [
+        0.5819859504699707,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        26.563974380493164,
+        104.67361450195312,
+        4.274184703826904
+      ]
+    },
+    {
+      "index": 638,
+      "name": "?turf_cilinder_06",
+      "definition": 121,
+      "mesh": 121,
+      "compression": 121,
+      "flags": "0x48",
+      "position": [
+        23.90248680114746,
+        104.67361450195312,
+        4.274184703826904
+      ],
+      "transform": [
+        0.5819859504699707,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        23.90248680114746,
+        104.67361450195312,
+        4.274184703826904
+      ]
+    },
+    {
+      "index": 639,
+      "name": "?turf_cilinder_05",
+      "definition": 121,
+      "mesh": 121,
+      "compression": 121,
+      "flags": "0x48",
+      "position": [
+        23.323881149291992,
+        96.92588806152344,
+        4.274184703826904
+      ],
+      "transform": [
+        0.5819859504699707,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        23.323881149291992,
+        96.92588806152344,
+        4.274184703826904
+      ]
+    },
+    {
+      "index": 640,
+      "name": "?turf_cilinder_04",
+      "definition": 121,
+      "mesh": 121,
+      "compression": 121,
+      "flags": "0x48",
+      "position": [
+        25.98536491394043,
+        96.92588806152344,
+        4.274184703826904
+      ],
+      "transform": [
+        0.5819859504699707,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        25.98536491394043,
+        96.92588806152344,
+        4.274184703826904
+      ]
+    },
+    {
+      "index": 1071,
+      "name": "?turf_cilinder_05_merged",
+      "definition": 357,
+      "mesh": 357,
+      "compression": 357,
+      "flags": "0x2",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "transform": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "related_render_buckets": [
+    {
+      "owner_mesh": 448,
+      "mesh": 121,
+      "definition": 121,
+      "instances": [
+        637,
+        638
+      ]
+    },
+    {
+      "owner_mesh": 462,
+      "mesh": 121,
+      "definition": 121,
+      "instances": [
+        637,
+        638,
+        639,
+        640
+      ]
+    },
+    {
+      "owner_mesh": 462,
+      "mesh": 357,
+      "definition": 357,
+      "instances": [
+        1071
+      ]
+    }
+  ],
+  "source_flag_evidence": {
+    "path": "work/stock-h3-audit/TagTool/TagTool/Geometry/BspCollisionGeometry/InstancedGeometry.cs",
+    "sha256": "12d3f5b25b9c34e3241affbe61d9c304e8bf75201824f6de963952e391405059",
+    "line": 191,
+    "declaration": "NotForRender = 1 << 6; comment: From eldorado geometry exporter",
+    "limitation": "Local upstream definition is a lead; conflicting bundled plugin labels and native renderer semantics must be resolved before a flag remap."
+  },
+  "rain": {
+    "authored": true,
+    "measured_outdoor_contribution": true,
+    "prior_runtime_candidate": 32,
+    "installed_weather_tags_unchanged": [
+      {
+        "tag": 10699,
+        "name": null,
+        "group": "skya",
+        "bytes": 80,
+        "sha256": "4c27e6759717aab9353ab1ceeaf5c0464bc06a67babd71d39479c119a9cf7bd0",
+        "unchanged": true
+      },
+      {
+        "tag": 10701,
+        "name": null,
+        "group": "effe",
+        "bytes": 128,
+        "sha256": "d4d0e1a4d4b6de74384eb59319984e6a84d87283b203634bb5a8403aa80003a9",
+        "unchanged": true
+      },
+      {
+        "tag": 10702,
+        "name": null,
+        "group": "prt3",
+        "bytes": 448,
+        "sha256": "547d3db07ceb2cb8c6700f8ae9dd11de136ab454a6a3a8c668ff2c00cef5181c",
+        "unchanged": true
+      },
+      {
+        "tag": 10703,
+        "name": null,
+        "group": "bitm",
+        "bytes": 2976,
+        "sha256": "68aef7f6c8a5397475cad3332547d77b1f902b5d35dc205471b57b57363e76ff",
+        "unchanged": true
+      },
+      {
+        "tag": 10704,
+        "name": null,
+        "group": "prt3",
+        "bytes": 448,
+        "sha256": "4ffeb8822bf410d95b166309fc6aeb927211db66ad955a81a2f113343b0212f8",
+        "unchanged": true
+      },
+      {
+        "tag": 10705,
+        "name": null,
+        "group": "bitm",
+        "bytes": 3936,
+        "sha256": "e5debf2d47305ffb8af15922a86ebf1f8aa057c1a4f71a2a92f30301ac4bd41b",
+        "unchanged": true
+      }
+    ],
+    "native_cluster_records_unchanged": [
+      {
+        "cluster": 23,
+        "unchanged": true,
+        "sha256": "3b407e048aaea7bfa69b070d37852fb15c3998393d26545b92808f2eafe12a55"
+      },
+      {
+        "cluster": 45,
+        "unchanged": true,
+        "sha256": "26d9c96d3e8d65859664d18cf0b68f93cc8544cb2ad4ac29e4a16e56982f5a7c"
+      }
+    ],
+    "outdoor_view": {
+      "translation": [
+        0,
+        12,
+        0
+      ],
+      "camera_position": [
+        16.41066551208496,
+        79.99089050292969,
+        0.30618050694465637
+      ],
+      "forward": [
+        0.23475760221481323,
+        0.9715976119041443,
+        -0.029781686142086983
+      ],
+      "up": [
+        0.006994579918682575,
+        0.02894865907728672,
+        0.9995564818382263
+      ],
+      "native_location": {
+        "bsp": 0,
+        "cluster": 23,
+        "leaf": 4153
+      },
+      "atmosphere_name": "skybridge_outdoor",
+      "weather_tag": 10701,
+      "same_native_observer_across_runs": true,
+      "vehicle_tolerance": 0.04,
+      "original_view_tolerance_unchanged": 0.03,
+      "measured_vehicle_settling_distance": 0.031320516,
+      "complete_savestate": false
+    },
+    "indoor_control": {
+      "native_location": {
+        "bsp": 0,
+        "cluster": 45,
+        "leaf": 2227
+      },
+      "atmosphere_name": "skybridge_indoor",
+      "weather_tag": null,
+      "trace": {
+        "sha256": "5ad316c34e99e503c081e35fb8e0302d520ad8633a5d118b6f1804ecd438df29",
+        "frames": 300,
+        "first_frame": 3406,
+        "last_frame": 3705,
+        "recorded_draws": 860756,
+        "emitted_draws": 852956,
+        "stop_reasons": [
+          1
+        ]
+      },
+      "rain_pixel_shader_draw_count": 0,
+      "analysis_sha256": "cb19bd016ca13d4c2d0959dd429c982dde01d9ddfccc7c36890b1a75e6424799"
+    },
+    "verdict": "Outdoor rain is authored and measured in the outdoor test. Saved indoor camera disables weather particles; cards are separate. Visual outdoor density remains unverified."
+  },
+  "production_changes": false,
+  "next_required_evidence": "At the marked pixels, measure the individual and merged cylinder draws before/after and establish native instance suppression semantics. Coincident CPU projections do not prove a flicker cause.",
+  "limitations": [
+    "Object lighting/color change is confirmed in existing images; its cause and correction are unresolved.",
+    "The sampled core includes silhouette/background and effects; RGB variation alone does not isolate object lighting.",
+    "Outdoor rain is authored and contributed in the candidate32 runtime test; its definitions remain byte-identical in candidate36. Outdoor density and appearance still lack visual acceptance."
+  ],
+  "evidence_sha256": {
+    "review": "00740ccc4e5a4b0da9b1f2e5f591167925bb3e6606fe2e37a13a2f6767e3e081",
+    "instances": "c90e06749bf6282b9331328bc81b5a54535514d894b2305120133c779913d030"
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

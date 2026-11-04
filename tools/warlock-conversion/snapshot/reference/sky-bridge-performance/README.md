@@ -1832,3 +1832,69 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Marked object: negative acceptance and outdoor rain verdict (2026-11-04)
+
+The user's arrow identifies the other, non-black flickering object near
+(650,180) in the native 1152x640 captures. All six original captures were
+reinspected individually in sequence. Its appearance changes; the prior review
+did not resolve this object. In the tight 642,175–658,189 region, pixel (643,182)
+has RGB values (48,49,61), (51,51,64), (51,51,65), (52,52,69), (71,73,96),
+(48,48,61). The fifth capture is brighter there and the sixth returns dark.
+This pixel lies near a silhouette and may include effects/background, so these
+values corroborate a change rather than isolate the lighting cause. No image
+was edited and no new capture or runtime test was made.
+
+`review-marked-object.py` records the read-only audit in
+`work/sky-bridge/marked-object-review/review.json`.
+`candidate36-marked-object-review-result.json` records the revised verdict.
+The earlier searchlight projection and GPU probes concern (501,175), about
+149 pixels to the left. That investigation cannot clear the arrowed object.
+The fabric black-overwrite correction is also not an acceptance test for it.
+
+The existing run47 trace yields a new, specific lead. Actual emitted draws
+363 and 794 in frame3384 match mesh121/part0 and mesh357/part0 by index prefix,
+vertex prefix and material reference. Both use material9763
+`sbr_building_block_06_metal`. Their projected triangles overlap the arrow's
+region. At (650,180), the nearer projected reversed depths are
+0.0002655582864995891 and 0.0002655586761413276, a difference of about 3.90e-10.
+This is an offline position reconstruction, not measured GPU depth or proof of
+the visible owner. Other geometry and the transparent rain card cross the region.
+
+`audit-marked-object-instances.py` connects mesh121 to four cylinder instances,
+637–640, named `?turf_cilinder_07` through `?turf_cilinder_04`, with flags0x48.
+Mesh357 is instance1071, `?turf_cilinder_05_merged`, with flags0x2 and twice the
+vertex/index counts. Cluster mesh462 has render buckets referring to both the
+individual instances and the merged instance. The local upstream TagTool
+definition names bit6 `NotForRender` for HO/MCC; the bundled plugin labels a
+different bit and the current converter preserves bit6 opaquely. This is a
+specific duplicate-rendering/flag-interpretation lead. It is not authorization
+to remap a flag by guess, remove collision, or suppress unrelated geometry.
+The next causal check must measure these draws at the marked pixels and resolve
+the native renderer's instance-suppression semantics. No further map/runtime
+change was made and no fix to the marked object is claimed.
+
+Outdoor rain verdict: **yes, outdoor weather is authored and the existing
+outdoor runtime test measures actual rain contribution**. In run24, 6902 rain
+draws have complete before/after measurements. The two attributed rain textures
+change sampled colors in 88 and291 of300 frames, respectively; maximum measured
+change is5/255. This is actual GPU contribution rather than only effect creation
+or draw submission. The saved indoor camera belongs to cluster45,
+`skybridge_indoor`, with no weather effect and zero rain-shader draws in its
+300-frame control trace. The translated outdoor camera belongs to cluster23,
+`skybridge_outdoor`, referencing rain effect10701. Doorway rain cards are a
+separate visible effect, so their presence while indoors does not mean the
+camera-local outdoor particle system is active there.
+
+The new audit verifies byte equality between candidate32 and installed
+candidate36 for atmosphere10699, weather10701, particles10702/10704,
+bitmaps10703/10705 and the two relevant native cluster records. Candidate36
+does not remove the tested rain. The measured contribution is subtle; outdoor
+density, visibility at other distances and overall authored appearance remain
+visually unverified. Do not describe the weather as missing, or the rain as
+fully visually accepted, from these indoor captures.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
