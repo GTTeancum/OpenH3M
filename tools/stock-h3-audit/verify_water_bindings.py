@@ -35,7 +35,7 @@ for obj in bpy.context.scene.objects:
         if not faces:continue
         assert obj.nwo.mesh_type.endswith('_water_surface')
         name=append_material_symbols(material,'halo3',True)
-        assert name==binding['name']+"'",name
+        assert name==binding['export_prefix']+' '+binding['name']+"'",name
         expected=next(r for r in channels['meshes'] if r['mesh']==obj.data.name)
         assert [l.name for l in obj.data.uv_layers]==['UVMap0','UVMap1','UVMap2','UVMap3']
         assert [list(v.uv) for v in obj.data.uv_layers[0].data]==expected['original_main_uv']

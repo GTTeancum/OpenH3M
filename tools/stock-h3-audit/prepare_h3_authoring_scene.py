@@ -46,6 +46,7 @@ scene.nwo.forward_direction = 'x'
 
 names = []
 collision_children = []
+collision_defined = set()
 physics_pending = []
 portal_materials = {}
 lighting = {'single_probe': '>', 'per_vertex': '?', 'per_pixel': '!'}
@@ -62,7 +63,7 @@ for obj in originals:
                 prefix += symbol
         obj.ass_jms.name_override = prefix + obj.name
         proxy = obj.data.nwo.proxy_collision
-        if proxy:
+        if proxy and obj.data not in collision_defined:
             # A local collision child is the documented H3 ASS override.
             child = proxy.copy()
             scene.collection.objects.link(child)
@@ -73,6 +74,7 @@ for obj in originals:
             child.matrix_basis = Matrix.Identity(4)
             collision_children.append(dict(parent=obj.name, child=child.name, source=proxy.name,
                                            mesh=proxy.data.name, polygons=len(proxy.data.polygons)))
+            collision_defined.add(obj.data)
         physics = [getattr(obj.data.nwo, f'proxy_physics{i}') for i in range(200)
                    if getattr(obj.data.nwo, f'proxy_physics{i}') is not None]
         if physics:

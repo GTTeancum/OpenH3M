@@ -47,7 +47,9 @@ for mesh in sorted(meshes,key=lambda m:m.name):
             velocity.data[i].uv=(0,0)
             shape_layer.data[i].uv=uv
     else:
-        assert len(mesh.uv_layers)==4 and previous and before==previous['scene_sha256']
+        assert len(mesh.uv_layers)==4 and previous
+        # Other authoring may change the scene hash. Verify every UV below
+        # against the original retained coordinates before refreshing provenance.
         old=next(r for r in previous['meshes'] if r['mesh']==mesh.name)
         main,shape=old['original_main_uv'],old['original_water_uv']
     assert [l.name for l in mesh.uv_layers]==['UVMap0','UVMap1','UVMap2','UVMap3']

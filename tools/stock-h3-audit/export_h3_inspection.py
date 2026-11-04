@@ -22,6 +22,13 @@ path = OUT / ('h3-bound-inspection.ass' if bound else 'h3-authoring-inspection.a
 # Invoke the exact upstream function called by its execute method instead.
 from io_scene_halo.file_ass import export_ass
 from io_scene_halo.global_functions import global_functions
+if bound:
+    from io_scene_halo.global_functions.mesh_processing import append_material_symbols
+    bindings=json.loads((OUT/'h3-material-bindings.json').read_text())
+    assert before==bindings['scene_sha256']
+    assert {m['export_name'] for m in bindings['assigned']} <= {append_material_symbols(m,'halo3',True) for m in bpy.data.materials}
+    print('H3_EXPORT_SAVED_BINDINGS_PRESENT',len(bindings['assigned']),flush=True)
+bpy.context.view_layer.update()
 result = export_ass.write_file(bpy.context, str(path), 7, 'halo3', False, True, True,
     True, True, True, global_functions.EdgeSplit(False, False, 0.0, False),
     False, 1.0, lambda level, message: print(level, message, flush=True))

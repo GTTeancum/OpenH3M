@@ -58,6 +58,17 @@ pending=[]
 special=[]
 dest=ASSET/'export_shaders'
 dest.mkdir(exist_ok=True)
+# Tool resolves a short material name through this documented collection prefix.
+collection=KIT/'tags/levels/shader_collections.txt'
+collection_before=sha(collection)
+collection_text=collection.read_text(encoding='utf-8-sig')
+prefix='bcf'
+relative=str(dest.relative_to(KIT/'tags'))
+existing=[line.split() for line in collection_text.splitlines() if line.split() and line.split()[0]==prefix]
+assert not existing or existing==[[prefix,relative]],existing
+if not existing:
+    with collection.open('a',encoding='utf-8',newline='') as stream:
+        stream.write('\n'+prefix+'\t'+relative+'\n')
 for material in sorted(used,key=lambda m:m.name):
     original=material.nwo.shader_path
     if not original:
@@ -83,9 +94,9 @@ for material in sorted(used,key=lambda m:m.name):
         # native tag update so the ASS binding cannot silently use an old copy.
         shutil.copyfile(target,alias)
         assert sha(alias)==digest
-        bindings[original]=dict(name=name,authored=str(target),export_tag=str(alias),sha256=digest)
+        bindings[original]=dict(name=name,export_prefix=prefix,authored=str(target),export_tag=str(alias),sha256=digest)
     row=bindings[original]
-    material.ass_jms.name_override=("'" if original.endswith('.shader_water') else '')+row['name']
+    material.ass_jms.name_override=("'" if original.endswith('.shader_water') else '')+prefix+' '+row['name']
     exported=mesh_processing.append_material_symbols(material,'halo3',True)
     assert len(exported)<=32,(material.name,exported)
     assigned.append(dict(material=material.name,source=original,export_name=exported))
@@ -98,6 +109,7 @@ destination=OUT/'battle-canyon-h3-materials.blend'
 bpy.ops.wm.save_as_mainfile(filepath=str(destination))
 report=dict(source=str(source),source_sha256=before,scene=str(destination),scene_sha256=sha(destination),
             bindings=bindings,assigned=assigned,pending=pending,special=special,
+            shader_collection=dict(path=str(collection),prefix=prefix,directory=relative,before_sha256=collection_before,sha256=sha(collection)),
             limitation='Native naming and byte-identical tag staging only. Pending surfaces forbid a final map build; visual validation is still required.')
 (OUT/'h3-material-bindings.json').write_text(json.dumps(report,indent=2)+'\n')
 print('H3_MATERIAL_BINDINGS',len(bindings),'tags',len(assigned),'slots',len(pending),'pending slots',flush=True)

@@ -1527,3 +1527,106 @@ Water atmosphere/fog and scenario linkage remain unfinished, along with main
 scene collision/lighting metadata and effects. This design-only compilation does
 not mark step 4 complete or waive full-map compilation, user-driven MCC testing,
 explicit MCC approval, or the subsequent 360 gate. No installation changed.
+
+## Native lighting controls verified; differences proposed (2026-11-04)
+
+Original Reach scenario export confirms the resolution-category values
+`1, 4, 16, 64, 128, 256, 512`, matching the pinned Foundry definitions. The
+original BSP uses categories 1, 2, 3, 4, 5 and 7; its default is category 3.
+H3's native material control is a continuous multiplier with default 1.
+[LIGHTING-METADATA-PROPOSAL.md](LIGHTING-METADATA-PROPOSAL.md) proposes preserving
+relative priorities by dividing the source category value by 16. This is a
+documented authoring choice awaiting approval, not an exact texel-allocation
+equivalence between the engines.
+
+The proposal also identifies the actual unmapped selections: nine emission
+selections use bounce ratio 0.05, one uses 0.5, one 28-face selection uses chart
+group 17, and one 2,432-face BSP selection uses per-vertex lighting. The inspected
+native H3 material-lighting schema lacks the separate bounce ratio, and the
+unmodified ASS material workflow lacks matching chart-group/per-face lighting
+controls. The user has been asked to approve H3's native behavior for those
+cases. No approval is inferred from silence and no map lighting was changed.
+
+`export_lighting_workflow_probe.py` uses six existing faces from the upstream
+Blender example to test shared controls. It leaves that file unchanged and
+exports through the pinned unmodified ASS add-on. Official Tool imports all six
+materials. `verify_lighting_workflow_probe.py` then exports the actual BSP and
+lighting-info tags through native Tool and checks their material links:
+
+- All six proposed multipliers used by Battle Canyon survive unchanged.
+- Original RGB, power, quality, focus and power-per-area flags survive, including
+  the sun's 0.02 power and the colored strips' 3.0 power.
+- Attenuation receives Tool's 0.01 scaling. Source sun cutoff 1,500 becomes 15
+  H3 world units; strip cutoff 150 becomes 1.5. This agrees with Foundry's source
+  import conversion. Blender's scaled intensity getter is not a native power.
+
+Native XML prints six significant digits; comparisons allow 0.000001 for shared
+scalar/color inputs. Tool emits a literal `<unavailable>` in one BSP resource
+attribute, making that XML invalid. The verifier escapes only that placeholder
+in memory for parsing, leaving the tag and original XML unchanged. Tool's
+texture-disposal warning remains in the diagnostic log; native output and
+material values, rather than exit code alone, establish these narrow checks.
+
+Evidence: `original-lighting-scenario.xml`, `h3-stock-lighting-info.xml`,
+`lighting-workflow-probe.json`, `lighting-workflow-verification.json`,
+`lighting-workflow-bsp.xml`, `lighting-workflow-info.xml` and associated native
+logs under `work/stock-h3-audit`. The diagnostic kit outputs are under
+`levels/custom/bc_lighting_workflow_probe`. It does not establish baked appearance
+or mark any unresolved source lighting selection accepted.
+
+## First full native diagnostic and authoring corrections (2026-11-04)
+
+The first full official H3 `structure` diagnostic exposed a missing shader
+lookup configuration: short aliases existed in `export_shaders`, but no shader
+collection selected that directory. Tool reported unresolved materials alongside
+open/degenerate collision edges and repeated defining instances. This run was
+deliberately stopped after those concrete failures, not because observation
+expired. No BSP, scenario or lighting-info output was accepted. Its complete log
+and report remain `h3-full-geometry-unresolved-bindings.log/.json`.
+
+`assign_h3_materials.py` now registers the documented `bcf` collection in the
+repository-local kit's `tags/levels/shader_collections.txt`, pointing to
+`levels/custom/battle_canyon_fresh/export_shaders`. Existing unrelated entries
+are preserved; an existing conflicting `bcf` entry causes failure. All assigned
+material names carry that prefix and remain within the native name limit.
+Authored shaders and their aliases are unchanged byte-for-byte. A native
+`--bound-shaders` diagnostic on the lighting helper verifies six aliases resolve
+to the exact expected authored tags, rather than a default or a similarly named
+stock shader. Evidence: `bound_shaders-workflow-verification.json` and its XML.
+
+The [official H3 instance-collision workflow](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/art/instanceobjects/collision)
+uses one collision child for a shared instance definition. Saved-scene inspection
+found 115 collision children across 44 linked definitions; 71 were exact duplicate
+definitions, with the same mesh and local/parent-inverse transforms. These were
+removed from the H3 authoring scene while retaining one child per definition
+and all 1,060 placed render instances. This changes authoring representation,
+not the intended repeated collision geometry. The initial scene-preparation
+helper was also corrected to create only one child per shared mesh.
+
+The same inspection narrows the outstanding separate Reach physics work to
+56 definitions used by 302 instances, with 207 source convex hulls. Twenty-eight
+of those definitions have an explicit collision child and 28 use the imported
+mesh's collision faces. These have not been declared compatible from counts or
+documentation alone; the native output and eventual MCC traversal must verify
+them. No replacement hulls or engine changes were invented.
+
+`deduplicate_collision_children.py` records the retained/removed authoring
+objects. The water helper then reverified every original main/shape UV and both
+native auxiliary channels before refreshing saved-scene provenance. The bound
+scene still contains 102 tags / 154 used material variants and no unassigned
+slots. Full ASS export/readback is being refreshed for these naming and shared
+collision changes. The first diagnostic's geometry failures must be rechecked
+with valid materials before attributing them to a particular source defect.
+
+This work does not apply the pending lighting proposal or complete step 4. There
+has been no lightmap bake, MCC playtest, installation or Xbox 360 conversion.
+
+The combined authoring/export process subsequently wrote original material names
+instead of the bound aliases. The full ASS readback assertion caught this; that
+output was not passed to Tool and the previous successful ASS report does not
+validate its changed hash. Export is being rerun in a fresh Blender process
+opened directly on the saved bound scene. Its early preflight confirms all 154
+saved material assignments; final ASS readback still determines acceptance.
+`export_h3_inspection.py` now checks bindings before its expensive export as well
+as afterward and updates Blender's view layer. Neither upstream add-on was
+modified. Current log: `h3-native-saved-binding-export.log`.
