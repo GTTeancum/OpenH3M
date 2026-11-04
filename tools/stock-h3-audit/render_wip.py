@@ -9,6 +9,37 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'work/stock-h3-audit/wip'
 OUT.mkdir(exist_ok=True)
 scene = bpy.context.scene
+authoring = '--authoring' in sys.argv
+if authoring:
+    import runpy
+    import bmesh
+    runpy.run_path(str(ROOT / 'tools/stock-h3-audit/check_foundry.py'))
+    runpy.run_path(str(ROOT / 'tools/stock-h3-audit/check_h3_exporter.py'))
+    for ob in bpy.data.objects:
+        if ob.type == 'MESH' and (ob.name.startswith('@') or ob.nwo.mesh_type in {'_connected_geometry_mesh_type_portal', '_connected_geometry_mesh_type_collision', '_connected_geometry_mesh_type_physics'}):
+            ob.hide_render = True
+    # Workbench ignores Halo's per-face visibility flags. Filter preview copies
+    # only; never save this temporary render scene over the authoring .blend.
+    preview_meshes = {}
+    removed = 0
+    for ob in scene.objects:
+        if ob.type != 'MESH' or ob.hide_render:
+            continue
+        original = ob.data
+        if original not in preview_meshes:
+            hidden_slots = {i for i,m in enumerate(original.materials) if m and
+                            any(getattr(m.ass_jms,flag) for flag in ('collision_only','sphere_collision_only','lightmap_only','shadow_only'))}
+            preview = original.copy()
+            bm = bmesh.new()
+            bm.from_mesh(preview)
+            hidden = [f for f in bm.faces if f.material_index in hidden_slots]
+            removed += len(hidden)
+            bmesh.ops.delete(bm, geom=hidden, context='FACES')
+            bm.to_mesh(preview)
+            bm.free()
+            preview_meshes[original] = preview
+        ob.data = preview_meshes[original]
+    print('PREVIEW_ONLY_NONRENDER_FACES_HIDDEN', removed, flush=True)
 depsgraph = bpy.context.evaluated_depsgraph_get()
 points = []
 for instance in depsgraph.object_instances:
@@ -60,8 +91,10 @@ for name, direction, scale in [('overview', (1, -1, 1.3), 1.5), ('closer', (-1, 
     if textured:
         sun.rotation_euler = camera.rotation_euler
     camera.data.ortho_scale = span * scale
-    scene.render.filepath = str(OUT / (('textured-' if textured else '') + name + '.png'))
+    prefix = 'h3-authoring-' if authoring else ('textured-' if textured else '')
+    scene.render.filepath = str(OUT / (prefix + name + '.png'))
     bpy.ops.render.render(write_still=True)
-(OUT / (('textured-' if textured else '') + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),
-    label='Original Reach geometry imported by Foundry; Blender WIP, not H3 MCC',
+(OUT / (prefix + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),
+    source_scene=bpy.data.filepath,
+    label='Blender authoring geometry WIP, not H3 MCC' if authoring else 'Original Reach geometry imported by Foundry; Blender WIP, not H3 MCC',
     textured=textured, lighting='Studio preview lighting, not map lighting'), indent=2)+'\n')

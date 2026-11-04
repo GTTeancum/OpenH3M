@@ -1,4 +1,5 @@
 # Read stock H3 authoring tags using the official editing kit command.
+param([switch]$AllStandoffSurfaces)
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $audit = Join-Path $repo 'work/stock-h3-audit'
@@ -10,9 +11,16 @@ $env:LOCALAPPDATA = Join-Path $audit 'profile/local'
 $env:TEMP = Join-Path $audit 'temp'
 $env:TMP = $env:TEMP
 $evidence = @()
+$donors = @(Import-Csv (Join-Path $audit 'surface-donor-candidates.csv'))
+if ($AllStandoffSurfaces) {
+    $donors += Import-Csv (Join-Path $audit 'standoff-all-tags.csv') |
+        Where-Object { $_.path.StartsWith('levels\dlc\bunkerworld\') -and $_.group -in @('shader','shader_terrain','shader_foliage','shader_water','shader_glass') } |
+        ForEach-Object { [pscustomobject]@{stock_tag=($_.path + '.' + $_.group)} }
+}
+$donors = $donors | Sort-Object stock_tag -Unique
 Push-Location $kit
 try {
-    foreach ($donor in (Import-Csv (Join-Path $audit 'surface-donor-candidates.csv'))) {
+    foreach ($donor in $donors) {
         $source = Join-Path (Join-Path $kit 'tags') $donor.stock_tag
         $before = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
         $name = [IO.Path]::GetFileName($donor.stock_tag)

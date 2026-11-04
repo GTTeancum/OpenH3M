@@ -37,7 +37,7 @@ for mat in list(bpy.data.materials):
     print('READ_SOURCE_MATERIAL', path, flush=True)
     try:
         # Invoke the same upstream reader directly; node-editor layout needs a UI.
-        with readers[Path(path).suffix](path=path) as shader:
+        with readers[Path(path).suffix](path=path, tag_must_exist=True) as shader:
             shader.to_nodes(mat, False)
         report['imported'].append(path)
     except Exception as exc:

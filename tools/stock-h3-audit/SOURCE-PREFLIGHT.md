@@ -238,3 +238,86 @@ the bundled Blender Python and isolated packages; run the foliage authoring
 wrapper only into absent trial targets (it refuses overwrites); run the verifier.
 Use the repo-confined environment documented above. Continue with full source
 metadata preservation and explicit H3 material setup choices before map compile.
+
+## 2026-11-04: H3 authoring export, terrain trial and refreshed proof
+
+`prepare_h3_authoring_scene.py` now configures the complete original import with
+the unmodified Foundry coordinate transform and General-101's native authoring
+properties. It preserves geometry counts, configures 1,060 instance names and
+67 portals, and parents 115 existing collision proxies. It carries source face
+selections into 67 H3 material-flag variants. Remaining physics and face metadata
+are enumerated in `work/stock-h3-audit/h3-authoring-scene-report.json`, including
+302 instances with separate convex physics proxies. These are outstanding work,
+not accepted collision behavior. The scene is `battle-canyon-h3-authoring.blend`.
+
+`export_h3_inspection.py` invokes General-101's unmodified ASS exporter and reader.
+The 141,546,547-byte version-7 inspection export reopens with 157 materials,
+543 unique objects and 1,247 instances. Source Blender hash and expected object
+names were checked. This supersedes the earlier statement that no export had
+occurred. It is not an official H3 compile, a verified round-trip rendering, or
+MCC acceptance. Material assignments, water UV support, sky and lighting remain.
+
+The stock shader inspection now covers 98 donor candidates. Original Reach
+inspection includes 104 tags, including two inherited setups. Candidate input
+coverage is recorded by `compare_shader_inputs.py`; matching input names alone
+must never select a donor. `inspect_effective_shader_options.py` uses the
+existing Foundry readers to resolve active options and default textures.
+
+An inspection mistake was caught: passing strings to the generic ShaderTag
+reader forced `.shader` on other shader groups and created placeholder siblings.
+The reader now receives an explicit official Bungie TagPath and requires existing
+tags. Eleven archive-absent placeholders were removed; two placeholder files at
+real original paths were restored from the official `HREK.7z` archive. All 104
+referenced original shaders matched archive CRC/size after restoration. The
+additional glass `.shader` sibling was separately restored and verified at
+13,071 bytes, CRC32 5FBD5D5A. Effective options were inspected again afterward.
+Evidence: `reach-source-shader-integrity.json`,
+`removed-inspection-placeholder-tags.json`, and `restore-original-*.log`.
+No upstream addon was patched.
+
+`author_terrain_trial.py` authors the original main terrain using stock Standoff
+`ground.shader_terrain`: ten Reach TIFF images, sixteen texture assignments,
+and twelve original uniform-tiling functions. Official Reach GetData exposes
+the original function bytes; official H3 `patch-tag-field` sets the existing
+function fields. No custom tag writer or shader logic is involved. Saved XML
+matches those functions/references and preserves the donor's shader options.
+Source-null inputs use corresponding stock H3 neutral textures, not unrelated
+Standoff details. Evidence: `terrain-trial-report.json` and `terrain-trial/`.
+
+The bitmap-template check caught three RGB normal images initially imported as
+height maps. `correct_terrain_normal_imports.py` reimports those generated trial
+bitmaps using official H3 **ZBrush Bump Map (from Bump Map)** usage. Enum fields
+require their display string: numeric `17` reported success without changing the
+setting. All three saved bitmap XML exports and import logs now confirm the
+correct mode. The fresh authoring script applies and checks that setting too.
+Official TGA exports preserve dimensions; mean absolute red/green differences
+are approximately 1.0 to 7.1 out of 255, while blue differs much more. DXN output
+is not byte-identical source RGB. This does not establish correct in-game normal
+shading; keep the visual check open. Evidence: `terrain-normal-verification/`.
+The donor uses diffuse terrain layers; Reach's source uses specular layers.
+That appearance difference also remains explicit for MCC review.
+
+`render_wip.py --authoring` renders the actual prepared scene with Blender
+Workbench. It hides portals/collision children and nonrender face flags on
+temporary preview mesh copies, without saving those copies into the authoring
+scene. The initial capture exposed collision surfaces; the corrected render
+filters 1,874 unique nonrender faces. Both final geometry views were inspected:
+the central arch, surrounding rock walls and base structures are visible.
+These clay views do not establish textures, foliage alpha, sky or lighting.
+Native Blender outputs are `wip/h3-authoring-overview.png` and
+`wip/h3-authoring-closer.png`. Refreshed textured source previews use the original
+Reach readers and preview lighting; they are not H3 shader rendering.
+Both refreshed textured views were inspected too: the arch, terrain, trees and
+base structures carry source textures. White water surfaces (the deliberately
+skipped upstream water fallback) and black rock patches remain visible and
+unresolved. Neither view is an appearance acceptance. The material refresh
+reported 101 successful readers and zero errors; the render ran in a separate
+process because Foundry changes cwd to its editing kit. Pass subsequent script
+paths absolutely. The authoring scene SHA256 remained
+`62903acc54d4551396c0e3db700de2f5e2adb7d74c90ebe7d082cd09f51fb98c`
+after all preview operations.
+
+Still required: finish H3 material assignments and outstanding geometry metadata,
+then official import/compile/light, user-driven MCC visual/gameplay review and
+explicit approval. No 360 conversion or shared-install changes have occurred.
+Rainbow/decorative laser import remains a proposal awaiting user approval.
