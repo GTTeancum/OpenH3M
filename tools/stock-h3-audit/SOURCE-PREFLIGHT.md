@@ -1224,3 +1224,61 @@ The nonvisual verification also passed against the actual exported triangle
 material references. Both variants intentionally share one shader name and use
 separate native flag records; the verifier resolves each object's references
 rather than assuming the shader name uniquely identifies its face behavior.
+
+## Shared dirty glass assigned (2026-11-04)
+
+The remaining Reach `glass_window_dirty_subdued.shader_glass` now uses stock
+Snowbound `levels/multi/snowbound/shaders/cov_glass_mast.shader`. Original 360
+options `[0,1,0,2,2,1,0,3,0,0]` match the official H3 kit, whose extra MCC options
+are zero. The original cache and donor hashes remain unchanged. This is native
+H3 material authoring, not an imported Reach shader program.
+
+Reach's dedicated glass group implicitly supplies alpha blending, with base
+alpha selected without Fresnel. The stock H3 ordinary shader retains base-alpha
+transparency, default albedo, two-lobe Phong and per-pixel reflections. Its
+additional standard-bump and texture-mask inputs use the unchanged stock flat
+normal and white bitmap; native exports verify neutral XY and full-white alpha.
+The stock option help explicitly defines white mask alpha as unchanged specular
+response. No artwork repacking or new normal/specular artwork is needed here.
+See the official [H3 blend-mode](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/blendmode)
+and [material-model](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/shaders/materialmodel)
+documentation. Reach-only `analytical_roughness` and `env_roughness_offset` are
+recorded as source-only inputs; the stock H3 response remains in charge, with no
+invented shader behavior. This difference still requires the user's MCC review.
+
+Six existing source functions are preserved byte-for-byte, including 0.35x base
+and 3x detail scales, zero diffuse contribution and the reflection tint. The
+source's default specular coefficient 1 is entered with the official function
+editor; eight equal defaults use native H3 defaults. All three original images
+and their mip counts pass native export checks. Mean base-alpha error is
+0.0234/255; all cube-face channel mean errors are below 3.41/255.
+
+The first reflection import was rejected: automatic curve selection produced
+a darker linear cube and failed the pixel comparison. Pinned Foundry's
+`BitmapTag.get_gamma_value` treats original curves 0 and 1 as legacy xRGB, so
+the source's zero curve is not evidence of linear artwork. Reimporting through
+the existing official H3 sRGB usage controls preserves the extracted colors;
+the source TIFF and tag remain unchanged. The pixel verifier and its thresholds
+were not relaxed. World-space reflection orientation still awaits MCC.
+
+The bound scene has 101 tags / 153 used material variants, leaving one water
+variant unassigned. Four skylight meshes (14 faces) retain two-sided transparent
+and breakable flags, verified through the native Blender exporter properties.
+`wip/h3-dirty-glass-assignments-skylights.png` is an inspected Workbench render
+of two actual skylights highlighted cyan. It proves assignment location, not
+transparency, final shading, breakage or MCC acceptance. The saved scene is
+unchanged by rendering. The prior full ASS checkpoint remains at 100 tags;
+this scene will be exported again after the remaining authoring work.
+
+The updated checkpoint covers 90 ordinary materials, 918 ordinary source
+functions, 30 scalar-default corrections and 315 matching ordinary defaults.
+Including five generic terrain families: 1,050 source functions and 363 matching
+defaults. It checks 247 image records / 184 unique original-image imports,
+614 source/donor hashes and no duplicate authored inputs. Physical names: 93
+exact stock names and seven retained empty-source cases. The packed glass image
+is separately verified as before.
+
+Evidence under `work/stock-h3-audit`: `dirty_glass-donor-integrity.json`,
+`dirty_glass-family/report.json`, `dirty_glass-family/pixel-verification.json`,
+`dirty-glass-geometry.json`, `h3-material-bindings.json`,
+`active-input-checkpoint.json`, and the native WIP capture metadata.

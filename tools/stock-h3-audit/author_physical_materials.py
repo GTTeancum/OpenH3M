@@ -35,12 +35,20 @@ assert stock_names,'No original H3 material names read'
 source=json.loads((OUT/'hrek-physical-materials.json').read_text())
 by_name={Path(path).name:path for path in source}
 assert len(by_name)==len(source),'Ambiguous source shader name'
+# Cross-group authoring (Reach shader_glass to stock H3 shader) keeps an explicit
+# reviewed source/target association instead of inferring it from the suffix.
+authored_sources={}
+for report_path in OUT.glob('*-family/report.json'):
+    for material in json.loads(report_path.read_text())['materials']:
+        name=Path(material['target']).name
+        assert name not in authored_sources or authored_sources[name]==material['source']
+        authored_sources[name]=material['source']
 tags=[]
 retained=[]
 hashes={str(KIT/'tags/globals/globals.globals'):sha(KIT/'tags/globals/globals.globals')}
 for target in sorted((KIT/'tags/levels/custom/battle_canyon_fresh/shaders').iterdir()):
-    assert target.name in by_name,'Unknown authored source: '+target.name
-    original=by_name[target.name]
+    original=authored_sources.get(target.name,by_name.get(target.name))
+    assert original in source,'Unknown authored source: '+target.name
     hashes[str(REACH/'tags'/original)]=sha(REACH/'tags'/original)
     fields={v['name']:v['value'] for v in source[original] if v['name'].startswith('material name') and v['value']}
     for name in fields.values():assert name in stock_names,'Requires stock alternative review: '+name

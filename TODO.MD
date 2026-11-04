@@ -61,11 +61,11 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.
 - [x] Compare stock and MCC dependencies; record MCC-only additions and stock alternatives before authoring.
 - [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
-- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Nine terrain, one foliage and 89 ordinary materials have saved-field checks; these are not visual acceptance.
-- [x] Bind 99 authored tags and one unchanged stock nonvisual tag through short Blender export names (100 tags / 151 used variants). Water and shared dirty glass remain pending across three variants; native map import is not yet ready.
+- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Nine terrain, one foliage and 90 ordinary materials have saved-field checks; these are not visual acceptance.
+- [x] Bind 100 authored tags and one unchanged stock nonvisual tag through short Blender export names (101 tags / 153 used variants). Only the water material remains unassigned; geometry metadata still prevents final native map import.
 - [x] Author the four remaining terrain surfaces with exact stock H3 configurations; replace the initial ground trial with the matching four-layer specular setup. The user approved the existing Reach creek cubemap for the missing cliff reflection texture.
-- [x] Preserve stock H3 physical-material choices: 92 authored surfaces use exact source names present in original Standoff; seven empty source names retain their selected stock material. Verify impact behavior in MCC.
-- [x] Review defaults in all 89 ordinary shaders: 307 inputs use matching native defaults; 29 differing source scalar defaults are preserved through the official function editor. The 912 selected source functions pass native readback checks, including three parent-template materials.
+- [x] Preserve stock H3 physical-material choices: 93 authored surfaces use exact source names present in original Standoff; seven empty source names retain their selected stock material. Verify impact behavior in MCC.
+- [x] Review defaults in all 90 ordinary shaders: 315 inputs use matching native defaults; 30 differing source scalar defaults are preserved through the official function editor. The 918 selected source functions pass native readback checks, including three parent-template materials.
 - [x] Exclude inactive Reach shadow-control entries and retain stock H3 settings. Corrected 26 previously authored surfaces; five new surfaces use the same rule. Saved authored inputs have no duplicate names.
 - [x] Bind caustics, sky panel, decorative trim and four smooth materials using stock H3 donors. Smooth surfaces use H3's verified flat normal default; trim uses a shader verified on the stock Spiker world model.
 - [x] Compare five original-360 water donors. Longshore's second water shader matches eight shared options; Reach's separate detail setting and water-coordinate export remain unresolved.
@@ -74,11 +74,12 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Bind both sky rock/tower materials using Blackout's stock sky setup: retain its zero-RGB base function and the original Reach alpha and separate self-illumination. MCC appearance remains unverified.
 - [x] Apply the approved [stock H3 panel reflections](tools/stock-h3-audit/PANEL-REFLECTION-PROPOSAL.md) to the two circular panels and Forge panel; retain Reach artwork/detail/glow. Native source and pixel checks passed.
 - [ ] Generate the required local H3 cluster cubemaps with official Tool during MCC preparation and review panel reflections in MCC.
-- [ ] Finish the remaining shared dirty-glass material and water material, plus collision-only/lightmap-only metadata.
+- [x] Bind shared dirty glass to stock Snowbound glass with unchanged Reach artwork/base alpha, native white specular mask and flat normal. All three image checks pass; four skylight meshes retain two-sided transparency and breakable flags. Native Blender assignment WIP captured; actual appearance and breaking remain for MCC.
+- [ ] Finish the water material and collision-only/lightmap-only metadata.
 - [x] Verify Standoff's stock invalid tag and bind it only to the six collision-only box faces and 32 lightmap-only sun faces. Native exporter flag checks passed; this does not resolve emission metadata.
 - [ ] Resolve 117 source lighting records: 103 lightmap-resolution selections, 12 emission selections, one chart group and one lightmap type. Confirm source units and resolution semantics before transfer.
 - [ ] Resolve water coordinates: source meshes have two UV channels; the documented H3 workflow needs four. Preserve collision-only and lightmap-only invalid-material surfaces and finish their metadata.
-- [x] Refresh the full unmodified ASS export/readback with 100 bound tags: 1,247 instances and 247,855 triangles; three unresolved material slots remain explicitly pending.
+- [x] Full unmodified ASS export/readback passed at the 100-tag checkpoint: 1,247 instances and 247,855 triangles. The newer 101-tag scene has saved-binding checks; refresh the full export after remaining authoring.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
 - [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
 - [ ] Import, compile and light using official H3 MCC tools.

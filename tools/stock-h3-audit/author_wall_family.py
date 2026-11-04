@@ -30,6 +30,7 @@ args=parser.parse_args()
 family=families[args.family]
 kind=family.get('kind','shader')
 group='shader_terrain' if kind=='terrain' else 'shader'
+source_group=family.get('source_group',group)
 DONOR=family['donor']
 DEST=OUT/(args.family+'-family')
 DEST.mkdir(exist_ok=True)
@@ -61,6 +62,12 @@ if kind=='terrain':CATEGORIES={c['category'] for c in stock_options}
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
 flat_normal=family.get('stock_flat_normal',False)
+full_specular=family.get('stock_full_specular_mask',False)
+white_mask_tag=r'shaders\default_bitmaps\bitmaps\color_white.bitmap'
+if full_specular:
+    assert source_group=='shader_glass' and kind=='shader'
+    assert stock_names['specular_mask']=='specular_mask_from_texture'
+    assert active['specular_mask_texture']['default bitmap']==white_mask_tag.rsplit('.',1)[0]+',bitm'
 disabled_environment=family.get('stock_environment_disabled',False)
 stock_unlit=family.get('stock_unlit_sky',False)
 glass=family.get('approved_glass_channels')
@@ -108,8 +115,18 @@ provenance={}
 resolved_bitmaps={}
 for source,inspection in reach_options.items():
     if source not in family['sources']:continue
-    if not source.endswith('.'+group):continue
+    if not source.endswith('.'+source_group):continue
     selected={c['category']:c['option'] for c in inspection['categories']}
+    if source_group=='shader_glass':
+        # Reach's dedicated glass group has implicit alpha blend and no mask,
+        # alpha test, illumination or parallax categories. Reuse ordinary H3
+        # glass with unchanged base alpha and its stock white mask/flat normal.
+        assert selected['albedo']=='map'
+        assert selected['alpha_blend_source']=='from_albedo_alpha_without_fresnel'
+        assert selected['material_model']=='two_lobe_phong' and full_specular
+        selected.update(albedo='default',alpha_test='none',
+            specular_mask='specular_mask_from_texture',self_illumination='off',
+            blend_mode='alpha_blend',parallax='off')
     if flat_normal:
         assert selected['bump_mapping']=='off',source
         selected['bump_mapping']='standard'
@@ -168,6 +185,26 @@ inventory=dict(donor=DONOR,sources=sorted(sources),images=sorted(images))
 if args.prepare:
     print('WALL_FAMILY_PREPARED',len(sources),'surfaces',len(images),'images',flush=True)
     raise SystemExit(0)
+
+full_specular_evidence=None
+if full_specular:
+    remember(KIT/'tags'/white_mask_tag)
+    pixels=DEST/'stock-white-mask';pixels.mkdir(exist_ok=True)
+    run=subprocess.run([str(KIT/'tool.exe'),'export-bitmap-tga',white_mask_tag.rsplit('.',1)[0],str(pixels)+os.sep],
+        cwd=KIT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
+    (DEST/'stock-white-mask-export.log').write_bytes(run.stdout)
+    assert run.returncode==0 and b'failed to save' not in run.stdout
+    # Uncompressed stock bitmaps use Tool's documented-in-output direct-save
+    # fallback. Accept it only after inspecting the actual exported RGBA pixels.
+    if b'failed to decompress' in run.stdout:assert b'attempting to save directly' in run.stdout
+    files=list(pixels.glob('color_white_00_*.tga'))
+    assert len(files)==1
+    with Image.open(files[0]) as image:
+        ranges=image.convert('RGBA').getextrema()
+        assert ranges==((255,255),)*4,ranges
+    full_specular_evidence=dict(tag=white_mask_tag,sha256=hashes[str(KIT/'tags'/white_mask_tag)],
+        native_export=str(files[0]),ranges=ranges,
+        decision='Native white alpha leaves specular response unmasked; original glass alpha remains transparency only.')
 
 flat_normal_evidence=None
 if flat_normal:
@@ -233,7 +270,8 @@ for bitmap,entry in images.items():
         monochrome=ImageChops.difference(image.getchannel('R'),image.getchannel('G')).getbbox() is None and ImageChops.difference(image.getchannel('R'),image.getchannel('B')).getbbox() is None
         entry['size']=image.size;entry['monochrome']=monochrome
     curve=int(metadata[bitmap]['bitmaps'][0]['curve'])
-    assert curve in (1,3),metadata[bitmap]
+    unknown_cube=curve==0 and role=='environment_map' and source_group=='shader_glass'
+    assert curve in (1,3) or unknown_cube,metadata[bitmap]
     if kind=='terrain':
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
     else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','detail_map2':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)'}[role]
@@ -258,6 +296,13 @@ for bitmap,entry in images.items():
         # The stock cube import path already preserved these encoded source
         # pixels; a generic explicit gamma override changed them.
         setting.update(Curve=None,ClearOverride=True)
+    if unknown_cube:
+        # Foundry BitmapTag.get_gamma_value treats source curves 0 and 1 as
+        # legacy xRGB (1.95), not linear. Its extracted TIFF is color data.
+        # Tool choose-best selected linear and darkened this cube. Use the
+        # same native H3 sRGB import already selected for legacy color artwork.
+        setting.update(Curve='sRGB',ClearOverride=True)
+        entry['source_unknown_curve']='Foundry treats curve 0 as legacy xRGB, like curve 1. Use native H3 sRGB import and verify decoded source pixels; MCC reflection review remains required.'
     prior=verified_images.get(entry['target'])
     if prior and not args.only_bitmap:
         old,digest=prior
@@ -297,7 +342,10 @@ for index,entry in enumerate(images.values()):
     if 'mipmap count' in metadata[entry['path']]['bitmaps'][0]:
         assert int(saved['mipmap count'])==int(metadata[entry['path']]['bitmaps'][0]['mipmap count']),entry
     if role=='environment_map':assert saved['type']=='cube map'
-    if not normal:assert saved['curve']==('linear' if entry['source_curve']==3 else 'sRGB'),entry
+    if entry.get('source_unknown_curve'):
+        assert saved['curve']=='sRGB',entry
+        entry['native_curve_selection']='Official Tool sRGB usage override; original extracted image unchanged.'
+    elif not normal:assert saved['curve']==('linear' if entry['source_curve']==3 else 'sRGB'),entry
     assert saved['format']==('dxn' if normal else ('a8y8' if entry['monochrome'] and role!='environment_map' else 'dxt5')),entry
     entry['xml']=str(exported);entry['saved']=saved
     if index%8==0:print('BITMAPS_IMPORTED',index+1,'of',len(images),flush=True)
@@ -318,7 +366,10 @@ for index,source in enumerate(sorted(sources)):
     params,defaults=parameters[source]
     source_active=native_defaults.source_parameters(source)
     retained_color_storage=[]
-    plan=dict(Kit=str(KIT),Donor=DONOR,Target=str(PREFIX/'shaders'/Path(source).name),Parameters=[])
+    plan=dict(Kit=str(KIT),Donor=DONOR,Target=str(PREFIX/'shaders'/Path(source).with_suffix('.'+group).name),Parameters=[])
+    if full_specular:
+        assert 'specular_mask_texture' not in source_active
+        plan['Parameters'].append(dict(Name='specular_mask_texture',Type=0,Bitmap=white_mask_tag,Animations=[]))
     if flat_normal:
         # Source bump inputs are inactive. Do not carry their stale functions
         # into this H3-only default input, or retain the donor's patterned bump.
@@ -416,6 +467,7 @@ for index,source in enumerate(sorted(sources)):
         stock_unlit_sky=stock_unlit,
         approved_glass_channels=glass,
         approved_dynamic_reflections=dynamic_reflections,
+        source_group=source_group,
         source_input_bindings={'base_map':'opacity_texture','specular_mask_texture':'base_map'} if glass else {},
         retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
@@ -424,6 +476,7 @@ for path,expected in hashes.items():assert sha(Path(path))==expected,path
 report=dict(donor=DONOR,materials=reports,images=images,source_hashes=hashes,
     prepared_glass=prepared_glass,
     stock_flat_normal=flat_normal_evidence,
+    stock_full_specular_mask=full_specular_evidence,
     limitation='Saved native fields verified, not MCC appearance. Stock H3 sRGB imports replace legacy xRGB color response; normals, mips and reflections require visual review. Source-only inputs are not fabricated in H3.')
 (DEST/'report.json').write_text(json.dumps(report,indent=2)+'\n')
 print('WALL_FAMILY_AUTHORED',len(reports),'materials',len(images),'images',flush=True)

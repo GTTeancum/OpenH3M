@@ -579,6 +579,15 @@
     ],
     "approved_dynamic_reflections": true
   },
+  "dirty_glass": {
+    "donor": "levels\\multi\\snowbound\\shaders\\cov_glass_mast.shader",
+    "sources": ["levels\\shared\\shaders\\human\\glass\\glass_window_dirty_subdued.shader_glass"],
+    "source_group": "shader_glass",
+    "image_count": 3,
+    "bitmap_roles": ["base_map", "detail_map", "environment_map"],
+    "stock_flat_normal": true,
+    "stock_full_specular_mask": true
+  },
   "forge_panel": {
     "donor": "levels\\dlc\\armory\\shaders\\metal_black_ibeam_unwrap.shader",
     "sources": [
