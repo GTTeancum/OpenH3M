@@ -1,0 +1,293 @@
+{
+  "editions": [
+    {
+      "edition": "source_mcc",
+      "climates": [
+        {
+          "skya_id": 7596,
+          "index": 0,
+          "weather_datum": "0xff241dae",
+          "weather_id": 7598,
+          "weather_valid": true
+        },
+        {
+          "skya_id": 7596,
+          "index": 1,
+          "weather_datum": "0xffffffff",
+          "weather_id": 65535,
+          "weather_valid": true
+        }
+      ],
+      "weather_id": 7598,
+      "weather_group": "effe",
+      "weather_name": "fx\\scenery_fx\\weather\\rain\\rain_angle\\rain_angle_01",
+      "weather_dependencies": [
+        {
+          "field": "/Events[0]/Particle Systems[0]/Particle",
+          "datum": "0xff251daf",
+          "id": 7599,
+          "group": "prt3",
+          "name": "fx\\particles\\weather\\raindrop_light_01",
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[0]/Emitters[0]/Template",
+          "datum": "0xe39a0224",
+          "id": 548,
+          "group": "pmov",
+          "name": "fx\\physics_templates\\_default",
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[1]/Particle",
+          "datum": "0xff271db1",
+          "id": 7601,
+          "group": "prt3",
+          "name": "fx\\particles\\weather\\raindrop_light_03",
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[1]/Emitters[0]/Template",
+          "datum": "0xe39a0224",
+          "id": 548,
+          "group": "pmov",
+          "name": "fx\\physics_templates\\_default",
+          "valid_target": true
+        }
+      ],
+      "particles": [
+        {
+          "event": 0,
+          "system": 0,
+          "flags": "0x4800",
+          "flag_names": [
+            "Override Near Fade (Use With Caution)"
+          ],
+          "particle_id": 7599,
+          "particle_group": "prt3",
+          "particle_name": "fx\\particles\\weather\\raindrop_light_01",
+          "particle_dependencies": [
+            {
+              "field": "/Definition",
+              "datum": "0xe3770201",
+              "id": 513,
+              "group": "rmdf",
+              "name": "shaders\\particle",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Shader Template",
+              "datum": "0xe700058a",
+              "id": 1418,
+              "group": "rmt2",
+              "name": "shaders\\particle_templates\\_0_3_0_0_0_1_0_1_0_0",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Textures[0]/Bitmap Reference",
+              "datum": "0xff261db0",
+              "id": 7600,
+              "group": "bitm",
+              "name": "fx\\particles\\weather\\_bitmaps\\rain_alpha",
+              "valid_target": true
+            }
+          ],
+          "emitter_shapes": [
+            4
+          ]
+        },
+        {
+          "event": 0,
+          "system": 1,
+          "flags": "0x4800",
+          "flag_names": [
+            "Override Near Fade (Use With Caution)"
+          ],
+          "particle_id": 7601,
+          "particle_group": "prt3",
+          "particle_name": "fx\\particles\\weather\\raindrop_light_03",
+          "particle_dependencies": [
+            {
+              "field": "/Definition",
+              "datum": "0xe3770201",
+              "id": 513,
+              "group": "rmdf",
+              "name": "shaders\\particle",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Shader Template",
+              "datum": "0xe700058a",
+              "id": 1418,
+              "group": "rmt2",
+              "name": "shaders\\particle_templates\\_0_3_0_0_0_1_0_1_0_0",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Textures[0]/Bitmap Reference",
+              "datum": "0xff281db2",
+              "id": 7602,
+              "group": "bitm",
+              "name": "fx\\particles\\weather\\_bitmaps\\rain_heavy_02",
+              "valid_target": true
+            }
+          ],
+          "emitter_shapes": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "edition": "candidate32",
+      "climates": [
+        {
+          "skya_id": 10699,
+          "index": 0,
+          "weather_datum": "0x900029cd",
+          "weather_id": 10701,
+          "weather_valid": true
+        },
+        {
+          "skya_id": 10699,
+          "index": 1,
+          "weather_datum": "0xffffffff",
+          "weather_id": 65535,
+          "weather_valid": true
+        }
+      ],
+      "weather_id": 10701,
+      "weather_group": "effe",
+      "weather_name": null,
+      "weather_dependencies": [
+        {
+          "field": "/Events[0]/Particle Systems[0]/Particle",
+          "datum": "0x900029ce",
+          "id": 10702,
+          "group": "prt3",
+          "name": null,
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[0]/Emitters[0]/Template",
+          "datum": "0xe36f01f9",
+          "id": 505,
+          "group": "pmov",
+          "name": "fx\\physics_templates\\_default",
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[1]/Particle",
+          "datum": "0x900029d0",
+          "id": 10704,
+          "group": "prt3",
+          "name": null,
+          "valid_target": true
+        },
+        {
+          "field": "/Events[0]/Particle Systems[1]/Emitters[0]/Template",
+          "datum": "0xe36f01f9",
+          "id": 505,
+          "group": "pmov",
+          "name": "fx\\physics_templates\\_default",
+          "valid_target": true
+        }
+      ],
+      "particles": [
+        {
+          "event": 0,
+          "system": 0,
+          "flags": "0x800",
+          "flag_names": [
+            "Override Near Fade (Use With Caution)"
+          ],
+          "particle_id": 10702,
+          "particle_group": "prt3",
+          "particle_name": null,
+          "particle_dependencies": [
+            {
+              "field": "/Definition",
+              "datum": "0xe212009c",
+              "id": 156,
+              "group": "rmdf",
+              "name": "shaders\\particle",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Shader Template",
+              "datum": "0xe8dc0766",
+              "id": 1894,
+              "group": "rmt2",
+              "name": "shaders\\particle_templates\\_0_3_0_0_0_1_0_1_0_0",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Textures[0]/Bitmap Reference",
+              "datum": "0x900029cf",
+              "id": 10703,
+              "group": "bitm",
+              "name": null,
+              "valid_target": true
+            }
+          ],
+          "emitter_shapes": [
+            4
+          ]
+        },
+        {
+          "event": 0,
+          "system": 1,
+          "flags": "0x800",
+          "flag_names": [
+            "Override Near Fade (Use With Caution)"
+          ],
+          "particle_id": 10704,
+          "particle_group": "prt3",
+          "particle_name": null,
+          "particle_dependencies": [
+            {
+              "field": "/Definition",
+              "datum": "0xe212009c",
+              "id": 156,
+              "group": "rmdf",
+              "name": "shaders\\particle",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Shader Template",
+              "datum": "0xe8dc0766",
+              "id": 1894,
+              "group": "rmt2",
+              "name": "shaders\\particle_templates\\_0_3_0_0_0_1_0_1_0_0",
+              "valid_target": true
+            },
+            {
+              "field": "/Postprocess[0]/Textures[0]/Bitmap Reference",
+              "datum": "0x900029d1",
+              "id": 10705,
+              "group": "bitm",
+              "name": null,
+              "valid_target": true
+            }
+          ],
+          "emitter_shapes": [
+            4
+          ]
+        }
+      ]
+    }
+  ],
+  "limitation": "Static reference and flag validation; no claim of outdoor particle visibility.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation.",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "interpretation": {
+    "outdoor_rain_authored": true,
+    "flag_difference": "Source 0x4800 becomes target 0x0800 by removing bit 14: TurnOffNearFadeOnEnhancedGraphics. This is not bit 13 GpuOcclusionWeatherOnly, which is absent in both source systems.",
+    "evidence": [
+      "tools/warlock-conversion/snapshot/tools/tag_metadata.py:371",
+      "work/stock-h3-audit/TagTool/TagTool/Tags/Definitions/Effect.cs:269"
+    ],
+    "unnamed_target_tags": "Imported target indexes exceed the original name table; dependency validity is checked by group/datum, not the presence of a name.",
+    "visible_runtime_weather_verified": false
+  }
+}

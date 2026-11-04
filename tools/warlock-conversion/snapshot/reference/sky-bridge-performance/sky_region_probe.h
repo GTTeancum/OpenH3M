@@ -15,10 +15,13 @@ namespace rex::graphics::d3d12 {
 class SkyRegionProbe {
  public:
   static SkyRegionProbe& Get(){static SkyRegionProbe probe;return probe;}
+  static SkyRegionProbe& GetSwapchain(){static SkyRegionProbe probe(true);return probe;}
   struct Slot {
     Microsoft::WRL::ComPtr<ID3D12Resource> buffer;
     uint64_t submission=0,frame=0,capacity=0;
     uint32_t left=0,top=0,width=0,height=0,pitch=0;
+    uint32_t format=0,viewport_width=0,viewport_height=0;
+    uint64_t recorded_ns=0;
   };
   template<typename Copy>
   void Record(ID3D12Device* device,ID3D12Resource* source,uint32_t width,uint32_t height,
@@ -30,16 +33,17 @@ class SkyRegionProbe {
       if(now<poll_)return;
       poll_=now+std::chrono::seconds(1);
       std::error_code ec;if(!std::filesystem::exists(directory_/"arm",ec))return;
-      file_=_wfopen((directory_/"region.csv").c_str(),L"wx");
+      file_=_wfopen((directory_/filename_).c_str(),L"wx");
       if(!file_){finished_=true;return;}
-      fprintf(file_,"event,frame,pulse_frame,tile,x,y,width,height,count,mean_max,min_max,max_max,dark_count,fall_count,pulse_count,black_pulse_count,worst_pulse_drop,worst_x,worst_y,worst_before,worst_current,worst_after\n");
+      fprintf(file_,"event,frame,pulse_frame,tile,x,y,width,height,count,mean_max,min_max,max_max,dark_count,fall_count,pulse_count,black_pulse_count,worst_pulse_drop,worst_x,worst_y,worst_before,worst_current,worst_after,recorded_ns,format,viewport_width,viewport_height\n");
       first_frame_=frame;start_=now;
     }
-    if(frame-first_frame_>=300||now-start_>=std::chrono::seconds(15)){
+    if(frame-first_frame_>=frame_limit_||now-start_>=std::chrono::seconds(15)){
       Event("end",frame);finished_=true;return;
     }
     const auto desc=source->GetDesc();
-    if(desc.Format!=DXGI_FORMAT_R10G10B10A2_UNORM||desc.SampleDesc.Count!=1||
+    if((desc.Format!=DXGI_FORMAT_R10G10B10A2_UNORM&&desc.Format!=DXGI_FORMAT_R8G8B8A8_UNORM&&
+        desc.Format!=DXGI_FORMAT_B8G8R8A8_UNORM)||desc.SampleDesc.Count!=1||
        width<16||height<8||width>4096||height>2160||desc.Width<width||desc.Height<height){
       Event("unsupported",frame);finished_=true;return;
     }
@@ -63,6 +67,8 @@ class SkyRegionProbe {
     }
     slot->submission=submission;slot->frame=frame;slot->left=left;slot->top=top;
     slot->width=right-left;slot->height=bottom-top;slot->pitch=pitch;
+    slot->format=uint32_t(desc.Format);slot->viewport_width=width;slot->viewport_height=height;
+    slot->recorded_ns=uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count());
     copy(*slot);
   }
   void Poll(uint64_t completed){
@@ -93,7 +99,7 @@ class SkyRegionProbe {
     uint32_t drop=0,x=0,y=0,before=0,current=0,after=0;
   };
   void Analyze(const Slot& slot,const uint8_t* data){
-    const std::array<uint32_t,4> shape{slot.left,slot.top,slot.width,slot.height};
+    const std::array<uint32_t,7> shape{slot.left,slot.top,slot.width,slot.height,slot.format,slot.viewport_width,slot.viewport_height};
     bool adjacent=shape==shape_&&previous_frame_+1==slot.frame&&previous_.size()==size_t(slot.width)*slot.height;
     bool pulse_valid=adjacent&&previous2_frame_+1==previous_frame_&&previous2_.size()==previous_.size();
     std::array<Tile,32> tiles{};
@@ -101,6 +107,10 @@ class SkyRegionProbe {
     for(uint32_t y=0;y<slot.height;++y)for(uint32_t x=0;x<slot.width;++x){
       uint32_t pixel;std::memcpy(&pixel,data+size_t(y)*slot.pitch+x*4,4);
       uint32_t value=std::max({pixel&1023,(pixel>>10)&1023,(pixel>>20)&1023});
+      if(slot.format==DXGI_FORMAT_R8G8B8A8_UNORM||slot.format==DXGI_FORMAT_B8G8R8A8_UNORM){
+        uint32_t value8=std::max({pixel&255,(pixel>>8)&255,(pixel>>16)&255});
+        value=(value8*1023+127)/255;
+      }
       const size_t i=size_t(y)*slot.width+x;current[i]=uint16_t(value);
       auto& tile=tiles[(y*4/slot.height)*8+x*8/slot.width];
       ++tile.count;tile.sum+=value;tile.minimum=std::min(tile.minimum,value);tile.maximum=std::max(tile.maximum,value);
@@ -120,20 +130,21 @@ class SkyRegionProbe {
       const auto& tile=tiles[i];uint32_t tx=i%8,ty=i/8;
       uint32_t x0=(tx*slot.width+7)/8,x1=((tx+1)*slot.width+7)/8;
       uint32_t y0=(ty*slot.height+3)/4,y1=((ty+1)*slot.height+3)/4;
-      fprintf(file_,"sample,%llu,%lld,%u,%u,%u,%u,%u,%u,%.9f,%.9f,%.9f,%u,%u,%u,%u,%.9f,%u,%u,%.9f,%.9f,%.9f\n",
+      fprintf(file_,"sample,%llu,%lld,%u,%u,%u,%u,%u,%u,%.9f,%.9f,%.9f,%u,%u,%u,%u,%.9f,%u,%u,%.9f,%.9f,%.9f,%llu,%u,%u,%u\n",
         slot.frame,pulse_valid?static_cast<long long>(previous_frame_):-1ll,i,slot.left+x0,slot.top+y0,x1-x0,y1-y0,
         tile.count,double(tile.sum)/tile.count/1023,tile.minimum/1023.,tile.maximum/1023.,
         tile.dark,tile.fall,tile.pulse,tile.black,tile.drop/1023.,tile.x,tile.y,
-        tile.before/1023.,tile.current/1023.,tile.after/1023.);
+        tile.before/1023.,tile.current/1023.,tile.after/1023.,slot.recorded_ns,slot.format,slot.viewport_width,slot.viewport_height);
     }
     previous2_=adjacent?std::move(previous_):std::vector<uint16_t>{};
     previous2_frame_=previous_frame_;previous_=std::move(current);previous_frame_=slot.frame;shape_=shape;
   }
   void Event(const char* name,uint64_t frame){
-    fprintf(file_,"%s,%llu,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",name,frame);fflush(file_);
+    fprintf(file_,"%s,%llu,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n",name,frame);fflush(file_);
   }
-  SkyRegionProbe(){
-    const auto* requested=_wgetenv(L"OPENH3M_SKY_REGION_PROBE_DIR");if(!requested||!*requested)return;
+  explicit SkyRegionProbe(bool swapchain=false){
+    if(swapchain){filename_=L"swapchain-region.csv";frame_limit_=900;}
+    const auto* requested=_wgetenv(swapchain?L"OPENH3M_SKY_SWAPCHAIN_REGION_PROBE_DIR":L"OPENH3M_SKY_REGION_PROBE_DIR");if(!requested||!*requested)return;
     std::error_code ec;
     auto root=std::filesystem::canonical(L"C:/X360/ISOs/H3M/.local/OpenH3M-source/work/sky-bridge",ec);if(ec)return;
     auto dir=std::filesystem::canonical(requested,ec);if(ec||dir==root)return;
@@ -148,9 +159,11 @@ class SkyRegionProbe {
     directory_=dir;
   }
   std::filesystem::path directory_;
+  const wchar_t* filename_=L"region.csv";
+  uint32_t frame_limit_=300;
   std::array<double,4> region_{.45,.10,1.,.50};
   std::array<Slot,8> slots_;
-  std::array<uint32_t,4> shape_{};
+  std::array<uint32_t,7> shape_{};
   std::vector<uint16_t> previous_,previous2_;
   FILE* file_=nullptr;bool finished_=false;
   uint64_t first_frame_=0,previous_frame_=0,previous2_frame_=0;

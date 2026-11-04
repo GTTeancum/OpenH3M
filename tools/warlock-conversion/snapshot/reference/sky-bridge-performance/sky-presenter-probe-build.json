@@ -1,0 +1,51 @@
+{
+  "scope": "Opt-in native application swapchain numeric statistics; no renderer fix",
+  "sources": {
+    "sky_region_probe.h": "14db06479cebbb05b27d94ff45d4e3af2ef1b66748242b40e095fd127e5a49e4",
+    "read-region-probe.py": "d7a65d0be9077c3c874283935c5f83065fe0710b87f83b83e0c62b36ef90b91a",
+    "sky-region-probe-gpu-test.cpp": "caad47ffa9a7314b70ec0dd1ec4d99faf40488c90fd2c2661d3e819dd236ea98",
+    "sky-presenter-probe-integration.patch": "a6dd0ce773d84be50e0f0e3cd808cccc6e652fb7c509de58f43ddd4757a5bc56",
+    "sky-profile-seed-integration.patch": "763552a843c562b1f3561d8e1abe7ae605e2e489da2800f21b5bcbbb3532e16c",
+    "run-reproduction.ps1": "004f9bb352fe44bc719217b9d01fc569b44951f582a61331c9d54d59bb639e63",
+    "compare-shader-caches.py": "164fc409cf4248f94d7a78bdf0a9f420833c20685e90ee82e33dbd466df17eac"
+  },
+  "private_runtime_hashes": {
+    "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+    "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+    "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+    "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+    "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+    "OpenH3M.exe": "bae11d6ac110e005d80ec4a722ca81df6fd3e1bfcbf374f5af5c0606f05434c5",
+    "rexgpu-xenos.dll": "d5c06f44523d0c7e5a9f50ddaee1887a6fd07d1595e50260364b34dfed48576a",
+    "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+  },
+  "build_log": "work/sky-bridge/presenter-probe-build/build-final.log",
+  "fixtures": {
+    "r10": {
+      "path": "work/sky-bridge/presenter-probe-build/fixture-r10/verification.json",
+      "verified": true,
+      "pixel_contributions": 800
+    },
+    "rgba": {
+      "path": "work/sky-bridge/presenter-probe-build/fixture-rgba/verification.json",
+      "verified": true,
+      "pixel_contributions": 800
+    },
+    "bgra": {
+      "path": "work/sky-bridge/presenter-probe-build/fixture-bgra/verification.json",
+      "verified": true,
+      "pixel_contributions": 800
+    }
+  },
+  "patch_scratch_application": "Both new integration patches reproduce current source after newline normalization.",
+  "bounds": {
+    "guest_frame_ids": 300,
+    "paint_submission_ids": 900,
+    "recording_seconds": 15,
+    "game_watchdog_seconds": 180,
+    "readback_slots": 8
+  },
+  "measurement": "After application scaling/sharpening and UI composition, before RTV-to-PRESENT and DXGI Present. Uses the existing paint completion fence; no extra wait.",
+  "output": "32 aggregate tile records per paint submission. Pixel arrays remain in process memory; no image file, screenshot, or desktop capture.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

@@ -666,3 +666,78 @@ numeric statistics there without desktop capture; do not infer a renderer fix
 from the absence of the symptom in these private runs. Source credits and
 remaining weather, billboard, performance and final-promotion requirements
 remain unchanged.
+
+## Application presentation and saved-profile replay
+
+`candidate32-presenter-probe-result.json` records runs 09 and 11. Each contains
+300 guest frames and 899 consecutive application paint submissions. The new
+swapchain observation covers every texel in x=[576,1280), y=[72,360), after
+scaling/sharpening and application UI composition, before DXGI Present. Its
+182,274,048 pixel contributions per run contain no isolated near-black pulse.
+The right-side tiles have no qualifying falls or pulses. This does not explain
+or invalidate the user's confirmed flash; desktop composition is unmeasured.
+The swapchain recordings contain 451 and 450 distinct aggregate frames,
+respectively; their output changes during recording rather than remaining
+stale. This is not a claim that the animated content is visually correct.
+
+All 1761 attributed draws in run 09 and 1759 in run 11 match the saved camera
+and projection exactly across 300 frames each. A separate full-history check
+of the original human trace found one camera/projection matrix across all
+1660 attributed draws and 300 frames. This verifies repeatable positioning,
+not a complete simulation-state restore. The player enters the Mongoose using
+native process-local controls; no further manual positioning is needed.
+
+Run 11 seeds private copies of the original 272-byte and 304-byte title-specific
+profile settings. The new `-ProfileSeed` option accepts the source `profile/User`
+directory; the harness copies only `63E83FFE` and `63E83FFF`, validates repository
+confinement and records their hashes. It does not copy saved layouts or other
+DLC. The profile-only replay also contains no measured black pulse. Original
+profile settings and shader-cache hashes remain unchanged.
+
+Run 10 attempted both the original profile and full shared shader cache. The
+native log reports 1500 graphics pipelines created in 84731 milliseconds before
+input replay began. Sky Bridge header loads succeeded, but the 180-second
+watchdog expired before the view settled. No probes armed; this attempt provides
+no symptom result. `compare-shader-caches.py` instead confirms that all 278
+replay shader programs and 304 pipeline descriptions are byte-identical to
+entries in the larger original cache. Extra cache entries and compilation
+timing differ; cache equality for common entries does not prove identical
+runtime behavior.
+
+Apply `sky-presenter-probe-integration.patch` after the existing region patch,
+and copy the updated `sky_region_probe.h` into the SDK D3D12 source directory.
+The presenter is linked into **rexruntime.dll**, so rebuild it as well as
+rexgpu-xenos.dll. Both new integration patches, including
+`sky-profile-seed-integration.patch` for the loading harness, were applied in
+repository-local scratch trees and reproduced the current sources exactly
+after newline normalization. The generic loading harness has unrelated work;
+only its narrow profile-seeding patch is committed here.
+
+The launcher enables the final-buffer probe with `-SwapchainProbe`.
+`read-region-probe.py --swapchain` validates its output. The probe uses the
+existing paint fence, eight readback slots and a limit of 900 paint submission
+IDs or 15 seconds. It writes 32 aggregate tile rows per submission, including
+format, dimensions and monotonic timestamp. Pixel arrays remain in process
+memory. Native WARP fixtures verified the known 16-pixel black flash, recovery,
+frame-gap handling and readback completion for R10G10B10A2, RGBA8 and BGRA8.
+Build and fixture evidence is recorded in `sky-presenter-probe-build.json`.
+Instrumentation can affect timing; these runs are not performance acceptance.
+Both games closed at their 180-second watchdogs. The shared GPU remains restored
+and hash-verified; no rendering fix or release promotion was made.
+
+The next comparison must examine native environment/effect state and elapsed
+gameplay time, plus the original versus diagnostic runtime changes. Do not
+change lighting, shaders or visibility without a measured bad frame.
+
+`candidate32-weather-dependency-result.json` traces the authored outdoor rain:
+source atmosphere 7596 references weather effect 7598, converted to atmosphere
+10699 and effect 10701 with valid particle, shader-template and bitmap references.
+Both particle emitters retain the Tube shape. Source flags 0x4800 become 0x0800
+because bit 14 is the MCC enhanced-graphics near-fade option. Bit 13, the weather
+GPU-occlusion flag, is absent in both source systems. This conversion difference
+does not establish a weather defect. The map is authored to have outdoor rain;
+visible particle behavior remains unverified. Billboard readability and final
+visual/performance acceptance also remain pending. Source: Halo Online Sky
+Bridge via GeneralHeed / Priception's [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual map creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

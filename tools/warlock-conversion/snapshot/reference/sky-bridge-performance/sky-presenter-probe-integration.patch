@@ -1,0 +1,47 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -27,6 +27,7 @@
+ #include <rex/ui/d3d12/d3d12_provider.h>
+ #include <rex/ui/d3d12/d3d12_util.h>
+ #include <rex/ui/surface_win.h>
++#include "../../graphics/d3d12/sky_region_probe.h"
+ 
+ #if defined(REX_HAS_FIDELITYFX_RUNTIME) && REX_HAS_FIDELITYFX_RUNTIME
+ #include <ffx_api/dx12/ffx_api_dx12.h>
+@@ -104,6 +105,8 @@
+   // From most likely the latest to most likely the earliest to be signaled, so
+   // just one sleep will likely be needed.
+   paint_context_.AwaitSwapChainUsageCompletion();
++  rex::graphics::d3d12::SkyRegionProbe::GetSwapchain().Shutdown(
++      paint_context_.paint_submission_tracker.GetCompletedSubmission());
+   CloseLatencyHandle(paint_context_.swap_chain.Get());
+   guest_output_resource_refresher_submission_tracker_.Shutdown();
+   ui_submission_tracker_.Shutdown();
+@@ -1253,6 +1256,27 @@
+     }
+   }
+ 
++  // Numeric statistics from this application's own completed draw commands.
++  // Uses the existing paint fence; no desktop capture or extra CPU/GPU wait.
++  rex::graphics::d3d12::SkyRegionProbe::GetSwapchain().Record(device,back_buffer,
++      paint_context_.swap_chain_width,paint_context_.swap_chain_height,
++      current_paint_submission,current_paint_submission,completed_paint_submission,
++      [&](const rex::graphics::d3d12::SkyRegionProbe::Slot& slot){
++        D3D12_RESOURCE_BARRIER barrier{};
++        barrier.Type=D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
++        barrier.Transition={back_buffer,D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES,
++                           D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_COPY_SOURCE};
++        command_list->ResourceBarrier(1,&barrier);
++        D3D12_TEXTURE_COPY_LOCATION source{},target{};
++        source.pResource=back_buffer;source.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++        target.pResource=slot.buffer.Get();target.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
++        target.PlacedFootprint.Footprint={DXGI_FORMAT(slot.format),slot.width,slot.height,1,slot.pitch};
++        D3D12_BOX box{slot.left,slot.top,0,slot.left+slot.width,slot.top+slot.height,1};
++        command_list->CopyTextureRegion(&target,0,0,0,&source,&box);
++        std::swap(barrier.Transition.StateBefore,barrier.Transition.StateAfter);
++        command_list->ResourceBarrier(1,&barrier);
++      });
++
+   // End drawing to the back buffer.
+   D3D12_RESOURCE_BARRIER barrier_rtv_to_present;
+   barrier_rtv_to_present.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
