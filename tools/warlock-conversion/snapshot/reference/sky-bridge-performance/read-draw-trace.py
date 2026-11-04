@@ -94,10 +94,19 @@ if __name__ == '__main__':
     parser.add_argument('trace', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--fixture-check', action='store_true')
+    parser.add_argument('--shader-index', type=Path,
+        help='Exact-byte index from index-trace-shaders.py; retains ambiguous material users')
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[5]
     args.output.resolve().relative_to(repo)
     report = decode(args.trace)
+    if args.shader_index:
+        shader_index = json.loads(args.shader_index.read_text())
+        report['shader_index_map_sha256'] = shader_index['map_sha256']
+        for shader in report['shaders'].values():
+            shader['map_matches'] = shader_index['programs_by_guest_endian_sha256'].get(
+                shader['guest_endian_sha256'], [])
+            shader['matched'] = bool(shader['map_matches'])
     if args.fixture_check:
         assert report['completion_reason'] == 1
         assert report['draw_count'] == report['emitted_count'] == 2
