@@ -1389,3 +1389,74 @@ the earlier 100-tag scene; the broad `active-input-checkpoint.json` remains the
 `water-material-binding-verification.json`, `h3-material-bindings.json`,
 `water-donor-integrity.json`, and `h3-docks-water-geometry.json` under
 `work/stock-h3-audit`. No MCC or 360 acceptance is claimed.
+
+## Water coordinates and original design inspection (2026-11-04)
+
+This checkpoint supersedes the pending-coordinate and 100-tag ASS status above.
+The actual 102-tag scene now passes full unmodified ASS export/readback: 157
+materials, 543 unique objects, 1,247 instances and 247,855 triangles. A separate
+reader check verifies all 42 river triangles / 126 corners, including their
+original paired main/shape UVs and all four exported channels. This is format
+and data evidence, not a native full-map compile or rendered-water acceptance.
+
+The [c20 H3 water guide](https://www.reclaimers.net/h3/guides/map-making/level-creation/blender-level-modeling/blender-level-creation-additional-info/)
+provides a [Blender example](https://drive.google.com/file/d/16Ew77K3itFb0a9lTrIU0-bFo3P14KRde/view).
+The downloaded file's SHA-256 is
+`830830c7eb3ea17d84dbbf4e29bd1fc437d82c0442cd0e6e7a996c4d76e68589`.
+Its author is not independently identified; it is an upstream workflow example,
+not this project's map geometry. It was opened with auto-execution disabled and
+left unchanged. Native inspection found only one UV layer despite the guide's
+four-channel instructions. Official Tool accepts that example, but its compiled
+shape coordinates are constant. Successful compilation alone would miss this.
+
+A separate four-channel diagnostic, exported through unmodified General101 and
+imported by official H3 Tool, established the mapping. Tool scales the local-info
+X by 0.01: authoring 10 produced 0.1, while authoring 1,000 reproduced Longshore's
+stock `(10,0,0)`. Channel 2 `(0,0)` retains the native Tool default velocity;
+channel 3 supplies shape coordinates, with the native V conversion and W=0.
+All four diagnostic vertices were read through the official H3 tag API. This
+does not assert that neutral per-vertex velocity reproduces Reach river flow.
+
+The actual saved authoring scene now has:
+
+| UV layer | Content |
+| --- | --- |
+| 0 | Original Reach main coordinates, unchanged |
+| 1 | `(1000,0)`, reproducing stock Longshore local info through Tool |
+| 2 | `(0,0)`, native Tool's default velocity |
+| 3 | Original Reach water coordinates, unchanged |
+
+Only the three river meshes' UV layers changed. Positions, topology and original
+source scene remain unchanged. All 102 material bindings were refreshed and
+verified. The current bound scene SHA-256 is
+`ab66a8a1a87439a7e5e357fc2b97b2ffbe85dd89b1cf453bd11d087b745a0b5e`;
+the full ASS SHA-256 is
+`6303a63e33fb7049de315e64a10daada186cd40c3b5cf8dd028afb848268707a`.
+
+Unmodified Foundry also imported the original Reach
+`cex_beaver_creek_design.structure_design` into a separate inspection scene:
+one water physics surface (28 faces), two planar fog sheets (two faces each),
+and one soft ceiling (40 faces). No source tag changed and none of these objects
+has been merged into the H3 scene. The imported water properties include flow
+direction, velocity, depth and fog; these still need per-instance source and H3
+semantic checks. They do not justify treating the neutral render-vertex velocity
+as proof of correct physical flow or copying values without unit verification.
+
+Reproduction helpers are `inspect_water_example.py`,
+`export_water_workflow_example.py` (baseline and `--four-channels`),
+`run_water_workflow_probe.py`, `prepare_water_channels.py`,
+`verify_water_bindings.py`, `export_h3_inspection.py`, `verify_water_ass.py`, and
+`inspect_structure_design.py`. Blender runs in background with repository-local
+profiles/temp paths; use `--disable-autoexec` for the downloaded example.
+Official `structure` takes the ASS path relative to the kit's `data` directory.
+The first absolute-path attempt logged an error despite exit code zero and was
+not accepted. No native importer, exporter, shader or compiler was patched.
+
+Evidence under `work/stock-h3-audit`: `water-channel-workflow-verification.json`,
+`water-channel-authoring.json`, `water-material-binding-verification.json`,
+`water-ass-verification.json`, `h3-bound-ass-inspection-report.json`, and
+`reach-structure-design-inspection.json`, with their native logs. The general
+`active-input-checkpoint.json` remains historical. Outstanding work includes
+physical water/design compatibility, 117 lighting records, 302 separate convex
+physics cases, effect decisions, official map compilation, and user-driven MCC
+review. Nothing was installed or converted to Xbox 360.

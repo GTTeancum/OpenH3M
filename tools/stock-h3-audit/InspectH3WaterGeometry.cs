@@ -33,11 +33,13 @@ class InspectH3WaterGeometry
     }
     static int Main(string[] args)
     {
-        if(args.Length!=2)throw new ArgumentException("Expected repository-local kit and report paths");
+        if(args.Length<2 || args.Length>3)throw new ArgumentException("Expected repository-local kit, report and optional relative BSP path");
         var kit=Path.GetFullPath(args[0]);
         Directory.SetCurrentDirectory(kit);
-        const string name=@"levels\dlc\docks\docks";
-        var source=Path.Combine(kit,"tags",name+".scenario_structure_bsp");
+        var name=args.Length==3?args[2]:@"levels\dlc\docks\docks";
+        var source=Path.GetFullPath(Path.Combine(kit,"tags",name+".scenario_structure_bsp"));
+        if(!source.StartsWith(Path.Combine(kit,"tags")+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+            throw new ArgumentException("BSP must stay inside kit tags");
         var before=Hash(source);
         Console.WriteLine("H3_WATER_INITIALIZING");
         ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly,kit);
