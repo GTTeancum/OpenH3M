@@ -1,5 +1,5 @@
 # Normal shared game; user controls it. No input harness, captures, or shutdown timer.
-param([switch]$Run)
+param([switch]$Run, [switch]$SynchronousOcclusion)
 $ErrorActionPreference = 'Stop'
 $repo = 'C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Push-Location -LiteralPath $repo
@@ -17,13 +17,14 @@ try {
     $logPath = Join-Path $runDir 'runtime.log'
     $arguments = @("--log_file=$logPath",'--log_level=info','--log_max_file_size_mb=20','--log_max_files=12',
         '--d3d12_log_present_timing=true','--d3d12_present_timing_end_ms=3600000')
+    if ($SynchronousOcclusion) { $arguments += '--d3d12_async_occlusion_readback=false' }
     $oldTemp = $env:TEMP; $oldTmp = $env:TMP
     try {
         $env:TEMP = Join-Path $repo '.local/build-temp'; $env:TMP = $env:TEMP
         $child = Start-Process -FilePath C:/X360/ISOs/H3M/OpenH3M.exe -ArgumentList $arguments -WorkingDirectory $repo -WindowStyle Hidden -PassThru
         $launch = [ordered]@{pid=$child.Id; executable='C:/X360/ISOs/H3M/OpenH3M.exe'; arguments=$arguments;
             map_sha256=$record.sha256; started_utc=(Get-Date).ToUniversalTime().ToString('o');
-            mode='Human controls; no harness/captures/shutdown timer'; log=$logPath}
+            mode='Human controls; no harness/captures/shutdown timer'; synchronous_occlusion=[bool]$SynchronousOcclusion; log=$logPath}
         $launch | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $runDir 'launch.json')
         $launch | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath work/sky-bridge/candidate32-human-latest.json
         Write-Output "Candidate 32 launched in shared game: PID $($child.Id). No automatic shutdown. Log: $logPath"

@@ -1,0 +1,28 @@
+{
+  "status": "Investigation; no flicker fix claimed",
+  "animation_audit": {
+    "animated_bsp_materials": 67,
+    "materials_with_missing_source_animation": 11,
+    "screen_named_consumers_match": true,
+    "limitation": "Exact screenshot-to-material assignment unproven. Missing animations do not establish the cause of a periodic black frame."
+  },
+  "weather": {
+    "cluster_assignments_exact": 53,
+    "falling_rain_systems": 2,
+    "emitters_per_system": 1,
+    "source_emission_shape": "tube",
+    "target_emission_shape": "tube",
+    "flag_difference": "MCC bit14 enhanced-graphics near-fade override cleared by existing converter; other compared settings preserved",
+    "limitation": "Emitter graphs and cluster assignment retained; visible outdoor rain still unverified"
+  },
+  "comparison": {
+    "map": "Unchanged candidate32",
+    "launch": "candidate32-synchronous-comparison-launch.json",
+    "override": "d3d12_async_occlusion_readback=false",
+    "why": "Test whether delayed visibility results contribute to stationary-camera flicker",
+    "permanent_runtime_change": false,
+    "shutdown_timer": false,
+    "user_result": "Pending"
+  },
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
