@@ -460,3 +460,14 @@ eight parts; nine other blend-mismatched materials remain. The framed stripe
 surfaces still need geometry attribution. Candidate 30 is not installed,
 packaged or visually accepted. Shared installation and the user's running game
 were not changed; no images were imported, and no game was launched/controlled.
+
+
+## Candidate 32 package and manual playtest
+
+Candidate 32 corrects the eleven established material blend mismatches. Full shader/material evidence is in ../sky-bridge-remaining-window-shaders. The private LIVE container 232B0F442A3DF5C347F2E59D16AF5FB6E4E5D4BD passes header/hash-tree/data verification and all seven files match payload-32. SHA256: 3e450c34cb08a223df33c26077bf7b5ba6466817236e5a3f15b8f1540b3ecd8c. Signatures/physical console/system link are not verified.
+
+The other chat reported research-only activity and no concurrent shared writes. Only Sky Bridge's existing installed map was replaced, preserving its menu entry/content directory and all 92 other content files. Runtime and bootstrap hashes are unchanged. The old Sky Bridge map alone is backed up in work/sky-bridge/candidate32-install-backup. No Battle Canyon assets were copied, restored or combined into this package. Its reported rejection/cleanup plan supersedes treating the earlier preservation inventory as acceptance; coordinate before future writes.
+
+The normal shared game was launched for manual review, with no input harness, capture, or shutdown timer. Timing logs are enabled in the repository and are not an automatic stop timer. human-candidate32.ps1 validates only unless passed -Run. candidate32-human-launch.json records the initial PID and log path; revalidate the process instead of treating this record as proof it remains live. A user report on indoor streaked panels, hanging black cards, corridor rectangle, window transparency and screen animation is pending. Neither launch nor successful structural checks establishes visual acceptance.
+
+Attribution: Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project supplies Xbox 360/OpenH3M adaptation.

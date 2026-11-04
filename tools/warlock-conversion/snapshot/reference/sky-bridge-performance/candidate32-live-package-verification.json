@@ -1,0 +1,58 @@
+{
+  "status": "Private test candidate, not accepted or released",
+  "package": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\live-candidate-32\\232B0F442A3DF5C347F2E59D16AF5FB6E4E5D4BD",
+  "sha256": "3e450c34cb08a223df33c26077bf7b5ba6466817236e5a3f15b8f1540b3ecd8c",
+  "integrity": {
+    "data_blocks": 46961,
+    "hash_tables": 280,
+    "top_level": 2,
+    "header_sha1": "pass",
+    "data_sha1": "pass",
+    "hash_tree": "pass",
+    "signature_validation": "NOT performed",
+    "scope": "Integrity only; does not establish retail acceptance"
+  },
+  "payload_files": [
+    {
+      "name": "dlc_sky_bridge.blf",
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    {
+      "name": "dlc_sky_bridge_clip.blf",
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    {
+      "name": "dlc_sky_bridge_film.blf",
+      "bytes": 12880,
+      "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+    },
+    {
+      "name": "dlc_sky_bridge_sm.blf",
+      "bytes": 21576,
+      "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+    },
+    {
+      "name": "dlc_sky_bridge_variant.blf",
+      "bytes": 7619,
+      "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+    },
+    {
+      "name": "sky_bridge.map",
+      "bytes": 192237568,
+      "sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d"
+    },
+    {
+      "name": "sky_bridge.mapinfo",
+      "bytes": 20113,
+      "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+    }
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream Halo 3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified. This project supplies Xbox 360/OpenH3M adaptation.",
+  "limitations": [
+    "Human panel/exposure verification pending.",
+    "Physical Xbox 360 and system-link acceptance not tested.",
+    "Host performance correction requires the patched runtime and asynchronous occlusion setting."
+  ]
+}
