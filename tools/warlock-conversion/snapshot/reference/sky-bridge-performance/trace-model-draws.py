@@ -35,7 +35,12 @@ def packets(path):
 def analyze(run):
     run = run.resolve()
     run.relative_to(REPO/'work/sky-bridge')
-    cache = Cache(REPO/'work/sky-bridge/payload-32/sky_bridge.map')
+    configuration = run/'recording-configuration.json'
+    candidate = json.loads(configuration.read_text())['candidate'] if configuration.exists() else 32
+    cache_path = REPO/f'work/sky-bridge/payload-{candidate}/sky_bridge.map'
+    if configuration.exists():
+        assert hashlib.sha256(cache_path.read_bytes()).hexdigest() == json.loads(configuration.read_text())['map_sha256']
+    cache = Cache(cache_path)
     cache.shared_paths = {'maps\\shared.map': Path('C:/X360/ISOs/H3M/maps/shared.map')}
     cache.decoded_pages = {}
     report = json.loads((REPO/'work/sky-bridge/build-32.json').read_text())

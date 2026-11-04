@@ -1,0 +1,850 @@
+{
+  "classification": "Candidate35 removes the traced fabric black overwrite in a private saved-view replay; wider visual acceptance remains open",
+  "build": {
+    "candidate": 35,
+    "basis_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+    "map_sha256": "9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e",
+    "material": 9821,
+    "source_material": 4299,
+    "original_template": 225,
+    "private_template": 2415930978,
+    "private_pixel": 2415930977,
+    "programs": [
+      {
+        "index": 0,
+        "entries": [
+          1
+        ],
+        "alpha": "r0.w",
+        "original_sha256": "baddd6191552133680ecb4834e047aaf047e1bbbd8ae94d0c3b32abce8ce245c",
+        "sha256": "4b8c527cc604fc09d6ed5eec91ad2c65197dd338e3caa58222a43a4852168b7f",
+        "gprs": 5,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 2,
+          "count_before": 5,
+          "count_after": 6
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0000"
+      },
+      {
+        "index": 1,
+        "entries": [
+          3
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "a626bb0cbe754eec2e4a3041b5b0d4f8e5529dbdec24570f3cc1ff477135a2c3",
+        "sha256": "420fa4e740e720284b2e011b66e2f600a84cacbb2e489ba76c556a378c4e49d2",
+        "gprs": 17,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 24,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 2,
+        "entries": [
+          5
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "15d09c29bac3db2ad37c402f9ed8205a91a5d8ad3e3690b9f55f433887f9192c",
+        "sha256": "b0e5b24b9dff33b2211fca5257511e7e4605911fcb4cfd7433a4c6e96d513d74",
+        "gprs": 10,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 18,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 3,
+        "entries": [
+          4
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "3739ad1dd950b8ff0d4bfd49923477c44a4c33ac458699e5f4347a1dd6078f40",
+        "sha256": "f58c6543d99c2708c19e9eb975a19cf086e72f5a03d09441b04af3e5b7bdaf46",
+        "gprs": 14,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 19,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 4,
+        "entries": [
+          9
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "05acf0cac4715744985c47cc6c7e2e075cc317afef1e6e4de85981f2777af28d",
+        "sha256": "06e3bf49ecbf5df196df38835e06ea753d6330aa0bc0af65725c1c48d3193dbb",
+        "gprs": 7,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 13,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 5,
+        "entries": [
+          6
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "d1fb998a811fe40c6a18c4e366b612ff2e3bbac71d5da98038dd5c46f1184649",
+        "sha256": "0f13cc54160d0482b06feb7ca71fb3fe701cd3055f15d81fd9e7f57855ca372a",
+        "gprs": 10,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 20,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 6,
+        "entries": [
+          7
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "1a04c93107ebaf5408cd6cbe1a46860c4fa658dd1f464ebb20ee54b49f3d10b5",
+        "sha256": "0f13cc54160d0482b06feb7ca71fb3fe701cd3055f15d81fd9e7f57855ca372a",
+        "gprs": 10,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 20,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 7,
+        "entries": [
+          8
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "d935faad827bd3c16012281e8add3f923e373ac04dbea3934ed48db738bc6889",
+        "sha256": "0f13cc54160d0482b06feb7ca71fb3fe701cd3055f15d81fd9e7f57855ca372a",
+        "gprs": 10,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 20,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 8,
+        "entries": [
+          12
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "a0522a59e11ca246e5c310416826934799b5ea2a24de8f6bb08c2457bb6674c7",
+        "sha256": "d3489fa03ce43e6ca4b902768e1853c86b84173d71a6ea95ff327acc5c3e851c",
+        "gprs": 3,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 5,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 9,
+        "entries": [
+          14
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "eb6c6eb5d645834a377e6dc8016eebbf7a1d21c21496cdc1218a027038517ad3",
+        "sha256": "3afb3c67adc076e95b977352ee5ced1ed99fcb443f5d42e7e4b936db16ecc810",
+        "gprs": 9,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 12,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      },
+      {
+        "index": 10,
+        "entries": [
+          13
+        ],
+        "alpha": "c255.z",
+        "original_sha256": "107f88e954044cd180b3c2408a4d0c4179c17c146ce9cf996c727c5f7882259e",
+        "sha256": "3dd5600bf22008b5e9ac0d418ee56ce7dcc65212a9c3fc692d512baa89648e6c",
+        "gprs": 6,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 42,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001bc60039fcff00"
+      },
+      {
+        "index": 11,
+        "entries": [
+          17
+        ],
+        "alpha": "r1.w",
+        "original_sha256": "f407373b853b7e03b0b95d98b5ba55a82fb810feb302db1ab2d512c671599bc7",
+        "sha256": "76dfdb839aced6fbb9a11633046a51c43210b8c7e7d59eede2031b3217da00e3",
+        "gprs": 7,
+        "original_instructions_preserved": true,
+        "control_flow_change": {
+          "index": 15,
+          "count_before": 2,
+          "count_after": 3
+        },
+        "literal": {
+          "register": 252,
+          "component": 3,
+          "bits": "0x3f008081"
+        },
+        "discard_instruction": "c8000000001b1b0079fc0100"
+      }
+    ],
+    "scope": "Only material 9821; original donor tags and other users unchanged",
+    "runtime_verified": false
+  },
+  "verification": {
+    "materials_checked": 549,
+    "changed_materials": [
+      9821
+    ],
+    "stock_template_and_pixel_unchanged": true,
+    "model10177_root_unchanged": true,
+    "private_pixel_interfaces_unchanged": true,
+    "finite_alpha_cases": 773,
+    "threshold": 0.501960813999176,
+    "discard_decodes": [
+      {
+        "index": 0,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 1,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 2,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 3,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 4,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 5,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 6,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 7,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 8,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 9,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 10,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      },
+      {
+        "index": 11,
+        "opcode": "KILL_GT",
+        "threshold_register": "c252.w",
+        "destination_write_mask": 0
+      }
+    ],
+    "unchanged_alpha_texture": {
+      "bitmap": 9686,
+      "width": 512,
+      "height": 512,
+      "mips": 10,
+      "raw_resource_sha256": [
+        "80760db4b23858bba7f37256f1e2cc54462c384be011fb4d82d8ed82f4b0a713",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "below_threshold": 41144,
+      "at_or_above_threshold": 221000
+    },
+    "limitations": [
+      "Finite alpha inputs only; the native comparison rejects NaN while shader KILL_GT does not. Texture alpha and witnessed exposure inputs are finite.",
+      "The whole native base-mip alpha distribution is checked numerically; runtime edge coverage still requires verification.",
+      "Runtime probes still required for actual coverage and lighting; physical Xbox 360 not verified."
+    ]
+  },
+  "replay": {
+    "directory": "work\\sky-bridge\\reproduction-37",
+    "runtime_hashes": {
+      "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+      "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+      "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+      "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+      "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+      "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+      "rexgpu-xenos.dll": "ecd33bf8f7f22713f521d27a64ca631228607922c1a2cbc7c55adb95f38280c1",
+      "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+    },
+    "configuration": {
+      "command_trace": true,
+      "blend_trace": false,
+      "model_pass_probe": true,
+      "timing_only": false,
+      "header_trace": false,
+      "candidate": 35,
+      "map_sha256": "9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e",
+      "region_only": false,
+      "full_viewport": false,
+      "native_observer": true,
+      "guest_region": false,
+      "swapchain_region": false,
+      "stage_probe": true,
+      "late_pass_probe": false,
+      "water_pass_probe": false,
+      "rain_pass_probe": false,
+      "screen_pass_probe": false,
+      "all_draw_trace": false,
+      "presented_probe": true,
+      "draw_trace": true,
+      "pixel_probe": true,
+      "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+      "region": "0.45,0.10,1,0.50",
+      "arm_delay_ms": 15000,
+      "vehicle_tolerance": 0.03
+    },
+    "camera": {
+      "draws": 8970,
+      "frame_count": 299,
+      "passes": {
+        "skinned_albedo": 4485,
+        "skinned_lit": 4485
+      },
+      "variants": [
+        {
+          "draws": 8970,
+          "exactly_equal": true,
+          "max_absolute_constant_delta": 0.0,
+          "camera_position": [
+            16.41066551208496,
+            67.99089050292969,
+            0.30618050694465637
+          ],
+          "constants_0_7": "db60af3f8b52aabe8e2d43385921083e2da08f3c5d9b943d7f592040eea0bfc0465040b4bcfb46b56b2dc332b7df003c4c64703e9fba783fb9f8f3bc70ce8bc24c64703e9fba783fb9f8f3bc00000000e1d678bf9c7f703e455807b000000000ca32e53bbd25ed3cefe27f3f000000000b49834156fb8742b1c39c3e00000000"
+        }
+      ],
+      "all_candidate_cameras_exact": true,
+      "limitation": "Matches camera/projection constants only. Vehicle pose, attachment, pixels, temporal behavior and performance require separate evidence.",
+      "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+    },
+    "observer": {
+      "human": {
+        "captured_blob_offset": 188,
+        "result_position": [
+          16.41066551208496,
+          67.99089050292969,
+          0.30618050694465637
+        ],
+        "result_location_bytes": "002d08b3",
+        "result_motion_vector_0": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "result_motion_vector_1": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "result_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "result_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "result_horizontal_fov": 1.2217304706573486,
+        "result_aspect_ratio": 1.3333333730697632,
+        "command_focus": [
+          16.751903533935547,
+          69.40318298339844,
+          -0.24481379985809326
+        ],
+        "command_local_offset": [
+          0.10027884691953659,
+          1.2487849687659036e-07,
+          0.5047164559364319
+        ],
+        "command_window_shift": [
+          0.0,
+          0.0
+        ],
+        "command_distance": 1.5539028644561768,
+        "command_horizontal_fov": 1.2217304706573486,
+        "command_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "command_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "motion_input_user_496": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "motion_input_user_536": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "target_equals_current_command": true,
+        "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "replay": {
+        "captured_blob_offset": 0,
+        "result_position": [
+          16.41066551208496,
+          67.99089050292969,
+          0.30618050694465637
+        ],
+        "result_location_bytes": "002d08b3",
+        "result_motion_vector_0": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "result_motion_vector_1": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "result_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "result_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "result_horizontal_fov": 1.2217304706573486,
+        "result_aspect_ratio": 1.3333333730697632,
+        "command_focus": [
+          16.751903533935547,
+          69.40318298339844,
+          -0.24481379985809326
+        ],
+        "command_local_offset": [
+          0.10027884691953659,
+          1.2487849687659036e-07,
+          0.5047164559364319
+        ],
+        "command_window_shift": [
+          0.0,
+          0.0
+        ],
+        "command_distance": 1.5539028644561768,
+        "command_horizontal_fov": 1.2217304706573486,
+        "command_forward": [
+          0.23475760221481323,
+          0.9715976119041443,
+          -0.029781686142086983
+        ],
+        "command_up": [
+          0.006994579918682575,
+          0.02894865907728672,
+          0.9995564818382263
+        ],
+        "motion_input_user_496": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "motion_input_user_536": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "target_command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840",
+        "target_equals_current_command": true,
+        "result_sha256": "60fbfa42262910d7924925c09ed5bd0f881f743ca8e4632aadd0e7cfccbc0f9e",
+        "command_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "same_result": true,
+      "same_command": true,
+      "position_max_abs_delta": 0.0,
+      "limitation": "One saved native snapshot per run; not proof that the symptom occurred or every rendered frame matched."
+    },
+    "watchdog_seconds": 180,
+    "native_header_checks": {
+      "passed": 11,
+      "failed": 0
+    },
+    "model_probe": {
+      "draws": 11272,
+      "frames": 300,
+      "complete_pairs": 11272,
+      "incomplete_pairs": []
+    },
+    "sha256": {
+      "draws.bin": "0168cd9c7528f6ac6802a7daee785b48bbeb87b28f216adb18b1ac98a1d2aa86",
+      "stages.csv": "a5230a597fdca58b90e8b71b4db26ed7fbfd72d005e1ca8039a636a2d4fd3245",
+      "pixels.csv": "4abbb85cc2c513ae1f7169284538b1ba2a4befdbd71f65f5b82baaec8739e3fe",
+      "presented.csv": "75a24e88eb5c3851ea8a09c5d8be56ffbc36d929c6a99ce166f22ea3570d2972",
+      "native-state.bin": "f797144dcee0fb1e313bf812472d2ebbf8094d2a93165fe9d6e80640b87acc30",
+      "pose.bin": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+      "observer-command.bin": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+    }
+  },
+  "paired_draw_comparison": [
+    {
+      "run": 36,
+      "groups": [
+        {
+          "ps": 7615727887144550351,
+          "vs": 15518101065676308936,
+          "blend": "0xe0001",
+          "color_control": "0x8700000e",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x0",
+          "draws": 300,
+          "paired_points": 4800,
+          "black_overwrites": 0,
+          "rgb_increases": 0,
+          "rgb_decreases": 300,
+          "unchanged": 4500,
+          "point711": [],
+          "frame_range": [
+            3396,
+            3695
+          ]
+        },
+        {
+          "ps": 9794231901256193942,
+          "vs": 12627602885350085323,
+          "blend": "0x10001",
+          "color_control": "0x8700000e",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x0",
+          "draws": 299,
+          "paired_points": 4784,
+          "black_overwrites": 0,
+          "rgb_increases": 299,
+          "rgb_decreases": 0,
+          "unchanged": 4485,
+          "point711": [],
+          "frame_range": [
+            3397,
+            3695
+          ]
+        },
+        {
+          "ps": 2673597551499054088,
+          "vs": 1802336714319958646,
+          "blend": "0x10001",
+          "color_control": "0x8700000e",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x0",
+          "draws": 10,
+          "paired_points": 160,
+          "black_overwrites": 10,
+          "rgb_increases": 0,
+          "rgb_decreases": 10,
+          "unchanged": 150,
+          "point711": [
+            {
+              "frame": 3437,
+              "before": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                0.0
+              ],
+              "after": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "frame": 3438,
+              "before": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                0.0
+              ],
+              "after": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "frame_range": [
+            3437,
+            3653
+          ]
+        }
+      ],
+      "blackening": 10
+    },
+    {
+      "run": 37,
+      "groups": [
+        {
+          "ps": 4890100476837072910,
+          "vs": 12627602885350085323,
+          "blend": "0x10001",
+          "color_control": "0x87000006",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x3f008081",
+          "draws": 299,
+          "paired_points": 4784,
+          "black_overwrites": 0,
+          "rgb_increases": 299,
+          "rgb_decreases": 0,
+          "unchanged": 4485,
+          "point711": [],
+          "frame_range": [
+            3413,
+            3711
+          ]
+        },
+        {
+          "ps": 9664450347325391613,
+          "vs": 15518101065676308936,
+          "blend": "0xe0001",
+          "color_control": "0x87000006",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x3f008081",
+          "draws": 299,
+          "paired_points": 4784,
+          "black_overwrites": 0,
+          "rgb_increases": 0,
+          "rgb_decreases": 299,
+          "unchanged": 4485,
+          "point711": [],
+          "frame_range": [
+            3413,
+            3711
+          ]
+        },
+        {
+          "ps": 13278562841511040574,
+          "vs": 1802336714319958646,
+          "blend": "0x1010101",
+          "color_control": "0x87000006",
+          "alpha_ref": "0x3f008081",
+          "c252w": "0x3f008081",
+          "draws": 10,
+          "paired_points": 160,
+          "black_overwrites": 0,
+          "rgb_increases": 0,
+          "rgb_decreases": 0,
+          "unchanged": 150,
+          "point711": [
+            {
+              "frame": 3453,
+              "before": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                0.0
+              ],
+              "after": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                1.0
+              ]
+            },
+            {
+              "frame": 3454,
+              "before": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                0.0
+              ],
+              "after": [
+                0.28627450980392155,
+                0.24313725490196078,
+                0.2196078431372549,
+                1.0
+              ]
+            }
+          ],
+          "frame_range": [
+            3453,
+            3669
+          ]
+        }
+      ],
+      "blackening": 0
+    }
+  ],
+  "final_output_comparison": [
+    {
+      "run": 36,
+      "frames": 300,
+      "minimum_max_rgb": 0.08797653958944282,
+      "maximum_max_rgb": 0.5288367546432062,
+      "frames_below_point_two": [
+        3437,
+        3438,
+        3439,
+        3440,
+        3543,
+        3544,
+        3545,
+        3651,
+        3652,
+        3653
+      ]
+    },
+    {
+      "run": 37,
+      "frames": 300,
+      "minimum_max_rgb": 0.30303030303030304,
+      "maximum_max_rgb": 0.5288367546432062,
+      "frames_below_point_two": []
+    }
+  ],
+  "conclusions": [
+    "Material9821 alone uses a private clone of template225/pixl227. Stock donor tags and 548 other rmsh postprocess records remain unchanged.",
+    "All twelve shader variants retain every original ALU/fetch instruction byte and native routes. One KILL_GT instruction and one unused literal component implement the measured finite-alpha comparison.",
+    "The new Xbox shader header/scheduling is assembled and validated with the installed Xbox360 SDK; original instruction bits are restored because the assembler text round trip normalizes unused fields.",
+    "Ten dynamic-light draws executed in both comparison recordings. Original: replacement blend and ten black overwrites. Candidate35: additive blend and zero black overwrites.",
+    "The witnessed c252.w threshold equals original RB_ALPHA_REF bits 0x3f008081 in all sampled passes.",
+    "At (711,197), 300 final-output samples have no sub-0.2 max-RGB values in candidate35; original has ten. Minimum max-RGB rises from 0.08798 to 0.30303.",
+    "Saved observer command/result and emitted camera constants match exactly. Simulated effect time is not a full restored savestate."
+  ],
+  "limitations": [
+    "Only the byte-attributed model10177 mesh0 part1 sampled contribution is corrected and checked by this run. Other material users and the searchlight protrusion require separate checks.",
+    "Full cutout-edge coverage, shadow/global shader paths, traversal, advertisement readability, audio, physical Xbox360 and system link are not accepted by these numeric samples.",
+    "Only three of the twelve private pixel programs executed for the selected part in this recording; the others have structural/assembler validation.",
+    "Finite-alpha equivalence is verified; NaN rejection differs from hardware comparison. Original texture-alpha and exposure paths are expected finite.",
+    "Probe timing is not production performance. Candidate35 is an isolated candidate32-based material correction; candidate34 billboard mip correction is not included.",
+    "No shared runtime, installed map or LIVE package was changed; no release promotion."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

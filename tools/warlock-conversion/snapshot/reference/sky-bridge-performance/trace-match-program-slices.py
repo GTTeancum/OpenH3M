@@ -1,11 +1,13 @@
-import argparse,json,struct,collections
+import argparse,json,struct,collections,hashlib
 from pathlib import Path
 parser=argparse.ArgumentParser()
 parser.add_argument('--trace-dir',type=Path,default=Path('work/sky-bridge/draw-trace-20261103-200444'))
-root=parser.parse_args().trace_dir
+parser.add_argument('--shader-index',type=Path,default=Path('work/sky-bridge/draw-trace-build/candidate32-shader-index.json'))
+args=parser.parse_args();root=args.trace_dir
 root.resolve().relative_to(Path(__file__).resolve().parents[5])
-index=json.loads(Path('work/sky-bridge/draw-trace-build/candidate32-shader-index.json').read_text())
+index=json.loads(args.shader_index.read_text())
 data=Path(index['map']).read_bytes(); programs=[]
+assert hashlib.sha256(data).hexdigest()==index['map_sha256'], 'Shader index is stale'
 for digest,entries in index['programs_by_guest_endian_sha256'].items():
  e=entries[0];raw=data[e['code_file_offset']:e['code_file_offset']+e['code_size']]
  programs.append((entries,raw))

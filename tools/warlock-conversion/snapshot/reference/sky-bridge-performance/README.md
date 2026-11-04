@@ -1309,3 +1309,69 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Candidate35: scoped fabric discard correction (2026-11-04)
+
+`candidate35-fabric-cutout-result.json` records the first material correction
+and private reproduction37. It is an isolated candidate32-based experiment;
+candidate34's billboard mip correction is not included. Only material9821
+(`sbr_envelope_04_akill`, source4299) changes. Original template225, pixl227,
+and all other 548 `rmsh` postprocess records remain unchanged.
+
+The private template keeps the native vertex programs, shader interfaces,
+parameter routes, GPR counts and every original pixel ALU/fetch instruction
+byte. Each of twelve pixel programs receives one `KILL_GT` before its final
+exports. The existing unused literal `c252.w` holds the observed alpha
+threshold, bits `0x3f008081`. For finite alpha this implements the recorded
+hardware greater-or-equal test. The material's hardware-alpha flag can then
+be cleared without losing this comparison, so its dynamic-light pass retains
+the additive blend state established by material binding.
+
+The installed Xbox360 SDK assembles and validates the new native shader
+headers and scheduling. Its text round trip normalizes some unused original
+instruction fields; the builder restores every original instruction byte
+and control-flow word except the final EXEC's incremented count. A second
+official disassembly/assembly validates the restored result. No runtime
+render-state override is used. The reproducible sequence, from repository
+root with outputs in `work/sky-bridge/fabric-cutout-build`, is:
+
+1. `build-fabric-shader-tool.cmd` builds the SDK assembly utility with the
+   installed VS2010 toolchain. It sets repository-local TEMP/TMP paths.
+2. `extract-fabric-programs.py` and `disassemble-fabric-programs.py` preserve
+   the twelve native inputs and their official disassembly privately.
+3. `build-fabric-cutout.py` assembles the private programs and writes the new
+   `payload-35/sky_bridge.map`; it rejects an existing output.
+4. `verify-fabric-cutout.py` checks the unchanged donor/material interfaces,
+   773 finite threshold cases, decoded discard operations and unchanged
+   alpha texture resources. The 512x512 native base mip has 41144 texels
+   below threshold and 221000 at or above it, so cutouts are required.
+
+Run37 records 11272 attributed model draws with complete before/after pairs,
+360704 numeric samples and no unmatched draws. The selected fabric part
+uses three of the twelve new pixel programs. Its ten dynamic-light draws
+have blend `0x01010101`, alpha-test disabled, and the expected threshold
+literal uploaded. At (711,197), none overwrites lit RGB with black. The
+comparison run36 has ten such overwrites with blend `0x00010001`.
+All 300 final-output samples at that point stay above max-RGB 0.3030;
+run36 has ten below 0.2 and reaches 0.0880. The saved observer command/result
+and all 8970 traced base/lit camera matrices are exact. The replay stopped
+at its 180-second watchdog; native loading passed all eleven header checks.
+
+Use `trace-match-program-slices.py --shader-index` with the candidate35
+index; using candidate32's shader index would miss the private programs.
+`trace-model-draws.py` now selects the map from the run configuration and
+verifies its recorded hash. `compare-fabric-cutout.py` retains paired samples,
+native blend/alpha state and threshold constants for runs36/37.
+
+This establishes a correction for the sampled fabric contribution, not full
+visual acceptance. Cutout edges, global shadow paths, other affected
+materials, the searchlight protrusion and advertisement readability still
+need checking. NaN alpha rejection differs from the hardware comparison;
+the authored texture alpha and witnessed exposure path are finite. Physical
+Xbox360, system link and production performance remain unverified. No shared
+runtime, installed map or LIVE package changed, and no release was promoted.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.
