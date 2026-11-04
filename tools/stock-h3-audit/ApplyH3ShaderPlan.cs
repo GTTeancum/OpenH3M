@@ -35,6 +35,15 @@ public class AnimationPlan
 }
 class ApplyH3ShaderPlan
 {
+    static string Group(string path)
+    {
+        switch(Path.GetExtension(path))
+        {
+            case ".shader":return "rmsh*";
+            case ".shader_terrain":return "rmtr*";
+            default:throw new ArgumentException("Unsupported shader group: "+path);
+        }
+    }
     static string Confined(string root, string relative)
     {
         var result=Path.GetFullPath(Path.Combine(root,relative));
@@ -53,15 +62,15 @@ class ApplyH3ShaderPlan
         var tags=Path.Combine(plan.Kit,"tags");
         if(!plan.Target.StartsWith(@"levels\custom\battle_canyon_fresh\shaders\",StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("Only fresh Battle Canyon authoring targets are allowed");
-        if(!plan.Donor.EndsWith(".shader") || !plan.Target.EndsWith(".shader"))
-            throw new InvalidOperationException("This authoring wrapper supports ordinary shader tags only");
+        if(Group(plan.Donor)!=Group(plan.Target))
+            throw new InvalidOperationException("Source and target shader groups must match");
         var original=File.ReadAllBytes(Confined(tags,plan.Donor));
         var destination=Confined(tags,plan.Target);
         Directory.CreateDirectory(Path.GetDirectoryName(destination));
         if(!verifyOnly && !updateExisting)File.Copy(Confined(tags,plan.Donor),destination,true);
         Directory.SetCurrentDirectory(plan.Kit);
         ManagedBlamSystem.InitializeProject(InitializationType.TagsOnly,plan.Kit);
-        if(!verifyOnly)using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
+        if(!verifyOnly)using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),Group(plan.Target))))
         {
             var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
             if(plan.RemoveParameters!=null)
@@ -141,7 +150,7 @@ class ApplyH3ShaderPlan
         // Reopen through the native API: Tool's XML data export may omit long
         // function blobs. Never treat that omission as successful preservation.
         var verified=new List<object>();
-        using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),"rmsh*")))
+        using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(plan.Target,null),Group(plan.Target))))
         {
             var parameters=(TagFieldBlock)tag.SelectField("Struct:render_method/Block:parameters");
             if(plan.RemoveParameters!=null)

@@ -68,7 +68,7 @@ for index,(path,entry) in enumerate(report['images'].items()):
         decoded=Image.open(files[0]).convert('RGBA');assert source.size==decoded.size
         row['source_ranges']=source.getextrema();row['h3_ranges']=decoded.getextrema()
         row['mean_RGBA_error']=ImageStat.Stat(ImageChops.difference(source,decoded)).mean
-        if role in ('bump_map','bump_detail_map'):
+        if role.startswith(('bump_map','bump_detail_map','detail_bump')):
             row['limitation']='DXN direction and strength not established by RGB differences. Native-source comparison and MCC shading checks remain required.'
         elif max(row['mean_RGBA_error'])>4:
             problems.append(dict(bitmap=path,reason='color or alpha difference',errors=row['mean_RGBA_error']))

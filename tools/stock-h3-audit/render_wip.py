@@ -97,13 +97,18 @@ if buildings:
     # This base faces into the canyon along +Y; the generic overview directions
     # put the camera behind its surrounding cliffs. Keep all geometry visible.
     views=[('overview',(0,1,.3),1.15),('closer',(.4,1,.3),.85)]
+    if authoring:
+        from mathutils import Matrix
+        from io_scene_foundry import utils
+        rotation=Matrix.Rotation(utils.rotation_diff_from_forward('y-','x'),3,'Z')
+        views=[(name,rotation @ Vector(direction),scale) for name,direction,scale in views]
 for name, direction, scale in views:
     camera.location = center + Vector(direction).normalized() * span * (.7 if buildings else 2)
     camera.rotation_euler = (center - camera.location).to_track_quat('-Z', 'Y').to_euler()
     if textured:
         sun.rotation_euler = camera.rotation_euler
     camera.data.ortho_scale = span * scale
-    prefix = 'buildings-' if buildings else ('h3-authoring-' if authoring else ('textured-' if textured else ''))
+    prefix = ('h3-buildings-' if authoring else 'buildings-') if buildings else ('h3-authoring-' if authoring else ('textured-' if textured else ''))
     scene.render.filepath = str(OUT / (prefix + name + '.png'))
     bpy.ops.render.render(write_still=True)
 (OUT / (prefix + 'capture-info.json')).write_text(json.dumps(dict(bounds_low=list(low), bounds_high=list(high),

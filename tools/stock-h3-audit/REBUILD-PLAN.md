@@ -62,3 +62,13 @@ on"**. This authorizes advancing to stock-asset matching without asserting a
 complete historical purge. Do not reopen that cleanup gate unless the user does.
 Do not restore or reuse the rejected implementation. No old code was copied into
 the fresh stock audit. All later MCC testing and user-approval gates remain.
+
+## Approved missing-asset substitution
+
+2026-11-04: the source cliff shader references
+`levels\dlc\cex_beaver_creek\bitmaps\ca_bcreek_cubemap.bitmap`, absent from the
+official Reach kit archive. Its source postprocess texture block is empty.
+The user chose **"Use existing Reach creek cubemap"**: bind the existing
+`levels\dlc\cex_beaver_creek\bitmaps\cubemap_creek.bitmap`, already used by
+the arch/boulders. This is limited to the cliff reflection input and does not
+authorize other missing-asset substitutions or waive MCC visual approval.

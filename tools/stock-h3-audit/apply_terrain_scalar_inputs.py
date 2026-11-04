@@ -32,8 +32,15 @@ def tool(*args):
     if args[0]=='patch-tag-field':assert b'field successfully patched' in result.stdout
 reports=[]
 trials=[OUT/'terrain-trial-report.json',*sorted(OUT.glob('ca_bcreek_*-terrain-trial-report.json'))]
+families=json.loads(Path(__file__).with_name('material_families.json').read_text())
+native_sources={s:name for name,f in families.items() if f.get('kind')=='terrain' for s in f['sources']}
 for path in trials:
     trial=json.loads(path.read_text())
+    if trial['source'] in native_sources:
+        family=native_sources[trial['source']]
+        assert (OUT/(family+'-family/report.json')).is_file(),family
+        print('TERRAIN_TRIAL_SUPERSEDED',trial['source'],family,flush=True)
+        continue
     tag=trial['target']
     assert tag.startswith('levels\\custom\\battle_canyon_fresh\\shaders\\')
     source=ROOT/'work/editing-kits/hrek/tags'/trial['source']

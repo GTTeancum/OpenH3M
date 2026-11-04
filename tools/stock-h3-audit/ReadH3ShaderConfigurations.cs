@@ -10,6 +10,15 @@ using Bungie.Tags;
 public class ShaderInventoryPlan { public string Kit; public List<string> Tags; public List<string> Options; public string Output; }
 class ReadH3ShaderConfigurations
 {
+    static string Group(string path)
+    {
+        switch(Path.GetExtension(path))
+        {
+            case ".shader":return "rmsh*";
+            case ".shader_terrain":return "rmtr*";
+            default:throw new ArgumentException("Unsupported stock shader group: "+path);
+        }
+    }
     static string Hash(string path)
     {
         using(var stream=File.OpenRead(path))using(var hash=SHA256.Create())
@@ -62,10 +71,10 @@ class ReadH3ShaderConfigurations
         foreach(var path in plan.Tags)
         {
             var absolute=Path.GetFullPath(Path.Combine(tagsRoot,path));
-            if(!absolute.StartsWith(tagsRoot,StringComparison.OrdinalIgnoreCase)||!path.EndsWith(".shader"))
+            if(!absolute.StartsWith(tagsRoot,StringComparison.OrdinalIgnoreCase))
                 throw new ArgumentException("Expected stock shader under kit tags: "+path);
             var before=Hash(absolute);
-            using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(path,null),"rmsh*")))
+            using(var tag=new TagFile(TagPath.FromPathAndType(Path.ChangeExtension(path,null),Group(path))))
             {
                 var options=new List<int>();
                 foreach(var element in ((TagFieldBlock)tag.SelectField("Struct:render_method/Block:options")).Elements)
@@ -78,7 +87,7 @@ class ReadH3ShaderConfigurations
                         type=((TagFieldEnum)element.SelectField("parameter type")).Value,
                         bitmap=bitmap==null?null:bitmap.RelativePathWithExtension});
                 }
-                var material=((TagFieldElementStringID)tag.SelectField("StringId:material name")).GetStringData();
+                var material=path.EndsWith(".shader") ? ((TagFieldElementStringID)tag.SelectField("StringId:material name")).GetStringData() : null;
                 results.Add(new {path=path,sha256=before,options=options,parameters=parameters,material=material});
             }
             if(before!=Hash(absolute))throw new InvalidOperationException("Stock tag changed: "+path);

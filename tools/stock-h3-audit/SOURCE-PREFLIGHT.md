@@ -860,3 +860,77 @@ generation was requested in this Blender naming/export step.
 Native H3 Tool lookup, map compilation, normal/reflection appearance, unresolved
 materials/effects and collision/physics metadata still require work. No MCC
 visual acceptance, 360 conversion or shared-install change occurred.
+
+### Complete terrain coverage and approved cliff reflection (2026-11-04)
+
+`inventory_terrain_shaders.py` read 80 stock-provenance terrain tags through the
+official H3 API. All nine source terrain configurations now have exact matches
+across H3's six categories; Reach's additional default wetness category remains
+separate. Read-only inspection and family authoring wrappers now accept the
+native `rmtr` group as well as ordinary shaders. No shader code or tag serializer
+was introduced. Original-cache option vectors were checked with TagTool before
+the selected native donors were used.
+
+Four new surfaces are authored: arch, boulders2, cliff_walls and tunnels. Donors
+are Avalanche's rock-boulder terrain, Sandtrap's laminate-gradient terrain and
+Last Resort's cliff terrain. The main ground trial was also replaced with Last
+Resort's beach terrain configuration. The earlier Standoff setup used diffuse
+lighting only on all four ground layers; the selected stock beach configuration
+matches the source's specular-enabled four layers. The older trial authoring
+and scalar-update scripts now reject/skip this superseded path so they cannot
+silently restore the initial options.
+
+The cliff source refers to missing `ca_bcreek_cubemap.bitmap`. It is absent from
+the local source tags and from an exact path listing of the official HREK
+archive. The original shader's postprocess texture list is empty, so it offers
+no compiled fallback reference. The user explicitly approved the existing
+Reach `cubemap_creek.bitmap` used by the arch/boulders. That single substitution
+is recorded in `material_families.json`, the saved native plan and the family
+report. Other missing references still fail instead of receiving a fallback.
+
+The five terrain families preserve 132 original source functions and use 48
+matching native defaults. All saved texture references, function bytes and
+controls, and stock options pass readback. The 73 ordinary shaders also passed
+the updated wrapper's read-only checks. The combined family checkpoint covers
+204 image references / 160 distinct bitmap tags and 503 source/donor hashes.
+This is family coverage; four earlier terrain shaders and foliage retain their
+separate evidence. Normal direction/strength and all rendered lighting remain
+unverified in MCC.
+
+One source detail bitmap (`deadlock_rock_granite_detail`) contains six mip levels
+despite an unlimited authoring cap. Current H3 Tool initially produced eight.
+The native H3 cap includes the base image, while the saved mip count excludes
+it: a cap of six produced five, and seven produced the required six. Authoring
+now preserves a shorter compiled source chain using the official cap field and
+checks the saved count. No pixels or mip levels are manufactured by a custom
+processor. The 256x256 source image and its native count remain intact.
+
+There are now 83 authored tags: 73 ordinary, nine terrain and one foliage.
+Physical names were reapplied and reopened: 80 use exact stock names and three
+retain their selected donor choice because the source name is empty. The
+Blender scene has 83 short-name bindings across 121 used material variants;
+19 source shaders / 33 used variants are still unresolved. After changes to
+native tags, the byte-identical export copies were refreshed.
+
+Fresh native Blender Workbench WIP renders are saved under
+`work/stock-h3-audit/wip/h3-authoring-*.png` and `h3-buildings-*.png`. All four
+views were inspected: the overall canyon/arch geometry and the base's facade
+and doorway details are visible. Workbench renders are deliberately untextured
+geometry evidence, not H3 material or brightness acceptance. The building
+camera directions now use the same coordinate rotation as the authoring scene.
+Rendering uses temporary preview copies and does not save over the working
+scene. No desktop capture or input was used.
+
+Evidence: `expanded-stock-terrain-matches.json`, `stock-terrain-configurations.json`,
+the five `terrain_*-family` reports and native pixel exports,
+`missing-cliff-cubemap-archive.txt`, `active-input-checkpoint.json`,
+`h3-material-bindings.json` and native Blender capture-info files under
+`work/stock-h3-audit`. Remaining materials/effects, source texture controls,
+physics/collision metadata, native map import and MCC validation are still open.
+
+The refreshed unmodified ASS export also passed its reader checks with all 83
+bindings present, 157 material variants, 543 unique objects, 1,247 instances and
+247,855 triangles. `prepare_family_donors.py` now reads the selected native
+option defaults as part of preparation, so new terrain families do not depend
+on a separate manual metadata-merge step. This reads official API fields and
+does not modify stock tags.

@@ -11,12 +11,12 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 
 class ShaderDefaults:
-    def __init__(self):
+    def __init__(self,kind='shader'):
         self.reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text())
-        self.stock_options=json.loads((OUT/'h3-effective-shader-options.json').read_text())
+        self.stock_options=json.loads((OUT/('h3-effective-'+kind+'-options.json')).read_text())
         self.reach={v['path']:v for v in json.loads((OUT/'reach-option-defaults.json').read_text())}
         self.h3={v['path']:v for v in json.loads((OUT/'h3-option-defaults.json').read_text())}
-        definition=ET.fromstring((OUT/'h3-shader-definition.xml').read_text(errors='replace').replace('<unavailable>','&lt;unavailable&gt;'))
+        definition=ET.fromstring((OUT/('h3-'+kind+'-definition.xml')).read_text(errors='replace').replace('<unavailable>','&lt;unavailable&gt;'))
         self.categories={c.get('name'):c for c in definition.find("block[@name='categories']")}
 
     @staticmethod

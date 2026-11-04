@@ -1,4 +1,4 @@
-"""Batch the reviewed stock wall setup through official H3 API and Tool only.
+"""Author reviewed ordinary/terrain families through official H3 API and Tool.
 
 No geometry/shader generation or tag serialization. Material appearance still
 requires MCC review. Existing source images are copied without pixel edits.
@@ -28,6 +28,8 @@ parser.add_argument('--prepare',action='store_true',help='Write reviewed source/
 parser.add_argument('--only-bitmap',help='Reimport one named bitmap and update its existing batch evidence')
 args=parser.parse_args()
 family=families[args.family]
+kind=family.get('kind','shader')
+group='shader_terrain' if kind=='terrain' else 'shader'
 DONOR=family['donor']
 DEST=OUT/(args.family+'-family')
 DEST.mkdir(exist_ok=True)
@@ -52,9 +54,10 @@ def execute(exe,arguments,label):
 def tool(label,*arguments):execute(KIT/'tool.exe',list(arguments),label)
 
 source_inputs=SourceShaderInputs()
-native_defaults=ShaderDefaults()
+native_defaults=ShaderDefaults(kind)
 reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text())
-stock_options=json.loads((OUT/'h3-effective-shader-options.json').read_text())[DONOR]
+stock_options=json.loads((OUT/('h3-effective-'+kind+'-options.json')).read_text())[DONOR]
+if kind=='terrain':CATEGORIES={c['category'] for c in stock_options}
 active={n:p for c in stock_options for n,p in c['parameters'].items()}
 stock_names={c['category']:c['option'] for c in stock_options}
 stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
@@ -62,16 +65,23 @@ sources=[]
 images={}
 parameters={}
 provenance={}
+resolved_bitmaps={}
 for source,inspection in reach_options.items():
     if source not in family['sources']:continue
-    if not source.endswith('.shader'):continue
+    if not source.endswith('.'+group):continue
     selected={c['category']:c['option'] for c in inspection['categories']}
     if any(selected.get(c)!=stock_names[c] for c in CATEGORIES):continue
     params,provenance[source]=source_inputs.resolve(source)
     defaults={n:v for c in inspection['categories'] for n,v in c['bitmap_defaults'].items()}
     assert set(defaults)==expected_roles,source
+    resolved_bitmaps[source]={}
     for name,default in defaults.items():
         bitmap=params.get(name,{}).get('bitmap',{}).get('value') or default
+        override=family.get('bitmap_overrides',{}).get(name)
+        if override:
+            assert bitmap==override['source'],('Approved source reference changed',source,name,bitmap)
+            bitmap=override['replacement']
+        resolved_bitmaps[source][name]=bitmap
         if bitmap.startswith('shaders\\default_bitmaps\\'):continue
         image=(REACH/'data'/bitmap).with_suffix('.tiff')
         assert image.is_file(),image
@@ -109,9 +119,10 @@ settings=[]
 for bitmap,entry in images.items():
     original=Path(entry['source']);remember(original);remember(REACH/'tags'/bitmap)
     assert hashes[str(REACH/'tags'/bitmap)]==metadata[bitmap]['sha256'],bitmap
-    assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'} or set(entry['roles'])<={'bump_map','bump_detail_map'},entry
+    if kind!='terrain':assert len(entry['roles'])==1 or set(entry['roles'])<={'base_map','self_illum_map','self_illum_detail_map'} or set(entry['roles'])<={'bump_map','bump_detail_map'},entry
     role=entry['roles'][0]
-    normal=role in ('bump_map','bump_detail_map')
+    normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
+    if kind=='terrain':assert all(r.startswith(('bump_map','bump_detail_map','detail_bump'))==normal for r in entry['roles']),entry
     entry['target']=str(PREFIX/'bitmaps'/Path(bitmap).name)
     target=KIT/'tags'/entry['target'];data=(KIT/'data'/entry['target']).with_suffix('.tif')
     if data.exists():assert sha(data)==sha(original),data
@@ -128,7 +139,9 @@ for bitmap,entry in images.items():
         entry['size']=image.size;entry['monochrome']=monochrome
     curve=int(metadata[bitmap]['bitmaps'][0]['curve'])
     assert curve in (1,3),metadata[bitmap]
-    usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
+    if kind=='terrain':
+        usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
+    else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map'}[role]
     if len(entry['roles'])>1 and not normal:
         usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
     setting=dict(Path=entry['target'],Usage=usage,
@@ -137,6 +150,15 @@ for bitmap,entry in images.items():
     entry['source_curve']=curve;entry['settings']=setting
     if 'max mipmap level' in metadata[bitmap]['fields']:
         setting['MaxMipmapLevel']=int(metadata[bitmap]['fields']['max mipmap level'])
+    compiled=metadata[bitmap]['bitmaps'][0]
+    source_mips=int(compiled['mipmap count'])
+    full_mips=max(int(compiled['width']),int(compiled['height'])).bit_length()-1
+    if setting.get('MaxMipmapLevel')==0 and 0<source_mips<full_mips:
+        # Some original compressed images stop before 1x1 despite an unlimited
+        # authoring field. Preserve the actual source chain using Tool's cap.
+        # H3's cap includes the base image; the saved mip count excludes it.
+        entry['source_compiled_mip_limit']=dict(authoring_limit=0,compiled_count=source_mips,full_count=full_mips,h3_import_limit=source_mips+1)
+        setting['MaxMipmapLevel']=source_mips+1
     if role=='environment_map' and curve==1:
         # The stock cube import path already preserved these encoded source
         # pixels; a generic explicit gamma override changed them.
@@ -173,7 +195,7 @@ for index,entry in enumerate(images.values()):
     assert bitmap_element is not None,exported
     saved={f.get('name'):f.get('value') for f in bitmap_element.findall('field')}
     role=entry['roles'][0]
-    normal=role in ('bump_map','bump_detail_map')
+    normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
     expected_size=entry['size'] if role!='environment_map' else (entry['size'][0]//4,entry['size'][1]//3)
     assert (int(saved['width']),int(saved['height']))==tuple(expected_size),entry
     assert int(saved['mipmap count'])>0,entry
@@ -208,7 +230,7 @@ for index,source in enumerate(sorted(sources)):
         if original is None and name not in defaults:continue
         row=dict(Name=name,Type=types[definition['parameter type']],Bitmap=None,Animations=[])
         if row['Type']==0:
-            bitmap=(original or {}).get('bitmap',{}).get('value') or defaults[name]
+            bitmap=resolved_bitmaps[source][name]
             row['Bitmap']=bitmap if bitmap.startswith('shaders\\default_bitmaps\\') else images[bitmap]['target']
             assert (KIT/'tags'/row['Bitmap']).is_file(),row
         if original:
@@ -270,6 +292,7 @@ for index,source in enumerate(sorted(sources)):
         functions=sum('Constant' not in a for p in plan['Parameters'] for a in p['Animations']),
         native_default_functions=len(default_changes['overrides']),native_option_defaults=default_changes['remove'],
         input_provenance=provenance[source],inactive_source_inputs=sorted(set(params)-set(source_active)),
+        bitmap_substitutions=family.get('bitmap_overrides',{}),
         retained_color_storage=retained_color_storage,
         source_only_inputs=sorted(set(params)-set(active)),stock_inputs_retained=default_changes['retained']))
     print('MATERIAL_AUTHORED',index+1,'of',len(sources),Path(source).stem,flush=True)

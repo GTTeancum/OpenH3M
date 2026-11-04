@@ -61,9 +61,10 @@ No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
 - [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.
 - [x] Compare stock and MCC dependencies; record MCC-only additions and stock alternatives before authoring.
 - [x] Extract original Reach geometry/textures through mod tools and deliver native Blender WIP proof views.
-- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Five terrain, one foliage and 73 ordinary materials have saved-field checks; these are not visual acceptance.
-- [x] Bind the 79 authored tags through short Blender export names; verify their presence in the unmodified ASS export. Another 23 source shaders / 39 used material variants remain pending, so native map import is not yet ready.
-- [x] Preserve stock H3 physical-material choices: 76 authored surfaces use exact source names present in original Standoff; three empty source names retain their selected stock material. Verify impact behavior in MCC.
+- [ ] Finish fresh Blender geometry metadata, collision/physics and H3 material assignments. Nine terrain, one foliage and 73 ordinary materials have saved-field checks; these are not visual acceptance.
+- [x] Bind the 83 authored tags through short Blender export names. Another 19 source shaders / 33 used material variants remain pending, so native map import is not yet ready.
+- [x] Author the four remaining terrain surfaces with exact stock H3 configurations; replace the initial ground trial with the matching four-layer specular setup. The user approved the existing Reach creek cubemap for the missing cliff reflection texture.
+- [x] Preserve stock H3 physical-material choices: 80 authored surfaces use exact source names present in original Standoff; three empty source names retain their selected stock material. Verify impact behavior in MCC.
 - [x] Review defaults in all 73 ordinary shaders: 268 inputs use matching native defaults; 23 differing source scalar defaults are preserved through the official function editor. The 714 selected source functions pass native readback checks, including three parent-template materials.
 - [x] Exclude inactive Reach shadow-control entries and retain stock H3 settings. Corrected 26 previously authored surfaces; five new surfaces use the same rule. Saved authored inputs have no duplicate names.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.

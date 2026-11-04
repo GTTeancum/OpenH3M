@@ -28,6 +28,7 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 for path,expected in hashes.items():assert sha(path)==expected,path
 summary=[]
 for family,config in families.items():
+    if config.get('kind','shader')!='shader':continue  # Terrain defaults use the native family authoring path.
     report_path=OUT/(family+'-family/report.json')
     report=json.loads(report_path.read_text())
     for material in report['materials']:

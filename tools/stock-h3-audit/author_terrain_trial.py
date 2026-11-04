@@ -23,6 +23,9 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--surface',choices=['ca_bcreek_terrain','ca_bcreek_cliff_skybox','ca_bcreek_cliff_rock_skybox','ca_bcreek_ramps','ca_bcreek_cliff_boulders'],default='ca_bcreek_terrain')
 surface=parser.parse_args().surface
 SOURCE = 'levels\\dlc\\cex_beaver_creek\\shaders\\'+surface+'.shader_terrain'
+for name,family in json.loads(Path(__file__).with_name('material_families.json').read_text()).items():
+    if family.get('kind')=='terrain' and SOURCE in family['sources']:
+        raise SystemExit('This trial is superseded. Use author_wall_family.py --family '+name)
 DONOR = r'levels\dlc\bunkerworld\shaders\nature\ground.shader_terrain'
 OPTION_DONOR = (r'levels\multi\guardian\shaders\guardian_ground.shader_terrain' if surface=='ca_bcreek_cliff_boulders' else DONOR)
 TARGET = 'levels\\custom\\battle_canyon_fresh\\shaders\\'+surface+'.shader_terrain'
