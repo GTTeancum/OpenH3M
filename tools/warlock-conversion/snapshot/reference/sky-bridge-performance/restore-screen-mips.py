@@ -1,4 +1,4 @@
-"""Restore two audited billboard mip chains in a private copy of candidate32.
+"""Restore two audited billboard mip chains in a pinned private candidate.
 
 No source pixels are resampled. No material, shader, animation or geometry is
 changed. This incremental builder avoids unrelated pending converter changes.
@@ -25,7 +25,9 @@ from xbox_bitmap import addresses
 from xbox_mip_chain import layout
 from resource_reader import Resource
 
-BASIS_SHA = '311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d'
+BASIS_HASHES = {
+    32: '311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d',
+    35: '9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e'}
 SOURCE = Path('D:/SteamLibrary/steamapps/workshop/content/976730/3003239190/maps/s3d_sky_bridgenew.map')
 ASSETS = (
     (12513, 9767, r'levels\shared\bitmaps\human\crop_01', (256, 256, 11, 9),
@@ -96,13 +98,14 @@ def verify_levels(pixels, raw, width, height, fmt, count):
     return result
 
 
-def build(output, explicit_tail_addresses=False):
+def build(output, explicit_tail_addresses=False, basis_candidate=32):
     output = output.resolve()
     output.relative_to(REPO / 'work/sky-bridge')
     if output.exists() or not output.parent.is_dir():
         raise ValueError('Use a new map in an existing private Sky Bridge directory')
-    basis = REPO / 'work/sky-bridge/payload-32/sky_bridge.map'
-    assert digest(basis.read_bytes()) == BASIS_SHA
+    basis = REPO / f'work/sky-bridge/payload-{basis_candidate}/sky_bridge.map'
+    basis_sha = BASIS_HASHES[basis_candidate]
+    assert digest(basis.read_bytes()) == basis_sha
     stock = json.loads((REPO / 'work/sky-bridge/screen-pass-build/screen-stock-texture-audit.json').read_text())
     assert not stock['matches'] and len(stock['checked']) == 25
     s = Cache(SOURCE, True)
@@ -110,7 +113,8 @@ def build(output, explicit_tail_addresses=False):
     b = MapBuilder(basis, 0x200000)
     r = CacheRegistry(b, resource_salt('C:/X360/ISOs/H3M/default.xex'))
     c = b.cache
-    report = {'basis_sha256': BASIS_SHA, 'stock_audit': stock, 'textures': [],
+    report = {'basis_candidate': basis_candidate, 'basis_sha256': basis_sha,
+              'stock_audit': stock, 'textures': [],
               'explicit_tail_addresses': explicit_tail_addresses}
     try:
         assert len(c.block(r.manifest_field, 120)) == 1
@@ -177,5 +181,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
     parser.add_argument('--explicit-tail-addresses', action='store_true')
+    parser.add_argument('--basis-candidate', type=int, choices=sorted(BASIS_HASHES), default=32,
+                        help='Use 35 to retain the separately verified fabric correction')
     args = parser.parse_args()
-    build(args.output, args.explicit_tail_addresses)
+    build(args.output, args.explicit_tail_addresses, args.basis_candidate)

@@ -1,0 +1,995 @@
+{
+  "classification": "Private combined candidate36: fabric overwrite correction and restored billboard mip addressing; no release promotion",
+  "structural_verification": {
+    "candidate": 36,
+    "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+    "bytes": 196448256,
+    "tags": 10599,
+    "retained_metadata_bytes": 37552128,
+    "changed_retained_metadata_bytes": 36,
+    "unrelated_metadata_unchanged": true,
+    "original_raw_bytes_unchanged": 154062848,
+    "trailing_sections_unchanged": true,
+    "original_registry_entries_unchanged": true,
+    "tables": [
+      {
+        "stride": 64,
+        "original_rows": 5200,
+        "added_rows": 2
+      },
+      {
+        "stride": 88,
+        "original_rows": 4943,
+        "added_rows": 2
+      },
+      {
+        "stride": 16,
+        "original_rows": 4408,
+        "added_rows": 0
+      },
+      {
+        "stride": 16,
+        "original_rows": 5716,
+        "added_rows": 2
+      }
+    ],
+    "textures": [
+      {
+        "tag": 9767,
+        "mips": 9,
+        "raw_sha256": [
+          "4dbb20d6611ed8b52d7606e4146caf640c16022ff5183c7d83de6632e4721362",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "control_sha256": "11f4ecb917244c3a7c7091795a0420ef2b4a65970294b54317f8890a185b5fe5",
+        "fixups": {
+          "12": 1073741824,
+          "52": 536870912
+        }
+      },
+      {
+        "tag": 9772,
+        "mips": 8,
+        "raw_sha256": [
+          "63bada0043211741706d3eae83b799ed7f5e1aba3536373ec9286bd56fce7780",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "control_sha256": "dd86a97e6383a44bf1e33286f9d68a8d162be95f1d6756f947603caa533d6a32",
+        "fixups": {
+          "12": 1073741824,
+          "32": 1073741824,
+          "52": 536870912
+        }
+      }
+    ],
+    "fabric_programs_and_material_retained_from_candidate35": true,
+    "allowed_metadata_fields": [
+      {
+        "virtual_address": "0xbeb63fc4",
+        "bytes": 12,
+        "reason": "registry table location/count"
+      },
+      {
+        "virtual_address": "0xbeaa9070",
+        "bytes": 12,
+        "reason": "registry table location/count"
+      },
+      {
+        "virtual_address": "0xbeaa907c",
+        "bytes": 12,
+        "reason": "registry table location/count"
+      },
+      {
+        "virtual_address": "0xbeaa9088",
+        "bytes": 12,
+        "reason": "registry table location/count"
+      },
+      {
+        "virtual_address": "0xbeb640a8",
+        "bytes": 4,
+        "reason": "resource control byte count"
+      },
+      {
+        "virtual_address": "0xbeb640b4",
+        "bytes": 4,
+        "reason": "resource control location"
+      },
+      {
+        "virtual_address": "0xbeba0d34",
+        "bytes": 8,
+        "reason": "tag table count/location; contents unchanged"
+      },
+      {
+        "virtual_address": "0xbeb52900",
+        "bytes": 12,
+        "reason": "two added bitmap residency bits"
+      },
+      {
+        "virtual_address": "0xbeb52930",
+        "bytes": 4,
+        "reason": "added bitmap memory budget"
+      },
+      {
+        "virtual_address": "0xbdca0780",
+        "bytes": 48,
+        "reason": "bitmap 9767 record"
+      },
+      {
+        "virtual_address": "0xbdca07b0",
+        "bytes": 4,
+        "reason": "bitmap 9767 resource handle"
+      },
+      {
+        "virtual_address": "0xbdca89c0",
+        "bytes": 48,
+        "reason": "bitmap 9772 record"
+      },
+      {
+        "virtual_address": "0xbdca89f0",
+        "bytes": 4,
+        "reason": "bitmap 9772 resource handle"
+      }
+    ],
+    "limitation": "Structural composition only; combined runtime and visual behavior require verification.",
+    "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+  },
+  "runs": [
+    {
+      "run": "work\\sky-bridge\\reproduction-42",
+      "logdir": ".local\\loading-traces\\20261104-035508-5388",
+      "configuration": {
+        "depth_test_trace": false,
+        "coverage_trace": true,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": true,
+        "timing_only": false,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.4288194444444444,0.269921875,0.6371527777777778,0.347265625",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9df7f99f104749377ab9e91bd83e6f19b40d92072c53ce61cd1ee556074c42e9",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "preparation": {
+        "runtime_seed": "work\\sky-bridge\\reproduction-40",
+        "cache_seed": "work/sky-bridge/reproduction-29/cache",
+        "initial_cache": {
+          "shaders\\shareable\\4D5307E6.rtv.d3d12.xpso": "da845be4d7aeb60131466a1239f0502d974bebd41cbd45a6b48d2efb57e40056",
+          "shaders\\shareable\\4D5307E6.xsh": "a2368bf4b0992a15b4bee4d027ba85637a69821f39c56b8426d3b847c275f384"
+        },
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.422,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "observer_result_and_command_exact": true,
+      "camera_draws": 9000,
+      "frames": 300,
+      "attributed_draws": 11308,
+      "complete_color_pairs": 11308,
+      "positive_coverage_groups": 26,
+      "contributing_color_groups": 18,
+      "measured_groups": 43,
+      "fabric_black_overwrites": 0,
+      "fabric_sampled_lighting_draws": 610,
+      "searchlight_coverage": [
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 12627602885350085323,
+          "ps": 8562590739555380577,
+          "draws": 300,
+          "zero": 0,
+          "sample_min": 19,
+          "sample_max": 27
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 11600849241261448272,
+          "ps": 6159915361788144154,
+          "draws": 300,
+          "zero": 0,
+          "sample_min": 7,
+          "sample_max": 10
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 15518101065676308936,
+          "ps": 12021865740332317413,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 10556403050914701579,
+          "ps": 17893540736724855907,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 0,
+          "vs": 1802336714319958646,
+          "ps": 14007674117786981017,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 1,
+          "vs": 7141575655502862876,
+          "ps": 10996139680788563763,
+          "draws": 300,
+          "zero": 300,
+          "sample_min": 0,
+          "sample_max": 0
+        },
+        {
+          "owner": 10122,
+          "mesh": 0,
+          "part": 2,
+          "vs": 10556403050914701579,
+          "ps": 5599679742806490281,
+          "draws": 300,
+          "zero": 119,
+          "sample_min": 0,
+          "sample_max": 317
+        }
+      ]
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-43",
+      "logdir": ".local\\loading-traces\\20261104-035819-34052",
+      "configuration": {
+        "depth_test_trace": false,
+        "coverage_trace": false,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": false,
+        "header_trace": true,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": true,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": true,
+        "all_draw_trace": false,
+        "presented_probe": true,
+        "draw_trace": true,
+        "pixel_probe": true,
+        "pixel_region": "0.29,0.28,0.44,0.38",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "d94b141be81af4cdb208ed66fd584d0cc391f78664281be0037a75250225e7f8",
+        "rexgpu-xenos.dll": "9df7f99f104749377ab9e91bd83e6f19b40d92072c53ce61cd1ee556074c42e9",
+        "rexruntime.dll": "d75af9fff07bb332a59798b938b2374e4a9ec156fde31ca89c2676425cb1a281"
+      },
+      "preparation": {
+        "runtime_seed": "work\\sky-bridge\\reproduction-40",
+        "cache_seed": "work/sky-bridge/reproduction-29/cache",
+        "initial_cache": {
+          "shaders\\shareable\\4D5307E6.rtv.d3d12.xpso": "da845be4d7aeb60131466a1239f0502d974bebd41cbd45a6b48d2efb57e40056",
+          "shaders\\shareable\\4D5307E6.xsh": "a2368bf4b0992a15b4bee4d027ba85637a69821f39c56b8426d3b847c275f384"
+        },
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.375,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "observer_result_and_command_exact": true,
+      "camera_draws": 1800,
+      "frames": 300,
+      "billboard_draws": 1800,
+      "all_pairs_complete": true,
+      "frames_by_texture": {
+        "9767": 300,
+        "9772": 300
+      },
+      "native_scanline_header": {
+        "sequence": 16,
+        "dimensions": [
+          128,
+          16
+        ],
+        "levels": 8,
+        "split": true,
+        "primary_bytes": 4096,
+        "secondary_bytes": 4096,
+        "primary_address": "0xba2dc000",
+        "secondary_address": "0xba2dc000",
+        "constructed_base_offset": "0x0",
+        "constructed_mip_offset": "0x0",
+        "address_arguments": [
+          "0xba2dc000",
+          "0xba2dc000"
+        ],
+        "relocated_base": "0xba2dc000",
+        "relocated_mip": "0xba2dc000",
+        "min_lod": 0,
+        "max_lod": 7,
+        "packed": true,
+        "events": [
+          "header_constructed",
+          "addresses_applied",
+          "interop_complete"
+        ]
+      },
+      "texture_states": [
+        {
+          "tag": 9767,
+          "shader": 10494309294728871449,
+          "slot": 0,
+          "draws": 900,
+          "min_lod": 0,
+          "max_lod": 8,
+          "packed_mips": true,
+          "base_address": "0x1a286000",
+          "mip_address": "0x1a2c6000",
+          "effective_max_lod": 8,
+          "missing_mip_address": false,
+          "fetch_words": [
+            "0x82000002",
+            "0x1a286086",
+            "0x1fe0ff",
+            "0xa80c14",
+            "0x203",
+            "0x1a2c6a18"
+          ]
+        },
+        {
+          "tag": 9767,
+          "shader": 3413622546942440597,
+          "slot": 0,
+          "draws": 300,
+          "min_lod": 0,
+          "max_lod": 8,
+          "packed_mips": true,
+          "base_address": "0x1a286000",
+          "mip_address": "0x1a2c6000",
+          "effective_max_lod": 8,
+          "missing_mip_address": false,
+          "fetch_words": [
+            "0x82000002",
+            "0x1a286086",
+            "0x1fe0ff",
+            "0xa80c14",
+            "0x203",
+            "0x1a2c6a18"
+          ]
+        },
+        {
+          "tag": 9772,
+          "shader": 8658708157452486949,
+          "slot": 0,
+          "draws": 300,
+          "min_lod": 0,
+          "max_lod": 7,
+          "packed_mips": true,
+          "base_address": "0x1a2dc000",
+          "mip_address": "0x1a2dc000",
+          "effective_max_lod": 7,
+          "missing_mip_address": false,
+          "fetch_words": [
+            "0x810000fe",
+            "0x1a2dc073",
+            "0x1e07f",
+            "0xa80d10",
+            "0x1c3",
+            "0x1a2dca18"
+          ]
+        },
+        {
+          "tag": 9772,
+          "shader": 8658708157452486949,
+          "slot": 2,
+          "draws": 300,
+          "min_lod": 0,
+          "max_lod": 7,
+          "packed_mips": true,
+          "base_address": "0x1a2dc000",
+          "mip_address": "0x1a2dc000",
+          "effective_max_lod": 7,
+          "missing_mip_address": false,
+          "fetch_words": [
+            "0x810000fe",
+            "0x1a2dc073",
+            "0x1e07f",
+            "0xa80d10",
+            "0x1c3",
+            "0x1a2dca18"
+          ]
+        }
+      ],
+      "all_authored_levels_addressable": true,
+      "layers": {
+        "6": {
+          "draws": 300,
+          "changed_draws": 244,
+          "changed_points": 244,
+          "positive_rgb_sum": 120.79999999999993,
+          "max_abs_rgb_delta": 0.4313725490196078
+        },
+        "3": {
+          "draws": 300,
+          "changed_draws": 300,
+          "changed_points": 1200,
+          "positive_rgb_sum": 1068.3294117647065,
+          "max_abs_rgb_delta": 0.7490196078431373
+        },
+        "4": {
+          "draws": 300,
+          "changed_draws": 0,
+          "changed_points": 0,
+          "positive_rgb_sum": 0.0,
+          "max_abs_rgb_delta": 0.0
+        },
+        "5": {
+          "draws": 300,
+          "changed_draws": 82,
+          "changed_points": 82,
+          "positive_rgb_sum": 0.3803921568627452,
+          "max_abs_rgb_delta": 0.007843137254901988
+        },
+        "7": {
+          "draws": 300,
+          "changed_draws": 300,
+          "changed_points": 4800,
+          "positive_rgb_sum": 5562.717647058874,
+          "max_abs_rgb_delta": 0.7686274509803921
+        },
+        "8": {
+          "draws": 300,
+          "changed_draws": 300,
+          "changed_points": 4800,
+          "positive_rgb_sum": 1165.5254901960689,
+          "max_abs_rgb_delta": 0.32549019607843144
+        }
+      }
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-44",
+      "logdir": ".local\\loading-traces\\20261104-040137-33852",
+      "configuration": {
+        "depth_test_trace": false,
+        "coverage_trace": false,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": true,
+        "header_trace": false,
+        "candidate": 32,
+        "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "pixel_region": "0.54,0.255,0.93,0.425",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "preparation": {
+        "runtime_seed": "work\\sky-bridge\\reproduction-31",
+        "cache_seed": "work/sky-bridge/reproduction-29/cache",
+        "initial_cache": {
+          "shaders\\shareable\\4D5307E6.rtv.d3d12.xpso": "da845be4d7aeb60131466a1239f0502d974bebd41cbd45a6b48d2efb57e40056",
+          "shaders\\shareable\\4D5307E6.xsh": "a2368bf4b0992a15b4bee4d027ba85637a69821f39c56b8426d3b847c275f384"
+        },
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.344,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "observer_result_and_command_exact": true,
+      "timing": {
+        "candidate": 32,
+        "run": "work\\sky-bridge\\reproduction-44",
+        "logdir": ".local\\loading-traces\\20261104-040137-33852",
+        "first_seated_log": "[2026-11-04 04:04:01.456] [info] [core] [t8484] [sky-repro] view seated=true vehicle_error=0.024826441 camera=16.410666,67.99089,0.3061805 parent=E2780009",
+        "first_seated_present_elapsed_ms": 136081.53198242188,
+        "log_clock_origin_spread_ms": 1.301025390625,
+        "start_ms": 136101.099,
+        "end_ms": 154986.636,
+        "frames": 567,
+        "fps": 29.9700241512857,
+        "median_ms": 33.36699999999837,
+        "p95_ms": 33.921999999991385,
+        "maximum_ms": 50.69800000000396,
+        "over_50ms": 8,
+        "startup_inclusive": [
+          {
+            "start": 110,
+            "end": 155,
+            "frames": 1168,
+            "actual_start_ms": 110008.545,
+            "actual_end_ms": 154986.636,
+            "fps": 25.968198605850123,
+            "median_ms": 33.37200000000303,
+            "p95_ms": 66.58000000000175,
+            "maximum_ms": 3386.666000000012,
+            "over_50ms": 151
+          },
+          {
+            "start": 115,
+            "end": 155,
+            "frames": 1037,
+            "actual_start_ms": 115013.605,
+            "actual_end_ms": 154986.636,
+            "fps": 25.942491076045744,
+            "median_ms": 33.37199999997392,
+            "p95_ms": 66.54099999999744,
+            "maximum_ms": 3386.666000000012,
+            "over_50ms": 114
+          },
+          {
+            "start": 120,
+            "end": 150,
+            "frames": 768,
+            "actual_start_ms": 120001.968,
+            "actual_end_ms": 149982.225,
+            "fps": 25.5835031701029,
+            "median_ms": 33.37299999999232,
+            "p95_ms": 50.320999999996275,
+            "maximum_ms": 3386.666000000012,
+            "over_50ms": 58
+          }
+        ]
+      }
+    },
+    {
+      "run": "work\\sky-bridge\\reproduction-45",
+      "logdir": ".local\\loading-traces\\20261104-040510-17712",
+      "configuration": {
+        "depth_test_trace": false,
+        "coverage_trace": false,
+        "command_trace": false,
+        "blend_trace": false,
+        "model_pass_probe": false,
+        "timing_only": true,
+        "header_trace": false,
+        "candidate": 36,
+        "map_sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245",
+        "region_only": false,
+        "full_viewport": false,
+        "native_observer": true,
+        "guest_region": false,
+        "swapchain_region": false,
+        "stage_probe": false,
+        "late_pass_probe": false,
+        "water_pass_probe": false,
+        "rain_pass_probe": false,
+        "screen_pass_probe": false,
+        "all_draw_trace": false,
+        "presented_probe": false,
+        "draw_trace": false,
+        "pixel_probe": false,
+        "pixel_region": "0.54,0.255,0.93,0.425",
+        "region": "0.45,0.10,1,0.50",
+        "arm_delay_ms": 15000,
+        "vehicle_tolerance": 0.03
+      },
+      "runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.bootstrap.toml": "da4dd4017c80334eca5a683c757ee3d1e217b6d58d5fc4ccf3065cd888438966",
+        "OpenH3M.exe": "a37509515997240a29cfe746794ba2b8c63cbb47a3bb7500296b6a576550003a",
+        "rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "preparation": {
+        "runtime_seed": "work\\sky-bridge\\reproduction-31",
+        "cache_seed": "work/sky-bridge/reproduction-29/cache",
+        "initial_cache": {
+          "shaders\\shareable\\4D5307E6.rtv.d3d12.xpso": "da845be4d7aeb60131466a1239f0502d974bebd41cbd45a6b48d2efb57e40056",
+          "shaders\\shareable\\4D5307E6.xsh": "a2368bf4b0992a15b4bee4d027ba85637a69821f39c56b8426d3b847c275f384"
+        },
+        "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+        "observer_sha256": "8aad7e153e05d92b7d792f48a609d82df1007cb2e94779dfd0e40b0a425ca840"
+      },
+      "watchdog": {
+        "seconds": 180.0,
+        "event": "watchdog",
+        "seconds_limit": 180
+      },
+      "header_hash_summary": {
+        "seconds": 180.359,
+        "event": "hash_summary",
+        "passed": 11,
+        "failed": 0
+      },
+      "observer_result_and_command_exact": true,
+      "timing": {
+        "candidate": 36,
+        "run": "work\\sky-bridge\\reproduction-45",
+        "logdir": ".local\\loading-traces\\20261104-040510-17712",
+        "first_seated_log": "[2026-11-04 04:07:32.957] [info] [core] [t17592] [sky-repro] view seated=true vehicle_error=0.024193237 camera=16.410666,67.99089,0.3061805 parent=E2780009",
+        "first_seated_present_elapsed_ms": 135313.86596679688,
+        "log_clock_origin_spread_ms": 1.241943359375,
+        "start_ms": 135342.264,
+        "end_ms": 154995.17,
+        "frames": 590,
+        "fps": 29.970122484684936,
+        "median_ms": 33.37099999998463,
+        "p95_ms": 33.819000000017695,
+        "maximum_ms": 34.15200000000186,
+        "over_50ms": 0,
+        "startup_inclusive": [
+          {
+            "start": 110,
+            "end": 155,
+            "frames": 1164,
+            "actual_start_ms": 110000.531,
+            "actual_end_ms": 154995.17,
+            "fps": 25.891973485996846,
+            "median_ms": 33.37799999999697,
+            "p95_ms": 66.59799999999814,
+            "maximum_ms": 3520.1959999999963,
+            "over_50ms": 147
+          },
+          {
+            "start": 115,
+            "end": 155,
+            "frames": 1042,
+            "actual_start_ms": 115038.879,
+            "actual_end_ms": 154995.17,
+            "fps": 26.103523973233642,
+            "median_ms": 33.37600000000384,
+            "p95_ms": 66.41399999998976,
+            "maximum_ms": 3520.1959999999963,
+            "over_50ms": 90
+          },
+          {
+            "start": 120,
+            "end": 150,
+            "frames": 773,
+            "actual_start_ms": 120061.124,
+            "actual_end_ms": 149990.151,
+            "fps": 25.79435676275074,
+            "median_ms": 33.37249999999767,
+            "p95_ms": 50.021000000007916,
+            "maximum_ms": 3520.1959999999963,
+            "over_50ms": 41
+          }
+        ]
+      }
+    }
+  ],
+  "matched_fabric_coverage": {
+    "matched_keys": 603,
+    "different_keys": 0,
+    "groups": [
+      {
+        "owner": 10177,
+        "part": 1,
+        "vs": 1802336714319958646,
+        "matched_keys": 10,
+        "equal_keys": 10
+      },
+      {
+        "owner": 10177,
+        "part": 1,
+        "vs": 12627602885350085323,
+        "matched_keys": 296,
+        "equal_keys": 296
+      },
+      {
+        "owner": 10177,
+        "part": 1,
+        "vs": 15518101065676308936,
+        "matched_keys": 297,
+        "equal_keys": 297
+      }
+    ]
+  },
+  "live_package": {
+    "package": "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\sky-bridge\\live-candidate-36\\5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "bytes": 197779456,
+    "sha256": "96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b",
+    "content_id": "5DC3487BF1633DF162B829AF5609E7687F169DE8",
+    "title_id": "4D5307E6",
+    "content_type": 2,
+    "entries": [
+      {
+        "name": "dlc_sky_bridge.blf",
+        "bytes": 21576,
+        "start": 1,
+        "blocks": 6,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      {
+        "name": "dlc_sky_bridge_clip.blf",
+        "bytes": 12880,
+        "start": 7,
+        "blocks": 4,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      {
+        "name": "dlc_sky_bridge_film.blf",
+        "bytes": 12880,
+        "start": 11,
+        "blocks": 4,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      {
+        "name": "dlc_sky_bridge_sm.blf",
+        "bytes": 21576,
+        "start": 15,
+        "blocks": 6,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      {
+        "name": "dlc_sky_bridge_variant.blf",
+        "bytes": 7619,
+        "start": 21,
+        "blocks": 2,
+        "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+      },
+      {
+        "name": "sky_bridge.map",
+        "bytes": 196448256,
+        "start": 23,
+        "blocks": 47961,
+        "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+      },
+      {
+        "name": "sky_bridge.mapinfo",
+        "bytes": 20113,
+        "start": 47984,
+        "blocks": 5,
+        "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+      }
+    ],
+    "integrity": {
+      "data_blocks": 47989,
+      "hash_tables": 286,
+      "top_level": 2,
+      "header_sha1": "pass",
+      "data_sha1": "pass",
+      "hash_tree": "pass",
+      "signature_validation": "NOT performed",
+      "scope": "Integrity only; does not establish retail acceptance"
+    },
+    "profile_id": null,
+    "signature": "unsigned; zero signature field",
+    "runtime_validation": "not performed",
+    "retail_acceptance": "not targeted; OpenH3M and RGH/JTAG only"
+  },
+  "live_payload_verification": {
+    "data_blocks": 47989,
+    "hash_tables": 286,
+    "top_level": 2,
+    "header_sha1": "pass",
+    "data_sha1": "pass",
+    "hash_tree": "pass",
+    "signature_validation": "NOT performed",
+    "scope": "Integrity only; does not establish retail acceptance",
+    "payload_files": [
+      {
+        "name": "dlc_sky_bridge.blf",
+        "bytes": 21576,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      {
+        "name": "dlc_sky_bridge_clip.blf",
+        "bytes": 12880,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      {
+        "name": "dlc_sky_bridge_film.blf",
+        "bytes": 12880,
+        "sha256": "fb0539d884d068c41e64c7ddc0afcada2e4ee3e5affce40998a0dda1432f1e74"
+      },
+      {
+        "name": "dlc_sky_bridge_sm.blf",
+        "bytes": 21576,
+        "sha256": "d70f51c1ff38ba5b8c7f61e20e94a263ba88ff7db8fa424c265a9d046f7247f2"
+      },
+      {
+        "name": "dlc_sky_bridge_variant.blf",
+        "bytes": 7619,
+        "sha256": "b9db172bf8c8b7f751e7f418bdf96773752e881e920d1489087e72f31d9852b1"
+      },
+      {
+        "name": "sky_bridge.map",
+        "bytes": 196448256,
+        "sha256": "39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245"
+      },
+      {
+        "name": "sky_bridge.mapinfo",
+        "bytes": 20113,
+        "sha256": "fdb0741b13bb45f17249e1dac016a422d31a96c4f8b49038f9885fd044007a56"
+      }
+    ]
+  },
+  "shared_hashes_unchanged": {
+    "C:/X360/ISOs/H3M/rexgpu-xenos.dll": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+    "C:\\X360\\ISOs\\H3M\\.local\\OpenH3M-source\\work\\dlc\\installed-corrections\\0000000000000000\\4D5307E6\\00000002\\C337EBA990B40F54512D18E8AB31188A2B040540\\sky_bridge.map": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d"
+  },
+  "evidence_sha256": {
+    "work\\sky-bridge\\reproduction-42\\recording-configuration.json": "fc209782206fbe62d9e1a4d6a8a34f7cc6e284f8362e9a95d382cc1005a4783d",
+    "work\\sky-bridge\\reproduction-42\\preparation.json": "3721fe5971d972d9554e9beb46d42a34258425abd56493fde531895562f146e7",
+    "work\\sky-bridge\\reproduction-42\\runtime-hashes.json": "47b940d64b842303cc1ef8641d1d30cf77e2497e57bee9fd164b4db48eaa9533",
+    "work\\sky-bridge\\reproduction-42\\native-state.bin": "ebdfbafa23cf26dcb7650f5676930b027dbfc28537c7aca3886d01d36a477da4",
+    "work\\sky-bridge\\reproduction-42\\native-state-comparison.json": "a9e28f044bb48987c7aab5d11d9b5b73fbc787cd61c6480c565179699993e732",
+    "work\\sky-bridge\\reproduction-42\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-42\\camera-reproduction-check.json": "ce064537ed0aaa1eff05158336aba0789219e17ee25a60f4b00f47dfc5c26440",
+    "work\\sky-bridge\\reproduction-42\\draws.bin": "9324372f9c4a7bcf0ee2f3e710572df27ca89a129c3cd0eabfc75295b6f3fb4b",
+    "work\\sky-bridge\\reproduction-42\\stages.csv": "3ed6150461de9dba4fd05d2846ddfd27ef70b6a012bf90e982ade58ebfc2d118",
+    "work\\sky-bridge\\reproduction-42\\pixels.csv": "f14d696dc6967acab80e7dd30c18b8922e5e9f0f3c2051774ea8dcc366c91862",
+    "work\\sky-bridge\\reproduction-42\\presented.csv": "ae44669fa9613c1c61ec6d1416cf3e574ba58f1cf700f32c9811bbe5ac5d480e",
+    "work\\sky-bridge\\reproduction-42\\program-slice-matches.json": "4fb8d14dbc3d65d484cd4dcf739f5dd08d693abc2079d263bbec07a203317e19",
+    "work\\sky-bridge\\reproduction-42\\coverage.csv": "6a1a770b37fd932b2a20ca5a9830b2a8ca001bcd22016b750856fc7ac3e19349",
+    "work\\sky-bridge\\reproduction-42\\coverage-analysis.json": "727b77946df6eac976463951e229ad16f149c1fae87a0ef065ac6d7a42f2cd2f",
+    "work\\sky-bridge\\reproduction-42\\coverage-draws.json": "712c218edf3b31970621b32fa84c21ab7b63a3177ab30967aff67e2f0b4d4999",
+    "work\\sky-bridge\\reproduction-42\\model-pass-analysis.json": "dc0bf496fc0970d0ecd5b814d0c22d4caf64ac4f69425a2287d88cf184615624",
+    "work\\sky-bridge\\reproduction-42\\model-draw-analysis.json": "4aab812ef4ac4701b5410be7a155f245b012788d53d010e7495e8b6f5fdf6fcf",
+    "work\\sky-bridge\\reproduction-42\\model-draw-calls.json": "e29f6b40415c6651d35d6987716b9ae3cea554e8a8f29ac4ae9eb1ce27ce1e1b",
+    "work\\sky-bridge\\reproduction-42\\fabric-blackening-analysis.json": "7eb6136bc1119276d83ee5338d25583fd72b87fce6bd3f981c53259a308b8e1d",
+    ".local\\loading-traces\\20261104-035508-5388\\loading-trace.jsonl": "59cc2af25cc6aa59cabbfef54ba0ea468f48b3d0f96af88cbbe3a10e16a0909a",
+    ".local\\loading-traces\\20261104-035508-5388\\trace-runtime.log": "62bf6c00f8bde686471b4ac921e42a96c7e3e960731733d2828c10bd4ccdff50",
+    "work\\sky-bridge\\reproduction-43\\recording-configuration.json": "7dc0edb174cf1cbda15ca293b891cbca1d71c41d88ca603e481abd973e4a71b4",
+    "work\\sky-bridge\\reproduction-43\\preparation.json": "3721fe5971d972d9554e9beb46d42a34258425abd56493fde531895562f146e7",
+    "work\\sky-bridge\\reproduction-43\\runtime-hashes.json": "47b940d64b842303cc1ef8641d1d30cf77e2497e57bee9fd164b4db48eaa9533",
+    "work\\sky-bridge\\reproduction-43\\native-state.bin": "497f8da81894cd1599d6ae4871ad342624b099507bc24af728e6fe7f1c7d63fd",
+    "work\\sky-bridge\\reproduction-43\\native-state-comparison.json": "9a1ba074322ee5523bfa240e60839b198da8e20fed7423b72419e151b50cc6b6",
+    "work\\sky-bridge\\reproduction-43\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-43\\camera-reproduction-check.json": "6a6d4a00018c9b23b9b1350e77d7b99b55ad8f4851e61a45fc25730e156e3346",
+    "work\\sky-bridge\\reproduction-43\\draws.bin": "cf24b7ca0492b5f622481e271fca8911520ba3a9eda32d15a35807689964dbea",
+    "work\\sky-bridge\\reproduction-43\\stages.csv": "ea560776c9a2fbea4d5845f7c93e2fe22bc65cf729932063887198920ffe0e55",
+    "work\\sky-bridge\\reproduction-43\\pixels.csv": "0bfc3bd86d0882f84b0d2ffb3f90db9a9152511013a93313f7577f4edf846519",
+    "work\\sky-bridge\\reproduction-43\\presented.csv": "c97530f1ad56ace7e009bdb96df755f11c947bb03be60f06120a61e83e1c879d",
+    "work\\sky-bridge\\reproduction-43\\program-slice-matches.json": "f8d05b9347837c66861d1570b03df541859124230a7177a4a8740b2e7e2c71b0",
+    "work\\sky-bridge\\reproduction-43\\bitmap-headers.csv": "e77e172afde8ab2720cb3fa0cea4854054d09f5232903b1646844d9c22e23209",
+    "work\\sky-bridge\\reproduction-43\\bitmap-header-analysis.json": "8f99dea41cbc973c909e4b6bd89e2e7e5f91cb1facb86058f19d5ecda78249eb",
+    "work\\sky-bridge\\reproduction-43\\screen-binding-analysis.json": "cf6b14d6852160e7f3568f163d863a3fda8b534ed9065c94aea5b896f2768d43",
+    "work\\sky-bridge\\reproduction-43\\screen-pass-analysis.json": "4e8608a06f845bdc0928d628e5e24a40c05fe556403e5eec3ec660d9df5bb771",
+    "work\\sky-bridge\\reproduction-43\\geometry-prefix-matches.json": "e476eba2a6aefcda9127e4933f805eb9b9bf1d7bfbb872d014611fcd982f23b4",
+    ".local\\loading-traces\\20261104-035819-34052\\loading-trace.jsonl": "c69563b3bcf0e850ca6c2cb20a6ce2ed7d4f02bb14ccd2dce226126900b2aa8c",
+    ".local\\loading-traces\\20261104-035819-34052\\trace-runtime.log": "fc6838cb37a2fb2c2941af0bf7870b2fcb03442ebead0920e4de45f249268e6e",
+    ".local\\loading-traces\\20261104-040137-33852\\pacing-windows.json": "44fdf9a8f24fa7017b2abb77539ebfbf61992c7c38144129049d1d3091be8fdc",
+    ".local\\loading-traces\\20261104-040137-33852\\launch-command.json": "0b1ccf2e862c110d842c42a91004a46fee215fd7126eecf9d6b85abe91ac8d81",
+    "work\\sky-bridge\\reproduction-44\\recording-configuration.json": "be2a10db146fb21c90a7fe89002d57c15274f6373f3267b61c5749cd0023492e",
+    "work\\sky-bridge\\reproduction-44\\preparation.json": "a0f43704369dc57704640fe6e8481609159a4bf53cf49bfa4752711aab19f699",
+    "work\\sky-bridge\\reproduction-44\\runtime-hashes.json": "c8fda7d0a17937cb0035d6280ad80db47df3137d46ffc20f8ffb13ff2f9589a9",
+    "work\\sky-bridge\\reproduction-44\\native-state.bin": "087d3e90d9ab3acbf0039cf04526484dbf4489ce7552cf5f51ba646e796c79fd",
+    "work\\sky-bridge\\reproduction-44\\native-state-comparison.json": "09776eee6ee6a5f5cd14c82048b49cf23be37e4c387130c9be58e4727d12e219",
+    "work\\sky-bridge\\reproduction-44\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-44\\seated-timing.json": "02971c46aadf0724e13937cb23a5aaf52cb377164a62fc7776fdfca3610e5f60",
+    ".local\\loading-traces\\20261104-040137-33852\\loading-trace.jsonl": "efb3c4ba03b4f978c015b491280ebf2e9c1c7ef437497973a0251be5f06daffb",
+    ".local\\loading-traces\\20261104-040137-33852\\trace-runtime.1.log": "8ad49e9f35ced7eedec256b29be0915b994fd07cae56587cc9700cbd248f6c18",
+    ".local\\loading-traces\\20261104-040137-33852\\trace-runtime.log": "ae161cf6a285763c7755aefa44f362b8493b94f4e3d5d3c3ea61a4d69ecb60a9",
+    ".local\\loading-traces\\20261104-040510-17712\\pacing-windows.json": "e3aa51cbce61330ae781274da086c39d2c0c963a43190a9ea4b645dadd887446",
+    ".local\\loading-traces\\20261104-040510-17712\\launch-command.json": "9335ba416fd3530e5884c4872f3ba46ce4302b9bd013cd4571acfa573299a3df",
+    "work\\sky-bridge\\reproduction-45\\recording-configuration.json": "db410627826b95c42b2ba011b59c3e643041f138cd2656b5d16b3ae620cf00c7",
+    "work\\sky-bridge\\reproduction-45\\preparation.json": "a0f43704369dc57704640fe6e8481609159a4bf53cf49bfa4752711aab19f699",
+    "work\\sky-bridge\\reproduction-45\\runtime-hashes.json": "c8fda7d0a17937cb0035d6280ad80db47df3137d46ffc20f8ffb13ff2f9589a9",
+    "work\\sky-bridge\\reproduction-45\\native-state.bin": "4bf07fea75d7037b48b11d89371edbfe72f21fcb5a0c16847e3fc283f50381c0",
+    "work\\sky-bridge\\reproduction-45\\native-state-comparison.json": "e7050445653275ac6a9b96d51913273e60a95caa3197351c8d3ae4f9514fdaf8",
+    "work\\sky-bridge\\reproduction-45\\native-observer-comparison.json": "1d18ea65254fb559f2781181bd255615bf6e9b357866a287ca4dfb60c845b748",
+    "work\\sky-bridge\\reproduction-45\\seated-timing.json": "9707e3c2478351791c536c63f9711b666f65d96afb0f0cd3f7518e9237196572",
+    ".local\\loading-traces\\20261104-040510-17712\\loading-trace.jsonl": "9844af54d474fa1272bd4b99912ce82aa96add8f892f7bba99d16bae6d3cce42",
+    ".local\\loading-traces\\20261104-040510-17712\\trace-runtime.1.log": "b8093e4936a9f29e2d337756af1f8e30b91ab4c59170eea628b5b7152cb0e621",
+    ".local\\loading-traces\\20261104-040510-17712\\trace-runtime.log": "4255865e35083648d8d07a5eaf915aff157b67a6d1d24c89407a6cdc0e60b7c1",
+    "work\\sky-bridge\\combined-candidate-build\\verification.json": "5d4dddb1c3c3b85734e6c9bfce6379f494893ed96bf7baa5a833962aa011b2a8",
+    "work\\sky-bridge\\combined-candidate-build\\sky_bridge.mips.json": "0ec71028a647fd473fa77a561c8b3baa823d882db36cbbee48fa0cfea41ec1f9",
+    "work\\sky-bridge\\combined-candidate-build\\coverage-comparison.json": "e0860c974865b8bffb925e879cb112bb271a56fc1519b9fcbcfa9a52270de5ee",
+    "work\\sky-bridge\\combined-candidate-build\\live-build.json": "a61b4b8bd4434f31884b587516109e9da27cd624393d92652996c5aeb4f854b6",
+    "work\\sky-bridge\\combined-candidate-build\\live-verified.json": "aca36cb4bf242c9390eaae4fbb135294a02ff9a66b3343af85b6d00a7162a36b",
+    "work\\sky-bridge\\combined-candidate-build\\shader-index.json": "bd340ee0b618342d8c85ff9d8b3af7e3662d1fa4179685110c2942e389715ed6"
+  },
+  "limitations": [
+    "Zero sampled fabric black overwrites and matching aggregate coverage do not establish full visual acceptance or identical edge masks.",
+    "Billboard mip bindings are verified; legibility, animation appearance and rain density still need visual verification.",
+    "Searchlight lighting remains depth-rejected; the prior stored-depth writer and actual fragment depths are not yet measured.",
+    "The replay restores the exact camera and saved player/vehicle placement, not full simulation time or every effect state.",
+    "Timing compares one bounded stationary run per candidate with identical starting cache/runtime; traversal, audio and overall production performance remain unverified.",
+    "Native map loading passes; the LIVE package has integrity/payload validation only, with no runtime package installation, physical Xbox360 or system-link test.",
+    "Shared GPU and installed candidate32 map are unchanged. Goal remains active; no release was promoted."
+  ],
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}

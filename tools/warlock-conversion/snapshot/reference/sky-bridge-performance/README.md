@@ -1542,3 +1542,71 @@ Source: Halo Online Sky Bridge via GeneralHeed / Priception's
 [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
 The original individual creator is unspecified; this project provides the
 Xbox 360/OpenH3M adaptation.
+
+## Combined candidate36: fabric and billboard corrections (2026-11-04)
+
+`candidate36-combined-result.json` records the incremental composition and
+private validation. `restore-screen-mips.py OUTPUT.map --basis-candidate 35
+--explicit-tail-addresses` retains candidate35's corrected fabric material
+and applies candidate34's two audited bitmap resources. Candidate32 remains
+the default basis for reproducing the earlier billboard candidates. Build
+into a private work directory, then place only the map and the existing six
+preview/mapinfo files in `work/sky-bridge/payload-36`; keep JSON evidence out
+of the flat DLC payload.
+
+The combined map is 196448256 bytes, SHA256
+`39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245`.
+`verify-combined-candidate.py` checks the entire retained 37552128-byte
+metadata section against candidate35, allowing only the two bitmap records,
+handles and explicitly checked registry/residency fields. Only 36 retained
+bytes differ. All 10599 tag identities and virtual addresses remain unchanged;
+all prior registry entries, 154062848 raw-section bytes and trailing sections
+remain identical. This includes the private fabric shaders and material.
+The two bitmap records, controls, fixups and resource bytes match candidate34
+exactly. This is structural evidence, not a visual verdict.
+
+Private run42 records 300 frames and 11308 unambiguous model draws, each with
+complete coverage queries and paired color measurements. The corrected fabric
+has zero sampled black overwrites over 610 static/dynamic lighting draws.
+Against candidate35 run40, all 603 matching fabric input keys retain identical
+aggregate passing coverage. Eighteen of 43 measured model/pass groups change
+a sampled color. All 9000 traced base/lit camera matrices and the native
+observer command/result match the saved human view exactly. Searchlight
+lighting remains rejected; combining the map corrections does not resolve it.
+
+Private run43 records 1800 complete billboard draw pairs across 300 frames.
+Both repaired textures retain their nine/eight addressable mip levels in
+every recorded frame. The native 128x16 scanline header uses explicit primary
+and secondary addresses `0xba2dc000`, both backed by its single 4096-byte
+allocation. The GPU fetches agree, with minimum/maximum LOD 0/7. Camera
+constants match in all 1800 draws and the native observer command/result are
+exact. The geometry decoder now uses and verifies each run's recorded map,
+rather than assuming candidate32. These checks establish actual bindings and
+sampled contributions; advertisement legibility remains unverified.
+
+Private timing runs 44/45 use identical original GPU/runtime DLLs, replay
+executables, bootstrap settings and starting shader-cache files, with all
+GPU/draw/header probes disabled. Candidate32 measures 29.9700 FPS over 18.89
+seconds after the first logged seated marker: median/p95 intervals 33.367/33.922
+ms, maximum 50.698 ms and eight intervals above 50 ms. Candidate36 measures
+29.9701 FPS over 19.65 seconds: median/p95 intervals 33.371/33.819 ms,
+maximum 34.152 ms and no intervals above 50 ms. Each native observer snapshot
+matches the human command/result exactly. These are one stationary run per
+candidate, not a traversal benchmark or a general improvement claim.
+Startup-inclusive windows remain in the report, including the respective
+3.39/3.52-second load/placement stalls. All four runs 42–45 complete their
+180-second watchdogs and pass all eleven native header-hash checks.
+
+The private LIVE package is
+`work/sky-bridge/live-candidate-36/5DC3487BF1633DF162B829AF5609E7687F169DE8`,
+SHA256 `96c76373c7c092dd169a92efd678e1b68d6d4f59fdab588aaf6d67503064171b`.
+All hash tables/data blocks pass integrity checks, and all seven extracted
+files match the flat payload byte for byte. This package has not been installed
+or runtime-loaded as a LIVE container. Physical Xbox 360, system link,
+traversal/audio and full visual acceptance remain unverified. No shared runtime
+or installed map changed, and no release was promoted.
+
+Source: Halo Online Sky Bridge via GeneralHeed / Priception's
+[Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190).
+The original individual creator is unspecified; this project provides the
+Xbox 360/OpenH3M adaptation.

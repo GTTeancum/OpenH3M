@@ -113,7 +113,7 @@ def analyze(run):
             'RB_BLENDCONTROL0 decoding uses the active SDK register layout: src/dst 1/0 is replacement, 1/1 is additive.',
             'Final samples use the actual DXGI format and component mapping, not a fixed 8-bit interpretation.',
             'The original human bad frame was not located numerically; these are private replay events.',
-            'Why the guest selects this blend state, the full affected area and a correction remain to be established.'],
+            'This decoder measures sampled overwrites only; causal state tracing and candidate comparisons are reported separately.'],
         limitations=['Native guest-output samples after host gamma/FXAA precede presenter scaling and desktop composition.',
             'A 3-4-frame dark window is not an isolated one-frame near-black pulse; the old pulse-only metric can miss it.',
             'Only the saved camera is exact; the replay is not a full simulation savestate.',

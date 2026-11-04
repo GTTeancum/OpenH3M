@@ -1,5 +1,5 @@
 # Private, bounded, process-local replay; never modifies the shared runtime.
-param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed,[ValidateRange(0,20000)][int]$ArmDelayMs=0,[switch]$RegionOnly,[switch]$FullViewport,[switch]$NativeObserver,[switch]$LatePassProbe,[switch]$WaterPassProbe,[switch]$AllDrawTrace,[switch]$RainPassProbe,[switch]$ScreenPassProbe,[ValidateRange(0.03,0.1)][double]$VehicleTolerance=0.03,[ValidateSet(32,33,34,35)][int]$Candidate=32,[switch]$HeaderTrace,[switch]$TimingOnly,[switch]$ModelPassProbe,[switch]$BlendTrace,[switch]$CommandTrace,[switch]$CoverageTrace,[switch]$DepthTestTrace)
+param([Parameter(Mandatory=$true)][string]$RunDirectory,[switch]$StageProbe,[switch]$PresentedProbe,[switch]$RegionProbe,[switch]$SwapchainProbe,[string]$PixelRegion='0.54,0.255,0.93,0.425',[string]$ProfileSeed,[ValidateRange(0,20000)][int]$ArmDelayMs=0,[switch]$RegionOnly,[switch]$FullViewport,[switch]$NativeObserver,[switch]$LatePassProbe,[switch]$WaterPassProbe,[switch]$AllDrawTrace,[switch]$RainPassProbe,[switch]$ScreenPassProbe,[ValidateRange(0.03,0.1)][double]$VehicleTolerance=0.03,[ValidateSet(32,33,34,35,36)][int]$Candidate=32,[switch]$HeaderTrace,[switch]$TimingOnly,[switch]$ModelPassProbe,[switch]$BlendTrace,[switch]$CommandTrace,[switch]$CoverageTrace,[switch]$DepthTestTrace)
 $ErrorActionPreference='Stop'
 $repo='C:/X360/ISOs/H3M/.local/OpenH3M-source'
 Set-Location -LiteralPath $repo
@@ -26,7 +26,7 @@ foreach ($entry in $hashes.PSObject.Properties) {
 }
 $payload=Join-Path $repo ('work/sky-bridge/payload-'+$Candidate)
 $mapHash=(Get-FileHash -LiteralPath (Join-Path $payload 'sky_bridge.map')).Hash.ToLowerInvariant()
-$expectedMap=@{32='311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d';33='1705dc69c655d5a0d1e10e1163d45f7ce9e45743bcd7192efce9306ba371ac3c';34='70e5c7aaed939be2c8c718535d8113deb334cd66ed428bd995c7b8573e93aa59';35='9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e'}
+$expectedMap=@{32='311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d';33='1705dc69c655d5a0d1e10e1163d45f7ce9e45743bcd7192efce9306ba371ac3c';34='70e5c7aaed939be2c8c718535d8113deb334cd66ed428bd995c7b8573e93aa59';35='9dec756fd9d0b4b3d2af252bb75a7468bccba5e6d3d8034001f8cf0c2f705a8e';36='39873291ea89a3225a53ecda3f9811f7429ab46c8760ebc07a9938fcf8dd0245'}
 if($mapHash -ne $expectedMap[$Candidate]){throw 'Unexpected private candidate map'}
 $env:TEMP=Join-Path $repo '.local/build-temp';$env:TMP=$env:TEMP
 $env:OPENH3M_SKY_REPRO_DIR=$run

@@ -7,7 +7,12 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--trace-dir',type=Path,default=Path('work/sky-bridge/draw-trace-20261103-200444'))
 root=parser.parse_args().trace_dir
 root.resolve().relative_to(Path(__file__).resolve().parents[5])
-c=Cache('work/sky-bridge/payload-32/sky_bridge.map')
+configuration=root/'recording-configuration.json'
+settings=json.loads(configuration.read_text(encoding='utf-8-sig')) if configuration.exists() else {'candidate':32}
+cache_path=Path(f"work/sky-bridge/payload-{settings['candidate']}/sky_bridge.map")
+if configuration.exists():
+ assert hashlib.sha256(cache_path.read_bytes()).hexdigest()==settings['map_sha256'], 'Recorded map hash changed'
+c=Cache(cache_path)
 c.shared_paths={'maps\\shared.map':Path('C:/X360/ISOs/H3M/maps/shared.map')};c.decoded_pages={}
 materials=json.loads(Path('work/sky-bridge/card-material-geometry-audit.json').read_text())['materials']
 material_by_slot={m['slot']:m for m in materials}
