@@ -559,3 +559,62 @@ repeatable viewpoint and improved coverage, not a reproduction or explanation
 of the reported black flicker. Keep the correction goal open and trace the
 bad frame/stage before applying any rendering change. Billboard readability,
 visible outdoor rain, and final performance acceptance remain unverified.
+
+## Per-draw and final guest-output numeric probes
+
+`candidate32-stage-probe-result.json` records private reproductions 05 and 06.
+Both reproduce the saved camera/projection exactly in all 1762 attributed
+draws across 300 frames. The player is seated natively; simulation continues.
+The original shared GPU DLL remains restored and hash-verified. Both private
+games closed under their 180-second watchdogs. No further manual positioning
+is needed for this view.
+
+`sky_stage_probe.h` records sixteen isolated color-0 values immediately before
+and after the identified albedo, static-lighting and dynamic-lighting draws.
+Each run produced 56,384 values with complete before/after pairs. All sample
+identities match the CPU draw trace's sequence, frame, shader and index count.
+The decoder checks incomplete pairs, mismatched resources and nonfinite values.
+Values are raw render-target channels, not necessarily final colors. Unchanged
+values alone do not prove a draw invisible or a pass inactive.
+
+The optional second pixel probe records 144 numeric values after host gamma
+and FXAA into `presented.csv`. This is the native guest-output resource before
+presenter scaling and desktop composition. Run 06 recorded 43,200 complete
+values at each stage; their frame, coordinate and submission keys agree.
+No screenshot, image import, desktop capture or host input was used.
+
+The source patch is `sky-stage-probe-integration.patch`, applied after the
+existing numeric pixel-probe integration. Use `git apply --ignore-space-change`
+for the SDK's mixed source line endings; a scratch application reproduced all
+three current SDK edits exactly after newline normalization. Copy `sky_draw_trace.h`,
+`sky_pixel_probe.h` and `sky_stage_probe.h` into the SDK's D3D12 source folder.
+The launcher enables these additions only with `-StageProbe` and
+`-PresentedProbe`; all output stays inside the selected repository run folder.
+The stage probe stops after 300 frame IDs, 15 seconds or 100,000 written rows;
+pending fence-complete records can drain afterward. The two final-output
+probes retain their independent 300-frame/15-second bounds.
+
+Native D3D12 WARP fixtures verified all 32 coordinate-coded RGBA16F values
+across the stage probe's two phases, and all 144 RGBA8 values from the final
+output probe. Both check that readback waits for completion and stops at the
+frame limit. Stage closure was specifically tested after CPU tracing becomes
+inactive. The final-output fixture also checks the independent output file.
+Build and fixture artifacts remain under
+`work/sky-bridge/stage-probe-build/`. The viewport coverage analysis now rejects
+unsupported live viewport/scissor mappings instead of assuming screen mapping.
+
+Twelve of thirteen mesh-184 albedo points changed by that draw have bit-stable
+post-draw RGB across 299 complete albedo frames. The other point, (720,193),
+varies. Its static-pass dips at frames 3016, 3079 and 3166 in run 06 survive into
+the same-frame final guest output, but remain above black. No fixed sample
+meets the defined near-black pulse threshold. These observations do not yet
+reproduce or explain the user's regional black flash; no rendering change or
+release acceptance follows. Per-draw copy barriers can affect timing, and
+sparse coverage or a differing simulation state may still conceal the symptom.
+
+Re-run analysis with `check-reproduction-camera.py`, `read-stage-probe.py`,
+and `read-pixel-probe.py`. For `presented.csv`, supply
+`--stage after_host_effects`. Next trace the varying point through preceding
+depth/geometry writes and improve coverage of the reported region before
+altering rendering. Billboard readability, visible outdoor rain and final
+performance acceptance remain pending. Source credit is unchanged above.

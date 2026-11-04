@@ -17,7 +17,8 @@ inline void FillBufferResourceDesc(D3D12_RESOURCE_DESC& d,UINT64 size,D3D12_RESO
 #include "sky_pixel_probe.h"
 using Microsoft::WRL::ComPtr;
 void check(HRESULT hr) {if(FAILED(hr)) throw std::runtime_error("D3D12 failure");}
-int main() {
+int main(int argc,char** argv) {
+ const bool presented=argc==2&&std::strcmp(argv[1],"--presented")==0;
  ComPtr<IDXGIFactory4> factory;check(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
  ComPtr<IDXGIAdapter> adapter;check(factory->EnumWarpAdapter(IID_PPV_ARGS(&adapter)));
  ComPtr<ID3D12Device> device;check(D3D12CreateDevice(adapter.Get(),D3D_FEATURE_LEVEL_11_0,IID_PPV_ARGS(&device)));
@@ -44,7 +45,7 @@ int main() {
   b.Transition.Subresource=D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;b.Transition.StateBefore=before;b.Transition.StateAfter=after;list->ResourceBarrier(1,&b);
  };
  barrier(D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
- auto& probe=rex::graphics::d3d12::SkyPixelProbe::Get();bool copied=false;
+ auto& probe=presented?rex::graphics::d3d12::SkyPixelProbe::GetPresented():rex::graphics::d3d12::SkyPixelProbe::Get();bool copied=false;
  probe.Record(device.Get(),texture.Get(),DXGI_FORMAT_R8G8B8A8_UNORM,D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING,32,18,10,1,0,[&](ID3D12Resource* target) {
   copied=true;barrier(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,D3D12_RESOURCE_STATE_COPY_SOURCE);
   D3D12_TEXTURE_COPY_LOCATION a{};a.pResource=target;a.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;a.PlacedFootprint.Footprint={DXGI_FORMAT_R8G8B8A8_UNORM,1,1,1,256};
@@ -57,7 +58,7 @@ int main() {
  });
  if(!copied)throw std::runtime_error("Probe did not arm");
  probe.Poll(0);
- std::ifstream before(std::filesystem::path(_wgetenv(L"OPENH3M_SKY_PIXEL_PROBE_DIR"))/"pixels.csv");
+ std::ifstream before(std::filesystem::path(_wgetenv(L"OPENH3M_SKY_PIXEL_PROBE_DIR"))/(presented?"presented.csv":"pixels.csv"));
  std::string text((std::istreambuf_iterator<char>(before)),{});
  if(text.find("sample,")!=std::string::npos)throw std::runtime_error("Read before completion");
  before.close();

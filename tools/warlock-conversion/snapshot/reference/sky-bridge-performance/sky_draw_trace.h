@@ -12,6 +12,7 @@ namespace rex::graphics::d3d12 {
 class SkyDrawTrace {
  public:
   static SkyDrawTrace& Get() { static SkyDrawTrace instance; return instance; }
+  uint64_t ActiveSequence() const { return active_draw_ ? sequence_ : 0; }
   ~SkyDrawTrace() { Finish(4); }
   void Draw(uint64_t frame, const RegisterFile& regs, const Shader* vs,
             const Shader* ps, uint32_t primitive, uint32_t count,

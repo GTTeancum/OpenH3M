@@ -10,6 +10,7 @@ namespace rex::graphics::d3d12 {
 class SkyPixelProbe {
  public:
   static SkyPixelProbe& Get() { static SkyPixelProbe instance; return instance; }
+  static SkyPixelProbe& GetPresented() { static SkyPixelProbe instance(true); return instance; }
   uint32_t SampleX(uint32_t column,uint32_t width) const {
     return std::min(width-1,uint32_t((region_[0]+(column+.5)*(region_[2]-region_[0])/16)*width));
   }
@@ -34,7 +35,7 @@ class SkyPixelProbe {
       poll_=now+std::chrono::seconds(1);
       std::error_code ec;
       if (!std::filesystem::exists(directory_/"arm",ec)) return;
-      file_=_wfopen((directory_/"pixels.csv").c_str(),L"wx");
+      file_=_wfopen((directory_/filename_).c_str(),L"wx");
       if (!file_) { finished_=true; return; }
       fprintf(file_,"event,frame,submission,format,swizzle,width,height,x,y,packed_pixel\n");
       first_frame_=frame;start_=now;
@@ -97,7 +98,12 @@ class SkyPixelProbe {
     for (auto& slot:slots_) slot.buffer.Reset();
   }
  private:
-  SkyPixelProbe() {
+  explicit SkyPixelProbe(bool presented=false) {
+    if(presented){
+      const auto* enabled=std::getenv("OPENH3M_SKY_PIXEL_PROBE_PRESENTED");
+      if(!enabled||std::strcmp(enabled,"1"))return;
+      filename_=L"presented.csv";
+    }
     const auto* requested=_wgetenv(L"OPENH3M_SKY_PIXEL_PROBE_DIR");
     if (!requested || !*requested) return;
     std::error_code ec;
@@ -119,6 +125,7 @@ class SkyPixelProbe {
     }
   }
   std::filesystem::path directory_;
+  const wchar_t* filename_=L"pixels.csv";
   std::array<double,4> region_{0,0,1,1};
   std::array<Slot,8> slots_;
   FILE* file_=nullptr;

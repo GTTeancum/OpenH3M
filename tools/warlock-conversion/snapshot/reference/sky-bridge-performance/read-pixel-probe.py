@@ -79,11 +79,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('csv', type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--stage',choices=('before_host_effects','after_host_effects'),default='before_host_effects')
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[5]
     args.output.resolve().relative_to(repo)
     with args.csv.open(newline='') as stream:
         report = analyze(csv.DictReader(stream))
+    report['measurement_stage']=args.stage
+    if args.stage=='after_host_effects':
+        report['limitation']='144 isolated native guest-output texels after host gamma/FXAA, before presenter scaling and desktop composition. Sparse samples can miss artifacts; dark values do not establish a defect or its cause.'
     report['credit'] = json.loads((Path(__file__).parent/'sky-pixel-probe-build.json').read_text())['credit']
     args.output.write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps({k: report[k] for k in ('events','frame_count','first_frame','last_frame','missing_frame_ids','incomplete_sample_grids')}))

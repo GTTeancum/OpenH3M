@@ -1,9 +1,12 @@
 """Check sparse probe points against projected candidate triangles, not just bounds."""
 import argparse
+import array
+import collections
 import csv
 import json
 from pathlib import Path
 import sys
+import struct
 import numpy as np
 
 parser=argparse.ArgumentParser(description=__doc__)
@@ -19,6 +22,27 @@ with (root/'pixels.csv').open() as stream:
     rows=[r for r in csv.DictReader(stream) if r['event']=='sample']
 first=rows[0]
 width,height=int(first['width']),int(first['height'])
+registers=array.array('I',[0])*0x5003
+viewport_variants=collections.Counter()
+with (root/'draws.bin').open('rb') as stream:
+    while header:=stream.read(8):
+        kind,size=struct.unpack('<II',header);data=stream.read(size)
+        if len(data)!=size:raise ValueError('Truncated draw packet')
+        if kind==1:draw=struct.unpack('<11Q',data)
+        elif kind==2:
+            for index,value in struct.iter_unpack('<II',data):registers[index]=value
+        elif kind==5 and draw[4] in {g['ps'] for g in groups}:
+            state=tuple(registers[i] for i in (0x2080,0x2081,0x2082,0x210f,0x2110,0x2111,0x2112,0x2206))
+            viewport_variants[state]+=1
+if not viewport_variants:raise ValueError('No emitted viewport evidence')
+viewport_evidence=[]
+for state,count in viewport_variants.items():
+    window,tl,br,*values,vte=state
+    sx,ox,sy,oy=struct.unpack('<4f',struct.pack('<4I',*values))
+    if window or tl or br!=(height<<16|width) or (sx,ox,sy,oy)!=(width/2,width/2,-height/2,height/2) or vte!=0x43f:
+        raise ValueError('Recorded viewport differs from the supported projection-to-probe mapping')
+    viewport_evidence.append({'draws':count,'x_scale':sx,'x_offset':ox,'y_scale':sy,'y_offset':oy,
+                              'vte':hex(vte),'scissor_width':width,'scissor_height':height})
 points=np.array([[int(r['x']),int(r['y'])] for r in rows if r['frame']==first['frame']])
 if len(points)!=144 or len(set(map(tuple,points)))!=144:raise ValueError('Incomplete or duplicate sample grid')
 uv=(points+.5)/[width,height]
@@ -68,7 +92,7 @@ for group in groups:
             hits.append({'x':int(pixel[0]),'y':int(pixel[1]),'triangles':int(inside.sum())})
     results.append({'mesh':g['mesh'],'part':g['part'],'material':g['material'],
                     'projected_triangles':len(tri_uv),'covered_sample_points':hits})
-report={'width':width,'height':height,'results':results,
+report={'width':width,'height':height,'viewport_evidence':viewport_evidence,'results':results,
         'limitation':'Geometric coverage only: does not establish visibility through other objects, front-face acceptance, MSAA sample coverage, or correspondence to the human-circled surface.',
         'vertex_transform_evidence':'Live VS 17757447148780339854: fetch 12, decompression 22, model 24-29, homogeneous 36, projection 50-53, position export 101. c255 is (0,1,31.75,0.001). Vertex fetch 95 uses endian 8-in-32, and y/x/w swizzle recovers big-endian u16 XYZ.'}
 (root/'sample-triangle-coverage.json').write_text(json.dumps(report,indent=2)+'\n')

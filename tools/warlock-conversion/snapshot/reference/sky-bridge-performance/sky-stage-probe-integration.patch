@@ -1,0 +1,132 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -34,6 +34,7 @@
+ #include <rex/ui/d3d12/d3d12_util.h>
+ #include "sky_draw_trace.h"
+ #include "sky_pixel_probe.h"
++#include "sky_stage_probe.h"
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_bindless, true, "GPU/D3D12", "Use bindless resources where available")
+     .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+@@ -1660,6 +1661,8 @@
+ void D3D12CommandProcessor::ShutdownContext() {
+   AwaitAllQueueOperationsCompletion("shutdown");
+   SkyPixelProbe::Get().Shutdown(submission_completed_);
++  SkyPixelProbe::GetPresented().Shutdown(submission_completed_);
++  SkyStageProbe::Get().Shutdown(submission_completed_);
+   InvalidateAllVertexBufferResidency();
+   ShutdownOcclusionQueryResources();
+ 
+@@ -2308,6 +2311,28 @@
+                                 apply_gamma_dest_initial_state);
+         }
+ 
++        SkyPixelProbe::GetPresented().Record(device,guest_output_resource,
++          ui::d3d12::D3D12Presenter::kGuestOutputFormat,D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING,
++          guest_output_width,guest_output_height,frame_current_,submission_current_,submission_completed_,
++          [&](ID3D12Resource* destination){
++            const auto initial=ui::d3d12::D3D12Presenter::kGuestOutputInternalState;
++            PushTransitionBarrier(guest_output_resource,initial,D3D12_RESOURCE_STATE_COPY_SOURCE);
++            SubmitBarriers();
++            D3D12_TEXTURE_COPY_LOCATION source{};source.pResource=guest_output_resource;
++            source.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++            D3D12_TEXTURE_COPY_LOCATION target{};target.pResource=destination;
++            target.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
++            target.PlacedFootprint.Footprint={ui::d3d12::D3D12Presenter::kGuestOutputFormat,1,1,1,256};
++            auto& probe=SkyPixelProbe::GetPresented();
++            for(uint32_t row=0;row<9;++row)for(uint32_t col=0;col<16;++col){
++              uint32_t x=probe.SampleX(col,guest_output_width),y=probe.SampleY(row,guest_output_height);
++              D3D12_BOX box{x,y,0,x+1,y+1,1};target.PlacedFootprint.Offset=(row*16+col)*512;
++              deferred_command_list_.D3DCopyTextureRegion(&target,0,0,0,&source,&box);
++            }
++            PushTransitionBarrier(guest_output_resource,D3D12_RESOURCE_STATE_COPY_SOURCE,initial);
++            SubmitBarriers();
++          });
++
+         // Need to submit all the commands before giving the image back to the
+         // presenter so it can submit its own commands for displaying it to the
+         // queue.
+@@ -2720,8 +2745,12 @@
+     PROFILE_DRAW_CALL();
+     PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
+     const uint32_t occlusion_index = BeginOcclusionDraw();
++    render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,0,submission_current_,submission_completed_);
+     deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
+                                             0, 0);
++    render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);
+     SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+   } else {
+@@ -2791,8 +2820,12 @@
+     PROFILE_DRAW_CALL();
+     PROFILE_VERTICES(primitive_processing_result.host_draw_vertex_count);
+     const uint32_t occlusion_index = BeginOcclusionDraw();
++    render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,0,submission_current_,submission_completed_);
+     deferred_command_list_.D3DDrawIndexedInstanced(
+         primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
++    render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
++      active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);
+     SkyDrawTrace::Get().Emitted(frame_current_);
+     EndOcclusionDraw(occlusion_index);
+     if (scratch_index_buffer != nullptr) {
+--- a/src/graphics/d3d12/render_target_cache.cpp
++++ b/src/graphics/d3d12/render_target_cache.cpp
+@@ -37,6 +37,7 @@
+ #include <rex/string.h>
+ #include <rex/ui/d3d12/d3d12_provider.h>
+ #include <rex/ui/d3d12/d3d12_util.h>
++#include "sky_stage_probe.h"
+ 
+ REXCVAR_DEFINE_BOOL(native_stencil_value_output_d3d12_intel, false, "GPU/D3D12",
+                     "Native stencil value output for Intel D3D12");
+@@ -1087,6 +1088,36 @@
+       return false;
+   }
+   return true;
++}
++
++void D3D12RenderTargetCache::ProbeSkyDraw(uint64_t frame,uint64_t sequence,uint64_t shader,
++    uint32_t count,uint32_t phase,uint64_t submission,uint64_t completed) {
++  auto& probe=SkyStageProbe::Get();
++  if(!probe.Enabled()||(count!=28632&&count!=21858)||
++     (shader!=8562590739555380577ull&&shader!=14617156369365479079ull&&shader!=14007674117786981017ull))return;
++  if(GetPath()!=Path::kHostRenderTargets||!(GetLastUpdateBoundRenderTargets()&2))return;
++  auto* target=static_cast<D3D12RenderTarget*>(last_update_accumulated_render_targets()[1]);
++  if(!target)return;
++  auto* resource=target->resource();
++  probe.Record(command_processor_.GetD3D12Provider().GetDevice(),resource,
++    GetColorDrawDXGIFormat(target->key().GetColorFormat()),frame,sequence,shader,count,phase,
++    submission,completed,[&](ID3D12Resource* destination){
++      const auto old=target->SetResourceState(D3D12_RESOURCE_STATE_COPY_SOURCE);
++      command_processor_.PushTransitionBarrier(resource,old,D3D12_RESOURCE_STATE_COPY_SOURCE);
++      command_processor_.SubmitBarriers();
++      D3D12_TEXTURE_COPY_LOCATION source{};source.pResource=resource;
++      source.Type=D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++      D3D12_TEXTURE_COPY_LOCATION output{};output.pResource=destination;
++      output.Type=D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
++      output.PlacedFootprint.Footprint={resource->GetDesc().Format,1,1,1,256};
++      for(uint32_t i=0;i<probe.points.size();++i){
++        const auto& p=probe.points[i];D3D12_BOX box{p[0],p[1],0,p[0]+1,p[1]+1,1};
++        output.PlacedFootprint.Offset=i*512;
++        command_processor_.GetDeferredCommandList().D3DCopyTextureRegion(&output,0,0,0,&source,&box);
++      }
++      command_processor_.PushTransitionBarrier(resource,D3D12_RESOURCE_STATE_COPY_SOURCE,old);
++      target->SetResourceState(old);command_processor_.SubmitBarriers();
++    });
+ }
+ 
+ ID3D12Resource* D3D12RenderTargetCache::GetSceneDepthResource() const {
+--- a/include/rex/graphics/d3d12/render_target_cache.h
++++ b/include/rex/graphics/d3d12/render_target_cache.h
+@@ -93,6 +93,8 @@
+   bool depth_float24_round() const { return depth_float24_round_; }
+   ID3D12Resource* GetSceneDepthResource() const;
+   void CopySceneDepth(ID3D12Resource* destination);
++  void ProbeSkyDraw(uint64_t frame,uint64_t sequence,uint64_t shader,
++                    uint32_t count,uint32_t phase,uint64_t submission,uint64_t completed);
+   bool depth_float24_convert_in_pixel_shader() const {
+     return depth_float24_convert_in_pixel_shader_;
+   }

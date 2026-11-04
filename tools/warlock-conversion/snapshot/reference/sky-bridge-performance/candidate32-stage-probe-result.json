@@ -1,0 +1,299 @@
+{
+  "scope": "Additional native numeric tracing from the saved human camera; no rendering fix or acceptance",
+  "map_sha256": "311ad88580c5e099546c029f07f93976c346a8bb9bf9b12c1d48f72f5e0c3e5d",
+  "runs": [
+    {
+      "run": "work/sky-bridge/reproduction-05",
+      "private_runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.exe": "bae11d6ac110e005d80ec4a722ca81df6fd3e1bfcbf374f5af5c0606f05434c5",
+        "rexgpu-xenos.dll": "9ceda4b389d11d60b0b9d24ce50703ff535fb55ee057179faef0537194661c5d",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+      "camera": {
+        "draws": 1762,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 564,
+          "albedo": 598
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "stage": {
+        "events": {
+          "sample": 56384,
+          "end": 1
+        },
+        "complete_draws": 1762,
+        "frame_count": 300,
+        "incomplete_pairs": [],
+        "incomplete_draw_point_sets": [],
+        "nonfinite_samples": []
+      },
+      "stage_cpu_identity_verified": true,
+      "stage_frame_range": [
+        2901,
+        3200
+      ],
+      "stage_target_format_resource_format_width_height": [
+        [
+          28,
+          28,
+          1200,
+          2192
+        ]
+      ],
+      "changed_point_pass_groups": 15,
+      "pre_host": {
+        "events": {
+          "sample": 43200,
+          "end": 1
+        },
+        "frame_count": 300,
+        "first_frame": 2896,
+        "last_frame": 3195,
+        "missing_frame_ids": [],
+        "incomplete_sample_grids": {},
+        "dark_pulses": []
+      },
+      "artifacts_sha256": {
+        "draws.bin": "fdc33390ca2384f257b901adcf80b167dd994f2687dce3260e9d68fb3235874d",
+        "stages.csv": "50f04571642ec97577ef6aff223a3c974eaae1e38664614ec4e9a7f73a18b1eb",
+        "pixels.csv": "0ad93a131bd7560334f64a89b63ad61ad6698fb8f1fa2ab2d1f0285e26e292e5"
+      }
+    },
+    {
+      "run": "work/sky-bridge/reproduction-06",
+      "private_runtime_hashes": {
+        "halo3mp_l360.dll": "37d316016b3cd98965bb92d9d22321b279f23abbddbebc59562e91dbfd13fdd2",
+        "halo3mp_q10.dll": "4b1d436e431fce05fed3c5229db710257c7f97e099b9f112b88e027867a8c8f1",
+        "halo3mp_waveshell-xbox.dll": "f19a841578166d6af83593095acc5fcf1828ec1094b7fdbd6a2f179edd98761c",
+        "halo3mp_waveslibdll.dll": "81a2f9aa068dfbfec50d201358b5f9c565834c3ad570401aeb6ddb038ae632d6",
+        "OpenH3M.exe": "bae11d6ac110e005d80ec4a722ca81df6fd3e1bfcbf374f5af5c0606f05434c5",
+        "rexgpu-xenos.dll": "38228a8c4e3c4bebcfa399071b5618dce49153fad0b5d92f57dfe5847fac6bd2",
+        "rexruntime.dll": "0f9656352475c8ea06e94308ce3e8da1ac7be38204bddde1cd1c0e64cc38620b"
+      },
+      "pose_sha256": "334e79d3eccc3867d7b0a30a8ae24f6e0d6fd36505ac32bce7bd7295d6960e5d",
+      "camera": {
+        "draws": 1762,
+        "frame_count": 300,
+        "passes": {
+          "static": 600,
+          "dynamic": 564,
+          "albedo": 598
+        },
+        "all_candidate_cameras_exact": true
+      },
+      "stage": {
+        "events": {
+          "sample": 56384,
+          "end": 1
+        },
+        "complete_draws": 1762,
+        "frame_count": 300,
+        "incomplete_pairs": [],
+        "incomplete_draw_point_sets": [],
+        "nonfinite_samples": []
+      },
+      "stage_cpu_identity_verified": true,
+      "stage_frame_range": [
+        2931,
+        3230
+      ],
+      "stage_target_format_resource_format_width_height": [
+        [
+          28,
+          28,
+          1200,
+          2192
+        ]
+      ],
+      "changed_point_pass_groups": 15,
+      "pre_host": {
+        "events": {
+          "sample": 43200,
+          "end": 1
+        },
+        "frame_count": 300,
+        "first_frame": 2926,
+        "last_frame": 3225,
+        "missing_frame_ids": [],
+        "incomplete_sample_grids": {},
+        "dark_pulses": []
+      },
+      "artifacts_sha256": {
+        "draws.bin": "9bb49e85a9cc0e55ce82cdb33631d525bc2e6abbf3fa436c3e890a440dda46ea",
+        "stages.csv": "ac7ed8e89e1dd44a67dcbcf8e52e8970d652d807cfa35e9b44cc2578c7772ee3",
+        "pixels.csv": "6a77f016be0ff26b937e6340a6256210af6cfd13bfa7c9fa11b7539b17c72d9a",
+        "presented.csv": "3096db48b636b52f430af4359f969335f6cfaaa47f65e165fef480bbf3aa0f64"
+      },
+      "post_host": {
+        "events": {
+          "sample": 43200,
+          "end": 1
+        },
+        "frame_count": 300,
+        "first_frame": 2926,
+        "last_frame": 3225,
+        "missing_frame_ids": [],
+        "incomplete_sample_grids": {},
+        "dark_pulses": []
+      },
+      "correlation": {
+        "matching_pre_post_samples": 43200,
+        "frame_coordinate_and_submission_exact": true,
+        "static_dips": [
+          {
+            "frame": 3016,
+            "x": 720,
+            "y": 193,
+            "static_after_rgb": [
+              0.1411764705882353,
+              0.1450980392156863,
+              0.19607843137254902
+            ],
+            "before_host": {
+              "submission": 16307,
+              "rgb": [
+                0.5659824046920822,
+                0.5317693059628543,
+                0.5630498533724341
+              ]
+            },
+            "after_host": {
+              "submission": 16307,
+              "rgb": [
+                0.23949169110459434,
+                0.2101661779081134,
+                0.23655913978494625
+              ]
+            }
+          },
+          {
+            "frame": 3079,
+            "x": 720,
+            "y": 193,
+            "static_after_rgb": [
+              0.1411764705882353,
+              0.1450980392156863,
+              0.19607843137254902
+            ],
+            "before_host": {
+              "submission": 18190,
+              "rgb": [
+                0.5601173020527859,
+                0.5317693059628543,
+                0.5571847507331378
+              ]
+            },
+            "after_host": {
+              "submission": 18190,
+              "rgb": [
+                0.23362658846529813,
+                0.2101661779081134,
+                0.2316715542521994
+              ]
+            }
+          },
+          {
+            "frame": 3166,
+            "x": 720,
+            "y": 193,
+            "static_after_rgb": [
+              0.1411764705882353,
+              0.1450980392156863,
+              0.19607843137254902
+            ],
+            "before_host": {
+              "submission": 20935,
+              "rgb": [
+                0.5640273704789834,
+                0.5366568914956011,
+                0.5630498533724341
+              ]
+            },
+            "after_host": {
+              "submission": 20935,
+              "rgb": [
+                0.2375366568914956,
+                0.21407624633431085,
+                0.23655913978494625
+              ]
+            }
+          },
+          {
+            "frame": 3229,
+            "x": 720,
+            "y": 193,
+            "static_after_rgb": [
+              0.1411764705882353,
+              0.1450980392156863,
+              0.19607843137254902
+            ],
+            "before_host": null,
+            "after_host": null
+          }
+        ],
+        "limitation": "Exact numeric joins only. A change at one point is not confirmation of the user-reported region turning black."
+      },
+      "post_host_largest_decrease": {
+        "frame": 2929,
+        "x": 720,
+        "y": 193,
+        "u": 0.625,
+        "v": 0.3015625,
+        "drop": 0.12023460410557188,
+        "ratio": 0.660220994475138,
+        "rgb": [
+          0.23362658846529813,
+          0.20625610948191594,
+          0.22776148582600195
+        ],
+        "previous_rgb": [
+          0.3567937438905181,
+          0.2785923753665689,
+          0.25806451612903225
+        ],
+        "next_rgb": [
+          0.35386119257087,
+          0.2785923753665689,
+          0.25806451612903225
+        ]
+      }
+    }
+  ],
+  "validation": {
+    "stage_fixture": "D3D12 WARP; all 32 coordinate-coded RGBA16F values exact, both phases, fence gate and 300-frame limit",
+    "presented_fixture": "D3D12 WARP; all 144 coordinate-coded RGBA8 values exact; independent presented.csv, fence gate and frame limit",
+    "stage_probe_build_log": "work/sky-bridge/stage-probe-build/build-final.log",
+    "presented_probe_build_log": "work/sky-bridge/stage-probe-build/build-presented.log",
+    "viewport_evidence": "work/sky-bridge/reproduction-04/sample-triangle-coverage.json"
+  },
+  "observations": [
+    "All 1762 sampled candidate draws in each run match saved human camera/projection exactly.",
+    "Twelve of thirteen mesh-184 albedo sample points changed by the draw have bit-stable post-draw RGB in all 299 complete albedo frames. Point (720,193) varies and is changed in 174/299 draws.",
+    "Mesh-184 static-pass values change at (664,193) and intermittently at (720,193). No sampled dynamic-pass draw changes color-0 at the sixteen points. This is not a visibility or shading-coverage proof.",
+    "In run 06, static-pass brightness dips at (720,193), frames 3016,3079,3166 survive into the same-frame output after host gamma/FXAA. The RGB values remain well above black. Frame 3229 lies outside the final-output recording window.",
+    "Neither the pre-host nor post-host 144-point grid detects the defined isolated near-black pulse. The reported regional black flash remains unconfirmed in private replay."
+  ],
+  "root_cause_established": false,
+  "rendering_changed": false,
+  "shared_runtime_modified": false,
+  "shared_gpu_sha256": "979f402022ec045b0ff319f396e34cd04b0a049458e2b55e83456b25709caace",
+  "private_processes_closed": true,
+  "watchdog_seconds": 180,
+  "limitations": [
+    "Exact camera is not a complete simulation savestate. Native default map variant and vehicle settling may differ from the original manual run.",
+    "Sparse fixed samples can miss the affected portion; numeric dips are not automatically a defect.",
+    "Per-draw copies insert barriers and can affect timing. No performance acceptance follows from instrumented runs.",
+    "Post-host values precede presenter scaling and desktop composition. No screenshots or desktop capture were used.",
+    "Advertisement readability, outdoor rain visibility and final performance remain unverified."
+  ],
+  "next_step": "Trace the changing point through earlier depth/geometry writes and improve coverage of the reported region before changing rendering behavior. No additional manual positioning is required.",
+  "credit": "Sky Bridge from Halo Online; upstream H3 conversion GeneralHeed / Priception, Halo Online Map Pack For Halo 3, https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190 . Original individual creator unspecified; this project is the Xbox 360/OpenH3M adaptation."
+}
