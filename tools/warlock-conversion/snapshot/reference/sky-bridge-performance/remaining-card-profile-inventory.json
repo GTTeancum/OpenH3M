@@ -1,0 +1,1972 @@
+{
+  "stock_maps": [
+    {
+      "map": "armory.map",
+      "shader_templates": 160
+    },
+    {
+      "map": "bunkerworld.map",
+      "shader_templates": 155
+    },
+    {
+      "map": "chill.map",
+      "shader_templates": 140
+    },
+    {
+      "map": "chillout.map",
+      "shader_templates": 124
+    },
+    {
+      "map": "construct.map",
+      "shader_templates": 137
+    },
+    {
+      "map": "cyberdyne.map",
+      "shader_templates": 145
+    },
+    {
+      "map": "deadlock.map",
+      "shader_templates": 150
+    },
+    {
+      "map": "descent.map",
+      "shader_templates": 136
+    },
+    {
+      "map": "docks.map",
+      "shader_templates": 170
+    },
+    {
+      "map": "fortress.map",
+      "shader_templates": 120
+    },
+    {
+      "map": "ghosttown.map",
+      "shader_templates": 127
+    },
+    {
+      "map": "guardian.map",
+      "shader_templates": 128
+    },
+    {
+      "map": "isolation.map",
+      "shader_templates": 132
+    },
+    {
+      "map": "lockout.map",
+      "shader_templates": 150
+    },
+    {
+      "map": "mainmenu.map",
+      "shader_templates": 39
+    },
+    {
+      "map": "midship.map",
+      "shader_templates": 123
+    },
+    {
+      "map": "riverworld.map",
+      "shader_templates": 137
+    },
+    {
+      "map": "salvation.map",
+      "shader_templates": 122
+    },
+    {
+      "map": "sandbox.map",
+      "shader_templates": 135
+    },
+    {
+      "map": "shared.map",
+      "error": "'ascii' codec can't decode byte 0xcb in position 1: ordinal not in range(128)"
+    },
+    {
+      "map": "shrine.map",
+      "shader_templates": 142
+    },
+    {
+      "map": "sidewinder.map",
+      "shader_templates": 165
+    },
+    {
+      "map": "snowbound.map",
+      "shader_templates": 146
+    },
+    {
+      "map": "spacecamp.map",
+      "shader_templates": 146
+    },
+    {
+      "map": "warehouse.map",
+      "shader_templates": 148
+    },
+    {
+      "map": "zanzibar.map",
+      "shader_templates": 151
+    }
+  ],
+  "profiles": {
+    "shaders\\shader_templates\\_0_3_0_1_1_2_0_3_0_0_0_0_0": {
+      "options": [
+        0,
+        3,
+        0,
+        1,
+        1,
+        2,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "materials": [
+        {
+          "id": 12294,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_puddles_01",
+          "blend": 3,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_mask_map",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_mask_map",
+              "bump_detail_coefficient",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "area_specular_contribution",
+              "analytical_specular_contribution",
+              "environment_map_specular_contribution",
+              "material_texture",
+              "albedo_blend",
+              "analytical_anti_shadow_control",
+              "env_tint_color",
+              "env_roughness_scale"
+            ],
+            "integer": [],
+            "boolean": [
+              "invert_mask",
+              "order3_area_specular",
+              "use_material_texture",
+              "no_dynamic_lights"
+            ]
+          }
+        }
+      ],
+      "exact_stock": [],
+      "near_stock": [
+        {
+          "map": "armory.map",
+          "id": 218,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 358,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 3565,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 5828,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 9093,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 9401,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_0",
+          "different_categories": [
+            1
+          ]
+        },
+        {
+          "map": "bunkerworld.map",
+          "id": 354,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "bunkerworld.map",
+          "id": 795,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "bunkerworld.map",
+          "id": 3445,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "chill.map",
+          "id": 1119,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "chill.map",
+          "id": 1602,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "chill.map",
+          "id": 3102,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "chillout.map",
+          "id": 1002,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "chillout.map",
+          "id": 2638,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "chillout.map",
+          "id": 3664,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "construct.map",
+          "id": 1325,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "construct.map",
+          "id": 1945,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "construct.map",
+          "id": 2890,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "cyberdyne.map",
+          "id": 423,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "cyberdyne.map",
+          "id": 824,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "cyberdyne.map",
+          "id": 3789,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 194,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 1670,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 2075,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 2089,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "descent.map",
+          "id": 3109,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "descent.map",
+          "id": 4062,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "descent.map",
+          "id": 4359,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 1586,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 1787,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 3557,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 4061,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 9017,
+          "name": "shaders\\shader_templates\\_0_0_0_1_2_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 223,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 2281,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 3717,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 1167,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 1353,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 2473,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 8382,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            1,
+            3
+          ]
+        },
+        {
+          "map": "guardian.map",
+          "id": 1152,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "guardian.map",
+          "id": 1382,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "guardian.map",
+          "id": 2974,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "isolation.map",
+          "id": 1060,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "isolation.map",
+          "id": 1283,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "isolation.map",
+          "id": 3616,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 2857,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 4056,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 4296,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 8708,
+          "name": "shaders\\shader_templates\\_0_0_0_1_7_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 8728,
+          "name": "shaders\\shader_templates\\_0_0_0_1_2_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "midship.map",
+          "id": 1799,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "midship.map",
+          "id": 3734,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "midship.map",
+          "id": 4055,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "riverworld.map",
+          "id": 1661,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "riverworld.map",
+          "id": 2066,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "riverworld.map",
+          "id": 2080,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "riverworld.map",
+          "id": 2214,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "salvation.map",
+          "id": 314,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "salvation.map",
+          "id": 1311,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "salvation.map",
+          "id": 2988,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "salvation.map",
+          "id": 4941,
+          "name": "shaders\\shader_templates\\_0_1_0_1_0_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "sandbox.map",
+          "id": 985,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "sandbox.map",
+          "id": 1227,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "sandbox.map",
+          "id": 3468,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "shrine.map",
+          "id": 151,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "shrine.map",
+          "id": 536,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "shrine.map",
+          "id": 546,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "shrine.map",
+          "id": 4304,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 159,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 310,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 1510,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 1536,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 4610,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "snowbound.map",
+          "id": 1315,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "snowbound.map",
+          "id": 1662,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "snowbound.map",
+          "id": 3663,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 295,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 3267,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 4398,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 8598,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            1,
+            3
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 119,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_1_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 1212,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 1407,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 3657,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 300,
+          "name": "shaders\\shader_templates\\_0_0_0_1_1_0_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1235,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1473,
+          "name": "shaders\\shader_templates\\_0_1_0_1_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 4241,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_1",
+          "different_categories": [
+            1,
+            9
+          ]
+        }
+      ]
+    },
+    "shaders\\shader_templates\\_8_2_0_2_1_2_0_3_0_0_1_0_0": {
+      "options": [
+        8,
+        2,
+        0,
+        2,
+        1,
+        2,
+        0,
+        3,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "materials": [
+        {
+          "id": 12412,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02",
+          "blend": 3,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "bump_map",
+              "bump_detail_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "albedo_color",
+              "albedo_color2",
+              "albedo_color3",
+              "neutral_gray",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_coefficient",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "area_specular_contribution",
+              "analytical_specular_contribution",
+              "environment_map_specular_contribution",
+              "material_texture",
+              "albedo_blend",
+              "analytical_anti_shadow_control",
+              "env_tint_color",
+              "env_roughness_scale"
+            ],
+            "integer": [],
+            "boolean": [
+              "order3_area_specular",
+              "use_material_texture",
+              "no_dynamic_lights"
+            ]
+          }
+        },
+        {
+          "id": 12416,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_a",
+          "blend": 3,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "bump_map",
+              "bump_detail_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "albedo_color",
+              "albedo_color2",
+              "albedo_color3",
+              "neutral_gray",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_coefficient",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "area_specular_contribution",
+              "analytical_specular_contribution",
+              "environment_map_specular_contribution",
+              "material_texture",
+              "albedo_blend",
+              "analytical_anti_shadow_control",
+              "env_tint_color",
+              "env_roughness_scale"
+            ],
+            "integer": [],
+            "boolean": [
+              "order3_area_specular",
+              "use_material_texture",
+              "no_dynamic_lights"
+            ]
+          }
+        }
+      ],
+      "exact_stock": [],
+      "near_stock": [
+        {
+          "map": "armory.map",
+          "id": 9401,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            3
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 133,
+          "name": "shaders\\shader_templates\\_7_2_0_2_1_0_0_3_0_0",
+          "different_categories": [
+            0,
+            5
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 8382,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            1
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 158,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_1_0_3_0_0",
+          "different_categories": [
+            0,
+            5
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 343,
+          "name": "shaders\\shader_templates\\_8_2_0_2_2_0_0_3_0_0",
+          "different_categories": [
+            4,
+            5
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 8598,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            1
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1195,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_2_0_0_0_0",
+          "different_categories": [
+            0,
+            7
+          ]
+        }
+      ]
+    },
+    "shaders\\shader_templates\\_8_2_0_2_1_2_0_3_0_0_0_0_0": {
+      "options": [
+        8,
+        2,
+        0,
+        2,
+        1,
+        2,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "materials": [
+        {
+          "id": 12159,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_int",
+          "blend": 3,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "bump_map",
+              "bump_detail_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "color_mask_map",
+              "albedo_color",
+              "albedo_color2",
+              "albedo_color3",
+              "neutral_gray",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_coefficient",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "area_specular_contribution",
+              "analytical_specular_contribution",
+              "environment_map_specular_contribution",
+              "material_texture",
+              "albedo_blend",
+              "analytical_anti_shadow_control",
+              "env_tint_color",
+              "env_roughness_scale"
+            ],
+            "integer": [],
+            "boolean": [
+              "order3_area_specular",
+              "use_material_texture",
+              "no_dynamic_lights"
+            ]
+          }
+        }
+      ],
+      "exact_stock": [],
+      "near_stock": [
+        {
+          "map": "armory.map",
+          "id": 9401,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            3
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 133,
+          "name": "shaders\\shader_templates\\_7_2_0_2_1_0_0_3_0_0",
+          "different_categories": [
+            0,
+            5
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 8382,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            1
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 158,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_1_0_3_0_0",
+          "different_categories": [
+            0,
+            5
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 343,
+          "name": "shaders\\shader_templates\\_8_2_0_2_2_0_0_3_0_0",
+          "different_categories": [
+            4,
+            5
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 8598,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            0,
+            1
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1195,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_2_0_0_0_0",
+          "different_categories": [
+            0,
+            7
+          ]
+        }
+      ]
+    },
+    "shaders\\shader_templates\\_0_4_0_2_1_2_0_3_0_0_0_0_0": {
+      "options": [
+        0,
+        4,
+        0,
+        2,
+        1,
+        2,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "materials": [
+        {
+          "id": 12220,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_ext",
+          "blend": 3,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_mask_map",
+              "bump_detail_masked_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "bump_map",
+              "bump_detail_map",
+              "bump_detail_mask_map",
+              "bump_detail_masked_map",
+              "bump_detail_coefficient",
+              "bump_detail_masked_coefficient",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "area_specular_contribution",
+              "analytical_specular_contribution",
+              "environment_map_specular_contribution",
+              "material_texture",
+              "albedo_blend",
+              "analytical_anti_shadow_control",
+              "env_tint_color",
+              "env_roughness_scale"
+            ],
+            "integer": [],
+            "boolean": [
+              "order3_area_specular",
+              "use_material_texture",
+              "no_dynamic_lights"
+            ]
+          }
+        }
+      ],
+      "exact_stock": [],
+      "near_stock": [
+        {
+          "map": "armory.map",
+          "id": 9056,
+          "name": "shaders\\shader_templates\\_0_0_0_2_2_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 9182,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "armory.map",
+          "id": 9401,
+          "name": "shaders\\shader_templates\\_0_2_0_1_1_2_0_3_0_0",
+          "different_categories": [
+            1,
+            3
+          ]
+        },
+        {
+          "map": "bunkerworld.map",
+          "id": 9720,
+          "name": "shaders\\shader_templates\\_0_0_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "chill.map",
+          "id": 8591,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "chillout.map",
+          "id": 8162,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "chillout.map",
+          "id": 8323,
+          "name": "shaders\\shader_templates\\_0_1_0_2_2_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "construct.map",
+          "id": 8397,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "cyberdyne.map",
+          "id": 8989,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_1_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 9529,
+          "name": "shaders\\shader_templates\\_0_1_0_2_2_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "fortress.map",
+          "id": 8124,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "ghosttown.map",
+          "id": 8382,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            1
+          ]
+        },
+        {
+          "map": "guardian.map",
+          "id": 8344,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "lockout.map",
+          "id": 158,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_1_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "salvation.map",
+          "id": 8201,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 9984,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 10038,
+          "name": "shaders\\shader_templates\\_0_1_0_2_7_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 8598,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_2_0_3_0_0",
+          "different_categories": [
+            1
+          ]
+        },
+        {
+          "map": "spacecamp.map",
+          "id": 8606,
+          "name": "shaders\\shader_templates\\_0_0_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 5406,
+          "name": "shaders\\shader_templates\\_0_0_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 9396,
+          "name": "shaders\\shader_templates\\_0_0_0_2_7_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 9411,
+          "name": "shaders\\shader_templates\\_0_1_0_2_1_1_0_3_0_0",
+          "different_categories": [
+            1,
+            5
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1195,
+          "name": "shaders\\shader_templates\\_0_2_0_2_1_2_0_0_0_0",
+          "different_categories": [
+            1,
+            7
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 8883,
+          "name": "shaders\\shader_templates\\_0_1_0_2_5_2_0_3_0_0",
+          "different_categories": [
+            1,
+            4
+          ]
+        }
+      ]
+    },
+    "shaders\\shader_templates\\_0_0_1_2_1_2_0_4_0_0_0_0_0": {
+      "options": [
+        0,
+        0,
+        1,
+        2,
+        1,
+        2,
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "materials": [
+        {
+          "id": 12453,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_05",
+          "blend": 4,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "analytical_specular_contribution",
+              "material_texture",
+              "albedo_blend"
+            ],
+            "integer": [],
+            "boolean": [
+              "use_material_texture"
+            ]
+          }
+        },
+        {
+          "id": 12458,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_01",
+          "blend": 4,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "analytical_specular_contribution",
+              "material_texture",
+              "albedo_blend"
+            ],
+            "integer": [],
+            "boolean": [
+              "use_material_texture"
+            ]
+          }
+        },
+        {
+          "id": 12579,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_teem",
+          "blend": 4,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "analytical_specular_contribution",
+              "material_texture",
+              "albedo_blend"
+            ],
+            "integer": [],
+            "boolean": [
+              "use_material_texture"
+            ]
+          }
+        },
+        {
+          "id": 12591,
+          "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_04",
+          "blend": 4,
+          "active_entries": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17
+          ],
+          "parameters": {
+            "texture": [
+              "base_map",
+              "detail_map",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "material_texture"
+            ],
+            "float": [
+              "base_map",
+              "detail_map",
+              "albedo_color",
+              "alpha_test_map",
+              "specular_mask_texture",
+              "diffuse_coefficient",
+              "specular_coefficient",
+              "specular_tint",
+              "fresnel_color",
+              "roughness",
+              "analytical_specular_contribution",
+              "material_texture",
+              "albedo_blend"
+            ],
+            "integer": [],
+            "boolean": [
+              "use_material_texture"
+            ]
+          }
+        }
+      ],
+      "exact_stock": [],
+      "near_stock": [
+        {
+          "map": "armory.map",
+          "id": 375,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "bunkerworld.map",
+          "id": 812,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "cyberdyne.map",
+          "id": 841,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "deadlock.map",
+          "id": 2553,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "docks.map",
+          "id": 1606,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "isolation.map",
+          "id": 1081,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "riverworld.map",
+          "id": 2279,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "sandbox.map",
+          "id": 1005,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "shrine.map",
+          "id": 1523,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "sidewinder.map",
+          "id": 1343,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "warehouse.map",
+          "id": 1424,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        },
+        {
+          "map": "zanzibar.map",
+          "id": 1254,
+          "name": "shaders\\shader_templates\\_0_0_1_1_1_2_0_0_0_0",
+          "different_categories": [
+            3,
+            7
+          ]
+        }
+      ]
+    }
+  },
+  "caveat": "Exact matches compare the ten original H3 categories only; MCC distortion/soft-fade/attribute options require separate entry/parameter validation. shared.map is a resource cache, not an empty tag inventory."
+}

@@ -1,0 +1,659 @@
+[
+  {
+    "id": 12294,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_puddles_01",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail_masked",
+        "pixel": "calc_bumpmap_detail_masked_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_diffuse",
+        "pixel": "calc_specular_mask_from_diffuse_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "alpha_blend",
+        "pixel": "alpha_blend"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 4,
+    "blend": 3
+  },
+  {
+    "id": 12412,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "color_mask",
+        "pixel": "calc_albedo_color_mask_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail",
+        "pixel": "calc_bumpmap_detail_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "alpha_blend",
+        "pixel": "alpha_blend"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "on",
+        "pixel": "distort_on_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 1,
+    "blend": 3
+  },
+  {
+    "id": 12416,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_a",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "color_mask",
+        "pixel": "calc_albedo_color_mask_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail",
+        "pixel": "calc_bumpmap_detail_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "alpha_blend",
+        "pixel": "alpha_blend"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "on",
+        "pixel": "distort_on_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 1,
+    "blend": 3
+  },
+  {
+    "id": 12220,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_ext",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail_plus_detail_masked",
+        "pixel": "calc_bumpmap_detail_plus_detail_masked_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "alpha_blend",
+        "pixel": "alpha_blend"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 2,
+    "blend": 3
+  },
+  {
+    "id": 12159,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_window_02_int",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "color_mask",
+        "pixel": "calc_albedo_color_mask_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "detail",
+        "pixel": "calc_bumpmap_detail_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "none",
+        "pixel": "calc_alpha_test_off_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "alpha_blend",
+        "pixel": "alpha_blend"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 0,
+    "blend": 3
+  },
+  {
+    "id": 12453,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_05",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "off",
+        "pixel": "calc_bumpmap_off_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "simple",
+        "pixel": "calc_alpha_test_on_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "double_multiply",
+        "pixel": "double_multiply"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 0,
+    "blend": 4
+  },
+  {
+    "id": 12458,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_01",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "off",
+        "pixel": "calc_bumpmap_off_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "simple",
+        "pixel": "calc_alpha_test_on_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "double_multiply",
+        "pixel": "double_multiply"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 0,
+    "blend": 4
+  },
+  {
+    "id": 12579,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_teem",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "off",
+        "pixel": "calc_bumpmap_off_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "simple",
+        "pixel": "calc_alpha_test_on_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "double_multiply",
+        "pixel": "double_multiply"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 0,
+    "blend": 4
+  },
+  {
+    "id": 12591,
+    "name": "levels\\multi\\s3d_sky_bridgenew\\shaders\\sbr_decals_04",
+    "options": [
+      {
+        "category": "albedo",
+        "option": "default",
+        "pixel": "calc_albedo_default_ps"
+      },
+      {
+        "category": "bump_mapping",
+        "option": "off",
+        "pixel": "calc_bumpmap_off_ps"
+      },
+      {
+        "category": "alpha_test",
+        "option": "simple",
+        "pixel": "calc_alpha_test_on_ps"
+      },
+      {
+        "category": "specular_mask",
+        "option": "specular_mask_from_texture",
+        "pixel": "calc_specular_mask_texture_ps"
+      },
+      {
+        "category": "material_model",
+        "option": "cook_torrance",
+        "pixel": "cook_torrance"
+      },
+      {
+        "category": "environment_mapping",
+        "option": "dynamic",
+        "pixel": "dynamic"
+      },
+      {
+        "category": "self_illumination",
+        "option": "off",
+        "pixel": "calc_self_illumination_none_ps"
+      },
+      {
+        "category": "blend_mode",
+        "option": "double_multiply",
+        "pixel": "double_multiply"
+      },
+      {
+        "category": "parallax",
+        "option": "off",
+        "pixel": "calc_parallax_off_ps"
+      },
+      {
+        "category": "misc",
+        "option": "first_person_never",
+        "pixel": "0"
+      },
+      {
+        "category": "distortion",
+        "option": "off",
+        "pixel": "distort_off_ps"
+      },
+      {
+        "category": "soft_fade",
+        "option": "off",
+        "pixel": "apply_soft_fade_off"
+      },
+      {
+        "category": "misc_attr_animation",
+        "option": "off",
+        "pixel": ""
+      }
+    ],
+    "animations": 0,
+    "blend": 4
+  }
+]
