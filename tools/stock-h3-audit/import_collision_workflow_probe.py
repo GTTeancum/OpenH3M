@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 variant='-authored' if '--authored' in sys.argv else ('-precise' if '--precise' in sys.argv else '')+('-render-only' if '--render-only' in sys.argv else '')
+if '--original-render-bsp' in sys.argv:variant+='-original-render-bsp'
 stem='collision-workflow'+variant
 if '--target' in sys.argv:
     target=sys.argv[sys.argv.index('--target')+1]
@@ -29,7 +30,8 @@ def tool(args,suffix):
     return result,path.read_text(errors='replace')
 result,log=tool(['structure',str(Path(probe['ass']).relative_to(KIT/'data'))],'-import')
 assert result.returncode==0 and '=== imported structure' in log
-tag=KIT/'tags/levels/custom/bc_collision_workflow_probe'/(Path(probe['ass']).stem+'.scenario_structure_bsp')
+asset=Path(probe['ass']).parent.parent.relative_to(KIT/'data')
+tag=KIT/'tags'/asset/(Path(probe['ass']).stem+'.scenario_structure_bsp')
 before=sha(tag)
 xml=OUT/(stem+'-bsp.xml')
 export,export_log=tool(['export-tag-to-xml',str(tag),str(xml)],'-bsp-xml')

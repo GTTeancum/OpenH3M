@@ -60,7 +60,7 @@ try:
     definition=definitions.Elements[definition_index]
     collision=read_bsp(definition.SelectField('Struct:collision info').Elements[0])
     render=[read_bsp(e) for e in definition.SelectField('Block:render bsp').Elements]
-    material_indices={int(s['material']) for s in collision['surfaces']}
+    material_indices={int(s['material']) for data in [collision,*render] for s in data['surfaces']}
     materials={}
     for i,e in enumerate(tag.SelectField('Block:collision materials').Elements):
         if i in material_indices:materials[i]={str(f.DisplayName):scalar(f) for f in e.Fields}

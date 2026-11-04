@@ -22,8 +22,11 @@ source=Path(bpy.data.filepath)
 precise='--precise' in sys.argv
 render_only='--render-only' in sys.argv
 authored='--authored' in sys.argv
+original_render_bsp='--original-render-bsp' in sys.argv
+assert not original_render_bsp or (precise and render_only and not authored)
 assert not (authored and (precise or render_only))
 variant='-authored' if authored else ('-precise' if precise else '')+('-render-only' if render_only else '')
+if original_render_bsp:variant+='-original-render-bsp'
 stem='collision-workflow'+variant
 ass_name='boulder'+variant.replace('-','_')
 target_name=sys.argv[sys.argv.index('--target')+1] if '--target' in sys.argv else 'boulder_low035'
@@ -40,7 +43,7 @@ if '--target' in sys.argv:
     inventory=json.loads((OUT/'original-proxy-collision-inventory.json').read_text())
     assert hashlib.sha256(Path(inventory['source']).read_bytes()).hexdigest()==inventory['sha256']
     original=next(r for r in inventory['definitions'] if target_name in r['instances'])
-    assert original['render_bsp_count']==0 and original['imported_physics_proxies']==0
+    assert original['render_bsp_count']==int(original_render_bsp) and original['imported_physics_proxies']==0
     assert target.data.name=='instance_definition:'+str(original['definition_index'])
     assert not any(getattr(target.data.nwo,f'proxy_physics{i}') for i in range(200))
 children=[c for c in target.children if (c.ass_jms.name_override or c.name).startswith('@')]
@@ -78,6 +81,10 @@ if precise or render_only:
     for obj in keep:
         obj.data.update()
         obj.update_tag(refresh={'DATA'})
+render_bsp_report=None
+if original_render_bsp:
+    imported=runpy.run_path(str(ROOT/'tools/stock-h3-audit/add_original_render_bsp_probe.py'),init_globals={'target':target,'definition_index':original['definition_index']})
+    render_bsp_report=imported['report']
 bpy.context.view_layer.update()
 # Tool requires world geometry even for an instance diagnostic. This enclosing
 # sky box belongs only to this test and is never added to the map authoring file.
@@ -102,6 +109,8 @@ from io_scene_halo.file_ass import export_ass
 from io_scene_halo.global_functions import global_functions
 from io_scene_halo.file_ass.process_file import process_file
 path=KIT/'data/levels/custom/bc_collision_workflow_probe/structure'/(ass_name+'.ass')
+if original_render_bsp:
+    path=KIT/'data/levels/custom'/('bc_render_bsp_probe_'+str(original['definition_index']))/'structure/original_render_bsp.ass'
 path.parent.mkdir(parents=True,exist_ok=True)
 result=export_ass.write_file(bpy.context,str(path),7,'halo3',False,True,True,
     True,True,True,global_functions.EdgeSplit(False,False,0.0,False),
@@ -130,6 +139,7 @@ report=dict(source=str(source),source_sha256=before,ass=str(path),
     diagnostic_precise_flag=precise,
     diagnostic_render_only_flag=render_only,
     saved_authoring_flags_checked=authored,
+    original_render_bsp=render_bsp_report,
     ass_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),geometry=geometry,
     instances=[dict(name=i.name,object_index=i.object_index,unique_id=i.unique_id,parent_id=i.parent_id) for i in asset.instances],
     materials=[m.name for m in asset.materials],

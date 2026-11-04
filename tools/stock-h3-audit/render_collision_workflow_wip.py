@@ -15,6 +15,8 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 runpy.run_path(str(ROOT/'tools/stock-h3-audit/check_h3_exporter.py'))
 stem='collision-workflow-precise-render-only'
+original_render_bsp='--original-render-bsp' in sys.argv
+if original_render_bsp:stem+='-original-render-bsp'
 target=sys.argv[sys.argv.index('--target')+1] if '--target' in sys.argv else None
 if target:
     assert target.replace('_','').isalnum()
@@ -29,6 +31,13 @@ from io_scene_halo.file_ass.process_file import process_file
 ass=process_file(probe['ass'])
 instance=next(i for i in ass.instances if i.name==probe.get('render_instance','%-?boulder_low035'))
 source=ass.objects[instance.object_index]
+source_triangles=source.triangles
+if original_render_bsp:
+    def visible(triangle):
+        material=ass.materials[triangle.material_index]
+        flags=next((s.split()[1] for s in material.lighting_info if s.startswith('BM_FLAGS ')),'0'*22)
+        return material.name!='+seamsealer' and flags[4]=='0' and flags[5]=='0'
+    source_triangles=[t for t in source.triangles if visible(t)]
 native=ET.fromstring(xml.read_text().replace('<unavailable>','&lt;unavailable&gt;'))
 def field(e,name):return e.find('./field[@name="'+name+'"]').attrib['value']
 def vector(e,name):return tuple(float(v) for v in field(e,name).split(','))
@@ -44,13 +53,14 @@ positions=[tuple(low[a]+vector(v,'position')[a]*(high[a]-low[a]) for a in range(
 indices=[int(field(e,'word')) for e in raw.find('./block[@name="raw indices"]')]
 scene=bpy.data.scenes.new('Native geometry comparison')
 bpy.context.window.scene=scene
-source_positions=[Vector(v.translation)*.01 for v in source.vertices]
+used={i for t in source_triangles for i in (t.v0,t.v1,t.v2)}
+source_positions=[Vector(source.vertices[i].translation)*.01 for i in used]
 low=Vector(tuple(min(v[a] for v in source_positions) for a in range(3)))
 high=Vector(tuple(max(v[a] for v in source_positions) for a in range(3)))
 center=(low+high)/2
 span=max(high-low)
 for name,verts,faces,normals,offset in [
-    ('Original source', [tuple(Vector(v.translation)*.01) for v in source.vertices],[(t.v0,t.v1,t.v2) for t in source.triangles],[tuple(v.normal) for v in source.vertices],-1.25),
+    ('Original source', [tuple(Vector(v.translation)*.01) for v in source.vertices],[(t.v0,t.v1,t.v2) for t in source_triangles],[tuple(v.normal) for v in source.vertices],-1.25),
     ('Official H3 output',positions,[indices[i:i+3] for i in range(0,len(indices),3)],[vector(v,'normal') for v in native_vertices],1.25)]:
     mesh=bpy.data.meshes.new(name)
     mesh.from_pydata(verts,[],faces)
@@ -83,6 +93,7 @@ scene.render.resolution_y=800
 scene.render.resolution_percentage=100
 scene.render.image_settings.file_format='PNG'
 image=OUT/('wip/h3-boulder-native-geometry-comparison'+('-'+target if target else '')+'.png')
+if original_render_bsp:image=OUT/('wip/h3-original-render-bsp-comparison-'+target+'.png')
 scene.render.filepath=str(image)
 bpy.ops.render.render(write_still=True)
 assert sha(probe['ass'])==comparison['ass_sha256'] and sha(xml)==comparison['native_xml_sha256']

@@ -2141,3 +2141,67 @@ Current lighting-info SHA-256:
 Full-map evidence is `h3-full-geometry-import.json`/`.log` and
 `h3-full-map-lighting-verification.json`. No lightmap bake, MCC test, acceptance,
 Xbox 360 conversion or installation took place in this checkpoint.
+
+## Preserve original render-BSP collision on a trim instance (2026-11-04)
+
+The original Reach definition 53 (`teleporter_trimlowside003`) has a separate
+collision proxy and one render BSP, with no additional physics hulls. Official
+source readback finds 103 render-BSP vertices / 101 surfaces, including 18
+seamsealer faces. These sealing faces are not part of the 166-triangle visible
+mesh. Unchanged Foundry's instance importer imports the collision proxy but
+does not recreate that separate render BSP in the Blender render mesh. This
+explains a concrete source difference behind this instance's 38 edge errors;
+it is not evidence that every remaining instance has the same cause.
+
+The isolated diagnostic uses unchanged Foundry `InstanceCollision.to_object`
+to import that original render BSP. It verifies all source vertices and oriented
+polygon edge loops, applies stock H3 Collision Only/Precise material controls,
+and joins it to a Render Only copy of the visible mesh using Blender's normal
+Join operation. The existing collision child remains. Visible positions,
+polygons, UVs and corner normals are unchanged (measured normal delta zero).
+The helper rejects unsupported surface flags and definitions with additional
+physics; it does not silently approximate them.
+
+The first geometry import cleared the edge errors but warned that tangent
+generation was skipped. Native vertex readback confirmed zero tangent/binormal
+vectors. Blender Smart UV Project on only the newly imported nonvisual faces
+resolves this warning without altering source geometry or visible UVs. The
+final import has no geometry errors and no untextured warning; all rendered
+vertices have nonzero tangent and binormal vectors. Its remaining warning is
+the Tool texture-disposal warning. No texture artwork was created or changed.
+
+Native H3 preserves both collision layers: the collision child compiles to
+40 vertices / 52 surfaces with MOPP data; the render BSP has 103 vertices /
+102 surfaces and zero boundary edges. All 166 render triangles retain winding.
+UV differences are at most 0.000007540. Render position differences reach
+0.000112375 world units and normal-vector differences 0.000294406, exceeding
+the existing strict diagnostic thresholds; they remain reported failures.
+Collision-child vertex/centroid samples differ by at most 0.000046947 world
+units. The render BSP's complete vertex/centroid samples, compared within each
+matching shader group, differ by at most 0.000072318 world units. Its physical
+flags match, and all 18 seamsealer surfaces remain. These sample checks do not
+establish continuous-surface equivalence, traversal or MCC appearance.
+
+Diagnostic ASS SHA-256:
+`e6c441be1f1ba08ebe89aa2a5b27fe3761d2daefa17554b204406577fdb578bc`.
+Native BSP SHA-256:
+`a971af301e20bfd2778d8e0a5e05113586a16a734f25be1b00e51c20f8f0baef`.
+The dedicated kit asset is `levels/custom/bc_render_bsp_probe_53`, avoiding
+accumulated diagnostic BSP entries in the older shared test scenario. The first
+run in that older scenario reported failure to add another BSP; its geometry
+result alone was not treated as a clean import. The dedicated scenario rerun
+has no such error.
+
+Evidence under `work/stock-h3-audit`: `original-instance-collision-53.json`,
+`collision-workflow-precise-render-only-original-render-bsp-teleporter_trimlowside003-*`
+probe/native/XML/geometry-comparison reports, and
+`original-render-bsp-native-comparison.json`. The before-collision-UV reports
+are retained separately. `wip/h3-original-render-bsp-comparison-teleporter_trimlowside003.png`
+was inspected: the source (left) and compiled H3 (right) retain the same frame
+shape and visible trim details in neutral Blender shading.
+
+The authoritative map is unchanged at the previous ten-boulder checkpoint:
+34 edge-error groups and 14 bad-connection errors remain in its last full
+import. Apply this diagnosed standard authoring approach only after checking
+each eligible source definition's collision flags, physics and lighting
+provenance. The other 56 definitions' separate physics work remains open.

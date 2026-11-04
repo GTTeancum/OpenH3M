@@ -16,6 +16,7 @@ from mathutils.bvhtree import BVHTree
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 stem='collision-workflow' if '--baseline' in sys.argv else 'collision-workflow-precise-render-only'
+if '--original-render-bsp' in sys.argv:stem+='-original-render-bsp'
 if '--target' in sys.argv:
     target_name=sys.argv[sys.argv.index('--target')+1]
     assert target_name.replace('_','').isalnum()
@@ -58,9 +59,16 @@ from io_scene_halo.file_ass.process_file import process_file
 ass=process_file(probe['ass'])
 render=next(i for i in ass.instances if i.name==probe.get('render_instance','%-?boulder_low035'))
 mesh=ass.objects[render.object_index]
-assert len(indices)==len(mesh.triangles)*3
+render_triangles=mesh.triangles
+if probe.get('original_render_bsp'):
+    def visible(triangle):
+        material=ass.materials[triangle.material_index]
+        flags=next((line.split()[1] for line in material.lighting_info if line.startswith('BM_FLAGS ')),'0'*22)
+        return material.name!='+seamsealer' and flags[4]=='0' and flags[5]=='0'
+    render_triangles=[t for t in mesh.triangles if visible(t)]
+assert len(indices)==len(render_triangles)*3
 source_triangles=[]
-for t in mesh.triangles:
+for t in render_triangles:
     source_triangles.append([mesh.vertices[i] for i in (t.v0,t.v1,t.v2)])
 centers=kdtree.KDTree(len(source_triangles))
 for i,tri in enumerate(source_triangles):centers.insert(sum((Vector(v.translation)*.01 for v in tri),Vector())/3,i)
@@ -97,7 +105,7 @@ for offset in range(0,len(indices),3):
     for element,v in zip(triangle,original):
         max_uv=max(max_uv,(texcoord(element)-Vector(v.uv_set[0][:2])).length)
         max_normal=max(max_normal,(vector(element,'normal')-Vector(v.normal)).length)
-assert len(used)==len(mesh.triangles)
+assert len(used)==len(render_triangles)
 print('RENDER_DELTAS',max_position,max_uv,max_normal,flush=True)
 native_vertices=[vector(v,'point') for v in definition.find('./block[@name="vertices"]')]
 edges=list(definition.find('./block[@name="edges"]'))
@@ -134,7 +142,7 @@ render_bsp_count=len(definition.find('./block[@name="render bsp"]'))
 assert sha(source)==probe['source_sha256']
 report=dict(source_sha256=probe['source_sha256'],ass_sha256=probe['ass_sha256'],
     native_tag_sha256=compiled['native_tag_sha256'],native_xml_sha256=compiled['native_xml_sha256'],
-    render_triangles_matched=len(mesh.triangles),render_winding_preserved=True,max_render_position_delta_world_units=max_position,
+    render_triangles_matched=len(render_triangles),render_winding_preserved=True,max_render_position_delta_world_units=max_position,
     render_position_tolerance_world_units=.0001,
     max_uv_delta=max_uv,max_normal_delta=max_normal,collision_vertices=len(native_vertices),collision_surfaces=len(polygons),
     max_native_collision_sample_to_source_world_units=to_source,max_source_collision_sample_to_native_world_units=to_native,
@@ -142,6 +150,12 @@ report=dict(source_sha256=probe['source_sha256'],ass_sha256=probe['ass_sha256'],
     mopp_bytes=len(mopp),render_bsp_absent_as_in_reach=render_bsp_count==0,
     checks=dict(render_position=max_position<.0001,uv=max_uv<.00001,normals=max_normal<.0001,collision_samples=max(to_source,to_native)<.0001),
     limitation='Isolated native data comparison. Broad triangle correspondence does not waive stricter failed checks. No map-wide authoring change or MCC visual, shadow, lighting or gameplay acceptance.')
+if probe.get('original_render_bsp'):
+    report['render_bsp_count']=render_bsp_count
+    report['checks']['original_render_bsp_retained']=render_bsp_count==1
+    report['zero_tangents']=sum(vector(v,'tangent').length<.01 for v in vertices)
+    report['zero_binormals']=sum(vector(v,'binormal').length<.01 for v in vertices)
+    report['checks']['render_tangent_space_present']=report['zero_tangents']==report['zero_binormals']==0
 (OUT/(stem+'-geometry-comparison.json')).write_text(json.dumps(report,indent=2)+'\n')
 print('H3_COLLISION_WORKFLOW_GEOMETRY_COMPARISON',json.dumps(report),flush=True)
 raise SystemExit(0 if all(report['checks'].values()) else 1)
