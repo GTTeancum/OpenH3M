@@ -2311,3 +2311,56 @@ structure-design link all pass saved readback. Scenario SHA-256 is
 geometry-import report retains its earlier scenario hash. Actual multiplayer
 spawn/object placements, sky, atmosphere and lighting are still unfinished.
 Do not infer a playable MCC build from this setup.
+
+## Compiled sky and first stock gameplay placements (2026-11-04)
+
+The original Battle Canyon / Halo Reach MCC sky now has all 13 materials
+bound to stock H3 shader configurations. Twelve were newly authored; the
+sky-rock material reuses the already verified Blackout setup. The ten new
+families in `material_families.json` retain the original Reach artwork and
+native source functions. Donors include Orbital lightning, Longshore clouds,
+Valhalla's skydome, and existing stock H3 self-illumination shaders.
+The zero-diffuse behavior uses existing stock black-RGB functions, preserving
+source alpha; no shader implementation was written. All imported sky texture
+color/alpha checks pass. The moon legitimately has no additional mip levels.
+Reach's lens-flare bitmap preset is absent in H3; its sky shader texture uses
+the native H3 Self-Illum import with explicit sRGB and passes pixel comparison.
+
+`export_h3_sky.py` applies the established Blender axis/unit conversion and
+uses unchanged Halo Asset Blender Development Toolset JMS 8213 export,
+including the source transparent-face authoring flags. Official command:
+`tool.exe render levels/custom/battle_canyon_fresh/sky draft`.
+Tool completed with 13 materials, 6,577 vertices and 11,637 triangles.
+It reports a texture-disposal warning, but no ERROR/FATAL lines. Native rendered
+vertex colors and sky animation still require MCC verification.
+
+`PrepareH3Sky.cs` uses official ManagedBlam editor fields to connect the
+compiled render model through a stock H3 model/scenery container. The donor's
+missile sounds and contrail controllers are cleared because the original Reach
+sky has no attachments/functions. The scenario now selects this sky on BSP 0.
+`verify_h3_sky.py` checks native saved references and all 13 shader bindings.
+Evidence: `h3-sky-export.json`, `h3-sky-render-compile.log`,
+`h3-sky-verification.json` in `work/stock-h3-audit`.
+
+Actual Blender proof views are `wip/original-sky-east.png` and
+`wip/original-sky-west.png`. Both were inspected: clouds and distant cliffs
+are present, with lightning visible at the top of the west view. Foundry's
+source-material preview overexposes the cliffs. Black below the isolated sky
+is the absence of level geometry in this preview. These are source-artwork
+WIP views, not H3 rendering, corrected brightness or visual acceptance.
+The original saved sky scene remains unchanged.
+
+`PrepareH3BasicPlacements.cs` adds only the directly matched stock entries:
+130 neutral respawn points, 13 weapons and 16 grenades, preserving Reach
+positions, rotations, unique IDs and spawn settings. The energy sword uses
+H3's energy_blade tag; no Reach weapon tag is imported. All 159 placements
+passed saved Tool-XML comparison in `h3-basic-placements-verification.json`,
+including stock tag paths, transforms, spawn flags/times and parent indices.
+Other scenario sections were unchanged from the sky checkpoint.
+
+Still pending: all game-specific initial starts and objectives, two plasma
+rifles (stock lookup beyond Standoff), two DMRs and two grenade launchers
+(stock H3 role mappings), remaining scenery/crates/effects, water atmosphere,
+draft lighting, and the known geometry/collision failures. These placements
+are unfinished work, not approved omissions. There is still no accepted MCC
+cache, MCC playtest, Xbox 360 conversion or installation for the fresh build.

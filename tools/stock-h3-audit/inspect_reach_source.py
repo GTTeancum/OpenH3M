@@ -3,6 +3,7 @@
 No tag saves, binary parsing, asset conversion, or geometry generation.
 """
 import json
+import hashlib
 import os
 import sys
 from pathlib import Path
@@ -79,7 +80,14 @@ try:
             finally:
                 tag.Dispose()
     result['surface_references'] = {}
-    for source in sorted(set(result['scenario_structure_bsp']['materials'])):
+    surfaces=set(result['scenario_structure_bsp']['materials'])
+    sky_manifest=OUT/'original-sky-import.json'
+    if sky_manifest.is_file():
+        sky=json.loads(sky_manifest.read_text())
+        assert hashlib.sha256(Path(sky['source']).read_bytes()).hexdigest()==sky['source_sha256']
+        surfaces.update(sky['materials'])
+        result['sky_materials']=sky['materials']
+    for source in sorted(s for s in surfaces if s):
         if not source:
             continue
         tag = Bungie.Tags.TagFile()

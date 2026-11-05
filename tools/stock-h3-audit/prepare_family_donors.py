@@ -94,6 +94,8 @@ for family in args.family:
     if families[family].get('stock_unlit_sky'):
         # Read the donor's actual native color function, rather than inventing
         # function bytes or assuming that "diffuse_only" means unlit.
+        functions_path=OUT/'stock-sky-native-functions.json'
+        previous_functions={r['path']:r for r in json.loads(functions_path.read_text())} if functions_path.exists() else {}
         functions_plan=OUT/'stock-sky-native-functions-plan.json'
         functions_plan.write_text(json.dumps(dict(Kit=str(KIT),Tags=[donor],IncludeFunctions=True,
             Output=str(OUT/'stock-sky-native-functions.json')),indent=2)+'\n')
@@ -101,4 +103,6 @@ for family in args.family:
             cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
         (OUT/'stock-sky-native-functions.log').write_bytes(run.stdout)
         assert run.returncode==0,run.stdout.decode(errors='replace')
+        for row in json.loads(functions_path.read_text()):previous_functions[row['path']]=row
+        functions_path.write_text(json.dumps(list(previous_functions.values()),indent=2)+'\n')
     print('REVIEWED_DONOR_READY',family,donor,flush=True)

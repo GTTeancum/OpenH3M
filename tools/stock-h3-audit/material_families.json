@@ -581,19 +581,35 @@
   },
   "dirty_glass": {
     "donor": "levels\\multi\\snowbound\\shaders\\cov_glass_mast.shader",
-    "sources": ["levels\\shared\\shaders\\human\\glass\\glass_window_dirty_subdued.shader_glass"],
+    "sources": [
+      "levels\\shared\\shaders\\human\\glass\\glass_window_dirty_subdued.shader_glass"
+    ],
     "source_group": "shader_glass",
     "image_count": 3,
-    "bitmap_roles": ["base_map", "detail_map", "environment_map"],
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "environment_map"
+    ],
     "stock_flat_normal": true,
     "stock_full_specular_mask": true
   },
   "water": {
     "kind": "water",
     "donor": "levels\\dlc\\docks\\shaders\\water\\dock_water_2.shader_water",
-    "sources": ["levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_river.shader_water"],
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_river.shader_water"
+    ],
     "image_count": 4,
-    "bitmap_roles": ["wave_displacement_array", "wave_slope_array", "watercolor_texture", "environment_map", "global_shape_texture", "foam_texture", "foam_texture_detail"],
+    "bitmap_roles": [
+      "wave_displacement_array",
+      "wave_slope_array",
+      "watercolor_texture",
+      "environment_map",
+      "global_shape_texture",
+      "foam_texture",
+      "foam_texture_detail"
+    ],
     "approved_stock_water_behavior": true
   },
   "forge_panel": {
@@ -612,5 +628,122 @@
       "material_texture"
     ],
     "approved_dynamic_reflections": true
+  },
+  "sky_lightning": {
+    "donor": "levels\\multi\\cyberdyne\\sky\\shaders\\lightning.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\beavercreek_sky\\beaver_creek_lightning_bolt.shader",
+      "levels\\dlc\\cex_beaver_creek\\beavercreek_sky\\beaver_creek_lightning_bolt_movement2.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "self_illum_map"
+    ],
+    "stock_unlit_sky": true
+  },
+  "sky_mountains": {
+    "donor": "levels\\multi\\isolation\\shaders\\light_cone_cool.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\beavercreek_sky\\beaver_creek_sky_,ountains.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_detail_map",
+      "self_illum_map"
+    ]
+  },
+  "sky_halo": {
+    "donor": "levels\\dlc\\descent\\sky\\shaders\\scarab_factory_details.shader",
+    "sources": [
+      "levels\\dlc\\cex_beaver_creek\\shaders\\ca_bcreek_sky_halo_highres_tilted.shader"
+    ],
+    "image_count": 1,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_map"
+    ],
+    "stock_unlit_sky": true
+  },
+  "sky_clouds_soft": {
+    "donor": "levels\\dlc\\docks\\sky\\shaders\\clouds_horizon_sun.shader",
+    "sources": [
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_cloud_large.shader",
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_skybox_clouds_scroll.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_map"
+    ]
+  },
+  "sky_clouds_plasma": {
+    "donor": "levels\\multi\\construct\\shaders\\lift_sm_plasma.shader",
+    "sources": [
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_clouds.shader"
+    ],
+    "image_count": 3,
+    "bitmap_roles": [
+      "alpha_mask_map",
+      "base_map",
+      "detail_map",
+      "noise_map_a",
+      "noise_map_b"
+    ]
+  },
+  "sky_stars": {
+    "donor": "objects\\gear\\human\\military\\shaders\\fusion_coil_plasma.shader",
+    "sources": [
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_dome_stars.shader"
+    ],
+    "image_count": 2,
+    "bitmap_roles": [
+      "self_illum_detail_map",
+      "self_illum_map"
+    ]
+  },
+  "sky_gradient": {
+    "donor": "levels\\multi\\riverworld\\sky\\shaders\\skydome.shader",
+    "sources": [
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_skybox_vertex_sky.shader"
+    ],
+    "image_count": 0,
+    "bitmap_roles": [
+      "self_illum_map"
+    ]
+  },
+  "sky_sun_flare": {
+    "donor": "objects\\multi\\shaders\\indicator_illum.shader",
+    "sources": [
+      "levels\\dlc\\cex_timberland\\shaders\\ca_timberland_sun_flare.shader"
+    ],
+    "image_count": 1,
+    "bitmap_roles": [
+      "base_map",
+      "detail_map",
+      "self_illum_map"
+    ],
+    "stock_unlit_sky": true
+  },
+  "sky_white": {
+    "donor": "levels\\dlc\\bunkerworld\\sky\\shaders\\skydome.shader",
+    "sources": [
+      "levels\\shared\\shaders\\simple\\white.shader"
+    ],
+    "image_count": 0,
+    "bitmap_roles": []
+  },
+  "sky_moon": {
+    "donor": "levels\\dlc\\chillout\\shaders\\z_flood_lightpanel.shader",
+    "sources": [
+      "levels\\solo\\m20\\sky_morning\\shaders\\large_moon.shader"
+    ],
+    "image_count": 1,
+    "bitmap_roles": [
+      "self_illum_map"
+    ]
   }
 }

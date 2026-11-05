@@ -110,12 +110,14 @@ if disabled_environment:
     assert active['environment_map_specular_contribution']['parameter type']=='real'
 if stock_unlit:
     assert kind=='shader' and stock_names['material_model']=='diffuse_only'
-    assert stock_names['self_illumination']=='illum_detail' and stock_names['environment_mapping']=='none'
+    assert stock_names['self_illumination']!='off' and stock_names['environment_mapping']=='none'
     witness=next(r for r in json.loads((OUT/'stock-sky-native-functions.json').read_text()) if r['path']==DONOR)
     assert sha(KIT/'tags'/DONOR)==witness['sha256']
     stock_color=next(p for p in witness['parameters'] if p['name']=='albedo_color')
-    assert stock_color['type']==5 and len(stock_color['functions'])==1
-    stock_color=stock_color['functions'][0]
+    assert stock_color['type']==5
+    assert sum(f['type']==1 for f in stock_color['functions'])==1
+    assert all(f['type'] in (1,8) for f in stock_color['functions'])
+    stock_color=next(f for f in stock_color['functions'] if f['type']==1)
     assert stock_color['type']==1 and stock_color['master_type']==0 and not stock_color['is_ranged']
     assert stock_color['colors']==[dict(red=0,green=0,blue=0)]
 stock_configurations={r['path']:r for r in json.loads((OUT/'stock-shader-configurations.json').read_text())}
@@ -264,6 +266,8 @@ for bitmap,entry in images.items():
                           {'base_map','material_texture'},
                           {'base_map','detail_map'}]
         if kind=='water':shared_role_sets.append({'foam_texture','foam_texture_detail'})
+        if args.family=='sky_clouds_plasma':
+            shared_role_sets.extend([{'base_map','alpha_mask_map'},{'noise_map_a','noise_map_b'}])
         assert len(entry['roles'])==1 or any(set(entry['roles'])<=roles for roles in shared_role_sets),entry
     role=entry['roles'][0]
     normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
@@ -289,7 +293,12 @@ for bitmap,entry in images.items():
         usage=('ZBrush Bump Map (from Bump Map)' if normal else 'Cube Map (Reflection Map)' if role=='environment_map' else 'Detail Map' if role.startswith('detail_map') else 'Diffuse Map')
     else:usage={'base_map':'Diffuse Map','detail_map':'Detail Map','detail_map2':'Detail Map','bump_map':'ZBrush Bump Map (from Bump Map)','bump_detail_map':'ZBrush Bump Map (from Bump Map)','environment_map':'Cube Map (Reflection Map)','self_illum_map':'Self-Illum Map','self_illum_detail_map':'Detail Map','noise_map_a':'Diffuse Map','noise_map_b':'Diffuse Map','alpha_mask_map':'Diffuse Map','material_texture':'Diffuse Map','height_map':'Height Map (for Parallax)','watercolor_texture':'Diffuse Map','global_shape_texture':'Diffuse Map','foam_texture':'Diffuse Map','foam_texture_detail':'Diffuse Map'}[role]
     if len(entry['roles'])>1 and not normal:
-        usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
+        usage={0:'Diffuse Map',4:'Detail Map',5:'Self-Illum Map',33:'Self-Illum Map'}[int(metadata[bitmap]['fields']['Usage'])]
+        if int(metadata[bitmap]['fields']['Usage'])==33:
+            # Reach's lens-flare authoring preset is absent in H3. This image
+            # is sampled by a stock self-illumination shader; retain its sRGB
+            # curve using H3's native Self-Illum import and verify the pixels.
+            entry['source_usage_mapping']='Reach Lens Flare gamma 2.2 -> native H3 Self-Illum Map with explicit sRGB curve'
     setting=dict(Path=entry['target'],Usage=usage,
         Format='Use Default (defined by usage)' if normal else ('8-bit Monochrome + 8-bit Alpha' if monochrome and role!='environment_map' else 'DXT5 (Compressed Color + Compressed 8-bit Alpha)'),
         LinearSource=curve==3 and not normal,Curve='sRGB' if curve==1 and not normal else None,SourceGamma=2.2)
@@ -361,7 +370,7 @@ for index,entry in enumerate(images.values()):
     normal=role.startswith(('bump_map','bump_detail_map','detail_bump'))
     expected_size=entry['size'] if role!='environment_map' else (entry['size'][0]//4,entry['size'][1]//3)
     assert (int(saved['width']),int(saved['height']))==tuple(expected_size),entry
-    assert int(saved['mipmap count'])>0,entry
+    assert int(saved['mipmap count'])>=0,entry
     if 'mipmap count' in metadata[entry['path']]['bitmaps'][0]:
         assert int(saved['mipmap count'])==int(metadata[entry['path']]['bitmaps'][0]['mipmap count']),entry
     if role=='environment_map':assert saved['type']=='cube map'
