@@ -53,17 +53,19 @@ F7 is available because Advanced Forge now activates automatically and uses the 
 
 ## 5. Battle Canyon rebuild
 
-Current status (2026-11-04): moving the fresh official-tool build directly to
-original Halo 3 at the user's explicit instruction. MCC playtest/approval is
-waived for this draft. Deadline: 2026-11-05 02:51:08 UTC. The rejected earlier
-implementation is not an input; no native visual/gameplay acceptance yet.
+Current status (2026-11-04): original-H3 candidate3 built and installed in the
+shared installation at 21:31 local, about 41 minutes into the user's one-hour
+window. MCC playtest/approval was explicitly waived. The game is open with
+normal user controls. Native menu captures pass; map loading, appearance,
+traversal, audio and gameplay still require the user's manual review.
 
-Latest source includes all 13 approved native H3 lights, original wheel animation,
-four cabinets with stock Territories markers and the red-base rock. Source cache
-job 2026110402 compiled. Original-H3 preflight exposed collision and placement
-limits: standard Blender collision-only simplification is underway; 625 native
-placements remain after reducing initial starts to four per team per mode while
-retaining all FFA and infection starts. Visible meshes are unchanged.
+The source includes all 13 approved native H3 lights, original wheel animation,
+four cabinets with stock Territories markers and the red-base rock. Native
+limits pass: 625/640 placed objects, 99 Forge palette entries, 108/256 maximum
+quota entries, one small world collision BSP and no large/Havok BSP blocks.
+Collision simplification preserves visible world geometry but retains portal
+and geometry warnings; incomplete effects/atmosphere/audio remain. See
+[native draft and launch instructions](tools/stock-h3-audit/NATIVE-DRAFT.md).
 
 - [x] Advance after Claude's cleanup, per the user's "Just move on" instruction; do not reuse the rejected work. Residual history/shared code was disclosed, not certified erased.
 - [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.
@@ -125,10 +127,11 @@ retaining all FFA and infection starts. Visible meshes are unchanged.
 - [ ] Verify imported texture color/alpha, normals, reflections and original texture controls against their source inputs.
 - [ ] Resolve remaining material/effect gaps with stock H3 assets; obtain the user's decision on the rainbow/decorative-laser import proposal before importing those effects.
 - [ ] Import, compile and light using official H3 MCC tools.
-- [ ] Test in actual MCC with the user driving: compare Reach appearance; inspect sky, flicker/clipping, collision, traversal, audio, gameplay and Forge.
-- [ ] Obtain explicit user approval of the MCC version before ANY Xbox 360 conversion.
-- [ ] Apply the established MCC-to-H3 Xbox 360 process with the verified stock asset list.
-- [ ] Verify converted visuals, behavior, performance and native limits, then coordinate deployment into the shared installation.
+- MCC playtest skipped by the explicit November 4 override; perform the user-driven review in original H3.
+- MCC approval gate waived by the explicit November 4 override; this is not visual acceptance.
+- [x] Convert and package native candidate3 using the shared converter and original stock assets. Added generic RenderBsp array serialization from the documented H3 layout; the nested-array relocation test passes.
+- [x] Verify native format/capacity/header/package integrity and deploy as a distinct Battle Canyon entry in the existing shared installation. Existing custom bundles remain.
+- [ ] User-driven native map loading, visual, traversal, audio, gameplay and Forge acceptance. Main-menu rendering alone is not a map pass.
 
 Process: [approved nine steps](tools/stock-h3-audit/REBUILD-PLAN.md).
 Evidence and limitations: [fresh source/authoring preflight](tools/stock-h3-audit/SOURCE-PREFLIGHT.md).

@@ -19,9 +19,13 @@ def run(name,command,cwd,timeout):
         except subprocess.TimeoutExpired:child.kill();child.wait();entry['status']='timeout';save();raise
     entry.update(status='complete' if entry['returncode']==0 else 'failed',seconds=time.time()-entry['started']);save()
     if entry['returncode']:raise SystemExit(entry['returncode'])
+    if name=='structure':
+        logtext=(dest/(name+'.log')).read_text(errors='replace')
+        if 'structure import pipeline failed' in logtext or '=== imported structure' not in logtext:
+            entry['status']='failed-structure-import';save();raise SystemExit('Official Tool did not import structure successfully')
 if not a.convert_only:
     report=json.loads((OUT/'360-collision-draft.json').read_text(encoding='utf8'))
-    run('structure',[KIT/'tool.exe','structure',r'levels\custom\battle_canyon_fresh\structure\battle_canyon.ass'],KIT,600)
+    run('structure',[KIT/'tool.exe','structure',r'levels\custom\battle_canyon_fresh\structure\battle_canyon.ass'],KIT,900)
     run('cache',[KIT/'tool_fast.exe','build-cache-file',r'levels\custom\battle_canyon_fresh\battle_canyon_fresh','x64'],KIT,600)
 if not a.source_only:
     run('convert',[sys.executable,'-B',ROOT/'tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py',

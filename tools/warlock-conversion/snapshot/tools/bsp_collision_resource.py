@@ -128,9 +128,21 @@ def convert_bsp_collision(source, partition_payloads=None):
             s, d = (start & 0x1fffffff) + i * 196, instances + i * 184
             struct.pack_into('>5I', control, d, *source.unpack('5I', s))
             geometry(s + 20, d + 20)
-            for offset in (0x74, 0x8c, 0x98):
+            # TagTool InstancedGeometryBlock.RenderBsp is CollisionGeometry[]
+            # in both H3 MCC and original H3 (96-byte headers, same eight
+            # array layouts). Preserve it using the existing geometry encoder.
+            render_count, _ = block(s + 0x74, 96)
+            if render_count:
+                render_source = source.fix[s + 0x78]
+                if render_source >> 29 != 1:
+                    raise ValueError('Render BSP headers outside control data')
+                render_target = output_block(d + 0x74, render_count, bytes(render_count * 96), True)
+                for render_index in range(render_count):
+                    geometry((render_source & 0x1fffffff) + render_index * 96,
+                             render_target + render_index * 96)
+            for offset in (0x8c, 0x98):
                 if source.unpack('I', s + offset)[0]:
-                    raise ValueError('Render BSP/breakable/small surface block requires conversion')
+                    raise ValueError('Breakable/small surface block requires conversion')
             mopp(s + 0x80, d + 0x80)
             array(s + 0xa4, d + 0x98, 'ii', 'Hh')
             # Serialized H3 caches use ushort triangle/section pairs (the
