@@ -2527,3 +2527,101 @@ existing handles; these errors remain unresolved even if a process later
 returns zero. Lighting is not accepted. The running wrapper predates the
 added timeout child cleanup: if it times out, revalidate and manage only its
 owned children rather than leaving an orphan bake.
+
+## First native MCC cache and prop collision checkpoint (2026-11-04)
+
+Draft job `2026110401` is now terminal: all 31 official commands returned zero.
+The earlier live-process entry above is historical. Data sync logged 14,873
+out-of-bounds UV errors; the four direct-lighting logs contain 104, 262, 155
+and 152 ray errors. These remain unresolved. A successful native return code
+is not visual acceptance. `verify_h3_draft_checkpoint.py` checks all 181
+scenario sections against the saved gameplay baseline: only the native
+`new lightmaps` reference changed; the other 180 sections match exactly,
+including gameplay, sky and Forge data.
+
+`build_h3_cache.py` runs the official
+`tool_fast.exe build-cache-file levels\custom\battle_canyon_fresh\battle_canyon_fresh x64`
+command, following [Microsoft's cache-build workflow](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/quickstart/process/step9).
+The first WIP cache compiled in 155.2 seconds, return code 0, with Tool's
+`successfully built cache file` message. Output is
+`work/editing-kits/h3ek/maps/battle_canyon_fresh.map`, 1,104,592,896 bytes,
+SHA-256 `eeff4be6579e67c9ab89b4924f0eb1c5db5b608f83f03f9da71f68bde95d3476`.
+This is an unfinished packaging checkpoint, not an installed review build.
+Props, effects, atmosphere, audio, lighting/geometry corrections and MCC
+visual/gameplay testing remain. No MCC approval or 360 conversion occurred.
+
+Three cache-build errors name animation/render node-count mismatches on the
+unchanged stock permanent gravlift, gravity hammer and red powerup. Native
+`InspectStockAnimationNodes.cs` confirms the kit references. Unchanged TagTool,
+automated by `audit_stock_animation_nodes.py`, checks original Xbox 360
+Standoff, shipping MCC Standoff and the fresh cache: all three compiled models
+have null animation references and matching node counts of 1, 2 and 1,
+respectively. All inspected cache hashes remain unchanged. No custom stock-tag
+fix is justified by these warnings; gameplay behavior still requires MCC testing.
+
+`export_h3_prop_collision.py` uses unchanged Blender/JMS 8213 export and
+preserves source collision geometry/material names. Official `tool collision`
+compiled the wheel, cabinet and red-base rock without warnings/errors; saved
+collision error blocks are empty. Input polygon/triangulated face counts are
+60/144, 22/48 and 728/750. An initial report incorrectly called polygon counts
+triangles; refreshed reports distinguish them and produce identical JMS hashes.
+The wheel uses `hard_metal_thick_for`, rock `hard_terrain_stone_rough`, and
+cabinet retains the source's literal `default` identifier. The cabinet's final
+global-material resolution still needs checking; it has not been retuned.
+Physics, object setup/placement, wheel animation and in-game collision remain.
+
+Evidence under `work/stock-h3-audit`: `draft-lighting-2026110401/report.json`
+and logs, `cache-build-2026110401/report.json` and `tool.log`,
+`h3-draft-checkpoint-verification.json`, `stock-animation-cache-audit.json`,
+`h3-prop-<name>-collision-export.json`, native collision XML and compile logs.
+
+## Native prop physics and static object tags (2026-11-04)
+
+`inspect_original_prop_physics.py` follows the original objects' references
+with the official Reach API and exports source object/model/physics XML with
+Tool. All four source models resolve. The wheel has an animation graph;
+the cabinet, red-base rock and health-pack model do not.
+
+`export_h3_prop_physics.py` exports the three already-bound prop scenes through
+the unchanged Halo JMS exporter. Each source physics model has one convex
+polyhedron and one rigid body, without joints or other shapes. Original
+vertices and source physical-material names are retained in Blender inputs.
+Official `tool.exe physics levels\custom\battle_canyon_fresh\props\<name>`
+produces each H3 physics model. `PrepareH3PropPhysics.cs` preserves the original
+motion types through native fields: wheel `box`, cabinet and rock `fixed`.
+The cabinet and rock's initial native `box` defaults are saved before editing.
+
+`verify_h3_prop_physics.py` reads the resulting native tags. Vertex counts
+are 72, 16 and 64. Render, collision and physics node names/hierarchy agree;
+unchanged exporter prefix handling maps the wheel's `b_pedestal` to `pedestal`.
+The source-to-native point comparison is **not exact** for wheel/rock: maximum
+XML point deviations are 0.0284062 and 0.0284114 world units. Their native bounds
+also differ. The cabinet's points match, but Tool warns that its 0.0115-wide
+bounding dimension is below 0.0410 and will not be represented accurately.
+These differences/warnings are preserved in the report, not fixed by custom
+geometry code or waived as accepted collision. No additional isolated
+numerical-difference experiments were added; actual collision remains for MCC.
+
+`PrepareH3StaticPropObjects.cs` creates native `.model` and `.crate` tags for
+cabinet and red-base rock using the official New/Save workflow. They link the
+compiled render/collision/physics tags and preserve the original default
+variant/region/permutation. The cabinet source model explicitly maps its
+`default` collision material to `hard_metal_thin`; that exact global material
+exists in original Standoff and is now assigned in H3. The rock's original
+`default` model-material mapping to `hard_terrain_stone_rough` is also retained.
+Native XML readback checks all three model links, both crate links, default
+variants and material mappings. There are no attachments, functions or health
+packs. These fixed props add no entries to the approved stock Forge palette
+and import no Reach-only Forge-phasing behavior.
+
+These two object tags are **not yet placed** and are absent from the first
+cache. The wheel's object/animation setup, health-pack visibility decision,
+source prop placements and actual MCC appearance/collision remain unfinished.
+Next connect the static objects to their original placements, then continue
+remaining fixtures/effects/atmosphere and resolve the native lighting errors.
+
+Evidence under `work/stock-h3-audit`: `original-prop-native-dependencies.json`,
+`original-prop-<name>-{object,model,physics}.xml`,
+`h3-prop-<name>-physics-export.json`, native compile logs/physics XML,
+`prop-motion-authoring.log`, `h3-prop-physics-verification.json`,
+`static-prop-object-authoring.log`, and `h3-static-prop-object-verification.json`.
