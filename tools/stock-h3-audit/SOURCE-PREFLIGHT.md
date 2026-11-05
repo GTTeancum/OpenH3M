@@ -2364,3 +2364,100 @@ rifles (stock lookup beyond Standoff), two DMRs and two grenade launchers
 draft lighting, and the known geometry/collision failures. These placements
 are unfinished work, not approved omissions. There is still no accepted MCC
 cache, MCC playtest, Xbox 360 conversion or installation for the fresh build.
+
+## Native H3 gameplay layout and draft-lighting attempt (2026-11-04)
+
+The user selected Battle Rifles for the two DMR placements and Brute Shots for
+the two Reach grenade launchers. Guardian provides original-360 witnesses for
+the Plasma Rifle and Infection haven missing from the Standoff Forge list;
+the invisible respawn marker is also present in original Standoff.
+`audit_gameplay_extras.py` uses unchanged TagTool against original Guardian
+and MCC Guardian. All three roots have matching immediate dependency names.
+The two marker objects differ only in platform structure fields in the inspected
+output. Plasma Rifle differences include MCC first-person/font fields and
+ejection-port recovery (1000 original, 30 MCC). No compensating weapon patch
+was authored: retain the MCC authoring infrastructure now and reuse the
+original stock object during the later approved 360 conversion.
+
+`plan_h3_gameplay.py` and `PrepareH3Gameplay.cs` map the source placements to
+unmodified stock H3 tags through official editor fields. Saved totals are
+662 scenery placements, 19 weapons, 43 crates/goals and 18 equipment entries.
+This adds 583 entries to the earlier 159-entry checkpoint. The 500 initial
+markers represent the same 92 original start positions: the 52 team and 16
+neutral positions use each of seven stock mode-specific tags; the 24 Infection
+starts use its stock tag. These extra references supply H3's native mode
+filtering without modifying the shared stock tags. They are not 500 newly
+invented start locations. H3 team/FFA selection remains a specific MCC test.
+
+The other additions include 16 invisible respawn markers, 16 CTF/Assault
+respawn zones, all six remaining weapons, both teleporters, both permanent
+grav lifts, and the shared mode goals. CTF's source flag/return marker is
+represented by separate stock H3 flag-spawn and return-area objects. The
+seven Infection havens have a real stock H3 counterpart and are retained.
+The native H3 enum spells team eight as `eigth party`; source and target enum
+indices were inspected and the spelling is mapped without changing team 7.
+Expanded markers receive distinct editor identifiers. Source identifiers
+are scoped by object type, so an unchanged crate and grenade may legitimately
+share the numeric identifier; the full typed identities remain unique.
+
+`verify_h3_gameplay.py` compares every added saved placement against original
+Tool XML: stock references/hashes, positions, rotations, scale, teams,
+boundaries, ordering, spawn settings and parent indices. All checks pass.
+The earlier placements, Forge choices, sky, profile and other scenario
+sections are unchanged by this authoring step. Scenario SHA-256 before
+lighting preparation:
+`5bcd802906a1dc446337e6f8ddcf07455bd94bfa05b035370c1613ce44bd5b0e`.
+Evidence: `h3-gameplay-plan.json`, `h3-gameplay-saved.xml` and
+`h3-gameplay-verification.json` under `work/stock-h3-audit`.
+
+55 source scenery/crate records remain pending, including the 23 Reach-only
+Stockpile/Headhunter mode markers submitted for the user's decision in
+`GAMEPLAY-MAPPING.md`. They are not approved omissions. The Spartan doll is
+the one explicit exclusion under the existing user instruction. The pending
+work includes original light fixtures, wheel, rock/health-station appearances,
+danger zones and cinematic cameras. Audio/effect-scenery placement is separate.
+
+The thirteen placed lights use three source definitions: omni_1 (three),
+spot_5 (six) and spot_7 (four). `inspect_source_lights.py` reads their original
+fixture/model/marker references and light tags through official tools without
+saving them. Both spots use the Reach Forerunner light-gel bitmap; these
+lights have not yet been authored into H3. `original-placed-lights.json` and
+the corresponding native XML exports preserve the next inputs.
+
+The first WIP draft-lighting attempt is job `2026110401`, launched with
+`run_h3_draft_lighting.py`. It follows the native command order in the kit's
+unchanged `calc_lm_farm_local.py`, using a distinct job directory and four
+native workers. This is the documented [official H3 lighting workflow](https://learn.microsoft.com/en-us/halo-master-chief-collection/h3/quickstart/process/step6).
+The original scenario/BSP/lighting-info inputs are checkpointed under
+`work/stock-h3-audit/draft-lighting-2026110401`; the live report/log are there.
+At this checkpoint `faux_data_sync` is still running and consuming CPU. It
+has advanced through chart packing to writing the native lightmap (647
+meshes copied). The running job is session 24154, native PID 50448, started
+2026-11-04 19:16:44 local. Verify live identity/state before process management.
+Poll the existing process/session; do not restart from elapsed time alone.
+This attempt uses the current material emitters, with the remaining original
+light objects and atmosphere explicitly unfinished. A completed command would
+not establish visual correctness or waive the known geometry/collision errors.
+
+`import_original_props.py` imports the original wheel, red-base rock, health
+cabinet and health-pack appearance into four separate Blender source scenes
+using unchanged Foundry. Each scene retains source render, collision and
+physics meshes and markers. These are new imports from the official Reach
+kit, not recovered outputs from the rejected build. No H3 object tags or
+Reach healing behavior were introduced. Wheel animation remains separate.
+
+`render_prop_wip.py` produced actual Blender source previews of the wheel,
+rock and health pack, all individually inspected. The wheel shows its red
+center and light strips; the rock retains its brown source surface; the
+health pack shows its red H panel and decals. Images are
+`wip/original-prop-frunner_wheel.png`,
+`wip/original-prop-ff_redbase_rocks02.png` and
+`wip/original-prop-health_station.png` under `work/stock-h3-audit`. These
+use Foundry's source shaders and neutral preview lights, not H3 rendering
+or final map lighting. Original saved scenes remain unchanged by rendering.
+
+Existing authored H3 material families cover eight of the wheel's nine
+surfaces and the rock's one surface. Five distinct source materials remain
+to author: the thin light strips, cabinet, health-pack body, rubber and
+shared UNSC decal. Object compilation/placement, wheel animation and H3
+appearance remain unfinished; imported source meshes are not accepted assets.

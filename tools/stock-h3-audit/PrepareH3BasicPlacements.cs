@@ -9,13 +9,13 @@ using Bungie.Tags;
 class PrepareH3BasicPlacements
 {
     const string Scenario=@"levels\custom\battle_canyon_fresh\battle_canyon_fresh";
-    static string Value(XmlNode source,string name)
+    public static string Value(XmlNode source,string name)
     {
         var field=source.SelectSingleNode("field[@name='"+name+"']");
         if(field==null)throw new InvalidOperationException("Missing source field "+name);
         return field.Attributes["value"].Value;
     }
-    static void Set(TagField field,string value)
+    public static void Set(TagField field,string value)
     {
         if(field is TagFieldEnum)
         {
@@ -47,7 +47,7 @@ class PrepareH3BasicPlacements
         }
         throw new InvalidOperationException("Unsupported field "+field.FieldPath);
     }
-    static void Copy(TagElement destination,XmlNode source,string prefix,string[] names)
+    public static void Copy(TagElement destination,XmlNode source,string prefix,string[] names)
     {
         foreach(string name in names)Set(destination.SelectField(prefix+name),Value(source,name));
     }
