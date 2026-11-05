@@ -736,6 +736,38 @@
     "image_count": 0,
     "bitmap_roles": []
   },
+  "prop_unsc_decal": {
+    "kind": "decal",
+    "donor": "objects\\gear\\human\\industrial\\shaders\\human_industrial_decals.shader_decal",
+    "sources": ["objects\\bitmaps\\decals\\shaders\\unsc_decals.shader_decal"],
+    "image_count": 1,
+    "bitmap_roles": ["base_map"]
+  },
+  "prop_light_strips": {
+    "donor": "levels\\dlc\\bunkerworld\\sky\\shaders\\road.shader",
+    "sources": ["levels\\multi\\classic\\ascension\\shaders\\forerunner_light_thin_strips.shader"],
+    "image_count": 1,
+    "bitmap_roles": ["base_map", "detail_map"]
+  },
+  "prop_health_pack": {
+    "donor": "objects\\characters\\monitor\\shaders\\monitor_base.shader",
+    "sources": ["objects\\equipment\\health_pack\\shaders\\health_pack.shader"],
+    "image_count": 4,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map", "self_illum_map"]
+  },
+  "prop_health_rubber": {
+    "donor": "objects\\weapons\\melee\\gravity_hammer\\shaders\\hammer_dull.shader",
+    "stock_world_model": "objects\\weapons\\melee\\gravity_hammer\\gravity_hammer.render_model",
+    "sources": ["objects\\equipment\\health_pack\\shaders\\health_pack_rubber.shader"],
+    "image_count": 4,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map", "bump_detail_map", "material_texture"]
+  },
+  "prop_health_cabinet": {
+    "donor": "levels\\dlc\\bunkerworld\\shaders\\bunker_ceiling.shader",
+    "sources": ["objects\\props\\human\\unsc\\health_cabinet\\shaders\\health_cabinet.shader"],
+    "image_count": 3,
+    "bitmap_roles": ["base_map", "detail_map", "bump_map"]
+  },
   "sky_moon": {
     "donor": "levels\\dlc\\chillout\\shaders\\z_flood_lightpanel.shader",
     "sources": [

@@ -2461,3 +2461,69 @@ surfaces and the rock's one surface. Five distinct source materials remain
 to author: the thin light strips, cabinet, health-pack body, rubber and
 shared UNSC decal. Object compilation/placement, wheel animation and H3
 appearance remain unfinished; imported source meshes are not accepted assets.
+
+## Prop materials and native render models (2026-11-04)
+
+All five remaining prop surfaces now use stock H3 setups with original Reach
+artwork. `inspect_prop_materials.py` extends the source inventory from actual
+Foundry import reports and invokes the existing native input/default and
+inheritance readers. Families in `material_families.json`:
+
+| Family | Stock donor |
+| --- | --- |
+| prop_light_strips | Standoff sky road, diffuse-only |
+| prop_health_pack | Stock monitor base |
+| prop_health_rubber | Gravity hammer dull surface |
+| prop_health_cabinet | Standoff ceiling |
+| prop_unsc_decal | Stock human industrial decal |
+
+All five donors occur in original-360 Standoff. Native option vectors match
+MCC; the hammer's `first_person_sometimes` setting has an original-cache
+world-model material witness. The decal matches all six H3 categories; its
+extra Reach parallax and `interier` options are both off. The authoring guard
+rejects active unmatched decal options. No shader program was authored.
+
+For each family, the established sequence completes: `prepare_family_donors.py
+--family <name>`; `author_wall_family.py --family <name> --prepare`;
+`inspect_wall_bitmaps.py --family --family-name <name>`; `author_wall_family.py
+--family <name>`; `verify_wall_family.py --family <name>`. Original textures
+are extracted using unchanged Foundry `extract_reach_bitmaps.py` as needed.
+Native saved inputs/functions and texture comparisons pass (13 family image
+entries, including shared images). Source physical-material names are empty;
+`author_physical_materials.py --props-only` retains donor defaults and performs
+zero material-name writes. Other authored surfaces are untouched.
+
+`export_h3_props.py` binds reviewed shaders and invokes the unchanged JMS 8213
+exporter. `compile_h3_props.py` invokes official `tool render ... draft`, then
+checks native saved shader references and original triangle counts:
+
+| Native render model | Vertices | Triangles | Shader references |
+| --- | ---: | ---: | ---: |
+| frunner_wheel | 11,281 | 7,700 | 9 |
+| cex_health_cabinet | 518 | 604 | 2 |
+| ff_redbase_rocks02 | 1,832 | 3,014 | 1 |
+
+Evidence: `h3-prop-<name>-export.json`, `h3-prop-<name>-compile.log`,
+`h3-prop-<name>-render.xml` and `h3-prop-<name>-verification.json` under
+`work/stock-h3-audit`. These are render models, not finished objects: native
+collision/physics, scenario placement, wheel animation and MCC appearance
+remain unfinished. Original source scenes remain unchanged; source collision
+and physics meshes are retained in the new authoring scenes.
+
+The health-pack model has 564 faces with Reach's medium-distance detail
+culling and 12 transparent faces. `InspectH3PropFlags.cs` reads the actual H3
+part flag names: dislikes photons, ignored by lightmapper, has transparent
+sorting plane, and is water surface. There is no matching detail-distance
+flag. Health-pack export stays stopped pending the user's decision to retain
+those details using normal stock H3 object visibility. No geometry is removed;
+healing stays excluded. Evidence: `h3-prop-native-flags.log` and
+`export-h3-prop-health_station.log`. This is not an approved omission.
+
+Draft job `2026110401` completed data sync (860.7 seconds) and farm begin.
+Four direct-lighting workers are live at this checkpoint (session 24154;
+PIDs 38232, 48340, 47248, 27340, started 19:33:22 local). Worker 0 reports
+`shooting rays away from the plane` errors. Preserve the job and inspect its
+existing handles; these errors remain unresolved even if a process later
+returns zero. Lighting is not accepted. The running wrapper predates the
+added timeout child cleanup: if it times out, revalidate and manage only its
+owned children rather than leaving an orphan bake.

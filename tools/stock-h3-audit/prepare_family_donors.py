@@ -28,6 +28,9 @@ for family in args.family:
     kind=families[family].get('kind','shader')
     selected_configs=configs if kind=='shader' else {r['path']:r for r in json.loads((OUT/'stock-terrain-configurations.json').read_text())}
     selected_provenance=provenance if kind=='shader' else json.loads((OUT/'stock-terrain-provenance.json').read_text())
+    if kind=='decal':
+        selected_configs={r['path']:r for r in json.loads((OUT/'stock-decal-configurations.json').read_text())}
+        selected_provenance=json.loads((OUT/'stock-decal-provenance.json').read_text())
     if kind=='water':
         water=json.loads((OUT/'stock-water-comparison.json').read_text())
         selected_configs={r['target']:dict(options=r['options'],sha256=water['source_hashes'][str(KIT/'tags'/r['target'])]) for r in water['candidates']}
@@ -42,7 +45,7 @@ for family in args.family:
     assert run.returncode==0 and sha(cache)==before
     options=[int(v) for v in re.findall(rb'OptionIndex: Int16 = (\d+)',run.stdout)]
     expected=selected_configs[donor]['options']
-    count={'shader':10,'terrain':6,'water':8}[kind]
+    count={'shader':10,'terrain':6,'water':8,'decal':6}[kind]
     assert len(options)==count and options==expected[:count],(donor,options,expected)
     world_witness=None
     if kind=='shader':

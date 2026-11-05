@@ -3,6 +3,7 @@
 Uses the official H3 API; no custom material definitions or tag serializer.
 Run after any shader-donor authoring batch, before compiling geometry.
 """
+import argparse
 import hashlib
 import json
 import os
@@ -14,6 +15,10 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'work/stock-h3-audit'
 KIT=ROOT/'work/editing-kits/h3ek'
 REACH=ROOT/'work/editing-kits/hrek'
+parser=argparse.ArgumentParser()
+parser.add_argument('--props-only',action='store_true',help='Update only the newly authored prop families')
+args=parser.parse_args()
+prefix='prop-' if args.props_only else ''
 env=os.environ.copy()
 for key,relative in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:env[key]=str(OUT/relative)
 env['DOTNET_ROLL_FORWARD']='Major'
@@ -38,15 +43,18 @@ assert len(by_name)==len(source),'Ambiguous source shader name'
 # Cross-group authoring (Reach shader_glass to stock H3 shader) keeps an explicit
 # reviewed source/target association instead of inferring it from the suffix.
 authored_sources={}
+selected_names=set()
 for report_path in OUT.glob('*-family/report.json'):
     for material in json.loads(report_path.read_text())['materials']:
         name=Path(material['target']).name
         assert name not in authored_sources or authored_sources[name]==material['source']
         authored_sources[name]=material['source']
+        if report_path.parent.name.startswith('prop_'):selected_names.add(name)
 tags=[]
 retained=[]
 hashes={str(KIT/'tags/globals/globals.globals'):sha(KIT/'tags/globals/globals.globals')}
 for target in sorted((KIT/'tags/levels/custom/battle_canyon_fresh/shaders').iterdir()):
+    if args.props_only and target.name not in selected_names:continue
     original=authored_sources.get(target.name,by_name.get(target.name))
     assert original in source,'Unknown authored source: '+target.name
     hashes[str(REACH/'tags'/original)]=sha(REACH/'tags'/original)
@@ -54,11 +62,11 @@ for target in sorted((KIT/'tags/levels/custom/battle_canyon_fresh/shaders').iter
     for name in fields.values():assert name in stock_names,'Requires stock alternative review: '+name
     if fields:tags.append(dict(Path=str(target.relative_to(KIT/'tags')),Fields=fields))
     else:retained.append(dict(path=str(target.relative_to(KIT/'tags')),reason='Source material name is empty; retain selected stock H3 material'))
-plan=OUT/'physical-material-plan.json'
-plan.write_text(json.dumps(dict(Kit=str(KIT),Output=str(OUT/'physical-material-report.json'),Tags=tags),indent=2)+'\n')
+plan=OUT/(prefix+'physical-material-plan.json')
+plan.write_text(json.dumps(dict(Kit=str(KIT),Output=str(OUT/(prefix+'physical-material-report.json')),Tags=tags),indent=2)+'\n')
 run=subprocess.run([str(OUT/'h3-api-probe/ApplyH3MaterialNames.exe'),str(plan),'--apply'],cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
-(OUT/'physical-material-authoring.log').write_bytes(run.stdout)
+(OUT/(prefix+'physical-material-authoring.log')).write_bytes(run.stdout)
 assert run.returncode==0,run.stdout.decode(errors='replace')
 for path,expected in hashes.items():assert sha(Path(path))==expected,path
-(OUT/'physical-material-evidence.json').write_text(json.dumps(dict(original_cache=str(cache),cache_sha256=before,source_hashes=hashes,retained=retained,limitation='Native names verified; impact sounds/effects and terrain selection require MCC gameplay review'),indent=2)+'\n')
+(OUT/(prefix+'physical-material-evidence.json')).write_text(json.dumps(dict(original_cache=str(cache),cache_sha256=before,source_hashes=hashes,retained=retained,props_only=args.props_only,limitation='Native names verified; impact sounds/effects and terrain selection require MCC gameplay review'),indent=2)+'\n')
 print(run.stdout.decode(errors='replace').strip(),flush=True)

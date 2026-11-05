@@ -18,6 +18,7 @@ class ReadH3ShaderConfigurations
             case ".shader_terrain":return "rmtr*";
             case ".shader_halogram":return "rmhg*";
             case ".shader_water":return "rmw *";
+            case ".shader_decal":return "rmd *";
             default:throw new ArgumentException("Unsupported stock shader group: "+path);
         }
     }

@@ -29,7 +29,7 @@ parser.add_argument('--only-bitmap',help='Reimport one named bitmap and update i
 args=parser.parse_args()
 family=families[args.family]
 kind=family.get('kind','shader')
-group={'shader':'shader','terrain':'shader_terrain','water':'shader_water'}[kind]
+group={'shader':'shader','terrain':'shader_terrain','water':'shader_water','decal':'shader_decal'}[kind]
 source_group=family.get('source_group',group)
 DONOR=family['donor']
 DEST=OUT/(args.family+'-family')
@@ -58,7 +58,7 @@ source_inputs=SourceShaderInputs()
 native_defaults=ShaderDefaults(kind)
 reach_options=json.loads((OUT/'reach-effective-shader-options.json').read_text())
 stock_options=json.loads((OUT/('h3-effective-'+kind+'-options.json')).read_text())[DONOR]
-if kind in ('terrain','water'):CATEGORIES={c['category'] for c in stock_options}
+if kind in ('terrain','water','decal'):CATEGORIES={c['category'] for c in stock_options}
 reused_bitmaps={}
 if kind=='water':
     assert family.get('approved_stock_water_behavior')
@@ -130,6 +130,10 @@ for source,inspection in reach_options.items():
     if source not in family['sources']:continue
     if not source.endswith('.'+source_group):continue
     selected={c['category']:c['option'] for c in inspection['categories']}
+    if kind=='decal':
+        # The original decal's two Reach-only options are disabled. Do not
+        # silently drop active features for any other decal.
+        assert {k:v for k,v in selected.items() if k not in CATEGORIES}=={'parallax':'off','interier':'off'},source
     if source_group=='shader_glass':
         # Reach's dedicated glass group has implicit alpha blend and no mask,
         # alpha test, illumination or parallax categories. Reuse ordinary H3
