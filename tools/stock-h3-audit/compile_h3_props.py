@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'work/stock-h3-audit';KIT=ROOT
 env=os.environ.copy()
 for key,path in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:env[key]=str(OUT/path)
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-names=sys.argv[1:];assert names and set(names)<={'frunner_wheel','cex_health_cabinet','ff_redbase_rocks02','health_station'}
+names=sys.argv[1:];assert names and set(names)<={'frunner_wheel','cex_health_cabinet','ff_redbase_rocks02','health_station','ca_bcreek_omni_1','ca_bcreek_spot_5'}
 for name in names:
     export=json.loads((OUT/('h3-prop-'+name+'-export.json')).read_text())
     assert sha(export['jms'])==export['jms_sha256'] and sha(export['scene'])==export['scene_sha256']

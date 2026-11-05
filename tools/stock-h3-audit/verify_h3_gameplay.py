@@ -6,18 +6,22 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import xml.etree.ElementTree as ET
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'work/stock-h3-audit';KIT=ROOT/'work/editing-kits/h3ek'
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
-plan=json.loads((OUT/'h3-gameplay-plan.json').read_text())
+scene_objects='--scene-objects' in sys.argv
+plan_name='h3-scene-object-plan.json' if scene_objects else 'h3-gameplay-plan.json'
+stem='h3-scene-objects' if scene_objects else 'h3-gameplay'
+plan=json.loads((OUT/plan_name).read_text(encoding='utf-8'))
 scenario=KIT/'tags/levels/custom/battle_canyon_fresh/battle_canyon_fresh.scenario';before=sha(scenario)
-backup=OUT/'scenario-before-gameplay-setup.scenario';assert sha(backup)==plan['ScenarioSha256']
-baseline=KIT/'tags/levels/custom/battle_canyon_audit/before_gameplay.scenario';baseline.parent.mkdir(parents=True,exist_ok=True)
+backup=OUT/('scenario-before-scene-objects.scenario' if scene_objects else 'scenario-before-gameplay-setup.scenario');assert sha(backup)==plan['ScenarioSha256']
+baseline=KIT/('tags/levels/custom/battle_canyon_audit/before_scene_objects.scenario' if scene_objects else 'tags/levels/custom/battle_canyon_audit/before_gameplay.scenario');baseline.parent.mkdir(parents=True,exist_ok=True)
 if baseline.exists():assert sha(baseline)==sha(backup)
 else:shutil.copyfile(backup,baseline)
 env=os.environ.copy()
 for key,path in [('APPDATA','profile/roaming'),('LOCALAPPDATA','profile/local'),('TEMP','temp'),('TMP','temp')]:env[key]=str(OUT/path)
-for tag,name in [(scenario,'h3-gameplay-saved'),(baseline,'h3-gameplay-baseline')]:
+for tag,name in [(scenario,stem+'-saved'),(baseline,stem+'-baseline')]:
     with (OUT/(name+'-export.log')).open('wb') as log:
         run=subprocess.run([str(KIT/'tool.exe'),'export-tag-to-xml',str(tag),str(OUT/(name+'.xml'))],cwd=KIT,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=120)
     assert run.returncode==0 and (OUT/(name+'.xml')).stat().st_size>1000
@@ -26,7 +30,7 @@ def xml(path):return ET.fromstring(path.read_text(errors='replace').replace('<un
 def f(e,n):return e.find('./field[@name="'+n+'"]').get('value')
 def block(e,n):return e.find('./block[@name="'+n+'"]')
 def canonical(e):return ET.canonicalize(ET.tostring(e,encoding='unicode'),strip_text=True)
-source=xml(OUT/'original-lighting-scenario.xml');actual=xml(OUT/'h3-gameplay-saved.xml');old=xml(OUT/'h3-gameplay-baseline.xml')
+source=xml(OUT/'original-lighting-scenario.xml');actual=xml(OUT/(stem+'-saved.xml'));old=xml(OUT/(stem+'-baseline.xml'))
 assert sha(OUT/'original-lighting-scenario.xml')==plan['SourceXmlSha256']
 sources={};current=None
 for e in source:
@@ -52,6 +56,8 @@ for row in plan['Placements']:
         assert len(a)==len(b) and all(abs(x-y)<=max(1e-5,abs(y)*2e-6) for x,y in zip(a,b)),(row,name,a,b)
     for name in ('game engine symmetric placement','remapping policy','boundary shape','teleporter channel','bsp policy'):
         assert f(e,name)==f(s,name),(row,name)
+    if row['SourceBlock']=='scenery':
+        for name in ('Pathfinding policy','Lightmapping policy'):assert f(e,name)==f(s,name),(row,name)
     expected_team='eigth party' if f(s,'owner team')=='eighth party' else f(s,'owner team')
     assert f(e,'owner team')==expected_team and int(f(e,'unique id'))==row['UniqueId']
     for name in ('placement flags','transform flags','game engine flags','spawn flags'):
@@ -68,10 +74,10 @@ for a,b in zip(old,actual):
     assert a.tag==b.tag and a.get('name')==b.get('name')
     if a.get('name') not in changed:assert canonical(a)==canonical(b),a.get('name')
 starts=collections.Counter(Path(row['TargetTag']).stem for row in plan['Placements'] if row['SourceType']=='initial_spawn_point')
-assert starts=={**{m+'_initial_spawn_point':68 for m in ('slayer','ctf','assault','koth','oddball','territories','vip')},'infection_initial_spawn_point':24}
-report=dict(scenario_sha256=before,baseline_sha256=sha(backup),plan_sha256=sha(OUT/'h3-gameplay-plan.json'),counts=counts,
+if not scene_objects:assert starts=={**{m+'_initial_spawn_point':68 for m in ('slayer','ctf','assault','koth','oddball','territories','vip')},'infection_initial_spawn_point':24}
+report=dict(scenario_sha256=before,baseline_sha256=sha(backup),plan_sha256=sha(OUT/plan_name),counts=counts,
     added=plan['counts'],initial_starts_by_native_mode=dict(starts),all_saved_transforms_boundaries_teams_and_spawn_settings_verified=True,
-    existing_placements_and_other_scenario_sections_unchanged=True,source_pending=plan['pending'],explicitly_excluded=plan['excluded'],
+    existing_placements_and_other_scenario_sections_unchanged=True,source_pending=plan.get('pending',[]),explicitly_excluded=plan.get('excluded',[]),
     limitation='Native authoring/readback only. H3 team/FFA start selection, game objectives, teleporters and grav-lift traversal require MCC playtesting. Reach-only modes and other source objects remain unresolved as listed; no completion or acceptance is implied.')
-(OUT/'h3-gameplay-verification.json').write_text(json.dumps(report,indent=2)+'\n')
+(OUT/(stem+'-verification.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('H3_GAMEPLAY_VERIFIED',counts,'added',sum(plan['counts'].values()),'placements; native mode starts',dict(starts),flush=True)

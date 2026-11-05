@@ -16,12 +16,16 @@ runpy.run_path(str(ROOT/'tools/stock-h3-audit/check_foundry.py'))
 palette=json.loads((OUT/'original-gameplay-palettes.json').read_text())['palettes']
 sources={}
 for group,stem in [('scenery palette','frunner_wheel'),('crate palette','cex_health_cabinet'),
-                   ('crate palette','ff_redbase_rocks02'),('control palette','health_station')]:
+                   ('crate palette','ff_redbase_rocks02'),('control palette','health_station'),
+                   ('scenery palette','ca_bcreek_omni_1'),('scenery palette','ca_bcreek_spot_5')]:
     matches=[p for p in palette[group] if Path(p).stem==stem]
     assert len(matches)==1,(group,stem,matches)
     sources[stem]=matches[0]
 name=sys.argv[sys.argv.index('--')+1];relative=sources[name];source=KIT/'tags'/relative
-destination=OUT/('original-prop-'+name+'.blend')
+animated='--animations' in sys.argv[sys.argv.index('--')+2:]
+assert not animated or name=='frunner_wheel','Animation import scoped to the original wheel'
+output_name=name+('-animated-clips' if animated else '')
+destination=OUT/('original-prop-'+output_name+'.blend')
 assert not destination.exists(),'Inspect existing source scene before rerunning'
 before=hashlib.sha256(source.read_bytes()).hexdigest()
 prefs=bpy.context.preferences.addons['io_scene_foundry'].preferences
@@ -33,8 +37,9 @@ bpy.context.preferences.filepaths.save_version=0
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 status=bpy.ops.nwo.foundry_import(filepath=str(source),build_blender_materials=False,
     tag_import_lights=False,tag_collision=True,tag_physics=True,tag_markers=True,
-    tag_animation=False,setup_as_asset=False)
+    tag_animation=animated,graph_import_animations=animated,setup_as_asset=False)
 assert status=={'FINISHED'}
+if animated:assert len(bpy.data.actions)==1,'Expected the original single wheel idle clip'
 meshes=[o for o in scene.objects if o.type=='MESH'];assert meshes,name
 materials=sorted({m.nwo.shader_path for o in meshes for m in o.data.materials if m and m.nwo.shader_path})
 bpy.ops.wm.save_as_mainfile(filepath=str(destination))
@@ -45,5 +50,6 @@ report=dict(source=str(source),source_sha256=before,scene=str(destination),
                   vertices=len(o.data.vertices) if o.type=='MESH' else None,
                   faces=len(o.data.polygons) if o.type=='MESH' else None) for o in scene.objects],
     limitation='Original source authoring import only. No H3 tags, gameplay, healing, animation or visual acceptance is established. Animation is separate work.')
-(OUT/('original-prop-'+name+'.json')).write_text(json.dumps(report,indent=2)+'\n')
+report['actions']=[dict(name=a.name,frame_range=list(a.frame_range)) for a in bpy.data.actions]
+(OUT/('original-prop-'+output_name+'.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('ORIGINAL_PROP_IMPORTED',name,len(meshes),'meshes',len(materials),'materials',flush=True)

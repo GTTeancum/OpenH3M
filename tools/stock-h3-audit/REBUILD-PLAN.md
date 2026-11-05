@@ -30,6 +30,15 @@ All project writes stay inside this repository. No desktop/OS input or capture
 app. Coordinate shared-content changes with the Sky Bridge chat. Do not restore
 the rejected map from any backup, trace fixture or historical commit.
 
+## Latest user override — 2026-11-04
+
+User: "Skip MCC and go straight to H3. We're at 13+ hours now because you've been picking at the minutia. You have one hour".
+
+This supersedes steps 6–7's MCC playtest/approval gate for the current draft.
+Proceed through the established converter into the shared original-H3 install.
+The hour runs 2026-11-05 01:51:08–02:51:08 UTC. Native visual/gameplay acceptance
+remains unverified until reviewed; do not represent compilation as acceptance.
+
 ## Step 1 execution state (historical initial blocker)
 
 Deletion inventory and protection hashes are in `work/retirement-20261103`.

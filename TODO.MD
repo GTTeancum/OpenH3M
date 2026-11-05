@@ -53,13 +53,17 @@ F7 is available because Advanced Forge now activates automatically and uses the 
 
 ## 5. Battle Canyon rebuild
 
-Current status (2026-11-04): fresh Reach-to-H3 MCC authoring/compilation, steps 4–5 of the
-approved process. The earlier implementation was rejected and is not an input.
-No MCC acceptance or Xbox 360 conversion has occurred for this fresh build.
+Current status (2026-11-04): moving the fresh official-tool build directly to
+original Halo 3 at the user's explicit instruction. MCC playtest/approval is
+waived for this draft. Deadline: 2026-11-05 02:51:08 UTC. The rejected earlier
+implementation is not an input; no native visual/gameplay acceptance yet.
 
-User steering (2026-11-04): move toward the playable MCC build. Prioritize
-scenario, sky, lighting and actual build/play blockers; do not expand isolated
-geometry diagnostics around tiny numerical differences.
+Latest source includes all 13 approved native H3 lights, original wheel animation,
+four cabinets with stock Territories markers and the red-base rock. Source cache
+job 2026110402 compiled. Original-H3 preflight exposed collision and placement
+limits: standard Blender collision-only simplification is underway; 625 native
+placements remain after reducing initial starts to four per team per mode while
+retaining all FFA and infection starts. Visible meshes are unchanged.
 
 - [x] Advance after Claude's cleanup, per the user's "Just move on" instruction; do not reuse the rejected work. Residual history/shared code was disclosed, not certified erased.
 - [x] Inventory original Xbox 360 Standoff and select its 99-entry vehicle-free Forge palette.

@@ -2625,3 +2625,23 @@ Evidence under `work/stock-h3-audit`: `original-prop-native-dependencies.json`,
 `h3-prop-<name>-physics-export.json`, native compile logs/physics XML,
 `prop-motion-authoring.log`, `h3-prop-physics-verification.json`,
 `static-prop-object-authoring.log`, and `h3-static-prop-object-verification.json`.
+
+
+## Current original-H3 draft — 2026-11-04
+
+The user waived MCC playtest/approval and set a one-hour original-H3 target.
+Current source cache job 2026110402 compiled successfully (1,105,653,760 bytes,
+SHA256 1ce500cde63d49f220d0eaa47acd7337be12ef26a9817d09ab06fd513d45c04c).
+It now includes the original wheel animation, all 13 approved native H3 lights,
+four cabinets plus their stock Territories markers, and the red-base rock.
+The light gel preserves original decoded RGBA exactly. Unfinished effects,
+atmosphere, audio, existing geometry/lightmap warnings and gameplay review remain.
+
+Native preflight found 50,702 world collision planes / 74,765 edges and 765
+scenario placements. Standard Blender decimation is being applied only to the
+nonvisual world collision; the original scene is retained. Native stock initial
+spawns now retain all 16 FFA starts, four per team per mode, and all infection
+starts: 625 total scenario placements. This first-review population reduces
+initial position choice for larger teams; all normal respawn points remain.
+The original scenario is retained in scenario-before-360-start-budget.scenario.
+No old Battle Canyon collision or material repairs are used.

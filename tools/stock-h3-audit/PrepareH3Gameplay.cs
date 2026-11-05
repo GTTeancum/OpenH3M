@@ -28,14 +28,15 @@ class PrepareH3Gameplay
     }
     static void Main(string[] args)
     {
-        if(args.Length!=1 && !(args.Length==2 && args[1]=="--dry-run"))throw new ArgumentException("Expected repository root and optional --dry-run");
-        bool apply=args.Length==1;
+        if(args.Length<1 || args.Length>3)throw new ArgumentException("Expected repository root, optional --dry-run and optional --scene-objects");
+        bool apply=true,sceneObjects=false;
+        for(int i=1;i<args.Length;i++){if(args[i]=="--dry-run")apply=false;else if(args[i]=="--scene-objects")sceneObjects=true;else throw new ArgumentException("Unknown argument "+args[i]);}
         string root=Path.GetFullPath(args[0]),kit=Path.Combine(root,@"work\editing-kits\h3ek"),output=Path.Combine(root,@"work\stock-h3-audit");
         string scenarioPath=Path.Combine(kit,"tags",Scenario+".scenario"),sourcePath=Path.Combine(output,"original-lighting-scenario.xml");
-        string backup=Path.Combine(output,"scenario-before-gameplay-setup.scenario");
+        string backup=Path.Combine(output,sceneObjects?"scenario-before-scene-objects.scenario":"scenario-before-gameplay-setup.scenario");
         if(File.Exists(backup))throw new InvalidOperationException("Gameplay checkpoint exists; inspect before rerunning");
         var json=new JavaScriptSerializer();json.MaxJsonLength=16*1024*1024;
-        var plan=json.Deserialize<GameplayPlan>(File.ReadAllText(Path.Combine(output,"h3-gameplay-plan.json")));
+        var plan=json.Deserialize<GameplayPlan>(File.ReadAllText(Path.Combine(output,sceneObjects?"h3-scene-object-plan.json":"h3-gameplay-plan.json")));
         if(Hash(scenarioPath)!=plan.ScenarioSha256 || Hash(sourcePath)!=plan.SourceXmlSha256)throw new InvalidOperationException("Stale gameplay plan");
         var source=new XmlDocument();source.Load(sourcePath);
         var sourceRows=new Dictionary<string,XmlNode>();

@@ -26,6 +26,11 @@ for path in OUT.glob('*-family/report.json'):
     pixels=json.loads((path.parent/'pixel-verification.json').read_text())
     assert not pixels['color_alpha_problems'],path
     for row in json.loads(path.read_text())['materials']:reviewed[row['source']]=row['target']
+if name in ('ca_bcreek_omni_1','ca_bcreek_spot_5'):
+    binding=json.loads((OUT/'h3-light-anchor-binding.json').read_text(encoding='utf-8'))
+    assert sha(KIT/'tags'/binding['target'])==binding['target_sha256']
+    assert sha(ROOT/'work/editing-kits/hrek/tags'/binding['source'])==binding['source_sha256']
+    reviewed[binding['source']]=binding['target']
 scene=bpy.context.scene
 project=bpy.context.preferences.addons['io_scene_foundry'].preferences.projects.add()
 project.name=project.project_name='Original Reach prop export'
