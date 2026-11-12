@@ -11,6 +11,30 @@ import subprocess
 import wave
 
 
+class SoundBanks:
+    """Explicit ordered banks: a Workshop override wins over stock samples."""
+    def __init__(self, paths, decoder, workdir):
+        self.banks = [SoundBank(path, decoder, workdir) for path in paths]
+        self.sources = {}
+        for bank in self.banks:
+            for key in bank.index:
+                self.sources.setdefault(key, bank)
+
+    def decode(self, sound_hash):
+        if sound_hash not in self.sources:
+            raise ValueError(f'Sound hash {sound_hash:#x} absent from all explicit banks')
+        return self.sources[sound_hash].decode(sound_hash)
+
+    def for_suffix(self, suffix):
+        """Resolve an MCC tag's explicit FMOD bank without hash-only fallback."""
+        if not suffix or any(c in suffix for c in '/\\:'):
+            raise ValueError(f'Invalid FMOD bank suffix: {suffix!r}')
+        matches = [b for b in self.banks if b.bank.name.casefold() == f'sfx.{suffix}.fsb'.casefold()]
+        if len(matches) != 1:
+            raise ValueError(f'Expected one explicit sfx.{suffix}.fsb bank, found {len(matches)}')
+        return matches[0]
+
+
 class SoundBank:
     def __init__(self, bank, decoder, workdir):
         self.bank = Path(bank).resolve(strict=True)

@@ -4,6 +4,7 @@ Do not infer equivalence from names. Walk all schema fields, nested arrays and
 data payloads. A recognized scalar delta is applied to a retail clone, retaining
 its platform-native dependency graph. Any other difference stops conversion.
 """
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -70,7 +71,7 @@ def resolve_variants(source, target, newtag, reference=None):
             continue
         custom, stock = src[group, custom_name], src[group, stock_name]
         index, retail = dst[group, stock_name]
-        ss = ET.parse(reference / 'mcc' / f'{group}.xml').getroot()
+        ss = load_schema(source, group, reference)
         ds = ET.parse(reference / 'plugins' / f'{group}.xml').getroot()
         changes = differences(source, ss, custom['offset'], stock['offset'])
         if any(permitted.get(name) != fmt for name, fmt in changes):

@@ -1,0 +1,3311 @@
+{
+  "fw_unsc_c_arena_wall": {
+    "axis_scale": [
+      1,
+      0.8333333333333334,
+      1.0169491525423728
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "evidence": "Both pieces have one axis-aligned collision box. H4 construction bounds are X=+-5, Y=+-0.3, Z=+-5.9; Reach bounds are X=+-5, Y=+-0.25, Z=+-6. Reach collision core expanded by its measured 0.0328 inset independently agrees with these render bounds. Scale Y by 5/6 and Z by 60/59 so all nine authored anchors retain their corresponding planes and edge locations. Their cardinal frames retain their directions."
+  },
+  "fw_unsc_c_base_round": {
+    "horizontal_scale": 0.9166666666666666,
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      -2.9791666666666665,
+      -0.1
+    ],
+    "evidence": "H4 flat-face anchors are on Y=-3.25 with outward -Y normals; Reach flat face is Y=0 with outward +Y. Rotate 180 degrees about the flat-face center and resize the horizontal construction radius from H4 6 to Reach 5.5. Translate H4 base Z=-0.9 to Reach -1.0. Hemorrhage's two authored Base Round pairs use opposed forward axes and nearly coincident origins, corroborating the flat-face seam. The complete ten-marker audit now independently proves the front-floor intersections, three outer ledge roles and four roof roles against actual target geometry. Bounded corrections below 0.00011 remove source marker noise, making all three flat-face Y coordinates exactly zero; the original H4 orientations remain rotated by 180 degrees.",
+    "coordinate_planes": [
+      [
+        -5.5,
+        -1.8333333333333333,
+        -1.375,
+        0,
+        1.375,
+        1.8333333333333333,
+        5.5
+      ],
+      [
+        -5.5,
+        -5.002928,
+        -1.2763764,
+        -0.491526,
+        0
+      ],
+      [
+        -0.2,
+        0,
+        1.6
+      ]
+    ],
+    "coordinate_tolerance": 0.00011
+  },
+  "fw_unsc_c_bank_2x1": {
+    "mirror_y": true,
+    "yaw_degrees": 0,
+    "translation": [
+      -0.0027361083775758743,
+      0,
+      -0.01173609495162964
+    ],
+    "evidence": "H4 collision extends toward negative Y; Reach counterpart extends positive Y with matching X and Z axes. Translation maps the original H4 nominal X=0 and base Z=-0.5 planes onto Reach."
+  },
+  "fw_unsc_c_bank_1x2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0.009595916606485844,
+      0.0011426574783399701,
+      0.015420973300933838
+    ],
+    "evidence": "Identity-root triangular bank in both games. Map the H4 X-side, Y-side and bottom anchor planes to Reach X=0, Y=0, Z=-0.5. The three transformed anchors are (0,1,-0.5), (-0.5,1,-0.5), (-0.5,0,-0.5), on the target base edges; the diagonal anchor is the midpoint of the (-1,0) to (0,2) edge. Target contact geometry is proved from all four convex planes and the measured skin inset."
+  },
+  "fw_unsc_c_bank_2x2": {
+    "yaw_degrees": 0,
+    "translation": [
+      -0.0027339195366948843,
+      0.0022392412647604942,
+      0.007239699363708496
+    ],
+    "evidence": "Identity-root triangular bank in both games. Map the original H4 X-side, Y-side and bottom anchor planes to Reach X=0, Y=0, Z=-0.5. All three transformed anchors lie at the midpoints of the target triangular base edges: (-1,0,-0.5), (0,1,-0.5), (-1,1,-0.5). Target contact geometry is proved from all four convex planes and the measured skin inset."
+  },
+  "fw_unsc_c_dish": {
+    "yaw_degrees": 270,
+    "translation": [
+      0,
+      -0.04302280396223068,
+      -0.11650478839874268
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            7.90316087440348e-18,
+            0
+          ],
+          [
+            0.00011871337483172164,
+            0
+          ],
+          [
+            0.00023742674966234912,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            0.0,
+            0
+          ],
+          [
+            -5.913234405219555,
+            -5.85249662399292
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -1.4001539945602417,
+            -1.399999976158142
+          ],
+          [
+            0.09669363498687744,
+            0.09669363498687744
+          ],
+          [
+            -0.5801551938056946,
+            -0.5801551938056946
+          ],
+          [
+            -0.10688425321131945,
+            -0.10688425321131945
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate the positive-X H4 half-dish into the target negative-Y half-dish. Both target variants share the central front geometry within 0.0000015 and therefore use the same front Y=0, actual base -1.4 and original common upper height above base 1.496693611. Correct the Dish Door lower marker off that common base; preserve the original floating upper reference rather than placing it on the bowl. Remove sub-0.000238 transverse source noise. For Dish only, move both rear roles to the actual rear support Y=-5.852496624 while retaining their original base-relative heights. Prove full support half-spaces, shared front geometry, source upper correspondence, lower bevel and upper open-air references, both rear section clearances, all full rotated frames and all native leaves. Native maps and physics unchanged."
+  },
+  "fw_unsc_c_dish_door": {
+    "yaw_degrees": 270,
+    "translation": [
+      0,
+      -0.043440081179142,
+      -1.330003336071968
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            7.882245173478449e-18,
+            0
+          ],
+          [
+            0.00011871337483172162,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -0.0005311369895935059,
+            0
+          ],
+          [
+            -0.0005375891923904419,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -1.359836557880044,
+            -1.399999976158142
+          ],
+          [
+            0.09669367969036102,
+            0.09669363498687744
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate the positive-X H4 half-dish into the target negative-Y half-dish. Both target variants share the central front geometry within 0.0000015 and therefore use the same front Y=0, actual base -1.4 and original common upper height above base 1.496693611. Correct the Dish Door lower marker off that common base; preserve the original floating upper reference rather than placing it on the bowl. Remove sub-0.000238 transverse source noise. For Dish only, move both rear roles to the actual rear support Y=-5.852496624 while retaining their original base-relative heights. Prove full support half-spaces, shared front geometry, source upper correspondence, lower bevel and upper open-air references, both rear section clearances, all full rotated frames and all native leaves. Native maps and physics unchanged."
+  },
+  "fw_unsc_c_arch_brace": {
+    "mirror_y": false,
+    "yaw_degrees": 180,
+    "translation": [
+      0.2,
+      -0.05,
+      -1
+    ],
+    "evidence": "Rotate the five original roles by 180 degrees and translate (.2,-.05,-1). Actual ledge/end intersections establish Z=.9 and 3.1; global render minima do not define this construction origin. Map the two explicit source side levels onto target Y=+-1.2 at their actual beveled-edge height Z=-.75, preserving source lateral X. Every point and rotated frame is checked independently against actual face triangles and the complete 19-leaf native compound.",
+    "axis_levels": [
+      {
+        "axis": 1,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -1.17429904938,
+            -1.2
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            1.17073316574,
+            1.2
+          ]
+        ]
+      }
+    ],
+    "coordinate_planes": [
+      [
+        -1.9,
+        0.31271634698,
+        1.9,
+        2.9
+      ],
+      [
+        -1.2,
+        0,
+        1.2
+      ],
+      [
+        -0.75,
+        0.9,
+        3.1
+      ]
+    ],
+    "coordinate_tolerance": 0.0001
+  },
+  "fw_unsc_c_crenel_notch": {
+    "mirror_y": false,
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.5
+    ],
+    "evidence": "Preserve four original bottom-end/top-surface roles and every authored frame, including the two original -Y upper normals. Actual target end planes are Y=+-1.25, not the H4 +-1.2. At the common X=.05, both actual upper face planes intersect Z=.507503053; preserve the original upper lateral positions. Resolve all three native leaves, bottom/end planes, upper ray intersections and original-to-target bases independently.",
+    "axis_levels": [
+      {
+        "axis": 1,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -1.2,
+            -1.25
+          ],
+          [
+            1.2,
+            1.25
+          ],
+          [
+            -0.7749685049057007,
+            -0.7749685049057007
+          ],
+          [
+            0.7858545184135437,
+            0.7858545184135437
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -0.5,
+            -0.5
+          ],
+          [
+            0.5,
+            0.5075030530613407
+          ]
+        ]
+      }
+    ],
+    "coordinate_planes": [
+      [
+        0.05
+      ],
+      [
+        -1.25,
+        1.25,
+        -0.7749685049057007,
+        0.7858545184135437
+      ],
+      [
+        -0.5,
+        0.5075030530613407
+      ]
+    ],
+    "coordinate_tolerance": 3e-06
+  },
+  "fw_unsc_c_bunker_covered": {
+    "axis_scale": [
+      1,
+      0.9795918367346937,
+      1
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      -0.02448979591836742,
+      -0.5
+    ],
+    "coordinate_planes": [
+      [
+        0
+      ],
+      [
+        -1.2,
+        1.2
+      ],
+      [
+        -0.5,
+        0.0
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The original two H4 entrance anchors are at Y=-1.2/+1.25 with a 0.5 floor rise. The target entrances are at Y=-1.2/+1.2, with floors -0.5/0 for Covered and -0.35/+0.15 for Low. Map both entrance planes exactly and preserve the original outward Y frames. Actual entrance triangles, floor/end planes, and every compound body/leaf including radius-bearing planar polygons are independently checked. No native map physics is changed."
+  },
+  "fw_unsc_c_plat_1x1_flat": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -2.644956111907959e-07
+    ],
+    "coordinate_planes": [
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.1,
+        0.0,
+        0.1
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_1x1_tall_thin": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.0
+    ],
+    "coordinate_planes": [
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.3,
+        -0.04999999999999999,
+        0.2
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_1x2": {
+    "yaw_degrees": 90,
+    "translation": [
+      0,
+      0,
+      -0.10000000894069672
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_2x2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.003490269184112549
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_2x2_short": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -4.470348369256527e-09
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -0.2,
+        0.04999999999999999,
+        0.3
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_2x2_tall": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.0
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_2x3": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.004760876297950745
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_2x4": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.0
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_3x1_flat": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.0
+    ],
+    "coordinate_planes": [
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.1,
+        0.0,
+        0.1
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_3x3": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.0004708021879196167
+    ],
+    "coordinate_planes": [
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_3x3_short": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.10000000447034835
+    ],
+    "coordinate_planes": [
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.2,
+        0.04999999999999999,
+        0.3
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_4x4": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.0004708021879196167
+    ],
+    "coordinate_planes": [
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_4x4_flat": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.00047266483306884766
+    ],
+    "coordinate_planes": [
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -0.1,
+        0.0,
+        0.1
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_4x4_tall": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.0027663707733154297
+    ],
+    "coordinate_planes": [
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -2,
+        0.0,
+        2
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_plat_5x1_flat": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.10000000149011612
+    ],
+    "coordinate_planes": [
+      [
+        -2.5,
+        0.0,
+        2.5
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ],
+      [
+        -0.1,
+        0.0,
+        0.1
+      ]
+    ],
+    "coordinate_tolerance": 0.005,
+    "evidence": "Reviewed construction box: nominal planes corroborated by complete convex-box topology and actual rendered face/support planes. Preserve all original H4 marker roles and rotations, rotate the frame where required, and remove at most 0.005 units per coordinate of authored marker noise onto measured planes. See box_anchor_geometry.json and verify_scenery_math.py; no runtime selection/alignment changes."
+  },
+  "fw_unsc_c_bank_1x1": {
+    "yaw_degrees": 0,
+    "translation": [
+      0.0014409222640097141,
+      -0.0014661636669188738,
+      0.0022143125534057617
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        -0.5,
+        0
+      ],
+      [
+        0,
+        0.5,
+        1
+      ],
+      [
+        -0.5,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.001,
+    "evidence": "All three anchors map to the three base-edge midpoints of the target tetrahedron. Remove bounded authored marker noise after translating source side/base planes; preserve original rotations."
+  },
+  "fw_unsc_c_ramp_1x2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0.1,
+      0,
+      0
+    ],
+    "evidence": "Target six-vertex wedge spans X [-1,1], Y [-.5,.5], Z [0,1]; H4 three endpoint anchors span X [-1.1,.9]. Translate X +.1 so the low edge and both high-edge endpoints meet the actual target construction planes."
+  },
+  "fw_unsc_c_arena_window": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "extrusion_profile": {
+      "source_levels": [
+        [
+          -9.2,
+          0,
+          9.3
+        ],
+        [
+          -0.31382,
+          0,
+          0.31382
+        ],
+        [
+          -3,
+          0,
+          3
+        ]
+      ],
+      "source_tolerance": [
+        1e-05,
+        0.03,
+        0.006
+      ],
+      "target_z": [
+        -3,
+        0,
+        3
+      ],
+      "target_y": [
+        -0.5,
+        0,
+        0.5
+      ],
+      "center_x": 0,
+      "polygon_xz": [
+        [
+          -9.6,
+          -3
+        ],
+        [
+          5.5,
+          -3
+        ],
+        [
+          9,
+          0.5
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          -4.4,
+          3
+        ],
+        [
+          -9.6,
+          -2.2
+        ]
+      ]
+    },
+    "evidence": "H4 rectangular Arena Window is not congruent with the six-edge Reach profile. Preserve all 16 original anchor roles: center X=0, left/right at the corresponding Z slice, front/back at Y=+-0.5, levels Z=-3/0/3. Rotate only outward X side frames onto the measured slope normal where needed. Full target prism topology and all eight support planes are independently proved against collision and actual render triangles. Preserve native dynamic physics."
+  },
+  "fw_unsc_c_stair_case": {
+    "axis_scale": [
+      1,
+      1.25,
+      1
+    ],
+    "yaw_degrees": 180,
+    "translation": [
+      0.500133037567139,
+      0.875,
+      -1.1998128090057374
+    ],
+    "evidence": "Target staircase turns the source 180 degrees and widens each nominal two-unit lane to 2.5. Source interface/outer side Y=.3/-1.7 become target Y=.5/3; source entrance centers -.7/1.3 become 1.75/-.75. X maps the -3.5 entrance to target X=4.000133. Z maps source upper/lower entrance levels to target 1.500377/-1. All four positions and outward frames are checked against actual local render faces; all sixteen target compound leaves are resolved."
+  },
+  "fw_unsc_c_dish_antenna": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "allow_rigid_children": true,
+    "radial_profile": {
+      "tolerance": 1e-05,
+      "levels": [
+        {
+          "source_radius": 0.761009,
+          "source_z": 4.279989242553711,
+          "target_radius": 0.7489051,
+          "role": "middle cap ring"
+        },
+        {
+          "source_radius": 1.9200987,
+          "source_z": 3.0412516593933105,
+          "target_radius": 1.9219811,
+          "role": "outer upper stem"
+        },
+        {
+          "source_radius": 4.8477902,
+          "source_z": 0.07478906959295273,
+          "target_radius": 4.800029,
+          "role": "outer foot"
+        },
+        {
+          "source_radius": 2.6998963,
+          "source_z": -0.30216825008392334,
+          "target_radius": 2.7052249,
+          "role": "inner collar"
+        }
+      ]
+    },
+    "evidence": "The target mesh uses child node 1 but its render vertices are already in object bind space. The validated +90-degree node transform is applied only to node-local physics; transformed collision bounds agree with the unrotated rendered mesh. Source markers use the identity root and retain their angular/height roles and authored orientations. Four reviewed radii map all twelve markers to ordered target-triangle intersections: middle cap ring, outer upper stem, outer foot and inner collar. Shared radii preserve threefold symmetry; individual quantized-mesh residuals are checked independently."
+  },
+  "fw_unsc_c_bridge_2x1": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.0010816099800914527
+    ],
+    "coordinate_planes": [
+      [
+        -0.5,
+        0.5
+      ],
+      [
+        0
+      ],
+      [
+        -0.15237,
+        -0.00237
+      ]
+    ],
+    "coordinate_tolerance": 0.003,
+    "evidence": "Retain H4 upper/lower end-face roles and cardinal frames. Place both end planes on the target bridge ends; align the upper tier to its actual deck plane and retain a common 0.15 lower-tier offset, so unlike bridge lengths align their walking surfaces without testing every pairing. Bounded source noise is removed offline. Three target collision leaves and every matching rendered end face are independently checked."
+  },
+  "fw_unsc_c_bridge_2x2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.0024703507859422827
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        1
+      ],
+      [
+        0
+      ],
+      [
+        -0.15237,
+        -0.00237
+      ]
+    ],
+    "coordinate_tolerance": 0.003,
+    "evidence": "Retain H4 upper/lower end-face roles and cardinal frames. Place both end planes on the target bridge ends; align the upper tier to its actual deck plane and retain a common 0.15 lower-tier offset, so unlike bridge lengths align their walking surfaces without testing every pairing. Bounded source noise is removed offline. Three target collision leaves and every matching rendered end face are independently checked."
+  },
+  "fw_unsc_c_bridge_2x3": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.00010035078594228253
+    ],
+    "coordinate_planes": [
+      [
+        -1.49945,
+        1.49945
+      ],
+      [
+        0
+      ],
+      [
+        -0.15,
+        0
+      ]
+    ],
+    "coordinate_tolerance": 0.003,
+    "evidence": "Retain H4 upper/lower end-face roles and cardinal frames. Place both end planes on the target bridge ends; align the upper tier to its actual deck plane and retain a common 0.15 lower-tier offset, so unlike bridge lengths align their walking surfaces without testing every pairing. Bounded source noise is removed offline. Three target collision leaves and every matching rendered end face are independently checked."
+  },
+  "fw_unsc_c_bridge_2x5": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.00042160545126535
+    ],
+    "coordinate_planes": [
+      [
+        -2.5,
+        2.5
+      ],
+      [
+        0
+      ],
+      [
+        -0.15,
+        0
+      ]
+    ],
+    "coordinate_tolerance": 0.003,
+    "evidence": "Retain H4 upper/lower end-face roles and cardinal frames. Place both end planes on the target bridge ends; align the upper tier to its actual deck plane and retain a common 0.15 lower-tier offset, so unlike bridge lengths align their walking surfaces without testing every pairing. Bounded source noise is removed offline. Three target collision leaves and every matching rendered end face are independently checked."
+  },
+  "fw_unsc_c_plat_2x1_flat": {
+    "axis_scale": [
+      1.0,
+      1.0294172763824463,
+      1.275
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.0,
+      0.014708638191223145,
+      -0.017499999999999988
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -0.5,
+        0.014708638191223145,
+        0.5294172763824463
+      ],
+      [
+        -0.145,
+        -0.017499999999999995,
+        0.11
+      ]
+    ],
+    "coordinate_tolerance": 0.0002,
+    "evidence": "The target rendered slab has different thickness and, for 2x1 Flat, an offset/wider Y extent. Map the eight original H4 side-midpoint top/bottom roles by a positive diagonal scale and translation onto all six measured target support planes. Preserve all original cardinal frames. The fixed collision body is checked separately: its authored skin does not exactly follow the visible slab, and is not rewritten."
+  },
+  "fw_unsc_c_plat_2x2_flat": {
+    "axis_scale": [
+      1.0,
+      1.0,
+      1.275
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.0,
+      0.0,
+      -0.017499999999999988
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -1,
+        0.0,
+        1
+      ],
+      [
+        -0.145,
+        -0.017499999999999995,
+        0.11
+      ]
+    ],
+    "coordinate_tolerance": 0.0002,
+    "evidence": "The target rendered slab has different thickness and, for 2x1 Flat, an offset/wider Y extent. Map the eight original H4 side-midpoint top/bottom roles by a positive diagonal scale and translation onto all six measured target support planes. Preserve all original cardinal frames. The fixed collision body is checked separately: its authored skin does not exactly follow the visible slab, and is not rewritten."
+  },
+  "fw_unsc_c_plat_3x3_flat": {
+    "axis_scale": [
+      1.0,
+      1.0,
+      1.4973400086164472
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.0,
+      0.0,
+      -0.049734000861644756
+    ],
+    "coordinate_planes": [
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.1994680017232895,
+        -0.04973400086164474,
+        0.1
+      ]
+    ],
+    "coordinate_tolerance": 0.0002,
+    "evidence": "The target rendered slab has different thickness and, for 2x1 Flat, an offset/wider Y extent. Map the eight original H4 side-midpoint top/bottom roles by a positive diagonal scale and translation onto all six measured target support planes. Preserve all original cardinal frames. The fixed collision body is checked separately: its authored skin does not exactly follow the visible slab, and is not rewritten."
+  },
+  "fw_unsc_c_plat_1x1_short": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "coordinate_planes": [
+      [
+        -0.5,
+        0,
+        0.5
+      ],
+      [
+        -0.5,
+        0,
+        0.5
+      ],
+      [
+        0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 0.002,
+    "evidence": "Eight source side-midpoint markers are within 0.0011 of the measured target construction planes X/Y=+-0.5 and Z=0/0.5. Remove authored noise only, keeping all original frames. Resolve the native compound of two boxes and a tapered cap independently; its authored upper collision cap is retained, not used as the visible top anchor level."
+  },
+  "fw_unsc_c_ramp_3": {
+    "axis_scale": [
+      0.9999998013177639,
+      1,
+      0.9999989867214213
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.007066188838840803,
+      0.003455998026765883,
+      -0.003892935795337893
+    ],
+    "coordinate_planes": [
+      [
+        -1.4999990463256836,
+        1.4999990463256836
+      ],
+      [
+        0
+      ],
+      [
+        1.6955312779580045,
+        0.19553223163232103
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The two original H4 markers are the low/high centerline entrance roles. Positive affine scaling and translation map their X/Z levels to the intersection of each measured end plane with the main walking-deck plane. Preserve the authored outward X frames. The verifier independently checks the complete compound reference, centerline ray intersections and extensive actual deck triangles; railings and bevels are not mistaken for the walking surface."
+  },
+  "fw_unsc_c_ramp_4": {
+    "axis_scale": [
+      1.002373130048832,
+      1,
+      1.0023719650008949
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      7.766992267121964e-07,
+      0.025005492381751537,
+      -0.0052566831799247815
+    ],
+    "coordinate_planes": [
+      [
+        -2.0047454833984375,
+        2.0047454833984375
+      ],
+      [
+        0
+      ],
+      [
+        2.2003146671340126,
+        0.19556918373557486
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The two original H4 markers are the low/high centerline entrance roles. Positive affine scaling and translation map their X/Z levels to the intersection of each measured end plane with the main walking-deck plane. Preserve the authored outward X frames. The verifier independently checks the complete compound reference, centerline ray intersections and extensive actual deck triangles; railings and bevels are not mistaken for the walking surface."
+  },
+  "fw_unsc_c_ramp_5": {
+    "axis_scale": [
+      0.9998887061648202,
+      1,
+      0.9998874665272524
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      4.767840890984587e-07,
+      -0.0,
+      -0.0048841591879353885
+    ],
+    "coordinate_planes": [
+      [
+        -2.499720811843872,
+        2.499720811843872
+      ],
+      [
+        0
+      ],
+      [
+        2.6951922829537,
+        0.19547147110982777
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The two original H4 markers are the low/high centerline entrance roles. Positive affine scaling and translation map their X/Z levels to the intersection of each measured end plane with the main walking-deck plane. Preserve the authored outward X frames. The verifier independently checks the complete compound reference, centerline ray intersections and extensive actual deck triangles; railings and bevels are not mistaken for the walking surface."
+  },
+  "fw_unsc_c_ramp_2x2": {
+    "axis_scale": [
+      1.0000001192092824,
+      1,
+      0.9999994635585807
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.10452772432923685,
+      2.220493562504698e-17,
+      -0.00488299137692394
+    ],
+    "coordinate_planes": [
+      [
+        -1.0000025033950806,
+        0.9999978542327881
+      ],
+      [
+        0
+      ],
+      [
+        -0.505000501871109,
+        0.4949996769428253
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The two original H4 markers are the low/high centerline entrance roles. Positive affine scaling and translation map their X/Z levels to the intersection of each measured end plane with the main walking-deck plane. Preserve the authored outward X frames. The verifier independently checks the complete compound reference, centerline ray intersections and extensive actual deck triangles; railings and bevels are not mistaken for the walking surface."
+  },
+  "fw_unsc_c_wall_2x2": {
+    "axis_scale": [
+      1.0003058314323425,
+      1.0,
+      0.9986858964358003
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      1.7881393432617188e-07,
+      0.0,
+      0.0019211078458777342
+    ],
+    "coordinate_planes": [
+      [
+        -1.0003056526184082,
+        1.7881393432617188e-07,
+        1.0003060102462769
+      ],
+      [
+        -0.1,
+        0.1
+      ],
+      [
+        -0.9972702860832214,
+        0.001415640115737915,
+        1.0001015663146973
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Preserve the eight H4 front/back perimeter-midpoint roles. X and Z follow the actual target mesh support planes; Y follows the two measured principal wall faces at +-0.1, retaining decorative trim. Window Double has asymmetric H4 face levels -0.15/+0.1 and requires a centered 0.2-unit target span. All authored cardinal marker frames are unchanged. Complete native collision box and construction-plane evidence are checked separately."
+  },
+  "fw_unsc_c_wall_2x2_window": {
+    "axis_scale": [
+      1.0003058314323425,
+      0.8,
+      0.9986859261989594
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      1.7881393432617188e-07,
+      0.01999999999999999,
+      0.0010719351447896486
+    ],
+    "coordinate_planes": [
+      [
+        -1.0003056526184082,
+        1.7881393432617188e-07,
+        1.0003060102462769
+      ],
+      [
+        -0.1,
+        0.1
+      ],
+      [
+        -0.9972702860832214,
+        0.001415640115737915,
+        1.0001015663146973
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Preserve the eight H4 front/back perimeter-midpoint roles. X and Z follow the actual target mesh support planes; Y follows the two measured principal wall faces at +-0.1, retaining decorative trim. Window Double has asymmetric H4 face levels -0.15/+0.1 and requires a centered 0.2-unit target span. All authored cardinal marker frames are unchanged. Complete native collision box and construction-plane evidence are checked separately."
+  },
+  "fw_unsc_c_wall_2x4": {
+    "axis_scale": [
+      0.9999778270721436,
+      1.0,
+      0.9986860156059265
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0.0,
+      0.0,
+      0.001415550708770752
+    ],
+    "coordinate_planes": [
+      [
+        -1.999955654144287,
+        0.0,
+        1.999955654144287
+      ],
+      [
+        -0.1,
+        0.1
+      ],
+      [
+        -0.9972704648971558,
+        0.001415550708770752,
+        1.0001015663146973
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Preserve the eight H4 front/back perimeter-midpoint roles. X and Z follow the actual target mesh support planes; Y follows the two measured principal wall faces at +-0.1, retaining decorative trim. Window Double has asymmetric H4 face levels -0.15/+0.1 and requires a centered 0.2-unit target span. All authored cardinal marker frames are unchanged. Complete native collision box and construction-plane evidence are checked separately."
+  },
+  "fw_unsc_c_railing_1": {
+    "axis_scale": [
+      1,
+      0.9978620707988739,
+      0.7976298332214355
+    ],
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      -7.450580596923828e-08,
+      0
+    ],
+    "coordinate_planes": [
+      [
+        -0.1,
+        0,
+        0.1
+      ],
+      [
+        -0.4989311099052429,
+        -7.450580596923828e-08,
+        0.498930960893631
+      ],
+      [
+        0,
+        0.18064800000000003,
+        0.31905193328857423,
+        0.3988149166107178
+      ]
+    ],
+    "coordinate_tolerance": 0.001,
+    "evidence": "The H4 railing cap is higher on +X; the target cap is higher on -X. Rotate 180 degrees around Z, scale height 0.5 to the measured target height, and fit the actual end planes. The target cap profile is z=height on negative X and z=height*(1-2X) on positive X. Keep a common 0.180648 centerline end reference across lengths so end-to-end joints retain equal floor levels. Correct the long source marker lateral error of 0.007326 to the same centerline. Six original roles and rotated frames are independently proved; native convex collision profile is unchanged."
+  },
+  "fw_unsc_c_railing_2": {
+    "axis_scale": [
+      1,
+      0.9994969069957733,
+      0.7976861596107483
+    ],
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      1.4901161193847656e-07,
+      0
+    ],
+    "coordinate_planes": [
+      [
+        -0.1,
+        0,
+        0.1
+      ],
+      [
+        -0.9994967579841614,
+        1.4901161193847656e-07,
+        0.9994970560073853
+      ],
+      [
+        0,
+        0.18064800000000003,
+        0.3190744638442993,
+        0.39884307980537415
+      ]
+    ],
+    "coordinate_tolerance": 0.001,
+    "evidence": "The H4 railing cap is higher on +X; the target cap is higher on -X. Rotate 180 degrees around Z, scale height 0.5 to the measured target height, and fit the actual end planes. The target cap profile is z=height on negative X and z=height*(1-2X) on positive X. Keep a common 0.180648 centerline end reference across lengths so end-to-end joints retain equal floor levels. Correct the long source marker lateral error of 0.007326 to the same centerline. Six original roles and rotated frames are independently proved; native convex collision profile is unchanged."
+  },
+  "fw_unsc_c_railing_3": {
+    "axis_scale": [
+      1,
+      0.9999295870463053,
+      0.7976834774017334
+    ],
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      0.0,
+      0
+    ],
+    "coordinate_planes": [
+      [
+        -0.1,
+        0,
+        0.1
+      ],
+      [
+        -1.499894380569458,
+        0.0,
+        1.499894380569458
+      ],
+      [
+        0,
+        0.18064800000000003,
+        0.31907339096069337,
+        0.3988417387008667
+      ]
+    ],
+    "coordinate_tolerance": 0.008,
+    "evidence": "The H4 railing cap is higher on +X; the target cap is higher on -X. Rotate 180 degrees around Z, scale height 0.5 to the measured target height, and fit the actual end planes. The target cap profile is z=height on negative X and z=height*(1-2X) on positive X. Keep a common 0.180648 centerline end reference across lengths so end-to-end joints retain equal floor levels. Correct the long source marker lateral error of 0.007326 to the same centerline. Six original roles and rotated frames are independently proved; native convex collision profile is unchanged."
+  },
+  "fw_unsc_c_bunker_low": {
+    "axis_scale": [
+      1,
+      0.9795918367346937,
+      1
+    ],
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      -0.02448979591836742,
+      -0.35
+    ],
+    "coordinate_planes": [
+      [
+        0
+      ],
+      [
+        -1.2,
+        1.2
+      ],
+      [
+        -0.35,
+        0.15000000000000002
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "The original two H4 entrance anchors are at Y=-1.2/+1.25 with a 0.5 floor rise. The target entrances are at Y=-1.2/+1.2, with floors -0.5/0 for Covered and -0.35/+0.15 for Low. Map both entrance planes exactly and preserve the original outward Y frames. Actual entrance triangles, floor/end planes, and every compound body/leaf including radius-bearing planar polygons are independently checked. No native map physics is changed."
+  },
+  "fw_unsc_c_cover_2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      -0.1
+    ],
+    "coordinate_planes": [
+      [
+        -0.4,
+        1.2349308729171753,
+        1.4
+      ],
+      [
+        -2.0099923610687256,
+        -1.85,
+        0,
+        1.85,
+        2.0099923610687256
+      ],
+      [
+        -1.0074639320373535,
+        0.7925360679626465,
+        0.8925360679626465
+      ]
+    ],
+    "coordinate_tolerance": 0.01,
+    "evidence": "Source and target have identical X extents and a -0.1 target Z origin. Preserve the shared original anchor clearance below the corresponding upper beam/foot levels. Map only the two end-face Y coordinates from +-2 to measured +-2.009992; preserve the foot-center Y=+-1.85. All five authored roles and orientations are independently checked against the actual beam support planes and two foot faces; native collision remains unchanged."
+  },
+  "fw_unsc_c_bridge_diag": {
+    "yaw_degrees": 0,
+    "translation": [
+      -0.1,
+      -0.1,
+      -0.005336826434358954
+    ],
+    "coordinate_planes": [
+      [
+        -1.5,
+        2.5
+      ],
+      [
+        -1.5,
+        2.5
+      ],
+      [
+        0
+      ]
+    ],
+    "coordinate_tolerance": 0.008,
+    "evidence": "The two original H4 entrance roles map to the actual target end/deck centers (2.5,-1.5,0) and (-1.5,2.5,0). Actual end-cap spans establish the two-unit widths, and centerline rays establish the common walking floor. A -0.1 XY origin correction plus bounded source-marker noise removal maps both roles. Preserve both authored orientations, including the original -Y direction on the positive-Y entrance; do not silently replace H4 marker directions."
+  },
+  "fw_unsc_c_column": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -0.1,
+            -0.15
+          ],
+          [
+            0.0312347412109375,
+            0
+          ],
+          [
+            0.2,
+            0.15
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -0.2,
+            -0.15
+          ],
+          [
+            -0.046875,
+            0
+          ],
+          [
+            0.1,
+            0.15
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -0.002151909749954939,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      }
+    ],
+    "upright_yaw_levels": {
+      "tolerance_degrees": 0.0001,
+      "levels": [
+        [
+          0,
+          0
+        ],
+        [
+          180,
+          180
+        ],
+        [
+          -90,
+          -90
+        ],
+        [
+          90,
+          90
+        ],
+        [
+          85.4380991087138,
+          90
+        ],
+        [
+          -94.56194705462069,
+          -90
+        ]
+      ]
+    },
+    "evidence": "Map all eight original side/tier roles onto the target .3 by .3 by 1 column. Explicit source levels remove inconsistent authored center offsets and the negative bottom height. Correct only the two reviewed 4.56-degree source yaw errors so every forward axis is normal to its actual target face. Full box core, two-radius skin, six mesh construction planes, bevel clearance and all eight cardinal frames are independently checked."
+  },
+  "fw_unsc_c_plat_1x4": {
+    "yaw_degrees": 0,
+    "translation": [
+      0.0,
+      4.999999999999449e-05,
+      0.0
+    ],
+    "axis_scale": [
+      1.00387,
+      1.0,
+      1.0
+    ],
+    "coordinate_planes": [
+      [
+        -2.00774,
+        0.0,
+        2.00774
+      ],
+      [
+        -0.49995,
+        4.999999999999449e-05,
+        0.50005
+      ],
+      [
+        -0.5,
+        0.0,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Map the eight H4 side/tier roles to actual principal construction planes. The native box core retains its own collision skin and nominal dimensions; decorative render relief is measured separately, not treated as a change to the mating grid. Independently check all six large faces, eight role positions and cardinal bases, complete native box topology, and the measured relief envelope."
+  },
+  "fw_unsc_c_plat_3x4": {
+    "yaw_degrees": 0,
+    "translation": [
+      0.0007700000000000484,
+      0.0,
+      5.4999999999999494e-05
+    ],
+    "axis_scale": [
+      0.99963,
+      1.0,
+      0.99989
+    ],
+    "coordinate_planes": [
+      [
+        -1.99849,
+        0.0007700000000000484,
+        2.00003
+      ],
+      [
+        -1.5,
+        0.0,
+        1.5
+      ],
+      [
+        -0.49989,
+        5.4999999999999494e-05,
+        0.5
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Map the eight H4 side/tier roles to actual principal construction planes. The native box core retains its own collision skin and nominal dimensions; decorative render relief is measured separately, not treated as a change to the mating grid. Independently check all six large faces, eight role positions and cardinal bases, complete native box topology, and the measured relief envelope."
+  },
+  "fw_unsc_c_brace": {
+    "yaw_degrees": 0,
+    "translation": [
+      -0.15,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 1,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            0,
+            0
+          ],
+          [
+            0.95,
+            0.9
+          ],
+          [
+            -0.8936257362365723,
+            -0.9
+          ],
+          [
+            -0.95,
+            -0.9
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-05,
+        "levels": [
+          [
+            -1.2061150074005127,
+            -1.5006933212280273
+          ],
+          [
+            1.7938867807388306,
+            1.4992632858556934
+          ]
+        ]
+      }
+    ],
+    "coordinate_planes": [
+      [
+        -0.25,
+        -0.05,
+        0.05,
+        0.25
+      ],
+      [
+        -0.9,
+        0,
+        0.9
+      ],
+      [
+        -1.5006933212280273,
+        1.4992632858556934
+      ]
+    ],
+    "coordinate_tolerance": 1e-05,
+    "evidence": "Six original roles map to measured top and foot faces. Translate X -.15: upper faces are +/-.05 and foot faces +/-.25. Both actual bottom-face patches have centers Y=+-.9, correcting unequal H4 foot offsets. Actual bottom and top surface heights are -1.500693321 and 1.499263286; preserve all original marker frames. Full ten-leaf compound, flat-foot centers, top ray intersections, face planes and bevel clearances checked independently."
+  },
+  "fw_unsc_c_crenel_full": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.00014670396922156215,
+            0
+          ],
+          [
+            -1.250038504600525,
+            -1
+          ],
+          [
+            1.244218111038208,
+            1
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.00017653274699114263,
+            0
+          ],
+          [
+            0.11499957740306854,
+            0.1
+          ],
+          [
+            0.12500019371509552,
+            0.1
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.8828243017196655,
+            -0.8
+          ],
+          [
+            -0.0007529105641879141,
+            0
+          ],
+          [
+            -0.007755978964269161,
+            0
+          ],
+          [
+            0.748609721660614,
+            0.5
+          ]
+        ]
+      }
+    ],
+    "evidence": "Four original outward roles map to the actual target bottom/top and left/right construction planes. Bottom/top use the centerline X=Y=0 at Z=-.8/+.5. Left/right use X=+-1 at the principal front-face Y=.1 and construction datum Z=0. Preserve each complete H4 frame, including the right marker roll. Both native hulls, supporting face planes, lateral/vertical construction references and bevel residuals independently verified; native geometry and physics retained."
+  },
+  "fw_unsc_c_cylinder_small": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -1.8348321914672852,
+            -1.79613
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            1.834831953048706,
+            1.79613
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -1.8348308801651,
+            -1.79613
+          ],
+          [
+            2.07630710065132e-05,
+            0
+          ],
+          [
+            1.8348724842071533,
+            1.79613
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            1.095781683921814,
+            1
+          ]
+        ]
+      }
+    ],
+    "evidence": "Four original cardinal roles map to actual side construction planes at radius 1.79613 and the common deck reference Z=1. Full 14-leaf compound, actual four outer faces, inner-deck intersections and bevel clearances checked; complete authored frames retained."
+  },
+  "fw_unsc_c_cylinder_big": {
+    "yaw_degrees": 90,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 2e-06,
+        "levels": [
+          [
+            -3.059999942779541,
+            -3.1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            3.059999942779541,
+            3.1
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 2e-06,
+        "levels": [
+          [
+            -3.0600008964538574,
+            -3.1
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            3.0600008964538574,
+            3.1
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            1.7897999286651611,
+            2
+          ],
+          [
+            2.0897998809814453,
+            2.3
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate the four original roles 90 degrees: the H4 raised Y-side references correspond to the Reach raised X-side rim. Map the actual outer construction radius to 3.1 and preserve the .3 difference between lower deck Z=2 and raised rim Z=2.3. All 16 native leaves, four principal faces, independently intersected local heights, bevel residuals and every rotated marker axis checked."
+  },
+  "fw_unsc_c_plat_2x2_corner": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        -0.5,
+        0,
+        0.5,
+        1
+      ],
+      [
+        -1,
+        -0.5,
+        0,
+        0.5,
+        1
+      ],
+      [
+        0,
+        0.2
+      ]
+    ],
+    "coordinate_tolerance": 2e-07,
+    "evidence": "Retain the ten original edge-midpoint roles on the five-edge target construction polygon at Z=0/.2. Only sub-.0000002 authoring noise is removed. Independently prove complete pentagonal native prism topology, actual five side planes and both horizontal construction planes, all outward marker normals and original full frames. Preserve native top inset and decorative relief."
+  },
+  "fw_unsc_c_plat_4x4_corner": {
+    "yaw_degrees": 180,
+    "translation": [
+      0.3,
+      0.4,
+      -0.3
+    ],
+    "coordinate_planes": [
+      [
+        -2,
+        0,
+        2
+      ],
+      [
+        -2,
+        0,
+        2
+      ],
+      [
+        -0.3,
+        -0.27,
+        -0.1
+      ]
+    ],
+    "coordinate_tolerance": 5e-06,
+    "evidence": "Rotate the ten original roles 180 degrees and translate (.3,.4,-.3). The H4 negative-X/Y mating faces correspond to Reach positive-X/Y faces; the missing diagonal corner is on the opposite side. Source deck/base 0/.2 maps to target -.3/-.1; retain the .03 raised lower corner role. Check all original roles and rotated bases, both full side support half-spaces, actual deck/base planes, four native compound leaves and face/bevel residuals."
+  },
+  "fw_unsc_c_plat_2x2_45": {
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.897286593914032,
+            -0.4
+          ],
+          [
+            -0.043316084891557693,
+            0.30710678118654755
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3534136116504669,
+            0.2928932188134524
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 6e-06,
+        "levels": [
+          [
+            0.0001,
+            0.2
+          ],
+          [
+            -0.149869903922081,
+            0.05
+          ]
+        ]
+      }
+    ],
+    "evidence": "Map the four original entrance/tier roles onto the Reach quad after 180-degree yaw. The two two-unit entrance centers are (-.4,0) and (-.4+sqrt(2)/2,1-sqrt(2)/2). Use actual deck Z=.2 and preserve the .15 lower-tier spacing, Z=.05. Reconstruct native base vertices and planes from the construction polygon and authored skin; verify actual entry face sections, top/bottom intersections, complete six-leaf compound and all rotated frames."
+  },
+  "fw_unsc_c_teleporter_frame": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.9,
+            -0.7108675241470337
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0.9,
+            0.7108675241470337
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 2e-06,
+        "levels": [
+          [
+            -0.7,
+            -0.6881840825080872
+          ],
+          [
+            -0.0009085,
+            0.000908195972442627
+          ],
+          [
+            0.7,
+            0.6900004744529724
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0,
+            -0.08347351104021072
+          ]
+        ]
+      }
+    ],
+    "evidence": "Four original cardinal base roles map to the actual target base supports and common bottom reference. Use X=+-.710867524, Y=-.688184083/+.690000474, and Z=-.083473511; X-side centers use the measured Y midpoint .000908196. All four native leaves, full rendered support half-spaces, actual base triangle surface residuals and every unchanged marker basis are independently checked."
+  },
+  "fw_unsc_c_bunker_full": {
+    "yaw_degrees": 45,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.8759873487083654,
+            1.112855648803449
+          ],
+          [
+            -1.0292042085685036,
+            -0.8048366983522398
+          ],
+          [
+            0.8744299383621909,
+            1.112855648803449
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.8759873487083654,
+            1.1130773780820133
+          ],
+          [
+            -1.0292042085685036,
+            -0.8046149690736755
+          ],
+          [
+            0.8744299383621909,
+            1.1130773780820133
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.8622158765792847,
+            -0.9
+          ],
+          [
+            1.1235337257385254,
+            1.1
+          ],
+          [
+            -0.8628706932067871,
+            -0.9
+          ],
+          [
+            1.1284290552139282,
+            1.1
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate the four original front/rear and bottom/top roles by 45 degrees into the target construction axis. Independently measured diagonal support coordinates are -1.138054188 and +1.573972338; the transverse center is .000156786. Use actual floor/roof Z=-.9/+1.1. Preserve the full original frames, including the original common forward direction at both ends. Verify complete rendered diagonal support half-spaces, local end floor/roof intersections, measured edge/bevel residuals and all 26 native compound leaves."
+  },
+  "fw_unsc_c_antenna": {
+    "yaw_degrees": 270,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "evidence": "Rotate all three original anchors and complete bases by -90 degrees. All six rotated source render bounds match the target within .000001. Side markers are authored cap-opening references, not surface points: actual coplanar upper/lower cap strips bracket each transformed marker at its exact lateral coordinate. The base marker lies on the actual Z=0 face. Resolve all four native compound leaves and preserve cap gaps, native geometry and physics."
+  },
+  "fw_unsc_c_base_strut": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      -0.25,
+      -0.1
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 2e-06,
+        "levels": [
+          [
+            0,
+            0
+          ],
+          [
+            0.47848835587501526,
+            0.4785801277414712
+          ],
+          [
+            -0.47848835587501526,
+            -0.4785955954043375
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -0.25,
+            -0.25
+          ],
+          [
+            0.7990245819091797,
+            0.8
+          ],
+          [
+            0.7990262508392334,
+            0.8
+          ],
+          [
+            0.2827056646347046,
+            0.2833984210068534
+          ],
+          [
+            -0.7810806035995483,
+            -0.7802210807406447
+          ],
+          [
+            -0.24918746948242188,
+            -0.24841132986689562
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -2.0238303899765016,
+            -1.9917638301849365
+          ],
+          [
+            -0.4951333165168762,
+            -0.4951333165168762
+          ],
+          [
+            1.2679326772689818,
+            1.2679326772689818
+          ],
+          [
+            -1.8605254650115968,
+            -1.8597196698188783
+          ],
+          [
+            -1.8589137554168702,
+            -1.8597196698188783
+          ],
+          [
+            -1.8597198486328126,
+            -1.8597196698188783
+          ],
+          [
+            -1.8597196102142335,
+            -1.8597196698188783
+          ]
+        ]
+      }
+    ],
+    "evidence": "Seven original base/front/foot roles mapped independently. Retain the -.1 top-origin correction and original two upper heights; actual front is Y=.8. Base center uses Y=-.25 and actual bottom Z=-1.991763830. Normalize the four nearly equal source foot heights to their mean minus .1, Z=-1.859719670, then place all four perimeter roles at actual mesh cross-section intersections. Preserve original cardinal bases and native collision. Verify all target intersections, front/base planes, top-origin relationship and complete native twelve-vertex/eight-plane hull."
+  },
+  "fw_unsc_c_wall_curve_short": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "upright_yaw_levels": {
+      "tolerance_degrees": 1e-06,
+      "maximum_correction_degrees": 6,
+      "levels": [
+        [
+          -74.58687044363771,
+          -80.15508597794897
+        ],
+        [
+          74.62668576977664,
+          80.15508597794897
+        ]
+      ]
+    },
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.07640265673398972,
+            0.04496560279835546
+          ],
+          [
+            0.09770224243402481,
+            0.214149351877021
+          ],
+          [
+            -0.07881628721952438,
+            0.04496560279835546
+          ],
+          [
+            0.10000000149011612,
+            0.214149351877021
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -1.100000023841858,
+            -1.1122839270673812
+          ],
+          [
+            1.0478495359420776,
+            1.0651336639348117
+          ],
+          [
+            1.100000023841858,
+            1.0944933698255372
+          ],
+          [
+            -1.0473881959915161,
+            -1.0829242211766557
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.9973334074020386,
+            -0.9972702860832214
+          ],
+          [
+            1.0026674270629883,
+            1.0001012086868286
+          ]
+        ]
+      }
+    ],
+    "evidence": "Eight original end/front-back/tier roles map onto the measured outer end-cap planes and full tangential extents of their parallel cap strips. Derive the end angle from the dominant actual positive-end face and mirror it for the symmetric opposite end; correct the reviewed ~5.6-degree source yaw differences with an explicit six-degree bound. Use actual upper/lower support heights. Independently reconstruct both cap envelopes from triangles, check all roles and orientations, quantify existing corner bevel/recess clearance and resolve all three native hulls; physics is unchanged."
+  },
+  "fw_unsc_c_plat_1x1_tall": {
+    "yaw_degrees": 0,
+    "translation": [
+      -5e-05,
+      -5e-05,
+      0.25
+    ],
+    "axis_scale": [
+      1.01446,
+      1.01446,
+      0.8333333333333334
+    ],
+    "coordinate_planes": [
+      [
+        -0.50728,
+        -5e-05,
+        0.50718
+      ],
+      [
+        -0.50728,
+        -5e-05,
+        0.50718
+      ],
+      [
+        -1,
+        1.5
+      ]
+    ],
+    "coordinate_tolerance": 0.00046,
+    "evidence": "Map the complete eight side/tier roles and top-center role onto the measured principal outer vertical faces X/Y=-.50728,+.50718 and actual cap heights Z=-1,+1.5. These faces, rather than the H4 nominal width, establish the target side-mating planes. Preserve complete cardinal frames; remove the two original ~.000448 lateral offsets with a bounded projection. Independently verify all six faces, full native box, collision skin, decorative relief and the actual top-center recess below the construction plane. Native geometry and physics are unchanged."
+  },
+  "fw_unsc_c_plat_y_cross_large": {
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            2.456725835800171,
+            2.5
+          ],
+          [
+            -2.543208360671997,
+            -2.5
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.09998290985822678,
+            0
+          ],
+          [
+            0.09999240934848785,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.7386285066604614,
+            0
+          ],
+          [
+            0.2197987288236618,
+            -0.5
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate the two original entrance roles 180 degrees so the high end faces +X and the low end -X. Map to the actual outer end planes X=+-2.5, centered Y=0, at the measured main deck levels Z=0 and -.5. Independently prove the original end/high-low roles, both rotated complete frames, the actual end/deck faces and local deck intersections, and all nine native collision leaves. The low entrance rim and its authored collision remain unchanged."
+  },
+  "fw_unsc_c_plat_y_cross": {
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -1.7071094512939453,
+            -1.507109185680747
+          ],
+          [
+            -0.7071094512939453,
+            -0.5071092844009399
+          ],
+          [
+            2.2928898334503174,
+            1.9928891863673925
+          ],
+          [
+            1.2928900718688965,
+            1.2428899016231298
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0,
+            0
+          ],
+          [
+            -1.5,
+            -1.5
+          ],
+          [
+            1.5,
+            1.5
+          ],
+          [
+            -1,
+            -0.75
+          ],
+          [
+            1,
+            0.75
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.20000000298023224,
+            0.1
+          ]
+        ]
+      }
+    ],
+    "upright_yaw_levels": {
+      "tolerance_degrees": 1e-06,
+      "maximum_correction_degrees": 20,
+      "levels": [
+        [
+          180,
+          180
+        ],
+        [
+          89.99997872015794,
+          90
+        ],
+        [
+          -89.99997872015794,
+          -90
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          -63.56455357758125,
+          -45
+        ],
+        [
+          63.926339760250336,
+          45
+        ]
+      ]
+    },
+    "evidence": "Rotate the six original top-edge/tip roles 180 degrees to match the target pointed profile. Map the back and four side roles to independently reconstructed construction-edge midpoints, and retain the sixth tip role at the virtual apex inside its outward normal cone. Correct the two sloped frames to the actual 45-degree target faces. The native pentagonal prism uses axiswise collision shrink; reconstruct all ten vertices and seven planes separately and corroborate every outer support with actual render faces, while recording the existing apex/top-edge bevel clearances. No native geometry or physics changes."
+  },
+  "fw_unsc_c_race_stunt_ramp": {
+    "yaw_degrees": 270,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.007914066314697266,
+            -0.003881436257305637
+          ],
+          [
+            -1.9906975030899048,
+            -2.003766133184943
+          ],
+          [
+            1.9911378622055054,
+            1.9960032606703315
+          ],
+          [
+            1.954723596572876,
+            1.9960032606703315
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            1.2,
+            1.2
+          ],
+          [
+            -1.2,
+            -1.2
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.007474112324416637,
+            0.0030251791603359557
+          ],
+          [
+            0,
+            0.0030251791603359557
+          ],
+          [
+            1.5,
+            1.503029453258317
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate all five original side/base-end/upper-end roles -90 degrees. Derive the front construction corner from the dominant actual ramp-face plane intersecting the principal base plane, not from its beveled extremum. Use the actual rear-face plane, principal upper landing height and Y=+-1.2 side faces; the side roles share the longitudinal construction midpoint. Independently verify those planes, all full rotated cardinal bases, original roles, local landing heights and measured bevel clearances, while resolving and preserving all four native collision leaves."
+  },
+  "fw_unsc_c_ramp_4x2": {
+    "yaw_degrees": 270,
+    "translation": [
+      0.3,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            2,
+            2.0006234645843506
+          ],
+          [
+            -2,
+            -1.9989930391311646
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.02107,
+            0
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -1.2,
+            3.195559563435941
+          ],
+          [
+            2,
+            -0.004466307078201288
+          ],
+          [
+            -0.2,
+            2.199971457414331
+          ],
+          [
+            0,
+            1.9866863076832126
+          ]
+        ]
+      }
+    ],
+    "evidence": "The target XL ramp exchanges the source upper/lower profile faces. Rotate the original horizontal directions -90 degrees, map both end planes to actual target faces, remove the authored off-center lateral reference, and explicitly reverse the four reviewed height roles onto intersections of the measured shallow upper and steep lower planes. This is a geometry-role remapping, not a claimed rigid transform: retain proper outward upright marker bases. Independently resolve the source/target full convex prisms and native nodes, prove the opposite slope arrangement and thick/thin end correspondence, and check all four actual construction corners, complete bases, local vertical sections and edge clearances. Native collision and map geometry remain unchanged."
+  },
+  "fw_unsc_c_plat_4x6": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -2.5400078296661377,
+            -2
+          ],
+          [
+            0.10000000149011612,
+            0
+          ],
+          [
+            -2.599881649017334,
+            -2
+          ],
+          [
+            2.799999952316284,
+            2
+          ],
+          [
+            2.740112781524658,
+            2
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            1.3498485088348389,
+            0.25
+          ],
+          [
+            1.3500025272369385,
+            0.25
+          ],
+          [
+            3.0999975204467773,
+            2
+          ],
+          [
+            -2.9000024795532227,
+            -4
+          ],
+          [
+            -2.8333024978637695,
+            -4
+          ],
+          [
+            3.03324818611145,
+            2
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0,
+            -0.3
+          ],
+          [
+            0.30000001192092896,
+            0
+          ]
+        ]
+      }
+    ],
+    "evidence": "Preserve all eight original upper/lower perimeter roles and complete cardinal bases. Target actual principal faces are X=+-2,Y=-4/+2; its base/deck tiers are Z=-.3/0. Keep the side pairs 1.75 units behind the front, as authored in H4, mapping them to Y=.25; they are not centered on the overall bounds. Remove bounded source side-offset noise and map original inset lower references onto the target virtual cap edges. Independently check every actual face and local end section, the complete seven-leaf native compound and base support bounds, all eight roles, retained front-relative offset and measured bevel clearances. No map or native physics edits."
+  },
+  "fw_unsc_c_ramp_plat": {
+    "yaw_degrees": 180,
+    "translation": [
+      -0.2833333333333333,
+      -0.5333333333333333,
+      -1
+    ],
+    "axis_scale": [
+      1,
+      0.8333333333333334,
+      1
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 2e-06,
+        "levels": [
+          [
+            -3.000033648808797,
+            -3.0002031326293945
+          ],
+          [
+            2,
+            2
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -0.999974594116793,
+            -0.9999191164970398
+          ],
+          [
+            0.6999979019165039,
+            0.6998241883907852
+          ]
+        ]
+      }
+    ],
+    "coordinate_planes": [
+      [
+        -3.0002031326293945,
+        2
+      ],
+      [
+        1.3,
+        1.0916666666666668,
+        0.05,
+        -0.9916666666666667
+      ],
+      [
+        -0.9999191164970398,
+        0.6998241883907852
+      ]
+    ],
+    "coordinate_tolerance": 3e-06,
+    "evidence": "Rotate four original low/high entrance roles 180 degrees. The source 5.4-wide overall layout maps to the target 4.5-wide layout with 5/6 lateral scaling, preserving proper cardinal frames. Actual target inner rail faces at Y=.5 and 2.1 independently establish the low entrance center Y=1.3. The three evenly spaced upper references follow the same reviewed lateral transformation, at X=2 on the actual deck Z=.699824188. The low reference uses the actual front/base corner. Independently prove original roles, source/target construction extents, native rail and floor references, actual entrance sections and complete bases; preserve all nine target collision leaves."
+  },
+  "fw_unsc_c_room_double": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            -2.650000810623169,
+            -2.7935197353363037
+          ],
+          [
+            1.9500007629394531,
+            1.7997080493051176
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.6602168083190918,
+            0.6918739464387219
+          ],
+          [
+            1.9500011205673218,
+            1.9912105749935272
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.3081369251012802,
+            0.29666902614607066
+          ]
+        ]
+      }
+    ],
+    "evidence": "Both original entrance-floor roles map to actual target door openings. Derive lateral centers from real wall-cap triangle cross-sections at Z=1, then place them on the corresponding outer edge of the actual floor plane: left entrance (-2.793519735,.691873946,.296669026), right/front entrance (1.799708049,1.991210575,.296669026). Both source H4 frames deliberately face -X and are retained completely; geometric opening normals are recorded separately. Independently check source opening roles and floor reference, target cross-sections, actual floor incidence, open entrance rays/headroom and all 31 native leaves. Native geometry and physics remain unchanged."
+  },
+  "fw_unsc_c_walkway_small": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0.1,
+      0.20007658004760742
+    ],
+    "axis_scale": [
+      0.8333333333333334,
+      1,
+      1
+    ],
+    "coordinate_planes": [
+      [
+        -1,
+        0,
+        1
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        6
+      ]
+    ],
+    "coordinate_tolerance": 6e-05,
+    "evidence": "Map all three original upper side/end references from H4 walkway_small to Reach Walkway, Large. The six-unit authored height above the base maps to target Z=6; native target side/end faces establish X=+-1 and Y=7. Preserve all three complete original +X frames, including the left and end references. Independently check actual deck/side/end planes, source relative height, exact roles, local deck and side cross-sections, and measured .1-edge-bevel clearances. Resolve all 91 native leaves: two specific existing plane residuals are reported; the four-vertex leaf with only two stored planes is proven as a full tetrahedron from its vertices. Native physics remains unchanged."
+  },
+  "fw_unsc_c_door_2": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0.002695798873901367
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            0.005732727237045765,
+            0.005732935853302479
+          ],
+          [
+            1.1496899127960205,
+            0.7496098450787156
+          ],
+          [
+            -1.133651614189148,
+            -0.733601766728504
+          ],
+          [
+            -1.1496894359588623,
+            -0.7496395884982183
+          ],
+          [
+            1.149999976158142,
+            0.7499199084408372
+          ],
+          [
+            1.069324016571045,
+            0.6693015091374437
+          ],
+          [
+            -1.0673421621322632,
+            -0.6673497555072136
+          ]
+        ]
+      }
+    ],
+    "evidence": "Preserve all ten original H4 door roles, complete frames, front/back depth offsets and heights relative to the actual base. The target opening is narrower: map each foot relative to its own measured target foot center and each mid-height pair relative to its corresponding inner jamb. Source feet and jambs are independently identified in native H4 hulls; target sections establish foot intervals and the narrower opening. Header retains its authored center offset. Do not scale the whole door or silently project the intentional mid-height anchors onto the jamb: their original 0.030676/0.032658 opening insets are retained. Independently verify actual target surfaces/sections, all five native leaves, preserved offsets, both members of every front/back pair and every full basis."
+  },
+  "fw_unsc_c_large_brace": {
+    "yaw_degrees": 0,
+    "translation": [
+      -1,
+      0,
+      -0.11313247680664062
+    ],
+    "axis_levels": [
+      {
+        "axis": 1,
+        "tolerance": 1e-06,
+        "levels": [
+          [
+            0.75,
+            0.45
+          ],
+          [
+            0.8758894205093384,
+            0.5758894205093384
+          ],
+          [
+            -9.199999809265137,
+            -9
+          ],
+          [
+            1.8,
+            1.5
+          ]
+        ]
+      }
+    ],
+    "evidence": "Map the five original H4 roles to the actual target brace construction features. Translate X -1 and base Z to -2; original heights above base are retained (0, 4.5, 1 and 3.1). Native source/target foot lengths both equal .9, placing the target foot center at Y=.45 while retaining the authored opposite-foot offset .125889421. The source front wall Y=1.8 maps to target1.5 and beam end -9.2 maps to -9, accounting for changed beam length. Preserve every full frame and authored lateral offset. Prove actual target foot incidence, front/beam support planes, all eight native leaves and source feature correspondence. Record the existing leaf1/plane4 residual .000157235 without modifying native physics."
+  },
+  "fw_unsc_c_pyramid": {
+    "yaw_degrees": 180,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "axis_levels": [
+      {
+        "axis": 0,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            -7.5,
+            -7.5
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            7.5,
+            7.5
+          ]
+        ]
+      },
+      {
+        "axis": 1,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            2.980455160140991,
+            2.2618236541748047
+          ],
+          [
+            -4,
+            -4.488176345825195
+          ],
+          [
+            4,
+            3.0118236541748047
+          ],
+          [
+            4.002159118652344,
+            3.0118236541748047
+          ]
+        ]
+      },
+      {
+        "axis": 2,
+        "tolerance": 1e-08,
+        "levels": [
+          [
+            0.20396976172924042,
+            -0.010108890351181676
+          ],
+          [
+            0.25,
+            -0.010108890351181676
+          ],
+          [
+            1.75,
+            1.5119235969494993
+          ],
+          [
+            -1.521099328994751,
+            -1.810109473415304
+          ]
+        ]
+      }
+    ],
+    "evidence": "Rotate all five original H4 entrance/rear roles 180 degrees. Target real side and front entrance caps have identical vertical bounds, so their three anchors use the actual common upper edge Z=-.010108890. The actual side construction faces Y=1.511823654 and 3.011823654 locate the two side entrances at Y=2.261823654, X=+-7.5. The front is Y=-4.488176346. Derive both rear anchor heights by intersecting actual Y=3.011823654 cap triangles with X=0; the two disconnected sections yield their exact upper edges. All five points touch their intended actual faces/edges, preserve full rotated bases and have independent source-role evidence. Resolve all ten native leaves and explicitly record three existing plane residuals; native maps, geometry and physics unchanged."
+  },
+  "fw_unsc_c_tower": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "position_levels": {
+      "tolerance": 1e-08,
+      "levels": [
+        {
+          "source": [
+            2.0999999046325684,
+            1.8734228610992432,
+            0.4000000059604645
+          ],
+          "target": [
+            1.586139884482458,
+            2.2010341056999234,
+            0.39997141202385134
+          ]
+        },
+        {
+          "source": [
+            -0.30000001192092896,
+            1.8734228610992432,
+            0.4000000059604645
+          ],
+          "target": [
+            -0.7000239594646456,
+            2.2010341056999234,
+            0.3961703916283943
+          ]
+        },
+        {
+          "source": [
+            -1.6120672225952148,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "target": [
+            -1.996432443118763,
+            0.701110967438161,
+            0.3999714120238522
+          ]
+        },
+        {
+          "source": [
+            -2.0105667114257812,
+            0.30000001192092896,
+            2.463094711303711
+          ],
+          "target": [
+            -2.400003671646118,
+            0.707617330125194,
+            2.399193661852408
+          ]
+        },
+        {
+          "source": [
+            -0.30000001192092896,
+            -2.026583194732666,
+            0.4000000059604645
+          ],
+          "target": [
+            -0.700023959464645,
+            -1.6989749958179194,
+            0.3961703916283943
+          ]
+        }
+      ]
+    },
+    "evidence": "Map all five original Tower roles to the corresponding four ground entrances and upper balcony railing opening. Source convex sections establish each authored role; target actual mesh sections inside the wall locate aperture centers, and outside-to-inside rays reject decorative gaps or blocked doorways. Each anchor height comes from its own exact local floor intersection, preserving the small differences between the ground panels and sloped balcony edge. Keep all five complete original frames. Full-position roles are needed because equal source Z=.4 maps to distinct target floor heights. All 59 native leaves and identity body/node are verified; native map geometry and physics unchanged."
+  },
+  "fw_unsc_c_room_triple": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "position_levels": {
+      "tolerance": 1e-08,
+      "levels": [
+        {
+          "source": [
+            -0.0040374756790697575,
+            -2.1203904151916504,
+            -0.6889024376869202
+          ],
+          "target": [
+            -9.308000300967123e-05,
+            -1.9500571203148136,
+            -0.49628640530883716
+          ]
+        },
+        {
+          "source": [
+            -4.925837993621826,
+            1.0800955295562744,
+            -0.8048531413078308
+          ],
+          "target": [
+            -4.8786021977819924,
+            1.2475878201178499,
+            -0.5972848269234917
+          ]
+        },
+        {
+          "source": [
+            -3.514031171798706,
+            2.2904956340789795,
+            -0.7818311452865601
+          ],
+          "target": [
+            -3.496028288839371,
+            2.4499840467065472,
+            -0.5963245511027706
+          ]
+        },
+        {
+          "source": [
+            -0.0040374756790697575,
+            2.302062511444092,
+            -0.6811562776565552
+          ],
+          "target": [
+            -9.30800030110035e-05,
+            2.4499840467065472,
+            -0.4962864053088376
+          ]
+        },
+        {
+          "source": [
+            3.5059561729431152,
+            2.2904956340789795,
+            -0.7818311452865601
+          ],
+          "target": [
+            3.495842128833348,
+            2.4499840467065472,
+            -0.5963245511027702
+          ]
+        },
+        {
+          "source": [
+            4.9177632331848145,
+            1.0800955295562744,
+            -0.7868386507034302
+          ],
+          "target": [
+            4.878416037775972,
+            1.2475878201178512,
+            -0.5972848269234917
+          ]
+        }
+      ]
+    },
+    "evidence": "Map all six H4 Room Triple entrance references to the actual target thresholds, preserving their complete original frames. Source convex aperture sections and floor caps identify each role. Exact target wall sections locate the openings; floor intersections reject decorative gaps. The side reference is the outer edge of the narrow horizontal floor lip, recessed about .22153 from the main wall, not the wall or main floor boundary. Preserve the central, wing and side threshold heights independently. All 92 native leaves resolve; record the existing 0.000011831422684 planar-face residual of leaf 52 without altering collision or motion. Native maps and saved variants unchanged."
+  },
+  "fw_unsc_c_bunker_stair": {
+    "yaw_degrees": 0,
+    "translation": [
+      0,
+      0,
+      0
+    ],
+    "position_levels": {
+      "tolerance": 1e-08,
+      "levels": [
+        {
+          "source": [
+            -2.2588393688201904,
+            1.2661298513412476,
+            -0.002524900482967496
+          ],
+          "target": [
+            -2.9,
+            1.4,
+            -0.5
+          ]
+        },
+        {
+          "source": [
+            -2.2588393688201904,
+            1.2661298513412476,
+            -0.4727667272090912
+          ],
+          "target": [
+            -2.9,
+            1.4,
+            -1
+          ]
+        },
+        {
+          "source": [
+            0.34702759981155396,
+            -2.5493626594543457,
+            -0.47268813848495483
+          ],
+          "target": [
+            -0.3,
+            -2.4,
+            -1
+          ]
+        },
+        {
+          "source": [
+            -2.2588393688201904,
+            1.2661298513412476,
+            2.507193088531494
+          ],
+          "target": [
+            -2.9,
+            1.4,
+            2
+          ]
+        },
+        {
+          "source": [
+            0.3426233232021332,
+            2.874289035797119,
+            -0.4727945923805237
+          ],
+          "target": [
+            -0.3,
+            2.6,
+            -1
+          ]
+        },
+        {
+          "source": [
+            0.3426233232021332,
+            2.874289035797119,
+            2.507193088531494
+          ],
+          "target": [
+            -0.3,
+            2.6,
+            2
+          ]
+        },
+        {
+          "source": [
+            2.4469242095947266,
+            1.0284383296966553,
+            2.5071916580200195
+          ],
+          "target": [
+            1.8,
+            1.0377248328202349,
+            2
+          ]
+        },
+        {
+          "source": [
+            2.497894763946533,
+            1.0284383296966553,
+            -0.415651798248291
+          ],
+          "target": [
+            1.8252697671544562,
+            1.0377248328202349,
+            -0.9700435652397786
+          ]
+        },
+        {
+          "source": [
+            2.497894763946533,
+            -1.8037179708480835,
+            -0.415651798248291
+          ],
+          "target": [
+            1.8252697671544562,
+            -1.5669772877732142,
+            -0.9700435652397786
+          ]
+        },
+        {
+          "source": [
+            2.4469242095947266,
+            -1.8037179708480835,
+            2.5073022842407227
+          ],
+          "target": [
+            1.8,
+            -1.5669772877732142,
+            2
+          ]
+        },
+        {
+          "source": [
+            0.34702759981155396,
+            -2.5493626594543457,
+            2.8072969913482666
+          ],
+          "target": [
+            -0.3,
+            -2.4,
+            2.3
+          ]
+        }
+      ]
+    },
+    "evidence": "Map the eleven H4 construction references onto the existing target stair entrance, base, roof, front/rear stair-wall junction and right-side foot. Preserve the original longitudinal fractions on the corresponding side-wall span and under-stair gap. Derive the lower-right tier from the actual bevel/vertical-foot junction, not the global base; preserve the second lower reference as its authored extension beneath the raised stair. Retain all complete original frames and native map physics. Source render resource CRC, target surfaces and all 25 native leaves are checked separately."
+  }
+}

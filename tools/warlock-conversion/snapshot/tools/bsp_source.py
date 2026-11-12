@@ -1,6 +1,5 @@
 """Resolve MCC BSP geometry through scenario lightmap bindings, not tag IDs."""
-import xml.etree.ElementTree as ET
-from pathlib import Path
+from source_schema import load_schema
 from resource_reader import Resource
 from render_resource import convert_render_resource
 from water_buffers import rebuild_water_buffers
@@ -11,10 +10,8 @@ def convert_bsp_geometry(cache, bsp_index=0):
     """Return converted geometry and provenance; does not write or register it."""
     if not cache.mcc:
         raise ValueError('BSP geometry source must be MCC')
-    reference = Path(__file__).resolve().parents[1] / 'reference/mcc'
-
     def field(group, name):
-        matches = [f for f in ET.parse(reference / (group + '.xml')).getroot()
+        matches = [f for f in load_schema(cache, group)
                    if f.get('name') == name]
         if len(matches) != 1:
             raise ValueError(f'Ambiguous schema field {group}/{name}')
@@ -65,7 +62,26 @@ def convert_bsp_geometry(cache, bsp_index=0):
         raise ValueError('BSP geometry resource salt, owner or type mismatch')
     source = Resource(cache, resource_datum)
     water = rebuild_water_buffers(cache, bsp, source)
-    converted = convert_render_resource(source, water_buffers=water)
+    quarter_stops = getattr(cache, 'powerhouse_ambient_quarter_stops', 0)
+    vertex_converter = None
+    if quarter_stops:
+        from render_buffers import convert_vertices
+        from powerhouse_lighting import boost_vertices
+
+        def vertex_converter(payload, count, fmt, stride):
+            data, target_stride = convert_vertices(payload, count, fmt, stride)
+            if fmt == 6:
+                if target_stride != 20:
+                    raise ValueError('Unexpected static lighting stride')
+                data = boost_vertices(data, quarter_stops)
+            return data, target_stride
+
+    converted = convert_render_resource(source, water_buffers=water, vertex_converter=vertex_converter)
+    from powerhouse_room_lighting import apply as apply_room_fill
+    room_fill = apply_room_fill(cache, bsp, offset, source, converted,
+                               getattr(cache, 'powerhouse_room_fill', 0.))
     return converted, {'bsp_index': bsp_index, 'bsp_datum': hex(bsp_datum),
                        'lightmap_datum': hex(owner), 'resource_datum': hex(resource_datum),
-                       'reconstructed_water_buffers': len(water)}
+                       'reconstructed_water_buffers': len(water),
+                       'ambient_quarter_stops': quarter_stops,
+                       'powerhouse_room_fill': room_fill}

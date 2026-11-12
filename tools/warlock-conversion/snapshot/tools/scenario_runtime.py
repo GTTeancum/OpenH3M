@@ -1,4 +1,5 @@
 """Replace map-specific visibility, audio and inactive stock script state."""
+from source_schema import load_schema
 import copy
 import struct
 import xml.etree.ElementTree as ET
@@ -7,9 +8,7 @@ from tag_metadata import MetadataConverter, SCALARS
 from scenario_placements import fields, translate_enum, translate_flags
 
 
-EMPTY_BLOCKS = ('Scripts', 'Globals', 'Script References', 'Machines', 'Machine Palette',
-                'Scenario Kill Triggers',
-                'Scenario Safe Zone Triggers')
+EMPTY_BLOCKS = ('Scripts', 'Globals', 'Script References')
 
 
 def stage_runtime(importer):
@@ -22,32 +21,45 @@ def stage_runtime(importer):
 
 def _stage(i):
     s, c, b = i.source, i.registry.cache, i.builder
-    ss = ET.parse(i.reference / 'mcc/scnr.xml').getroot()
+    ss = load_schema(i.source, 'scnr', i.reference)
     ds = ET.parse(i.reference / 'plugins/scnr.xml').getroot()
     root = next(t['offset'] for t in s.tags.values() if t['group'] == 'scnr')
     target = next(t['offset'] for t in c.tags.values() if t['group'] == 'scnr')
     converter = MetadataConverter(s, b, i.source_strings, i.target_strings, i.import_tag)
-    arrays = {}
-    for name in EMPTY_BLOCKS:
-        sf = field(ss, name)
-        if s.u(root + int(sf.get('offset'), 0)):
-            raise ValueError(f'Active source {name} requires a dedicated conversion')
-        arrays[name] = (0, b'')
+    arrays, script_strings = {}, b''
+    has_scripts = any(s.u(root + int(field(ss, name).get('offset'), 0)) for name in EMPTY_BLOCKS)
+    if has_scripts:
+        from scenario_scripts import prepare_scripts
+        arrays, script_strings = prepare_scripts(i, ss, ds, converter, root)
+    else:
+        arrays.update({name: (0, b'') for name in EMPTY_BLOCKS})
     expressions = field(ss, 'Script Expressions')
     stride = int(expressions.get('elementSize'), 0)
     rows = s.block(root + int(expressions.get('offset'), 0), stride)
-    # Unallocated expression slots have a zero salt followed by MCC heap fill.
+    # Workshop tools use zero salt followed by MCC heap fill; official H3EK
+    # also emits wholly zero-filled capacity (512 slots in the fresh build).
     # They are capacity, not executable script nodes; no live roots exist above.
-    if any(bytes(s.data[r:r + stride]) != bytes(2) + b'\xba' * (stride - 2) for r in rows):
+    empty_slots = {bytes(stride), bytes(2) + b'\xba' * (stride - 2)}
+    if not has_scripts and any(bytes(s.data[r:r + stride]) not in empty_slots for r in rows):
         raise ValueError('Source contains populated script expression slots')
-    arrays['Script Expressions'] = (0, b'')
-    for name in ('Scenario Resources', 'Trigger Volumes', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders'):
+    if not has_scripts:
+        arrays['Script Expressions'] = (0, b'')
+    trigger_count = s.u(root + int(field(ss, 'Trigger Volumes').get('offset'), 0))
+    for name in ('Scenario Resources', 'Trigger Volumes', 'Scenario Kill Triggers', 'Scenario Safe Zone Triggers', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders', 'Device Groups', 'Cutscene Flags', 'Cutscene Camera Points'):
         sf, df = copy.deepcopy(field(ss, name)), field(ds, name)
         rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
+        if name in ('Scenario Kill Triggers', 'Scenario Safe Zone Triggers'):
+            # Both formats store signed indices into the unchanged trigger array.
+            # Preserve authored out-of-bounds behavior, never silently drop it.
+            if any(not 0 <= s.unpack('h', row)[0] < trigger_count for row in rows):
+                raise ValueError(f'{name} references a missing trigger volume')
         if name == 'Scenario Resources':
             field(sf, 'Split Resources').set('name', 'Resources')
         if name == 'Zone Sets':
-            if any(s.unpack('HH', r + 36) != (65535, 0) for r in rows):
+            stride = int(sf.get('elementSize'), 0)
+            if stride not in (36, 40):
+                raise ValueError('Unsupported MCC zone-set layout')
+            if stride == 40 and any(s.unpack('HH', r + 36) != (65535, 0) for r in rows):
                 raise ValueError('Active MCC zone lighting override requires conversion')
             for node in list(sf):
                 if node.get('offset') and int(node.get('offset'), 0) >= 36:
@@ -82,8 +94,7 @@ def _stage(i):
             continue
         sf = source_fields[key]
         values = s.unpack(SCALARS[sf.tag], root + int(sf.get('offset'), 0))
-        if (getattr(i, 'stock_forge_palette', False) and name == 'Flags'
-                and sf.tag.startswith('flags')):
+        if name == 'Flags' and sf.tag.startswith('flags'):
             # MCC's Eldorado object-light sampling has no retail flag.
             # Use native H3 probe sampling; geometry/light probes remain intact.
             values = (values[0] & ~(1 << 7),)
@@ -94,11 +105,15 @@ def _stage(i):
         payload = struct.pack('>' + SCALARS[df.tag], *values)
         at = address - b.base + int(df.get('offset'), 0)
         b.meta[at:at + len(payload)] = payload
-    # With no scripts/globals/live expressions, the source string allocation is
-    # unused. Remove stock strings and editor data without copying heap slack.
+    # Replace stock script strings with the validated source allocation when
+    # scripts exist; otherwise clear it. Editor data remains unsupported.
     for name in ('Script Strings', 'Editor Scenario Data'):
         if name == 'Editor Scenario Data' and s.u(root + int(field(ss, name).get('offset'), 0)):
             raise ValueError('Nonempty scenario editor data is unsupported')
         address = target - c.start + c.base + int(field(ds, name).get('offset'), 0)
         b.meta[address - b.base:address - b.base + 20] = bytes(20)
+        if name == 'Script Strings' and script_strings:
+            pointer = b.alloc(script_strings)
+            b.put(address, 'I', len(script_strings))
+            b.put(address + 12, 'I', pointer)
     return {name: count for name, (count, _) in arrays.items()}

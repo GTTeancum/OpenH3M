@@ -37,7 +37,7 @@ def convert_codec(data, frames):
             raise ValueError('Unexpected animation codec trailing data')
         swap(32, tr, 4 if codec == 8 else 2)
         swap(tr, end, 4)
-    elif codec in (4, 6):
+    elif codec in (4, 5, 6, 7):
         if len(data) < 48:
             raise ValueError('Truncated keyframe codec')
         ti, si, rk, tk, sk, rf, tf, sf, padding = struct.unpack_from('<9I', data, 12)
@@ -47,8 +47,11 @@ def convert_codec(data, frames):
         if padding:
             raise ValueError('Unexpected keyframe codec padding')
         swap(4, rk, 4)
-        # Byte key indices stay byte-for-byte; reverse codecs use the same
-        # representation, with reversed node ordering interpreted by the engine.
+        # TagTool KeyframeLightlyQuantizedCodec reads keys as bytes for 4/6
+        # and uint16 for 5/7. Reverse codecs retain the same stored streams;
+        # the engine reverses node ordering when decoding, not when loading.
+        if codec in (5, 7):
+            swap(rk, rf, 2)
         swap(rf, tf, 2)
         swap(tf, len(data), 4)
     else:

@@ -5,8 +5,12 @@ class Cache:
  def __init__(self,path,mcc=False):
   self.file=Path(path).open('rb');self.data=mmap.mmap(self.file.fileno(),0,access=mmap.ACCESS_READ);self.mcc=mcc;self.endian='<' if mcc else '>'
   if mcc:
-   self.base,idx=self.unpack('QQ',0x2e0);self.start=self.u(0x10);ng,ga,nt,ta=self.unpack('QQQQ',self.offset(idx))
+   # MCC U13 header section masks translate virtual file offsets. Earlier
+   # Workshop caches used zero masks; reordered caches need all three mappings.
+   self.section_masks=self.unpack('4I',0x4cc)
+   self.base,idx=self.unpack('QQ',0x2e0);self.start=self.section_offset(2,self.u(0x10));ng,ga,nt,ta=self.unpack('QQQQ',self.offset(idx))
    self.names_base,self.names_size,self.names_index=self.unpack('III',0x24)
+   self.names_base=self.debug_offset(self.names_base);self.names_index=self.debug_offset(self.names_index)
   else:
    self.base=self.u(0x2e8);self.start=(self.u(0x48c)+self.u(0x474))&0xffffffff;ng,ga,nt,ta=self.unpack('IIII',self.offset(self.u(0x10)))
    self.names_base=(self.u(0x2b8)+self.u(0x46c))&0xffffffff
@@ -20,6 +24,9 @@ class Cache:
    if g!=65535 and p not in (0,0xffffffff):self.tags[i]={'group':self.groups[g],'salt':s,'offset':self.pointer(p)}
  def unpack(self,fmt,off):return struct.unpack_from(self.endian+fmt,self.data,off)
  def u(self,off):return self.unpack('I',off)[0]
+ def section_offset(self,section,value):return (value+self.section_masks[section])&0xffffffff
+ def debug_offset(self,value):return self.section_offset(0,value) if self.mcc else value
+ def resource_offset(self,value):return self.section_offset(1,value) if self.mcc else value
  def offset(self,address):
   off=address-self.base+self.start
   if not 0<=off<len(self.data):raise ValueError(f'Address outside cache: {address:#x}')

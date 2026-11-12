@@ -4,9 +4,9 @@ import numpy as np
 from resource_reader import Resource
 
 
-def read_mesh(cache):
+def read_mesh(cache, scenario=r'levels\multi\forge_halo\forge_halo'):
     tag = next(t for n, t in cache.tags.items() if t['group'] == 'sbsp'
-               and cache.name(n) == r'levels\multi\forge_halo\forge_halo')
+               and cache.name(n) == scenario)
     resource = Resource(cache, cache.u(tag['offset'] + 0x38c))
     if resource.unpack('I', resource.root + 12)[0] != 1:
         raise ValueError('Expected one authored large collision BSP')

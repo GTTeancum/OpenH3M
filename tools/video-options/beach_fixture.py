@@ -8,7 +8,7 @@ from map_builder import MapBuilder
 from build_scenario_checkpoint import resource_salt
 
 source=Path(sys.argv[1]).resolve(strict=True)
-target=(ROOT/'work/video-options/remaining'/('shadow-fixture' if '--shadows' in sys.argv else 'water-fixture' if '--water' in sys.argv else 'beach-fixture-objects' if '--objects' in sys.argv else 'beach-fixture')).resolve()
+target=(ROOT/'work/video-options/remaining'/('distance-fixture' if '--distance' in sys.argv else 'shadow-fixture' if '--shadows' in sys.argv else 'water-fixture' if '--water' in sys.argv else 'beach-fixture-objects' if '--objects' in sys.argv else 'beach-fixture')).resolve()
 target.relative_to(ROOT)
 if target.exists(): raise SystemExit('Fixture already exists; refusing to overwrite')
 target.mkdir(parents=True)
@@ -32,6 +32,8 @@ rows=c.block(scnr+int(scenery.get('offset'),0),int(scenery.get('elementSize'),0)
 # Mongoose/Warthog/Ghost placements, with the shoreline to the left.
 position=(14.362690925598145,24.83962059020996,-.98987877368927)
 yaw=2.7
+if '--distance' in sys.argv:
+ yaw=0.0
 if '--shadows' in sys.argv:
  yaw=3.35
 if '--water' in sys.argv:

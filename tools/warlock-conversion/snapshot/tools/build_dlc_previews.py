@@ -1,4 +1,4 @@
-"""Convert installed MCC map artwork to native H3 mapi BLFs, atomically.
+"""Convert MCC artwork or an explicit native capture to H3 mapi BLFs, atomically.
 
 Only artwork/metadata changes; map caches are never opened for writing.
 Requires the version-checked mapi SHA1 adapter in patch_dlc_xex.py.
@@ -11,10 +11,18 @@ import os
 from pathlib import Path
 import struct
 from PIL import Image, ImageOps
-from build_dlc_payload import fixed
+from build_dlc_payload import ADDITIONAL_MAPS, MAPS, fixed
 
 ROOT = Path(__file__).resolve().parents[4]
 SOURCES = {
+    'sky_bridge': '3003239190/images/skybridge.png',
+    'boarding_action': '2962955878/images/boardingaction.png',
+    'powerhouse': '3003239190/images/powerhousesmall.png',
+    'rodentia': '3500400217/images/rodentia_big.png',
+    'lockout_classic': '2898979693/images/1.png',
+    'elongation': '3618057049/Halo  The Master Chief Collection Screenshot 2025.12.12 - 14.50.37.57.png',
+    'sanctuary': '2898920291/images/MED.png',
+    'chiron': '2962955878/images/Chiron.png',
     'warlock': '2977651586/images/warlock_thumbnail.png',
     'resuscitation': '2898876653/images/resus-large.png',
     'prisoner': '2962955878/images/Prisoner.png',
@@ -44,10 +52,17 @@ def blf(jpeg):
 
 def build(workshop, payload, names=None, images=None):
     report = {'authentication': 'native SHA1 EOF; requires custom-content adapter', 'maps': []}
-    for name, relative in SOURCES.items():
+    images = images or {}
+    registered = {row[1] for row in MAPS + ADDITIONAL_MAPS}
+    if set(images) - registered:
+        raise ValueError('Explicit preview images require a registered DLC map')
+    sources = {name: workshop / relative for name, relative in SOURCES.items()}
+    sources.update(images)
+    if names is not None and set(names) - sources.keys():
+        raise ValueError('Selected map needs an explicit preview image')
+    for name, source in sources.items():
         if (names is not None and name not in names) or not (payload / (name + '.mapinfo')).exists():
             continue
-        source = (images or {}).get(name, workshop / relative)
         with Image.open(source) as opened:
             original = opened.convert('RGB')
         files = []
@@ -74,7 +89,17 @@ if __name__ == '__main__':
     parser.add_argument('--workshop', type=Path, required=True)
     parser.add_argument('--payload', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--map', action='append', choices=[row[1] for row in MAPS + ADDITIONAL_MAPS],
+                        help='Limit preview generation to named maps')
+    parser.add_argument('--image', action='append', default=[], metavar='MAP=PATH',
+                        help='Explicit source image for a registered map; provenance is included in the report')
     args = parser.parse_args()
-    report = build(args.workshop, args.payload)
+    images = {}
+    for item in args.image:
+        name, separator, path = item.partition('=')
+        if not separator or not path or name in images:
+            parser.error('--image requires one MAP=PATH per map')
+        images[name] = Path(path)
+    report = build(args.workshop, args.payload, args.map, images)
     atomic(args.report, (json.dumps(report, indent=2)+'\n').encode())
     print(f"Built {sum(len(row['files']) for row in report['maps'])} native previews for {len(report['maps'])} maps.")

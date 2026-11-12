@@ -1,0 +1,52 @@
+--- a/src/graphics/d3d12/command_processor.cpp
++++ b/src/graphics/d3d12/command_processor.cpp
+@@ -36,6 +36,7 @@
+ #include "sky_pixel_probe.h"
+ #include "sky_stage_probe.h"
+ #include "sky_coverage_probe.h"
++#include "draw_gpu_probe.h"
+ #include "sky_arc_state_probe.h"
+ #include "sky_depth_test_probe.h"
+ #include "sky_depth_value_probe.h"
+@@ -1669,6 +1670,7 @@
+   SkyPixelProbe::GetPresented().Shutdown(submission_completed_);
+   SkyStageProbe::Get().Shutdown(submission_completed_);
+   SkyCoverageProbe::Get().Shutdown(submission_completed_);
++  DrawGpuProbe::Get().Shutdown(submission_completed_);
+   SkyArcStateProbe::Get().Shutdown(submission_completed_);
+   SkyDepthTestProbe::Get().Shutdown(submission_completed_);
+   SkyDepthValueProbe::Get().Shutdown(submission_completed_);
+@@ -2783,11 +2785,16 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,0,submission_current_,submission_completed_);
++    const uint32_t draw_gpu_index=DrawGpuProbe::Get().Begin(GetD3D12Provider().GetDevice(),
++      GetD3D12Provider().GetDirectQueue(),deferred_command_list_,frame_current_,
++      pixel_shader?pixel_shader->ucode_data_hash():0,index_count,submission_current_,submission_completed_,
++      vertex_shader->ucode_data_hash(),memexport_used);
+     const uint32_t coverage_index=SkyCoverageProbe::Get().Begin(GetD3D12Provider().GetDevice(),
+       deferred_command_list_,active_occlusion_query_.valid,frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,submission_current_,submission_completed_);
+     deferred_command_list_.D3DDrawInstanced(primitive_processing_result.host_draw_vertex_count, 1,
+                                             0, 0);
++    DrawGpuProbe::Get().End(deferred_command_list_,draw_gpu_index);
+     SkyCoverageProbe::Get().End(deferred_command_list_,coverage_index);
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);
+@@ -2876,11 +2883,16 @@
+     const uint32_t occlusion_index = BeginOcclusionDraw();
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,0,submission_current_,submission_completed_);
++    const uint32_t draw_gpu_index=DrawGpuProbe::Get().Begin(GetD3D12Provider().GetDevice(),
++      GetD3D12Provider().GetDirectQueue(),deferred_command_list_,frame_current_,
++      pixel_shader?pixel_shader->ucode_data_hash():0,index_count,submission_current_,submission_completed_,
++      vertex_shader->ucode_data_hash(),memexport_used);
+     const uint32_t coverage_index=SkyCoverageProbe::Get().Begin(GetD3D12Provider().GetDevice(),
+       deferred_command_list_,active_occlusion_query_.valid,frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,submission_current_,submission_completed_);
+     deferred_command_list_.D3DDrawIndexedInstanced(
+         primitive_processing_result.host_draw_vertex_count, 1, 0, 0, 0);
++    DrawGpuProbe::Get().End(deferred_command_list_,draw_gpu_index);
+     SkyCoverageProbe::Get().End(deferred_command_list_,coverage_index);
+     render_target_cache_->ProbeSkyDraw(frame_current_,SkyDrawTrace::Get().ActiveSequence(),
+       active_pixel_shader_?active_pixel_shader_->ucode_data_hash():0,index_count,1,submission_current_,submission_completed_);

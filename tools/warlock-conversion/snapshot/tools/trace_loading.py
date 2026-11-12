@@ -27,45 +27,119 @@ parser.add_argument('--exe', type=Path, required=True)
 parser.add_argument('--expected-exe-sha256', default='ec4d57ee4f654095bd5e512ffe650d65ac514b0fb8f21d5c7b09e61e689c3406',
                     help='Explicit pinned SHA256 for a newly rebuilt executable; mappings are read from its PE.')
 parser.add_argument('--game', type=Path)
+parser.add_argument('--video-surface-quality', choices=('original','balanced','performance'),
+                    help='Explicit D3D12 texture/filter settings for bounded quality validation.')
+parser.add_argument('--quiet-timing', action='store_true',
+                    help='Use info-level runtime logs and omit decal breakpoints; retain load/hash validation.')
 parser.add_argument('--dlc-payload', type=Path,
                     help='Repo-local payload exposed as one installed content bundle via hardlinks.')
 parser.add_argument('--dlc-package', type=Path,
                     help='Install a repository-local LIVE container using the native installer before this run.')
 parser.add_argument('--dlc-installed-root', type=Path,
                     help='Reuse a native-installed repository-local content tree through hardlinks.')
-parser.add_argument('--dlc-map', choices=('warlock', 'resuscitation', 'prisoner', 'forge_gulch', 'forge_island'),
+parser.add_argument('--dlc-map',
                     help='Select a distinct DLC entry from the full stock-plus-custom map list.')
 parser.add_argument('--dlc-menu-check', action='store_true',
                     help='Stop the process-local route at the map list for DLC discovery inspection.')
+parser.add_argument('--saved-layout', type=Path,
+                    help='Native saved-layout BLF copied into the isolated test profile, never the live profile.')
+parser.add_argument('--profile-seed', type=Path,
+                    help='Copy the two H3 title-specific settings from a repository-local profile/User directory into this isolated run.')
+parser.add_argument('--saved-layout-library', type=Path,
+                    help='Also copy every native .bin layout from this repository-local directory for menu discovery checks.')
+parser.add_argument('--layout-menu-check', action='store_true',
+                    help='Stop after opening the selected base map\'s saved-layout list.')
+parser.add_argument('--layout-overview-check', action='store_true',
+                    help='Load a saved layout in Forge and rise for native architecture inspection.')
+parser.add_argument('--forge-overview-check', action='store_true',
+                    help='Load the base DLC map in Forge and rise for native architecture/water inspection.')
 parser.add_argument('--dlc-preview-tour', action='store_true',
                     help='Menu-only tour: Last Resort, Forge Gulch, Prisoner, Resuscitation, Warlock.')
 parser.add_argument('--trace-dlc-paths', action='store_true',
                     help='Trace native cache path resolution; verbose and slows timing runs.')
+parser.add_argument('--trace-console-loader', action='store_true',
+                    help='Observe cache-copy state, file opens, load retries and fatal dispatch; no guest behavior changes.')
 parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
 parser.add_argument('--capture', action='store_true')
+parser.add_argument('--host-capture-after-ms', type=int,
+                    help='Capture the application final backbuffer including host UI, inside this run directory.')
 parser.add_argument('--capture-times-ms', help='Comma-separated native guest capture times for bounded route diagnostics.')
+parser.add_argument('--inspection-input', help='Additional exclusive process-local H3IR steps: ms:BUTTON+duration, starting after 100 seconds.')
+parser.add_argument('--audio-frames', type=int, default=0,
+                    help='Read up to 8 seconds of this child\'s submitted six-channel PCM; diagnostic timing only.')
+parser.add_argument('--audio-after-seconds', type=float, default=145,
+                    help='Wall-clock delay before arming native guest PCM observation.')
 parser.add_argument('--diagnostic-no-vsync', action='store_true',
                     help='Test existing vsync=false option; simulation speed must be validated separately.')
+parser.add_argument('--diagnostic-async-occlusion', action='store_true', help='Validate fence-completed asynchronous visibility results.')
+parser.add_argument('--diagnostic-display-phase-off', action='store_true', help='Isolate host display-phase pacing without changing guest clocks.')
+parser.add_argument('--slow-turn-check', action='store_true', help='Stationary slow yaw sweep using exclusive process-local replay.')
+parser.add_argument('--slow-turn-forge', action='store_true', help='Run the slow-turn benchmark in Forge mode.')
+parser.add_argument('--turn-duration-ms', type=int, default=30000)
 parser.add_argument('--walk-check', action='store_true',
                     help='Use process-local sticks to turn and walk briefly after loading.')
+parser.add_argument('--walk-route', choices=('default', 'elongation', 'lockout-light', 'lockout-exit'), default='default',
+                    help='Map-specific process-local movement route; requires --walk-check.')
+parser.add_argument('--timing-diagnostics', action='store_true',
+                    help='Log native presentation timing and GPU preparation exceeding 8 ms.')
 parser.add_argument('--forge-boundary-check', action='store_true',
                     help='Use the verified Forge lobby route, become monitor and strafe toward the Gulch split.')
+parser.add_argument('--forge-sanctuary-check', action='store_true',
+                    help='Fly the Island monitor toward the Coliseum for native lighting captures.')
 parser.add_argument('--forge-water-check', action='store_true',
                     help='Become monitor, rise above the canyon and face the water; process-local input only.')
 parser.add_argument('--forge-palette-check', action='store_true',
                     help='Open the native Forge creation palette after the verified Sandbox route.')
 parser.add_argument('--forge-scenery-check', action='store_true',
                     help='In Forge, open Scenery and place a Reach architecture piece.')
+parser.add_argument('--forge-existing-pair-check', action='store_true', help='Grab, separate and return a pre-placed opposed pair using native input')
+parser.add_argument('--forge-pair-lift', action='store_true', help='Lift the held existing pair piece before pulling, to distinguish ground obstruction from controller failure')
+parser.add_argument('--forge-pair-approach-up-ms', type=int, default=0, choices=range(0,9001), help='Fly upward before grabbing elevated saved scenery; process-local input only')
+parser.add_argument('--forge-manipulation-check', action='store_true',
+                    help='Native create/move/release/re-grab/move sequence without forced object poses.')
+parser.add_argument('--forge-delete-check', action='store_true',
+                    help='Delete held scenery after menu cancellation; remain in monitor mode without a follow-up grab or player-mode transition.')
+parser.add_argument('--forge-spawn-clearance-check', action='store_true',
+                    help='Ascend before native scenery creation to inspect clearance away from terrain.')
+parser.add_argument('--advanced-forge-data', type=Path,
+                    help='Enable the original H4 magnet bridge using repository-local private inputs.')
+parser.add_argument('--advanced-forge-auto', action='store_true',
+                    help='Test automatic Forge activation and adjacent private inputs, without enable/data-path overrides.')
+parser.add_argument('--advanced-forge-anchor-check', action='store_true',
+                    help='Keep the scenery piece held for original-material and depth captures.')
+parser.add_argument('--advanced-forge-base-round-check', action='store_true',
+                    help='Inspect the released Base Round disc from an elevated monitor viewpoint; process-local replay only.')
+parser.add_argument('--advanced-forge-test-coordinates', help='Process-local coordinate panel command x,y,z,yaw,pitch,roll; tests with magnets disabled')
+parser.add_argument('--advanced-forge-test-physics', help='Process-local editor physics sequence, one mode every 90 ticks: normal,fixed,phased')
+parser.add_argument('--advanced-forge-test-menu', action='store_true', help='Open the native held-object properties menu during the scenery replay')
+parser.add_argument('--advanced-forge-test-menu-case', choices=('position', 'rotation', 'rotation-cancel', 'resume', 'lifecycle'), default='position')
+parser.add_argument('--advanced-forge-test-position',
+                    help='Diagnostic-only world-space held drag request x,y,z; requires Advanced Forge replay.')
 parser.add_argument('--forge-scenery-index', type=int, default=4, choices=range(40),
                     help='Reach palette row; default Bank 1x1 fits the camera, unlike the large Arena Wall at row 0.')
 parser.add_argument('--forge-vehicle-check', action='store_true',
                     help='Create the first stock vehicle (Banshee), drop it and attempt entry; inspect native captures.')
+parser.add_argument('--hornet-occlusion-check', action='store_true',
+                    help='Enter the Hornet in a dedicated saved fixture and turn; process-local input only.')
+parser.add_argument('--forge-vehicle-index', type=int, default=0, choices=range(11),
+                    help='Stock vehicle palette row; 0 Banshee, 2 Hornet.')
 parser.add_argument('--vehicle-boundary-flight', action='store_true',
                     help='After verified Banshee entry, turn left and boost toward the split; observer samples determine coverage.')
+parser.add_argument('--sample-native-variant', action='store_true', help='Read-only native H3 map-variant snapshots from this test child')
 parser.add_argument('--sample-observer', action='store_true',
                     help='Read the verified native observer position once per second after loading.')
+parser.add_argument('--sample-object-map', type=Path,
+                    help='Read bounded machine/crate object snapshots using tag identities from this native cache.')
+parser.add_argument('--sample-equipment-objects', action='store_true',
+                    help='Include equipment in the read-only object snapshots; requires --sample-object-map.')
+parser.add_argument('--sample-player-objects', action='store_true', help='Include read-only player object headers in bounded machine samples.')
+parser.add_argument('--sample-object-body-bytes', type=int, choices=(256, 1024), default=256,
+                    help='Bounded read-only object body sample size; expanded mode includes device state.')
+parser.add_argument('--sample-object-interval', type=int, choices=(1, 5), default=5)
 parser.add_argument('--trace-bsp-seams', action='store_true',
                     help='Read native scenario/BSP/cluster seam bindings when diagnosing a visibility fault.')
+parser.add_argument('--trace-scenario-objects', action='store_true',
+                    help='Trace original scenario placement preparation and object creation; no game-code changes.')
 parser.add_argument('--font-upload-probe', action='store_true',
                     help='Enable bounded font staging evidence with the diagnostic GPU plugin.')
 parser.add_argument('--sample-font-cache', action='store_true',
@@ -73,6 +147,8 @@ parser.add_argument('--sample-font-cache', action='store_true',
 parser.add_argument('--powerup-check', action='store_true',
                     help='Extend the Prisoner walk toward the ground-floor camo; inspect capture to assess result.')
 parser.add_argument('--manual-input', action='store_true', help='User operates the game; no scripted input.')
+parser.add_argument('--exclusive-input', action='store_true',
+                    help='Use existing process-local H3IR replay, excluding physical controller input during this test.')
 parser.add_argument('--sample-on-stall', action='store_true', help='Sample our child after GPU/input log progress stops.')
 parser.add_argument('--trace-allocator', action='store_true')
 parser.add_argument('--sample-resource-cache', action='store_true',
@@ -87,41 +163,108 @@ parser.add_argument('--draw-after-seconds', type=int, default=110,
                     help='Delay bounded GPU draw sampling until the target screen is open.')
 parser.add_argument('--sample-draws', action='store_true',
                     help='Read 1024 native GPU draw states after 110 seconds; no render-state changes.')
+parser.add_argument('--draw-sample-limit', type=int, default=1024, choices=(1024, 2048, 4096),
+                    help='Bounded draw-state count; larger scenes may exceed 1024 draws before postprocessing.')
 parser.add_argument('--shader-cache-seed', type=Path)
 parser.add_argument('--cache-root', type=Path, help='Reuse a project-local cache instead of creating a diagnostic cache.')
-parser.add_argument('--seconds', type=int, default=135, choices=range(75, 181))
+parser.add_argument('--fpsunlock', action='store_true', help='Use the existing FPS-only unlock for private performance measurements.')
+parser.add_argument('--menu-press-ms', type=int, default=50, choices=range(1,251), metavar='1..250', help='Native replay menu-button duration for uncapped tests; does not alter game timing.')
+parser.add_argument('--menu-delay-ms', type=int, default=0, choices=range(0,30001), metavar='0..30000', help='Delay the private menu replay to allow startup to settle; no game timing changes.')
+parser.add_argument('--menu-route', help='Explicit bounded process-local menu replay; requires exclusive input.')
+parser.add_argument('--seconds', type=int, default=135, choices=range(75, 241))
+parser.add_argument('--reuse-run', type=Path, help='Reuse an existing loading-traces installation; overwrites its current diagnostic outputs')
 options = parser.parse_args()
+if options.forge_pair_lift and not options.forge_existing_pair_check:
+    parser.error('Pair lift requires the existing-pair check')
+if options.forge_pair_approach_up_ms and not options.forge_existing_pair_check:
+    parser.error('Pair approach requires the existing-pair check')
+if not 0 <= options.audio_frames <= 1500:
+    parser.error('Audio observation is limited to 0..1500 frames (8 seconds)')
+forge_test = bool(options.advanced_forge_data or options.advanced_forge_auto)
+if options.forge_delete_check and (not forge_test or not options.forge_scenery_check or not options.exclusive_input or options.manual_input or options.seconds < 180 or not options.advanced_forge_test_menu or options.advanced_forge_test_menu_case != 'rotation-cancel' or options.forge_spawn_clearance_check or options.inspection_input):
+    parser.error('Deletion check requires exclusive rotation-cancel scenery replay, 180 seconds and no additional inspection/ascent input')
+if options.forge_existing_pair_check and (not forge_test or not options.saved_layout or not options.exclusive_input or options.manual_input or options.seconds<175 or options.forge_scenery_check or options.forge_manipulation_check or options.advanced_forge_test_position or options.advanced_forge_test_coordinates or options.advanced_forge_test_menu or options.forge_spawn_clearance_check):
+    parser.error('Existing pair requires exclusive saved-layout Forge replay without creation or forced poses')
+if options.forge_manipulation_check and (not forge_test or not options.forge_scenery_check or not options.exclusive_input or options.manual_input or options.seconds < 175 or options.advanced_forge_test_position or options.advanced_forge_test_coordinates or options.advanced_forge_test_menu or options.advanced_forge_anchor_check or options.advanced_forge_base_round_check):
+    parser.error('Manipulation check requires exclusive native scenery replay, 175+ seconds and no forced pose/menu route')
+if options.advanced_forge_base_round_check and (not forge_test or not options.forge_scenery_check or options.forge_scenery_index != 8 or options.advanced_forge_test_menu or options.advanced_forge_anchor_check):
+    parser.error('Base Round inspection requires its dedicated Advanced Forge scenery route')
+if options.advanced_forge_anchor_check and (not forge_test or not options.forge_scenery_check or options.advanced_forge_test_menu):
+    parser.error('Anchor capture requires the Advanced Forge scenery route without a properties-menu test')
+if options.advanced_forge_auto and (options.advanced_forge_data or options.advanced_forge_test_coordinates):
+    parser.error('Automatic activation cannot use explicit data or the disabled-magnets coordinate diagnostic')
+if options.hornet_occlusion_check and (not options.saved_layout or not options.exclusive_input or options.seconds < 180 or options.forge_vehicle_check or options.walk_check):
+    parser.error('Hornet visibility check requires a saved fixture, exclusive input, 180 seconds, and no other movement route')
+if options.advanced_forge_test_position and not forge_test:
+    parser.error('Diagnostic drag requires an Advanced Forge test route')
+if options.advanced_forge_test_coordinates and not options.advanced_forge_data:
+    parser.error('Diagnostic coordinate command requires --advanced-forge-data')
+if options.advanced_forge_test_physics and not forge_test:
+    parser.error('Diagnostic physics command requires an Advanced Forge test route')
+if options.advanced_forge_test_menu and (not forge_test or not options.forge_scenery_check):
+    parser.error('Native properties check requires Advanced Forge scenery replay')
+if options.advanced_forge_test_menu_case != 'position' and not options.advanced_forge_test_menu:
+    parser.error('A native menu case requires --advanced-forge-test-menu')
 if options.dlc_map == 'warlock' and options.walk_check:
     parser.error('Warlock requires the documented stationary visual route; the generic walk ends against a wall')
 if options.vehicle_boundary_flight and (not options.forge_vehicle_check or options.seconds < 180):
     parser.error('--vehicle-boundary-flight requires --forge-vehicle-check and 180 seconds')
 if options.forge_vehicle_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check or options.forge_palette_check or options.seconds < 165):
     parser.error('--forge-vehicle-check requires Sandbox, 165+ seconds, and no other movement check')
-if options.forge_palette_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.forge_boundary_check):
-    parser.error('--forge-palette-check requires Sandbox, scripted input, and no other movement check')
+if options.forge_palette_check and (options.slot not in ('sandbox', 'zanzibar') or options.walk_check or options.manual_input or options.forge_boundary_check):
+    parser.error('--forge-palette-check requires Sandbox/Last Resort, scripted input, and no other movement check')
 if options.forge_boundary_check and (options.slot != 'sandbox' or options.walk_check or options.manual_input or options.seconds < 180):
     parser.error('--forge-boundary-check requires Sandbox, scripted input, no --walk-check, and 180 seconds')
 if options.powerup_check and (not options.walk_check or options.slot != 'chillout' or options.seconds < 165):
     parser.error('--powerup-check requires --walk-check --slot chillout and at least 165 seconds')
 ROOT = options.project.resolve(strict=True)
 REPOSITORY = Path(__file__).resolve().parents[4]
-RUN = output_path(REPOSITORY / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), REPOSITORY)
+RUN = None
+if options.reuse_run:
+    if options.dlc_payload or options.dlc_package or options.profile_seed:
+        parser.error('Run reuse supports installed content without payload/package/profile seeding')
+    RUN = options.reuse_run.resolve(strict=True)
+    traces = (REPOSITORY / '.local/loading-traces').resolve(strict=True)
+    if RUN.parent != traces or not (RUN / 'launch-command.json').is_file():
+        parser.error('Run reuse requires an existing direct loading-traces child with a launch manifest')
+    processes = subprocess.check_output(['tasklist', '/FI', 'IMAGENAME eq halo3mp.exe', '/FO', 'CSV', '/NH'],
+                                        text=True, creationflags=subprocess.CREATE_NO_WINDOW)
+    if '"halo3mp.exe"' in processes.lower():
+        parser.error('Close the existing game before reusing its test installation')
+else:
+    RUN = output_path(REPOSITORY / '.local/loading-traces' / (time.strftime('%Y%m%d-%H%M%S') + f'-{os.getpid()}'), REPOSITORY)
 # The original disc root is an input-only baseline; all runtime output roots
 # remain explicitly confined to RUN/CACHE below. Never copy the disc as a silo.
 GAME = (ROOT if options.game and options.game.resolve(strict=True) == ROOT
         else output_path(options.game or ROOT / '.local/custom-maps-play', ROOT))
 CACHE = output_path(options.cache_root or RUN / 'cache', ROOT)
 EXE = options.exe.resolve(strict=True)
-if options.sample_draws and hashlib.sha256((EXE.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest() != 'c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c':
+# Verified against each build's IssueDraw COFF symbol and linked prologue.
+DRAW_RVAS = {
+    # Installed Oct-26 runtime: RTTI/vtable + original virtual layout and
+    # linked draw/register/shader reads verified by battle-canyon-rebuild/
+    # resolve_installed_draw.py (the newer COFF includes SetSceneMarkers).
+    'e927230adacf9075bc14e3dceef6b51a73d9317b78f4f6b1e9bc99ac69f29380': 0x14fd80,
+    '17cb0de3dac58feefe00d86b704532e290bfbc200a53aecdec2361b70ab6dab1': 0x14fd60,
+    'c9f3b77b65d46dbfc382f6b16e5f44c6dac883f2253c62887fcc165aa6087e4c': 0x14e740,
+    'e90c5b368dc9c97b83bdf33954b4b3277e329da756169e8f0c8c21b40205985d': 0x14f0a0,
+}
+draw_rva = DRAW_RVAS.get(hashlib.sha256((EXE.parent / 'rexgpu-xenos.dll').read_bytes()).hexdigest()) if options.sample_draws else None
+if options.sample_draws and draw_rva is None:
     raise SystemExit('Draw diagnostic requires the verified GPU plugin.')
 if hashlib.sha256(EXE.read_bytes()).hexdigest() != options.expected_exe_sha256.lower():
     raise SystemExit('This diagnostic requires the verified runtime build; function addresses are build-specific.')
 if not (GAME / 'maps' / (options.slot + '.map')).is_file():
     raise SystemExit('Missing staged map for selected slot')
+if options.slow_turn_forge and not options.slow_turn_check:
+    parser.error('--slow-turn-forge requires --slow-turn-check')
+if options.slow_turn_check and (not options.exclusive_input or options.walk_check or options.turn_duration_ms < 1000 or options.turn_duration_ms > 60000 or options.seconds < 170):
+    parser.error('Slow turn requires exclusive replay, 170+ seconds, no walk and 1-60 seconds duration')
 if options.sample_observer:
     from cache_reader import Cache
     from forge_gulch_boundary import boundary_y
-    cache = Cache(GAME / 'maps' / (options.slot + '.map'))
+    observer_map = options.dlc_payload / (options.dlc_map + '.map') if options.dlc_payload and options.dlc_map else GAME / 'maps' / (options.slot + '.map')
+    cache = Cache(observer_map)
     try:
         scenario_index = next(k for k, t in cache.tags.items() if t['group'] == 'scnr')
     finally:
@@ -134,6 +277,18 @@ FUNCS = {0x821B0DD0: 'header_verify', 0x821B1020: 'header_authenticate',
          0x821B1140: 'header_read_wrapper', 0x82204360: 'load_204360',
          0x82204DA8: 'load_204da8', 0x82205AC0: 'load_205ac0',
          0x82151DC8: 'hash_verify', 0x82241478: 'decal_sprite'}
+if options.trace_console_loader:
+    FUNCS.update({0x825984D8: 'console_file_open',
+                  0x82205B80: 'console_dependency_check',
+                  0x82481E80: 'console_fatal_dispatch',
+                  0x821B0290: 'console_load_recovery',
+                  0x8222B1D0: 'console_stream_file_open'})
+if options.quiet_timing:
+    FUNCS.pop(0x82241478)
+if options.audio_frames:
+    if not 100 <= options.audio_after_seconds < options.seconds - 15:
+        parser.error('Audio observation must start during bounded gameplay, at least 15 seconds before watchdog')
+    FUNCS[0x82724634] = 'audio_submit'
 if options.trace_allocator or options.sample_resource_cache:
     FUNCS[0x822c2058] = 'resource_compact'
     FUNCS[0x822c2480] = 'resource_move'
@@ -147,6 +302,9 @@ if options.trace_memory:
                   0x82723b94: 'physical_free'})
 if options.trace_bsp_seams:
     FUNCS[0x820abe50] = 'bsp_seam_bind'
+if options.trace_scenario_objects:
+    FUNCS.update({0x82335bc8:'scenario_object_create',0x82346f50:'scenario_object_prepare',
+                  0x8232f3d8:'object_new'})
 if options.dlc_payload or options.dlc_package or options.dlc_installed_root:
     # Verified original XEX type-1 import record 0x0100025c (xam ordinal 604).
     FUNCS[0x82723d54] = 'content_enumerate'
@@ -188,6 +346,22 @@ def check(ok):
 
 for name in ('temp', 'profile'):
     (RUN / name).mkdir(parents=True, exist_ok=True)
+if options.profile_seed:
+    seed = options.profile_seed.resolve(strict=True)
+    seed.relative_to(REPOSITORY)
+    destination = RUN / '4D5307E6/profile/User'
+    destination.mkdir(parents=True)
+    manifest = []
+    for name in ('63E83FFE', '63E83FFF'):
+        source = (seed / name).resolve(strict=True)
+        source.relative_to(REPOSITORY)
+        data = source.read_bytes()
+        if not 0 < len(data) <= 65536:
+            raise SystemExit('Unexpected title-specific profile setting size')
+        (destination / name).write_bytes(data)
+        manifest.append({'source': str(source), 'name': name, 'bytes': len(data),
+                         'sha256': hashlib.sha256(data).hexdigest()})
+    (RUN / 'profile-seed.json').write_text(json.dumps(manifest, indent=2) + '\n')
 if sum(bool(x) for x in (options.dlc_payload, options.dlc_package, options.dlc_installed_root)) > 1:
     raise SystemExit('Use one DLC installation source per run')
 if options.dlc_installed_root:
@@ -204,7 +378,11 @@ if options.dlc_installed_root:
         if source.is_file():
             destination = RUN / source.relative_to(installed)
             destination.parent.mkdir(parents=True, exist_ok=True)
-            os.link(source, destination)
+            if options.reuse_run and destination.exists():
+                if not os.path.samefile(source, destination):
+                    raise SystemExit('Reused installed content differs from the requested immutable source')
+            else:
+                os.link(source, destination)
 if options.dlc_payload:
     payload = options.dlc_payload.resolve(strict=True)
     payload.relative_to(REPOSITORY)
@@ -218,11 +396,31 @@ if options.shader_cache_seed:
     seed = options.shader_cache_seed.resolve(strict=True)
     seed.relative_to(ROOT)  # Project confinement applies to cache inputs too.
     shutil.copytree(seed, CACHE / 'shaders', dirs_exist_ok=True)
+layout_sources = []
+if options.saved_layout_library:
+    library = options.saved_layout_library.resolve(strict=True)
+    library.relative_to(REPOSITORY)
+    if not options.layout_menu_check:
+        raise SystemExit('Multi-layout discovery currently requires --layout-menu-check')
+    layout_sources.extend(sorted(library.glob('*.bin')))
+if options.saved_layout and options.saved_layout.resolve(strict=True) not in layout_sources:
+    layout_sources.append(options.saved_layout.resolve(strict=True))
+for source in layout_sources:
+    source.relative_to(REPOSITORY)
+    data = source.read_bytes()
+    if data[:4] != b'_blf' or data[0x30:0x34] != b'chdr':
+        raise SystemExit('Expected native saved-layout BLF')
+    identity = struct.unpack_from('>Q', data, 0x40)[0]
+    # Original XEX names saved map containers usermap%016lX%lX and their
+    # internal file sandbox.map. SDK player zero uses this offline XUID.
+    destination = RUN / 'B13EBABEBABEBABE/4D5307E6/00000001' / f'usermap{identity:016X}0'
+    destination.mkdir(parents=True, exist_ok=bool(options.reuse_run))
+    shutil.copyfile(source, destination / 'sandbox.map')
 env = os.environ.copy()
 env.update(TEMP=str(RUN / 'temp'), TMP=str(RUN / 'temp'),
            LOCALAPPDATA=str(RUN / 'profile'), APPDATA=str(RUN / 'profile'))
 input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check:
+if options.forge_existing_pair_check or options.slow_turn_forge or options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check or options.forge_sanctuary_check:
     input_steps.insert(1, '45500:DOWN+220')
 # A fresh profile starts Custom Games on Last Resort. Warlock needs the
 # first alphabetic map (Blackout); Last Resort must retain its current choice.
@@ -238,6 +436,7 @@ if options.slot == 'sandbox':
     input_steps.extend(f'{at}:DOWN+120' for at in range(58000, 63000, 1000))
 input_steps.extend(['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250'])
 island_present = False
+force_cove = False
 if options.dlc_map or options.dlc_preview_tour:
     # Island sorts immediately after Gulch. Detect its presence instead of
     # silently selecting the wrong map when testing older four-map bundles.
@@ -246,30 +445,75 @@ if options.dlc_map or options.dlc_preview_tour:
         if directory and any(directory.rglob('forge_island.mapinfo')):
             island_present = True
     if options.dlc_package:
-        # Our flat LIVE layout puts all <=64 directory entries in data block 0.
-        from verify_dlc_stfs import data_block
+        from verify_dlc_stfs import data_block, read_directory
         with options.dlc_package.open('rb') as package:
-            package.seek(0x340)
-            base = (struct.unpack('>I', package.read(4))[0] + 4095) & ~4095
-            package.seek(base + data_block(0)*4096)
-            directory = package.read(4096)
-            island_present |= any(directory[n:n+40].split(b'\0')[0] == b'forge_island.mapinfo' for n in range(0,4096,64))
+            base, directory, _ = read_directory(package)
+            island_present |= any(directory[n:n+40].split(b'\0')[0] == b'forge_island.mapinfo' for n in range(0,len(directory),64))
+            for n in range(0,len(directory),64):
+                if directory[n:n+40].split(b'\0')[0] == b'forge_island.mapinfo':
+                    first = int.from_bytes(directory[n+47:n+50], 'little')
+                    package.seek(base + data_block(first)*4096 + 0x44)
+                    force_cove = package.read(64).decode('utf-16-be').split('\0')[0] == 'Force Cove'
 if options.dlc_map:
     if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
         raise SystemExit('--dlc-map requires DLC content')
-    # Verified full alphabetic stock-plus-DLC list starts on Last Resort.
-    # Include Longshore between Last Resort and Narrows.
-    direction, steps = {'forge_gulch': ('UP', 7 + int(island_present)), 'forge_island': ('UP', 7), 'prisoner': ('DOWN', 4),
-                        'resuscitation': ('DOWN', 6), 'warlock': ('DOWN', 13)}[options.dlc_map]
+    from dlc_menu_route import menu_route
+    direction, steps = menu_route((options.game or options.project) / 'maps/info',
+                                  (options.dlc_payload, options.dlc_installed_root),
+                                  options.dlc_package, options.dlc_map)
     input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
-    if options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check:
+    if options.forge_existing_pair_check or options.slow_turn_forge or options.forge_boundary_check or options.forge_palette_check or options.forge_vehicle_check or options.forge_scenery_check or options.forge_water_check or options.forge_sanctuary_check or options.layout_overview_check or options.forge_overview_check:
         input_steps.insert(1, '45500:DOWN+220')
-    input_steps += [f'{58000 + n * 700}:{direction}+120' for n in range(steps)]
-    input_steps += ['70000:A+250', '72000:A+250', '74000:DOWN+220', '95000:A+250']
+    input_steps += [f'{58000 + n * 700}:{direction}+250' for n in range(steps)]
+    # Longer lists must finish navigation before confirming the selected map.
+    route_confirm = max(70000, 58000 + steps * 700 + 500)
+    route_delay = route_confirm - 70000
+    input_steps += [f'{route_confirm}:A+250', f'{72000 + route_delay}:A+250',
+                    f'{74000 + route_delay}:DOWN+220', f'{95000 + route_delay}:A+250']
 if options.dlc_menu_check:
     if not (options.dlc_payload or options.dlc_package or options.dlc_installed_root):
         raise SystemExit('--dlc-menu-check requires a DLC payload or package')
-    input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+    if options.dlc_map:
+        # Keep navigation to the requested map, but do not accept it/start.
+        input_steps = [step for step in input_steps if int(step.split(':')[0]) < route_confirm]
+    else:
+        input_steps = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+if options.layout_menu_check:
+    if not options.saved_layout or not options.dlc_map:
+        raise SystemExit('--layout-menu-check needs --saved-layout and --dlc-map')
+    input_steps = [step for step in input_steps if int(step.split(':')[0]) <= 70000]
+elif options.saved_layout:
+    if not options.dlc_map or options.manual_input:
+        raise SystemExit('--saved-layout requires a scripted DLC map route')
+    # Verified native list: built-in base first, isolated saved layout second.
+    input_steps.append('71000:DOWN+200')
+    input_steps.sort(key=lambda step: int(step.split(':')[0]))
+if options.layout_overview_check:
+    if not options.saved_layout or options.layout_menu_check or options.walk_check or options.seconds < 165:
+        raise SystemExit('--layout-overview-check requires a saved layout, 165 seconds, and no walk/menu check')
+    input_steps.extend(['118000:UP+200', '120000:RB+6000',
+                        '127000:RSDOWN+600', '135000:RSRIGHT+1600',
+                        '150000:RSRIGHT+1600'])
+if options.forge_overview_check:
+    if not options.dlc_map or options.manual_input or options.walk_check or options.dlc_menu_check or options.seconds < 170:
+        raise SystemExit('--forge-overview-check requires a scripted DLC route, 170 seconds and no walk/menu check')
+    if options.dlc_map == 'lockout_classic':
+        # Authored indoor spawn faces yaw 249 degrees. Left strafe heads 339
+        # through the doorway; main-BSP ray audit clears 12+ units then ascent.
+        # Generic forward/ascent is blocked by this room's ceiling.
+        input_steps.extend(['118000:UP+200', '120000:LSLEFT+7500',
+                            '128000:RB+6000', '135000:RSRIGHT+1100',
+                            '137000:RSDOWN+1100'])
+    elif options.dlc_map == 'boarding_action':
+        # Native 20261025-131026 reaches the central gap at (4.76,-1.61,14.52).
+        # Source Basis geometry lies southwest; rise above the hull before
+        # aiming there. See work/boarding-action/sky-material-directions.json.
+        input_steps.extend(['118000:UP+200', '120000:LSUP+3000',
+                            '123000:RB+12000', '136000:RSLEFT+450',
+                            '137000:RSUP+550'])
+    else:
+        input_steps.extend(['118000:UP+200', '120000:LSUP+3000',
+                            '123000:RB+6000', '130000:RSDOWN+900'])
 if options.dlc_preview_tour:
     if not options.dlc_menu_check:
         raise SystemExit('--dlc-preview-tour requires --dlc-menu-check')
@@ -279,6 +523,11 @@ if options.dlc_preview_tour:
     input_steps += [f'{90000+n*700}:DOWN+120' for n in range(11 + int(island_present))]
     input_steps += [f'{110000+n*700}:DOWN+120' for n in range(2)]
     input_steps += [f'{130000+n*700}:DOWN+120' for n in range(7)]
+if options.forge_sanctuary_check:
+    if options.dlc_map != 'forge_island' or options.manual_input or options.seconds < 180:
+        raise SystemExit('--forge-sanctuary-check requires Force Cove and 180 seconds')
+    input_steps.extend(['118000:UP+200', '120000:RB+6500',
+                        '119900:LT+55100', '128000:LSUP+30000', '161000:RSLEFT+2000'])
 if options.forge_water_check:
     if options.slot != 'sandbox' or options.manual_input or options.walk_check or options.seconds < 180:
         raise SystemExit('--forge-water-check requires scripted Sandbox and a 180-second watchdog')
@@ -301,14 +550,89 @@ if options.forge_scenery_check:
                         '123000:RB+200', '124000:RB+200'])
     input_steps.extend(f'{125000+n*500}:DOWN+150' for n in range(options.forge_scenery_index))
     create_time = max(130000, 126000+options.forge_scenery_index*500)
-    input_steps.extend([f'{create_time}:A+200',
-                        '160000:A+200', '162000:UP+200'])
+    # Leave time after Advanced Forge release for a native capture within
+    # the 180-second watchdog (the replay clock starts after process launch).
+    release_time = max(140000, create_time+3000) if forge_test else 160000
+    if options.advanced_forge_anchor_check:
+        release_time = 154000
+    if options.advanced_forge_test_menu:
+        release_time = {'resume': 150000, 'lifecycle': 154000, 'rotation': 154000, 'rotation-cancel': 154000}.get(options.advanced_forge_test_menu_case, 146000)
+    input_steps.extend([f'{create_time}:A+200', f'{release_time}:A+200'])
+    if options.advanced_forge_base_round_check:
+        input_steps.extend([f'{release_time+1000}:LSDOWN+3000',f'{release_time+2000}:RB+2500',
+                            f'{release_time+4500}:RSDOWN+650',f'{release_time+6000}:LSLEFT+800',
+                            f'{release_time+20000}:UP+200'])
+    else:
+        input_steps.append(f'{release_time+2000}:UP+200')
+    if forge_test:
+        # Move the held piece so the original Forge placement event executes.
+        input_steps.append(f'{131000 if options.advanced_forge_test_menu else max(135000,create_time+1000)}:LSRIGHT+{300 if options.advanced_forge_test_menu else 1000}')
+    if options.advanced_forge_test_menu:
+        menu_steps = ['132000:X+200', '133000:DOWN+200', '133500:DOWN+200',
+                      '134000:DOWN+200', '135000:A+200', '135500:LEFT+200',
+                      '136000:A+200', '137000:A+200', '137500:RIGHT+200',
+                      '138000:A+200', '139000:A+200', '139500:RIGHT+200',
+                      '140000:A+200']
+        if options.advanced_forge_test_menu_case in ('rotation', 'rotation-cancel'):
+            if not options.saved_layout:
+                menu_steps += ['140750:DOWN+180']
+            menu_steps += ['141000:DOWN+180', '141250:DOWN+180', '141500:DOWN+180',
+                           '141750:DOWN+180', '142000:A+200', '142500:RIGHT+200',
+                           '144500:RIGHT+200', '147000:B+200' if options.advanced_forge_test_menu_case == 'rotation-cancel' else '147000:A+200']
+        else:
+            menu_steps += ['141000:DOWN+200', '141500:A+200', '142000:RIGHT+200', '142500:A+200']
+        if options.advanced_forge_test_menu_case == 'lifecycle':
+            # Commit one position edit, reopen, preview a second value and
+            # cancel it, then reopen again to inspect the retained first value.
+            menu_steps += ['143000:B+200', '144000:X+200']
+            menu_steps += [f'{145000+n*250}:DOWN+180' for n in range(4)]
+            menu_steps += ['146000:A+200', '146500:RIGHT+200', '147000:B+180',
+                           '147500:B+180', '148000:X+200']
+            menu_steps += [f'{149000+n*250}:DOWN+180' for n in range(4)]
+            menu_steps += ['152000:B+200']
+        elif options.advanced_forge_test_menu_case == 'resume':
+            # Position selection locks the held pose. Scroll to Movement and
+            # resume Free dragging through the real native submenu.
+            menu_steps += [f'{143000+n*250}:DOWN+180' for n in range(6)]
+            menu_steps += ['145000:A+200', '145500:LEFT+200', '146000:A+200', '147000:B+200']
+            input_steps.append('148000:LSRIGHT+500')
+        elif options.advanced_forge_test_menu_case in ('rotation', 'rotation-cancel'):
+            menu_steps += ['148000:B+200']
+        else:
+            menu_steps += ['144000:B+200']
+        input_steps.extend(menu_steps)
+if options.forge_delete_check:
+    # The ordinary menu route drops at154s and switches to player at156s.
+    # Neither belongs in a deletion-only regression; the latter can produce
+    # a black transition frame exactly when the post-delete proof is captured.
+    input_steps = [step for step in input_steps if int(step.split(':', 1)[0]) < 152000]
+    input_steps.append('152000:Y+200')
+if options.forge_existing_pair_check:
+    # Sustain the pull to measure whether displacement continues accumulating, return, then move the
+    # unladen monitor sideways so re-grab hits wall rather than the doorway.
+    input_steps.extend(['118000:UP+200',
+                        *([f'120000:RB+{options.forge_pair_approach_up_ms}'] if options.forge_pair_approach_up_ms else []),
+                        '130000:A+200',
+                        *(['132500:RB+3000','135500:LSDOWN+4000'] if options.forge_pair_lift else ['132500:LSDOWN+7000']),
+                        '142000:LSUP+7000','150000:A+200','151000:LSRIGHT+500',
+                        '153000:A+200','155000:LSLEFT+500','157000:A+200'])
+if options.forge_manipulation_check:
+    # Keep the established lobby/palette route. Replace only the held phase.
+    # A returns through native release and grab; movement uses ordinary input.
+    input_steps = [step for step in input_steps if int(step.split(':',1)[0]) < create_time]
+    input_steps.extend([f'{create_time}:A+200', f'{create_time+2500}:LSRIGHT+500',
+                        f'{create_time+6000}:A+200', f'{create_time+7500}:A+200',
+                        f'{create_time+9500}:LSLEFT+500', f'{create_time+12000}:A+200'])
+if options.hornet_occlusion_check:
+    input_steps.extend(['122500:LSUP+900','125000:RB+1800',
+                        '139000:RSRIGHT+1800','149000:RSLEFT+1800'])
 if options.forge_vehicle_check:
     # Original Sandbox scenario vehicle palette starts with the stock Banshee.
     # Captures must establish actual category, placement and entry outcomes.
     input_steps.extend(['118000:UP+200', '121000:X+200', '123000:RB+200',
                         '127000:A+200', '129000:A+200', '131000:UP+200',
                         '133000:LSUP+3000', '139000:RB+1800'])
+    input_steps.extend(f'{124000+n*200}:DOWN+100' for n in range(options.forge_vehicle_index))
     if options.vehicle_boundary_flight:
         # Aim toward +Y and climb before leveling over the coast. The earlier
         # 500-ms turn relied on a cliff deflection and could dive into water.
@@ -316,10 +640,33 @@ if options.forge_vehicle_check:
                             '150000:RSDOWN+600', '143000:LSUP+35000', '143000:LT+35000'])
     else:
         input_steps.append('145000:LSUP+10000')
+if options.walk_route != 'default' and not options.walk_check:
+    raise SystemExit('--walk-route requires --walk-check')
 if options.walk_check:
     if options.manual_input:
         raise SystemExit('--walk-check requires scripted input')
-    if options.slot == 'chillout':
+    if options.walk_route == 'lockout-light':
+        # Private diagnostic spawn faces the audited light from a solid floor.
+        # Leave the camera stationary for paired animation captures.
+        pass
+    elif options.walk_route == 'lockout-exit':
+        # Same leftward doorway direction as the audited Forge overview route;
+        # use a shorter on-foot movement and retain the authored camera facing.
+        input_steps.append('120000:LSLEFT+3000')
+    elif options.walk_route == 'elongation':
+        # 3longation's diagnostic spawn faces the shipping wall. Strafe along
+        # the belt instead of applying the generic turn into that wall.
+        input_steps.extend(['120000:LSLEFT+3000', '126000:LSRIGHT+3000'])
+    elif options.saved_layout:
+        # Preserve the authored spawn-facing direction. The generic base-map
+        # turn faces the sea on Paradiso and a wall on Pinnacle.
+        input_steps.append('120000:LSUP+1500')
+    elif options.dlc_map == 'chiron':
+        # Initial spawn faces north. Channel 12's doorway is west at
+        # (7.05, 12.16, 0.17); a left strafe approaches that authored portal.
+        # Observer samples must establish traversal, not just input completion.
+        input_steps.append('120000:LSLEFT+2000')
+    elif options.slot == 'chillout' and options.dlc_map != 'chiron':
         # Prisoner's initial ledge opens south after walking west. Native
         # position samples and source collision sightlines establish this path.
         input_steps.extend(['115000:RT+100', '117000:LSRIGHT+1000',
@@ -328,27 +675,114 @@ if options.walk_check:
         input_steps.extend(['120000:RSRIGHT+1600', '124000:LSUP+1500'])
 if options.powerup_check:
     input_steps.extend(['132000:LSUP+3000', '138000:LSRIGHT+900', '143000:RT+100'])
+if options.slow_turn_check:
+    input_steps.append(f'115000:RSSLOWRIGHT+{options.turn_duration_ms}')
+if options.inspection_input:
+    import re
+    if not options.exclusive_input or options.manual_input:
+        raise SystemExit('Inspection input requires exclusive process-local replay')
+    steps = options.inspection_input.split(',')
+    if len(steps) > 16:
+        raise SystemExit('Inspection input is limited to 16 bounded steps')
+    for step in steps:
+        match = re.fullmatch(r'(\d+):([A-Z]+)\+(\d+)', step)
+        if not match:
+            raise SystemExit('Invalid inspection input step: ' + step)
+        start, length = int(match[1]), int(match[3])
+        if start < 100000 or not 0 < length <= 30000 or start + length >= options.seconds * 1000:
+            raise SystemExit('Inspection input exceeds the bounded gameplay interval')
+    # The existing H3IR encoder validates button names before launching the child.
+    input_steps.extend(steps)
+if options.forge_spawn_clearance_check:
+    if not options.forge_scenery_check or options.advanced_forge_test_position:
+        raise SystemExit('Spawn clearance requires ordinary scenery creation without a forced pose')
+    def after_ascent(step):
+        at, action = step.split(':', 1)
+        return f'{int(at) + (6000 if int(at) >= 121000 else 0)}:{action}'
+    input_steps = [after_ascent(step) for step in input_steps]
+    input_steps.append('118500:RB+6000')
+    if options.advanced_forge_test_menu:
+        menu_steps = [after_ascent(step) for step in menu_steps]
 args = [str(EXE), f'--game_data_root={GAME}',
         f'--user_data_root={RUN}', f'--cache_root={CACHE}',
         f'--log_file={RUN / "trace-runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(input_steps), '--input_script_button_state=true',
         '--input_script_keystrokes=false']
+if options.video_surface_quality:
+    detail, filtering = {'original':(0,-1),'balanced':(1,2),'performance':(2,0)}[options.video_surface_quality]
+    args += [f'--texture_detail_reduction={detail}',f'--anisotropic_override={filtering}']
 if options.dlc_payload or options.dlc_package or options.dlc_installed_root:
-    args += ['--log_level=debug', '--log_max_file_size_mb=5', '--log_max_files=4']
+    args += ['--log_level=' + ('info' if options.quiet_timing else 'debug'),
+             '--log_max_file_size_mb=5', '--log_max_files=4']
 if options.dlc_package:
     package = options.dlc_package.resolve(strict=True)
     package.relative_to(REPOSITORY)
     args += [f'--halo3mp_install_content={package}']
 if options.manual_input:
     args = [arg for arg in args if not arg.startswith(('--keyboard_controller=', '--input_script'))]
+if forge_test or options.exclusive_input:
+    if options.manual_input:
+        raise SystemExit('Exclusive replay cannot be combined with manual input')
+    from script_input_replay import encode
+    replay = RUN / 'forge-input.h3ir'
+    # Unlocked menus repeat long held presses; match the established FPS benchmark route.
+    if options.fpsunlock:
+        input_steps = [step.rsplit('+', 1)[0] + '+' + str(options.menu_press_ms)
+                       if int(step.split(':', 1)[0]) <= 95000 else step
+                       for step in input_steps]
+    if options.menu_route:
+        import re
+        input_steps = options.menu_route.split(',')
+        if len(input_steps) > 24 or any(not re.fullmatch(r'\d+:(UP|DOWN|A|B|START)\+\d+', s) for s in input_steps):
+            raise SystemExit('Invalid bounded menu route')
+        if any(not 0 < int(s.split(':')[0]) < options.seconds*1000-1000 or not 0 < int(s.rsplit('+',1)[1]) <= 500 for s in input_steps):
+            raise SystemExit('Menu route outside bounded run')
+    if options.menu_delay_ms:
+        input_steps = [str(int(step.split(':', 1)[0]) + options.menu_delay_ms) + ':' + step.split(':', 1)[1]
+                       for step in input_steps]
+    replay.write_bytes(encode(input_steps))
+    args = [arg for arg in args if not arg.startswith('--input_script=')]
+    args.append(f'--input_state_replay={replay}')
+if forge_test:
+    args.append('--halo3mp_smoke_route=advanced-forge-replay')
+    if options.advanced_forge_data:
+        forge_data = options.advanced_forge_data.resolve(strict=True)
+        forge_data.relative_to(REPOSITORY)
+        args += [f'--halo3mp_advanced_forge={"false" if options.advanced_forge_test_coordinates else "true"}', f'--halo3mp_advanced_forge_data={forge_data}']
+    args += [f'--halo3mp_advanced_forge_trace={RUN / "forge-scene.bin"}']
+    if options.advanced_forge_test_position:
+        args += [f'--halo3mp_advanced_forge_test_position={options.advanced_forge_test_position}']
+    if options.advanced_forge_test_coordinates:
+        args += [f'--halo3mp_advanced_forge_test_coordinates={options.advanced_forge_test_coordinates}']
+    if options.advanced_forge_test_physics:
+        args += [f'--halo3mp_advanced_forge_test_physics={options.advanced_forge_test_physics}']
+    if options.advanced_forge_test_menu:
+        # Gameplay and native UI consume different controller interfaces.
+        # Supply native button events as well as exclusive replay state, only
+        # for the menu phase; no OS input or duplicate pre-game navigation.
+        args = [arg for arg in args if not arg.startswith('--input_script_keystrokes=')]
+        args += ['--input_script_keystrokes=true', '--input_script=' + ','.join(menu_steps)]
 if options.font_upload_probe:
     args += [f'--d3d12_upload_probe_path={RUN / "font-uploads.bin"}',
              '--d3d12_upload_probe_address=65826816',
              '--d3d12_upload_probe_size=524288']
 if options.diagnostic_no_vsync:
     args += ['--vsync=false']
+if options.fpsunlock:
+    args.append('--fpsunlock')
+if options.diagnostic_async_occlusion:
+    args.append('--d3d12_async_occlusion_readback=true')
+if options.diagnostic_display_phase_off:
+    args.append('--host_output_display_phase=false')
+if options.timing_diagnostics:
+    args += ['--d3d12_log_present_timing=true', '--d3d12_slow_preparation_ms=8']
 capture = options.capture
 duration = options.seconds
+if options.host_capture_after_ms is not None:
+    if not 0 < options.host_capture_after_ms < duration * 1000:
+        raise SystemExit('Host capture must be inside the bounded run')
+    args += [f'--d3d12_host_capture_path={RUN / "host-frame.bmp"}',
+             f'--d3d12_host_capture_after_ms={options.host_capture_after_ms}']
 if capture:
     if list(RUN.glob('proof-loaded*.png')):
         raise RuntimeError('Capture destination already contains evidence from another run')
@@ -400,6 +834,14 @@ else:
 verified_maps = set()
 creation_flags = subprocess.CREATE_NO_WINDOW | (0x2 if options.trace_memory or options.dlc_payload or options.dlc_package or options.dlc_installed_root else 0)
 # DEBUG_ONLY_THIS_PROCESS installs observation before any guest startup allocations.
+if options.slow_turn_check:
+    args.append('--d3d12_present_timing_end_ms=210000')
+(RUN / 'launch-command.json').write_text(json.dumps(args, indent=2))
+if options.reuse_run:
+    # The runtime logger appends. A reused installation must not mix old
+    # interaction records into this run's diagnostics or acceptance checks.
+    (RUN / 'trace-runtime.log').write_text('')
+(RUN / 'launch-clock.json').write_text(json.dumps({'wall_time': time.time(), 'monotonic': time.monotonic()}))
 proc = subprocess.Popen(args, cwd=RUN, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=creation_flags)
 ph = open_process(0x1F0FFF, False, proc.pid)
 check(ph)
@@ -415,9 +857,38 @@ stall_last_check = 0.0
 draw_address = None
 draw_armed = False
 draw_samples = 0
+audio_address = None
+audio_armed = False
+audio_blocks = []
+audio_driver = None
 guest_memory_base = None
 guest_r13 = None
 observer_sample_time = 0
+variant_sample_time = 0
+variant_capacity_error = None
+object_sample_time = 0
+sample_object_tags = {}
+sample_scenario_arrays = {}
+sample_scenario_index = None
+scenario_sampled = False
+if options.sample_object_map:
+    from cache_reader import Cache
+    object_map_path = options.sample_object_map.resolve()
+    if not object_map_path.is_relative_to(REPOSITORY):
+        raise ValueError('Object sampling cache must stay inside the repository')
+    object_cache = Cache(object_map_path)
+    sampled_groups = ('mach', 'bloc', 'eqip') if options.sample_equipment_objects else ('mach', 'bloc')
+    if options.sample_player_objects:
+        sampled_groups += ('bipd',)
+    sample_object_tags = {t['salt'] << 16 | i: object_cache.name(i)
+                          for i, t in object_cache.tags.items() if t['group'] in sampled_groups}
+    sample_scenario_index = next(i for i,t in object_cache.tags.items() if t['group']=='scnr')
+    scenario_offset = object_cache.tags[sample_scenario_index]['offset']
+    for offset,stride in ((0x5e8,176),(0x5f4,48)):
+        rows = object_cache.block(scenario_offset+offset,stride)
+        payload = b''.join(object_cache.data[a:a+stride] for a in rows)
+        sample_scenario_arrays[offset] = (stride,len(rows),hashlib.sha256(payload).hexdigest())
+    object_cache.close()
 font_samples = 0
 font_r13 = None
 font_cache_address = None
@@ -593,6 +1064,29 @@ try:
                 counts[label+'_committed_bytes'] = total
             log('guest_virtual_commit', **counts,
                 accounting_scope='Unique guest virtual/XEX backing; physical aliases excluded; not host RSS')
+        if (options.sample_native_variant and guest_memory_base and guest_r13
+                and now-started >= 150 and now-variant_sample_time >= 5):
+            variant_sample_time = now
+            try:
+                def variant_word(address):
+                    return struct.unpack('>I', read(guest_memory_base+(address & 0xffffffff),4))[0]
+                tls = variant_word(guest_r13)
+                engine = variant_word(tls+0x64)
+                if not 0x10000 <= engine < 0xc0000000:
+                    raise ValueError('Native engine pointer outside guest range')
+                data = read(guest_memory_base+engine+0x78,0xe090)
+                if len(data)!=0xe090 or struct.unpack_from('>H',data,0xf8)[0]!=12:
+                    raise ValueError('Not a native H3 version-12 variant')
+                (RUN/'native-variant.bin').write_bytes(data)
+                scenario_count,slot_count,quota_count=struct.unpack_from('>3H',data,0xfa)
+                if not 0<=scenario_count<=slot_count<=640 or quota_count>256:
+                    variant_capacity_error = f'Native variant capacity exceeded: scenario={scenario_count}, objects={slot_count}/640, quotas={quota_count}/256'
+                    log('native_variant_capacity_failure',detail=variant_capacity_error)
+                log('native_variant_sample', map_id=struct.unpack_from('>I',data,0x100)[0],
+                    scenario_count=scenario_count,slot_count=slot_count,quota_count=quota_count,
+                    occupied_slots=sum(bool(struct.unpack_from('>H',data,0x130+i*0x54)[0]&1) for i in range(640)))
+            except (OSError, ValueError) as error:
+                log('native_variant_sample_error',detail=str(error))
         if (options.sample_observer and guest_memory_base and guest_r13
                 and now-started >= 105 and now-observer_sample_time >= 1):
             observer_sample_time = now
@@ -620,12 +1114,68 @@ try:
                     soft_ceiling_records=flags)
             except (OSError, ValueError) as error:
                 log('observer_sample_error', detail=str(error))
+        if (sample_object_tags and guest_memory_base and guest_r13
+                and now-started >= 110 and now-object_sample_time >= options.sample_object_interval):
+            object_sample_time = now
+            try:
+                def object_word(address):
+                    return struct.unpack('>I', read(guest_memory_base+address, 4))[0]
+                if not scenario_sampled:
+                    tag_table = object_word(0x827f0f8c)
+                    scenario_root = object_word(tag_table+sample_scenario_index*8+4)
+                    comparisons = []
+                    for offset,(element_size,expected_count,expected_hash) in sample_scenario_arrays.items():
+                        n = object_word(scenario_root+offset)
+                        pointer = object_word(scenario_root+offset+4)
+                        if not 0 <= n <= 4096:
+                            raise ValueError('Live scenario object array exceeds diagnostic bound')
+                        payload = read(guest_memory_base+pointer,n*element_size) if n else b''
+                        actual_hash = hashlib.sha256(payload).hexdigest()
+                        comparisons.append(dict(offset=hex(offset),count=n,expected_count=expected_count,
+                            sha256=actual_hash,expected_sha256=expected_hash,
+                            matches=n==expected_count and actual_hash==expected_hash))
+                    log('scenario_object_arrays',root=hex(scenario_root),arrays=comparisons)
+                    scenario_sampled = True
+                array = object_word(object_word(guest_r13)+0xa8)
+                header = read(guest_memory_base+array, 0x48)
+                count, stride = struct.unpack_from('>2I', header, 0x20)
+                if header[:7] != b'object\0' or not 0 < count <= 4096 or stride != 16:
+                    raise ValueError('Unexpected object table header: '+header.hex())
+                address = struct.unpack_from('>I', header, 0x44)[0]
+                heads = read(guest_memory_base+address, count*stride)
+                objects = []
+                for index in range(count):
+                    salt = struct.unpack_from('>H', heads, index*16)[0]
+                    body = struct.unpack_from('>I', heads, index*16+12)[0]
+                    if not salt or not 0x80000000 <= body < 0xe0000000:
+                        continue
+                    try:
+                        data = read(guest_memory_base+body, 256)
+                    except OSError:
+                        continue
+                    tag = struct.unpack_from('>I', data)[0]
+                    if tag in sample_object_tags:
+                        object_header = heads[index*16:(index+1)*16]
+                        data_size = struct.unpack_from('>H', object_header, 6)[0]
+                        if options.sample_object_body_bytes > 256 and 256 <= data_size <= 65535:
+                            try:
+                                data = read(guest_memory_base+body, min(data_size, options.sample_object_body_bytes))
+                            except OSError:
+                                pass  # Retain the readable prefix, never infer missing fields.
+                        objects.append(dict(handle=hex(salt << 16 | index),
+                                            tag=hex(tag), name=sample_object_tags[tag], body=data.hex(),
+                                            object_header=object_header.hex(), allocation_size_candidate=data_size))
+                log('machine_crate_snapshot', header=header.hex(), objects=objects)
+            except (OSError, ValueError) as error:
+                log('object_sample_error', detail=str(error))
         event = C.create_string_buffer(176)
         if not wait_event(event, 100):
             if proc.poll() is not None:
                 break
             now = time.monotonic()
             if options.sample_draws and draw_address and not draw_armed and now - started >= options.draw_after_seconds:
+                check(kernel.DebugBreakProcess(ph))
+            if audio_address and not audio_armed and now - started >= options.audio_after_seconds:
                 check(kernel.DebugBreakProcess(ph))
             if (options.sample_on_stall and stall_samples < 3 and now - stall_last_check >= 1
                     and now - started >= (60 if options.manual_input else 105)):
@@ -653,6 +1203,10 @@ try:
         elif code == 4:
             thread_ids.discard(tid)
         status = 0x10002  # DBG_CONTINUE
+        if audio_address and not audio_armed and time.monotonic() - started >= options.audio_after_seconds:
+            breakpoint(audio_address)
+            audio_armed = True
+            log('audio_capture_armed', address=hex(audio_address))
         if options.sample_draws and draw_address and not draw_armed and time.monotonic() - started >= options.draw_after_seconds:
             breakpoint(draw_address)
             draw_armed = True
@@ -662,7 +1216,10 @@ try:
             for rva, descriptor in rvas.items():
                 address = image_base + rva
                 entries[address] = descriptor
-                breakpoint(address)
+                if descriptor[1] == 'audio_submit':
+                    audio_address = address
+                else:
+                    breakpoint(address)
             log('attached', pid=pid, image_base=hex(image_base), functions=len(entries))
             file_handle = struct.unpack_from('<Q', event, 16)[0]
             if file_handle:
@@ -676,7 +1233,7 @@ try:
                     get_path.argtypes = [W.HANDLE, W.LPWSTR, W.DWORD, W.DWORD]
                     if get_path(file_handle, path_buffer, 2048, 0) and path_buffer.value.lower().endswith('rexgpu-xenos.dll'):
                         module_base = struct.unpack_from('<Q', event, 24)[0]
-                        draw_address = module_base + 0x14e740
+                        draw_address = module_base + draw_rva
                         if read(draw_address, 13) != bytes.fromhex('55415741564155415456575348'):
                             raise ValueError('Draw entry signature mismatch')
                         log('draw_plugin', base=hex(module_base))
@@ -763,6 +1320,19 @@ try:
                             index_count=struct.unpack_from('<Q', ctx, 184)[0],
                             shaders=[read(p, 64).hex() if p else None for p in shaders], **extra_draw)
                         draw_samples += 1
+                    elif address == audio_address:
+                        # PPCContext order is r3,r0,r1,r2,r4. XAudio submission
+                        # receives a 0x4155xxxx driver and six sequential BE-float
+                        # channels, 256 samples/channel at 48 kHz (SDK contract).
+                        regs = struct.unpack('<5Q', read(rcx, 40))
+                        driver, samples = regs[0] & 0xffffffff, regs[4] & 0xffffffff
+                        if driver & 0xffff0000 != 0x41550000 or (audio_driver is not None and driver != audio_driver):
+                            raise ValueError('Unexpected native audio driver; refusing mixed-client capture')
+                        audio_driver = driver
+                        audio_blocks.append(read(rdx + samples, 6 * 256 * 4))
+                        if len(audio_blocks) >= options.audio_frames:
+                            entries.pop(address)
+                            log('audio_capture_complete', frames=len(audio_blocks), driver=hex(driver))
                     elif address in entries:
                         guest_memory_base = rdx
                         guest_r13 = struct.unpack('<Q', read(rcx + 104, 8))[0] & 0xffffffff
@@ -782,6 +1352,43 @@ try:
                         pending.setdefault((tid, return_address), []).append(record)
                         breakpoint(return_address)
                         extra = {}
+                        if options.trace_console_loader and (name.startswith('console_') or name == 'load_204da8'):
+                            try:
+                                extra['guest_arguments'] = [hex(regs[0] & 0xffffffff)] + [
+                                    hex(v & 0xffffffff) for v in struct.unpack('<7Q', read(rcx+32, 56))]
+                                extra['guest_lr'] = hex(struct.unpack('<Q', read(rcx+256, 8))[0] & 0xffffffff)
+                                if name == 'console_file_open':
+                                    extra['path'] = guest_string(rdx, record['argument'])
+                                    record['console_path'] = extra['path']
+                                if name in ('console_load_recovery', 'console_fatal_dispatch'):
+                                    state = read(rdx+0x8295fe50, 344)
+                                    extra['retry_flags'] = list(state[:4])
+                                    extra['retry_count'] = struct.unpack_from('>I', state, 8)[0]
+                                    extra['io_completion_words'] = list(struct.unpack_from('>II', state, 336))
+                                if name == 'load_204da8':
+                                    state = read(rdx+0x829fe260, 13140)
+                                    extra['cache_map'] = state[0x18c:0x1ac].split(b'\0')[0].decode('ascii', 'replace')
+                                    extra['copy_state'] = struct.unpack_from('>I', state, 12320)[0]
+                                    extra['copy_path'] = state[12357:12613].split(b'\0')[0].decode('ascii', 'replace')
+                                    extra['copy_bytes'] = struct.unpack_from('>I', state, 12300)[0]
+                                    extra['copy_checksum'] = hex(struct.unpack_from('>I', state, 13136)[0])
+                            except (OSError, ValueError) as error:
+                                extra['console_trace_error'] = str(error)
+                        if name in ('scenario_object_create','scenario_object_prepare'):
+                            placement = regs[5] & 0xffffffff
+                            extra.update(object_type=regs[0]&0xffffffff,scenario_index=regs[4]&0xffff,
+                                         placement=hex(placement))
+                            try:
+                                extra['placement_bytes'] = read(rdx+placement,84).hex()
+                            except OSError as error:
+                                extra['read_error'] = str(error)
+                            record['object_trace'] = extra.copy()
+                        elif name == 'object_new':
+                            try:
+                                extra['tag'] = hex(struct.unpack('>I',read(rdx+record['argument'],4))[0])
+                            except OSError as error:
+                                extra['read_error'] = str(error)
+                            record['object_trace'] = extra.copy()
                         if name == 'bsp_seam_bind':
                             try:
                                 def seam_word(at):
@@ -914,7 +1521,9 @@ try:
                     elif pending.get((tid, address)):
                         record = pending[(tid, address)].pop()
                         result = struct.unpack('<Q', read(record['ctx'], 8))[0]
-                        extra = {}
+                        extra = record.get('object_trace',{}).copy()
+                        if 'console_path' in record:
+                            extra['path'] = record['console_path']
                         if record['name'] == 'memory_statistics' and result & 0xffffffff == 0:
                             words = struct.unpack('>26I', read(record['memory']+record['argument'], 104))
                             extra['statistics_words'] = list(words)
@@ -945,7 +1554,7 @@ try:
                     close(th)
             elif exception == 0x80000004 and tid in stepping:
                 address = stepping.pop(tid)
-                if (address == draw_address and draw_samples < 1024) or address in entries or any(a == address and records for (_, a), records in pending.items()):
+                if (address == draw_address and draw_samples < options.draw_sample_limit) or address in entries or any(a == address and records for (_, a), records in pending.items()):
                     write(address, b'\xcc')
                 else:
                     breakpoints.pop(address, None)
@@ -974,7 +1583,7 @@ try:
         check(continue_event(pid, tid, status))
     else:
         log('watchdog', seconds_limit=duration)
-    if options.dlc_map and not options.dlc_menu_check and options.dlc_map not in verified_maps:
+    if options.dlc_map and not options.dlc_menu_check and not options.layout_menu_check and options.dlc_map not in verified_maps:
         raise RuntimeError('Expected DLC map never passed native header validation; inspect route/logs')
 except Exception as exc:
     log('error', detail=str(exc))
@@ -992,6 +1601,24 @@ finally:
         proc.wait(timeout=10)
     close(ph)
     log('hash_summary', **hash_counts)
+    if options.audio_frames:
+        import numpy as np
+        import wave
+        raw = b''.join(audio_blocks)
+        (RUN / 'audio-guest.f32be').write_bytes(raw)
+        samples = np.frombuffer(raw, dtype='>f4').reshape(-1, 6, 256).transpose(0, 2, 1).reshape(-1, 6)
+        if not np.isfinite(samples).all():
+            raise ValueError('Non-finite submitted audio samples')
+        with wave.open(str(RUN / 'audio-guest.wav'), 'wb') as wav:
+            wav.setnchannels(6)
+            wav.setsampwidth(2)
+            wav.setframerate(48000)
+            wav.writeframes(np.rint(np.clip(samples, -1, 1) * 32767).astype('<i2').tobytes())
+        (RUN / 'audio-capture.json').write_text(json.dumps({
+            'frames': len(audio_blocks), 'requested_frames': options.audio_frames,
+            'seconds': len(samples) / 48000, 'channels': ['FL','FR','FC','LFE','BL','BR'],
+            'peak': float(np.max(np.abs(samples))) if samples.size else 0,
+            'scope': 'Native guest submitted PCM before host gain/downmix; debugger timing is not a performance result.'}, indent=2))
     if draw_stream:
         draw_stream.close()
         import gzip
@@ -1010,3 +1637,7 @@ if capture:
     requested = len(options.capture_times_ms.split(',')) if options.capture_times_ms else 1
     if len(list(RUN.glob('proof-loaded*.png'))) != requested:
         raise RuntimeError('Native capture incomplete before watchdog; visual validation is not established')
+if options.audio_frames and len(audio_blocks) != options.audio_frames:
+    raise RuntimeError('Native audio observation incomplete before watchdog')
+if variant_capacity_error:
+    raise RuntimeError(variant_capacity_error)

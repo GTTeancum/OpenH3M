@@ -84,7 +84,23 @@ verified. This confirms the local arc shapes; it is not a continuous animation
 test or full-map visual acceptance. All six captures in this allowance are used.
 See `snapshot/reference/sky-bridge-performance/README.md`.
 
-## Desolation (active source preflight, 2026-11-04)
+## Haven (Halo 4 editing-kit workflow, 2026-11-04)
+
+Original map/game: Haven, Halo 4. Selected source is the user's installed
+official MCC Halo 4 content, with editable input from the user-installed
+[official Halo 4 Mod Tools](https://store.steampowered.com/app/1695792/Halo_4_Mod_Tools__MCC/).
+No community port/remake is selected. The installed `wraparound.map` and paired
+mapinfo are hashed; the mapinfo identifies Haven. Individual original geometry
+authorship is not established by this preflight. This project will perform the
+H4-to-H3 adaptation, using the official kits and unmodified community tools;
+it does not claim authorship of the map or tools. H4EK build 11571341 is installed;
+the official API has read Haven's main scenario, five child scenarios, BSP,
+lighting and environment tags without changing the source. Source archive and
+selected tag hashes are recorded. Dependency/import validation remains in
+progress; no converted candidate is claimed.
+See [HAVEN.md](HAVEN.md) and [the reusable WIP process](HALO4-CONVERSION-PROCESS.md).
+
+## Desolation (pending final review, 2026-11-04)
 
 Requested lineage: Desolation from Halo 2. The user supplied MythicJaqui's
 [Halo 3 Desolation Map Port (H3MO)](https://www.nexusmods.com/halothemasterchiefcollection/mods/1897),
@@ -94,8 +110,17 @@ an original Halo 2 cache. Exact original-geometry provenance remains to be trace
 The package page credits MythicJaqui for the port, Krevil for its Halo Infinite
 HUD and Mackaye99 for its MA5K model. Those custom gameplay assets do not override
 this project's stock-Halo 3 asset policy. Source page checked 2026-11-04.
-This project's role is Xbox 360/OpenH3M adaptation. Initial cache and collision
-format checks passed; no native candidate or installation is claimed.
+This project's role is Xbox 360/OpenH3M adaptation. Candidate3 passes native
+metadata/resource checks and reports 79 native quotas within the 256-row limit;
+broader runtime validation remains in progress. Candidate2's all-map scenery
+union was rejected. The user clarified Construct's gameplay Forge palette with
+zero Forge scenery, stock H3 weapons throughout, and removal of the Brute/Grunt
+corpses. Distinct LIVE ID 1748 installs and loads in an isolated native profile;
+the original/shared installation remains untouched. The review preview is an
+actual native capture of this adaptation, not upstream artwork. The stationary
+warm view measures 29.98 FPS for 40 seconds. Traversal is deferred to the user;
+audio listening, broader visual/playtest review and console hardware testing
+remain unverified. No final release is claimed.
 See `DESOLATION.md` for source hashes, scope and remaining validation.
 
 
@@ -106,3 +131,16 @@ acceptance. Its Crisp/community scene, exact revision and tool attribution are
 unchanged. Ryno remains credited for the replaced historical port, which was
 not this rebuild input. See `../battle-canyon-rebuild/README.md` for final hashes
 and bounded native evidence; renamed-DLC loading remains for user testing.
+
+
+## Current Battle Canyon source — 2026-11-04
+
+The current `battle_canyon_fresh` build replaces the rejected attempts described
+above. It uses original Halo Reach MCC Battle Canyon source tags, developed by
+Certain Affinity, from the official [Halo Reach Mod Tools](https://support.halowaypoint.com/hc/en-us/articles/8955559396372-Halo-The-Master-Chief-Collection-MCC-Update-August-2022).
+Neither Ryno's port nor the earlier Crisp/community scenario rebuild is an input.
+Foundry 5dc085e4432b6b57b2bf97e02a442ecc6edc985f imports the original tags;
+General-101 exporter 81e86bf98aee4607a2159ff9a22a223a1a91c9d7 exports H3 ASS.
+This project's contribution is H3 authoring and original-H3 adaptation. The user
+waived MCC playtest on November 4; native acceptance is still pending. Current
+evidence and limitations: [Native draft](../stock-h3-audit/NATIVE-DRAFT.md).

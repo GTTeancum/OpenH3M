@@ -57,6 +57,9 @@ def stage_stock_palette(i):
         f = field(ds,name);stride=int(f.get('elementSize'),0)
         rows = c.block(root+int(f.get('offset'),0),stride)
         arrays[name] = len(rows), b''.join(c.data[r:r+stride] for r in rows)
+    if getattr(i, 'stock_forge_donor_maps', None):
+        from stock_forge_palette import assemble
+        arrays, i.stock_forge_report = assemble(i, i.stock_forge_donor_maps)
     if getattr(i, 'gulch_partition', None):
         from forge_reach_scenery import scenery_array
         arrays['Map Variant Scenery Palette'] = scenery_array(i)

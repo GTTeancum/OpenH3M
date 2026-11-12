@@ -29,7 +29,7 @@ def write_result(path,arrays):
             for row in rows:f.write(struct.pack('<'+fmt,*row))
 
 
-def compiler(repo,work):
+def compiler(repo,work,memoize_2d=False):
     tool=work/'tools/tagtool';dll=tool/'TagTool.dll'
     if not dll.exists():
         import urllib.request
@@ -65,6 +65,21 @@ def compiler(repo,work):
     needle='var leaf = Bsp.Leaves[j];'
     if original.count(needle)!=1:raise ValueError('Builder empty-leaf patch location changed')
     fixed=original.replace(needle,needle+'\n                if (leaf.Bsp2dReferenceCount == 0 && leaf.FirstBsp2dReference == uint.MaxValue) continue;')
+    if memoize_2d:
+        signature = 'public int create_bsp2dnodes(int plane_projection_axis, int plane_mirror_check, surface_array_definition plane_matched_surface_array)'
+        if fixed.count(signature) != 1:
+            raise ValueError('Collision builder 2D entry point changed')
+        wrapper = '''private readonly Dictionary<string, int> Shared2dTrees = new Dictionary<string, int>();
+        public int create_bsp2dnodes(int plane_projection_axis, int plane_mirror_check, surface_array_definition plane_matched_surface_array)
+        {
+            string key = plane_projection_axis + ":" + plane_mirror_check + ":" + string.Join(",", plane_matched_surface_array.surface_array);
+            if (Shared2dTrees.TryGetValue(key, out int found)) return found;
+            int result = create_bsp2dnodes_uncached(plane_projection_axis, plane_mirror_check, plane_matched_surface_array);
+            Shared2dTrees.Add(key, result);
+            return result;
+        }
+        public int create_bsp2dnodes_uncached(int plane_projection_axis, int plane_mirror_check, surface_array_definition plane_matched_surface_array)'''
+        fixed = fixed.replace(signature, wrapper)
     patched=temporary/'CollisionBSPBuilder.cs'
     if not patched.exists() or patched.read_text()!=fixed:patched.write_text(fixed)
     env=dict(os.environ,TEMP=str(temporary),TMP=str(temporary),DOTNET_CLI_HOME=str(repo/'.local/dotnet'),NUGET_PACKAGES=str(repo/'.local/nuget'),DOTNET_CLI_TELEMETRY_OPTOUT='1',DOTNET_SKIP_FIRST_TIME_EXPERIENCE='1',DOTNET_GENERATE_ASPNET_CERTIFICATE='false')

@@ -1,6 +1,11 @@
 #include "video_quality.h"
 #include <rex/cvar.h>
 #include <rex/hook.h>
+#ifdef OPENH3M_DEVELOPER_BUILD
+void ObserveDeveloperSimulation(PPCContext&, uint8_t*);
+void UpdateMapBenchmark(PPCContext&, uint8_t*);
+void ApplyMapBenchmarkInput(PPCContext&, uint8_t*, uint32_t, uint32_t);
+#endif
 #include <rex/ui/video_metrics.h>
 #include "video_options.h"
 #include <bit>
@@ -10,6 +15,7 @@
 #include <windows.h>
 #include <atomic>
 #include <unordered_map>
+#include <fstream>
 #include "../../tools/warlock-conversion/snapshot/reference/sky-bridge-performance/sky_reproduction.h"
 
 REXCVAR_DEFINE_BOOL(halo3mp_video_sweep, false, "Diagnostics", "One process-local video sweep; requires exclusive input replay").debug_only();
@@ -22,12 +28,18 @@ extern "C" void __imp__sub_82315E70(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_82462F88(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8218D770(PPCContext&, uint8_t*);
 extern "C" void __imp__sub_8218E788(PPCContext&, uint8_t*);
+extern "C" void __imp__sub_822CBD10(PPCContext&, uint8_t*);
 
 namespace {
 constexpr uint32_t kCurrentThrottles = 0x8285843C;
 std::atomic<int> visual_phase{-1};
 std::atomic<unsigned> water_full{}, water_basic{}, shadow_submissions{};
 std::atomic<unsigned> shadow_maps{};
+bool ValidationEnabled() {
+  static const bool enabled = !rex::cvar::GetFlagByName("halo3mp_video_validation").empty() &&
+      !rex::cvar::GetFlagByName("input_state_replay").empty();
+  return enabled;
+}
 uint32_t ReadWord(uint8_t* base, uint32_t address) {
   uint32_t word; std::memcpy(&word, base + address, 4); return std::byteswap(word);
 }
@@ -109,6 +121,31 @@ void Sweep(PPCContext& ctx, uint8_t* base) {
 
 // Read-only witnesses of actual native render choices for the opt-in visual
 // sweep. Preserve every guest argument and result; no forced LOD or draw result.
+REX_HOOK_RAW(sub_822CBD10) {
+  if (ValidationEnabled() && Pointer(ctx.r3.u32)) {
+    // This native function only reads effect metadata and returns a fade factor.
+    // Probe copies of its register context; never change the game's draw result.
+    const auto effect = ReadWord(base,ctx.r3.u32+12);
+    const auto event = unsigned(base[ctx.r3.u32+16]);
+    const auto system = (unsigned(base[ctx.r3.u32+10])<<8)|base[ctx.r3.u32+11];
+    const auto level = spartan::video::ReadQuality()[3];
+    const uint64_t key = uint64_t(effect)<<32 | uint64_t(event)<<24 | uint64_t(system)<<8 | unsigned(level);
+    static thread_local std::unordered_map<uint64_t,bool> sampled;
+    static thread_local std::ofstream evidence(rex::cvar::GetFlagByName("halo3mp_video_validation")+".effects.csv");
+    const float inverse=std::bit_cast<float>(ReadWord(base,0x827644bc));
+    const float expected=level==0?1.f:level==1?1.f/.75f:2.f;
+    if (std::abs(inverse-expected)<.0001f && sampled.size()<300 && sampled.emplace(key,true).second) {
+      if (sampled.size()==1) evidence << "effect,event,system,quality,distance,native_fade\n";
+      for (float distance : {1.f,5.f,10.f,20.f,40.f,80.f,160.f}) {
+        auto probe=ctx;probe.f1.f64=distance;
+        __imp__sub_822CBD10(probe,base);
+        evidence << effect << ',' << event << ',' << system << ',' << level << ',' << distance << ',' << probe.f1.f64 << '\n';
+      }
+      evidence.flush();
+    }
+  }
+  __imp__sub_822CBD10(ctx,base);
+}
 REX_HOOK_RAW(sub_82315E70) {
   const int phase = visual_phase.load();
   const uint32_t datum = ctx.r3.u32, model = ctx.r5.u32;
@@ -126,7 +163,7 @@ REX_HOOK_RAW(sub_82315E70) {
   }
 }
 REX_HOOK_RAW(sub_82462F88) {
-  if (visual_phase.load() >= 0) {
+  if (visual_phase.load() >= 0 || ValidationEnabled()) {
     if (ctx.r3.u32==3) ++water_full;
     if (ctx.r3.u32==4) ++water_basic;
   }
@@ -155,6 +192,10 @@ REX_HOOK_RAW(sub_8218E788) {
 }
 
 REX_HOOK_RAW(sub_82160F28) {
+#ifdef OPENH3M_DEVELOPER_BUILD
+  ObserveDeveloperSimulation(ctx, base);
+  UpdateMapBenchmark(ctx, base);
+#endif
   sky_reproduction::Reproduction::Get().FrameState(ctx, base);
   // The original chooses the current map's authored ptag and split-screen row.
   __imp__sub_82160F28(ctx, base);
@@ -188,6 +229,24 @@ REX_HOOK_RAW(sub_82160F28) {
 
 REX_HOOK_RAW(sub_8221E000) {
   __imp__sub_8221E000(ctx, base);
+  if (ValidationEnabled()) {
+    static std::ofstream witness(rex::cvar::GetFlagByName("halo3mp_video_validation") + ".render.csv");
+    static const auto start = std::chrono::steady_clock::now();
+    static int last = -1;
+    const int second = int(std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count());
+    if (second != last) {
+      if (last < 0) witness << "second,decorator_quality,effect_quality,water_quality,decorator_scale,effect_scale,effect_inverse,water_scale,water_flag_a,water_flag_b,water_full_draws,water_basic_draws\n";
+      last = second;
+      const auto q = spartan::video::ReadQuality();
+      auto f = [&](uint32_t at) { return std::bit_cast<float>(ReadWord(base,at)); };
+      witness << second << ',' << q[1] << ',' << q[3] << ',' << q[4] << ','
+              << f(kCurrentThrottles+8) << ',' << f(kCurrentThrottles+12) << ','
+              << f(0x827644bc) << ',' << f(kCurrentThrottles+4) << ','
+              << unsigned(base[0x8274CD4A]) << ',' << unsigned(base[0x8274CD4B]) << ','
+              << water_full.exchange(0) << ',' << water_basic.exchange(0) << '\n';
+      witness.flush();
+    }
+  }
   // Actual process CPU consumption per render frame, including worker threads;
   // excludes sleeping/pacing. It may exceed wall time when threads run together.
   FILETIME created, exited, kernel, user;

@@ -1,6 +1,9 @@
-# Forge Island
+# Force Cove
 
-Forge Island is the western half of the identified non-AI MCC Forge World map.
+Renamed from Forge Island on 2026-10-22. Internal `forge_island` and map ID
+1731 remain stable. The new display name is staged for the next package build.
+
+Force Cove is the western half of the identified non-AI MCC Forge World map.
 It retains the island, Sanctuary and waterfall side of the user's revised
 2026-10-22 divider. The beach cave and mainland shoreline facing the island
 belong to Gulch. Both halves retain the complete surrounding visual geometry.
@@ -15,7 +18,7 @@ stock Halo 3. The CE Magnum and DMR discussion was assessment-only.
 
 Use the shared conversion pipeline with `--slot sandbox --forge-island`.
 Sandbox is the original-disc conversion basis, not the deployed map identity.
-The DLC identity is `forge_island`, title **Forge Island**, map ID **1731**.
+The DLC identity is `forge_island`, title **Force Cove**, map ID **1731**.
 Existing custom IDs and stock maps remain unchanged. No separate engine build
 or duplicated game installation is required.
 
@@ -99,7 +102,7 @@ deferred; no native limits are raised.
 
 ## Accepted build and activation (2026-10-22)
 
-Final native run `20261022-220533-12624` loaded Forge Island in Forge and
+Final native run `20261022-220533-12624` loaded Force Cove in Forge and
 completed its 180-second watchdog without a crash. Both native captures were
 inspected: island terrain, Sanctuary, waterfall cliffs, water and distant
 landscape were visible. Eleven resource hashes passed, zero failed. During

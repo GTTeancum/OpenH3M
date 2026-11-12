@@ -78,9 +78,11 @@
 			<bit name="Draw In World Space Instead Of Screen Space" index="11" />
 			<bit name="Use Legacy H3 Flares System" index="12" />
 		</flags16>
-		<int16 name="Bitmap Index" offset="0x2" visible="true" />
-		<float32 name="Rotation Offset" offset="0x4" visible="true" />
-		<float32 name="Axis Offset" offset="0x8" visible="true" tooltip="percent offset in screen space along corona axis - 0.0 is on the corona, 1.0 is primary side edge of the screen, -1.0 is opposite side" />
+		<!-- Original executable: sub_82471B78 bitmap +4; sub_82472380 rotation +8. -->
+		<undefined name="Padding" offset="0x2" size="0x2" visible="false" />
+		<int16 name="Bitmap Index" offset="0x4" visible="true" />
+		<undefined name="Padding" offset="0x6" size="0x2" visible="false" />
+		<float32 name="Rotation Offset" offset="0x8" visible="true" />
 		<rangef name="Radius" offset="0xC" visible="true" tooltip="interpolated by external input" />
 		<rangef name="Brightness" offset="0x14" visible="true" tooltip="interpolated by external input" />
 		<comment title="TINT COLOR">Tinting and modulating are not the same; 'tinting' a reflection will color the darker regions but leave the highlights, while 'modulating' will color everything uniformly. The modulation factor controls how much the reflection is modulated as opposed to tinted (0 is tinted, 1 is modulated). The tint power affects the curve of how much of the color range to tint.</comment>

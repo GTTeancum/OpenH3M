@@ -3,6 +3,7 @@
 Any failure invalidates the importer; discard its builder. Resource and opaque
 data handlers remain explicit so unsupported content cannot become a partial map.
 """
+from source_schema import load_schema
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from string_ids import StringTable, WritableStringTable
@@ -46,7 +47,11 @@ class TagImporter:
             raise ValueError('Importer failed previously; discard this scratch build')
         try:
             return self._import(datum)
-        except Exception:
+        except Exception as error:
+            if not self.failed:
+                tag = self.source.tags.get(datum & 65535)
+                if tag is not None:
+                    error.add_note(f"Importing {tag['group']}:{self.source.name(datum & 65535)}")
             self.failed = True
             raise
 
@@ -64,10 +69,17 @@ class TagImporter:
             result = native.import_named(key)
             if result is not None:
                 return result
-        if group == 'lens' and getattr(self, 'gulch_partition', None):
-            from forge_sun_flare import NAME, import_flare
-            if name == NAME:
+        if group == 'lens':
+            from sky_bridge_flare import COUNTS, import_sky_bridge_flare
+            if name in COUNTS and str(self.source.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map'):
+                return import_sky_bridge_flare(self, datum)
+            from forge_sun_flare import NAME, POWERHOUSE, POWERHOUSE_SECONDARY, import_flare
+            if name in (POWERHOUSE, POWERHOUSE_SECONDARY) or (name == NAME and getattr(self, 'gulch_partition', None)):
                 return import_flare(self, datum)
+        if group == 'rmhg':
+            from dust_material import NAMES, import_dust
+            if name in NAMES:
+                return import_dust(self, datum)
         if group in ('rmtr', 'rmhg', 'rmw '):
             specialized = self.water if group == 'rmw ' else self.terrain
             if specialized is None:
@@ -89,16 +101,18 @@ class TagImporter:
             result = ('bitm', self.materials.bitmap(datum))
             self.resolved[key] = result
             return result
-        # Assembly's Halo3MCC engine explicitly inherits Halo3 plugins. Only
-        # verified absent MCC overrides belong here; a missing local download
-        # must not silently select a different layout.
-        shared_schemas = {'jmad', 'ligh', 'jpt!', 'lsnd', 'rwrd', 'snde', 'skya', 'chmt', 'dctr', 'wind', 'chad', 'foot', 'drdf', 'pmdf', 'styl', 'sefc', 'trak', 'cddf', 'pmov'}
-        source_folder = 'plugins' if group in shared_schemas else 'mcc'
-        if not (self.reference / source_folder / f'{group.strip()}.xml').is_file():
-            raise ValueError(f'{group}:{name}: missing {source_folder} metadata schema')
-        ss = ET.parse(self.reference / source_folder / f'{group.strip()}.xml').getroot()
+        # The source build selects MCC overrides and verified Halo3 inheritance;
+        # an absent download must never silently choose another binary layout.
+        ss = load_schema(source, group, self.reference)
         ds = ET.parse(self.reference / 'plugins' / f'{group.strip()}.xml').getroot()
         compatibility_notes = []
+        if group == 'pmov':
+            # Assembly omits bit 8; native Armory impact_smoke/_default/etc.
+            # use 0x101, and TagTool also defines the shared bit. Preserve it.
+            for schema in (ss, ds):
+                flags = next(n for n in schema if n.get('name') == 'Flags')
+                ET.SubElement(flags, 'bit', name='Native runtime bit 8', index='8')
+            compatibility_notes.append('Preserved native particle movement bit 8 (Armory donor evidence).')
         from tag_metadata import ITEM_UI
         if group in ('weap', 'eqip') and self.sounds and self.sounds.native and f'{group}:{name}' not in ITEM_UI:
             donor_ui = self.sounds.native.item_ui.get((group, name))
@@ -108,7 +122,8 @@ class TagImporter:
         if group == 'cfxs':
             # Retail ends at 0xE4. MCC adds SSAO, grading and lightshafts.
             # Ignore only authored default/inactive extensions, not active FX.
-            grading_active = any(
+            grading_flags = source.u(tag['offset'] + 0xF4)
+            grading_active = not (grading_flags & 1) and bool(grading_flags & 2) and any(
                 source.u(row) & 1
                 for node in ss if node.tag == 'tagblock' and 0xFC <= int(node.get('offset'), 0) < 0x144
                 for row in source.block(tag['offset'] + int(node.get('offset'), 0),
@@ -116,6 +131,13 @@ class TagImporter:
             for offset in (0xE4, 0xF4, 0x144):
                 flags = source.u(tag['offset'] + offset)
                 if not flags & 1 and flags & 2 and not (offset == 0xF4 and not grading_active):
+                    if offset == 0x144 and name == r'levels\multi\s3d_powerhouse\s3d_powerhouse':
+                        compatibility_notes.append('User-approved Powerhouse exception (2026-10-25): active MCC sun-lightshafts omitted; supported exposure, lighting and bloom retained.')
+                        continue
+                    if (offset in (0xE4, 0x144) and name == r'levels\multi\s3d_sky_bridgenew\s3d_sky_bridgenew_outdoor'
+                            and str(source.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map')):
+                        compatibility_notes.append('User-approved native Halo 3 camera behavior (2026-11-03): MCC SSAO/lightshafts omitted; native exposure and bloom retained.')
+                        continue
                     raise ValueError(f'{name}: active MCC camera extension at {offset:#x}')
             for node in list(ss):
                 if node.get('offset') is None or int(node.get('offset'), 0) < 0xE4:
@@ -145,7 +167,13 @@ class TagImporter:
                 return self.registry.add_resource(owner, 'model_animation_tag_resource', payload)
             if group not in ('mode', 'pmdf') or not path.endswith('/[zone] Asset Datum'):
                 raise ValueError(f'{path}: resource type requires a dedicated importer')
-            payload = convert_render_resource(Resource(source, resource_datum))
+            render_source = Resource(source, resource_datum)
+            payload = convert_render_resource(render_source)
+            from powerhouse_sky import MODEL, repair_storm_uv
+            if group == 'mode' and name == MODEL:
+                correction = repair_storm_uv(source, tag['offset'], render_source, payload)
+                if correction:
+                    compatibility_notes.append('Far-storm billboard collapsed source UV repaired: ' + str(correction))
             return self.registry.add_resource(owner, 'render_geometry_api_resource_definition', payload)
 
         def data(path, cache, at):
@@ -158,6 +186,8 @@ class TagImporter:
                     raise ValueError('Packed mesh MOPP extends outside source cache')
                 return convert_packed_mopp(bytes(cache.data[pointer:pointer + size]))
             if (('/Functions[' in path and path.endswith('/Default Function'))
+                    or (group == 'decs' and '/Animated Parameters[' in path
+                        and path.endswith('/Animation Function'))
                     or (group in ('ligh', 'jpt!', 'prt3', 'effe', 'wind', 'chad', 'cntl', 'ltvl', 'drdf', 'lens', 'sefc', 'beam', 'pmov') and path.endswith('Function'))):
                 size = cache.u(at)
                 payload = cache.pointer(cache.u(at + 12))
@@ -184,6 +214,12 @@ class TagImporter:
                                           self.materials.particle_post(at, group)
                                           if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam', 'rmd ') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
+        if group == 'cfxs':
+            from map_exposure import adjust_camera
+            payload = adjust_camera(source, name, payload, compatibility_notes)
+        if group == 'mode':
+            from dust_material import split_sky_parts
+            payload = split_sky_parts(self, name, payload)
         if group == 'sddt' and getattr(self, 'gulch_partition', None):
             from forge_gulch_containment import apply
             payload = apply(self, tag['offset'], payload)
@@ -248,5 +284,7 @@ class TagImporter:
             raise ValueError('Cannot finalize an incomplete dependency graph')
         if self.sounds is not None:
             self.sounds.stage()
+        from item_labels import stage as stage_item_labels
+        stage_item_labels(self)
         self.target_strings.stage()
         self.registry.finalize(bsp_index)

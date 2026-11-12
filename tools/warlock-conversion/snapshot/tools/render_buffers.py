@@ -55,8 +55,11 @@ def convert_vertices(payload, count, fmt, stride):
         out = np.empty_like(raw)
         out[:, :8] = raw[:, :8].reshape(count, 4, 2)[:, :, ::-1].reshape(count, 8)
         normal = raw[:, 8:12][:, ::-1].astype(np.int16) - 127
-        if np.any(normal > 127):
-            raise ValueError('Decorator orientation exceeds signed-normalized range')
+        # TagTool VertexStreamHalo3RetailMCC.ReadTinyNormal decodes b/127-1;
+        # VertexElementStream.NormalizeSByte clamps to [-1,1] before encoding.
+        # Byte255 therefore saturates to +127 rather than wrapping to -128.
+        # Preserve exact integer conversion for all previously accepted values.
+        normal = np.minimum(normal, 127)
         out[:, 8:12] = normal.astype(np.int8).view(np.uint8)
         out[:, 12:16] = raw[:, 12:16][:, ::-1]
         return out.tobytes(), 16

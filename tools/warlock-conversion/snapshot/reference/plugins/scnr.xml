@@ -2064,6 +2064,9 @@ DO NOT USE THE BLOCK REALLOCATOR ON THE [READABLE] BLOCKS!</comment>
 			<bit name="One-Sided for Player" index="4" />
 			<bit name="Does Not Close Automatically" index="5" />
 			<bit name="Ignores Player" index="6" />
+			<!-- TagTool ScenarioMachineFlags, shared original H3 layout. -->
+			<bit name="Ignores AI" index="7" />
+			<bit name="Never Closes On Player" index="8" />
 		</flags32>
 		<tagblock name="Pathfinding References" offset="0x60" visible="true" elementSize="0x4">
 			<int16 name="BSP Index" offset="0x0" visible="true" />

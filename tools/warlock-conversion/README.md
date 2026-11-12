@@ -17,12 +17,22 @@ palette, is tracked in [RESUSCITATION.md](RESUSCITATION.md). Both maps now load 
 
 ## Binding asset policy
 
+For editing-kit-driven authoring before this MCC-to-native stage, see the
+[Reach process](REACH-CONVERSION-PROCESS.md) and the new
+[Halo 4 process](HALO4-CONVERSION-PROCESS.md). [Haven](HAVEN.md) is the first
+Halo 4 workflow target; its official kit source inventory is pending H4EK.
+
 Use original Xbox 360 Halo 3 assets and their native dependencies, visuals and
 behavior whenever an equivalent exists anywhere on the disc or in shared resources.
 Convert custom/MCC content only where Halo 3 has no equivalent. This applies to
 all maps and Forge palettes, including future DLC. No Halo 2-faithful substitutes.
 Only an explicit human-user instruction can override this policy; record its scope.
 See [repository instructions](../../AGENTS.md).
+
+Before importing any asset type, perform the required
+[stock and shared-resource audit](ASSET-REUSE-AUDIT.md). Inventory what the target
+already references from `shared.map`, reuse suitable native dependencies, and
+check other original H3 maps before declaring an equivalent unavailable.
 
 ## MCC source schema versions
 
@@ -48,11 +58,48 @@ tests include old palettes, native packed references, invalid references and
 independent mutable XML trees. Schema readability does not establish asset
 equivalence, conversion support or runtime correctness.
 
-Current integration boundary: these two preflight tools support the 2022
-profile. Assembly stages still need version-aware source schemas and explicit
-handling of differing record layouts before an older cache can be built.
-The first such source is tracked in [DESOLATION.md](DESOLATION.md). Continue using
-the existing converter, native-asset audit and acceptance checks below.
+The existing scenario, object, BSP, lightmap, resource, sound and material
+readers now select source layouts through this resolver. Older Forge entries
+and spawn records use their retained 48/108-byte layouts; 36-byte zone sets do
+not read the newer appended four bytes. Known upstream capitalization changes
+are normalized in freshly loaded trees after type/offset checks. The pinned
+XML files remain untouched. The missing older decal flag names use the same
+TagTool definitions already retained in the native/current schemas.
+
+Desolation's older-source conversion now serializes through all existing stages,
+passes native metadata/resource checks and enters gameplay in a private run.
+Full runtime acceptance remains pending. The first older source and remaining
+work are tracked in [DESOLATION.md](DESOLATION.md).
+Continue using the existing converter, native-asset audit and acceptance checks.
+
+When a map profile explicitly selects native Forge donor maps, the optional
+`stock_forge_donor_maps` policy on the existing stock-palette stage assembles
+their entries. Do not interpret "stock palette" as a request for scenery from
+every map. `stock_forge_palette.py` defaults to Sandbox for
+duplicate identities, retains native prices/limits and records alternatives.
+It imports native dependency graphs and publishes missing English display text
+once through the existing locale writer. It does not raise the scenario budget
+or engine limits. Serialized label/price checks and native menu, creation and
+resource-residency checks remain necessary; union inventory alone proves none
+of those. Map-specific weapon substitutions and omissions belong in an explicit
+profile, with the user's decision recorded, rather than broad name heuristics.
+The native map variant has 256 quota rows, independently of its 640 object slots
+and monetary budget. A map can load and create an early palette object while
+its quota count already exceeds capacity. Desolation exposed exactly that case
+(315). Reject oversized palettes before publishing; reserve capacity for placed
+assets outside the palette and verify the actual native count. The reusable
+`preflight_variant_budget.inspect_quotas` gives a conservative native-data bound.
+
+For reusable donor evidence, `audit_resource_footprint.py --include-resources`
+adds resource owners, physical page locations and manifest references to its
+normal summary. These references are not a claim of simultaneous residency.
+`audit_bitmap_reuse.py` compares authored 2D base payloads against untiled native
+donors, including differently named copies. Unsupported/stripped resources are
+reported separately; a hash nonmatch does not rule out visual equivalence.
+Audited stripped-texture recovery is explicit, source-hash checked and attempted
+only after all same-name native donor candidates fail. Preserve the consuming
+native shader and bitmap settings, and report that absent original pixels
+cannot be compared for bit identity.
 
 ## Current build
 

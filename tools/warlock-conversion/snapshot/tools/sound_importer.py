@@ -1,4 +1,5 @@
 """Append decoded MCC sounds to retail ugh! tables and sound resources."""
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from tag_metadata import MetadataConverter
@@ -9,7 +10,7 @@ class SoundImporter:
         self.importer, self.bank = importer, bank
         self.source, self.registry = importer.source, importer.registry
         self.builder, self.target = importer.builder, importer.registry.cache
-        self.ss = ET.parse(importer.reference / 'mcc/ugh!.xml').getroot()
+        self.ss = load_schema(importer.source, 'ugh!', importer.reference)
         self.ds = ET.parse(importer.reference / 'plugins/ugh!.xml').getroot()
         self.source_root = next(t['offset'] for t in self.source.tags.values() if t['group'] == 'ugh!')
         self.target_root = next(t['offset'] for t in self.target.tags.values() if t['group'] == 'ugh!')
@@ -64,8 +65,13 @@ class SoundImporter:
         flags, category, count = s.unpack('HBB', at)
         codec, first, language, priority, playback, scale = s.unpack('6h', at + 4)
         promotion, custom, extra = s.unpack('bbh', at + 16)
-        if language != -1 or promotion != -1 or custom != -1 or s.u(at + 32):
-            raise ValueError('Localized/promoted/custom-bank sound requires another importer')
+        if language != -1 or promotion != -1 or custom != -1:
+            raise ValueError('Localized/promoted/custom-playback sound requires another importer')
+        suffix_id = s.u(at + 32)
+        suffix = self.importer.source_strings.text(suffix_id) if suffix_id else None
+        # MCC's suffix selects the bank, not a different playback format.
+        # Decode that explicit bank to native PCM; never copy its string ID.
+        bank = self.bank.for_suffix(suffix) if suffix_id else self.bank
         if extra != -1 and s.u(self.row('Extra Info', extra)):
             raise ValueError('Encoded sound permutation sections are not implemented')
         if not 0 < count <= 63:
@@ -92,7 +98,7 @@ class SoundImporter:
             for perm_index in range(first_perm, first_perm + perm_count):
                 p = self.row('Permutations', perm_index)
                 import_name, skip, samples, chunk, chunks, gain, info, sound_hash = s.unpack('hhIIhbbI', p)
-                decoded = self.bank.decode(sound_hash)
+                decoded = bank.decode(sound_hash)
                 key = decoded['rate'], decoded['channels']
                 if format_key is not None and key != format_key:
                     raise ValueError('Mixed audio formats in one sound tag')
@@ -124,6 +130,7 @@ class SoundImporter:
         offset = address - self.builder.base
         self.builder.meta[offset:offset + 32] = payload
         self.report.append({'source': s.name(datum & 65535), 'datum': hex(owner),
+                            'source_bank_suffix': suffix,
                             'permutations': len(total_frames), 'frames': total_frames,
                             'rate': rate, 'channels': channels, 'encoding': 'PCM16 big endian'})
         return 'snd!', owner

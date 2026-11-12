@@ -216,6 +216,9 @@ REX_HOOK_RAW(sub_82598838){
   const uint32_t user=ctx.r3.u32,destination=ctx.r4.u32;
   __imp__sub_82598838(ctx,base);
   sky_reproduction::Reproduction::Get().Input(ctx,base,user,destination);
+#ifdef OPENH3M_DEVELOPER_BUILD
+    ApplyMapBenchmarkInput(ctx,base,user,destination);
+#endif
 }
 REX_HOOK_RAW(sub_8213BC50){
   // Observer update calls 82213198 (final basis) then 822136F0 (collision

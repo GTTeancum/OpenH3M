@@ -1,4 +1,5 @@
 """POC water binding through original retail shader programs and wave arrays."""
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -12,6 +13,7 @@ VARIANTS = {
     '_0_1_1_1_1_0_1_3': ('riverworld.map', '_0_1_1_1_1_0_1_3'),
     '_0_0_1_1_1_0_2_1': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
     '_0_1_1_1_2_0_1_2': ('docks.map', '_0_1_1_1_2_0_1_3'),
+    '_0_1_1_1_2_0_1_3': ('docks.map', '_0_1_1_1_2_0_1_3'),
 }
 
 
@@ -24,6 +26,8 @@ class WaterImporter:
         if datum in self.done:
             return self.done[datum]
         i, s, b = self.i, self.i.source, self.i.builder
+        authored_water = (getattr(i, 'stock_forge_palette', False) or getattr(i, 'battle_canyon', False)
+                          or getattr(i, 'battle_canyon_rebuilt', False) or getattr(i, 'stock_h3_draft', False))
         native_assets = getattr(i, 'native_assets', None)
         if native_assets is not None:
             native = native_assets.import_named((s.tags[datum & 65535]['group'], s.name(datum & 65535)))
@@ -39,13 +43,26 @@ class WaterImporter:
         post = posts[0]
         source_template = s.tags[s.u(post + 12) & 65535]['offset']
         variant = s.name(s.u(post + 12) & 65535).rsplit('\\', 1)[-1]
+        # Sanctuary's pond disables global shape and foam. Longshore has the
+        # same five leading options, with painted shape and both foam modes.
+        # A constant (1,1,0) shape mask leaves wave height/choppiness unchanged
+        # and disables painted foam; the high foam threshold disables auto foam.
+        neutral_shape = variant == '_0_1_1_1_2_0_0_0'
+        pure_texture = variant == '_0_0_1_1_1_0_1_3'
+        authored_water |= neutral_shape or pure_texture
         variants = dict(VARIANTS)
-        if getattr(i, 'stock_forge_palette', False):
+        if pure_texture:
+            variants[variant] = ('riverworld.map', '_0_1_1_1_1_0_1_3')
+        if neutral_shape:
+            variants[variant] = ('docks.map', '_0_1_1_1_2_0_1_3')
+        if authored_water:
             variants.update({
                 '_0_1_1_1_2_0_2_2': ('deadlock.map', '_0_1_1_1_2_0_2_3'),
                 '_0_0_1_1_2_0_1_0': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
                 '_0_0_1_1_1_0_1_0': ('zanzibar.map', '_0_0_1_1_2_0_2_3'),
             })
+        if getattr(i, 'battle_canyon', False):
+            variants['_0_1_1_1_1_0_1_1'] = ('riverworld.map', '_0_1_1_1_1_0_1_3')
         if variant not in variants:
             raise ValueError('Water variant has no documented retail mapping')
         if [s.unpack('h', row)[0] for row in s.block(root + 16, 2)] != [int(value) for value in variant.split('_')[1:]]:
@@ -55,7 +72,7 @@ class WaterImporter:
         try:
             native = NativeShaderImporter(donor, i, self.resolved,
                 {'maps\\shared.map': self.disc_maps / 'shared.map'})
-            native.donor_scoped = getattr(i, 'stock_forge_palette', False)
+            native.donor_scoped = authored_water
             lookup = {(t['group'], donor.name(k)): t['salt'] << 16 | k for k, t in donor.tags.items()}
             name = 'shaders\\water_templates\\' + target_variant
             td = lookup['rmt2', name]
@@ -83,8 +100,8 @@ class WaterImporter:
                 kind, input_name, range_name, period = s.unpack('IIIf', row)
                 size, start = s.u(row + 16), s.pointer(s.u(row + 28))
                 function = bytes(s.data[start:start + size])
-                limit = 120 if getattr(i, 'stock_forge_palette', False) else 60
-                opcodes = (0,3) if getattr(i, 'stock_forge_palette', False) else (0,)
+                limit = 120 if authored_water else 60
+                opcodes = (0,3) if authored_water else (0,)
                 if kind not in (0, 5, 6) or input_name or range_name or not 0 < period <= limit or not function or function[0] not in opcodes:
                     raise ValueError('Water animation exceeds documented static POC mapping')
                 convert_function(function)
@@ -106,13 +123,13 @@ class WaterImporter:
                     if parameter in ('wave_displacement_array', 'wave_slope_array'):
                         key = ('bitm', s.name(bitmap & 65535))
                         wave = lookup.get(key)
-                        if wave is None and getattr(i, 'stock_forge_palette', False):
+                        if wave is None and authored_water:
                             wave = donor.u(donor_textures[target_textures.index(parameter)] + 12)
                             substitutions.append({'parameter': parameter, 'native_bitmap': donor.name(wave & 65535)})
                         if wave is None:raise ValueError('Native water wave array absent: '+key[1])
                         _, bitmap = native.import_tag(wave)
                     elif parameter == 'environment_map':
-                        if getattr(i, 'stock_forge_palette', False) and bitmap != 0xffffffff:
+                        if authored_water and bitmap != 0xffffffff:
                             bitmap = i.materials.bitmap(bitmap)
                         else:
                             donor_bitmap = donor.u(donor_textures[target_textures.index(parameter)] + 12)
@@ -121,6 +138,37 @@ class WaterImporter:
                     elif bitmap != 0xffffffff:
                         bitmap = i.materials.bitmap(bitmap)
                 else:
+                    if pure_texture and parameter == 'watercolor_texture':
+                        from types import SimpleNamespace
+                        from encode_bitmap import encode_bitmap_base
+                        color_index = source_constants.index('water_color_pure')
+                        color = s.unpack('4f',constants[color_index])
+                        if any(s.data[r+3] == color_index for r in s.block(post+80,4)):
+                            raise ValueError('Animated pure water color cannot be baked')
+                        channels = [round(v*255) for v in color[:3]]
+                        if any(not 0<=q<=255 or abs(q/255-v)>1e-7 for q,v in zip(channels,color)):
+                            raise ValueError('Pure water color is not exactly representable')
+                        mask = SimpleNamespace(info=lambda tag:[dict(width=1,height=1,format=11,mips=1,kind=0,curve=3)],
+                                               pixels=lambda tag,index=0:bytes(channels[::-1])+b'\xff')
+                        bitmap = i.materials.bitmap_resource(*encode_bitmap_base(mask,0))
+                        records.extend(b'bitm'+bytes(8)+struct.pack('>IhBBBbH',bitmap,0,0x11,0,0,-1,0))
+                        substitutions.append({'parameter':parameter,'constant_rgb':list(color[:3]),'purpose':'Exact static pure water color'})
+                        continue
+                    if neutral_shape and parameter == 'global_shape_texture':
+                        from types import SimpleNamespace
+                        from encode_bitmap import encode_bitmap_base
+                        mask = SimpleNamespace(
+                            info=lambda tag, index=0: [dict(width=1, height=1,
+                                format=11, mips=1, kind=0, curve=0)],
+                            pixels=lambda tag, index=0: b'\x00\xff\xff\xff')
+                        bitmap = i.materials.bitmap_resource(*encode_bitmap_base(mask, 0))
+                        index, address, filtering, external, transform = 0, 0x11, 0, 0, -1
+                        substitutions.append({'parameter': parameter,
+                            'constant_rgb': [1, 1, 0],
+                            'purpose': 'Unit wave scaling, zero painted foam'})
+                        records.extend(b'bitm' + bytes(8) +
+                            struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
+                        continue
                     defaults = {'global_shape_texture': 'color_black', 'watercolor_texture': 'color_white'}
                     if parameter not in defaults:
                         raise ValueError(f'Water texture has no explicit default: {parameter}')
@@ -133,10 +181,12 @@ class WaterImporter:
             for parameter in target_constants:
                 if parameter in source_constants:
                     values.extend(struct.pack('>4I', *s.unpack('4I', constants[source_constants.index(parameter)])))
+                elif pure_texture and parameter == 'watercolor_coefficient':
+                    values.extend(struct.pack('>4f',1.,1.,1.,1.))
                 elif parameter in ('foam_height', 'foam_pow'):
                     value = 1000000. if parameter == 'foam_height' else 1.
                     values.extend(struct.pack('>4f', value, value, value, value))
-                elif getattr(i, 'stock_forge_palette', False):
+                elif authored_water:
                     native_constants = donor.block(donor_post + 28, 16)
                     values.extend(donor.data[native_constants[target_constants.index(parameter)]:
                                              native_constants[target_constants.index(parameter)]+16])
@@ -146,7 +196,7 @@ class WaterImporter:
             struct.pack_into('>III', output, 16, len(target_textures), b.alloc(records), 0)
             struct.pack_into('>III', output, 28, len(target_constants), b.alloc(values), 0)
             converted_animations = 0
-            if overlays and getattr(i, 'stock_forge_palette', False):
+            if overlays and authored_water:
                 from material_animation import convert_material_animation
                 converted_animations = convert_material_animation(i.materials, post, output)
             struct.pack_into('>I', output, 52, s.u(post + 52))
@@ -158,7 +208,7 @@ class WaterImporter:
                     if index >= len(source_constants) or source_constants[index] not in target_constants:
                         raise ValueError('Water queryable property cannot be remapped')
                     struct.pack_into('>h', output, offset, target_constants.index(source_constants[index]))
-            ss = ET.parse(i.reference / 'mcc/rmw.xml').getroot()
+            ss = load_schema(i.source, 'rmw', i.reference)
             ds = ET.parse(i.reference / 'plugins/rmw.xml').getroot()
             def reference(value):
                 if value != s.u(root + 12):
@@ -174,7 +224,7 @@ class WaterImporter:
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': name,
                 'native_donor': filename, 'approximation': True, 'texture_substitutions': substitutions,
                 'difference': ('Authored animations and reflection faces retained; native wave arrays and template defaults remain.'
-                               if getattr(i, 'stock_forge_palette', False) else
+                               if authored_water else
                                'Static authored wave/UV values; original-disc reflection cubemap; pure water uses uniform bank opacity; unused extra foam contribution disabled.'),
                 'omitted_constants': sorted(set(source_constants)-set(target_constants)),
                 'frozen_overlays': len(overlays)-converted_animations, 'converted_source_animations': converted_animations})

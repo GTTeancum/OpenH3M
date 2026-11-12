@@ -1,0 +1,28 @@
+[project]
+name = "halo4"
+sdk_version = "0.10.0"
+game_root = "../../work/h4-forge-research/assets"
+
+[entrypoint]
+file_path = "../../work/h4-forge-research/assets/default.xex"
+out_directory_path = "../../work/h4-forge-research/generated"
+includes = []
+
+# Original executable entry points confirmed by PPC disassembly.
+# Shared registers preserve tail-entry helpers consuming r8/r11.
+[entrypoint.functions]
+0x82612CA0 = { name = "sub_82612CA0", share_registers = true }
+0x82612CE0 = { name = "sub_82612CE0", share_registers = true }
+0x82612D40 = { name = "sub_82612D40", share_registers = true }
+0x82612ED0 = { name = "sub_82612ED0", share_registers = true }
+0x82612F50 = { name = "sub_82612F50", share_registers = true }
+0x82E0F5B0 = { name = "sub_82E0F5B0", share_registers = true }
+0x82E1D128 = { name = "sub_82E1D128", share_registers = true }
+0x82E1D130 = { name = "sub_82E1D130", share_registers = true }
+0x82E1D138 = { name = "sub_82E1D138", share_registers = true }
+0x82E1D1D0 = { name = "sub_82E1D1D0", share_registers = true }
+0x82E1D1D8 = { name = "sub_82E1D1D8", share_registers = true }
+0x82E1D1E0 = { name = "sub_82E1D1E0", share_registers = true }
+0x82E8CA18 = { name = "sub_82E8CA18", share_registers = true }
+0x83089B40 = { name = "sub_83089B40", share_registers = true }
+0x831448D0 = { name = "sub_831448D0", share_registers = true }

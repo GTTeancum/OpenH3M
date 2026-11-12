@@ -12,12 +12,12 @@ NAMES={r'levels\multi\forge_halo\shaders\forge_driftwood_bark'} | {
  r'levels\multi\forge_halo\shaders\water\forge_halo_'+v for v in
  ('waterfall_upper_small','waterfall_upper_big','waterfall_lower_small','waterfall_lower_big',
   'ocean_water','puddles','tide_pool_water','cave_water')}
-def build(basis,source,disc,xex,output,report):
+def build(basis,source,disc,xex,output,report,*,names=NAMES,expected_sha256='764fb94278b8df323f52f221dd2b9bce4f4b486a02052d9ce7cce4379f19bc0a'):
  for p in (output,report):
   if not p.resolve().is_relative_to(ROOT) or p.exists():raise ValueError('Use new repository-local outputs')
  digest=hashlib.sha256(basis.read_bytes()).hexdigest()
- if digest!='764fb94278b8df323f52f221dd2b9bce4f4b486a02052d9ce7cce4379f19bc0a':
-  raise ValueError('Expected accepted lighting/scenery Gulch basis')
+ if digest!=expected_sha256:
+  raise ValueError('Expected accepted material-patch basis')
  s=Cache(source,True);b=MapBuilder(basis,0x200000);c=b.cache
  r=CacheRegistry(b,resource_salt(xex));i=TagImporter(s,r,disc_maps=disc)
  i.native_assets=NativeAssets(i,disc);i.materials.native_assets=i.native_assets;i.stock_forge_palette=True
@@ -33,10 +33,10 @@ def build(basis,source,disc,xex,output,report):
   for ss,dd in zip(src,dst):
    for sr,dr in zip(ss,dd):
     sd=s.u(sr+12);td=c.u(dr+12)
-    if sd==0xffffffff or s.name(sd&65535) not in NAMES:continue
+    if sd==0xffffffff or s.name(sd&65535) not in names:continue
     if sd in mapping and mapping[sd]!=td:raise ValueError('Conflicting material binding')
     mapping[sd]=td
-  if len(mapping)!=9:raise ValueError('Missing requested environment materials')
+  if len(mapping)!=len(names):raise ValueError('Missing requested environment materials')
   for sd,td in mapping.items():
    group=s.tags[sd&65535]['group'];old=c.tags[td&65535]
    if old['group']!=group or old['salt']!=td>>16:raise ValueError('Invalid old material')

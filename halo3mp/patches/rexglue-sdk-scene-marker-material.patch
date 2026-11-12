@@ -1,0 +1,315 @@
+diff --git a/include/rex/graphics/scene_markers.h b/include/rex/graphics/scene_markers.h
+--- a/include/rex/graphics/scene_markers.h
++++ b/include/rex/graphics/scene_markers.h
+@@ -1,6 +1,8 @@
+ #pragma once
+ #include <array>
+ #include <vector>
++#include <memory>
++#include <cstdint>
+ 
+ namespace rex::graphics {
+ // Transient host editor visuals. These are never guest objects or save data.
+@@ -8,8 +10,16 @@
+   std::array<float,3> position{};
+   std::array<float,4> color{};
+ };
++struct SceneMarkerMaterial {
++  // Precompiled single-sample/MSAA programs and immutable texture pixels.
++  // No guest/save dependency or first-use source compilation.
++  std::array<std::vector<uint8_t>,2> programs;
++  std::vector<uint8_t> pixels;
++};
+ struct SceneMarkers {
+   std::array<float,3> camera{};
+   std::vector<SceneMarker> points;
++  std::shared_ptr<const SceneMarkerMaterial> material;
++  float time=0;
+ };
+ }
+diff --git a/include/rex/graphics/d3d12/scene_markers.h b/include/rex/graphics/d3d12/scene_markers.h
+--- a/include/rex/graphics/d3d12/scene_markers.h
++++ b/include/rex/graphics/d3d12/scene_markers.h
+@@ -8,6 +8,7 @@
+ #include <chrono>
+ #include <mutex>
+ #include <vector>
++#include <future>
+ 
+ namespace rex::graphics::d3d12 {
+ class D3D12CommandProcessor;
+@@ -20,6 +21,15 @@
+                const D3D12_VIEWPORT& viewport, const draw_util::ViewportInfo& info);
+   void Draw(ID3D12Resource* output, unsigned width, unsigned height, DXGI_FORMAT format);
+  private:
++  struct PreparedMaterial {
++    Microsoft::WRL::ComPtr<ID3D12RootSignature> root;
++    Microsoft::WRL::ComPtr<ID3D12Resource> pixels;
++    Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelines[2];
++    HRESULT result=E_FAIL;
++    double milliseconds=0;
++  };
++  static PreparedMaterial PrepareMaterial(Microsoft::WRL::ComPtr<ID3D12Device> device,
++      std::shared_ptr<const SceneMarkerMaterial> material);
+   bool Initialize(bool multisampled);
+   D3D12CommandProcessor& cp_;
+   std::atomic<bool> enabled_{false};
+@@ -36,5 +46,11 @@
+   std::vector<std::pair<uint64_t,Microsoft::WRL::ComPtr<ID3D12Resource>>> retired_;
+   Microsoft::WRL::ComPtr<ID3D12RootSignature> root_;
+   Microsoft::WRL::ComPtr<ID3D12PipelineState> pipeline_[2];
++  bool preparation_failed_=false;
++  std::shared_ptr<const SceneMarkerMaterial> material_;
++  Microsoft::WRL::ComPtr<ID3D12Resource> material_pixels_;
++  // Declared last: join any private preparation before releasing local state.
++  // The worker owns the device/material and never captures this or the CP.
++  std::future<PreparedMaterial> preparation_;
+ };
+ }
+diff --git a/src/graphics/d3d12/scene_markers.cpp b/src/graphics/d3d12/scene_markers.cpp
+--- a/src/graphics/d3d12/scene_markers.cpp
++++ b/src/graphics/d3d12/scene_markers.cpp
+@@ -9,7 +9,11 @@
+ namespace rex::graphics::d3d12 {
+ using Microsoft::WRL::ComPtr;
+ bool D3D12SceneMarkers::Set(SceneMarkers markers) {
+-  if (markers.points.size()>64) return false;
++  if (markers.points.size()>64 || !std::isfinite(markers.time)) return false;
++  if(!markers.points.empty()&&(!markers.material||markers.material->pixels.empty()||
++      markers.material->pixels.size()>16*1024*1024||markers.material->pixels.size()%4))return false;
++  if(!markers.points.empty())for(const auto& program:markers.material->programs)
++    if(program.size()<4||program.size()>1024*1024||std::memcmp(program.data(),"DXBC",4))return false;
+   for (auto& p:markers.points) {
+     for(float v:p.position) if(!std::isfinite(v)) return false;
+     for(float v:p.color) if(!std::isfinite(v)) return false;
+@@ -83,77 +87,81 @@
+       desc.Width,desc.Height,desc.SampleDesc.Count,viewport.Width,viewport.Height,viewport.MinDepth,viewport.MaxDepth);}
+ }
+ 
+-bool D3D12SceneMarkers::Initialize(bool msaa) {
+-  const unsigned variant=msaa?1:0;
+-  if(pipeline_[variant]) return true;
+-  auto* device=cp_.GetD3D12Provider().GetDevice();
+-  if(!root_) {
++D3D12SceneMarkers::PreparedMaterial D3D12SceneMarkers::PrepareMaterial(
++    ComPtr<ID3D12Device> device,std::shared_ptr<const SceneMarkerMaterial> material) {
++  const auto started=std::chrono::steady_clock::now();
++  PreparedMaterial result;
++  const auto prepare=[&]() -> HRESULT {
++    const auto& pixels=material->pixels;
++    D3D12_RESOURCE_DESC desc{};desc.Dimension=D3D12_RESOURCE_DIMENSION_BUFFER;
++    desc.Width=pixels.size();desc.Height=1;desc.DepthOrArraySize=1;desc.MipLevels=1;
++    desc.SampleDesc.Count=1;desc.Layout=D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++    auto hr=device->CreateCommittedResource(&ui::d3d12::util::kHeapPropertiesUpload,
++        D3D12_HEAP_FLAG_NONE,&desc,D3D12_RESOURCE_STATE_GENERIC_READ,nullptr,IID_PPV_ARGS(&result.pixels));
++    if(FAILED(hr))return hr;
++    void* mapped=nullptr;const D3D12_RANGE noRead{0,0};
++    hr=result.pixels->Map(0,&noRead,&mapped);if(FAILED(hr))return hr;
++    std::memcpy(mapped,pixels.data(),pixels.size());result.pixels->Unmap(0,nullptr);
+     D3D12_DESCRIPTOR_RANGE ranges[2]{};
+     ranges[0].RangeType=D3D12_DESCRIPTOR_RANGE_TYPE_UAV;ranges[0].NumDescriptors=1;
+     ranges[1].RangeType=D3D12_DESCRIPTOR_RANGE_TYPE_SRV;ranges[1].NumDescriptors=1;
+-    D3D12_ROOT_PARAMETER params[3]{};
++    D3D12_ROOT_PARAMETER params[4]{};
+     for(unsigned i=0;i<2;++i) {params[i].ParameterType=D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+       params[i].DescriptorTable={1,&ranges[i]};}
+     params[2].ParameterType=D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+     params[2].Constants.Num32BitValues=20;
+-    D3D12_ROOT_SIGNATURE_DESC rd{};rd.NumParameters=3;rd.pParameters=params;
++    params[3].ParameterType=D3D12_ROOT_PARAMETER_TYPE_SRV;params[3].Descriptor.ShaderRegister=1;
++    D3D12_ROOT_SIGNATURE_DESC rd{};rd.NumParameters=4;rd.pParameters=params;
+     ComPtr<ID3DBlob> blob,error;
+-    if(FAILED(D3D12SerializeRootSignature(&rd,D3D_ROOT_SIGNATURE_VERSION_1,&blob,&error)) ||
+-       FAILED(device->CreateRootSignature(0,blob->GetBufferPointer(),blob->GetBufferSize(),IID_PPV_ARGS(&root_)))) return false;
+-  }
+-  // Temporary marker shape while the original H4 material is integrated.
+-  // Visibility is evaluated per pixel against the actual scene, including
+-  // individual MSAA samples. No CPU collision proxy or visibility fallback.
+-  const char* source=R"(
+-    RWTexture2D<float4> target : register(u0);
+-    #ifdef MULTISAMPLED
+-    Texture2DMS<float> scene : register(t0);
+-    #else
+-    Texture2D<float> scene : register(t0);
+-    #endif
+-    cbuffer Marker : register(b0) {
+-      float2 center; float radius; float marker_depth;
+-      uint2 origin; uint2 output_size;
+-      float2 depth_scale; float2 depth_offset;
+-      float4 color;
+-      uint samples; float epsilon; float2 padding;
+-    };
+-    [numthreads(8,8,1)] void main(uint3 tid:SV_DispatchThreadID) {
+-      uint2 p=origin+tid.xy;
+-      if(any(p>=output_size)) return;
+-      float d=length((float2(p)+.5-center)/radius);
+-      float a=max(saturate(1-abs(d-.72)*7),saturate(1-d*7));
+-      if(a<=0) return;
+-      int2 dp=int2((float2(p)+.5)*depth_scale+depth_offset);
+-      uint depth_width,depth_height;
+-      #ifdef MULTISAMPLED
+-      uint depth_samples;
+-      scene.GetDimensions(depth_width,depth_height,depth_samples);
+-      #else
+-      scene.GetDimensions(depth_width,depth_height);
+-      #endif
+-      if(any(dp<0) || dp.x>=depth_width || dp.y>=depth_height) return;
+-      float visible=0;
+-      #ifdef MULTISAMPLED
+-      for(uint i=0;i<samples;++i) visible += marker_depth+epsilon>=scene.Load(dp,i);
+-      visible/=samples;
+-      #else
+-      visible=marker_depth+epsilon>=scene.Load(int3(dp,0));
+-      #endif
+-      a*=visible*color.a;
+-      if(a<=0) return;
+-      float4 old=target[p];
+-      target[p]=float4(lerp(old.rgb,color.rgb,a),old.a);
+-    })";
+-  const D3D_SHADER_MACRO defines[]={{"MULTISAMPLED","1"},{nullptr,nullptr}};
+-  ComPtr<ID3DBlob> shader,error;
+-  if(FAILED(D3DCompile(source,std::strlen(source),"scene_markers",msaa?defines:nullptr,nullptr,
+-      "main","cs_5_0",D3DCOMPILE_OPTIMIZATION_LEVEL3,0,&shader,&error))) {
+-    REXGPU_ERROR("Scene marker shader failed: {}",error?static_cast<const char*>(error->GetBufferPointer()):"no diagnostic");return false;
+-  }
+-  D3D12_COMPUTE_PIPELINE_STATE_DESC pd{};pd.pRootSignature=root_.Get();
+-  pd.CS={shader->GetBufferPointer(),shader->GetBufferSize()};
+-  return SUCCEEDED(device->CreateComputePipelineState(&pd,IID_PPV_ARGS(&pipeline_[variant])));
++    hr=D3D12SerializeRootSignature(&rd,D3D_ROOT_SIGNATURE_VERSION_1,&blob,&error);
++    if(FAILED(hr))return hr;
++    hr=device->CreateRootSignature(0,blob->GetBufferPointer(),blob->GetBufferSize(),IID_PPV_ARGS(&result.root));
++    if(FAILED(hr))return hr;
++    for(unsigned variant=0;variant<2;++variant) {
++      const auto& shader=material->programs[variant];
++      D3D12_COMPUTE_PIPELINE_STATE_DESC pd{};pd.pRootSignature=result.root.Get();
++      pd.CS={shader.data(),shader.size()};
++      hr=device->CreateComputePipelineState(&pd,IID_PPV_ARGS(&result.pipelines[variant]));
++      if(FAILED(hr))return hr;
++    }
++    return S_OK;
++  };
++  result.result=prepare();
++  result.milliseconds=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
++  return result;
++}
++
++bool D3D12SceneMarkers::Initialize(bool msaa) {
++  if(!captured_.material || (material_ && material_!=captured_.material))return false;
++  if(pipeline_[msaa?1:0])return true;
++  if(preparation_failed_)return false;
++  const auto started=std::chrono::steady_clock::now();
++  try {
++    if(!preparation_.valid()) {
++      material_=captured_.material;
++      ComPtr<ID3D12Device> device=cp_.GetD3D12Provider().GetDevice();
++      preparation_=std::async(std::launch::async,&D3D12SceneMarkers::PrepareMaterial,std::move(device),material_);
++      const auto elapsed=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
++      REXGPU_INFO("Scene marker preparation dispatched: render_ms={:.3f}",elapsed);
++      return false;
++    }
++    if(preparation_.wait_for(std::chrono::seconds(0))!=std::future_status::ready)return false;
++    auto prepared=preparation_.get();
++    if(FAILED(prepared.result)) {
++      preparation_failed_=true;
++      REXGPU_ERROR("Background scene marker preparation failed: {:08X}",uint32_t(prepared.result));
++      return false;
++    }
++    root_=std::move(prepared.root);material_pixels_=std::move(prepared.pixels);
++    for(unsigned i=0;i<2;++i)pipeline_[i]=std::move(prepared.pipelines[i]);
++    const auto elapsed=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
++    REXGPU_INFO("Scene marker preparation adopted: worker_ms={:.3f} render_ms={:.3f}",prepared.milliseconds,elapsed);
++    return true;
++  }catch(const std::exception& error) {
++    preparation_failed_=true;
++    REXGPU_ERROR("Scene marker preparation failed: {}",error.what());
++    return false;
++  }
+ }
+ 
+ void D3D12SceneMarkers::Draw(ID3D12Resource* output,unsigned width,unsigned height,DXGI_FORMAT format) {
+@@ -177,6 +185,7 @@
+   list.D3DSetComputeRootSignature(root_.Get());
+   list.D3DSetComputeRootDescriptorTable(0,handles[0].second);
+   list.D3DSetComputeRootDescriptorTable(1,handles[1].second);
++  list.D3DSetComputeRootShaderResourceView(3,material_pixels_->GetGPUVirtualAddress());
+   cp_.SetExternalPipeline(pipeline_[msaa?1:0].Get());
+   unsigned drawn=0;
+   for(const auto& p:captured_.points) {
+@@ -186,6 +195,8 @@
+       for(unsigned k=0;k<3;++k) clip[row]+=matrix_[row*4+k]*p.position[k];
+     }
+     if(!std::isfinite(clip[3]) || clip[3]<=.01f) continue;
++    const float depthScale=std::sqrt(matrix_[12]*matrix_[12]+matrix_[13]*matrix_[13]+matrix_[14]*matrix_[14]);
++    if(!std::isfinite(depthScale)||depthScale<=0)continue;
+     const float nx=clip[0]/clip[3],ny=clip[1]/clip[3];
+     if(std::abs(nx)>1 || std::abs(ny)>1) continue;
+     struct Constants {
+@@ -203,6 +214,8 @@
+     c.offset[0]=viewport_.TopLeftX;c.offset[1]=viewport_.TopLeftY;
+     std::copy(p.color.begin(),p.color.end(),c.color);
+     c.samples=desc.SampleDesc.Count;c.epsilon=std::abs(c.depth)*2e-6f+1e-9f;
++    c.padding[0]=captured_.time;
++    c.padding[1]=clip[3]/depthScale;
+     cp_.PushUAVBarrier(output);cp_.SubmitBarriers();
+     list.D3DSetComputeRoot32BitConstants(2,sizeof(c)/4,&c,0);
+     unsigned groups=unsigned(std::ceil((c.radius*2+3)/8));
+@@ -210,6 +223,6 @@
+   }
+   cp_.PushUAVBarrier(output);cp_.SubmitBarriers();
+   static bool logged=false;
+-  if(drawn&&!logged) {logged=true;REXGPU_INFO("Scene markers drawn with scene depth: {} candidates",drawn);}
+-}
+-}
++  if(drawn&&!logged) {logged=true;REXGPU_INFO("Scene markers drawn with original material and scene depth: {} candidates",drawn);}
++}
++}
+diff --git a/include/rex/graphics/d3d12/scene_marker_shader.h b/include/rex/graphics/d3d12/scene_marker_shader.h
+new file mode 100644
+--- /dev/null
++++ b/include/rex/graphics/d3d12/scene_marker_shader.h
+@@ -0,0 +1,45 @@
++#pragma once
++// Shared kernel for offline material compilation. Keep its constants in sync
++// with D3D12SceneMarkers::Draw and bump the private pack version on ABI changes.
++namespace rex::graphics::d3d12 {
++inline constexpr const char* kSceneMarkerKernel = R"(
++    RWTexture2D<float4> target : register(u0);
++    #ifdef MULTISAMPLED
++    Texture2DMS<float> scene : register(t0);
++    #else
++    Texture2D<float> scene : register(t0);
++    #endif
++    cbuffer Marker : register(b0) {
++      float2 center; float radius; float marker_depth;
++      uint2 origin; uint2 output_size;
++      float2 depth_scale; float2 depth_offset;
++      float4 color;
++      uint samples; float epsilon; float elapsed; float view_depth;
++    };
++    [numthreads(8,8,1)] void main(uint3 tid:SV_DispatchThreadID) {
++      uint2 p=origin+tid.xy;
++      if(any(p>=output_size)) return;
++      float2 uv=(float2(p)+.5-center)/(2*radius)+.5;
++      if(any(uv<0)||any(uv>1))return;
++      int2 dp=int2((float2(p)+.5)*depth_scale+depth_offset);
++      uint depth_width,depth_height;
++      #ifdef MULTISAMPLED
++      uint depth_samples;
++      scene.GetDimensions(depth_width,depth_height,depth_samples);
++      #else
++      scene.GetDimensions(depth_width,depth_height);
++      #endif
++      if(any(dp<0) || dp.x>=depth_width || dp.y>=depth_height) return;
++      float visible=0;
++      #ifdef MULTISAMPLED
++      for(uint i=0;i<samples;++i) visible += marker_depth+epsilon>=scene.Load(dp,i);
++      visible/=samples;
++      #else
++      visible=marker_depth+epsilon>=scene.Load(int3(dp,0));
++      #endif
++      if(visible<=0)return;
++      float3 light=MarkerMaterial(uv,elapsed,view_depth)*visible;
++      float4 old=target[p];
++      target[p]=float4(old.rgb+light,old.a);
++    })";
++}

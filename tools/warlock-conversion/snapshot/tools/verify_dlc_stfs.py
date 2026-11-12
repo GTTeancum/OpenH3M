@@ -91,14 +91,43 @@ def verify(stream):
                 scope='Integrity only; does not establish retail acceptance')
 
 
+def read_directory(stream):
+    """Follow the standard STFS file-table chain, including multi-block tables."""
+    stream.seek(0)
+    header = stream.read(0xB000)
+    if len(header) != 0xB000 or not header[0x37B] & 1:
+        raise ValueError('Expected single-backing STFS header')
+    base = (struct.unpack_from('>I', header, 0x340)[0] + 4095) & ~4095
+    count = struct.unpack_from('<H', header, 0x37C)[0]
+    total = struct.unpack_from('>I', header, 0x395)[0]
+    index = int.from_bytes(header[0x37E:0x381], 'little')
+    if not 0 < count <= total:
+        raise ValueError('Invalid directory block count')
+    used, directory = set(), bytearray()
+    for _ in range(count):
+        if not 0 <= index < total or index in used:
+            raise ValueError('Invalid or looping directory chain')
+        used.add(index)
+        stream.seek(base + data_block(index) * 4096)
+        block = stream.read(4096)
+        if len(block) != 4096:
+            raise ValueError('Truncated directory block')
+        directory.extend(block)
+        stream.seek(base + table_block(index, 0) * 4096 + index % 170 * 24 + 20)
+        info = struct.unpack('>I', stream.read(4))[0]
+        if info >> 30 != 2:
+            raise ValueError('Directory block not allocated')
+        index = info & 0xFFFFFF
+    if index != 0xFFFFFF:
+        raise ValueError('Directory chain length mismatch')
+    return base, directory, used
+
+
 def verify_payload(package, payload):
     """Read the package directory and chains; compare every byte to staged files."""
     with package.open('rb') as stream:
         header = stream.read(0xB000)
         base = (struct.unpack_from('>I', header, 0x340)[0] + 4095) & ~4095
-        if struct.unpack_from('<H', header, 0x37C)[0] != 1:
-            raise ValueError('Expected one root directory block')
-        first = int.from_bytes(header[0x37E:0x381], 'little')
         total = struct.unpack_from('>I', header, 0x395)[0]
         def read_block(index):
             if not 0 <= index < total:
@@ -108,10 +137,10 @@ def verify_payload(package, payload):
             if len(block) != 4096:
                 raise ValueError('Truncated data')
             return block
-        directory = read_block(first)
-        seen, used, tables = set(), {first}, {}
+        base, directory, used = read_directory(stream)
+        seen, tables = set(), {}
         result = []
-        for row_offset in range(0, 4096, 64):
+        for row_offset in range(0, len(directory), 64):
             row = directory[row_offset:row_offset + 64]
             if row[40] & 63 == 0:
                 continue

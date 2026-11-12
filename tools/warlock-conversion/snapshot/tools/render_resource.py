@@ -7,9 +7,10 @@ import struct
 from render_buffers import convert_vertices, convert_indices
 
 
-def convert_render_resource(source, water_buffers=None):
+def convert_render_resource(source, water_buffers=None, vertex_converter=None):
     vertices, indices = source.buffers('vertex'), source.buffers('index')
     water_buffers = water_buffers or {}
+    vertex_converter = vertex_converter or convert_vertices
     required_water = {index for index, at in enumerate(vertices) if source.unpack('H', at + 4)[0] in (27, 28)}
     if set(water_buffers) != required_water:
         raise ValueError('Water render buffers require complete mesh-topology reconstruction')
@@ -57,7 +58,7 @@ def convert_render_resource(source, water_buffers=None):
                         raise ValueError('Invalid reconstructed native water buffer')
                     count, fmt = target_count, target_fmt
                 else:
-                    data, target_stride = convert_vertices(source_payload(at + 20, size), count, fmt, stride)
+                    data, target_stride = vertex_converter(source_payload(at + 20, size), count, fmt, stride)
                     if fmt == 9:
                         count = (count + 3) // 4
                 descriptor = bytearray(28)
@@ -79,3 +80,4 @@ def convert_render_resource(source, water_buffers=None):
     return {'control': bytes(control), 'raw': bytes(raw), 'root': 0,
             'fixups': fixups, 'interops': interops,
             'vertex_buffers': len(vertices), 'index_buffers': len(indices)}
+

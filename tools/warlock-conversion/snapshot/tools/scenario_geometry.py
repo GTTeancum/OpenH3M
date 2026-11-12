@@ -1,4 +1,5 @@
 """Stage source-built BSP and lighting, then bind them to the retail scenario."""
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from bsp_importer import import_bsp
@@ -17,7 +18,7 @@ def stage_geometry(importer, terrain, water):
 
 def _stage(i, terrain, water):
     s, c, b = i.source, i.registry.cache, i.builder
-    ss = ET.parse(i.reference / 'mcc/scnr.xml').getroot()
+    ss = load_schema(i.source, 'scnr', i.reference)
     ds = ET.parse(i.reference / 'plugins/scnr.xml').getroot()
     source_root = next(t['offset'] for t in s.tags.values() if t['group'] == 'scnr')
     target_root = next(t['offset'] for t in c.tags.values() if t['group'] == 'scnr')

@@ -53,6 +53,7 @@ class NativeAssets:
         }
         from generational_assets import stock_aliases
         aliases.update(stock_aliases())
+        aliases.update(getattr(self.i,'stock_asset_aliases',{}))
         if key in aliases:
             if key in self.i.resolved:
                 return self.i.resolved[key]
@@ -145,6 +146,35 @@ class NativeAssets:
                     return self.import_from(donor, other, force)
                 finally:
                     donor.close()
+            # Some retail tags survive with stripped resource records. Only
+            # recover texture pixels after every native donor has been checked;
+            # retain the native decal/shader metadata that references them.
+            if group == 'bitm' and name in getattr(i, 'audited_bitmap_recoveries', {}):
+                from native_bitmap_recovery import recover
+                return recover(i, c, datum, schema)
+            recover_basic = name == r'fx\particles\debug\bitmaps\basic'
+            if group == 'bitm' and (getattr(i, 'chiron', False) or recover_basic):
+                source_index = next((n for n, t in i.source.tags.items()
+                                     if t['group'] == 'bitm' and i.source.name(n) == name), None)
+                if source_index is not None:
+                    if recover_basic:
+                        src_rows = i.source.block(i.source.tags[source_index]['offset'] + 0x60, 0x38)
+                        dst_rows = c.block(tag['offset'] + 0x60, 0x30)
+                        if (len(src_rows) != 1 or len(dst_rows) != 1
+                                or i.source.unpack('2H', src_rows[0]+4) != (64, 64)
+                                or c.unpack('2H', dst_rows[0]+4) != (64, 64)
+                                or i.source.unpack('H', src_rows[0]+12)[0] != 14
+                                or c.unpack('H', dst_rows[0]+12)[0] != 14):
+                            raise ValueError('Audited basic bitmap dimensions/format changed')
+                    from encode_bitmap import encode_bitmap_base
+                    encoded = encode_bitmap_base(i.materials.bitmaps, source_index,
+                                                 preserve_bc_mips=True)
+                    result = ('bitm', i.materials.bitmap_resource(*encoded))
+                    i.resolved[key] = result
+                    i.materials.done[key] = result[1]
+                    i.added.append({'source': name, 'group': group, 'datum': hex(result[1]),
+                                    'recovered_texture': 'Same-named MCC texture; all disc resource records stripped'})
+                    return result
             raise ValueError(f'No intact native resource donor for {group}:{name}')
         size = int(schema.get('baseSize'), 0)
         owner, address = r.newtag(group, bytes(size))
@@ -183,6 +213,27 @@ class NativeAssets:
                     handle_offset = 0 if field.get('withGroup') == 'false' else 12
                     ref = c.u(pos + handle_offset)
                     if ref != 0xffffffff:
+                        if (group == 'rmsh' and label == 'rmsh:' + str(name) + '/Parameters'
+                                and field_name == 'Bitmap'):
+                            # Retail retains editor parameter references whose pixels
+                            # were stripped after shader compilation. Only the compiled
+                            # Shader Properties texture table is consumed at runtime;
+                            # its references still follow the strict importer below.
+                            bitmap = c.tags.get(ref & 65535)
+                            if bitmap is None or bitmap['group'] != 'bitm' or bitmap['salt'] != ref >> 16:
+                                raise ValueError('Invalid editor bitmap reference')
+                            zone = next(t['offset'] for t in c.tags.values() if t['group'] == 'zone')
+                            resources = c.block(zone + 88, 64)
+                            handles = [c.u(row) for off in (140, 152)
+                                       for row in c.block(bitmap['offset'] + off, 8)]
+                            stripped = any(d != 0xffffffff and (d & 65535) < len(resources)
+                                           and c.u(resources[d & 65535] + 24) == 0 for d in handles)
+                            if stripped:
+                                struct.pack_into('>I', out, offset + handle_offset, 0xffffffff)
+                                i.added.append({'source': c.name(ref & 65535), 'group': 'bitm',
+                                                'unused_editor_reference': label + '/' + field_name,
+                                                'reason': 'Retail stripped resource; runtime texture references remain strict'})
+                                continue
                         target_group, target = self.import_from(c, ref)
                         if handle_offset:
                             out[offset:offset + 4] = target_group.encode('ascii')

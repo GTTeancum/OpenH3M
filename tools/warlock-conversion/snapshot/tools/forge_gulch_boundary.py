@@ -2,7 +2,7 @@
 
 This planning boundary is not collision containment. Full visual geometry stays
 in both maps. Gulch includes the canyon, Montana, beach cave and mainland
-shoreline. The island, Sanctuary and waterfall remain on the Forge Island side.
+shoreline. The island, Sanctuary and waterfall remain on the Force Cove side.
 """
 import numpy as np
 

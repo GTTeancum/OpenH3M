@@ -1,4 +1,5 @@
 """Update accepted BSP material slots without changing geometry or physics data."""
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from assemble_scenario import field
@@ -7,7 +8,7 @@ from assemble_scenario import field
 def stage_bsp_materials(importer, terrain=None, water=None):
     s, c, b = importer.source, importer.registry.cache, importer.builder
     def active_bsps(cache, folder):
-        schema = ET.parse(importer.reference / folder / 'scnr.xml').getroot()
+        schema = load_schema(cache, 'scnr', importer.reference)
         block = field(schema, 'Structure BSPs')
         root = next(tag['offset'] for tag in cache.tags.values() if tag['group'] == 'scnr')
         result = []
@@ -22,7 +23,7 @@ def stage_bsp_materials(importer, terrain=None, water=None):
     target_bsps = active_bsps(c, 'plugins')
     if len(source_bsps) != 1 or len(target_bsps) != 1:
         raise ValueError('BSP material checkpoint requires exactly one source and target BSP')
-    ss = ET.parse(importer.reference / 'mcc/sbsp.xml').getroot()
+    ss = load_schema(s, 'sbsp', importer.reference)
     ds = ET.parse(importer.reference / 'plugins/sbsp.xml').getroot()
     sf, df = field(ss, 'Materials'), field(ds, 'Materials')
     source_rows = s.block(source_bsps[0]['offset'] + int(sf.get('offset'), 0),

@@ -12,7 +12,16 @@ MAPS = [('lockout', 'warlock', 'Warlock', 1520),
         ('zanzibar', 'resuscitation', 'Resuscitation', 1030),
         ('chillout', 'prisoner', 'Prisoner', 1600),
         ('sandbox', 'forge_gulch', 'Forge Gulch', 1730)]
-ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Forge Island', 1731)]
+ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Force Cove', 1731),
+                   ('chillout', 'chiron', 'Chiron TL-34', 1732),
+                   ('zanzibar', 'rodentia', 'Rodentia', 1734),
+                   ('zanzibar', 'boarding_action', 'Boarding Action', 1735),
+                   ('zanzibar', 'lockout_classic', 'Lockout', 1738),
+                   ('zanzibar', 'elongation', '3longation', 1739),
+                   ('zanzibar', 'sanctuary', 'Sanctuary', 1742),
+                   ('zanzibar', 'powerhouse', 'Powerhouse', 1746),
+                   ('zanzibar', 'sky_bridge', 'Sky Bridge', 1747),
+                   ('zanzibar', 'desolation', 'Desolation', 1748)]
 
 
 def fixed(data, offset, length, text, encoding='ascii'):

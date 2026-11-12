@@ -79,6 +79,18 @@ def remap_surfaces(code, surface_map, source_surface_count, instance_count):
         raise ValueError('Forge BSP surface shape classes disagree')
     if classes.get(8,set()) & classes.get(13,set()) or (classes.get(8,set()) | classes.get(13,set())) != set(range(source_surface_count)):
         raise ValueError('Forge BSP keys do not partition the surface table')
+    return relocate_keys(code, lambda key: key if key >> 26 == 16 else
+                         ((key >> 26) << 26) | surface_map[key & 0x3ffffff]
+                         if key & 0x3ffffff in surface_map else None)
+
+
+def relocate_keys(code, mapper, clear_source_bases=False):
+    """Relocate forward branches while replacing/removing individual shape keys."""
+    keys_at = {}
+    for at, _, key in terminals(code):
+        if at in keys_at and keys_at[at] != key:
+            raise ValueError('Shared MOPP terminal has conflicting keys')
+        keys_at[at] = key
     lengths = {0:0, **dict.fromkeys(range(1,5),3),5:1,6:2,7:3,9:1,10:2,11:4,
                **dict.fromkeys(range(0x10,0x1d),3),**dict.fromkeys(range(0x20,0x23),2),
                **dict.fromkeys(range(0x23,0x26),6),**dict.fromkeys(range(0x26,0x29),2),
@@ -100,11 +112,14 @@ def remap_surfaces(code, surface_map, source_surface_count, instance_count):
             key = keys_at.get(at)
             raw = b'\0'
             if key is not None:
-                kind, index = key >> 26, key & 0x3ffffff
-                if kind == 16 or index in surface_map:
-                    mapped = key if kind == 16 else (kind << 26) | surface_map[index]
+                mapped = mapper(key)
+                if mapped is not None:
                     raw = b'\x0b' + mapped.to_bytes(4,'big') + b'\x30'
                     expected.append(mapped)
+        elif clear_source_bases and op in (9,10,11):
+            # Every surviving terminal above receives an absolute base. Old
+            # source bases are redundant and may encode a foreign key layout.
+            raw=bytes([op])+bytes(n)
         elif 5 <= op <= 7:
             targets = [at+n+1+uint(at+1,n)]
             raw = b'\x07\0\0\0'

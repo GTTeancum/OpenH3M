@@ -1,0 +1,51 @@
+diff --git a/include/rex/graphics/pipeline/shader/interpreter.h b/include/rex/graphics/pipeline/shader/interpreter.h
+index 3e4fe7c..300d28b 100644
+--- a/include/rex/graphics/pipeline/shader/interpreter.h
++++ b/include/rex/graphics/pipeline/shader/interpreter.h
+@@ -40,6 +40,17 @@ class ShaderInterpreter {
+   ExportSink* GetExportSink() const { return export_sink_; }
+   void SetExportSink(ExportSink* new_export_sink) { export_sink_ = new_export_sink; }
+ 
++  // Optional process-local texture source for offline shader verification.
++  // The caller owns sampling, fetch constants and format conversion. Existing
++  // runtime callers keep the conservative texture-free interpretation contract.
++  class TextureFetchSource {
++   public:
++    virtual ~TextureFetchSource() = default;
++    virtual std::array<float, 4> Fetch(ucode::TextureFetchInstruction instruction,
++                                      const std::array<float, 3>& coordinates) = 0;
++  };
++  void SetTextureFetchSource(TextureFetchSource* source) { texture_fetch_source_ = source; }
++
+   const float* temp_registers() const { return &temp_registers_[0][0]; }
+   float* temp_registers() { return &temp_registers_[0][0]; }
+ 
+@@ -122,6 +133,7 @@ class ShaderInterpreter {
+   const memory::Memory& memory_;
+ 
+   ExportSink* export_sink_ = nullptr;
++  TextureFetchSource* texture_fetch_source_ = nullptr;
+ 
+   xenos::ShaderType shader_type_ = xenos::ShaderType::kVertex;
+   const uint32_t* ucode_ = nullptr;
+diff --git a/src/graphics/pipeline/shader/interpreter.cpp b/src/graphics/pipeline/shader/interpreter.cpp
+index cc726b7..f4f8ce8 100644
+--- a/src/graphics/pipeline/shader/interpreter.cpp
++++ b/src/graphics/pipeline/shader/interpreter.cpp
+@@ -95,6 +95,16 @@ void ShaderInterpreter::Execute() {
+             }
+             if (fetch_instr.opcode() == ucode::FetchOpcode::kVertexFetch) {
+               ExecuteVertexFetchInstruction(fetch_instr.vertex_fetch());
++            } else if (texture_fetch_source_ && fetch_instr.opcode() == ucode::FetchOpcode::kTextureFetch) {
++              const auto& texture = fetch_instr.texture_fetch();
++              const auto* source = GetTempRegister(texture.src(), texture.is_src_relative());
++              std::array<float, 3> coordinates;
++              for (unsigned component = 0; component < 3; ++component) {
++                coordinates[component] = source[(texture.src_swizzle() >> (component * 2)) & 3];
++              }
++              const auto value = texture_fetch_source_->Fetch(texture, coordinates);
++              StoreFetchResult(fetch_instr.dest(), fetch_instr.is_dest_relative(),
++                               fetch_instr.dest_swizzle(), value.data());
+             } else {
+               // Not supporting texture fetching (very complex).
+               float zero_result[4] = {};

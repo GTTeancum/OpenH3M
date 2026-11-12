@@ -52,16 +52,46 @@ def schema_path(cache, group, reference=None):
 
 
 def load_schema(cache, group, reference=None):
-    return ET.parse(schema_path(cache, group, reference)).getroot()
+    schema = ET.parse(schema_path(cache, group, reference)).getroot()
+    if profile(cache) == 'mcc-2022' and group == 'scnr':
+        decals = next(n for n in schema if n.get('name') == 'Decals')
+        node = next(n for n in decals if n.get('name') == 'Editing Bound To BSP index')
+        if node.tag != 'int8' or int(node.get('offset'), 0) != 2:
+            raise ValueError('MCC 2022 decal BSP field layout changed')
+        node.set('name', 'Editing Bound To BSP Index')
+    if profile(cache) == 'mcc-2022' and group == 'sbsp':
+        # Assembly later standardized these labels without changing their
+        # types/positions. Preserve the pinned file and normalize only labels
+        # needed by the existing field-name based metadata converter.
+        clusters = next(n for n in schema if n.get('name') == 'Clusters')
+        for name, offset in (('Acoustics index', 0x1C), ('Background Sound index', 0x20),
+                             ('Sound Environment index', 0x22), ('Weather index', 0x24)):
+            node = next(n for n in clusters if n.get('name') == name)
+            if node.tag != 'int16' or int(node.get('offset'), 0) != offset:
+                raise ValueError('MCC 2022 cluster field layout changed')
+            node.set('name', name.replace('index', 'Index'))
+    if profile(cache) == 'mcc-2022' and group == 'decs':
+        # The pinned Assembly file leaves this enum empty. TagTool's shared
+        # DecalSystem.DecalDefinitionBlock.DecalFlags has no platform split;
+        # these same six bits are already annotated in our native/current files.
+        system = next(n for n in schema if n.get('name') == 'Decal System')
+        flags = next(n for n in system if n.get('name') == 'Flags')
+        if flags.tag != 'flags32' or int(flags.get('offset'), 0) != 4 or len(flags):
+            raise ValueError('MCC 2022 decal flag layout changed')
+        for index, name in enumerate(('Specular Modulate', 'Bump Modulate', 'Random Sprite Sequence',
+                                      'Additive Blend Mode', 'Bit 4', 'Bit 5')):
+            ET.SubElement(flags, 'bit', name=name, index=str(index))
+    return schema
 
 
-def validate_tree(cache, root, schema):
+def validate_tree(cache, root, schema, references=None):
     """Check every nested block, data allocation and tag reference in one tag.
 
     This establishes structural readability only, not conversion support or
     semantic correctness. It follows schema blocks, never dependency graphs.
     """
-    counts = dict(block_headers=0, block_rows=0, tag_references=0, data_references=0)
+    counts = dict(block_headers=0, block_rows=0, tag_references=0, data_references=0,
+                  unspecified_reference_groups=0)
     errors = []
 
     def walk(node, base, label, depth=0):
@@ -100,9 +130,16 @@ def validate_tree(cache, root, schema):
                         group = bytes(cache.data[at:at + 4])
                         if cache.mcc:
                             group = group[::-1]
-                        if group != target['group'].encode('ascii'):
+                        if cache.mcc and group == b'\xff' * 4:
+                            # Existing Sky Bridge and 2022 Desolation RMT2 tags
+                            # retain valid salted shader handles with an unset
+                            # group word. Resolve the group from the tag table.
+                            counts['unspecified_reference_groups'] += 1
+                        elif group != target['group'].encode('ascii'):
                             raise ValueError(f'Tag group differs from datum {datum:#x}')
                     counts['tag_references'] += 1
+                    if references is not None:
+                        references.append(dict(field=path, datum=datum, group=target['group']))
                 elif kind == 'dataref':
                     size = cache.u(at)
                     if size:

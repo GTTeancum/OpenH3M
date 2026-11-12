@@ -24,12 +24,12 @@ class BitmapSource:
    result.append({'width':w,'height':h,'format':fmt,'mips':c.data[b+0x14]+1,'size':size,'high_size':high,'pixel_offset':c.u(b+0x18),'high_offset':c.u(b+0x20),'resource':resource})
   return result
  def pixels(self,tag,index=0):
-  c=self.c;info=self.info(tag)[index];r=self.resources[info['resource']&65535];loc=c.unpack('h',r+0x22)[0];required,optional,roff,ooff,_,_=c.unpack('hhIIhh',self.locations[loc])
-  # Optional data is the highest mip; required data holds the remaining chain.
+  from resource_reader import Resource
+  info=self.info(tag)[index];resource=Resource(self.c,info['resource'])
   high=info['high_size'];size=info['size'];low=size-high
-  req=self.page(required) if low else b'';opt=self.page(optional) if high else b''
-  assert roff+info['pixel_offset']+low<=len(req)
-  assert ooff+info['high_offset']+high<=len(opt)
-  result=opt[ooff+info['high_offset']:ooff+info['high_offset']+high]+req[roff+info['pixel_offset']:roff+info['pixel_offset']+low]
+  req=resource.raw[0] if low else b'';opt=resource.raw[1] if high else b''
+  assert info['pixel_offset']+low<=len(req)
+  assert info['high_offset']+high<=len(opt)
+  result=opt[info['high_offset']:info['high_offset']+high]+req[info['pixel_offset']:info['pixel_offset']+low]
   assert len(result)==size
   return result

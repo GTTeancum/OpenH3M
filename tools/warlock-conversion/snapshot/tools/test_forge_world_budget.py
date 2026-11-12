@@ -20,6 +20,27 @@ class BlendSource:
 
 
 class BlendBudgetTests(unittest.TestCase):
+    def test_opaque_bc_chain_keeps_each_mip_color(self):
+        colors = [(0xf800, (0,0,255)), (0x07e0, (0,255,0)),
+                  (0x001f, (255,0,0)), (0xffff, (255,255,255)),
+                  (0x0000, (0,0,0)), (0xf800, (0,0,255))]
+        compressed = []; expected = []
+        for level, (rgb565, bgra) in enumerate(colors):
+            size = max(1,32 >> level)
+            block = bytes(8) + struct.pack('<HHI', rgb565, rgb565, 0)
+            compressed.append(block * (((size+3)//4)**2))
+            expected.append(bytes((*bgra,255))*size*size)
+        class Chain:
+            def info(self, tag):
+                return [dict(width=32,height=32,format=16,mips=6,kind=0,curve=3)]
+            def pixels(self, tag, index=0):return b''.join(compressed)
+        class Expected(Chain):
+            def info(self, tag):return [dict(super().info(tag)[0],format=11)]
+            def pixels(self, tag, index=0):return b''.join(expected)
+        actual = encode_bitmap_base(Chain(),0,opaque_alpha=True,preserve_color_mips=True)
+        reference = encode_bitmap_base(Expected(),0,preserve_color_mips=True)
+        self.assertEqual(actual,reference)
+
     def test_neutral_specular_mask_preserves_color_and_other_users(self):
         class ColorSource(BlendSource):
             def info(self, tag):

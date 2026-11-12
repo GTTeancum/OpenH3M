@@ -1,0 +1,232 @@
+--- reference/simple_lights.fx
++++ xenos-source/simple_lights.fx
+@@ -105,40 +105,14 @@
+ 	diffusely_reflected_light= float3(0.0f, 0.0f, 0.0f);
+ 	specularly_reflected_light= float3(0.0f, 0.0f, 0.0f);
+ 
+-    if (SIMPLE_LIGHT_COUNT > 0)
++    [loop]
++    for (int light_index = 0; light_index < SIMPLE_LIGHT_COUNT; ++light_index)
+     {
+-        simple_lights_analytical_single(0, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-        if (SIMPLE_LIGHT_COUNT > 1)
+-        {
+-            simple_lights_analytical_single(1, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-            if (SIMPLE_LIGHT_COUNT > 2)
+-            {
+-                simple_lights_analytical_single(2, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-                if (SIMPLE_LIGHT_COUNT > 3)
+-                {
+-                    simple_lights_analytical_single(3, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-                    if (SIMPLE_LIGHT_COUNT > 4)
+-                    {
+-                        simple_lights_analytical_single(4, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-                        if (SIMPLE_LIGHT_COUNT > 5)
+-                        {
+-                            simple_lights_analytical_single(5, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-                            if (SIMPLE_LIGHT_COUNT > 6)
+-                            {
+-                                simple_lights_analytical_single(6, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-								[flatten]
+-                                if (SIMPLE_LIGHT_COUNT > 7)
+-                                {
+-                                    simple_lights_analytical_single(7, fragment_position_world, surface_normal, view_reflect_dir_world, specular_power, diffusely_reflected_light, specularly_reflected_light);
+-                                }
+-                            }
+-                        }
+-                    }
+-                }
+-            }
+-        }
+-    }
+-	
++        simple_lights_analytical_single(light_index, fragment_position_world,
++            surface_normal, view_reflect_dir_world, specular_power,
++            diffusely_reflected_light, specularly_reflected_light);
++    }
++
+     specularly_reflected_light *= specular_power;
+ }
+ 
+--- reference/render_target.fx
++++ xenos-source/render_target.fx
+@@ -57,15 +57,15 @@
+ 	#endif
+ #endif
+ 
+-	//if (LDR_gamma2)
+-	//{
+-	//	result.color.rgb= safe_sqrt(result.color.rgb);
+-	//}
+-#ifndef LDR_ONLY
+-	//if (HDR_gamma2)
+-	//{
+-	//	result.dark_color.rgb= safe_sqrt(result.dark_color.rgb);
+-	//}
++	if (LDR_gamma2)
++	{
++		result.color.rgb= safe_sqrt(result.color.rgb);
++	}
++#ifndef LDR_ONLY
++	if (HDR_gamma2)
++	{
++		result.dark_color.rgb= safe_sqrt(result.dark_color.rgb);
++	}
+ #endif
+ 
+ 	return result;
+@@ -114,15 +114,15 @@
+ 	#endif
+ #endif
+ 
+-	//if (LDR_gamma2)
+-	//{
+-	//	result.color.rgb= safe_sqrt(result.color.rgb);
+-	//}
+-#ifndef LDR_ONLY
+-	//if (HDR_gamma2)
+-	//{
+-	//	result.dark_color.rgb= safe_sqrt(result.dark_color.rgb);
+-	//}
++	if (LDR_gamma2)
++	{
++		result.color.rgb= safe_sqrt(result.color.rgb);
++	}
++#ifndef LDR_ONLY
++	if (HDR_gamma2)
++	{
++		result.dark_color.rgb= safe_sqrt(result.dark_color.rgb);
++	}
+ #endif
+ 
+ 	return result;
+--- reference/entry_points.fx
++++ xenos-source/entry_points.fx
+@@ -69,7 +69,7 @@
+ 	float4 position					: VS_POS_OUTPUT;
+ 	//float clip_distance				: SV_ClipDistance;
+ 	float2 texcoord					: TEXCOORD0;
+-	float4 normal					: TEXCOORD1;
++	float3 normal					: TEXCOORD1;
+ 	float3 binormal					: TEXCOORD2;
+ 	float3 tangent					: TEXCOORD3;
+ 	float3 fragment_to_camera_world	: TEXCOORD4;
+@@ -100,7 +100,6 @@
+ 	
+ 	// normal, tangent and binormal are all in world space
+ 	vsout.normal.xyz = vertex.normal;
+-	vsout.normal.w = vsout.position.w;
+ 	vsout.texcoord = vertex.texcoord;
+ 	vsout.tangent = vertex.tangent;
+ 	vsout.binormal = vertex.binormal;
+@@ -160,7 +159,7 @@
+     albedo.rgb = cross(vsout.binormal.xyz, vsout.tangent.xyz);
+ 	#endif
+ 	
+-	return convert_to_albedo_target(albedo, bump_normal, vsout.normal.w, tangent_frame[2]);
++	return convert_to_albedo_target(albedo, bump_normal, 0.0f, tangent_frame[2]);
+ }
+ 
+ 
+@@ -741,7 +740,7 @@
+ {
+ 	float4 position					: VS_POS_OUTPUT;
+ 	//float clip_distance				: SV_ClipDistance;
+-	float4 texcoord					: TEXCOORD0; // zw contains inscatter.xy
++	float2 texcoord					: TEXCOORD0;
+ 	float3 fragment_to_camera_world	: TEXCOORD1;
+ 	float3 tangent					: TEXCOORD2;
+ #ifdef APPLY_FIXES
+@@ -754,7 +753,8 @@
+ 	float4 probe0_3_g				: TEXCOORD6;
+ 	float4 probe0_3_b				: TEXCOORD7;
+ 	float3 dominant_light_intensity	: TEXCOORD8;
+-	float4 extinction				: COLOR0;
++	float3 extinction				: COLOR0;
++	float3 inscatter : COLOR1;
+ #ifdef misc_attr_define
+ 	float4 misc						: TEXCOORD9;
+ #endif
+@@ -826,10 +826,7 @@
+ 
+ 	vsout.fragment_to_camera_world = Camera_Position - vertex.position;
+ 	
+-	float3 inscatter;
+-	compute_scattering(Camera_Position, vertex.position, vsout.extinction.xyz, inscatter);
+-	vsout.texcoord.zw = inscatter.xy;
+-	vsout.extinction.w = inscatter.z;
++	compute_scattering(Camera_Position, vertex.position, vsout.extinction, vsout.inscatter);
+ 
+ 	//vsout.clip_distance = dot(vsout.position, v_clip_plane);
+ 
+@@ -887,7 +884,7 @@
+ 		dominant_light_direction,
+ 		vsout.dominant_light_intensity,
+ 		vsout.extinction.xyz,
+-		float3(vsout.texcoord.z, vsout.texcoord.w, vsout.extinction.w),
++		vsout.inscatter,
+ 		misc,
+ 		ssr_color);
+ 	
+--- reference/hlsl_constant_persist.fx
++++ xenos-source/hlsl_constant_persist.fx
+@@ -164,7 +164,7 @@
+ 	   //	###xwan	constants for light map dxt5 compression, reservated comstants from 60 to 79
+ 	   #define p_lightmap_compress_constant_using_dxt true	// lighting calcs albedo instead of sampling it 
+    #else*/
+-	   bool actually_calc_albedo : register(b12);	// lighting calcs albedo instead of sampling it 
++	   bool actually_calc_albedo : register(b0);	// lighting calcs albedo instead of sampling it 
+ 	   //	###xwan	constants for light map dxt5 compression, reservated comstants from 60 to 79
+ 	   bool p_lightmap_compress_constant_using_dxt : register(b10);	// lighting calcs albedo instead of sampling it 
+    //#endif 
+@@ -181,18 +181,18 @@
+ 
+    //pixel shader common samplers --- do not allow any collisions by explicitly declaring samplers greater than 10 elsewhere!!!
+    //STATIC LIGHTING
+-   sampler albedo_texture;
+-   sampler normal_texture;
+-
+-   sampler lightprobe_texture_array;
+-   sampler dominant_light_intensity_map;
++   sampler albedo_texture : register(s10);
++   sampler normal_texture : register(s11);
++
++   sampler lightprobe_texture_array : register(s12);
++   sampler dominant_light_intensity_map : register(s13);
+ 
+ 
+    //WATER, ACTIVE CAMO
+-   sampler scene_ldr_texture;
++   sampler scene_ldr_texture : register(s10);
+ 
+    //WATER, PARTICLES 
+-   sampler depth_buffer;
++   sampler depth_buffer : register(s11);
+ #endif
+ 
+ #elif DX_VERSION == 11
+--- reference/hlsl_constant_oneshot.fx
++++ xenos-source/hlsl_constant_oneshot.fx
+@@ -40,7 +40,7 @@
+ // Active camo constants
+ 
+ // set immediately before rendering
+-PIXEL_CONSTANT(float4, k_ps_active_camo_factor, c212);
++PIXEL_CONSTANT(float4, k_ps_active_camo_factor, c232);
+ // set at the start of render_transparents
+ PIXEL_CONSTANT(float4, k_ps_distort_bounds, c213);
+ 
+--- reference/material_models.fx
++++ xenos-source/material_models.fx
+@@ -70,7 +70,11 @@
+ PARAM(float,	environment_map_specular_contribution);			//scale the environment map contribution
+ PARAM_SAMPLER_2D(material_texture);					//a texture that stores spatially varient parameters
+ PARAM(float4,	material_texture_xform);				//texture matrix
++#ifdef H3_MATERIAL_TEXTURE_FLOAT
++PARAM(float, use_material_texture);
++#else
+ PARAM(bool, use_material_texture);
++#endif
+ PARAM(bool, order3_area_specular);
+ PARAM(bool, no_dynamic_lights);
+ 

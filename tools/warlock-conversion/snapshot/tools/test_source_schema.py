@@ -49,11 +49,29 @@ class SourceSchemaTests(unittest.TestCase):
         schema.clear()
         self.assertEqual(load_schema(source(), 'scnr').get('baseSize'), '0x7B8')
 
+    def test_cluster_labels_match_native_without_changing_pinned_layout(self):
+        older = field(load_schema(source(), 'sbsp'), 'Clusters')
+        native = field(load_schema(source(mcc=False), 'sbsp'), 'Clusters')
+        pinned = field(ET.parse(schema_path(source(), 'sbsp')).getroot(), 'Clusters')
+        for name in ('Acoustics', 'Background Sound', 'Sound Environment', 'Weather'):
+            old, new = field(older, name + ' Index'), field(native, name + ' Index')
+            original = field(pinned, name + ' index')
+            self.assertEqual((old.tag, old.get('offset')), (new.tag, new.get('offset')))
+            self.assertEqual((old.tag, old.get('offset')), (original.tag, original.get('offset')))
+
     def test_unknown_groups_do_not_fall_back_to_newer_layouts(self):
         with self.assertRaises(ValueError):
             load_schema(source(), 'nope')
         with self.assertRaises(ValueError):
             load_schema(source(), '../scnr')
+
+    def test_older_decal_flag_names_match_native_without_changing_upstream_file(self):
+        old = field(field(load_schema(source(), 'decs'), 'Decal System'), 'Flags')
+        native = field(field(load_schema(source(mcc=False), 'decs'), 'Decal System'), 'Flags')
+        self.assertEqual([(n.get('name'), n.get('index')) for n in old],
+                         [(n.get('name'), n.get('index')) for n in native])
+        pinned = ET.parse(schema_path(source(), 'decs')).getroot()
+        self.assertEqual(len(field(field(pinned, 'Decal System'), 'Flags')), 0)
 
     def test_retained_2022_overrides_match_pinned_upstream_blobs(self):
         manifest = json.loads((REFERENCE / 'mcc-2022/manifest.json').read_text(encoding='utf-8'))
@@ -105,6 +123,17 @@ class SourceSchemaTests(unittest.TestCase):
         report = validate_tree(cache, 0, schema)
         self.assertTrue(report['valid'])
         self.assertEqual(report['counts']['tag_references'], 1)
+
+    def test_mcc_unspecified_group_still_requires_a_valid_salted_handle(self):
+        cache, schema = self.fixture()
+        cache.data[0x100:0x104] = b'\xff' * 4
+        references = []
+        report = validate_tree(cache, 0, schema, references)
+        self.assertTrue(report['valid'])
+        self.assertEqual(report['counts']['unspecified_reference_groups'], 1)
+        self.assertEqual(references[0]['group'], 'scen')
+        struct.pack_into('<I', cache.data, 0x10C, 0xABCE0003)
+        self.assertFalse(validate_tree(cache, 0, schema)['valid'])
 
 
 if __name__ == '__main__':

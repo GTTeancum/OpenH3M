@@ -11,7 +11,29 @@ ROOT = Path(__file__).resolve().parents[4]
 digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def deploy(install, build, content):
+def advanced_forge_settings(data):
+    """Configure private editor inputs without copying them into DLC or layouts."""
+    if data is None:
+        return {}
+    data = data.resolve(strict=True)
+    if not data.is_relative_to(ROOT):
+        raise ValueError('Advanced Forge inputs must stay in this repository')
+    for relative, size in (('h4-image.bin', 0x2f38000),
+                           ('isolated/forge-globals.bin', 80)):
+        path = data / relative
+        if not path.is_file() or path.stat().st_size != size:
+            raise ValueError(f'Invalid Advanced Forge input: {relative}')
+    markers = (data / 'isolated/markers.bin').read_bytes()
+    if len(markers) < 8 or markers[:4] != b'AFM2':
+        raise ValueError('Invalid Advanced Forge marker bindings')
+    # Opt-in through F7; never carry exclusive replay or diagnostic drag into
+    # the user's direct launch. Runtime performs full binding validation.
+    return {'halo3mp_advanced_forge_data': data.as_posix(),
+            'halo3mp_advanced_forge': False}
+
+
+def deploy(install, build, content, advanced_forge_data=None):
+    editor_settings = advanced_forge_settings(advanced_forge_data)
     install, build, content = (p.resolve(strict=True) for p in (install, build, content))
     for p in (build, content):
         if not p.is_relative_to(ROOT):
@@ -48,12 +70,13 @@ def deploy(install, build, content):
         'cache_root': (ROOT / 'work/dlc/cache').as_posix(),
         'log_file': (ROOT / '.local/runtime-logs/OpenH3M.log').as_posix(),
     }
+    settings.update(editor_settings)
     (ROOT / '.local/runtime-logs').mkdir(exist_ok=True)
     text = '# Managed by deploy_dlc_host.py\n' + ''.join(f'{k} = {json.dumps(v)}\n' for k, v in settings.items())
     text += ('host_guest_output_fps = 30\nlog_max_file_size_mb = 5\nlog_max_files = 3\n'
              'host_present_from_non_ui_thread = false\nd3d12_host_sync_interval = 1\n'
              'd3d12_host_waitable_presentation = true\nd3d12_host_maximum_frame_latency = 2\n'
-             'host_output_display_phase = true\n')
+             'host_output_display_phase = true\nd3d12_async_occlusion_readback = true\n')
     temporary = rollback / 'bootstrap.deploy'
     temporary.write_text(text)
     os.replace(temporary, install / 'OpenH3M.bootstrap.toml')
@@ -69,5 +92,7 @@ if __name__ == '__main__':
     parser.add_argument('--install', required=True, type=Path)
     parser.add_argument('--build', required=True, type=Path)
     parser.add_argument('--content', required=True, type=Path)
+    parser.add_argument('--advanced-forge-data', type=Path,
+                        help='Private H4 research directory; magnets remain off until enabled with F7')
     args = parser.parse_args()
-    deploy(args.install, args.build, args.content)
+    deploy(args.install, args.build, args.content, args.advanced_forge_data)

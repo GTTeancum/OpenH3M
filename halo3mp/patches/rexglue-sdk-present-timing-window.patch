@@ -1,0 +1,23 @@
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -50,7 +50,10 @@
+     .range(0, 4);
+ 
+ REXCVAR_DEFINE_BOOL(d3d12_log_present_timing, false, "UI/D3D12",
+-                    "Log DXGI delivery statistics from 110-155 seconds after first present");
++                    "Log DXGI delivery statistics during the diagnostic window");
++
++REXCVAR_DEFINE_UINT32(d3d12_present_timing_end_ms, 155000, "UI/D3D12",
++                      "End of diagnostic delivery logging after first present");
+ 
+ REXCVAR_DEFINE_STRING(d3d12_host_capture_path, "", "UI/D3D12",
+                       "One native BMP capture including host editor UI; empty disables");
+@@ -1331,7 +1334,7 @@
+     }
+     const double elapsed_ms = double(timing_begin.QuadPart - timing_origin) *
+                               1000.0 / double(timing_frequency.QuadPart);
+-    if (elapsed_ms >= 110000.0 && elapsed_ms <= 155000.0) {
++    if (elapsed_ms >= 110000.0 && elapsed_ms <= REXCVAR_GET(d3d12_present_timing_end_ms)) {
+       DXGI_FRAME_STATISTICS statistics{};
+       const HRESULT statistics_result = paint_context_.swap_chain->GetFrameStatistics(&statistics);
+       UINT last_present_count = 0;

@@ -27,6 +27,8 @@ try {
     $patches += 'waitable-presentation'
     $patches += 'presentation-capacity'
     $patches += 'display-phase-pacing'
+    $patches += 'video-options'
+    $patches += 'present-timing-window'
     $patchFiles = @($patches | ForEach-Object { Join-Path $repo "halo3mp/patches/rexglue-sdk-$_.patch" })
     & python -B (Join-Path $PSScriptRoot 'apply_sdk_patch_stack.py') --sdk $sdk `
         --index (Join-Path $repo 'work/build-temp/sdk-patch-index') @patchFiles

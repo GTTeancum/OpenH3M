@@ -4,22 +4,24 @@ Unresolved records remain visible in the report. Preparation never writes a map;
 stage() refuses partial output so an incomplete scenario cannot be deployed by
 mistake. Imported object tags can be supplied by the dependency importer.
 """
+from source_schema import load_schema
 import struct
 from scenario_placements import plan_placements
 
 
 PLACEMENTS = {'Scenery': ('Scenery Palette', 6), 'Weapons': ('Weapon Palette', 2),
-              'Equipment': ('Equipment Palette', 3), 'Crates': ('Crates Palette', 10)}
+              'Equipment': ('Equipment Palette', 3), 'Crates': ('Crates Palette', 10),
+              'Machines': ('Machine Palette', 7), 'Controls': ('Control Palette', 8)}
 
 
 def field(schema, name):
     return next(x for x in schema if x.get('name') == name)
 
 
-def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False):
+def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False, omit_null_palettes=False, translate_string=None):
     placements = placements or PLACEMENTS
     plan = plan_placements(source, target, source_schema, target_schema, imported,
-                           [(name, palette) for name, (palette, _) in placements.items()], omitted, omit_null_effects)
+                           [(name, palette) for name, (palette, _) in placements.items()], omitted, omit_null_effects, omit_null_palettes, translate_string)
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     arrays, unresolved, maps = {}, [], {}
     for name, (_, object_type) in placements.items():
@@ -111,17 +113,30 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     from object_variants import resolve_variants
     source, target = importer.source, importer.registry.cache
     placements = dict(PLACEMENTS)
+    if getattr(importer, 'chiron', False) or getattr(importer,'desolation',False):
+        placements['Bipeds'] = ('Biped Palette', 0)
     if getattr(importer, 'slot', 'lockout') in ('zanzibar', 'chillout', 'sandbox'):
         placements['Vehicles'] = ('Vehicle Palette', 1)
     if include_sound_scenery:
         placements['Sound Scenery'] = ('Sound Scenery Palette', 9)
     if include_effect_scenery:
         placements['Effect Scenery'] = ('Effect Scenery Palette', 13)
-    ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    ss = load_schema(importer.source, 'scnr', importer.reference)
     ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
     variants, variant_report = resolve_variants(source, target, importer.registry.newtag)
     importer.resolved.update({key: (key[0], datum) for key, datum in variants.items()})
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
+    # Some MCC multiplayer caches retain anonymous editor biped placements
+    # whose entire used palette consists of null references. Route only that
+    # proven inert case through the existing null-palette omission logic.
+    if 'Bipeds' not in placements:
+        bf,pf=field(ss,'Bipeds'),field(ss,'Biped Palette')
+        bipeds=source.block(scenario+int(bf.get('offset'),0),int(bf.get('elementSize'),0))
+        palette=source.block(scenario+int(pf.get('offset'),0),int(pf.get('elementSize'),0))
+        if bipeds and all(source.unpack('h',row+2)[0]==-1
+                and 0<=source.unpack('h',row)[0]<len(palette)
+                and source.u(palette[source.unpack('h',row)[0]]+12)==0xffffffff for row in bipeds):
+            placements['Bipeds']=('Biped Palette',0)
     for name, (palette_name, _) in placements.items():
         sf, pf = field(ss, name), field(ss, palette_name)
         rows = source.block(scenario + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
@@ -135,11 +150,17 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
             if not 0 <= index < len(palette):
                 raise ValueError(f'{name}: invalid palette index {index}')
             datum = source.u(palette[index] + 12)
+            if datum == 0xffffffff:
+                if source.unpack('h', row + 2)[0] != -1:
+                    raise ValueError('Named null palette placement requires review')
+                continue
             key = source.tags[datum & 65535]['group'], source.name(datum & 65535)
             if key not in getattr(importer, 'omitted_assets', ()):
                 importer.import_tag(datum)
     prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements,
-                       getattr(importer, 'omitted_assets', ()), bool(getattr(importer, 'gulch_partition', None)))
+                       getattr(importer, 'omitted_assets', ()), bool(getattr(importer, 'gulch_partition', None)),
+                       True,
+                       lambda value: importer.source_strings.translate(value, importer.target_strings))
     powerup_adjustments = []
     if getattr(importer, 'slot', None) == 'chillout':
         # CE powerups were authored with their origins on the floor. Native H3
@@ -169,9 +190,75 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
                 struct.pack_into('>' + fmt, payload, offset, value if label == 'Team' else old | value)
             powerup_adjustments.append({'index': i, 'tag': name, 'original_position': xyz,
                                         'height_clearance': 0.35, 'settings': 'Retail resting, acceleration, neutral team'})
-        if len(powerup_adjustments) != 2:
+        if not getattr(importer, 'chiron', False) and len(powerup_adjustments) != 2:
             raise ValueError('Prisoner must have exactly two native powerup placements')
         prepared['arrays']['Equipment'] = count, bytes(payload)
+    teleporter_adjustments = []
+    if getattr(importer, 'chiron', False) or getattr(importer.materials, 'boarding_action', False):
+        tele_name = r'custom\objects\scen\mp_obj\hce_tele_flat_wide\hce_tele_2_way_flat_wide'
+        tele_tag = next(t for n, t in source.tags.items() if source.name(n) == tele_name)
+        object_schema = load_schema(importer.source, 'scen', importer.reference)
+        multiplayer = field(object_schema, 'Multiplayer Object')
+        defaults = source.block(tele_tag['offset'] + int(multiplayer.get('offset'), 0),
+                                int(multiplayer.get('elementSize'), 0))
+        if len(defaults) != 1 or source.data[defaults[0] + 6] != 2:
+            raise ValueError('CE wall teleporter requires its authored cylinder defaults')
+        dimensions = source.unpack('4f', defaults[0] + 12)
+        if dimensions[0] <= 0 or dimensions[2] + dimensions[3] <= 0:
+            raise ValueError('Invalid authored teleporter dimensions')
+        datum = importer.resolved[('scen', tele_name)][1]
+        # The source's narrow cylinder does not span its wide portal wall.
+        # Use H3's oriented box: full X width and full Y length, as in
+        # ManagedDonkey multiplayer_object_render_debug_boundary. Derive Y
+        # coverage from the authored render-model bounds rather than guessing.
+        model_name = r'custom\objects\scen\mp_obj\hce_tele_flat_wide\hce_tele_flat_wide'
+        model = next(t for n, t in source.tags.items()
+                     if t['group'] == 'mode' and source.name(n) == model_name)
+        model_schema = load_schema(importer.source, 'mode', importer.reference)
+        compression = field(model_schema, 'Compression Info')
+        bounds = source.block(model['offset'] + int(compression.get('offset'), 0),
+                              int(compression.get('elementSize'), 0))
+        if len(bounds) != 1:
+            raise ValueError('CE wall portal must have one authored compression bound')
+        x0, x1, y0, y1, z0, z1 = source.unpack('6f', bounds[0] + 4)
+        if not (x0 < x1 and y0 < y1 and z0 < z1):
+            raise ValueError('Invalid CE wall portal model bounds')
+        dimensions = (max(dimensions[0] * 2, 2 * max(abs(x0), abs(x1))),
+                      2 * max(abs(y0), abs(y1)) + 0.04, dimensions[2], dimensions[3])
+        # Also update the private custom tag so newly forged instances agree.
+        tag_address = struct.unpack_from('>I', importer.registry.tags, (datum & 65535) * 8 + 4)[0]
+        target_object_schema = ET.parse(importer.reference / 'plugins/scen.xml').getroot()
+        target_mp = field(target_object_schema, 'Multiplayer Object')
+        mp_count, mp_pointer = struct.unpack('>II', importer.builder.read(
+            tag_address + int(target_mp.get('offset'), 0), 8))
+        if mp_count != 1:
+            raise ValueError('Converted portal multiplayer defaults missing')
+        importer.builder.put(mp_pointer + 6, 'B', 3)
+        importer.builder.put(mp_pointer + 12, '4f', *dimensions)
+        count, data = prepared['arrays']['Scenery']
+        _, palette = prepared['arrays']['Scenery Palette']
+        payload = bytearray(data)
+        scenery = field(ds, 'Scenery')
+        stride = int(scenery.get('elementSize'), 0)
+        labels = ('Boundary Shape Width/Radius', 'Boundary Shape Box Length',
+                  'Boundary Shape +Height', 'Boundary Shape -Height')
+        for index in range(count):
+            at = index * stride
+            pi = struct.unpack_from('>h', payload, at)[0]
+            if struct.unpack_from('>I', palette, pi * 48 + 12)[0] != datum:
+                continue
+            shape = at + int(field(scenery, 'Boundary Shape').get('offset'), 0)
+            offsets = [at + int(field(scenery, label).get('offset'), 0) for label in labels]
+            old = [struct.unpack_from('>f', payload, pos)[0] for pos in offsets]
+            if payload[shape] in (0, 1) and not any(old):
+                old_shape = payload[shape]
+                payload[shape] = 3
+                for pos, value in zip(offsets, dimensions):
+                    struct.pack_into('>f', payload, pos, value)
+                teleporter_adjustments.append({'index': index, 'old_shape': old_shape,
+                                               'wall_box_dimensions': dimensions,
+                                               'model_bounds': [x0, x1, y0, y1, z0, z1]})
+        prepared['arrays']['Scenery'] = count, bytes(payload)
     island_start = []
     if getattr(importer, 'forge_partition_side', None) == 'island':
         from forge_island_spawn import relocate_marker
@@ -179,7 +266,8 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved'],
-            'powerup_adjustments': powerup_adjustments, 'island_start': island_start}
+            'powerup_adjustments': powerup_adjustments, 'island_start': island_start,
+            'teleporter_adjustments': teleporter_adjustments}
 
 
 def stage_spawn_settings(importer):
@@ -187,7 +275,7 @@ def stage_spawn_settings(importer):
     import xml.etree.ElementTree as ET
     from tag_metadata import MetadataConverter
     source = importer.source
-    ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    ss = load_schema(importer.source, 'scnr', importer.reference)
     ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
     root = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     converter = MetadataConverter(source, importer.builder, importer.source_strings,
@@ -203,11 +291,27 @@ def stage_spawn_settings(importer):
         payload = bytearray()
         for index, row in enumerate(rows):
             if name == 'Spawn Data':
-                # Warlock's single empty record has no overrides or zones.
-                # Retail's additional reserved words likewise initialize zero.
-                if any(source.data[row:row + stride]):
-                    raise ValueError('Nonempty Spawn Data needs a dedicated mapping')
-                payload.extend(bytes(int(df.get('elementSize'), 0)))
+                if stride == 108 and int(df.get('elementSize'), 0) == 108:
+                    # Pre-December 2022 MCC retains the original reserved area.
+                    payload.extend(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
+                    continue
+                # MCC removes 60 reserved bytes before the three nested blocks.
+                # Preserve authored heights, influences and zones at retail offsets.
+                if stride != 48 or int(df.get('elementSize'), 0) != 108:
+                    raise ValueError('Unexpected spawn-data layout')
+                record = bytearray(108)
+                struct.pack_into('>3f', record, 0, *source.unpack('3f', row))
+                for block_name in ('Dynamic Spawn Overloads', 'Static Respawn Zones',
+                                   'Static Initial Spawn Zones'):
+                    sb, db = field(sf, block_name), field(df, block_name)
+                    children = source.block(row + int(sb.get('offset'), 0),
+                                            int(sb.get('elementSize'), 0))
+                    data = b''.join(converter.convert(child, sb, db,
+                        f'scnr:/Spawn Data[{index}]/{block_name}[{n}]')
+                        for n, child in enumerate(children))
+                    struct.pack_into('>III', record, int(db.get('offset'), 0), len(children),
+                                     importer.builder.alloc(data) if data else 0, 0)
+                payload.extend(record)
             else:
                 payload.extend(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
         if name == 'Player Starting Locations' and getattr(importer, 'forge_partition_side', None) == 'island':

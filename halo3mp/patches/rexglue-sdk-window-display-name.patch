@@ -1,0 +1,32 @@
+--- a/include/rex/rex_app.h
++++ b/include/rex/rex_app.h
+@@ -94,6 +94,10 @@
+          std::string_view usage = "");
+ 
+   // --- Virtual hooks for customization ---
++
++  /// User-facing window branding, independent of the persistent app identity
++  /// used for existing profile/cache directories and configuration filenames.
++  virtual std::string_view GetWindowTitleName() const { return GetName(); }
+ 
+   /// Called before Runtime::Setup(). Override to modify backend config.
+   virtual void OnPreSetup(RuntimeConfig& config) {}
+--- a/src/ui/rex_app.cpp
++++ b/src/ui/rex_app.cpp
+@@ -337,14 +337,14 @@
+   }
+ 
+   // Create window
+-  window_ = rex::ui::Window::Create(app_context(), GetName(), 1280, 720);
++  window_ = rex::ui::Window::Create(app_context(), GetWindowTitleName(), 1280, 720);
+   if (!window_) {
+     REXLOG_ERROR("Failed to create window");
+     return false;
+   }
+ 
+   // Set window title with SDK build stamp
+-  std::string title = std::string(GetName()) + " " + REXGLUE_BUILD_TITLE;
++  std::string title = std::string(GetWindowTitleName()) + " " + REXGLUE_BUILD_TITLE;
+   window_->SetTitle(title);
+ 
+   window_->AddListener(this);

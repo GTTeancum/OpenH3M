@@ -18,11 +18,15 @@ def confined(path):
     return path
 
 
-def build(payload, output):
+def build(payload, output, *, saved_profile=None, saved_name=None):
     payload, output = confined(payload), confined(output)
     files = sorted(payload.iterdir())
-    if not 1 <= len(files) <= 64:
-        raise ValueError('Expected 1..64 flat files')
+    saved = saved_profile is not None
+    if saved and (not 0 < saved_profile < 2**64 or not saved_name or
+                  [p.name for p in files] != ['sandbox.map']):
+        raise ValueError('Saved layout requires a profile, display name and sandbox.map only')
+    if not 1 <= len(files) <= 65535:
+        raise ValueError('Expected 1..65535 flat files')
     # Fail early instead of silently shipping the generic missing-preview icon.
     for info in payload.glob('*.mapinfo'):
         data = info.read_bytes()
@@ -34,7 +38,8 @@ def build(payload, output):
         for suffix in ('', '_sm', '_clip', '_film', '_variant'):
             if not (payload / (preview + suffix + '.blf')).is_file():
                 raise ValueError(f'Missing native preview {preview}{suffix}.blf; run build_dlc_previews.py')
-    entries, count, directory = [], 1, bytearray(BLOCK)
+    directory_blocks = (len(files) + 63) // 64
+    entries, count, directory = [], directory_blocks, bytearray(BLOCK * directory_blocks)
     for index, path in enumerate(files):
         if not path.is_file() or path.is_symlink():
             raise ValueError('Only ordinary flat files supported')
@@ -66,12 +71,19 @@ def build(payload, output):
             tables[level, index // span] = table
     total_size = BASE + (data_block(count - 1) + 1) * BLOCK
     header = bytearray(BASE)
-    header[:4] = b'LIVE'
+    header[:4] = b'CON ' if saved else b'LIVE'
     # A fresh, intentionally unsigned header; never retain a retail signature.
-    struct.pack_into('>QII', header, 0x22C, 0xFFFFFFFFFFFFFFFF, 1, 1)
-    struct.pack_into('>IIIQ', header, 0x340, 0xAD0E, 2, 2, total_size - BASE)
+    if saved:
+        # Structurally sized, unsigned CON certificate area; no borrowed
+        # console identity or signature. RGH acceptance must be tested.
+        struct.pack_into('>H', header, 4, 0x1A8)
+        struct.pack_into('>Q', header, 0x371, saved_profile)
+    else:
+        struct.pack_into('>QII', header, 0x22C, 0xFFFFFFFFFFFFFFFF, 1, 1)
+    struct.pack_into('>IIIQ', header, 0x340, 0xAD0E, 1 if saved else 2, 2, total_size - BASE)
     struct.pack_into('>I', header, 0x360, 0x4D5307E6)
     header[0x379:0x37E] = b'\x24\x00\x01\x01\x00'
+    struct.pack_into('<H', header, 0x37C, directory_blocks)
     struct.pack_into('>I', header, 0x395, count)
     def text(offset, length, value):
         encoded = value.encode('utf-16-be')
@@ -80,9 +92,11 @@ def build(payload, output):
         header[offset:offset + length] = encoded.ljust(length, b'\0')
     titles = [p.read_bytes()[0x44:0x84].decode('utf-16-be').split('\0')[0]
               for p in files if p.suffix == '.mapinfo']
-    description = ', '.join(titles) + '. Unsigned test package.'
+    description = (saved_name if saved else ', '.join(titles)) + '. Unsigned test package.'
+    if not saved and len(description.encode('utf-16-be')) + 2 > 256:
+        description = f'{len(titles)} custom Halo 3 maps. Unsigned test package.'
     for locale in range(9):
-        text(0x411 + locale * 256, 256, 'OpenH3M Custom Map Bundle - Test')
+        text(0x411 + locale * 256, 256, saved_name if saved else 'OpenH3M Custom Map Bundle - Test')
         text(0xD11 + locale * 256, 256,
              description)
     text(0x1611, 128, 'Custom map conversion')
@@ -97,7 +111,9 @@ def build(payload, output):
             row = index % 170 * 24
             table[row:row + 20] = hashlib.sha1(block).digest()
             struct.pack_into('>I', table, row + 20, 0x80000000 | next_block)
-        write_block(0, directory, 0xFFFFFF)
+        for index in range(directory_blocks):
+            write_block(index, directory[index * BLOCK:(index + 1) * BLOCK],
+                        index + 1 if index + 1 < directory_blocks else 0xFFFFFF)
         for entry in entries:
             digest = hashlib.sha256()
             with (payload / entry['name']).open('rb') as source:
@@ -136,7 +152,11 @@ def build(payload, output):
     # is consumed by its first-extension stripping, truncating map paths.
     # Follow the retail reference: an extensionless content-ID filename.
     content_id = header[0x32C:0x340].hex().upper()
-    canonical = output.with_name(content_id)
+    if saved:
+        identity = struct.unpack_from('>Q', (payload/'sandbox.map').read_bytes(), 0x40)[0]
+        canonical = output.with_name(f'usermap{identity:016X}0')
+    else:
+        canonical = output.with_name(content_id)
     if canonical != output:
         if canonical.exists():
             raise ValueError('Canonical package already exists')
@@ -144,7 +164,8 @@ def build(payload, output):
         output = canonical
     return dict(package=str(output), bytes=total_size, sha256=package_hash,
                 content_id=content_id, title_id='4D5307E6',
-                content_type=2, entries=entries, integrity=integrity,
+                content_type=1 if saved else 2, entries=entries, integrity=integrity,
+                profile_id=f'{saved_profile:016X}' if saved else None,
                 signature='unsigned; zero signature field',
                 runtime_validation='not performed',
                 retail_acceptance='not targeted; OpenH3M and RGH/JTAG only')

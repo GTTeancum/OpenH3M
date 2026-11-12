@@ -1,4 +1,5 @@
 """Explicit MCC-to-retail BSP metadata layout adapters."""
+from source_schema import load_schema
 import copy
 import struct
 from bisect import bisect_right
@@ -44,6 +45,14 @@ def convert_bsp_root(converter, at, schema, target, path):
             raise ValueError('BSP cache-file array outside resource')
         data = resource.raw[segment][offset:offset + size]
         partition = getattr(converter, 'gulch_partition', None)
+        replacements = partition[1].get('metadata_payloads', {}) if partition else {}
+        if src in replacements:
+            payload = replacements[src]
+            stride = struct.calcsize('>' + target_fmt)
+            if len(payload) % stride:
+                raise ValueError('Unaligned rebuilt collision metadata')
+            struct.pack_into('>III', out, dst, len(payload)//stride, converter.builder.alloc(payload), 0)
+            continue
         if partition and src in (0, 24):
             order = partition[1]['surfaces' if src == 0 else 'edges']
             stride = struct.calcsize('<' + source_fmt)
@@ -87,7 +96,7 @@ def decorator_group(converter, at, schema, target, path):
         bsps = [bound] if bound is not None else [t for t in source.tags.values() if t['group'] == 'sbsp']
         if len(bsps) != 1:
             raise ValueError('Decorator conversion needs an unambiguous source BSP')
-        root_schema = ET.parse(Path(__file__).resolve().parents[1] / 'reference/mcc/sbsp.xml').getroot()
+        root_schema = load_schema(source, 'sbsp')
         field = next(f for f in root_schema if f.get('name') == '[zone] Asset Datum 1')
         resource = Resource(source, source.u(bsps[0]['offset'] + int(field.get('offset'), 0)))
         converter._decorator_resource = resource
@@ -147,6 +156,14 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
         flags = next(f for f in target if f.get('name') == 'Flags')
         ET.SubElement(flags, 'bit', name='Not For Render', index='5')
         schema = copy.deepcopy(source_schema)
+        # Sky Bridge carries the HO/MCC extension bit on its authored instances.
+        # Preserve it verbatim as an opaque flag; do not relabel or move it to
+        # the independently preserved bit 5. Its native rendering effect has
+        # not been established by the bundled schemas.
+        if str(converter.source.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'):
+            source_flags=next(f for f in schema if f.get('name')=='Flags')
+            ET.SubElement(source_flags,'bit',name='Preserved instance bit 6',index='6')
+            ET.SubElement(flags,'bit',name='Preserved instance bit 6',index='6')
         schema.set('name', 'Instance fields')
         return converter.convert(at, schema, target, path)
     if name == 'BSP Physics':
@@ -157,7 +174,13 @@ def convert_bsp_block(converter, at, source_schema, target_schema, path):
         schema = copy.deepcopy(source_schema)
         schema.set('name', 'MOPP Codes')
         transform = None
-        if partition and name == 'MOPP Codes':
+        if partition and name == 'MOPP Codes' and 'replacement_mopp' in partition[1]:
+            info, code = partition[1]['replacement_mopp']
+            if converter.source.data[at+16:at+32] != info:
+                raise ValueError('Replacement physics coordinate domain mismatch')
+            return convert_collision_block(converter, at, schema, target_schema, 'coll:' + path,
+                                           mopp_transform=lambda original: code)
+        if partition and name == 'MOPP Codes' and not partition[1].get('preserve_surface_indices'):
             from resource_reader import Resource
             from forge_mopp import remap_surfaces
             root = converter.source_bsp['offset']

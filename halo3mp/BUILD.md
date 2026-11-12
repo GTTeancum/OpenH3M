@@ -420,12 +420,17 @@ Deploy only the rebuilt `out/win-amd64/rexgpu-xenos.dll` into the authorized sha
 installation with the game closed. Keep one rollback inside the repository.
 Old GPU-address-pinned draw probes must be remapped before using the new DLL.
 
-## Host input focus (2026-10-28)
 
-Apply `patches/rexglue-sdk-input-focus.patch` after the existing SDK input patches.
-Rebuild the runtime and app together with `tools/input-focus/build.ps1` from the
-repository root. This also runs the process-local focus check. See
-`tools/input-focus/README.md` for coverage and the in-game testing boundary.
+### Halo 3 lens-flare occlusion snapshots
+
+Apply `patches/rexglue-sdk-occlusion-query-snapshots.patch` after the existing SDK
+patches. Halo 3 uses different BEGIN and END sample-count addresses; matching
+those addresses disabled host occlusion and made vehicle flares show through
+geometry. The fix uses the active query interval and a zero BEGIN baseline.
+Build `rexgpu-xenos` in the existing `work/rexglue-sdk/out/pacing-release` tree;
+only `out/win-amd64/rexgpu-xenos.dll` changes. The first zero and nonzero results
+are logged for diagnosis. See `tools/warlock-conversion/FORGE-LIGHTING.md` for
+native validation and the separate map-material correction.
 
 ### Heavy-map host performance (2026-10-26)
 
@@ -449,6 +454,14 @@ this working checkout. Clean-checkout reconstruction remains to be consolidated.
 See `tools/video-options/PERFORMANCE-2026-10-26.md` for measured results and
 repeatable process-local test commands. Diagnostics are off during normal play.
 
+
+## Host input focus (2026-10-28)
+
+Apply `patches/rexglue-sdk-input-focus.patch` after the existing SDK input patches.
+Rebuild the runtime and app together with `tools/input-focus/build.ps1` from the
+repository root. This also runs the process-local focus check. See
+`tools/input-focus/README.md` for coverage and the in-game testing boundary.
+
 ## Native video quality and timing (2026-10-28)
 
 Apply `patches/rexglue-sdk-video-quality-metrics.patch` after the existing
@@ -457,3 +470,26 @@ and app together using `tools/video-options/build.ps1`. Native quality hooks
 are in `src/video_quality.cpp`; their cvars and pure scaling math are separate
 for the focused settings check. See `tools/video-options/QUALITY-IMPLEMENTATION.md`
 for the combined in-game run, persistence fix and precise evidence limits.
+
+
+### Small resolve feedback for native exposure (2026-10-29)
+
+Powerhouse runtime probes confirmed that disabling CPU resolve readback leaves
+native auto-exposure at zero stops. The application now defaults D3D12 to fast
+(delayed) resolve readback with an 8192-byte maximum per surface. GPU resolves
+still run for every surface; larger CPU copies are skipped. Explicit shared
+or D3D12 legacy readback settings override the application defaults.
+
+Apply `patches/rexglue-sdk-small-resolve-readback.patch` after the current SDK
+patch baseline (use --ignore-space-change for mixed line endings). It adds
+`d3d12_readback_resolve_max_bytes`, with SDK default0 meaning unrestricted,
+and checks submission completion before publishing a delayed CPU copy.
+A missing/in-flight prior slot uses synchronized readback instead of copying
+unfinished GPU data. Existing explicit readback modes retain their meaning.
+
+Build rexgpu-xenos and halo3mp in work/rexglue-sdk/out/pacing-release with
+project-local TEMP/TMP, and never rebuild DLLs while the candidate is running.
+The application default is in src/halo3mp_app.h. Evidence and current binary
+hashes: work/powerhouse/readback-runtime/final-manifest.json. Installed runtime
+and maps have not been promoted. This does not establish console/System Link
+validation or a general performance acceptance result.

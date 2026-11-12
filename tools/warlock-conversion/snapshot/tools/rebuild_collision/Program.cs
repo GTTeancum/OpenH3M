@@ -12,9 +12,9 @@ class Program {
     var p=Path.Combine(dir,name.Name+".dll");if(File.Exists(p))return ctx.LoadFromAssemblyPath(p);
    }return null;
   };
-  return Run(args[1],args[2]);
+  return Run(args[1],args[2],args.Length>3?args[3]:null);
  }
- static int Run(string input,string output) {
+ static int Run(string input,string output,string references) {
   var b=new CollisionGeometry{Bsp3dNodes=new(),Planes=new(),Leaves=new(),Bsp2dReferences=new(),Bsp2dNodes=new(),Surfaces=new(),Edges=new(),Vertices=new()};
   using(var r=new BinaryReader(File.OpenRead(input))) {
    if(r.ReadUInt32()!=0x31434746)throw new Exception("bad input");
@@ -27,8 +27,29 @@ class Program {
   Console.WriteLine($"Rebuilding {b.Surfaces.Count} surfaces, {b.Planes.Count} planes");
   var type=Assembly.GetExecutingAssembly().GetType("TagTool.Geometry.BspCollisionGeometry.Utils.CollisionBSPBuilder",true);
   var builder=Activator.CreateInstance(type,true);object[] call={b,false};
-  if(!(bool)type.GetMethod("generate_bsp").Invoke(builder,call))throw new Exception("builder rejected geometry");
-  b=(CollisionGeometry)call[0];
+  if(references==null) {
+   if(!(bool)type.GetMethod("generate_bsp").Invoke(builder,call))throw new Exception("builder rejected geometry");
+   b=(CollisionGeometry)call[0];
+  } else {
+   type.GetProperty("Bsp",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(builder,b);
+   var arrayType=type.GetNestedType("surface_array_definition",BindingFlags.Public);
+   using var r=new BinaryReader(File.OpenRead(references));
+   int count=r.ReadInt32();
+   for(int i=0;i<count;i++) {
+    int plane=r.ReadInt32(),n=r.ReadInt32();var surfaces=new List<int>();
+    for(int j=0;j<n;j++)surfaces.Add(r.ReadInt32());
+    var array=Activator.CreateInstance(arrayType);
+    arrayType.GetField("surface_array").SetValue(array,surfaces);
+    var p=b.Planes[plane&0x7fff];
+    int axis=(int)type.GetMethod("plane_determine_axis_minimum_coefficient").Invoke(builder,new object[]{p});
+    bool positive=(bool)type.GetMethod("check_plane_projection_parameter_greater_than_0").Invoke(builder,new object[]{p,axis});
+    int mirror=positive!=((plane&0x8000)!=0)?1:0;
+    int root=(int)type.GetMethod("create_bsp2dnodes").Invoke(builder,new object[]{axis,mirror,array});
+    if(b.Bsp2dNodes.Count>=32767)throw new Exception("2D node budget exceeded");
+    b.Bsp2dReferences.Add(new Bsp2dReference{PlaneIndex=(short)plane,Bsp2dNodeIndex=(short)(root<0?root|0x8000:root)});
+   }
+   if(r.BaseStream.Position!=r.BaseStream.Length)throw new Exception("reference trailing bytes");
+  }
   Console.WriteLine($"Built nodes={b.Bsp3dNodes.Count}, planes={b.Planes.Count}, leaves={b.Leaves.Count}, surfaces={b.Surfaces.Count}");
   if(b.Planes.Count>32768)throw new Exception("signed retail plane limit exceeded");
   using(var w=new BinaryWriter(File.Create(output))) {

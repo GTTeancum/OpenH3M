@@ -1,0 +1,5 @@
+# Powerhouse perforated grate shaders
+
+Retains source Cook-Torrance shading, normal map, alpha cutouts, simple parallax, material-texture switch and static environment cube for both circular grate materials. Uses the pinned source/Xenos compatibility adapter from powerhouse-water-shaders. Native Docks `_0_1_1_1_2_1_0_0_1_0` supplies unchanged vertex programs and draw interfaces; its pixel programs are replaced. Cook-Torrance lookup sampler routes come from the audited native Armory water template. Material boolean no_dynamic_lights is explicitly name-routed; it is not an engine-fixed register.
+
+All twelve used pixel entry interfaces match; no unresolved routes or fixed-register mismatches. Candidate98 passed a focused native floor-grate check: all three captures were individually inspected, showing perforations and surface detail through a short walk. The map preserves both source materials' seven textures, all named constants and material switches; geometry is unchanged. This does not establish every grate placement or full-map traversal. This folder contains source recipes/audit metadata only, no game assets or binary shaders.

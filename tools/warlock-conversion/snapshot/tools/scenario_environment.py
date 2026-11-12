@@ -1,4 +1,5 @@
 """Stage authored sky, atmosphere, acoustics and per-cluster environment data."""
+from source_schema import load_schema
 import struct
 import xml.etree.ElementTree as ET
 from assemble_scenario import field, stage
@@ -7,7 +8,7 @@ from tag_metadata import MetadataConverter
 
 def stage_environment(importer):
     s, c, b = importer.source, importer.registry.cache, importer.builder
-    ss = ET.parse(importer.reference / 'mcc/scnr.xml').getroot()
+    ss = load_schema(importer.source, 'scnr', importer.reference)
     ds = ET.parse(importer.reference / 'plugins/scnr.xml').getroot()
     source_root = next(t['offset'] for t in s.tags.values() if t['group'] == 'scnr')
     target_root = next(t['offset'] for t in c.tags.values() if t['group'] == 'scnr')
@@ -16,22 +17,42 @@ def stage_environment(importer):
     bsp_field = field(ds, 'Structure BSPs')
     bsps = c.block(target_root + int(bsp_field.get('offset'), 0), int(bsp_field.get('elementSize'), 0))
     arrays = {}
+    if s.u(source_root + int(field(ss, 'Creatures Block').get('offset'), 0)):
+        raise ValueError('Active creature placements require conversion')
+    flock_limits = {
+        'Flock Palette Index': 'Flock Palette',
+        'BSP Index': 'Structure BSPs',
+        'Bounding Trigger Volume Index': 'Trigger Volumes',
+        'Creature Palette Index': 'Creatures Palette',
+        'Enemy Flock Index': 'Flocks',
+    }
     for name in ('Skies', 'Atmosphere', 'Acoustics Palette', 'Scenario Cluster Data', 'Lighting Zone Sets',
                  'Camera FX Palette', 'Cubemaps', 'Airprobes',
-                 'Light Volumes', 'Light Volumes Palette'):
+                 'Light Volumes', 'Light Volumes Palette',
+                 'Flock Palette', 'Creatures Palette', 'Flocks'):
         sf, df = field(ss, name), field(ds, name)
         rows = s.block(source_root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name == 'Scenario Cluster Data' and len(rows) != len(getattr(importer, 'converted_bsps', bsps)):
             raise ValueError('Environment BSP count differs from converted geometry')
         payload = bytearray()
         for index, row in enumerate(rows):
-            if name == 'Light Volumes Palette':
+            if name == 'Flocks':
+                for member, palette in flock_limits.items():
+                    value = s.unpack('h', row + int(field(sf, member).get('offset'), 0))[0]
+                    limit = s.u(source_root + int(field(ss, palette).get('offset'), 0))
+                    if value != -1 and not 0 <= value < limit:
+                        raise ValueError(f'Flock {index}: invalid {member} {value}')
+            if name in ('Light Volumes Palette', 'Creatures Palette'):
                 # Like the object palettes: MCC tagref only, retail adds
                 # eight unused/editor words, initialized to zero.
                 datum = s.u(row + 12)
-                group, target = importer.import_tag(datum)
-                data = bytearray(group.encode('ascii') + bytes(8) +
-                                 struct.pack('>I', target) + bytes(32))
+                if datum == 0xffffffff:
+                    # Keep the null slot so authored palette indices stay stable.
+                    data = bytearray(b'\xff' * 4 + bytes(8) + b'\xff' * 4 + bytes(32))
+                else:
+                    group, target = importer.import_tag(datum)
+                    data = bytearray(group.encode('ascii') + bytes(8) +
+                                     struct.pack('>I', target) + bytes(32))
             else:
                 data = bytearray(converter.convert(row, sf, df, f'scnr:/{name}[{index}]'))
             if name == 'Scenario Cluster Data':

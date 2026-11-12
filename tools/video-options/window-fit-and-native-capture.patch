@@ -1,0 +1,39 @@
+--- a/src/ui/window_sdl.cpp
++++ b/src/ui/window_sdl.cpp
+@@ -170,6 +170,25 @@
+     }
+   }
+ 
++  // A large requested output must not put the controls outside the desktop.
++  // Keep a windowed surface inside this display's usable area, preserving aspect.
++  SDL_Rect usable{};
++  if (SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(sdl_window_), &usable)) {
++    int top=0, left=0, bottom=0, right=0;
++    SDL_GetWindowBordersSize(sdl_window_, &top, &left, &bottom, &right);
++    const int available_width=std::max(1,usable.w-left-right);
++    const int available_height=std::max(1,usable.h-top-bottom);
++    const double fit=std::min({1.0,double(available_width)/initial_width,
++                                  double(available_height)/initial_height});
++    if (fit<1.0) {
++      initial_width=std::max(1,int(initial_width*fit));
++      initial_height=std::max(1,int(initial_height*fit));
++      SDL_SetWindowSize(sdl_window_,initial_width,initial_height);
++      SDL_SetWindowPosition(sdl_window_,usable.x+left+(available_width-initial_width)/2,
++                            usable.y+top+(available_height-initial_height)/2);
++    }
++  }
++
+   if (IsFullscreen()) {
+     // Borderless desktop fullscreen (a NULL display mode is SDL3's default).
+     SDL_SetWindowFullscreen(sdl_window_, true);
+--- a/src/ui/d3d12/d3d12_presenter.cpp
++++ b/src/ui/d3d12/d3d12_presenter.cpp
+@@ -1224,7 +1224,7 @@
+   D3D12_PLACED_SUBRESOURCE_FOOTPRINT capture_footprint{};
+   UINT64 capture_bytes = 0;
+   const auto capture_path = REXCVAR_GET(d3d12_host_capture_path);
+-  if (!capture_attempted && !capture_path.empty() && execute_ui_drawers &&
++  if (!capture_attempted && !capture_path.empty() &&
+       std::chrono::duration_cast<std::chrono::milliseconds>(
+           std::chrono::steady_clock::now() - capture_start).count() >=
+           REXCVAR_GET(d3d12_host_capture_after_ms)) {

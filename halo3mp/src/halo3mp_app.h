@@ -14,6 +14,10 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "pc_video_menu.h"
+#include "pc_video_settings.h"
+#include <fstream>
+#include <map>
 
 #if defined(_WIN32)
 #ifndef WIN32_LEAN_AND_MEAN
@@ -32,20 +36,34 @@
 #include <rex/logging/macros.h>
 #include <rex/rex_app.h>
 #include <rex/runtime.h>
+#include <rex/graphics/graphics_system.h>
 #include <rex/filesystem/devices/stfs_container_device.h>
 #include <rex/system/kernel_state.h>
 #include <rex/system/xam/content_manager.h>
 #include <rex/system/interfaces/graphics.h>
 #include <rex/system/gpu_plugin.h>
 #include <rex/ui/imgui_drawer.h>
+#include <rex/ui/keybinds.h>
+#include <rex/input/input_system.h>
+#ifdef OPENH3M_ADVANCED_FORGE
+#include "advanced_forge.h"
+#endif
 #include <rex/ui/presenter.h>
 #include <rex/ui/window.h>
 #include <rex/ui/windowed_app_context.h>
 
 #include "system_link.h"
+#ifdef OPENH3M_DEVELOPER_BUILD
+#include "developer_framerate.h"
+REXCVAR_DEFINE_BOOL(fpsunlock, false, "Halo3MP/Developer",
+                    "Keep FPS unlocked for this process; simulation timing is unchanged");
+REXCVAR_DEFINE_BOOL(halo3mp_dev_unlock_test, false, "Halo3MP/Developer",
+                    "Log read-only simulation diagnostics");
+REXCVAR_DECLARE(std::string, halo3mp_benchmark_points);
+#endif
 
-REXCVAR_DEFINE_BOOL(halo3mp_title_fps, true, "Halo3MP",
-                    "Show guest output FPS in the host window title bar");
+REXCVAR_DEFINE_BOOL(halo3mp_title_fps, false, "Halo3MP",
+                    "Legacy compatibility option; title FPS display has been removed");
 REXCVAR_DEFINE_UINT32(halo3mp_title_fps_interval_ms, 1000, "Halo3MP",
                       "Host title-bar FPS update interval in milliseconds");
 REXCVAR_DEFINE_BOOL(halo3mp_log_fps, false, "Halo3MP",
@@ -56,6 +74,8 @@ REXCVAR_DEFINE_STRING(halo3mp_capture_guest_output_times_ms, "", "Halo3MP",
                       "Comma-separated internal guest-output capture times in milliseconds");
 REXCVAR_DEFINE_STRING(halo3mp_capture_guest_output_path, "", "Halo3MP",
                       "Path for the internal guest-output capture; defaults to PNG");
+REXCVAR_DEFINE_STRING(halo3mp_video_validation, "", "Halo3MP/Developer",
+    "Opt-in process-local video validation TSV: capture_ms option_index choice_index; requires exclusive replay").debug_only();
 REXCVAR_DEFINE_STRING(halo3mp_smoke_route, "", "Halo3MP",
                       "Short name for an automated smoke route, included in FPS logs");
 REXCVAR_DEFINE_STRING(halo3mp_smoke_expected_state, "", "Halo3MP",
@@ -69,11 +89,13 @@ class Halo3mpApp : public rex::ReXApp {
  public:
   using rex::ReXApp::ReXApp;
 
+  std::string_view GetWindowTitleName() const override { return "Spartan"; }
+
   static std::unique_ptr<rex::ui::WindowedApp> Create(
       rex::ui::WindowedAppContext& ctx) {
     SetDefaultFlag("fullscreen", "false");
-    SetDefaultFlag("window_width", "1280");
-    SetDefaultFlag("window_height", "720");
+    SetDefaultFlag("window_width", "0");
+    SetDefaultFlag("window_height", "0");
     SetDefaultFlag("video_mode_width", "1280");
     SetDefaultFlag("video_mode_height", "720");
     SetDefaultFlag("anisotropic_override", "3");
@@ -84,12 +106,18 @@ class Halo3mpApp : public rex::ReXApp {
   }
 
   void OnConfigurePaths(rex::PathConfig& paths) override {
+    pc_video_config_path_ = paths.config_path;
     if (paths.game_data_root.empty()) {
       paths.game_data_root = rex::filesystem::GetExecutableFolder() / "game";
     }
   }
 
   void OnPreSetup(rex::RuntimeConfig& config) override {
+#ifdef OPENH3M_DEVELOPER_BUILD
+    // Session starts OFF, even if a previous config saved an uncapped rate.
+    rex::cvar::SetFlagByName("host_guest_output_fps", "30");
+    rex::cvar::SetFlagByName("host_guest_output_frame_timing", "false");
+#endif
     if (config.gpu_plugin.empty()) {
       config.gpu_plugin = "xenos";
     }
@@ -119,6 +147,27 @@ class Halo3mpApp : public rex::ReXApp {
       rex::cvar::SetFlagByName("readback_memexport", "false");
     }
 
+    // Publish real GPU visibility results after their fences complete without
+    // stalling command production at each query. Explicit overrides still win;
+    // the backend retains its synchronous fallback if the worker cannot start.
+    if (rex::cvar::GetFlagSource("d3d12_async_occlusion_readback") ==
+        rex::cvar::Source::kDefault) {
+      rex::cvar::SetFlagByName("d3d12_async_occlusion_readback", "true");
+    }
+
+    // Native auto-exposure reads a small resolved brightness texture on the
+    // CPU. Without feedback it stays at zero stops, even in dark rooms. Keep
+    // delayed D3D12 feedback for small surfaces, not full-size color targets.
+    // Explicit shared or legacy readback overrides retain their semantics.
+    if (rex::cvar::GetFlagSource("readback_resolve") == rex::cvar::Source::kDefault &&
+        rex::cvar::GetFlagSource("d3d12_readback_resolve") == rex::cvar::Source::kDefault) {
+      rex::cvar::SetFlagByName("d3d12_readback_resolve", "true");
+      if (rex::cvar::GetFlagSource("d3d12_readback_resolve_max_bytes") ==
+          rex::cvar::Source::kDefault) {
+        rex::cvar::SetFlagByName("d3d12_readback_resolve_max_bytes", "8192");
+      }
+    }
+
     if (rex::cvar::GetFlagSource("gpu_allow_invalid_fetch_constants") ==
         rex::cvar::Source::kDefault) {
       rex::cvar::SetFlagByName("gpu_allow_invalid_fetch_constants", "true");
@@ -132,16 +181,52 @@ class Halo3mpApp : public rex::ReXApp {
   }
 
   void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override {
+    spartan::video::InitializePCVideoMenu(pc_video_config_path_);
+    // The achievements overlay and its F7 binding are not used by Spartan.
+    rex::ui::UnregisterBind("bind_achievements");
+#ifdef OPENH3M_ADVANCED_FORGE
+    advanced_forge::AttachControls(drawer);
+#else
     (void)drawer;
+#endif
     StartHostTools();
+  }
+
+  std::unique_ptr<rex::ui::ImGuiDialog> CreateAchievementsOverlay() override {
+    return nullptr;
   }
 
   void OnPostLaunchModule(rex::system::XThread* thread) override {
     (void)thread;
+#ifdef OPENH3M_ADVANCED_FORGE
+    if(auto* graphics=static_cast<rex::graphics::GraphicsSystem*>(runtime()->graphics_system()))
+      advanced_forge::AttachRenderer(graphics->command_processor());
+    // Preserve the SDK's input gate for its remaining host UI.
+    // Input is filtered in-process; this never generates host input events.
+    if (auto* input = static_cast<rex::input::InputSystem*>(runtime()->input_system())) {
+      input->SetActiveCallback([this]() {
+        auto* drawer = imgui_drawer();
+        return !drawer || !(drawer->GetIO().WantCaptureMouse || drawer->GetIO().WantCaptureKeyboard);
+      });
+    }
+#endif
     StartHostTools();
   }
 
   void OnPreLaunchModule() override {
+#ifdef OPENH3M_DEVELOPER_BUILD
+    developer_sync_interval_ = rex::cvar::GetFlagByName("d3d12_host_sync_interval");
+    developer_vsync_ = rex::cvar::GetFlagByName("vsync");
+    const bool enabled = REXCVAR_GET(fpsunlock) &&
+        rex::cvar::GetFlagSource("fpsunlock") == rex::cvar::Source::kCommandLine;
+    developer_uncapped_.store(enabled);
+    if (enabled) {
+      rex::cvar::SetFlagByName("host_guest_output_fps", "0");
+      rex::cvar::SetFlagByName("d3d12_host_sync_interval", "0");
+      rex::cvar::SetFlagByName("vsync", "false");
+    }
+    REXLOG_INFO("Developer FPS unlock command line: {}", enabled);
+#endif
     const auto package = REXCVAR_GET(halo3mp_install_content);
     if (package.empty()) return;
     auto path = std::filesystem::u8path(package);
@@ -164,9 +249,17 @@ class Halo3mpApp : public rex::ReXApp {
   }
 
   void OnShutdown() override {
+#ifdef OPENH3M_DEVELOPER_BUILD
+    rex::cvar::SetFlagByName("host_guest_output_fps", "30");
+    rex::cvar::SetFlagByName("host_guest_output_frame_timing", "false");
+    if (developer_uncapped_.load(std::memory_order_relaxed)) {
+      rex::cvar::SetFlagByName("d3d12_host_sync_interval", developer_sync_interval_);
+      rex::cvar::SetFlagByName("vsync", developer_vsync_);
+    }
+#endif
     host_tool_stop_.store(true, std::memory_order_release);
-    if (title_fps_thread_.joinable()) {
-      title_fps_thread_.join();
+    if (frame_stats_thread_.joinable()) {
+      frame_stats_thread_.join();
     }
     if (capture_thread_.joinable()) {
       capture_thread_.join();
@@ -175,6 +268,12 @@ class Halo3mpApp : public rex::ReXApp {
   }
 
  private:
+  std::filesystem::path pc_video_config_path_;
+#ifdef OPENH3M_DEVELOPER_BUILD
+  std::atomic<bool>& developer_uncapped_ = open_h3m::developer::uncapped;
+  std::string developer_sync_interval_;
+  std::string developer_vsync_;
+#endif
   static void SetDefaultFlag(std::string_view name, std::string_view value) {
     if (rex::cvar::GetFlagSource(name) == rex::cvar::Source::kDefault) {
       rex::cvar::SetFlagByName(name, value);
@@ -349,8 +448,8 @@ class Halo3mpApp : public rex::ReXApp {
 
     LogSmokeContextOnce();
 
-    if (REXCVAR_GET(halo3mp_title_fps) && !title_fps_thread_.joinable()) {
-      StartTitleFpsThread(app_window, app_presenter);
+    if (!frame_stats_thread_.joinable()) {
+      StartFrameStatsThread(app_window, app_presenter);
     }
 
     if (!ParseCaptureTimes().empty() && !capture_thread_.joinable()) {
@@ -376,19 +475,34 @@ class Halo3mpApp : public rex::ReXApp {
         REXCVAR_GET(halo3mp_capture_guest_output_path));
   }
 
-  void StartTitleFpsThread(rex::ui::Window* app_window, rex::ui::Presenter* app_presenter) {
+  void StartFrameStatsThread(rex::ui::Window* app_window, rex::ui::Presenter* app_presenter) {
+#ifdef OPENH3M_DEVELOPER_BUILD
+    open_h3m::developer::presenter.store(app_presenter);
+#endif
     const uint32_t interval_ms =
         std::max<uint32_t>(100, REXCVAR_GET(halo3mp_title_fps_interval_ms));
-    const std::string title_prefix = std::string(GetName());
-    REXLOG_INFO("Halo3MP title-bar FPS started with {} ms interval", interval_ms);
-    app_context().CallInUIThread([app_window, title = title_prefix + " | FPS starting"]() {
+    const std::string title_prefix = std::string(GetWindowTitleName()) +
+        (REXCVAR_GET(halo3mp_smoke_route) == "advanced-forge-replay"
+             ? " | Automated Forge test - live controls disabled" : "");
+    REXLOG_INFO("Halo3MP frame statistics started with {} ms interval", interval_ms);
+    app_context().CallInUIThread([app_window, title = title_prefix]() {
       ApplyHostWindowTitle(app_window, title);
     });
-    title_fps_thread_ = std::thread([this, app_window, app_presenter, interval_ms, title_prefix]() {
+    frame_stats_thread_ = std::thread([this, app_presenter, interval_ms]() {
       using Clock = std::chrono::steady_clock;
       auto last_time = Clock::now();
       uint64_t last_frame_count = app_presenter->guest_output_frame_count();
       while (SleepForHostTool(interval_ms)) {
+#ifdef OPENH3M_DEVELOPER_BUILD
+        const int capture = open_h3m::developer::capture_request.exchange(0);
+        if (capture > 0) {
+          rex::ui::RawImage image;
+          const auto path = std::filesystem::path(REXCVAR_GET(halo3mp_benchmark_points)).parent_path() /
+              ("spawn-" + std::to_string(capture) + ".png");
+          const bool saved = app_presenter->CaptureGuestOutput(image) && SavePng(path, image);
+          open_h3m::developer::capture_done.store(saved ? capture : -capture);
+        }
+#endif
         const auto now = Clock::now();
         const uint64_t frame_count = app_presenter->guest_output_frame_count();
         const double elapsed =
@@ -398,9 +512,8 @@ class Halo3mpApp : public rex::ReXApp {
         last_time = now;
         last_frame_count = frame_count;
 
-        std::ostringstream title;
-        title << title_prefix << " | " << std::fixed << std::setprecision(1) << fps << " FPS";
-        if (REXCVAR_GET(halo3mp_log_fps)) {
+        const bool log_fps = REXCVAR_GET(halo3mp_log_fps);
+        if (log_fps) {
           const std::string route = REXCVAR_GET(halo3mp_smoke_route);
           const std::string expected_state = REXCVAR_GET(halo3mp_smoke_expected_state);
           if (!route.empty() || !expected_state.empty()) {
@@ -414,9 +527,6 @@ class Halo3mpApp : public rex::ReXApp {
                         frame_delta, elapsed);
           }
         }
-        app_context().CallInUIThread([app_window, title = title.str()]() {
-          ApplyHostWindowTitle(app_window, title);
-        });
       }
     });
   }
@@ -425,15 +535,44 @@ class Halo3mpApp : public rex::ReXApp {
     const std::vector<uint32_t> capture_times_ms = ParseCaptureTimes();
     const std::filesystem::path base_capture_path = GetCapturePath();
     capture_thread_ = std::thread([this, app_presenter, capture_times_ms, base_capture_path]() {
-      uint32_t elapsed_ms = 0;
+      using CaptureClock = std::chrono::steady_clock;
+      const auto capture_start = CaptureClock::now();
+      std::map<uint32_t,std::pair<int,int>> validation;
+      const auto validation_path=REXCVAR_GET(halo3mp_video_validation);
+      if(!validation_path.empty()&&!rex::cvar::GetFlagByName("input_state_replay").empty()){
+        std::ifstream input(validation_path);uint32_t at;int option,choice;
+        while(input>>at>>option>>choice)validation.emplace(at,std::pair{option,choice});
+      }
+      spartan::video::PCSettings probe;
+      const auto baseline=probe.values;
+      std::ofstream evidence;
+      if(!validation.empty()){
+        evidence.open(validation_path+".csv");
+        evidence<<"capture_ms,option,choice,apply_ok,guest_width,guest_height,window_width,window_height,fullscreen,frames,elapsed_ms\n";
+      }
+      auto until=[&](uint32_t deadline){
+        const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(CaptureClock::now()-capture_start).count();
+        return elapsed>=deadline||SleepForHostTool(uint32_t(deadline-elapsed));
+      };
       for (const uint32_t capture_time_ms : capture_times_ms) {
-        if (capture_time_ms < elapsed_ms) {
-          continue;
+        bool applied=true;
+        auto action=validation.find(capture_time_ms);
+        if(action!=validation.end()){
+          if(!until(capture_time_ms>4000?capture_time_ms-4000:0))return;
+          auto [option,choice]=action->second;
+          if(option>=0||option==-2||option==-3){
+            probe.values=baseline;
+            if(option==-2)probe.Preset(choice);
+            else if(option==-3)probe.Defaults();
+            else if(size_t(option)<spartan::video::PCOptions().size()&&choice>=0&&size_t(choice)<spartan::video::PCOptions()[option].choices.size())
+              probe.values[option]=spartan::video::PCOptions()[option].choices[choice].value;
+            else applied=false;
+            std::string error;
+            if(applied)app_context().CallInUIThreadSynchronous([&]{applied=probe.Apply(pc_video_config_path_,error);});
+            if(!applied)REXLOG_ERROR("Video validation Apply failed: {}",error);
+          }
         }
-        if (!SleepForHostTool(capture_time_ms - elapsed_ms)) {
-          return;
-        }
-        elapsed_ms = capture_time_ms;
+        if(!until(capture_time_ms))return;
 
         rex::ui::RawImage image;
         if (!app_presenter->CaptureGuestOutput(image)) {
@@ -451,13 +590,20 @@ class Halo3mpApp : public rex::ReXApp {
         }
         REXLOG_INFO("Halo3MP guest-output capture at {} ms wrote {}", capture_time_ms,
                     capture_path.string());
+        if(action!=validation.end()){
+          uint32_t width=0,height=0;bool fullscreen=false;
+          app_context().CallInUIThreadSynchronous([&]{width=window()->GetActualPhysicalWidth();height=window()->GetActualPhysicalHeight();fullscreen=window()->IsFullscreen();});
+          evidence<<capture_time_ms<<','<<action->second.first<<','<<action->second.second<<','<<applied<<','<<image.width<<','<<image.height<<','<<width<<','<<height<<','<<fullscreen<<','<<app_presenter->guest_output_frame_count()<<','<<std::chrono::duration_cast<std::chrono::milliseconds>(CaptureClock::now()-capture_start).count()<<'\n';
+          evidence.flush();
+        }
+
       }
     });
   }
 
   std::atomic<bool> host_tool_stop_{false};
   std::atomic<bool> smoke_context_logged_{false};
-  std::thread title_fps_thread_;
+  std::thread frame_stats_thread_;
   std::thread capture_thread_;
 
   // Override virtual hooks for customization:

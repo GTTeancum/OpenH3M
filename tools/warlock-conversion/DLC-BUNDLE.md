@@ -1,5 +1,10 @@
 # Five-map DLC test bundle
 
+Naming update (2026-10-22): Forge Island is now **Force Cove**. The payload
+builder emits the new title in all twelve locales. Internal `forge_island`,
+map ID 1731 and previews are unchanged. Existing packaged/installed artifacts
+below retain the old title until the next package build.
+
 Status: Forge Island is activated as the fifth DLC map. Its native Forge run,
 visual captures and monitor containment passed. The other four deployed maps
 are byte-for-byte unchanged from the preceding water-fix bundle. Earlier run
@@ -40,6 +45,15 @@ Each map has native preview artwork converted from its installed MCC source imag
 The base/small images are 463x152, film/clip 256x141, and variant 182x100,
 matching the Heroic reference. Film/clip/variant use the same map artwork without
 additional media-type overlays. Artwork is private and is not committed to Git.
+
+For registered maps without packaged Workshop artwork, the same preview tool
+accepts `--map NAME --image NAME=PATH`. Use an actual native game capture or
+verified source artwork, record its provenance, and inspect the resulting native
+menu preview. Explicit images are restricted to registered DLC map identities;
+selected maps without artwork fail instead of silently receiving no preview.
+The report records the source SHA256 and all five output BLF hashes. The default
+Workshop source selection remains unchanged. See `DESOLATION.md` for the first
+use of an explicit native capture in this workflow.
 
 ## Format reference and validation
 

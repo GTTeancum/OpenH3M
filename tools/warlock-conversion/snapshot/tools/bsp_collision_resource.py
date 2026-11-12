@@ -140,9 +140,12 @@ def convert_bsp_collision(source, partition_payloads=None):
                 for render_index in range(render_count):
                     geometry((render_source & 0x1fffffff) + render_index * 96,
                              render_target + render_index * 96)
-            for offset in (0x8c, 0x98):
-                if source.unpack('I', s + offset)[0]:
-                    raise ValueError('Breakable/small surface block requires conversion')
+            if source.unpack('I', s + 0x98)[0]:
+                raise ValueError('MCC-only small surface block requires conversion')
+            # TagTool BreakableSurfaceBits: 0x20 bytes, eight uint bitfields,
+            # identical layout in H3 MCC and original H3. Preserve each bit;
+            # only the integer byte order changes.
+            array(s + 0x8c, d + 0x8c, '8I')
             mopp(s + 0x80, d + 0x80)
             array(s + 0xa4, d + 0x98, 'ii', 'Hh')
             # Serialized H3 caches use ushort triangle/section pairs (the

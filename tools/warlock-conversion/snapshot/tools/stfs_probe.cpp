@@ -20,9 +20,11 @@ int main(int argc, char** argv) {
     rex::filesystem::StfsContainerDevice device("", std::filesystem::path(argv[1]));
     if (!device.Initialize()) throw std::runtime_error("STFS initialization failed");
     const auto& header = device.header();
-    if (header.header.magic != rex::filesystem::XContentPackageType::kLive ||
-        header.metadata.execution_info.title_id != 0x4D5307E6 ||
-        header.metadata.content_type != rex::system::XContentType::kMarketplaceContent)
+    const bool dlc = header.header.magic == rex::filesystem::XContentPackageType::kLive &&
+        header.metadata.content_type == rex::system::XContentType::kMarketplaceContent;
+    const bool saved = header.header.magic == rex::filesystem::XContentPackageType::kCon &&
+        header.metadata.content_type == rex::system::XContentType::kSavedGame;
+    if ((!dlc && !saved) || header.metadata.execution_info.title_id != 0x4D5307E6)
       throw std::runtime_error("Unexpected title or package type");
     auto* root = device.ResolvePath("");
     if (!root) throw std::runtime_error("No root directory");

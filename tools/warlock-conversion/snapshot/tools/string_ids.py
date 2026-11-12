@@ -13,6 +13,10 @@ class StringTable:
         if cache.mcc:
             self.bits = 19
             count, base, size, index, ns_count, ns_offset = cache.unpack('6I', 0x30)
+            # Both shipped Reach and reordered Workshop H3 caches can use
+            # section-relative debug addresses; older readers may omit this.
+            debug_offset = getattr(cache, 'debug_offset', lambda value: value)
+            base, index, ns_offset = map(debug_offset, (base, index, ns_offset))
             if not 1 <= ns_count <= 256:
                 raise ValueError('Unsupported MCC string namespace table')
             lengths = cache.unpack('I' * ns_count, ns_offset)

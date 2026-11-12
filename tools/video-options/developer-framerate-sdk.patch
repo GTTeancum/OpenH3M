@@ -1,0 +1,35 @@
+--- a/src/ui/presenter.cpp
++++ b/src/ui/presenter.cpp
+@@ -32,6 +32,8 @@
+ 
+ REXCVAR_DEFINE_BOOL(host_output_display_phase, false, "UI/Presenter",
+                     "Align host output to a compatible display refresh phase; guest clocks unchanged");
++REXCVAR_DEFINE_BOOL(host_guest_output_frame_timing, false, "UI/Presenter",
++                    "Log intervals between new guest output frames, excluding UI repaints");
+ #if REX_PLATFORM_WIN32
+ namespace {
+ struct DisplayPhaseClock {
+@@ -732,6 +734,23 @@
+     PaceHostOutput(this, true);
+     trace_phase("output-pacing");
+     guest_output_frame_count_.fetch_add(1, std::memory_order_relaxed);
++    // One sample per new guest output, never per repeated host presentation.
++    using FrameClock = std::chrono::steady_clock;
++    static thread_local const Presenter* timing_owner = nullptr;
++    static thread_local FrameClock::time_point previous_output{};
++    if (REXCVAR_GET(host_guest_output_frame_timing)) {
++      const auto now = FrameClock::now();
++      if (timing_owner == this && previous_output != FrameClock::time_point{}) {
++        REXLOG_INFO("[guest-frame] image={} interval_ms={:.4f}",
++                    guest_output_frame_count(),
++                    std::chrono::duration<double, std::milli>(now - previous_output).count());
++      }
++      timing_owner = this;
++      previous_output = now;
++    } else {
++      timing_owner = nullptr;
++      previous_output = {};
++    }
+     guest_output_active_last_refresh_ = true;
+   } else {
+     // Request presenting a blank image if there was a true image previously,

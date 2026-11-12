@@ -41,8 +41,13 @@ def stage_residency(importer):
     if len(source_manifests) != len(source_usage) or len(native_manifests) != 1:
         raise ValueError('Resource zone manifest count differs from zone usage')
     # Compare source manifests with pointers normalized to their actual data.
+    source_name = next(int(f.get('offset'), 0) for f in sf if f.get('name') == 'Name' and f.tag == 'stringid')
+    target_name = next(int(f.get('offset'), 0) for f in df if f.get('name') == 'Name' and f.tag == 'stringid')
     def contents(row):
         record = bytearray(s.data[row:row + int(sf.get('elementSize'), 0)])
+        # Debug labels do not change residency. Translate each label below,
+        # while still requiring every resource/owner bit and size to match.
+        record[source_name:source_name + 4] = bytes(4)
         blocks = []
         for field in sf:
             if field.tag != 'tagblock':
@@ -58,7 +63,13 @@ def stage_residency(importer):
     usage = b''.join(converter.convert(row, fields[0][usage_name], fields[1][usage_name],
                                       'zone:/Zone Set Zone Usage') for row in source_usage)
     native = b.read(importer.registry.address(native_manifests[0]), int(df.get('elementSize'), 0))
-    for name, payload in ((usage_name, usage), (manifest_name, native * len(source_usage))):
+    manifests = bytearray()
+    for row in source_manifests:
+        record = bytearray(native)
+        struct.pack_into('>I', record, target_name,
+                         importer.source_strings.translate(s.u(row + source_name), importer.target_strings))
+        manifests.extend(record)
+    for name, payload in ((usage_name, usage), (manifest_name, manifests)):
         address = importer.registry.address(roots[1] + int(fields[1][name].get('offset'), 0))
         b.put(address, 'III', len(source_usage), b.alloc(payload), 0)
     return {'zone_sets': len(source_usage), 'expanded': True, 'equivalent_source_manifests': True,

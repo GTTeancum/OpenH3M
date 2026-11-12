@@ -1,4 +1,5 @@
 """Collapse MCC Lbsp lighting into retail sLdT and share rebuilt BSP geometry."""
+from source_schema import load_schema
 import copy
 import struct
 from collections import Counter
@@ -21,7 +22,7 @@ def import_lightmap(importer, geometry_resource):
 def _import(i, geometry_resource):
     s, b = i.source, i.builder
     scenario = next(t['offset'] for t in s.tags.values() if t['group'] == 'scnr')
-    schema = ET.parse(i.reference / 'mcc/scnr.xml').getroot()
+    schema = load_schema(i.source, 'scnr', i.reference)
     f = next(f for f in schema if f.get('name') == 'Lightmaps')
     datum = s.u(scenario + int(f.get('offset'), 0) + 12)
 
@@ -45,8 +46,8 @@ def _import(i, geometry_resource):
         rid = geometry_resource & 65535
         if rid >= len(i.registry.resources) // 64 or struct.unpack_from('>H', i.registry.resources, rid * 64 + 16)[0] != geometry_resource >> 16:
             raise ValueError('Invalid rebuilt lightmap geometry resource')
-        ss = ET.parse(i.reference / 'mcc/sLdT.xml').getroot()
-        ls = ET.parse(i.reference / 'mcc/Lbsp.xml').getroot()
+        ss = load_schema(i.source, 'sLdT', i.reference)
+        ls = load_schema(i.source, 'Lbsp', i.reference)
         ds = ET.parse(i.reference / 'plugins/sLdT.xml').getroot()
         target_bsp = next(f for f in ds if f.get('name') == "Lightmap BSP's")
         # Per-BSP probe tables are cached subsets of root tables. Validate before
@@ -75,13 +76,21 @@ def _import(i, geometry_resource):
         for offset in (0xe0, 0xf0):
             value = s.u(lighting + offset + 12)
             resolve(value, 'bitm')
-            record, control, raw = encode_lightmap_array(i.materials.bitmaps, value & 65535)
+            room_atlas = None
+            if offset == 0xe0 and getattr(s, 'powerhouse_room_fill', 0.):
+                from powerhouse_room_atlas import bake
+                (record, control, raw), room_atlas = bake(
+                    s, lighting, i.materials.bitmaps, value & 65535,
+                    s.powerhouse_room_fill, getattr(s, 'powerhouse_ambient_quarter_stops', 0))
+            else:
+                record, control, raw = encode_lightmap_array(i.materials.bitmaps, value & 65535)
             textures[value] = ('bitm', i.materials.bitmap_resource(record, control, raw))
             width, height = struct.unpack_from('>HH', record, 4)
             texture_report.append({'bsp': bsp_index,
                 'role': 'lightprobe' if offset == 0xe0 else 'dominant',
                 'source': s.name(value & 65535), 'datum': hex(textures[value][1]),
-                'width': width, 'height': height, 'layers': record[8], 'tiled_bytes': len(raw)})
+                'width': width, 'height': height, 'layers': record[8], 'tiled_bytes': len(raw),
+                'powerhouse_room_atlas_fill': room_atlas})
 
         def reference(value):
             if value not in textures:
@@ -118,6 +127,8 @@ def _import(i, geometry_resource):
         converter = MetadataConverter(s, b, i.source_strings, i.target_strings,
                                       reference, data_reference=data, resource_reference=resource)
         bsp = converter.convert(lighting, converted_schema, target_bsp, 'Lbsp:source')
+        from powerhouse_lighting import boost_atlas
+        bsp = boost_atlas(bsp, getattr(s, 'powerhouse_ambient_quarter_stops', 0))
         converted_bsps.append(bsp)
     result = bytearray(88)
     struct.pack_into('>III', result, 4, len(converted_bsps), b.alloc(b''.join(converted_bsps)), 0)
@@ -125,7 +136,7 @@ def _import(i, geometry_resource):
     for name in ('Airprobes', 'Scenery Probes', 'Device Machine Probes'):
         sf = copy.deepcopy(next(f for f in ss if f.get('name') == name))
         df = next(f for f in ds if f.get('name') == name)
-        for node in sf:
+        for node in sf.iter():
             label = node.get('name', '').replace('Lightprobe Term Coefficient', 'Lightprobe Coefficient')
             for color, short in (('Red', 'R'), ('Green', 'G'), ('Blue', 'B')):
                 label = label.replace('Dominant Light Intensity ' + color, 'Dominant Light Intensity ' + short)

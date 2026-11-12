@@ -14,6 +14,9 @@ SCALARS = dict(FORMATS, uint8='B', uint16='H', uint32='I', rangef='2f', range16=
 
 # Original-disc UI defaults; ODST variants use their corresponding H3 family.
 ITEM_UI = {
+    # Powerhouse DMR explicitly uses the native 'br' HUD weapon family.
+    # This selects pickup icon/sort only; custom DMR behavior stays authored.
+    r'weap:priception\objects\weapons\rifle\dmr\dmr': (4, 0),
     # Generational Combat's mounted rocket turrets have no pickup/swap UI.
     r'weap:custom\vehicles\tgof_hce_new_rwarthog\r_turret\rturret_weapon\rturret_weapon': (0, 0),
     r'weap:custom\vehicles\tgof_warthog_turrets\rocket\weapon\rocket_turret': (0, 0),
@@ -47,6 +50,25 @@ class MetadataConverter:
         self.shader_reference = shader_reference
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
+        if path == 'scnr:/Cutscene Camera Points':
+            # TagTool Scenario.CutsceneCameraPoint: original-only padding at
+            # 0x24 separates the fixed name from position/orientation.
+            flags,kind=self.source.unpack('HH',offset)
+            if (int(source_schema.get('elementSize'),0)!=60
+                    or int(target_schema.get('elementSize'),0)!=64
+                    or flags & ~1 or kind not in range(4)):
+                raise ValueError('Unexpected cutscene camera layout or flags')
+            return (struct.pack('>HH',flags,kind)+bytes(self.source.data[offset+4:offset+36])
+                    +bytes(4)+struct.pack('>6I',*self.source.unpack('6I',offset+36)))
+        if path == 'scnr:/Cutscene Flags':
+            # TagTool Scenario.CutsceneFlag: original H3 begins with four
+            # padding bytes; MCC instead appends editor-folder/padding shorts.
+            if (int(source_schema.get('elementSize'), 0) != 28
+                    or int(target_schema.get('elementSize'), 0) != 28
+                    or self.source.unpack('h', offset+26)[0]):
+                raise ValueError('Unexpected cutscene marker layout/padding')
+            name = self.strings.translate(self.source.u(offset), self.target_strings)
+            return bytes(4) + struct.pack('>I5I', name, *self.source.unpack('5I', offset+4))
         if (path.startswith('lens:') and source_schema.get('name') == 'Reflections'
                 and int(source_schema.get('elementSize'), 0) == 156
                 and int(target_schema.get('elementSize'), 0) == 48):
@@ -93,6 +115,15 @@ class MetadataConverter:
                 # MCC can choose a reflection for occlusion; retail uses the
                 # default first reflection. Nondefault selections still reject.
                 continue
+            if (path == r'lens:levels\multi\cex_beavercreek\fx\sun_flare_01'
+                    and key[0] == 'Occlusion Reflection Index'
+                    and self.source.unpack('i', at)[0] == 26
+                    and self.source.u(offset + 0x44) == 1
+                    and self.source.unpack('H', offset + 0x34)[0] == 0x10):
+                # Authored index 26 is outside this one-reflection legacy flare.
+                # Retain its sole reflection and simple-box occlusion; retail
+                # uses reflection zero. Native visual validation is required.
+                continue
             if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Editor Folder Index'
                     and self.source.unpack('h', at)[0] == -1):
                 continue
@@ -109,6 +140,15 @@ class MetadataConverter:
                     # Retail uses the ordinary first-person weapon offset.
                     continue
             if src.tag.lower() == 'tagblock' and self.source.u(at) == 0:
+                continue
+            if (path.startswith('scnr:/Scenario Resources/Resources[')
+                    and key[0] == 'Decals Per-BSP Resources'
+                    and src.tag.lower() == 'tagblock'
+                    and int(src.get('elementSize'), 0) == 16
+                    and all(self.source.u(row + 12) == 0xffffffff
+                            for row in self.source.block(at, 16))):
+                # MCC retains null per-BSP editor references after compilation.
+                # Retail has no such array; active references still reject.
                 continue
             if path.startswith('chdt:') and src.tag.lower() == 'undefined' and self.source.u(at) == 0:
                 continue
@@ -137,11 +177,12 @@ class MetadataConverter:
                     width = 4 if kind == 'undefined' else struct.calcsize('>' + SCALARS[kind])
                     covered.update(range(at, at + width))
                     continue
-                if (path.startswith(('bloc:', 'weap:', 'vehi:', 'eqip:', 'bipd:')) and source_schema.get('name') == 'AI Properties'
+                if (path.startswith(('bloc:', 'weap:', 'vehi:', 'eqip:', 'bipd:', 'crea:')) and source_schema.get('name') == 'AI Properties'
                         and source_schema.get('elementSize') == '0xC' and size == 16
                         and key[0] == 'Unknown' and kind == 'undefined' and at == 8):
                     # Zero in every original-disc AI row in these groups
                     # (183 vehicle, 426 crate, 236 weapon, 78 equipment, 80 biped).
+                    # Creature rows also verified in creature-ai-padding.json.
                     covered.update(range(at, at + 4))
                     continue
                 if (path.startswith('vehi:') and '/' not in path
@@ -185,6 +226,33 @@ class MetadataConverter:
                     # original armory missile model damage metadata.
                     width = 4 if kind == 'undefined' else 2
                     covered.update(range(at, at + width))
+                    continue
+                machine_defaults = {
+                    r'mach:objects\gear\human\industrial\krane_01\krane_01': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\search_light_1\\search_light_1': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_04_anim_01\\sbr_envelope_04_anim_01': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_04_anim_02\\sbr_envelope_04_anim_02': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_06_anim_01\\sbr_envelope_06_anim_01': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_envelope_06_anim_02\\sbr_envelope_06_anim_02': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_01\\sbr_panel_fabric_01_anim_01': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_02\\sbr_panel_fabric_01_anim_02': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_01_anim_03\\sbr_panel_fabric_01_anim_03': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_b_anim_01\\sbr_panel_fabric_b_anim_01': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_panel_fabric_b_anim_02\\sbr_panel_fabric_b_anim_02': 2,
+                    'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_lift_cabin_01\\sbr_lift_cabin_01': 1,
+                    r'mach:objects\gear\human\residential\y_set_fan_small_a\y_set_fan_small_a': 2,
+                    r'mach:objects\gear\human\industrial\elongation_conveyor\elongation_conveyor': 0,
+                    r'mach:objects\levels\solo\020_base\security_red_light\security_red_light': 2,
+                }
+                if (path in machine_defaults
+                        and ((key[0] == 'Collision Response' and kind == 'enum16')
+                             or (key[0] == 'Unknown' and at == 0x1a6 and kind == 'int16'))):
+                    if self.source.unpack('H', offset+0x190)[0] != machine_defaults[path]:
+                        raise ValueError('Audited machine type changed')
+                    # Original Warehouse fans/doors and High Ground's gate use
+                    # pause-until-crushed (0). MCC omits this retail setting.
+                    struct.pack_into('>h', out, at, 0)
+                    covered.update(range(at, at+2))
                     continue
                 if path in ITEM_UI:
                     defaults = {'OLD Message Index': ('h', ITEM_UI[path][0]), 'Sort Order': ('h', ITEM_UI[path][1]),

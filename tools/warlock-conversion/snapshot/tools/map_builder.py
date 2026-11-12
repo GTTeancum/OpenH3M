@@ -47,6 +47,12 @@ class MapBuilder:
   put(0x488,c.u(0x488)+growth);put(0x474,(c.u(0x474)+growth+debug_growth)&0xffffffff);put(0x490,c.u(0x490)+self.reserve);put(0x478,(c.u(0x478)+growth+self.reserve+debug_growth)&0xffffffff)
   put(0x498,c.u(0x498)+len(self.locale))
   for at,value in self.header_updates.items():put(at,value)
+  # Imported/repacked resources invalidate the basis cache's optimized page
+  # records and zone masks. 82203C58 gates that alternate layout on byte142;
+  # clearing it selects the authoritative play/zone tables we actually built.
+  # Leaving it enabled can reconstruct obsolete offsets via 8222C818 even
+  # though every page in play has a valid checksum. No executable patch.
+  out[0x142]=0
   assert self.base+c.u(0x18)+self.reserve==0xbfc00000
   put(0x2c4,int(np.bitwise_xor.reduce(np.frombuffer(out,dtype='>u4',offset=0x3000))))
   header=bytearray(out[:0x3000])

@@ -54,6 +54,15 @@ def convert_animation(source, target, builder, source_strings, target_strings, s
                 raise ValueError('Animated effect route is shared across incompatible usages')
             converted_routes[row] = payload
             seen.add(function)
+    # Sampler-local animation ranges also reference this function table.
+    # material_importer preserves these packed ranges in native samplers;
+    # they need no constant-register route (e.g. animated plasma textures).
+    for sampler in s.block(source_post + 16, 28):
+        packed = s.unpack('H', sampler + 24)[0]
+        start, count = packed & 1023, packed >> 10
+        if start + count > len(overlays):
+            raise ValueError('Effect sampler animation exceeds function table')
+        seen.update(range(start, start + count))
     if len(converted_routes) != len(source_routes) or seen != set(range(len(overlays))):
         raise ValueError('Animated effect has unreferenced routing or functions')
 
