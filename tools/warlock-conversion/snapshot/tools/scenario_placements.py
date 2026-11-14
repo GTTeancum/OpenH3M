@@ -55,7 +55,9 @@ def translate_enum(value, source, target):
     raise ValueError(f"Unmapped {source.get('name')} enum {value}")
 
 
-def convert_record(cache, row, source_schema, target_schema, translate_string=None):
+def convert_record(cache, row, source_schema, target_schema, translate_string=None, correction=None):
+    correction = correction or {}
+    defaults = correction.get("defaults", {})
     source_fields = fields(source_schema)
     target_fields = fields(target_schema)
     if (source_schema.get('name') in ('Machines', 'Controls')
@@ -72,18 +74,25 @@ def convert_record(cache, row, source_schema, target_schema, translate_string=No
             if key[0] not in extras or (not dormant_color and cache.u(row + int(src.get('offset'), 0))):
                 raise ValueError('Active MCC device appearance override requires conversion')
             del source_fields[key]
-    if source_fields.keys() != target_fields.keys():
+    if source_fields.keys() | defaults.keys() != target_fields.keys() or source_fields.keys() & defaults.keys():
         raise ValueError('Placement field sets differ; requires an explicit mapping')
     out = bytearray(int(target_schema.get('elementSize'), 0))
     covered = set()
     for key, dest in target_fields.items():
+        if key in defaults:
+            if dest.tag.lower() != "int16":
+                raise ValueError("Audited placement default type changed")
+            offset = int(dest.get("offset"),0)
+            struct.pack_into(">h",out,offset,defaults[key])
+            covered.update(range(offset,offset+2))
+            continue
         src = source_fields[key]
         kind = src.tag.lower()
         if dest.tag.lower() != kind:
             raise ValueError(f'Field type changed: {key}')
         offset, at = int(dest.get('offset'), 0), row + int(src.get('offset'), 0)
         if kind == 'tagblock':
-            if cache.u(at):
+            if cache.u(at) and key[0] not in correction.get("zero_nested", ()):
                 raise ValueError(f'Nonempty nested block: {key}')
             size = 12
         else:
@@ -107,7 +116,7 @@ def convert_record(cache, row, source_schema, target_schema, translate_string=No
     return bytes(out)
 
 
-def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False, omit_null_palettes=False, translate_string=None):
+def plan_placements(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False, omit_null_palettes=False, translate_string=None, preserved_null_placements=(), placement_corrections=None):
     source_scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     retail_names = {(t['group'], target.name(i)): (t['salt'] << 16) | i
                     for i, t in target.tags.items()}
@@ -126,6 +135,14 @@ def plan_placements(source, target, source_schema, target_schema, imported=None,
         converted, unresolved = [], []
         for index, row in enumerate(rows):
             palette_index = source.unpack('h', row)[0]
+            if (name, index) in preserved_null_placements:
+                if palette_index != -1 or source.unpack('h', row + 2)[0] != -1:
+                    raise ValueError('Audited null placement acquired a tag/name')
+                data = convert_record(source, row, sf, df, translate_string, (placement_corrections or {}).get(row))
+                converted.append({'source_index': index, 'source_offset': row,
+                                  'palette_index': -1, 'retail_datum': None,
+                                  'retail_group': None, 'record': data})
+                continue
             if omit_null_effects and name == 'Effect Scenery' and palette_index == -1:
                 if source.unpack('h', row + 2)[0] != -1:
                     raise ValueError('Named null effect placement requires review')
@@ -142,7 +159,7 @@ def plan_placements(source, target, source_schema, target_schema, imported=None,
             if key in omitted:
                 continue
             try:
-                data = convert_record(source, row, sf, df, translate_string)
+                data = convert_record(source, row, sf, df, translate_string, (placement_corrections or {}).get(row))
             except ValueError as exc:
                 unresolved.append({'index': index, 'tag': key, 'reason': str(exc)})
                 continue

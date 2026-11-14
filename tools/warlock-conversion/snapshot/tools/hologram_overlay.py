@@ -70,7 +70,11 @@ def bake(materials, post):
         raise ValueError('Hologram overlay constants outside bake limits')
     base=s.u(samplers[textures.index('self_illum_map')]+12)&65535
     overlay=s.u(samplers[textures.index('overlay_map')]+12)&65535
-    rgb=sample(decode(materials.bitmaps,base),512,512)*sample(decode(materials.bitmaps,overlay),512,512)*tint
+    # Stock native dither is available even when the MCC shared page is not.
+    # Keep the authored linear curve, bilinear wrap and UV contract above.
+    from native_dither_overlay import read_overlay
+    overlay_rgb = read_overlay(materials, overlay)
+    rgb=sample(decode(materials.bitmaps,base),512,512)*sample(overlay_rgb,512,512)*tint
     blocks=[]
     while True:
         encoded=np.where(rgb<=.0031308,rgb*12.92,1.055*np.maximum(rgb,0)**(1/2.4)-.055)

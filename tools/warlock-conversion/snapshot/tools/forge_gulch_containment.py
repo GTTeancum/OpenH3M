@@ -8,6 +8,34 @@ import numpy as np
 from forge_gulch_boundary import BOUNDARY
 
 COMPILER_SHA256 = '27e45ec9dc5e06e0f51afb78991d8f8f1ba6cdb057f04e6ef2f0feaa4fcf618e'
+# Official decompals release; direct Win32 execution avoids Wine's server IPC.
+# The MOPP algorithm remains the same hash-pinned native Windows compiler.
+LOADER_SHA256 = '13f86a2d618f0dbe67179d349625345eabf9b46450295cb4c904e49f6aff85af'
+LOADER_URL = 'https://github.com/decompals/wibo/releases/download/1.2.0/wibo-x86_64'
+
+
+def compiler_command(compiler, input_path, output_path, work, platform=None):
+    """Choose an execution host, never an alternative collision compiler."""
+    import platform as host_platform
+    platform = os.name if platform is None else platform
+    args = [str(compiler), 'generate-collision-mopp', str(input_path), str(output_path)]
+    if platform == 'nt':
+        return args, getattr(subprocess, 'CREATE_NO_WINDOW', 0x08000000)
+    if platform != 'posix' or host_platform.system() != 'Linux' or host_platform.machine() != 'x86_64':
+        raise ValueError('Pinned MOPP compiler requires Windows or Linux x86_64 direct-loader support')
+    loader = work / 'tools/wibo-x86_64'
+    if not loader.exists():
+        import urllib.request
+        data = urllib.request.urlopen(LOADER_URL, timeout=60).read()
+        if hashlib.sha256(data).hexdigest() != LOADER_SHA256:
+            raise ValueError('Downloaded direct loader differs from the pinned official release')
+        loader.parent.mkdir(parents=True, exist_ok=True)
+        loader.write_bytes(data)
+        loader.chmod(0o755)
+    if hashlib.sha256(loader.read_bytes()).hexdigest() != LOADER_SHA256:
+        raise ValueError('Unverified offline MOPP direct loader')
+    return [str(loader), *args], 0
+
 
 
 def split_vertical_extent(original):
@@ -79,13 +107,26 @@ def compile_mopp(rows):
     env = dict(os.environ, TEMP=str(temporary), TMP=str(temporary),
                LOCALAPPDATA=str(temporary), APPDATA=str(temporary))
     try:
-        run = subprocess.run([str(compiler), 'generate-collision-mopp', str(input_path), str(output_path)],
+        command, creationflags = compiler_command(compiler, input_path, output_path, work)
+        run = subprocess.run(command,
                              cwd=repo, env=env, capture_output=True, timeout=60,
-                             creationflags=subprocess.CREATE_NO_WINDOW)
+                             creationflags=creationflags)
         if run.returncode:
             raise ValueError(f'MOPP compiler failed ({run.returncode:#x}): '
                              + (run.stdout + run.stderr).decode(errors='replace'))
-        return output_path.read_bytes()
+        compiled = output_path.read_bytes()
+        # Check the actual compiler result, not merely process exit status.
+        if len(compiled) < 48 or any(struct.unpack_from('<I', compiled, o)[0] for o in (0, 8, 12, 32)):
+            raise ValueError('Unexpected compiler header/runtime pointers')
+        size, capacity = struct.unpack_from('<II', compiled, 36)
+        if size > capacity or 48 + size > len(compiled) or len(compiled) - 48 - size > 15:
+            raise ValueError('Invalid compiled MOPP allocation')
+        from collision_physics import retail_mopp
+        from forge_mopp import terminals
+        body = compiled[48:48+size]
+        if retail_mopp(body) != body or {key for _, _, key in terminals(body)} != set(range(len(rows))):
+            raise ValueError('Compiled containment keys do not exactly cover the source triangles')
+        return compiled
     finally:
         input_path.unlink(missing_ok=True)
         output_path.unlink(missing_ok=True)
@@ -124,6 +165,7 @@ def apply(importer, source_root, payload):
         'boundary_triangles_added': len(rows)-original_count,
         'compiled_code_bytes': size,
         'compiler_sha256': COMPILER_SHA256,
+        'direct_loader_sha256': LOADER_SHA256 if os.name != 'nt' else None,
         'native_behavior_verified': False,
     }
     return bytes(out)

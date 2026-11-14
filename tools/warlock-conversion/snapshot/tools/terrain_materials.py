@@ -14,6 +14,16 @@ DONORS = {'_0_1_1_0_0_0': 'sandbox.map', '_0_2_1_1_1_2': 'docks.map',
 HOLOGRAM_DONORS = {'_0_8_1_0_0_0_0': 'construct.map', '_2_3_1_0_0_0_1': 'sandbox.map', '_2_1_1_0_0_0_1': 'lockout.map', '_2_8_0_0_0_1_0': 'sandbox.map', '_0_3_1_0_0_0_1': 'lockout.map'}
 
 
+def dune_teleporter_neutral_edge(source, group, name, variant):
+    applies = (group == 'rmhg' and name ==
+               r'objects\multi\2way_teleporter_collapsable\shaders\teleporter_plasma'
+               and [source.name(k) for k, t in source.tags.items() if t['group'] == 'scnr']
+                   == [r'levels\multi\dune\dune'])
+    if applies and variant != '_0_3_1_0_0_0_0':
+        raise ValueError('Dune teleporter shader changed; re-audit required')
+    return applies
+
+
 class DiscMaterialImporter:
     def __init__(self, importer, disc_maps):
         self.importer, self.disc_maps = importer, Path(disc_maps)
@@ -118,6 +128,14 @@ class DiscMaterialImporter:
                          and s.name(datum & 65535).startswith('levels\\multi\\s3d_sky_bridgenew\\shaders\\'))
         neutral_edge |= (group == 'rmhg' and variant == '_0_4_1_0_0_0_0'
                          and s.name(datum & 65535).startswith('levels\\multi\\s3d_sky_bridgenew\\'))
+        dune_teleporter = dune_teleporter_neutral_edge(s, group, s.name(datum & 65535), variant)
+        if dune_teleporter:
+            neutral_edge = True
+        from dune_spectre import matches as dune_spectre_matches
+        dune_spectre = dune_spectre_matches(s, group, s.name(datum & 65535), variant)
+        if dune_spectre:
+            variant = '_0_3_1_0_0_2_0'
+            neutral_edge = True
         if neutral_edge:
             # Original Cold Storage has identical albedo, illumination and
             # blending plus edge tint. Unit endpoint tints make that a no-op.
@@ -323,6 +341,18 @@ class DiscMaterialImporter:
                         raise ValueError('Native cloud boolean layout changed')
                     if s.u(post+52):raise ValueError('Unexpected cloud source boolean constants')
                     continue
+                if dune_spectre and offset in (72,108):
+                    extra = {'edge_fade_edge_tint','edge_fade_center_tint','edge_fade_power'} if offset==72 else set()
+                    if set(source_names)-set(target_names)!={'overlay_multiply_map'} or set(target_names)-set(source_names)!=extra:
+                        raise ValueError('Dune Spectre native parameter layout changed')
+                    indices=[source_names.index(n) if n in source_names else -1 for n in target_names]
+                    if offset==72:
+                        float_indices=indices
+                        float_defaults={j:1. for j,n in enumerate(target_names) if n in extra}
+                        omitted_constants=['overlay_multiply_map']
+                    else:
+                        texture_indices=indices
+                    continue
                 if neutral_edge and offset == 72:
                     extras = {'edge_fade_edge_tint', 'edge_fade_center_tint', 'edge_fade_power'}
                     if set(target_names) - set(source_names) != extras or not set(source_names).issubset(target_names):
@@ -484,7 +514,11 @@ class DiscMaterialImporter:
                     # this POC. Validate their full encoding below; opcode and
                     # allocation size alone do not determine support.
                     supported = kind in (0, 1, 5, 6) or (kind in (2,3,4) and s.name(datum&65535).startswith('levels\\multi\\s3d_sky_bridgenew\\'))
-                    if (input_id and not (glow or seat_power)) or range_id or not 0 < period < float('inf') or not supported:
+                    # Native Bunkerworld door/button materials consume the
+                    # same device 'position' input as this animated teleporter.
+                    dune_position = (dune_teleporter and i.source_strings.text(input_id) == 'position'
+                                     and kind == 1 and len(function) == 68 and function[0] == 8)
+                    if (input_id and not (glow or seat_power or dune_position or (dune_spectre and i.source_strings.text(input_id)=='shield' and kind in (0,1)))) or range_id or not 0 < period < float('inf') or not supported:
                         raise ValueError(f'{s.name(datum & 65535)}: unsupported hologram animation {kind}, function size {len(function)}')
                     convert_function(function)  # Validate the complete function structure.
             baked_computer = None
@@ -516,7 +550,7 @@ class DiscMaterialImporter:
                     raise ValueError('Terrain texture array/sub-image is unsupported')
                 retained_animation = 0
                 if (group == 'rmhg' and animation and
-                        (sky_bridge_generic or s.name(datum & 65535).startswith('levels\\multi\\s3d_powerhouse\\sky_settlement\\'))):
+                        (sky_bridge_generic or dune_spectre or s.name(datum & 65535).startswith('levels\\multi\\s3d_powerhouse\\sky_settlement\\'))):
                     # Conversion retains overlay order. Native sampler ranges
                     # use the same low-10-bit start/high-6-bit count encoding.
                     if (not animation >> 10 or
@@ -684,7 +718,7 @@ class DiscMaterialImporter:
                 'donor_only_cloud_diffuse_removed': native_sky_shader and not native_alpha_sky,
                 'powerhouse_cloud_brightness_gain': powerhouse_cloud_gain,
                 'native_unlit_sky_without_edge_fade': native_unlit_sky,
-                'compiled_sky_bridge_lamp': lamp_evidence, 'native_donor': donors[variant], 'donor_shader_graph_preserved': True, 'baked_static_computer_overlay': computer_overlay, 'coincident_lightvolume_layers': lightvolume, 'neutral_edge_fade': neutral_edge, 'disabled_extra_illumination': neutral_illum, 'native_cloud_shader_family': native_sky_shader,
+                'compiled_sky_bridge_lamp': lamp_evidence, 'native_donor': donors[variant], 'donor_shader_graph_preserved': True, 'baked_static_computer_overlay': computer_overlay, 'coincident_lightvolume_layers': lightvolume, 'neutral_edge_fade': neutral_edge, 'dune_teleporter_neutral_edge': dune_teleporter, 'dune_spectre_candidate': (__import__('dune_spectre').NOTE if dune_spectre else None), 'disabled_extra_illumination': neutral_illum, 'native_cloud_shader_family': native_sky_shader,
                 'converted_source_animations': converted_animations, 'neutral_extra_warp': neutral_warp, 'neutral_extra_detail': neutral_detail, 'static_multiply_as_detail': multiply_detail, 'source_template_variant': source_variant, 'fallback_template_variant': fallback,
                 'approximation': bool(fallback or (overlays and not converted_animations) or suppressed_specular or omitted_constants),
                 'ambient_prt_two_layer_mapping': prt_two_layer,
@@ -692,9 +726,11 @@ class DiscMaterialImporter:
                 'difference': ('Terrain UV animation frozen at authored initial transform' if group == 'rmtr'
                                else 'Hologram color/brightness/UV functions frozen at authored constant values') if overlays and not converted_animations else None,
                 'frozen_inputs': sorted({i.source_strings.text(s.u(row + 4)) for row in overlays if s.u(row + 4)}) if not converted_animations else [],
-                'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': not suppressed_specular,
+                'textures_imported': len(textures) // 24, 'all_layer_parameters_preserved': not suppressed_specular and not dune_spectre,
                 'terrain_specular_suppressed': suppressed_specular,
-                'unused_mcc_environment_constants_omitted': omitted_constants, 'native_constant_defaults': float_defaults})
+                'active_parameters_omitted': (['overlay_multiply_map'] if dune_spectre else []),
+                'active_textures_omitted': (['overlay_multiply_map'] if dune_spectre else []),
+                'unused_mcc_environment_constants_omitted': ([] if dune_spectre else omitted_constants), 'native_constant_defaults': float_defaults})
             return self.done[datum]
         except Exception:
             i.failed = True

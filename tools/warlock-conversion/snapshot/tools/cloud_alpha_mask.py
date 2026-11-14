@@ -36,4 +36,4 @@ def bake(materials, datum):
         def info(self, tag): return infos
         def pixels(self, tag, index=0): return bytes(data)
 
-    return materials.bitmap_resource(*encode_bitmap_base(Baked(), tag, preserve_bc_mips=True))
+    return materials.bitmap_resource(*materials.encode_bitmap(Baked(), tag, preserve_bc_mips=True))

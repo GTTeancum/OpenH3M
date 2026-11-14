@@ -58,7 +58,7 @@ def recover(importer, native, datum, schema):
             root[offset:offset + 20] = bytes(20)
     encoded = encode_bitmap_base(importer.materials.bitmaps, index,
                                  max_dimension=max(expected['width'], expected['height']),
-                                 preserve_bc_mips=True)
+                                 preserve_authored_mips=True)
     owner = importer.materials.bitmap_resource(*encoded)
     builder = importer.builder
     address = struct.unpack_from('>I', importer.registry.tags, (owner & 65535) * 8 + 4)[0]

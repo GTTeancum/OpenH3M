@@ -3,6 +3,7 @@
 Compiled MCC shaders are never copied. Unavailable variants use the existing
 proof's retail templates and report every unrepresented parameter explicitly.
 """
+import hashlib
 import struct
 from mcc_bitmap_source import BitmapSource
 from encode_bitmap import encode_bitmap_base
@@ -48,11 +49,106 @@ class MaterialImporter:
         self.source_strings, self.target_strings = StringTable(source), StringTable(self.target)
         self.done = {}
         self.report = []
+        self.bitmap_preservation = []
+        self._bitmap_encodings = {}
         self.particle_aliases = {}
         self.native_effect_post = None
         self.native_bitmaps = None
         self.target_names = {(t['group'], self.target.name(i)): (t['salt'] << 16) | i
                              for i, t in self.target.tags.items()}
+
+    def encode_bitmap(self, source, tag, index=0, **options):
+        """Keep the authored base and every mip; old size caps cannot select data.
+
+        Material-specific channel/format transformations remain explicit. A
+        derived source is identified as such rather than called an original
+        pixel copy. Native file/residency limits are checked on the final cache.
+        """
+        info = source.info(tag)[index]
+        # These legacy switches selected/resized levels. The preservation path
+        # supersedes them, not the explicit zero-blue/opaque-alpha adapters.
+        options.pop('max_dimension', None)
+        options.pop('resize_blend', None)
+        options['preserve_authored_mips'] = True
+        options['max_dimension'] = max(info['width'], info['height'])
+        encoded = encode_bitmap_base(source, tag, index=index, **options)
+        self.remember_bitmap_encoding(source, tag, index, encoded,
+            transforms=[name for name in ('zero_blue', 'opaque_alpha') if options.get(name)])
+        return encoded
+
+    def remember_bitmap_encoding(self, source, tag, index, encoded, transforms=()):
+        record, control, raw = encoded
+        info = source.info(tag)[index]
+        width, height = struct.unpack_from('>HH', record, 4)
+        if (width, height, record[20]+1) != (info['width'], info['height'], info['mips']):
+            raise ValueError('Encoded bitmap lost authored base dimensions or mip levels')
+        kind, fmt = struct.unpack_from('>HH', record, 10)
+        from encode_bitmap import texture_gpu_format
+        if (struct.unpack_from('>HH', control, 40) != (width, height)
+                or control[45:47] != bytes((info['mips'], kind))
+                or struct.unpack_from('>I', control, 48)[0] != texture_gpu_format(fmt, record[21])
+                or struct.unpack_from('>I', control, 0)[0] != len(raw)
+                or struct.unpack_from('>I', record, 28)[0] != len(raw)):
+            raise ValueError('Encoded bitmap control disagrees with image metadata/payload')
+        transforms = list(transforms)
+        if info['format'] == 29:
+            transforms.append('V16U16 signed components quantized to native V8U8 per authored mip')
+        elif info['format'] == 33:
+            transforms.append('MCC signed DXN endpoints biased to native unsigned storage; selectors retained')
+        elif info['format'] in (0, 1, 3, 10):
+            transforms.append('Source channels expanded to native ARGB32 per authored mip')
+        cache = getattr(source, 'c', None)
+        name = cache.name(tag) if cache is not None and tag in cache.tags else None
+        note = dict(source=name, source_tag=tag, source_image=index,
+            derived_input=source is not self.bitmaps,
+            input={k: info[k] for k in ('width', 'height', 'format', 'mips')},
+            output=dict(width=width, height=height, format=struct.unpack_from('>H', record, 12)[0],
+                        mips=record[20]+1, kind=struct.unpack_from('>H', record, 10)[0]),
+            input_payload_sha256=hashlib.sha256(source.pixels(tag, index)).hexdigest(),
+            tiled_payload_sha256=hashlib.sha256(raw).hexdigest(), tiled_bytes=len(raw),
+            explicit_channel_transforms=transforms, authored_levels_retained=True,
+            verification='Encoder shape/control validation; independent serialized pixel verification is separate')
+        key = (record, control, note['tiled_payload_sha256'])
+        self._bitmap_encodings.setdefault(key, []).append(note)
+
+    def record_bitmap_resource(self, record, control, raw, owner, resource, index=0):
+        key = (record, control, hashlib.sha256(raw).hexdigest())
+        pending = getattr(self, '_bitmap_encodings', {}).get(key, [])
+        if pending:
+            note = pending.pop(0)
+            note.update(owner_datum=owner, resource_datum=resource, output_image=index)
+            self.bitmap_preservation.append(note)
+
+    def bitmap_preservation_report(self, resource_compaction=None):
+        mapping = (resource_compaction or {}).get('old_to_new')
+        result = []
+        for note in self.bitmap_preservation:
+            row = dict(note)
+            staged = row['resource_datum']
+            row['staged_resource_datum'] = staged
+            if mapping is not None:
+                index = mapping.get(str(staged & 65535))
+                row['resource_datum'] = None if index is None else (staged & 0xffff0000) | index
+            row['retained'] = row['resource_datum'] is not None
+            result.append(row)
+        return result
+
+    def remember_composite_bitmap(self, tags, encoded, mode):
+        """Report derived material textures separately from direct mip copies."""
+        record, control, raw = encoded
+        inputs = [self.bitmaps.info(tag)[0] for tag in tags]
+        note = dict(source=[self.source.name(tag) for tag in tags], source_tags=list(tags),
+            source_image=0, derived_input=True, composition=mode,
+            input=[{k: info[k] for k in ('width', 'height', 'format', 'mips')} for info in inputs],
+            output=dict(width=struct.unpack_from('>H', record, 4)[0],
+                        height=struct.unpack_from('>H', record, 6)[0],
+                        format=struct.unpack_from('>H', record, 12)[0],
+                        mips=record[20]+1, kind=struct.unpack_from('>H', record, 10)[0]),
+            input_payload_sha256=[hashlib.sha256(self.bitmaps.pixels(tag)).hexdigest() for tag in tags],
+            tiled_payload_sha256=hashlib.sha256(raw).hexdigest(), tiled_bytes=len(raw),
+            difference='Derived material composition, not an unchanged copy of either source bitmap; no generic size cap or mip-tail removal.')
+        key = (record, control, note['tiled_payload_sha256'])
+        self._bitmap_encodings.setdefault(key, []).append(note)
 
     def bitmap(self, datum):
         s, c, b = self.source, self.target, self.builder
@@ -88,17 +184,20 @@ class MaterialImporter:
             owner, address = self.registry.newtag('bitm', root)
             records, resources = bytearray(), bytearray()
             for index in range(len(rows)):
+                info = self.bitmaps.info(tag)[index]
                 record, control, raw = encode_cubemap_base(self.bitmaps, tag, index,
-                    preserve_mips=(key[1] == r'levels\multi\s3d_powerhouse\bitmaps\d_cubemap_vertical_noise'))
+                    max_dimension=max(info['width'], info['height']), preserve_authored_mips=True)
+                self.remember_bitmap_encoding(self.bitmaps, tag, index, (record, control, raw))
                 resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
                     {'control': control, 'raw': raw, 'root': 52,
                      'fixups': [(12, 0x40000000), (52, 0x20000000)], 'interops': [(0x20000034, 2)]})
+                self.record_bitmap_resource(record, control, raw, owner, resource, index)
                 records.extend(record); resources.extend(struct.pack('>II', resource, 0))
             b.put(address + 96, 'III', len(rows), b.alloc(records), 0)
             b.put(address + 140, 'III', len(rows), b.alloc(resources), 0)
             self.done[key] = owner
-            self.report.append({'source': key[1], 'approximation': True, 'cubemap_images': len(rows),
-                                'difference': 'Authored reflection faces retained at 64-pixel single-mip resolution.'})
+            self.report.append({'source': key[1], 'approximation': False, 'cubemap_images': len(rows),
+                                'difference': 'All six authored reflection faces, original base resolution and every authored mip retained.'})
             return owner
         if len(rows) == 1 and s.unpack('H', rows[0] + 10)[0] == 2 and self.native_effect_post is not None:
             owner = self.native_effect_post.cubemap(key[1])
@@ -116,6 +215,10 @@ class MaterialImporter:
                 'difference':'Missing diffuse mip chain generated by linear-color filtering to 512px BC1.'})
             return owner
         max_dimension = getattr(self, 'bitmap_size_overrides', {}).get(key[1], 512)
+        from dune_sky_bitmap import resolution as dune_sky_resolution
+        dune_resolution = dune_sky_resolution(s, key[1], self.bitmaps, tag)
+        if dune_resolution is not None:
+            max_dimension = dune_resolution
         if (str(s.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map')
                 and key[1] == r'levels\multi\s3d_sky_bridgenew\sky\bitmaps\sky_transport_fl_01'):
             info = self.bitmaps.info(tag)
@@ -133,31 +236,50 @@ class MaterialImporter:
             # base level instead of discarding it under the general 512px cap.
             max_dimension = 1024
         try:
-            record, control, raw = encode_bitmap_base(self.bitmaps, tag, max_dimension=max_dimension,
-                resize_blend=getattr(self, 'resize_blend_maps', False) and 'blend' in key[1],
-                zero_blue=key[1] in getattr(self, 'zero_blue_blend_maps', set()),
-                preserve_normal_mips=getattr(self, 'preserve_normal_mips', True),
-                preserve_bc_mips=getattr(self, 'preserve_bc_mips', True) or key[1] in getattr(self, 'preserve_bc_mip_names', set()))
+            if not rows or (len(rows)>1 and s.u(s.tags[tag]['offset']+84)):
+                raise ValueError('Empty or multi-image sprite bitmap needs its dedicated adapter')
+            encoded_images = [self.encode_bitmap(self.bitmaps, tag, index=index, max_dimension=max_dimension,
+                    resize_blend=getattr(self, 'resize_blend_maps', False) and 'blend' in key[1],
+                    zero_blue=key[1] in getattr(self, 'zero_blue_blend_maps', set()),
+                    preserve_normal_mips=getattr(self, 'preserve_normal_mips', True),
+                    preserve_bc_mips=getattr(self, 'preserve_bc_mips', True) or key[1] in getattr(self, 'preserve_bc_mip_names', set()))
+                for index in range(len(rows))]
         except ValueError as error:
             raise ValueError(f'bitm:{key[1]}: {error}') from error
-        owner = self.bitmap_resource(record, control, raw)
+        owner = self.bitmap_resources(encoded_images)
         self.done[key] = owner
+        if len(rows)>1:
+            self.report.append(dict(source=key[1], authored_images_retained=len(rows),
+                difference='Every image and its full authored mip chain retained in original image-index order.'))
+        if dune_resolution is not None:
+            self.report.append({'source': key[1], 'approximation': False,
+                'difference': 'Audited Dune sky retains authored 2048x2048 ARGB32 single mip; no invented mip or downsampling.',
+                'authored_resolution': [2048, 2048], 'resource_bytes': sum(len(raw) for _,_,raw in encoded_images)})
         return owner
 
     def bitmap_resource(self, record, control, raw):
+        return self.bitmap_resources([(record, control, raw)])
+
+    def bitmap_resources(self, encoded_images):
         c, b = self.target, self.builder
-        # Explicit single-image runtime root: resource-backed and sampleable.
+        if not encoded_images:
+            raise ValueError('Cannot create an empty bitmap image table')
+        # Explicit runtime root: resource-backed and sampleable.
         # All editor data, sequences and runtime pointers start empty. These
         # are the same non-pointer fields as the accepted bitmap prototype.
         root = bytearray(0xa4)
         struct.pack_into('>H', root, 4, 0x50)
         owner, address = self.registry.newtag('bitm', root)
-        resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
-            {'control': control, 'raw': raw, 'root': 52,
-             'fixups': [(12, 0x40000000), (52, 0x20000000)],
-             'interops': [(0x20000034, 2)]})
-        b.put(address + 0x60, 'III', 1, b.alloc(record), 0)
-        b.put(address + 0x8c, 'III', 1, b.alloc(struct.pack('>II', resource, 0)), 0)
+        records, hardware = bytearray(), bytearray()
+        for index, (record, control, raw) in enumerate(encoded_images):
+            resource = self.registry.add_resource(owner, 'bitmap_texture_interop_resource',
+                {'control': control, 'raw': raw, 'root': 52,
+                 'fixups': [(12, 0x40000000), (52, 0x20000000)],
+                 'interops': [(0x20000034, 2)]})
+            records.extend(record); hardware.extend(struct.pack('>II', resource, 0))
+            self.record_bitmap_resource(record, control, raw, owner, resource, index)
+        b.put(address + 0x60, 'III', len(encoded_images), b.alloc(records), 0)
+        b.put(address + 0x8c, 'III', len(encoded_images), b.alloc(hardware), 0)
         b.put(address + 0x98, 'III', 0, 0, 0)
         return owner
 
@@ -420,6 +542,19 @@ class MaterialImporter:
                 # variant. Keep its authored emission with unbumped sky routing.
                 variants[1] = 0
             sky_template = source_template.rsplit('\\', 1)[0] + '\\_' + '_'.join(str(v) for v in variants[:10])
+        from foundation_sky import select_foundation_clouds, TARGET_OPTIONS
+        foundation_clouds = select_foundation_clouds(s, key[1], options, texture_names, constant_names)
+        if foundation_clouds:
+            # diffuse_only.fx ignores the diffuse-alpha specular mask in all
+            # static/PRT consumers; its analytical specular multiplier is zero.
+            # Preserve blend5, alpha, RGB, UVs and authored animation routes.
+            tm = s.tags[s.u(source_post + 12) & 65535]['offset']
+            booleans = [self.source_strings.text(s.u(row)) for row in s.block(tm + 96, 4)]
+            if s.u(source_post + 40) or s.u(source_post + 52) or s.u(tm + 84) or booleans != ['no_dynamic_lights']:
+                raise ValueError('Foundation clouds switches require re-audit')
+            variants = list(TARGET_OPTIONS)
+            sky_template = r'shaders\shader_templates\_0_0_0_0_0_0_0_5_0_0'
+            prisoner_template = True
         if getattr(self, 'forge_world_sky', False) and '\\sky_halo\\shaders\\' in key[1]:
             source_template = s.name(s.u(source_post + 12) & 65535)
             variants = [int(v) for v in source_template.rsplit('\\', 1)[-1].split('_')[1:]]
@@ -572,7 +707,7 @@ class MaterialImporter:
                 blend = s.unpack('4f',source_constants[constant_names.index('albedo_blend')])[0]
                 environment = s.unpack('4f',source_constants[constant_names.index('environment_map_specular_contribution')])[0]
                 baked, boarding_metal = prepare(self.bitmaps, control, tint, blend, environment)
-                boarding_metal_bitmap = self.bitmap_resource(*encode_bitmap_base(baked,control,preserve_color_mips=True))
+                boarding_metal_bitmap = self.bitmap_resource(*self.encode_bitmap(baked,control,preserve_color_mips=True))
                 variants = [0,2,0,1,1,2,0,0,0,1]
                 sky_template = r'shaders\shader_templates\_0_2_0_1_1_2_0_0_0_1'
                 prisoner_template = True
@@ -1050,6 +1185,9 @@ class MaterialImporter:
             if sanctuary_water_card:
                 donor_options = dict(preferred_map='riverworld.map',
                     preferred_material=r'levels\multi\riverworld\shaders\vahalla_waterfall')
+            if foundation_clouds:
+                donor_options = dict(preferred_map='docks.map',
+                    preferred_material=r'levels\dlc\docks\sky\shaders\clouds_horizon_dark')
             native_sky_post, names, sky_donor = self.native_effect_post('rmsh', sky_template, **donor_options)
             if sky_alpha_card:
                 from sky_bridge_alpha_card import bind_alpha_card
@@ -1105,6 +1243,12 @@ class MaterialImporter:
                 from static_environment_adapter import bind_static_cube
                 native_sky_post, names, static_cube_routes = bind_static_cube(self, native_sky_post, names)
             target_texture_names, target_constant_names = names
+            if foundation_clouds:
+                from foundation_sky import TEXTURES, CONSTANTS
+                switches = self.native_effect_post.parameter_switches[sky_template]
+                if (names != (TEXTURES, CONSTANTS) or switches != {'integer': [], 'boolean': ['no_dynamic_lights']}
+                        or struct.unpack_from('>I', native_sky_post, 52)[0]):
+                    raise ValueError('Foundation cloud native parameter/switch layout changed')
             if rodentia_diffuse_emission and (
                     not {'diffuse_coefficient', 'specular_coefficient'}.issubset(target_constant_names)
                     or struct.unpack_from('>I', native_sky_post, 40)[0]
@@ -1146,53 +1290,53 @@ class MaterialImporter:
                 baked, powerhouse_wire_report = bake(self, source_post)
                 composed_key = ('powerhouse_wire_detail', hashlib.sha256(baked.pixels(0)).digest())
                 if composed_key not in self.done:
-                    self.done[composed_key] = self.bitmap_resource(*encode_bitmap_base(baked, 0, preserve_color_mips=True))
+                    self.done[composed_key] = self.bitmap_resource(*self.encode_bitmap(baked, 0, preserve_color_mips=True))
                 bitmap = self.done[composed_key]
             elif gravlift_emission and name == 'base_map':
                 from gravlift_material import black_rgb_mask
-                bitmap = self.bitmap_resource(*encode_bitmap_base(
+                bitmap = self.bitmap_resource(*self.encode_bitmap(
                     black_rgb_mask(self.bitmaps,bitmap_datum&65535),bitmap_datum&65535,
                     preserve_color_mips=True))
             elif boarding_metal is not None and name == 'material_texture':
                 bitmap = boarding_metal_bitmap
             elif boarding_metal is not None and name in ('base_map','detail_map'):
-                bitmap = self.bitmap_resource(*encode_bitmap_base(self.bitmaps,bitmap_datum&65535,
+                bitmap = self.bitmap_resource(*self.encode_bitmap(self.bitmaps,bitmap_datum&65535,
                     opaque_alpha=True,preserve_color_mips=True))
             elif fused_small_rock_detail and name == 'bump_map':
                 from fused_small_rock_normal import bake
                 detail_datum = s.u(source_textures[texture_names.index('bump_detail_map')]+12)
                 baked = bake(self.bitmaps, bitmap_datum & 65535, detail_datum & 65535)
-                bitmap = self.bitmap_resource(*encode_bitmap_base(
+                bitmap = self.bitmap_resource(*self.encode_bitmap(
                     baked, bitmap_datum & 65535, max_dimension=1024, preserve_normal_mips=True))
             elif fused_ridge_detail and name == 'bump_map':
                 from fused_ridge_normal import bake
                 transforms = [s.unpack('4f', source_constants[constant_names.index(n)]) for n in ('bump_map', 'bump_detail_map')]
                 baked = bake(self.bitmaps, bitmap_datum & 65535, *transforms)
-                bitmap = self.bitmap_resource(*encode_bitmap_base(
+                bitmap = self.bitmap_resource(*self.encode_bitmap(
                     baked, bitmap_datum & 65535, max_dimension=1024, preserve_normal_mips=True))
             elif powerhouse_cliffs and name == 'bump_detail_map':
                 from normal_strength import scaled_strength
                 baked, detail_strength_report = scaled_strength(self.bitmaps, bitmap_datum & 65535, strength[0], uncompressed=True)
-                bitmap = self.bitmap_resource(*encode_bitmap_base(
+                bitmap = self.bitmap_resource(*self.encode_bitmap(
                     baked, bitmap_datum & 65535, preserve_normal_mips=True))
             elif half_detail_strength and name == 'bump_detail_map':
                 from normal_strength import half_strength
                 strength_key = ('half_strength_detail', s.name(bitmap_datum & 65535))
                 if strength_key not in self.done:
                     baked, detail_strength_report = half_strength(self.bitmaps, bitmap_datum & 65535)
-                    self.done[strength_key] = self.bitmap_resource(*encode_bitmap_base(
+                    self.done[strength_key] = self.bitmap_resource(*self.encode_bitmap(
                         baked, bitmap_datum & 65535, preserve_normal_mips=True))
                 bitmap = self.done[strength_key]
             elif lockout_composed_panel_normal and name == 'bump_map':
                 from lockout_panel_normal import bake
                 detail=s.u(source_textures[texture_names.index('bump_detail_map')]+12)&65535
                 baked=bake(self.bitmaps,bitmap_datum&65535,detail)
-                bitmap=self.bitmap_resource(*encode_bitmap_base(baked,bitmap_datum&65535,
+                bitmap=self.bitmap_resource(*self.encode_bitmap(baked,bitmap_datum&65535,
                     max_dimension=1024,preserve_normal_mips=True))
             elif (neutral_diffuse_specular_mask or chiron_opaque_emission) and name == 'base_map':
                 opaque_key = ('opaque_specular_base', s.name(bitmap_datum & 65535))
                 if opaque_key not in self.done:
-                    self.done[opaque_key] = self.bitmap_resource(*encode_bitmap_base(
+                    self.done[opaque_key] = self.bitmap_resource(*self.encode_bitmap(
                         self.bitmaps, bitmap_datum & 65535, opaque_alpha=True,
                         preserve_color_mips=elongation_unmasked_emission or powerhouse_lamp))
                 bitmap = self.done[opaque_key]
@@ -1363,6 +1507,7 @@ class MaterialImporter:
                 if autoturret_emission else None),
             'native_neutral_emission_detail': lockout_neutral_emission_detail,
             'powerhouse_screen_inert_specular_mask': powerhouse_screen,
+            'foundation_clouds_inert_specular_mask': foundation_clouds,
             'sky_bridge_compiled_alpha_card': sky_alpha_card_evidence,
             'sky_bridge_compiled_decal_card': sky_decal_card_evidence,
             'sky_bridge_compiled_water_card': sky_water_card_evidence,
@@ -1422,6 +1567,13 @@ class MaterialImporter:
         template_name = s.name(s.u(source_post + 12) & 65535)
         aliases = DECAL_ALIASES if group == 'decs' else PARTICLE_ALIASES if group == 'prt3' else {}
         alias = aliases.get(template_name.rsplit('\\', 1)[-1])
+        from dune_decal import matches as dune_decal_matches, NOTE as DUNE_DECAL_NOTE
+        dune_decal = dune_decal_matches(s, source_post, group, template_name)
+        if dune_decal:
+            alias = ('_0_3_0_1_0_0', 'combined_alpha', DUNE_DECAL_NOTE)
+        from dune_projectile import matches as dune_projectile_matches, NOTE as DUNE_PROJECTILE_NOTE
+        if dune_projectile_matches(s, source_post, group, template_name):
+            alias = ('_0_8_1_0', 'blend_mode', DUNE_PROJECTILE_NOTE)
         target_template = template_name.rsplit('\\', 1)[0] + '\\' + alias[0] if alias else template_name
         sky_bridge_ldr = (group=='prt3' and template_name==r'shaders\particle_templates\_0_8_0_0_1_0_0_0_0_0'
                           and str(s.file.name).replace('\\','/').endswith('/s3d_sky_bridgenew.map'))
@@ -1525,14 +1677,24 @@ class MaterialImporter:
             bi,mi=(self.bitmaps.info(d&65535)[0] for d in key[1:3])
             exact=(color_scale==(1.,1.,1.) and bi['format'] in (14,16) and mi['format']==16
                    and (bi['width'],bi['height'])==(mi['width'],mi['height'])
-                   and max(bi['width'],bi['height'])<=512)
+                   and bi['mips']==mi['mips'])
             identical=color_scale==(1.,1.,1.) and s.data[base+12:base+28]==s.data[mask+12:mask+28]
             combined_alpha_mode=('original_bitmap' if identical else 'authored_bc_blocks_common_mips' if exact
-                                 else 'linear_resample_argb8_full_mips_512_limit')
+                                 else 'derived_linear_resample_argb8_authored_dimensions_levels')
             if key not in self.done:
-                self.done[key]=(self.bitmap(key[1]) if identical
-                    else self.bitmap_resource(*(combine_bc_alpha(self.bitmaps,key[1]&65535,key[2]&65535) if exact
-                        else combine_resampled_alpha(self.bitmaps,key[1]&65535,key[2]&65535,color_scale))))
+                if dune_decal:
+                    from dune_decal import encode as encode_dune_decal
+                    encoded = encode_dune_decal(self.bitmaps, key[1]&65535, key[2]&65535)
+                    combined_alpha_mode = 'exact_authored_bc_rgb_alpha_all_mips'
+                    self.remember_composite_bitmap([d&65535 for d in key[1:3]], encoded, combined_alpha_mode)
+                    self.done[key] = self.bitmap_resource(*encoded)
+                elif identical:
+                    self.done[key] = self.bitmap(key[1])
+                else:
+                    encoded = (combine_bc_alpha(self.bitmaps,key[1]&65535,key[2]&65535) if exact
+                        else combine_resampled_alpha(self.bitmaps,key[1]&65535,key[2]&65535,color_scale))
+                    self.remember_composite_bitmap([d&65535 for d in key[1:3]], encoded, combined_alpha_mode)
+                    self.done[key] = self.bitmap_resource(*encoded)
             baked_bitmap=self.done[key]
             textures=[mask,*textures[2:]]
             source_names=([name for name in source_names[0] if name!='alpha_map'],source_names[1])
@@ -1566,7 +1728,7 @@ class MaterialImporter:
                 raise ValueError('Opaque decal adapter requires a nonsprite bitmap')
             key = ('opaque_decal', datum)
             if key not in self.done:
-                self.done[key] = self.bitmap_resource(*encode_bitmap_base(
+                self.done[key] = self.bitmap_resource(*self.encode_bitmap(
                     self.bitmaps, datum & 65535, opaque_alpha=True))
             opaque_bitmap = self.done[key]
         if group == 'decs' and alias and alias[1] == 'albedo':
@@ -1590,10 +1752,12 @@ class MaterialImporter:
                 baked_tiles = tuple(values[0] for values in tile_values)
                 key = ('decal_bake', datum, mask_datum, baked_tiles)
                 if key not in self.done:
-                    self.done[key] = self.bitmap_resource(*bake(self.bitmaps, datum & 65535,
-                                                               mask_datum & 65535, baked_tiles))
+                    encoded = bake(self.bitmaps, datum & 65535, mask_datum & 65535, baked_tiles)
+                    self.remember_composite_bitmap([datum&65535, mask_datum&65535], encoded,
+                                                  'derived_nearest_tiled_rgb_untiled_alpha_per_authored_level')
+                    self.done[key] = self.bitmap_resource(*encoded)
                 baked_bitmap = self.done[key]
-                alias = (alias[0], alias[1], 'Separate alpha mask baked into tiled diffuse; nearest sampling, 512-pixel limit, one mip; native unmodulated tint/pre-lighting pass')
+                alias = (alias[0], alias[1], 'Separate alpha mask composed per authored level at full base dimensions; derived nearest sampling, not a lossless source copy; native unmodulated tint/pre-lighting pass')
             elif s.u(s.tags[datum & 65535]['offset'] + 0x54):
                 raise ValueError('Decal alpha alias does not support sprites')
             # Both samples address the same pixels. Retain the mask sampler for

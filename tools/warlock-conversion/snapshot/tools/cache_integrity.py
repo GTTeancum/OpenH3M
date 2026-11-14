@@ -51,7 +51,10 @@ def page_reference_counts(resources, locations, pages):
             if flags & (1 << slot):
                 enabled[page] += 1
                 if struct.unpack_from('>I', pages, page * 88 + 16)[0] == 0:
-                    raise ValueError('Enabled native resource slot references empty page')
+                    owner = struct.unpack_from('>I', resources, at + 12)[0]
+                    raise ValueError('Enabled native resource slot references empty page: '
+                                     f'resource {at // 64}, owner {owner:#010x}, '
+                                     f'location {location}, slot {slot}, page {page}, flags {flags:#x}')
     if any(n > 0xffff for n in counts):
         raise ValueError('Page backlink count exceeds native 16-bit field')
     total = sum(n for i, n in enumerate(counts)

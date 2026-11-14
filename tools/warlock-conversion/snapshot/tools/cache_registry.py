@@ -32,6 +32,9 @@ class CacheRegistry:
         self.types = {strings.text(c.u(row + 24)): i for i, row in enumerate(c.block(self.zone + 4, 28))}
         self.manifest_field = self.zone + int(next(f for f in schema if f.get('name') == 'Static BSP Zone Manifests').get('offset'), 0)
         self.added_bytes = 0
+        # Exact contributions keyed by pre-compaction resource index. Copiers
+        # bypassing add_resource make no entry and must never be guessed.
+        self.added_resource_bytes = {}
         self.closed = False
 
     def table(self, offset, stride):
@@ -78,27 +81,32 @@ class CacheRegistry:
             bound = len(control) if segment == 0x20000000 else len(raw) if segment == 0x40000000 else -1
             if not 0 <= at <= control_size - 4 or not 0 <= offset < bound:
                 raise ValueError('Invalid new resource fixup')
-        compressed = zlib.compress(raw)[2:-4]
-        offset = self.builder.append_raw(compressed)
-        entry = bytearray(88)
-        struct.pack_into('>hBBhhIIII', entry, 0, 0, 1, 0, -1, 0, offset, len(compressed), len(raw), zlib.crc32(raw) ^ 0xffffffff)
-        entry[24:84] = b''.join(hashlib.sha1(self.salt + x).digest() for x in (raw, raw[:1024], raw[-1024:]))
-        struct.pack_into('>hh', entry, 84, 1, -1)
-        self.pages.extend(entry)
-        self.locations.extend(struct.pack('>hhIIhh', page, -1, 0, 0, -1, -1))
+        if raw:
+            compressed = zlib.compress(raw)[2:-4]
+            offset = self.builder.append_raw(compressed)
+            entry = bytearray(88)
+            struct.pack_into('>hBBhhIIII', entry, 0, 0, 1, 0, -1, 0, offset, len(compressed), len(raw), zlib.crc32(raw) ^ 0xffffffff)
+            entry[24:84] = b''.join(hashlib.sha1(self.salt + x).digest() for x in (raw, raw[:1024], raw[-1024:]))
+            struct.pack_into('>hh', entry, 84, 1, -1)
+            self.pages.extend(entry)
+        # Empty render controls are real resources, not empty enabled pages.
+        # Shipping Blackout/Midship/etc. serialize their 48-byte controls with
+        # both page indices -1 and flags zero. Elongation has the same shape.
+        self.locations.extend(struct.pack('>hhIIhh', page if raw else -1, -1, 0, 0, -1, -1))
         row = bytearray(64)
         row[:4] = self.cache.groups[group].encode('ascii')
         struct.pack_into('>I', row, 12, owner)
         resource_salt = 0x9100
         struct.pack_into('>HBBIIIHhI', row, 16, resource_salt, self.types[type_name], 2,
                          0 if sound else len(self.control), len(control), 0 if sound else 0xffffffff,
-                         1, location, 0x20000000 | resource['root'])
+                         1 if raw else 0, location, 0x20000000 | resource['root'])
         for field, pairs in ((40, resource['fixups']), (52, resource['interops'])):
             data = b''.join(struct.pack('>II', *pair) for pair in pairs)
             struct.pack_into('>III', row, field, len(pairs), self.builder.alloc(data) if data else 0, 0)
         self.control.extend(control)
         self.resources.extend(row)
         self.added_bytes += len(raw)
+        self.added_resource_bytes[rid] = len(raw)
         return (resource_salt << 16) | rid
 
     def finalize(self, bsp_index=0):
@@ -128,7 +136,13 @@ class CacheRegistry:
             bits.extend(bytes(max(0, required - len(bits))))
             for index in indices:
                 at = (index // 32) * 4
-                value = struct.unpack_from('>I', bits, at)[0] | (1 << (index % 32))
+                value = struct.unpack_from('>I', bits, at)[0]
+                mask = 1 << (index % 32)
+                if field in (0x54, 0x60):
+                    group, _, address = struct.unpack_from('>HHI', self.tags, index * 8)
+                    value = value & ~mask if group == 65535 or not address else value | mask
+                else:
+                    value |= mask
                 struct.pack_into('>I', bits, at, value)
             b.put(self.address(manifest + field), 'III', len(bits) // 4, b.alloc(bits), 0)
         b.put(self.address(manifest + 0x30), 'I', self.cache.u(manifest + 0x30) + self.added_bytes)
@@ -147,7 +161,9 @@ class CacheRegistry:
                   'ctrl', 'lifi', 'ssce', 'bloc', 'crea', 'term', 'efsc', 'effe', 'jpt!'}
         self.simulation_added = []
         for index in range(self.first_tag, len(self.tags) // 8):
-            group, salt = struct.unpack_from('>HH', self.tags, index * 8)
+            group, salt, address = struct.unpack_from('>HHI', self.tags, index * 8)
+            if group == 65535 or not address:
+                continue
             if self.cache.groups[group] in groups:
                 datum = (salt << 16) | index
                 payload.extend(struct.pack('>I', datum))

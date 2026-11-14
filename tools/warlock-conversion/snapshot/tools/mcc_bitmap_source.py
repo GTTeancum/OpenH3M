@@ -27,9 +27,19 @@ class BitmapSource:
   from resource_reader import Resource
   info=self.info(tag)[index];resource=Resource(self.c,info['resource'])
   high=info['high_size'];size=info['size'];low=size-high
-  req=resource.raw[0] if low else b'';opt=resource.raw[1] if high else b''
-  assert info['pixel_offset']+low<=len(req)
-  assert info['high_offset']+high<=len(opt)
-  result=opt[info['high_offset']:info['high_offset']+high]+req[info['pixel_offset']:info['pixel_offset']+low]
-  assert len(result)==size
+  # BitmapData offsets index the editor's aggregate image payload. Runtime
+  # resources are per image (for example the three truck-logo images), and
+  # their dataref fixups, not cumulative editor offsets, locate the bytes.
+  if low<0 or resource.unpack('I',0)[0]!=low or resource.unpack('I',20)[0]!=high:
+   raise ValueError('Bitmap image/resource payload lengths disagree')
+  def piece(field,length,segment):
+   if not length:return b''
+   pointer=resource.fix.get(field)
+   if pointer is None or pointer>>29!=segment:
+    raise ValueError('Bitmap payload has an unsupported resource segment')
+   offset=pointer&0x1fffffff;raw=resource.raw[segment-2]
+   if offset+length>len(raw):raise ValueError('Bitmap resource payload truncated')
+   return bytes(raw[offset:offset+length])
+  result=piece(32,high,3)+piece(12,low,2)
+  if len(result)!=size:raise ValueError('Bitmap payload size mismatch')
   return result

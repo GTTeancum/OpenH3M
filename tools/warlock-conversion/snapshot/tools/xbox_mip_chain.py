@@ -1,4 +1,4 @@
-"""Packed 2D BC mip layout for original Xbox 360 resources.
+"""Packed 2D/cube authored mip layout for original Xbox 360 resources.
 
 Layout references: TagTool XboxBitmapUtils.GetXboxBitmapLevelOffset and
 Xenia texture_util.GetPackedMipOffset. All authored BC blocks are retained.
@@ -8,11 +8,17 @@ from xbox_bitmap import addresses
 
 
 def layout(width, height, count, bytes_per_block=16, block_extent=4):
-    if min(width, height) < 32 or any(v & (v-1) for v in (width, height)):
-        raise ValueError('Mip chain requires power-of-two dimensions >= 32')
+    if not all(isinstance(v, int) and 1 <= v <= 8192 for v in (width, height)):
+        raise ValueError('Invalid native 2D dimensions')
+    if bytes_per_block not in (2, 4, 8, 16) or block_extent not in (1, 4):
+        raise ValueError('Unsupported native block geometry')
     if not 1 < count <= max(width, height).bit_length():
         raise ValueError('Invalid mip count')
-    tail = min(width, height).bit_length()-1-4
+    # Xenia GetPackedMipOffset uses ceil-log dimensions for packing, while
+    # the authored texel sizes use floor division. Only storage is POT padded.
+    logw, logh = (width-1).bit_length(), (height-1).bit_length()
+    potw, poth = 1 << logw, 1 << logh
+    tail = max(0, min(logw, logh)-4)
     offset, rows = 0, []
     tail_offset = None
     for level in range(count):
@@ -24,20 +30,26 @@ def layout(width, height, count, bytes_per_block=16, block_extent=4):
                 tail_offset = offset
             packed = level-tail
             if packed < 3:
-                if width > height:
+                if logw > logh:
                     y = (16 >> packed)//block_extent
                 else:
                     x = (16 >> packed)//block_extent
-            elif width > height:
-                x = ((width >> tail) >> (packed-2))//block_extent
+            elif logw > logh:
+                x = ((potw >> tail) >> (packed-2))//block_extent
             else:
-                y = ((height >> tail) >> (packed-2))//block_extent
-            pitch = (max(1, (width >> tail)+block_extent-1)//block_extent + 31) & ~31
-            block_height = (max(1, (height >> tail)+block_extent-1)//block_extent + 31) & ~31
+                y = ((poth >> tail) >> (packed-2))//block_extent
+            pitch = (max(1, (potw >> tail)+block_extent-1)//block_extent + 31) & ~31
+            block_height = (max(1, (poth >> tail)+block_extent-1)//block_extent + 31) & ~31
+            if level == 0:
+                pitch = (wb+31)&~31
             pos = addresses(pitch, max(block_height, y+hb), bytes_per_block)[y:y+hb, x:x+wb]
             level_offset = tail_offset
         else:
-            pitch, block_height = (wb+31)&~31, (hb+31)&~31
+            # Base uses the actual aligned pitch; subsequent subresources
+            # use the power-of-two base dimensions shifted by level.
+            sw, sh = (width, height) if level == 0 else (potw >> level, poth >> level)
+            pitch = (((sw+block_extent-1)//block_extent)+31)&~31
+            block_height = (((sh+block_extent-1)//block_extent)+31)&~31
             pos = addresses(pitch, block_height, bytes_per_block)[:hb, :wb]
             level_offset = offset
             # Xenos subresources start on 4 KiB boundaries (TagTool
@@ -52,7 +64,7 @@ def layout(width, height, count, bytes_per_block=16, block_extent=4):
 
 def tile_chain(payload, width, height, count, fmt):
     if fmt not in (11, 14, 15, 16, 22, 26, 28, 33):
-        raise ValueError('Packed mip encoder requires BC1/2/3/5')
+        raise ValueError('Unsupported packed mip pixel format')
     bpb = 2 if fmt == 22 else 4 if fmt in (11,26) else 8 if fmt in (14,28) else 16
     rows, size = layout(width, height, count, bpb, 1 if fmt in (11,22,26,28) else 4)
     if len(payload) != sum(n for _, n in rows):
@@ -78,11 +90,13 @@ def cube_layout(width, count, fmt):
         raise ValueError('Unsupported cube mip format')
     bpb,extent=(4,1) if fmt==11 else (8 if fmt==14 else 16,4)
     rows,_=layout(width,width,count,bpb,extent)
-    tail=width.bit_length()-1-4
+    tail=max(0,(width-1).bit_length()-4)
+    potwidth=1 << (width-1).bit_length()
     base=0;levels=[]
     for level,(pos,length) in enumerate(rows):
         effective=min(level,tail)
-        blocks=(max(1,width>>effective)+extent-1)//extent
+        storage_width=width if effective==0 else potwidth
+        blocks=(max(1,storage_width>>effective)+extent-1)//extent
         aligned=(blocks+31)&~31
         stride=(aligned*aligned*bpb+4095)&~4095
         levels.append((base,stride,pos-base,length))

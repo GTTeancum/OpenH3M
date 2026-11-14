@@ -36,7 +36,8 @@ def prepare(cache, side='gulch'):
                     keep[face] = True
     portals = [cache.unpack('i', row + 4)[0] for row in cache.block(tag['offset'] + 0x7c, 40)]
     leaf_clusters = [cache.data[row] for row in cache.block(tag['offset'] + 0x34, 1)]
-    payloads, maps, report = partition(arrays, keep, portals, leaf_clusters)
+    from forge_collision_staging import stage_geometry
+    payloads, maps, report = stage_geometry(arrays, keep)
     if any(edge not in maps['edges'] for edge in seam_edges):
         raise ValueError('Partition lost a shared BSP seam')
     report.update(seam_support_surfaces=int(keep.sum()) - selected_count,
@@ -44,8 +45,8 @@ def prepare(cache, side='gulch'):
                   authored_seam_edges_preserved=len(seam_edges))
     # The rebuild also inserts the solid, two-sided divider. It is required
     # even when the retained tree already fits the signed plane-index limit.
-    from rebuild_forge_collision import rebuild
-    payloads, maps, report = rebuild(cache, tag, arrays, payloads, maps, report, portals)
+    from forge_partition_cache import rebuild_cached
+    payloads, maps, report = rebuild_cached(cache, tag, arrays, payloads, maps, report, portals, side)
     return tag, payloads, maps, report
 
 

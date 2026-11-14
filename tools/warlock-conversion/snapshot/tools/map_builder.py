@@ -8,6 +8,7 @@ class MapBuilder:
   self.cache=Cache(path);self.original=self.cache.data[:];self.reserve=reserve
   assert reserve%0x10000==0
   self.base=self.cache.base-reserve;self.meta=bytearray(reserve)+bytearray(self.original[self.cache.start:self.cache.start+self.cache.u(0x490)])
+  self.allocations=[]
   self.used=0;self.raw=bytearray();self.debug=bytearray();self.locale=bytearray();self.header_updates={}
  def append_locale(self,payload):
   self.locale.extend(bytes((-len(self.locale))%4096));at=len(self.locale);self.locale.extend(payload)
@@ -17,8 +18,11 @@ class MapBuilder:
   return (self.cache.u(0x47c)+self.cache.u(0x480)+at)&0xffffffff
  def alloc(self,payload,align=16):
   at=(self.used+align-1)&~(align-1)
-  if at+len(payload)>self.reserve:raise ValueError('Metadata reserve exhausted')
-  self.meta[at:at+len(payload)]=payload;self.used=at+len(payload);return self.base+at
+  if at+len(payload)>self.reserve:raise ValueError(f'Metadata reserve exhausted: {at}+{len(payload)} > {self.reserve} bytes')
+  self.meta[at:at+len(payload)]=payload;self.used=at+len(payload)
+  if not hasattr(self,'allocations'):self.allocations=[]
+  self.allocations.append((self.base+at,len(payload)))
+  return self.base+at
  def put(self,address,fmt,*values):struct.pack_into('>'+fmt,self.meta,address-self.base,*values)
  def read(self,address,size):return bytes(self.meta[address-self.base:address-self.base+size])
  def append_raw(self,payload):

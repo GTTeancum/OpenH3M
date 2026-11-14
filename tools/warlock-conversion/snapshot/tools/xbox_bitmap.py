@@ -12,7 +12,9 @@ def addresses(width_blocks,height_blocks,bytes_per_block):
  inner=((y&14)<<2)+(x&7)
  v=(outer+inner)*(bytes_per_block)
  bank=(y>>4)&1;pipe=((x>>3)&3)^((y>>2)&2)
- return ((v&~255)<<4)|((v&224)<<3)|(bank<<11)|(pipe<<6)|((v&16)<<1)|((y&1)<<4)|(v&15)
+ # NumPy 2 rejects the negative Python mask ~255 for a uint32 array.
+ # Spell its 32-bit representation explicitly; the address bits are unchanged.
+ return ((v&np.uint32(0xffffff00))<<4)|((v&224)<<3)|(bank<<11)|(pipe<<6)|((v&16)<<1)|((y&1)<<4)|(v&15)
 
 def tile_base(payload,width,height,fmt):
  if fmt not in (11,14,15,16,22,26,28,33):raise ValueError(f'Unsupported block format {fmt}')

@@ -17,6 +17,29 @@ VARIANTS = {
 }
 
 
+FOUNDATION_SCENARIO = r'halo_2\levels\foundation\foundation'
+FOUNDATION_WATER = r'halo_2\levels\foundation\shaders\foun_water_pool'
+FOUNDATION_VARIANT = '_0_1_1_1_2_0_2_1'
+
+
+def foundation_water_mapping(source, material, variant):
+    """Only this audited depth-shaped, auto-foam pool uses the identity mapping."""
+    return (material == FOUNDATION_WATER and variant == FOUNDATION_VARIANT
+            and [source.name(k) for k, tag in source.tags.items()
+                 if tag['group'] == 'scnr'] == [FOUNDATION_SCENARIO])
+
+
+def validate_foundation_water_layout(source_constants, target_constants,
+                                     source_textures, target_textures):
+    expected = ['wave_displacement_array', 'wave_slope_array',
+                'watercolor_texture', 'environment_map', 'foam_texture',
+                'foam_texture_detail']
+    if (len(source_constants) != 37 or source_constants != target_constants
+            or source_textures != expected
+            or target_textures != expected[:1] + ['global_shape_texture'] + expected[1:]):
+        raise ValueError('Foundation water differs from audited parameter layout')
+
+
 class WaterImporter:
     def __init__(self, importer, disc_maps):
         self.i, self.disc_maps = importer, Path(disc_maps)
@@ -49,8 +72,11 @@ class WaterImporter:
         # and disables painted foam; the high foam threshold disables auto foam.
         neutral_shape = variant == '_0_1_1_1_2_0_0_0'
         pure_texture = variant == '_0_0_1_1_1_0_1_3'
-        authored_water |= neutral_shape or pure_texture
+        foundation_pool = foundation_water_mapping(s, s.name(datum & 65535), variant)
+        authored_water |= neutral_shape or pure_texture or foundation_pool
         variants = dict(VARIANTS)
+        if foundation_pool:
+            variants[variant] = ('deadlock.map', '_0_1_1_1_2_0_2_3')
         if pure_texture:
             variants[variant] = ('riverworld.map', '_0_1_1_1_1_0_1_3')
         if neutral_shape:
@@ -84,6 +110,9 @@ class WaterImporter:
             target_textures = names(donor, strings, target_template, 108)
             source_constants = names(s, i.source_strings, source_template, 72)
             target_constants = names(donor, strings, target_template, 72)
+            if foundation_pool:
+                validate_foundation_water_layout(source_constants, target_constants,
+                                                 source_textures, target_textures)
             if (s.u(source_template + 84) or donor.u(target_template + 84)
                     or names(s, i.source_strings, source_template, 96) != names(donor, strings, target_template, 96)):
                 raise ValueError('Water integer/boolean template layout mismatch')
@@ -123,7 +152,7 @@ class WaterImporter:
                     if parameter in ('wave_displacement_array', 'wave_slope_array'):
                         key = ('bitm', s.name(bitmap & 65535))
                         wave = lookup.get(key)
-                        if wave is None and authored_water:
+                        if wave is None and authored_water and not foundation_pool:
                             wave = donor.u(donor_textures[target_textures.index(parameter)] + 12)
                             substitutions.append({'parameter': parameter, 'native_bitmap': donor.name(wave & 65535)})
                         if wave is None:raise ValueError('Native water wave array absent: '+key[1])
@@ -154,7 +183,7 @@ class WaterImporter:
                         records.extend(b'bitm'+bytes(8)+struct.pack('>IhBBBbH',bitmap,0,0x11,0,0,-1,0))
                         substitutions.append({'parameter':parameter,'constant_rgb':list(color[:3]),'purpose':'Exact static pure water color'})
                         continue
-                    if neutral_shape and parameter == 'global_shape_texture':
+                    if (neutral_shape or foundation_pool) and parameter == 'global_shape_texture':
                         from types import SimpleNamespace
                         from encode_bitmap import encode_bitmap_base
                         mask = SimpleNamespace(
@@ -165,7 +194,8 @@ class WaterImporter:
                         index, address, filtering, external, transform = 0, 0x11, 0, 0, -1
                         substitutions.append({'parameter': parameter,
                             'constant_rgb': [1, 1, 0],
-                            'purpose': 'Unit wave scaling, zero painted foam'})
+                            'purpose': ('Zero painted foam; depth-driven wave shape unchanged'
+                                        if foundation_pool else 'Unit wave scaling, zero painted foam')})
                         records.extend(b'bitm' + bytes(8) +
                             struct.pack('>IhBBBbH', bitmap, index, address, filtering, external, transform, 0))
                         continue
@@ -222,8 +252,11 @@ class WaterImporter:
             owner, _ = i.registry.newtag('rmw ', payload)
             self.done[datum] = 'rmw ', owner
             i.materials.report.append({'source': s.name(datum & 65535), 'retail_template': name,
-                'native_donor': filename, 'approximation': True, 'texture_substitutions': substitutions,
-                'difference': ('Authored animations and reflection faces retained; native wave arrays and template defaults remain.'
+                'native_donor': filename, 'approximation': not foundation_pool, 'texture_substitutions': substitutions,
+                'difference': ('Foundation depth-shaped auto foam mapped to both foam with zero blue mask; '
+                               'all constants, authored animations and reflection retained; same-name native wave arrays. '
+                               'Parameter/equation equivalence audited; runtime rendering not verified.'
+                               if foundation_pool else 'Authored animations and reflection faces retained; native wave arrays and template defaults remain.'
                                if authored_water else
                                'Static authored wave/UV values; original-disc reflection cubemap; pure water uses uniform bank opacity; unused extra foam contribution disabled.'),
                 'omitted_constants': sorted(set(source_constants)-set(target_constants)),

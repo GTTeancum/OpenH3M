@@ -48,6 +48,7 @@ class MetadataConverter:
         self.resource_reference = resource_reference
         self.special_block = special_block
         self.shader_reference = shader_reference
+        self.applied_notes = []
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
         if path == 'scnr:/Zone Set Potentially Visible Sets':
@@ -125,6 +126,20 @@ class MetadataConverter:
         if depth > 32:
             raise ValueError(f'{path}: metadata nesting exceeds limit')
         source_fields, target_fields = fields(source_schema), fields(target_schema)
+        item_ui = ITEM_UI
+        if (path in (r'weap:h2\objects\vehicles\spectre\plasma_turret\weapon\plasma_turret',
+                     r'weap:h2\objects\vehicles\creep\plasma_turret\weapons\creep_turret')
+                and [self.source.name(k) for k,t in self.source.tags.items() if t['group']=='scnr'] == [r'levels\multi\dune\dune']):
+            # Exact Dune mounted turret has no pickup UI; no weapon behavior changes.
+            for field_name in ('Private Use Font Icon', 'Private Use Font Icon (Dual)',
+                               'First Person Weapon Offset Override'):
+                node = next(n for (name,_),n in source_fields.items() if name==field_name)
+                width = 12 if field_name=='First Person Weapon Offset Override' else 4
+                at = offset + int(node.get('offset'),0)
+                if any(self.source.data[at:at+width]):
+                    raise ValueError('Dune mounted turret UI fields changed')
+            item_ui = dict(ITEM_UI, **{path:(0,0)})
+            self.applied_notes.append('Dune mounted turret: zero MCC pickup icons and centered-crosshair offset omitted; native pickup/sort and legacy scales=0, collision-sound/aged-weapon references null. Custom weapon behavior retained.')
         size = int(target_schema.get('baseSize') or target_schema.get('elementSize'), 0)
         out = bytearray(size)
         covered = set()
@@ -152,7 +167,7 @@ class MetadataConverter:
             if (path.startswith('scnr:/Player Starting Profile') and key[0] == 'Unknown'
                     and self.source.unpack('h', at)[0] == 0):
                 continue
-            if path in ITEM_UI:
+            if path in item_ui:
                 if key[0] in ('Private Use Font Icon', 'Private Use Font Icon (Dual)'):
                     # MCC Unicode pickup icons have no retail field. Retail
                     # uses the family message index supplied below instead.
@@ -266,6 +281,21 @@ class MetadataConverter:
                     r'mach:objects\gear\human\industrial\elongation_conveyor\elongation_conveyor': 0,
                     r'mach:objects\levels\solo\020_base\security_red_light\security_red_light': 2,
                 }
+                # Dune's U13 machines omit the same retail response/padding.
+                # All supplied native platforms use pause-until-crushed (0).
+                # Restrict defaults to the audited map and exact machine roots.
+                if any(tag['group'] == 'scnr' and self.source.name(k) == r'levels\multi\dune\dune'
+                       for k, tag in self.source.tags.items()):
+                    machine_defaults.update({
+                        'mach:levels\\objects\\multi\\dune\\base_lights\\base_lights': 1,
+                        'mach:levels\\objects\\multi\\dune\\teleporter_switch\\teleporter_switch': 1,
+                        'mach:objects\\multi\\2way_teleporter_collapsable\\2way_teleporter_collapsable': 1,
+                        'mach:levels\\objects\\covenant\\military\\cov_lookout_tower\\cov_watchtower_base\\cov_watchtower_base': 1,
+                        'mach:levels\\objects\\covenant\\military\\cov_lookout_tower\\cov_watchtower_pod\\cov_watchtower_pod': 1,
+                        'mach:h2\\scenarios\\objects\\multi\\dune\\dune_gate\\dune_gate': 1,
+                        'mach:h2\\scenarios\\objects\\covenant\\military\\cov_lookout_tower\\cov_watchtower_base\\cov_watchtower_base': 1,
+                        'mach:h2\\scenarios\\objects\\covenant\\military\\cov_lookout_tower\\cov_watchtower_pod\\cov_watchtower_pod': 1,
+                    })
                 if (path in machine_defaults
                         and ((key[0] == 'Collision Response' and kind == 'enum16')
                              or (key[0] == 'Unknown' and at == 0x1a6 and kind == 'int16'))):
@@ -274,10 +304,11 @@ class MetadataConverter:
                     # Original Warehouse fans/doors and High Ground's gate use
                     # pause-until-crushed (0). MCC omits this retail setting.
                     struct.pack_into('>h', out, at, 0)
+                    self.applied_notes.append(f'{path}: retail-only {key[0]} defaults to0; Collision Response0 is Pause Until Crushed.')
                     covered.update(range(at, at+2))
                     continue
-                if path in ITEM_UI:
-                    defaults = {'OLD Message Index': ('h', ITEM_UI[path][0]), 'Sort Order': ('h', ITEM_UI[path][1]),
+                if path in item_ui:
+                    defaults = {'OLD Message Index': ('h', item_ui[path][0]), 'Sort Order': ('h', item_ui[path][1]),
                                 'OLD Multiplayer On-Ground Scale': ('f', 0),
                                 'OLD Campaign On-Ground Scale': ('f', 0)}
                     if key[0] in defaults:
@@ -397,8 +428,19 @@ class MetadataConverter:
                         # This describes the serialized pointer width. Nested
                         # shapes must independently pass their layout handlers.
                         values = (values[0] & ~4,)
+                    dune_model_flag = (key[0]=='Flags' and kind=='flags8'
+                        and path.startswith(r'hlmt:h2\objects\vehicles\creep\creep/Variants[')
+                        and source_schema.get('name')=='Permutations'
+                        and int(source_schema.get('elementSize'),0)==24 and size==36
+                        and [self.source.name(k) for k,t in self.source.tags.items() if t['group']=='scnr']==[r'levels\multi\dune\dune'])
+                    retained_flag = values[0]&2 if dune_model_flag else 0
+                    if retained_flag:
+                        self.applied_notes.append(f'{path}: undocumented permutation flag bit1 preserved unchanged, matching original H3 layout and native Zanzibar elite precedent.')
+                    # TagTool Model.Permutation.FlagsValue has Bit1 on both
+                    # platforms; original Zanzibar elite has14 matching rows.
+                    # Preserve this undocumented bit, do not discard it.
                     try:
-                        values = (translate_flags(values[0], src, dst),)
+                        values = (translate_flags(values[0]&~retained_flag, src, dst)|retained_flag,)
                     except ValueError as error:
                         raise ValueError(f'{name}: {error}') from error
                 elif kind.startswith('enum'):

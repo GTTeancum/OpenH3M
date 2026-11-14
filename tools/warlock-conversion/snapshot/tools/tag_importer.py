@@ -70,6 +70,12 @@ class TagImporter:
             if result is not None:
                 return result
         if group == 'lens':
+            from forge_flare import matches as forge_flare_matches, import_forge_flare
+            if forge_flare_matches(self, name):
+                return import_forge_flare(self, datum)
+            from dune_flare import matches as dune_flare_matches, import_dune_flare
+            if dune_flare_matches(source, name):
+                return import_dune_flare(self, datum)
             from sky_bridge_flare import COUNTS, import_sky_bridge_flare
             if name in COUNTS and str(self.source.file.name).replace('\\', '/').endswith('/s3d_sky_bridgenew.map'):
                 return import_sky_bridge_flare(self, datum)
@@ -131,6 +137,14 @@ class TagImporter:
             for offset in (0xE4, 0xF4, 0x144):
                 flags = source.u(tag['offset'] + offset)
                 if not flags & 1 and flags & 2 and not (offset == 0xF4 and not grading_active):
+                    from foundation_camera import allow_native_camera, NOTE
+                    if allow_native_camera(source, name, tag['offset'], offset):
+                        compatibility_notes.append(NOTE)
+                        continue
+                    from dune_camera import allow_native_camera as allow_dune_camera, NOTE as DUNE_CAMERA_NOTE
+                    if allow_dune_camera(source, name, tag['offset'], offset):
+                        compatibility_notes.append(DUNE_CAMERA_NOTE)
+                        continue
                     if offset == 0x144 and name == r'levels\multi\s3d_powerhouse\s3d_powerhouse':
                         compatibility_notes.append('User-approved Powerhouse exception (2026-10-25): active MCC sun-lightshafts omitted; supported exposure, lighting and bloom retained.')
                         continue
@@ -145,7 +159,7 @@ class TagImporter:
                 if node.tag == 'tagblock' and grading_active:
                     raise ValueError(f'{name}: active MCC camera grading block')
                 ss.remove(node)
-            compatibility_notes.append('MCC default/inactive SSAO/grading/lightshaft extensions omitted; disabled grading rows omitted; retail exposure and bloom retained.')
+            compatibility_notes.append('Non-native camera extensions omitted only when default/inactive or covered by the explicit map-specific notes above; disabled grading rows omitted; retail exposure and bloom retained.')
         if group == 'perf':
             block = next(node for node in ss if node.tag == 'tagblock')
             anisotropy = next(node for node in block if node.get('name') == 'Anisotropy Level')
@@ -214,6 +228,7 @@ class TagImporter:
                                           self.materials.particle_post(at, group)
                                           if group in ('prt3', 'decs', 'cntl', 'ltvl', 'beam', 'rmd ') and ss.get('name') == 'Postprocess' else None)
         payload = converter.convert(tag['offset'], ss, ds, f'{group}:{name}')
+        compatibility_notes.extend(dict.fromkeys(converter.applied_notes))
         if group == 'cfxs':
             from map_exposure import adjust_camera
             payload = adjust_camera(source, name, payload, compatibility_notes)
@@ -228,6 +243,9 @@ class TagImporter:
             payload = self.materials.particle_root(tag['offset'], payload)
         elif group == 'decs':
             payload = self.materials.decal_root(tag['offset'], payload)
+        elif group == 'cntl':
+            from dune_projectile import update_root
+            payload = update_root(self, tag['offset'], payload)
         if group == 'bloc' and name == r'levels\multi\warlock\fx\teleporter_reciever\teleporter_reciever':
             # This custom receiver omitted the retail hum attachment entirely.
             # Restore it using the native marker/teleporter_active scale binding.

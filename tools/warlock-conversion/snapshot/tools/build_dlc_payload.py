@@ -7,6 +7,7 @@ from pathlib import Path
 from cache_integrity import finalize_cache
 from cache_reader import Cache
 from build_scenario_checkpoint import resource_salt
+from console_cache_limits import inspect_native_budget, require_native_budget
 
 MAPS = [('lockout', 'warlock', 'Warlock', 1520),
         ('zanzibar', 'resuscitation', 'Resuscitation', 1030),
@@ -21,7 +22,9 @@ ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Force Cove', 1731),
                    ('zanzibar', 'sanctuary', 'Sanctuary', 1742),
                    ('zanzibar', 'powerhouse', 'Powerhouse', 1746),
                    ('zanzibar', 'sky_bridge', 'Sky Bridge', 1747),
-                   ('zanzibar', 'desolation', 'Desolation', 1748)]
+                   ('zanzibar', 'desolation', 'Desolation', 1748),
+                   ('zanzibar', 'foundation', 'Foundation', 1749),
+                   ('zanzibar', 'relic', 'Relic', 1750)]
 
 
 def fixed(data, offset, length, text, encoding='ascii'):
@@ -43,11 +46,22 @@ def build(converted, stock, output, maps=MAPS, sources=None):
     for _, _, _, map_id in maps:
         if map_id in stock_ids:
             raise ValueError(f'Map ID {map_id} already used by stock content')
+    # A host-loadable checkpoint is not necessarily valid for the native
+    # cached-file/variant tables. Check every member before staging any payload.
+    selected_sources, budgets = {}, {}
+    for slot, name, _, _ in maps:
+        source = (sources or {}).get(name, converted / ((name if name == 'forge_island' else slot) + '.map'))
+        selected_sources[name] = source
+        cache = Cache(source)
+        try:
+            budgets[name] = require_native_budget(inspect_native_budget(cache, source))
+        finally:
+            cache.close()
     output.mkdir(parents=True)
     salt = resource_salt(stock.parent / 'default.xex')
     report = {'status': 'staged, not runtime validated or signed', 'maps': []}
     for slot, name, title, map_id in maps:
-        source = (sources or {}).get(name, converted / ((name if name == 'forge_island' else slot) + '.map'))
+        source = selected_sources[name]
         with_source = Cache(source)
         try:
             scenarios = [t for t in with_source.tags.values() if t['group'] == 'scnr']
@@ -101,6 +115,7 @@ def build(converted, stock, output, maps=MAPS, sources=None):
                                    bytes=dest.stat().st_size,
                                    sha256=digest,
                                    cache_finalization=finalization,
+                                   serialized_console_budget=budgets[name],
                                    preview='dlc_' + name, authentication='RSA layout, unsigned zero signature'))
     return report
 

@@ -45,8 +45,18 @@ def _stage(i):
     if not has_scripts:
         arrays['Script Expressions'] = (0, b'')
     trigger_count = s.u(root + int(field(ss, 'Trigger Volumes').get('offset'), 0))
-    for name in ('Scenario Resources', 'Trigger Volumes', 'Scenario Kill Triggers', 'Scenario Safe Zone Triggers', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders', 'Device Groups', 'Cutscene Flags', 'Cutscene Camera Points'):
+    from dune_inactive_ai import prepare as prepare_dune_ai, PRESERVED_BLOCKS
+    dune_ai = prepare_dune_ai(i, ss, ds)
+    dune_ai_blocks = PRESERVED_BLOCKS if dune_ai is not None else ()
+    if dune_ai is not None:
+        arrays.update(dune_ai)
+    for name in ('Scenario Resources', 'Trigger Volumes', 'Scenario Kill Triggers', 'Scenario Safe Zone Triggers', 'Soft Ceilings', 'Zone Set Potentially Visible Sets', 'Zone Set Audibility', 'Zone Sets', 'Scripting Data', 'AI User Hint Data', 'Zone Debugger', 'Soft Surfaces', 'Editor Folders', 'Device Groups', 'Cutscene Flags', 'Cutscene Camera Points') + dune_ai_blocks:
         sf, df = copy.deepcopy(field(ss, name)), field(ds, name)
+        if name == 'Reference Frames':
+            # Only the exact-source-guarded Dune profile above reaches this
+            # populated block. Its Unique ID is an object identifier, not a tag.
+            from dune_inactive_ai import reference_frame_schemas
+            sf, df = reference_frame_schemas(sf, df)
         rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         if name in ('Scenario Kill Triggers', 'Scenario Safe Zone Triggers'):
             # Both formats store signed indices into the unchanged trigger array.

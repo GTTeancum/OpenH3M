@@ -8,7 +8,11 @@ def add_shade_mode(i, name, address, schema):
     """Use retail graph inheritance for Guardian's stock Shade seat mode."""
     b = i.builder
     key = ('jmad', name)
-    path, index = next((p, n) for p, n in i.native_assets.candidates[key] if p.stem == 'guardian')
+    donor_entry = next(((p, n) for p, n in i.native_assets.candidates.get(key, [])
+                        if p.stem == 'guardian'), None)
+    if donor_entry is None:
+        raise ValueError('Native player Shade animation donor guardian.map is required: ' + name)
+    path, index = donor_entry
     saved = i.resolved[key]
     donor = Cache(path)
     try:

@@ -21,6 +21,11 @@ def without_redundant_dmr(cache, rows, object_offset):
     return [row for row in rows if identity(row) != dmr]
 
 
+def without_empty_entries(cache, rows, object_offset):
+    """A null source placeholder is not a Forge object or usable native quota."""
+    return [row for row in rows if cache.u(row + object_offset) != 0xffffffff]
+
+
 def stage_forge(importer):
     try:
         if getattr(importer, 'stock_forge_palette', False):
@@ -47,7 +52,8 @@ def stage_forge(importer):
         arrays = {}
         custom_labels = {}
         native_labels=None
-        if getattr(importer,'battle_canyon_rebuilt',False):
+        if (getattr(importer,'battle_canyon_rebuilt',False) or
+                scenario_name == r'levels\multi\resuscitation\resuscitation'):
             from forge_scenery_labels import native_label_ids
             native_labels=native_label_ids(importer.registry.cache)
         for category in ('Vehicle', 'Weapon', 'Equipment', 'Scenery', 'Teleporter', 'Goal', 'Spawner'):
@@ -63,8 +69,21 @@ def stage_forge(importer):
                     prefix.remove(node)
             rows = s.block(root + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
             object_offset = next(int(n.get('offset'), 0) + 12 for n in sf if n.tag.lower() == 'tagref')
+            for index, row in enumerate(rows):
+                if s.u(row + object_offset) == 0xffffffff:
+                    # A placeholder may be skipped only after the legacy
+                    # runtime/editor words pass their normal validation. Do
+                    # not let a null tag hide an unsupported record layout.
+                    if source_stride == 48:
+                        converter.convert(row, sf, df, f'scnr:/{name}[{index}]')
+                    if not hasattr(importer, 'empty_forge_placeholders'):
+                        importer.empty_forge_placeholders = []
+                    importer.empty_forge_placeholders.append(dict(category=category, index=index,
+                        label=importer.source_strings.text(s.u(row + 16)),
+                        reason='Source entry has no object datum; not a playable object'))
+            rows = without_empty_entries(s, rows, object_offset)
             rows = [row for row in rows
-                    if s.u(row + object_offset) == 0xffffffff or (s.tags[s.u(row + object_offset) & 65535]['group'],
+                    if (s.tags[s.u(row + object_offset) & 65535]['group'],
                         s.name(s.u(row + object_offset) & 65535))
                     not in getattr(importer, 'omitted_assets', ())]
             if category == 'Weapon':
@@ -88,7 +107,11 @@ def stage_forge(importer):
         stage(b, {'arrays': arrays, 'unresolved': []}, ds)
         if custom_labels:
             from forge_scenery_labels import stage_labels
-            stage_labels(s,importer.registry,custom_labels)
+            count=stage_labels(s,importer.registry,custom_labels)
+            importer.added.append(dict(group='unic',source='Authored English Forge display labels',
+                labels_added=count,source_string_ids=sorted(custom_labels),
+                policy='Existing native sandbox UI labels retained; missing labels copied from source English or explicitly reported owner-approved derived names',
+                label_publication=importer.registry.forge_label_publication))
         return {name: count for name, (count, _) in arrays.items()}
     except Exception:
         importer.failed = True

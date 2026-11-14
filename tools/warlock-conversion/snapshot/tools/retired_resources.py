@@ -82,8 +82,8 @@ def compact_basis(importer):
         for j in live_graph[i] - keep:
             keep.add(j)
             pending.append(j)
-    retired = candidates - keep
-    dead_resources = set()
+    retired = (candidates - keep) | set(getattr(r, 'retired_tags', set()))
+    dead_resources = set(getattr(r, 'retired_resources', set()))
     for i in retired:
         struct.pack_into('>HHI', r.tags, i * 8, 65535, 65535, 0)
     for i in range(r.first_resource):
@@ -213,4 +213,4 @@ def compact_basis(importer):
     r.retired_tags = retired
     return {'retired_tags': len(retired), 'retired_resources': len(dead_resources),
             'retired_pages': len(dead_pages), 'repacked_resource_segments': fragment_count, 'bytes_saved': len(old_raw) - len(packed),
-            'retired_names': [c.name(i) for i in sorted(retired)]}
+            'retired_names': [c.name(i) for i in sorted(retired) if i in c.tags]}

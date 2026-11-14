@@ -18,10 +18,10 @@ def field(schema, name):
     return next(x for x in schema if x.get('name') == name)
 
 
-def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False, omit_null_palettes=False, translate_string=None):
+def prepare(source, target, source_schema, target_schema, imported=None, placements=None, omitted=(), omit_null_effects=False, omit_null_palettes=False, translate_string=None, preserved_null_placements=(), placement_corrections=None):
     placements = placements or PLACEMENTS
     plan = plan_placements(source, target, source_schema, target_schema, imported,
-                           [(name, palette) for name, (palette, _) in placements.items()], omitted, omit_null_effects, omit_null_palettes, translate_string)
+                           [(name, palette) for name, (palette, _) in placements.items()], omitted, omit_null_effects, omit_null_palettes, translate_string, preserved_null_placements, placement_corrections)
     scenario = next(t['offset'] for t in source.tags.values() if t['group'] == 'scnr')
     arrays, unresolved, maps = {}, [], {}
     for name, (_, object_type) in placements.items():
@@ -55,6 +55,10 @@ def prepare(source, target, source_schema, target_schema, imported=None, placeme
         records = bytearray()
         for row in rows:
             datum = row['retail_datum']
+            if datum is None:
+                # Explicit audited null placement: retain record/index, no tag.
+                records.extend(row['record'])
+                continue
             if datum not in palette_indices:
                 palette_indices[datum] = len(palette) // 48
                 tag_group = row['retail_group']
@@ -79,6 +83,27 @@ def prepare(source, target, source_schema, target_schema, imported=None, placeme
         arrays[palette_name] = (len(palette) // 48, bytes(palette))
     return {'arrays': arrays, 'unresolved': unresolved,
             'source_counts': {k: v['source_count'] for k, v in plan.items()}}
+
+
+def audited_dune_null_placements(source, schema):
+    """Retain six native-valid indexless crate records, never omit placements."""
+    import hashlib
+    scenarios = [(source.name(k), t['offset']) for k, t in source.tags.items() if t['group'] == 'scnr']
+    if len(scenarios) != 1 or scenarios[0][0] != r'levels\multi\dune\dune':
+        return set()
+    f = field(schema, 'Crates')
+    if int(f.get('elementSize'), 0) != 176:
+        raise ValueError('Dune crate placeholder layout changed')
+    rows = source.block(scenarios[0][1] + int(f.get('offset'), 0), 176)
+    expected = {37: '33d57c9d680114449d95f8a1b7b24e54fb9d715ba82b4f1fdacba4c3807978ca', 38: 'a11dfa50723b8fe3e8418ff1c92140326246e10c5c17ad5827c2cbe48c870160', 39: '0ff7fca9b0d476759e9ad4dc09c0ae40357edbfc0b3bed89bbdabfb33ea890ad', 40: '369188d437506e5adc2580d67d90aded4f761dfb30a69684a7e988646b30fbaa', 41: 'a7f539a21d6a1da42f82edab8160861852eb4bcaf29ca82dd093e54b2115a395', 42: 'e83902a225f24a1df26f9b8b8728cf3cc3ed5643f1e815f44d8eb9e3cf0b8f79'}
+    actual = {n for n, row in enumerate(rows) if source.unpack('h', row)[0] == -1}
+    if actual != set(expected):
+        raise ValueError('Dune null crate placement set changed')
+    for index, digest in expected.items():
+        row = rows[index]
+        if hashlib.sha256(source.data[row:row + 176]).hexdigest() != digest:
+            raise ValueError('Dune null crate placement changed; re-audit required')
+    return {('Crates', index) for index in expected}
 
 
 def stage(builder, prepared, target_schema):
@@ -137,11 +162,16 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
                 and 0<=source.unpack('h',row)[0]<len(palette)
                 and source.u(palette[source.unpack('h',row)[0]]+12)==0xffffffff for row in bipeds):
             placements['Bipeds']=('Biped Palette',0)
+    preserved_null_placements = audited_dune_null_placements(source, ss)
+    from dune_placements import corrections as dune_corrections
+    placement_corrections, placement_correction_report = dune_corrections(importer, ss)
     for name, (palette_name, _) in placements.items():
         sf, pf = field(ss, name), field(ss, palette_name)
         rows = source.block(scenario + int(sf.get('offset'), 0), int(sf.get('elementSize'), 0))
         palette = source.block(scenario + int(pf.get('offset'), 0), int(pf.get('elementSize'), 0))
-        for row in rows:
+        for source_index, row in enumerate(rows):
+            if (name, source_index) in preserved_null_placements:
+                continue
             index = source.unpack('h', row)[0]
             if getattr(importer, 'gulch_partition', None) and name == 'Effect Scenery' and index == -1:
                 if source.unpack('h', row + 2)[0] != -1:
@@ -160,7 +190,9 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     prepared = prepare(source, target, ss, ds, {key: value[1] for key, value in importer.resolved.items()}, placements,
                        getattr(importer, 'omitted_assets', ()), bool(getattr(importer, 'gulch_partition', None)),
                        True,
-                       lambda value: importer.source_strings.translate(value, importer.target_strings))
+                       lambda value: importer.source_strings.translate(value, importer.target_strings),
+                       preserved_null_placements, placement_corrections)
+    importer.preserved_null_placements = sorted(preserved_null_placements)
     powerup_adjustments = []
     if getattr(importer, 'slot', None) == 'chillout':
         # CE powerups were authored with their origins on the floor. Native H3
@@ -263,9 +295,17 @@ def stage_primary_objects(importer, include_sound_scenery=False, include_effect_
     if getattr(importer, 'forge_partition_side', None) == 'island':
         from forge_island_spawn import relocate_marker
         island_start = relocate_marker(importer, prepared, ds)
+    from dune_inactive_ai import (remap_palettes as remap_dune_ai_palettes,
+                                 sanitize_navigation as sanitize_dune_ai_navigation)
+    ai_palette_relocations = remap_dune_ai_palettes(importer, ss, ds, prepared)
+    ai_navigation_corrections = sanitize_dune_ai_navigation(importer, ss, ds)
     stage(importer.builder, prepared, ds)
     return {'counts': {name: count for name, (count, _) in prepared['arrays'].items()},
             'variants': variant_report, 'unresolved': prepared['unresolved'],
+            'preserved_null_placements': sorted(preserved_null_placements),
+            'placement_corrections': placement_correction_report,
+            'inactive_ai_palette_relocations': ai_palette_relocations,
+            'inactive_ai_navigation_corrections': ai_navigation_corrections,
             'powerup_adjustments': powerup_adjustments, 'island_start': island_start,
             'teleporter_adjustments': teleporter_adjustments}
 

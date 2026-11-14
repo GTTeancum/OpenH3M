@@ -37,6 +37,8 @@ Verified 2026-10-28; these entries do not imply installation or acceptance.
 | Map | Original map/game or lineage | Exact source package | Credited source creators |
 |---|---|---|---|
 | Powerhouse | Halo Reach lineage, Halo Online version | [Halo Online Map Pack For Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=3003239190), `maps/s3d_powerhouse.map` | General Heed and Priception (Workshop creator listing) |
+| Foundation (2026-11-14 native-only rebuild candidate) | Foundation, Halo 2 | [Foundation](https://steamcommunity.com/sharedfiles/filedetails/?id=2898955198), uploaded `foundation.map`, scenario `halo_2\levels\foundation\foundation` | R93 Sniper (page credits: "Ported by R93 Sniper"); original game assets retain their original authorship |
+| Relic / Dune (2026-11-14 native-only rebuild candidate) | Relic, Halo 2; Dune is its internal scenario name | Uploaded `dune.map`, scenario `levels\multi\dune\dune`; inferred association with [Relic - Halo 3](https://steamcommunity.com/sharedfiles/filedetails/?id=2899644124), not independently byte-proven | Ryno is the verified creator of the linked port; the upload contains no manifest linking its exact bytes to that package |
 | Battle Canyon fresh rebuild | Battle Canyon, Halo: Reach Anniversary map pack | [Crisp/community HaloReachScenarios](https://github.com/ILoveAGoodCrisp/HaloReachScenarios), commit `aa35d15ff50db13da39685ad537430ad78492778`, `data/levels/dlc/cex_beaver_creek/cex_beaver_creek.blend`; original Reach tags, official H3EK compilation | Crisp/community prepared authoring scene; this project's H3/360 adaptation. Ryno's installed port remains separately credited above and is not this rebuild's input. |
 
 The fresh Battle Canyon rebuild uses General-101 / Steven Garcia's
@@ -45,6 +47,50 @@ for H3 ASS export. Tool authorship is distinct from map authorship. Exact source
 and tool revisions are recorded in `tools/battle-canyon-rebuild/README.md` and
 its provenance records. This pending entry does not claim final acceptance or
 deployment.
+
+## Supplied-Mythic-only rebuilds, 2026-11-14
+
+Resuscitation and 3longation have new individually packaged, statically verified
+unsigned LIVE candidates. Their upstream authors and package links are unchanged
+from the table above. Resuscitation's source cache SHA256 is
+`e32d9553e66ac143d42260da5bbe4296e4625ba827ee27247ba74204ec66d670`;
+3longation's is
+`ec4276d22bfad72055caa4a810785dbc344172e1c96a0ad62d8a1c63e35e960c`.
+These builds use the supplied original Halo 3 Mythic resources, not campaign
+caches or MCC sound banks. Purpose-matched native sound substitutions can change
+the audible samples; each package's conversion report identifies them. Their
+preview images are actual upstream author screenshots, not native-output captures.
+The packages retain explicit derived-mapinfo provenance. Static checks do not
+establish fresh Xbox 360 gameplay, performance or system-link acceptance.
+This project's work is the native Xbox 360/OpenH3M adaptation, not authorship of
+the upstream geometry, artwork or game assets.
+
+Foundation uses the uploaded source cache SHA256
+`d81e6ee504dd17a7d33f6379adf8e1fad210d6bdb7f2a5b185f546aaea595e68`.
+Its internal scenario identifies the map; the Workshop attribution and artwork
+were checked against the author page. The upload contains no Workshop manifest,
+so package-to-upload identity is not independently byte-proven. The explicit
+native-camera fallback omits MCC-only SSAO while preserving supported exposure,
+bloom and lighting; it is not an equivalent SSAO implementation.
+
+The later texture-preservation audit supersedes the initial package quality
+status above. Repaired candidates for 3longation, Foundation, Relic, Forge Gulch
+and Force Cove retain their authored texture base resolutions and mip chains,
+with independent serialized pixel and complete bitmap-resource coverage checks.
+Gulch and Cove remain partitions of Ryno's Forge World port, not Halo 4 Forge
+Island; their upstream source credit is unchanged. Their selected Forge palette
+retains 40 Reach architecture entries plus 101 native Sandbox entries and the
+native 1,500 budget. Only proven unreferenced native shader-donor textures were
+retired to fit the original cache limit; authored images were not reduced.
+
+Resuscitation's initial package remains a rollback, not a completed full-quality
+repair. Its restored authored texture candidate exceeds the original native
+file limit. A rejected serialized diagnostic verifies all 180 Forge entries and
+their labels, including 84 authored labels and the owner-approved derived labels
+"Spectre", "Sniper Rifle Ammo" and "Map Credits" where source English text was
+absent. The source Forge currency remains 6,400. No over-budget cache was retained
+or packaged. None of these static checks constitutes native-console rendering,
+gameplay, performance or system-link validation.
 
 ## Sky Bridge (candidate36 installed; pending final review)
 

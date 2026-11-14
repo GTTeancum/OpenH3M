@@ -96,9 +96,64 @@ def mcc_dxn_to_retail(payload):
  return blocks.tobytes()
 
 
-def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False,preserve_bc_mips=False, preserve_color_mips=False,opaque_alpha=False):
+def _encode_authored_chain(pixels,w,h,fmt,count,curve,max_dimension,resize_blend,zero_blue,opaque_alpha):
+ """Strict opt-in: transform each authored level, never select or invent mips."""
+ if not all(isinstance(v,int) and not isinstance(v,bool) for v in (w,h,count)):
+  raise ValueError('Authored dimensions and mip count must be integers')
+ if not 0<w<=8192 or not 0<h<=8192 or not 1<=count<=max(w,h).bit_length():
+  raise ValueError('Invalid authored dimensions or mip count')
+ if max(w,h)>max_dimension:
+  raise ValueError('Authored base exceeds max_dimension; dropping/resizing is forbidden')
+ if resize_blend:
+  raise ValueError('Authored mip preservation forbids resize_blend')
+ if zero_blue and fmt!=16:
+  raise ValueError('Unused blue blend channel requires BC3 source')
+ expected=sum(mip_size(max(1,w>>n),max(1,h>>n),fmt) for n in range(count))
+ if len(pixels)!=expected:
+  raise ValueError('Authored mip chain length mismatch')
+ converted=[];offset=0;out_fmt=None
+ for n in range(count):
+  mw,mh=max(1,w>>n),max(1,h>>n)
+  size=mip_size(mw,mh,fmt);level=pixels[offset:offset+size];offset+=size
+  target=fmt
+  if fmt==33:level=mcc_dxn_to_retail(level)
+  if zero_blue:level=clear_bc3_blue(level)
+  if fmt==29:
+   values=np.frombuffer(level,dtype='<i2').astype(np.float32)
+   level=np.clip(np.rint(np.maximum(values,-32767)*(127.0/32767.0)),-127,127).astype(np.int8).tobytes()
+   target=22
+  elif fmt in (0,1,3,10,11):
+   level=expand_argb(level,mw,mh,fmt);target=11
+  if opaque_alpha:
+   if target in (14,15,16):
+    from PIL import Image
+    decoded=Image.frombytes('RGBA',(mw,mh),level,'bcn',{14:1,15:2,16:3}[target])
+    level=decoded.tobytes('raw','BGRA');target=11
+   if target!=11:raise ValueError('Opaque-alpha material adapter requires uncompressed color')
+   level=bytearray(level);level[3::4]=bytes([255])*(mw*mh);level=bytes(level)
+  if len(level)!=mip_size(mw,mh,target):raise ValueError('Converted authored mip length mismatch')
+  if out_fmt is not None and target!=out_fmt:raise ValueError('Inconsistent authored mip formats')
+  out_fmt=target;converted.append(level)
+ payload=b''.join(converted)
+ if count>1:
+  from xbox_mip_chain import tile_chain
+  tiled=tile_chain(payload,w,h,count,out_fmt)
+ else:tiled=tile_base(payload,w,h,out_fmt)
+ bitmap=bytearray(48);bitmap[:4]=b'bitm'
+ struct.pack_into('>HHBBHHH',bitmap,4,w,h,1,0x0e,0,out_fmt,3)
+ bitmap[0x15]=curve;bitmap[0x14]=count-1
+ struct.pack_into('>I',bitmap,0x1c,len(tiled));struct.pack_into('>I',bitmap,0x28,0xffffffff)
+ control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
+ # Byte 47 selects a secondary resource, not packed-mip behavior.
+ # These encoders always put every level in the primary payload.
+ struct.pack_into('>HHBBBBI',control,0x28,w,h,1,count,0,0,texture_gpu_format(out_fmt,curve))
+ return bytes(bitmap),bytes(control),tiled
+
+
+def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,zero_blue=False,preserve_normal_mips=False,preserve_bc_mips=False, preserve_color_mips=False,opaque_alpha=False,preserve_authored_mips=False):
  """Return retail bitmap record, resource control bytes and tiled payload.
- Default is one mip; opted-in BC textures retain their authored mip chain.
+ Legacy default selects one mip. preserve_authored_mips validates and retains
+ every source level, with max_dimension acting only as a reject bound.
  """
  info=source.info(tag)[index];fmt=info['format'];w=info['width'];h=info['height']
  if fmt not in SUPPORTED_FORMATS:raise ValueError(f'Format {fmt} needs a dedicated encoder')
@@ -110,6 +165,8 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
  if kind!=0:raise ValueError('Only 2D bitmap conversion is supported')
  if max_dimension<1:raise ValueError('max_dimension must be positive')
  pixels=source.pixels(tag,index)
+ if preserve_authored_mips:
+  return _encode_authored_chain(pixels,w,h,fmt,info['mips'],curve,max_dimension,resize_blend,zero_blue,opaque_alpha)
  if fmt==33:pixels=mcc_dxn_to_retail(pixels)
  if zero_blue:
   if fmt!=16:raise ValueError('Unused blue blend channel requires BC3 source')
@@ -169,12 +226,12 @@ def encode_bitmap_base(source,tag,index=0,max_dimension=512,resize_blend=False,z
  struct.pack_into('>I',bitmap,0x1c,len(tiled));struct.pack_into('>I',bitmap,0x28,0xffffffff)
  control=bytearray(64);struct.pack_into('>I',control,0,len(tiled))
  gpu_format=texture_gpu_format(fmt,bitmap[0x15])
- struct.pack_into('>HHBBBBI',control,0x28,w,h,1,mip_count,0,0 if mip_count>1 else 1,gpu_format)
+ struct.pack_into('>HHBBBBI',control,0x28,w,h,1,mip_count,0,0,gpu_format)
  # Resource fixups use control+0x0C -> raw+0 and control+0x34 -> control+0.
  return bytes(bitmap),bytes(control),tiled
 
 
-def encode_cubemap_base(source, tag, index=0, max_dimension=64, preserve_mips=False):
+def encode_cubemap_base(source, tag, index=0, max_dimension=64, preserve_mips=False, preserve_authored_mips=False):
  """Encode face-major DDS data; optionally retain the authored mip chain."""
  info=source.info(tag)[index];c=source.c
  row=None if 'kind' in info else c.block(c.tags[tag]['offset']+0x60,0x38)[index]
@@ -182,6 +239,12 @@ def encode_cubemap_base(source, tag, index=0, max_dimension=64, preserve_mips=Fa
  kind=info['kind'] if row is None else c.unpack('H',row+10)[0]
  if kind!=2 or w!=h or fmt not in (11,14,15,16):
   raise ValueError('Cubemap requires square ARGB32/BC1/BC2/BC3 faces')
+ if preserve_authored_mips:
+  if not all(isinstance(v,int) and not isinstance(v,bool) for v in (w,h,info['mips'])):
+   raise ValueError('Authored cubemap dimensions and mip count must be integers')
+  if not 0<w<=8192 or not 1<=info['mips']<=w.bit_length():
+   raise ValueError('Invalid authored cubemap dimensions or mip count')
+  if w>max_dimension:raise ValueError('Authored cubemap base exceeds max_dimension; dropping is forbidden')
  levels=[];fw,fh=w,h
  for level in range(info['mips']):
   levels.append((fw,fh,mip_size(fw,fh,fmt)));fw=max(1,fw//2);fh=max(1,fh//2)
@@ -195,16 +258,28 @@ def encode_cubemap_base(source, tag, index=0, max_dimension=64, preserve_mips=Fa
   pixels=resource.raw[0][:info['size']]
  chain=sum(v[2] for v in levels)
  if len(pixels)!=6*chain:raise ValueError('Cubemap face/mip payload size mismatch')
- chosen=next((j for j,v in enumerate(levels) if v[0]<=max_dimension),None)
+ chosen=0 if preserve_authored_mips else next((j for j,v in enumerate(levels) if v[0]<=max_dimension),None)
  if chosen is None:raise ValueError('Cubemap has no mip within the size budget')
  w,h,size=levels[chosen];offset=sum(v[2] for v in levels[:chosen])
- mip_count=info['mips']-chosen if preserve_mips else 1
+ mip_count=info['mips']-chosen if preserve_mips or preserve_authored_mips else 1
  if mip_count>1:
   from xbox_mip_chain import tile_cube_chain
   selected=b''.join(pixels[f*chain+offset:(f+1)*chain] for f in range(6))
   raw=tile_cube_chain(selected,w,mip_count,fmt)
  else:
-  raw=b''.join(tile_base(pixels[f*chain+offset:f*chain+offset+size],w,h,fmt) for f in range(6))
+  # Cube faces are array slices, not independently tight tile_base buffers.
+  # TagTool GetXboxBitmapLevelOffset reserves 32x32 aligned blocks per
+  # face (4 KiB aligned), even when the addressed texels occupy less space.
+  extent=1 if fmt==11 else 4
+  bpb=4 if fmt==11 else 8 if fmt==14 else 16
+  wb,hb=(w+extent-1)//extent,(h+extent-1)//extent
+  stride=((((wb+31)&~31)*((hb+31)&~31)*bpb)+4095)&~4095
+  faces=[]
+  for f in range(6):
+   face=tile_base(pixels[f*chain+offset:f*chain+offset+size],w,h,fmt)
+   if len(face)>stride:raise ValueError('Single-level cube face exceeds native slice stride')
+   faces.append(face.ljust(stride,b'\0'))
+  raw=b''.join(faces)
  record=bytearray(48);record[:4]=b'bitm'
  struct.pack_into('>HHBBHHH',record,4,w,h,1,0x1e,2,fmt,3)
  record[21]=info['curve'] if row is None else c.data[row+21]

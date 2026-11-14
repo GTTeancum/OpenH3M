@@ -9,12 +9,21 @@ from script_expressions import convert_expressions
 
 def prepare_scripts(i, ss, ds, converter, root):
     s = i.source
-    # Keep the first integration scoped to the source whose runtime tables have
-    # been audited. Other script-bearing maps require their own table audit.
+    # Keep integration scoped to sources whose runtime tables were audited.
+    # Foundation uses U14. Dune's June 2023 build uses U13, not the current
+    # opcode table; both exact scenarios have audited tables and graph links.
+    # Runtime graph/opcode/parameter checks below still run on every build.
     name = next(s.name(n) for n, t in s.tags.items() if t['group'] == 'scnr')
-    if not name.endswith(('h2_elongation', 's3d_sky_bridgenew')):
+    version = 'U14'
+    if name == r'levels\multi\dune\dune':
+        build = bytes(s.data[0xA0:0xC0]).split(b'\0', 1)[0].decode('ascii')
+        if build != 'Jun 27 2023 08:39:36':
+            raise ValueError(f'Dune script build has not been audited: {build}')
+        version = 'U13'
+    elif (not name.endswith(('h2_elongation', 's3d_sky_bridgenew'))
+            and name != r'halo_2\levels\foundation\foundation'):
         raise ValueError(f'Script scenario has not been audited: {name}')
-    report = audit(s.file.name)
+    report = audit(s.file.name, version)
     if report['unsupported'] or report['opcode_name_mismatches'] or report['graph']['errors']:
         raise ValueError('Source script graph or opcode audit failed')
     def rows(label):
@@ -57,7 +66,7 @@ def prepare_scripts(i, ss, ds, converter, root):
             raise ValueError('Script literal references an invalid tag')
         return i.import_tag(datum)[1]
     payload, changes = convert_expressions(records, strings,
-        ET.parse(i.reference/'scripting/H3MCC_U14_Scripting.xml').getroot(),
+        ET.parse(i.reference/f'scripting/H3MCC_{version}_Scripting.xml').getroot(),
         ET.parse(i.reference/'scripting/H3_Scripting.xml').getroot(),
         names(script_rows), names(global_rows), tag,
         lambda value: i.source_strings.translate(value, i.target_strings))
@@ -74,6 +83,7 @@ def prepare_scripts(i, ss, ds, converter, root):
                 roots[0].tag = 'uint32'
         arrays[label] = (len(entries), b''.join(converter.convert(a, source_schema,
             target_schema, 'scnr:/'+label) for a in entries))
-    i.script_conversion = dict(scripts=len(script_rows), globals=len(global_rows),
+    i.script_conversion = dict(source_opcode_profile=version,
+        scripts=len(script_rows), globals=len(global_rows),
         active_expressions=report['active'], opcode_changes=len(changes))
     return arrays, strings

@@ -83,13 +83,22 @@ def scenario_coverage(importer, stages):
                 raise ValueError(f'Unconverted scenario reference: {name}')
     return {'source_blocks': inventory, 'slot_identity': getattr(importer, 'slot', 'lockout'),
             'simulation_definitions': 'Live retail definitions in original order, followed by imported dependencies',
-            'unused_placement_palettes': 'Only entries referenced by placements are imported'}
+            'unused_placement_palettes': (
+                'Placement-referenced entries plus the explicitly audited inactive Dune fireteam weapon/vehicle references; no extra placements added'
+                if getattr(importer, 'dune_inactive_ai_guard', None) else
+                'Only entries referenced by placements are imported')}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('project', 'source', 'basis', 'xex', 'sound-bank', 'decoder', 'output', 'report'):
+    for name in ('project', 'source', 'basis', 'xex', 'output', 'report'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--sound-bank', type=Path,
+                        help='Optional MCC FSB, needed only for sounds with no intact native H3 donor')
+    parser.add_argument('--decoder', type=Path,
+                        help='vgmstream CLI; required when an MCC sound bank is supplied')
+    parser.add_argument('--mythic-only-audio', action='store_true',
+                        help='Use audited map-specific Mythic sound substitutes; record audible differences, reject MCC banks')
     parser.add_argument('--slot', choices=('lockout', 'zanzibar', 'chillout', 'sandbox'), default='lockout')
     parser.add_argument('--powerhouse-ambient-quarter-stops', type=int, choices=range(9), default=0,
                         help='Experimental Powerhouse baked ambient boost; 0 preserves source lighting')
@@ -108,7 +117,16 @@ def main():
     parser.add_argument('--additional-sound-bank', type=Path, action='append', default=[],
                         help='Additional read-only FSB; primary Workshop bank takes precedence')
     parser.add_argument('--disc-maps', type=Path, help='Original disc maps directory; defaults to PROJECT/maps')
+    parser.add_argument('--metadata-reserve', type=lambda value: int(value, 0),
+                        help='Smaller measured staging reserve, a positive 64KiB multiple; never raises native limits')
     args = parser.parse_args()
+    bank_paths = ([args.sound_bank] if args.sound_bank else []) + args.additional_sound_bank
+    if args.mythic_only_audio and bank_paths:
+        parser.error('--mythic-only-audio cannot be combined with an MCC sound bank')
+    if bank_paths and args.decoder is None:
+        parser.error('--decoder is required when supplying an MCC sound bank')
+    if args.decoder is not None and not bank_paths:
+        parser.error('--decoder requires --sound-bank or --additional-sound-bank')
     if args.haven_draft and any((args.desolation, args.chiron, args.battle_canyon,
                                 args.battle_canyon_rebuilt, args.battle_protect_decals,
                                 args.forge_gulch, args.forge_island)):
@@ -122,8 +140,8 @@ def main():
     project = args.project.resolve(strict=True)
     output, report = (output_path(path, project) for path in (args.output, args.report))
     inputs = [path.resolve(strict=True) for path in
-              (args.source, args.basis, args.xex, args.sound_bank, args.decoder)]
-    inputs.extend(path.resolve(strict=True) for path in args.additional_sound_bank)
+              (args.source, args.basis, args.xex, *bank_paths,
+               *([args.decoder] if args.decoder else []))]
     if output == report or any(path in inputs for path in (output, report)):
         raise ValueError('Outputs must be distinct from one another and all inputs')
     if output.exists():
@@ -145,7 +163,7 @@ def main():
                             'Native gameplay and system-link behavior unverified.'], 'stages': {}}
     started = time.monotonic()
     temporary = None
-    source = builder = None
+    source = builder = importer = None
     stage = 'inputs'
     try:
         salt = resource_salt(args.xex)
@@ -247,9 +265,19 @@ def main():
             elif not state['collision_budget']['conversion_ready']:
                 raise ValueError('Forge World needs an offline large-collision BSP rebuild/partition before retail conversion; see collision_budget in report. No engine limits may be raised.')
         metadata_reserve = 0x1000000 if args.source.name == 's3d_sky_bridgenew.map' else (0xc00000 if args.slot != 'lockout' else 0x800000)
+        if args.mythic_only_audio and args.slot == 'lockout':
+            # Complete native Forge dependency graphs exceed the old 8 MiB
+            # staging reservation. This is allocator space below stock tags,
+            # not an engine limit; serialized native budgets still gate export.
+            metadata_reserve = 0xc00000
+        if args.metadata_reserve is not None:
+            if not 0 < args.metadata_reserve <= metadata_reserve or args.metadata_reserve % 0x10000:
+                raise ValueError('Metadata reserve must be a positive 64KiB multiple no larger than the profile default')
+            metadata_reserve = args.metadata_reserve
+        state['metadata_staging_reserve'] = metadata_reserve
         builder = MapBuilder(str(args.basis), metadata_reserve)
-        bank_paths = [args.sound_bank, *args.additional_sound_bank]
         state['sound_banks'] = [str(path.resolve(strict=True)) for path in bank_paths]
+        state['audio_policy'] = 'Native H3 reuse first; MCC decoding only when explicitly supplied and required'
         importer = TagImporter(source, CacheRegistry(builder, salt), sound_bank=SoundBanks(
             bank_paths, args.decoder, work), disc_maps=args.disc_maps or project / 'maps')
         importer.slot = args.slot
@@ -287,6 +315,10 @@ def main():
         from native_assets import NativeAssets
         importer.native_assets = NativeAssets(importer, args.disc_maps or project / 'maps')
         importer.materials.native_assets = importer.native_assets
+        if args.mythic_only_audio:
+            from mythic_audio import configure as configure_mythic_audio
+            state['mythic_audio_policy'] = configure_mythic_audio(importer)
+            state['audio_policy'] = 'Supplied Mythic native packets only; explicit map-specific audible substitutes; no MCC bank'
         if args.desolation:
             from desolation_assets import configure as configure_desolation
             state['asset_policy'] = configure_desolation(importer, args.disc_maps or project / 'maps')
@@ -329,10 +361,15 @@ def main():
             state['stages'][stage] = action()
             if stage == 'runtime' and hasattr(importer, 'script_conversion'):
                 state['script_conversion'] = importer.script_conversion
+            if stage == 'runtime' and hasattr(importer, 'scenario_compatibility_notes'):
+                state['scenario_compatibility_notes'] = importer.scenario_compatibility_notes
             state.setdefault('stage_seconds', {})[stage] = round(time.monotonic() - stage_started, 2)
             print(f'{stage}: {state["stage_seconds"][stage]}s', flush=True)
         stage = 'finalize'
         state['scenario_coverage'] = scenario_coverage(importer, state['stages'])
+        if args.forge_gulch or args.forge_island:
+            from unused_shader_bitmaps import prune_unused_shader_bitmaps
+            state['unused_shader_bitmaps'] = prune_unused_shader_bitmaps(importer)
         from retired_resources import compact_basis
         state['compaction'] = compact_basis(importer)
         from scenario_residency import stage_residency
@@ -345,9 +382,15 @@ def main():
             from forge_world import finalize_residency
             state['multi_bsp_residency'] = finalize_residency(importer)
         state.update(tags=importer.added, materials=importer.materials.report, sounds=importer.sounds.report,
+                     bitmap_preservation=importer.materials.bitmap_preservation_report(state.get('resource_indices')),
                      metadata_used=builder.used, raw_bytes_added=len(builder.raw))
+        if args.mythic_only_audio:
+            from mythic_audio import applied_replacements
+            state['mythic_audio_replacements'] = applied_replacements(importer)
         if hasattr(importer,'stock_forge_report'):
             state['stock_forge_palette'] = importer.stock_forge_report
+        if hasattr(importer, 'empty_forge_placeholders'):
+            state['empty_forge_placeholders'] = importer.empty_forge_placeholders
         if args.forge_gulch or args.forge_island:
             state['gulch_containment'] = importer.gulch_containment_report
         payload = builder.finish(salt)
@@ -361,11 +404,10 @@ def main():
         # Reopen the serialized cache; validate its tag table and memory boundary.
         check = Cache(str(temporary))
         try:
-            if args.desolation or args.haven_draft or args.stock_h3_draft:
-                from preflight_variant_budget import inspect_quotas
-                state['forge_quota_capacity'] = inspect_quotas(check)
-                if not state['forge_quota_capacity']['conversion_ready']:
-                    raise ValueError('Serialized Forge palette/placements exceed native quota capacity')
+            from console_cache_limits import inspect_native_budget, require_native_budget
+            state['serialized_console_budget'] = inspect_native_budget(check, temporary)
+            state['forge_quota_capacity'] = state['serialized_console_budget']['forge_quotas']
+            require_native_budget(state['serialized_console_budget'])
             from verify_collision_trees import verify as verify_collision_trees
             state['collision_trees_verified'] = verify_collision_trees(check)
             if args.slot == 'chillout':
@@ -380,6 +422,10 @@ def main():
             # Retail tables may contain empty slots; Cache.tags omits those.
             for index in range(importer.registry.first_tag, tag_count):
                 group, tag_salt, address = struct.unpack_from('>HHI', importer.registry.tags, index * 8)
+                if group == 65535:
+                    if (tag_salt, address) != (65535, 0) or index in check.tags:
+                        raise ValueError(f'Serialized retired tag {index} is not an inert slot')
+                    continue
                 tag = check.tags[index]
                 if (tag['group'] != check.groups[group] or tag['salt'] != tag_salt
                         or tag['offset'] != check.pointer(address)):
@@ -394,8 +440,41 @@ def main():
         state.update(status='checkpoint_built', output=str(output))
     except Exception as error:
         state.update(status='failed', failed_stage=stage, error=str(error))
+        if getattr(error, '__notes__', None):
+            state['error_context'] = list(error.__notes__)
+        if importer is not None:
+            state['bitmap_preservation'] = importer.materials.bitmap_preservation_report(state.get('resource_indices'))
+            try:
+                from partial_conversion_report import snapshot
+                state['partial_conversion_notes'] = snapshot(importer)
+            except Exception as audit_error:
+                state['compatibility_reporting_error'] = str(audit_error)
+        if args.mythic_only_audio and importer is not None:
+            try:
+                from mythic_audio import applied_replacements
+                state['mythic_audio_replacements'] = applied_replacements(importer)
+            except Exception as audit_error:
+                state['mythic_audio_reporting_error'] = str(audit_error)
         if builder is not None:
             state.update(metadata_used=builder.used, metadata_reserved=builder.reserve)
+        if temporary is not None and temporary.is_file():
+            try:
+                from audit_resource_footprint import inspect as inspect_footprint
+                footprint = inspect_footprint(temporary, True)
+                pages = {}
+                for resource in footprint['resource_details']:
+                    for page in resource['pages']:
+                        if page['shared']:
+                            continue
+                        item = pages.setdefault(page['block'], dict(page, owners=[]))
+                        item['owners'].append({k: resource[k] for k in ('owner_datum', 'group', 'owner')})
+                state['rejected_resource_footprint'] = dict(
+                    tag_memory_bytes=footprint['tag_memory_bytes'],
+                    all_referenced_pages=footprint['all_referenced_pages'],
+                    largest_local_pages=sorted(pages.values(), key=lambda p: p['compressed_bytes'], reverse=True)[:32],
+                    scope='Static diagnostic inventory, not simultaneous RAM usage')
+            except Exception as footprint_error:
+                state['rejected_resource_footprint_error'] = str(footprint_error)
         raise
     finally:
         if source is not None:

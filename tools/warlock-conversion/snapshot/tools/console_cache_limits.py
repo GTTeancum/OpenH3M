@@ -42,3 +42,27 @@ def require_console_sizes(paths):
                             for r in failures)
         raise ValueError('Xbox 360 cache size limit exceeded; export stopped: ' + details)
     return reports
+
+
+def inspect_native_budget(cache, path):
+    """Inspect serialized limits, never infer them from source/MCC counts."""
+    if cache.mcc:
+        raise ValueError('Console budget verification requires a native cache')
+    from preflight_variant_budget import inspect, inspect_quotas
+    return dict(file=inspect_map(path), placements=inspect(cache),
+                forge_quotas=inspect_quotas(cache),
+                scope='Original serialized limits only; not hardware or system-link acceptance')
+
+
+def require_native_budget(report):
+    failures = []
+    size, placements, quotas = (report[k] for k in ('file', 'placements', 'forge_quotas'))
+    if not size['within_limit']:
+        failures.append(f"cache file {size['file_bytes']} > {size['cached_console_limit_bytes']} bytes")
+    if not placements['conversion_ready']:
+        failures.append(f"scenario placements {placements['total']} > {placements['limit']}")
+    if not quotas['conversion_ready']:
+        failures.append(f"Forge quota bound {quotas['conservative_upper_bound']} > {quotas['limit']}")
+    if failures:
+        raise ValueError('Original Xbox 360 budget exceeded; export stopped: ' + '; '.join(failures))
+    return report

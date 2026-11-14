@@ -12,7 +12,11 @@ import wave
 
 
 class SoundBanks:
-    """Explicit ordered banks: a Workshop override wins over stock samples."""
+    """Optional ordered banks: native reuse needs no MCC bank or decoder.
+
+    An empty collection is a valid native-only build. It fails on an actual
+    decode request rather than making every build depend on an unused FSB.
+    """
     def __init__(self, paths, decoder, workdir):
         self.banks = [SoundBank(path, decoder, workdir) for path in paths]
         self.sources = {}
@@ -21,6 +25,10 @@ class SoundBanks:
                 self.sources.setdefault(key, bank)
 
     def decode(self, sound_hash):
+        if not self.banks:
+            raise ValueError(f'MCC sound {sound_hash:#x} has no intact native H3 donor in the supplied maps; '
+                             'add its original H3 donor first, or supply its FSB, matching .info index, '
+                             'and decoder if no native equivalent exists')
         if sound_hash not in self.sources:
             raise ValueError(f'Sound hash {sound_hash:#x} absent from all explicit banks')
         return self.sources[sound_hash].decode(sound_hash)
@@ -29,6 +37,10 @@ class SoundBanks:
         """Resolve an MCC tag's explicit FMOD bank without hash-only fallback."""
         if not suffix or any(c in suffix for c in '/\\:'):
             raise ValueError(f'Invalid FMOD bank suffix: {suffix!r}')
+        if not self.banks:
+            raise ValueError('No intact native H3 sound donor in the supplied maps; '
+                             f'add its original H3 donor first, or supply sfx.{suffix}.fsb, '
+                             'its matching .info index, and decoder if no native equivalent exists')
         matches = [b for b in self.banks if b.bank.name.casefold() == f'sfx.{suffix}.fsb'.casefold()]
         if len(matches) != 1:
             raise ValueError(f'Expected one explicit sfx.{suffix}.fsb bank, found {len(matches)}')

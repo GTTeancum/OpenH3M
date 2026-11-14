@@ -14,6 +14,8 @@ from native_shaders import NativeShaderImporter
 class NativeAssets:
     def __init__(self, importer, disc_maps):
         self.i = importer
+        from dune_assets import native_aliases
+        self.dune_aliases = native_aliases(importer.source)
         self.paths = {}
         self.schemas = {}
         self.candidates = {}
@@ -53,6 +55,7 @@ class NativeAssets:
         }
         from generational_assets import stock_aliases
         aliases.update(stock_aliases())
+        aliases.update(self.dune_aliases)
         aliases.update(getattr(self.i,'stock_asset_aliases',{}))
         if key in aliases:
             if key in self.i.resolved:
@@ -77,6 +80,10 @@ class NativeAssets:
                 'datum': hex(result[1]), 'stock_equivalent': name,
                 'stock_variant': variant,
             })
+            if key in self.dune_aliases:
+                from dune_assets import visual_difference
+                self.i.added[-1]['visual_difference'] = dict(visual_difference(key),
+                    donor=self.paths[(group, name)][0].name)
             return result
         if key not in self.paths:
             return None
@@ -167,7 +174,7 @@ class NativeAssets:
                                 or c.unpack('H', dst_rows[0]+12)[0] != 14):
                             raise ValueError('Audited basic bitmap dimensions/format changed')
                     from encode_bitmap import encode_bitmap_base
-                    encoded = encode_bitmap_base(i.materials.bitmaps, source_index,
+                    encoded = i.materials.encode_bitmap(i.materials.bitmaps, source_index,
                                                  preserve_bc_mips=True)
                     result = ('bitm', i.materials.bitmap_resource(*encoded))
                     i.resolved[key] = result

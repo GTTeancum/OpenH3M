@@ -5,6 +5,7 @@ and constant anisotropic scales become equal-area circular scales. These are
 explicit POC approximations requiring native visual inspection.
 """
 import copy
+import hashlib
 import math
 import struct
 import xml.etree.ElementTree as ET
@@ -18,7 +19,25 @@ POWERHOUSE_SECONDARY = r'levels\multi\s3d_powerhouse\sky_settlement\m30_settleme
 EXPECTED_REFLECTIONS = {NAME: 18, POWERHOUSE: 27, POWERHOUSE_SECONDARY: 2}
 
 
-def import_flare(i, datum, *, native_placement=False, expected_reflections=None):
+def encode_authored_image(source, tag, index):
+    """Opt-in lossless color/BC flare chain, within audited native dimensions."""
+    info = source.info(tag)[index]
+    w, h, count, fmt = (info[k] for k in ('width', 'height', 'mips', 'format'))
+    if (fmt not in (11, 14, 15, 16) or not 1 <= w <= 1024 or not 1 <= h <= 1024
+            or not 1 <= count <= max(w, h).bit_length()
+            or (count > 1 and (min(w, h) < 32 or w & (w-1) or h & (h-1)))):
+        raise ValueError('Authored flare bitmap outside reviewed lossless format/dimension bounds')
+    record, control, raw = encode_bitmap_base(source, tag, index,
+        max_dimension=1024, preserve_color_mips=True, preserve_bc_mips=True)
+    ow, oh = struct.unpack_from('>HH', record, 4)
+    ofmt = struct.unpack_from('>H', record, 12)[0]
+    if (ow, oh, record[20]+1, ofmt) != (w, h, count, fmt):
+        raise ValueError('Authored flare bitmap dimensions/mips/format changed')
+    return record, control, raw
+
+
+def import_flare(i, datum, *, native_placement=False, expected_reflections=None,
+                 preserve_authored_bitmap_chains=False):
     s, b = i.source, i.builder
     name = s.name(datum & 65535)
     root = s.tags[datum & 65535]['offset']
@@ -32,6 +51,7 @@ def import_flare(i, datum, *, native_placement=False, expected_reflections=None)
     bitmap_owner, bitmap_address = i.registry.newtag('bitm', bitmap_root)
     images, records, hardware = {}, bytearray(), bytearray()
     approximations = []
+    bitmap_preservation = []
 
     def curve(at):
         size = s.u(at); pointer = s.pointer(s.u(at+12))
@@ -57,7 +77,18 @@ def import_flare(i, datum, *, native_placement=False, expected_reflections=None)
             raise ValueError('Sun flare needs explicit bitmap or root bitmap')
         key = bitmap, image_index
         if key not in images:
-            record, control, raw = encode_bitmap_base(i.materials.bitmaps, bitmap & 65535, image_index)
+            encoder = encode_authored_image if preserve_authored_bitmap_chains else encode_bitmap_base
+            record, control, raw = encoder(i.materials.bitmaps, bitmap & 65535, image_index)
+            info = i.materials.bitmaps.info(bitmap & 65535)[image_index]
+            bitmap_preservation.append({
+                'source': s.name(bitmap & 65535), 'source_image_index': image_index,
+                'source_dimensions': [info['width'], info['height']], 'source_mips': info['mips'],
+                'source_format': info['format'],
+                'source_payload_sha256': hashlib.sha256(i.materials.bitmaps.pixels(bitmap & 65535, image_index)).hexdigest(),
+                'output_dimensions': list(struct.unpack_from('>HH', record, 4)),
+                'output_mips': record[20]+1, 'output_format': struct.unpack_from('>H', record, 12)[0],
+                'output_tiled_payload_sha256': hashlib.sha256(raw).hexdigest(),
+                'authored_chain_requested': preserve_authored_bitmap_chains})
             rid = i.registry.add_resource(bitmap_owner, 'bitmap_texture_interop_resource',
                 {'control': control, 'raw': raw, 'root': 52,
                  'fixups': [(12, 0x40000000), (52, 0x20000000)], 'interops': [(0x20000034, 2)]})
@@ -109,6 +140,8 @@ def import_flare(i, datum, *, native_placement=False, expected_reflections=None)
     i.resolved['lens', name] = 'lens', owner
     i.added.append({'source': name, 'group': 'lens', 'datum': hex(owner),
                     'reflection_count': len(rows), 'bitmap_images': len(images),
+                    'preserve_authored_bitmap_chains': preserve_authored_bitmap_chains,
+                    'bitmap_preservation': bitmap_preservation,
                     'approximation': True, 'native_visuals_verified': False,
                     'native_placement': native_placement, 'source_occlusion_index': occlusion,
                     'differences': ['Curves reduced to endpoint ranges',

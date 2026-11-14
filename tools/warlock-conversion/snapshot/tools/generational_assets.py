@@ -6,6 +6,62 @@ follow normal conversion; no substring matching silently replaces new assets.
 """
 
 
+# Exact Dune identities audited against supplied original H3 maps, including
+# the retained inactive fireteam's unplaced Brute Shot dependency.
+# This is not a prefix rule: Spectre, Creep, authored gates/ramps and other
+# unique objects remain unresolved/custom. Mounted turrets retain vehi roots.
+DUNE_STOCK_EQUIVALENTS = {
+    ('vehi', 'h2\\objects\\vehicles\\ghost\\ghost'):
+        ('vehi', 'objects\\vehicles\\ghost\\ghost', None),
+    ('vehi', 'h2\\objects\\vehicles\\warthog\\warthog'):
+        ('vehi', 'objects\\vehicles\\warthog\\warthog', None),
+    ('vehi', 'h2\\objects\\vehicles\\scorpion\\scorpion'):
+        ('vehi', 'objects\\vehicles\\scorpion\\scorpion', None),
+    ('vehi', 'h2\\objects\\vehicles\\wraith\\wraith'):
+        ('vehi', 'objects\\vehicles\\wraith\\wraith', None),
+    ('vehi', 'h2\\objects\\vehicles\\h2_banshee\\h2_banshee'):
+        ('vehi', 'objects\\vehicles\\banshee\\banshee', None),
+    ('vehi', 'h2\\objects\\vehicles\\h_turret_ap\\h_turret_ap'):
+        ('vehi', 'objects\\weapons\\turret\\machinegun_turret\\machinegun_turret', None),
+    ('vehi', 'h2\\objects\\vehicles\\c_turret_ap\\c_turret_ap'):
+        ('vehi', 'objects\\weapons\\turret\\plasma_cannon\\plasma_cannon', None),
+    ('vehi', 'h2\\objects\\vehicles\\c_turret_ap\\h2a_c_turret\\h2a_c_turret'):
+        ('vehi', 'objects\\weapons\\turret\\plasma_cannon\\plasma_cannon', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\battle_rifle\\battle_rifle'):
+        ('weap', 'objects\\weapons\\rifle\\battle_rifle\\battle_rifle', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\beam_rifle\\beam_rifle'):
+        ('weap', 'objects\\weapons\\rifle\\beam_rifle\\beam_rifle', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\covenant_carbine\\covenant_carbine'):
+        ('weap', 'objects\\weapons\\rifle\\covenant_carbine\\covenant_carbine', None),
+    ('weap', 'h2\\objects\\weapons\\pistol\\magnum\\magnum'):
+        ('weap', 'objects\\weapons\\pistol\\magnum\\magnum', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\plasma_rifle\\plasma_rifle'):
+        ('weap', 'objects\\weapons\\rifle\\plasma_rifle\\plasma_rifle', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\shotgun\\shotgun'):
+        ('weap', 'objects\\weapons\\rifle\\shotgun\\shotgun', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle'):
+        ('weap', 'objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle', None),
+    ('weap', 'h2\\objects\\weapons\\support_high\\rocket_launcher\\rocket_launcher'):
+        ('weap', 'objects\\weapons\\support_high\\rocket_launcher\\rocket_launcher', None),
+    ('weap', 'h2\\objects\\weapons\\support_low\\brute_shot\\brute_shot'):
+        ('weap', 'objects\\weapons\\support_low\\brute_shot\\brute_shot', None),
+    ('weap', 'h2\\objects\\weapons\\melee\\energy_blade\\energy_blade'):
+        ('weap', 'objects\\weapons\\melee\\energy_blade\\energy_blade', None),
+    ('weap', 'h2\\objects\\weapons\\rifle\\smg\\smg'):
+        ('weap', 'objects\\weapons\\rifle\\smg\\smg', None),
+    ('weap', 'h2\\objects\\weapons\\pistol\\plasma_pistol\\plasma_pistol'):
+        ('weap', 'objects\\weapons\\pistol\\plasma_pistol\\plasma_pistol', None),
+    ('weap', 'h2\\objects\\weapons\\pistol\\needler\\needler'):
+        ('weap', 'objects\\weapons\\pistol\\needler\\needler', None),
+    ('bloc', 'h2\\objects\\gear\\covenant\\military\\crate_space\\crate_space'):
+        ('bloc', 'objects\\gear\\covenant\\military\\crate_space\\crate_space', None),
+    ('bloc', 'h2\\objects\\gear\\covenant\\military\\antennae_comm\\antennae_comm'):
+        ('bloc', 'objects\\gear\\covenant\\military\\antennae_comm_mp\\antennae_comm_mp', None),
+    ('bloc', 'h2\\objects\\multi\\flag_return_invis\\ctf_flag_return_area'):
+        ('bloc', 'objects\\multi\\ctf\\ctf_flag_return_area', None),
+}
+
+
 def stock_aliases():
     result = {}
     def add(group, source, target, variant=None):
@@ -164,4 +220,9 @@ def stock_aliases():
         r'custom\powerups\hce_overshield\hce_overshield': r'objects\multi\powerups\powerup_red\powerup_red',
     }.items():
         add('eqip', source, target)
+    result.update(DUNE_STOCK_EQUIVALENTS)
+    # Foundation's MCC golf-ball wrapper uses bloc; stock Sandbox uses vehi.
+    # Keep the native object, including its collision, physics and audio.
+    result['bloc', r'objects\levels\dlc\shared\golf_ball\golf_ball'] = (
+        'vehi', r'objects\levels\dlc\shared\golf_ball\golf_ball', None)
     return result
