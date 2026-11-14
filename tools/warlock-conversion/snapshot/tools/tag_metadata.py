@@ -50,6 +50,28 @@ class MetadataConverter:
         self.shader_reference = shader_reference
 
     def convert(self, offset, source_schema, target_schema, path='', depth=0):
+        if path == 'scnr:/Zone Set Potentially Visible Sets':
+            # Old Assembly schemas split the word into Version/Flags shorts.
+            # That swaps MCC 08 00 00 00 into 00 08 00 00 instead of native 8.
+            # Normalize fresh schema copies only, preserving pinned references.
+            import copy
+            import xml.etree.ElementTree as ET
+            if self.source.u(offset + 4) != 8:
+                raise ValueError('Unsupported zone PVS version word; expected 8')
+            schemas = []
+            for schema in (source_schema, target_schema):
+                schema = copy.deepcopy(schema)
+                if int(schema.get('elementSize'), 0) != 44:
+                    raise ValueError('Unsupported zone PVS record size')
+                split = [n for n in schema if n.get('offset') is not None
+                         and 4 <= int(n.get('offset'), 0) < 8]
+                if [(n.tag.lower(), int(n.get('offset'), 0)) for n in split] != [('int16', 4), ('flags16', 6)]:
+                    raise ValueError('Unexpected zone PVS schema version fields')
+                for node in split:
+                    schema.remove(node)
+                ET.SubElement(schema, 'uint32', name='Native Version Word', offset='0x4')
+                schemas.append(schema)
+            source_schema, target_schema = schemas
         if path == 'scnr:/Cutscene Camera Points':
             # TagTool Scenario.CutsceneCameraPoint: original-only padding at
             # 0x24 separates the fixed name from position/orientation.

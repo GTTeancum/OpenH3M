@@ -1,8 +1,7 @@
 """Map-side staging allocator. Virtual addresses are preserved for existing tags.
 No filesystem writes until save(); original cache is opened read-only.
 """
-import struct,hashlib
-import numpy as np
+import struct
 from cache_reader import Cache
 class MapBuilder:
  def __init__(self,path,reserve=0x200000):
@@ -54,8 +53,9 @@ class MapBuilder:
   # though every page in play has a valid checksum. No executable patch.
   out[0x142]=0
   assert self.base+c.u(0x18)+self.reserve==0xbfc00000
-  put(0x2c4,int(np.bitwise_xor.reduce(np.frombuffer(out,dtype='>u4',offset=0x3000))))
-  header=bytearray(out[:0x3000])
-  for start,size in ((0x320,4),(0x328,8),(0x330,0x13c),(0x1c,0x100),(0x144,8),(0x16c,0x20),(0x49c,0x10)):header[start:start+size]=bytes(size)
-  out[0x330:0x344]=hashlib.sha1(salt+header).digest();return out
+  from cache_integrity import finalize_cache
+  finalization=finalize_cache(out,salt)
+  self.reference_count_report=finalization['reference_counts']
+  self.integrity_report=finalization['integrity']
+  return out
  def close(self):self.cache.close()

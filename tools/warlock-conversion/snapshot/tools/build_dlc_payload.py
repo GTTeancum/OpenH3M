@@ -2,9 +2,9 @@
 import argparse
 import hashlib
 import json
-import shutil
 import struct
 from pathlib import Path
+from cache_integrity import finalize_cache
 from cache_reader import Cache
 from build_scenario_checkpoint import resource_salt
 
@@ -54,30 +54,26 @@ def build(converted, stock, output, maps=MAPS, sources=None):
             if len(scenarios) != 1:
                 raise ValueError('Expected one scenario')
             scenario_offset = scenarios[0]['offset']
+            if not (with_source.start <= scenario_offset
+                    and scenario_offset + 12 <= with_source.start + with_source.u(0x490)):
+                raise ValueError('Scenario identity outside metadata section')
             old_id = with_source.u(scenario_offset + 8)
             header_name = with_source.data[0x18C:0x1AC].split(b'\0')[0]
             if header_name != slot.encode():
                 raise ValueError('Unexpected source identity')
+            data = bytearray(with_source.data)
         finally:
             with_source.close()
         dest = output / (name + '.map')
-        shutil.copyfile(source, dest)
-        with dest.open('r+b') as stream:
-            header = bytearray(stream.read(0x3000))
-            fixed(header, 0x18C, 32, name)
-            fixed(header, 0x1B0, 256, 'levels\\dlc\\' + name + '\\' + name)
-            # The only changed word outside the header is the scenario map ID.
-            checksum = struct.unpack_from('>I', header, 0x2C4)[0] ^ old_id ^ map_id
-            struct.pack_into('>I', header, 0x2C4, checksum)
-            normalized = bytearray(header)
-            for start, size in ((0x320,4),(0x328,8),(0x330,0x13c),(0x1c,0x100),
-                                (0x144,8),(0x16c,0x20),(0x49c,0x10)):
-                normalized[start:start+size] = bytes(size)
-            header[0x330:0x344] = hashlib.sha1(salt + normalized).digest()
-            stream.seek(0)
-            stream.write(header)
-            stream.seek(scenario_offset + 8)
-            stream.write(struct.pack('>I', map_id))
+        fixed(data, 0x18C, 32, name)
+        fixed(data, 0x1B0, 256, 'levels\\dlc\\' + name + '\\' + name)
+        struct.pack_into('>I', data, scenario_offset + 8, map_id)
+        # The DLC identity is a metadata edit AFTER MapBuilder.finish(). Do not
+        # merely adjust the old XOR/header hash: both metadata digests must
+        # describe these final bytes, including any corrected page counts.
+        finalization = finalize_cache(data, salt)
+        dest.write_bytes(data)
+        del data
         info = bytearray((stock / 'info' / (slot + '.mapinfo')).read_bytes())
         if info[0x30:0x34] != b'levl' or info[0x4D80:0x4D84] != b'_eof':
             raise ValueError('Unexpected retail mapinfo layout')
@@ -104,6 +100,7 @@ def build(converted, stock, output, maps=MAPS, sources=None):
                                    original_slot=slot, original_id=old_id,
                                    bytes=dest.stat().st_size,
                                    sha256=digest,
+                                   cache_finalization=finalization,
                                    preview='dlc_' + name, authentication='RSA layout, unsigned zero signature'))
     return report
 
