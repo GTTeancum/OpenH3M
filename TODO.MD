@@ -1,5 +1,9 @@
 # Spartan TODO
 
+## Xbox 360 conversion takeover — 2026-11-18
+
+See [conversion closeout](docs/conversion-handoff/README.md) before resuming Sky Bridge, Reactor or Battle Canyon visibility work, or starting the retail Reach Sword Base/Reflection extraction and conversion path. Neither Reach map has verified gameplay; the new cloud converter/checkpoints were lost. This documentation-only closeout does not change the unrelated Spartan/Forge implementation status below.
+
 - [ ] Finish identical-orientation overlap and large-piece creation/physics regressions. Corrected-clearance Base, Round now passes paired snap/pull-away/return/resnap/drop/re-grab; not deployed.
 
 ## Forge — Halo 4 scenery manipulation in Spartan

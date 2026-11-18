@@ -61,6 +61,10 @@ The optional Player 1 keyboard mapping is:
 | P / O | Start / Back |
 | Q / E | Left bumper / Right bumper |
 
+## Conversion handoff
+
+The [2026-11-18 Xbox 360 map-conversion closeout](docs/conversion-handoff/README.md) records the current Codex takeover state, surviving versus lost Reach work, and the Sky Bridge/Reactor/Battle Canyon visibility backlog. It is separate from Spartan application release status.
+
 ## Building
 
 Developer setup, generation, build, and diagnostic notes are in [halo3mp/BUILD.md](halo3mp/BUILD.md). A release package can be assembled after a release build with:
