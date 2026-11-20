@@ -133,7 +133,9 @@ and discovery validate these corrections; they are not custom gameplay changes.
 ## Installation, testing and rollback
 
 `--halo3mp_install_content=PACKAGE` invokes the SDK's native ContentManager installer
-before guest launch, checks Halo 3/LIVE/type and canonical filename, and stops on
+before guest launch, checks Halo 3/LIVE/type and that the file name is extensionless
+(letters, digits, `_` or `-`, at most 42 characters; a map name such as
+`Reactor_20261119` or the content ID are both accepted since 2026-11-19), and stops on
 failure. It installs into the configured user-data root. Afterward ordinary game
 startup discovers the content without an installer flag.
 

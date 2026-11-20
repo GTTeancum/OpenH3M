@@ -231,14 +231,19 @@ class Halo3mpApp : public rex::ReXApp {
     if (package.empty()) return;
     auto path = std::filesystem::u8path(package);
     const auto filename = path.filename().string();
-    const bool canonical_name = filename.size() == 40 &&
-        filename.find_first_not_of("0123456789abcdefABCDEF") == std::string::npos;
+    // The game mounts the container under its file name and strips a first extension from
+    // it, so the name must be extensionless. Any such name of safe characters is accepted
+    // (a map name such as Reactor_20261119, or the 40-digit content ID); 42 characters is
+    // the Xbox 360 content file-name limit.
+    const bool mountable_name = !filename.empty() && filename.size() <= 42 &&
+        filename.find_first_not_of(
+            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-") == std::string::npos;
     auto header = rex::filesystem::StfsContainerDevice::ReadPackageHeader(path);
     if (!header || header->header.magic != rex::filesystem::XContentPackageType::kLive ||
         header->metadata.execution_info.title_id != 0x4D5307E6 ||
         header->metadata.content_type != rex::system::XContentType::kMarketplaceContent ||
-        !canonical_name) {
-      throw std::runtime_error("DLC installation requires a Halo 3 LIVE package named with its extensionless content ID");
+        !mountable_name) {
+      throw std::runtime_error("DLC installation requires a Halo 3 LIVE package with an extensionless file name of letters, digits, '_' or '-' (42 characters at most)");
     }
     const auto result = runtime()->kernel_state()->content_manager()->InstallContent(path);
     if (result != 0) {
