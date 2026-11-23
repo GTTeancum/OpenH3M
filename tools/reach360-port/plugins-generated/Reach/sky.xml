@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xAC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.Sky (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Render Model" offset="0x0" visible="true" />
+	<tagref name="Animation Graph" offset="0x10" visible="true" />
+	<flags32 name="Flags" offset="0x20" visible="true">
+		<bit name="FixedInWorldSpace" index="0" />
+		<bit name="Depreciated" index="1" />
+		<bit name="SkyCastsLightFromBelow" index="2" />
+		<bit name="DisableSkyInLightmaps" index="3" />
+		<bit name="FogOnlyAffectsContainingClusters" index="4" />
+		<bit name="UseClearColor" index="5" />
+	</flags32>
+	<float32 name="Render Model Scale" offset="0x24" visible="true" />
+	<float32 name="Movement Scale" offset="0x28" visible="true" />
+	<tagblock name="Cube Map" offset="0x2C" visible="true" elementSize="0xC">
+		<tagref name="Cube Map Reference" offset="0x0" visible="true" />
+		<float32 name="Power Scale" offset="0x10" visible="true" />
+	</tagblock>
+	<colorf name="Indoor Ambient Color" offset="0x38" alpha="false" visible="true" />
+	<uint8 name="Padding 0" offset="0x44" visible="false" />
+	<uint8 name="Padding 1" offset="0x45" visible="false" />
+	<uint8 name="Padding 2" offset="0x46" visible="false" />
+	<uint8 name="Padding 3" offset="0x47" visible="false" />
+	<colorf name="Outdoor Ambient Color" offset="0x48" alpha="false" visible="true" />
+	<uint8 name="Padding1 0" offset="0x54" visible="false" />
+	<uint8 name="Padding1 1" offset="0x55" visible="false" />
+	<uint8 name="Padding1 2" offset="0x56" visible="false" />
+	<uint8 name="Padding1 3" offset="0x57" visible="false" />
+	<float32 name="Fog Spread Distance" offset="0x58" visible="true" />
+	<tagblock name="Atmospheric Fog" offset="0x5C" visible="true" elementSize="0x18">
+		<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		<float32 name="Maximum Density" offset="0xC" visible="true" />
+		<float32 name="Start Distance" offset="0x10" visible="true" />
+		<float32 name="Opaque Distance" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Secondary Fog" offset="0x68" visible="true" elementSize="0x18">
+		<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		<float32 name="Maximum Density" offset="0xC" visible="true" />
+		<float32 name="Start Distance" offset="0x10" visible="true" />
+		<float32 name="Opaque Distance" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Sky Fog" offset="0x74" visible="true" elementSize="0x10">
+		<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		<float32 name="Density" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Patchy Fog" offset="0x80" visible="true" elementSize="0x50">
+		<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		<uint8 name="Padding 0" offset="0xC" visible="false" />
+		<uint8 name="Padding 1" offset="0xD" visible="false" />
+		<uint8 name="Padding 2" offset="0xE" visible="false" />
+		<uint8 name="Padding 3" offset="0xF" visible="false" />
+		<uint8 name="Padding 4" offset="0x10" visible="false" />
+		<uint8 name="Padding 5" offset="0x11" visible="false" />
+		<uint8 name="Padding 6" offset="0x12" visible="false" />
+		<uint8 name="Padding 7" offset="0x13" visible="false" />
+		<uint8 name="Padding 8" offset="0x14" visible="false" />
+		<uint8 name="Padding 9" offset="0x15" visible="false" />
+		<uint8 name="Padding 10" offset="0x16" visible="false" />
+		<uint8 name="Padding 11" offset="0x17" visible="false" />
+		<rangef name="Density" offset="0x18" visible="true" />
+		<rangef name="Distance" offset="0x20" visible="true" />
+		<uint8 name="Padding1 0" offset="0x28" visible="false" />
+		<uint8 name="Padding1 1" offset="0x29" visible="false" />
+		<uint8 name="Padding1 2" offset="0x2A" visible="false" />
+		<uint8 name="Padding1 3" offset="0x2B" visible="false" />
+		<uint8 name="Padding1 4" offset="0x2C" visible="false" />
+		<uint8 name="Padding1 5" offset="0x2D" visible="false" />
+		<uint8 name="Padding1 6" offset="0x2E" visible="false" />
+		<uint8 name="Padding1 7" offset="0x2F" visible="false" />
+		<uint8 name="Padding1 8" offset="0x30" visible="false" />
+		<uint8 name="Padding1 9" offset="0x31" visible="false" />
+		<uint8 name="Padding1 10" offset="0x32" visible="false" />
+		<uint8 name="Padding1 11" offset="0x33" visible="false" />
+		<uint8 name="Padding1 12" offset="0x34" visible="false" />
+		<uint8 name="Padding1 13" offset="0x35" visible="false" />
+		<uint8 name="Padding1 14" offset="0x36" visible="false" />
+		<uint8 name="Padding1 15" offset="0x37" visible="false" />
+		<uint8 name="Padding1 16" offset="0x38" visible="false" />
+		<uint8 name="Padding1 17" offset="0x39" visible="false" />
+		<uint8 name="Padding1 18" offset="0x3A" visible="false" />
+		<uint8 name="Padding1 19" offset="0x3B" visible="false" />
+		<uint8 name="Padding1 20" offset="0x3C" visible="false" />
+		<uint8 name="Padding1 21" offset="0x3D" visible="false" />
+		<uint8 name="Padding1 22" offset="0x3E" visible="false" />
+		<uint8 name="Padding1 23" offset="0x3F" visible="false" />
+		<uint8 name="Padding1 24" offset="0x40" visible="false" />
+		<uint8 name="Padding1 25" offset="0x41" visible="false" />
+		<uint8 name="Padding1 26" offset="0x42" visible="false" />
+		<uint8 name="Padding1 27" offset="0x43" visible="false" />
+		<uint8 name="Padding1 28" offset="0x44" visible="false" />
+		<uint8 name="Padding1 29" offset="0x45" visible="false" />
+		<uint8 name="Padding1 30" offset="0x46" visible="false" />
+		<uint8 name="Padding1 31" offset="0x47" visible="false" />
+		<tagref name="Patchy Fog" offset="0x48" visible="true" />
+	</tagblock>
+	<float32 name="Amount" offset="0x8C" visible="true" />
+	<float32 name="Threshold" offset="0x90" visible="true" />
+	<float32 name="Brightness" offset="0x94" visible="true" />
+	<float32 name="Gamma Power" offset="0x98" visible="true" />
+	<tagblock name="Lights" offset="0x9C" visible="true" elementSize="0x34">
+		<vector3 name="Direction Vector" offset="0x0" visible="true" />
+		<degree2 name="Direction" offset="0xC" visible="true" />
+		<tagref name="Lens Flare" offset="0x14" visible="true" />
+		<tagblock name="Fog" offset="0x24" visible="true" elementSize="0x2C">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Maximum Density" offset="0xC" visible="true" />
+			<float32 name="Start Distance" offset="0x10" visible="true" />
+			<float32 name="Opaque Distance" offset="0x14" visible="true" />
+			<ranged name="Cone" offset="0x18" visible="true" />
+			<float32 name="Atmospheric Fog Influence" offset="0x20" visible="true" />
+			<float32 name="Secondary Fog Influence" offset="0x24" visible="true" />
+			<float32 name="Sky Fog Influence" offset="0x28" visible="true" />
+		</tagblock>
+		<tagblock name="Fog Opposite" offset="0x30" visible="true" elementSize="0x2C">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Maximum Density" offset="0xC" visible="true" />
+			<float32 name="Start Distance" offset="0x10" visible="true" />
+			<float32 name="Opaque Distance" offset="0x14" visible="true" />
+			<ranged name="Cone" offset="0x18" visible="true" />
+			<float32 name="Atmospheric Fog Influence" offset="0x20" visible="true" />
+			<float32 name="Secondary Fog Influence" offset="0x24" visible="true" />
+			<float32 name="Sky Fog Influence" offset="0x28" visible="true" />
+		</tagblock>
+		<tagblock name="Radiosity" offset="0x3C" visible="true" elementSize="0x28">
+			<flags32 name="Flags" offset="0x0" visible="true">
+				<bit name="AffectsExteriors" index="0" />
+				<bit name="AffectsInteriors" index="1" />
+				<bit name="DirectIlluminationInLightmaps" index="2" />
+				<bit name="IndirectIlluminationInLightmaps" index="3" />
+			</flags32>
+			<colorf name="Color" offset="0x4" alpha="false" visible="true" />
+			<float32 name="Power" offset="0x10" visible="true" />
+			<float32 name="Test Distance" offset="0x14" visible="true" />
+			<uint8 name="Padding 0" offset="0x18" visible="false" />
+			<uint8 name="Padding 1" offset="0x19" visible="false" />
+			<uint8 name="Padding 2" offset="0x1A" visible="false" />
+			<uint8 name="Padding 3" offset="0x1B" visible="false" />
+			<uint8 name="Padding 4" offset="0x1C" visible="false" />
+			<uint8 name="Padding 5" offset="0x1D" visible="false" />
+			<uint8 name="Padding 6" offset="0x1E" visible="false" />
+			<uint8 name="Padding 7" offset="0x1F" visible="false" />
+			<uint8 name="Padding 8" offset="0x20" visible="false" />
+			<uint8 name="Padding 9" offset="0x21" visible="false" />
+			<uint8 name="Padding 10" offset="0x22" visible="false" />
+			<uint8 name="Padding 11" offset="0x23" visible="false" />
+			<degree name="Diameter" offset="0x24" visible="true" />
+		</tagblock>
+	</tagblock>
+	<degree name="Global Sky Rotation" offset="0xA8" visible="true" />
+	<tagblock name="Shader Functions" offset="0xAC" visible="true" elementSize="0x24">
+		<uint8 name="Padding 0" offset="0x0" visible="false" />
+		<uint8 name="Padding 1" offset="0x1" visible="false" />
+		<uint8 name="Padding 2" offset="0x2" visible="false" />
+		<uint8 name="Padding 3" offset="0x3" visible="false" />
+		<ascii name="Global Function Name" offset="0x4" visible="true" size="0x20" />
+	</tagblock>
+	<tagblock name="Animations" offset="0xB8" visible="true" elementSize="0x24">
+		<int16 name="Animation Index" offset="0x0" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<float32 name="Period" offset="0x4" visible="true" />
+		<uint8 name="Padding1 0" offset="0x8" visible="false" />
+		<uint8 name="Padding1 1" offset="0x9" visible="false" />
+		<uint8 name="Padding1 2" offset="0xA" visible="false" />
+		<uint8 name="Padding1 3" offset="0xB" visible="false" />
+		<uint8 name="Padding1 4" offset="0xC" visible="false" />
+		<uint8 name="Padding1 5" offset="0xD" visible="false" />
+		<uint8 name="Padding1 6" offset="0xE" visible="false" />
+		<uint8 name="Padding1 7" offset="0xF" visible="false" />
+		<uint8 name="Padding1 8" offset="0x10" visible="false" />
+		<uint8 name="Padding1 9" offset="0x11" visible="false" />
+		<uint8 name="Padding1 10" offset="0x12" visible="false" />
+		<uint8 name="Padding1 11" offset="0x13" visible="false" />
+		<uint8 name="Padding1 12" offset="0x14" visible="false" />
+		<uint8 name="Padding1 13" offset="0x15" visible="false" />
+		<uint8 name="Padding1 14" offset="0x16" visible="false" />
+		<uint8 name="Padding1 15" offset="0x17" visible="false" />
+		<uint8 name="Padding1 16" offset="0x18" visible="false" />
+		<uint8 name="Padding1 17" offset="0x19" visible="false" />
+		<uint8 name="Padding1 18" offset="0x1A" visible="false" />
+		<uint8 name="Padding1 19" offset="0x1B" visible="false" />
+		<uint8 name="Padding1 20" offset="0x1C" visible="false" />
+		<uint8 name="Padding1 21" offset="0x1D" visible="false" />
+		<uint8 name="Padding1 22" offset="0x1E" visible="false" />
+		<uint8 name="Padding1 23" offset="0x1F" visible="false" />
+		<uint8 name="Padding1 24" offset="0x20" visible="false" />
+		<uint8 name="Padding1 25" offset="0x21" visible="false" />
+		<uint8 name="Padding1 26" offset="0x22" visible="false" />
+		<uint8 name="Padding1 27" offset="0x23" visible="false" />
+	</tagblock>
+	<uint8 name="Padding2 0" offset="0xC4" visible="false" />
+	<uint8 name="Padding2 1" offset="0xC5" visible="false" />
+	<uint8 name="Padding2 2" offset="0xC6" visible="false" />
+	<uint8 name="Padding2 3" offset="0xC7" visible="false" />
+	<uint8 name="Padding2 4" offset="0xC8" visible="false" />
+	<uint8 name="Padding2 5" offset="0xC9" visible="false" />
+	<uint8 name="Padding2 6" offset="0xCA" visible="false" />
+	<uint8 name="Padding2 7" offset="0xCB" visible="false" />
+	<uint8 name="Padding2 8" offset="0xCC" visible="false" />
+	<uint8 name="Padding2 9" offset="0xCD" visible="false" />
+	<uint8 name="Padding2 10" offset="0xCE" visible="false" />
+	<uint8 name="Padding2 11" offset="0xCF" visible="false" />
+	<colorf name="Clear Color" offset="0xD0" alpha="false" visible="true" />
+</plugin>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ItemCollection (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Item Permutations" offset="0x0" visible="true" elementSize="0x10">
+		<float32 name="Weight" offset="0x0" visible="true" />
+		<tagref name="Item" offset="0x4" visible="true" />
+		<stringid name="Variant Name" offset="0x14" visible="true" />
+	</tagblock>
+	<int16 name="Spawn Time In Seconds0 Default" offset="0xC" visible="true" />
+	<uint8 name="Padding 0" offset="0xE" visible="false" />
+	<uint8 name="Padding 1" offset="0xF" visible="false" />
+</plugin>

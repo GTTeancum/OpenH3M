@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Bespoke MCC->Xbox 360 Halo 3 tag injector built on XboxChaos Assembly's Blamite library (GPL-3.0).
+       Blamite source is compiled unchanged from the pinned clone in .local\asset-tools\src\Assembly. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseOutputPath>..\..\..\.local\asset-tools\inject360\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\.local\asset-tools\inject360\obj\</BaseIntermediateOutputPath>
+    <NoWarn>CS0618;CS0168;CS0219;CS0414;CS0649;CS0169;CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\.local\asset-tools\src\Assembly\src\Blamite\**\*.cs" Exclude="..\..\..\.local\asset-tools\src\Assembly\src\Blamite\Properties\**;..\..\..\.local\asset-tools\src\Assembly\src\Blamite\obj\**;..\..\..\.local\asset-tools\src\Assembly\src\Blamite\bin\**" />
+    <Compile Include="*.cs" />
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.8.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+</Project>

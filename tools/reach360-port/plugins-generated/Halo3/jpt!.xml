@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xF0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.DamageEffect (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<rangef name="Radius" offset="0x0" visible="true" />
+	<float32 name="Cutoff Scale" offset="0x8" visible="true" />
+	<flags32 name="Effect Flags" offset="0xC" visible="true">
+		<bit name="DontScaleDamageByDistance" index="0" />
+		<bit name="AreaDamagePlayersOnly" index="1" />
+		<bit name="AffectsModelTargets" index="2" />
+	</flags32>
+	<enum16 name="Side Effect" offset="0x10" visible="true">
+		<option name="None" value="0" />
+		<option name="Harmless" value="1" />
+		<option name="LethalToTheUnsuspecting" value="2" />
+		<option name="Emp" value="3" />
+	</enum16>
+	<enum16 name="Category" offset="0x12" visible="true">
+		<option name="None" value="0" />
+		<option name="Falling" value="1" />
+		<option name="Bullet" value="2" />
+		<option name="Grenade" value="3" />
+		<option name="HighExplosive" value="4" />
+		<option name="Sniper" value="5" />
+		<option name="Melee" value="6" />
+		<option name="Flame" value="7" />
+		<option name="MountedWeapon" value="8" />
+		<option name="Vehicle" value="9" />
+		<option name="Plasma" value="10" />
+		<option name="Needle" value="11" />
+		<option name="Shotgun" value="12" />
+		<option name="Assassinated" value="13" />
+	</enum16>
+	<flags32 name="Flags" offset="0x14" visible="true">
+		<bit name="DoesNotHurtOwner" index="0" />
+		<bit name="CanCauseHeadshots" index="1" />
+		<bit name="PingsResistantUnits" index="2" />
+		<bit name="DoesNotHurtFriends" index="3" />
+		<bit name="DoesNotPingUnits" index="4" />
+		<bit name="DetonatesExplosives" index="5" />
+		<bit name="OnlyHurtsShields" index="6" />
+		<bit name="CausesFlamingDeath" index="7" />
+		<bit name="DamageIndicatorsAlwaysPointDown" index="8" />
+		<bit name="SkipsShields" index="9" />
+		<bit name="OnlyHurtsOneInfectionForm" index="10" />
+		<bit name="TransferDamageAlwaysUsesMinimum" index="11" />
+		<bit name="InfectionFormPop" index="12" />
+		<bit name="IgnoreSeatScaleForDirDmg" index="13" />
+		<bit name="ForcesHardPing" index="14" />
+		<bit name="DoesNotHurtPlayers" index="15" />
+		<bit name="DoesNotOvercombine" index="16" />
+		<bit name="EnablesSpecialDeath" index="17" />
+		<bit name="CannotCauseBetrayals" index="18" />
+		<bit name="UsesOldEmpBehavior" index="19" />
+		<bit name="IgnoresDamageResistance" index="20" />
+		<bit name="ForceSKillOnDeath" index="21" />
+		<bit name="CauseMagicDeceleration" index="22" />
+		<bit name="InhibitsMeleeAttacks" index="23" />
+		<bit name="Bit24" index="24" />
+	</flags32>
+	<float32 name="Area Of Effect Core Radius" offset="0x18" visible="true" />
+	<float32 name="Damage Lower Bound" offset="0x1C" visible="true" />
+	<rangef name="Damage Upper Bound" offset="0x20" visible="true" />
+	<degree name="Damage Inner Cone Angle" offset="0x28" visible="true" />
+	<degree name="Damage Outer Cone Angle" offset="0x2C" visible="true" />
+	<float32 name="Active Camoflage Damage" offset="0x30" visible="true" />
+	<float32 name="Stun" offset="0x34" visible="true" />
+	<float32 name="Maximum Stun" offset="0x38" visible="true" />
+	<float32 name="Stun Duration" offset="0x3C" visible="true" />
+	<float32 name="Instantaneous Acceleration" offset="0x40" visible="true" />
+	<float32 name="Rider Direct Damage Scale" offset="0x44" visible="true" />
+	<float32 name="Rider Max Transfer Damage Scale" offset="0x48" visible="true" />
+	<float32 name="Rider Min Transfer Damage Scale" offset="0x4C" visible="true" />
+	<stringid name="General Damage" offset="0x50" visible="true" />
+	<stringid name="Specific Damage" offset="0x54" visible="true" />
+	<stringid name="Custom Response Label" offset="0x58" visible="true" />
+	<float32 name="Ai Stun Radius" offset="0x5C" visible="true" />
+	<rangef name="Ai Stun Bounds" offset="0x60" visible="true" />
+	<float32 name="Shake Radius" offset="0x68" visible="true" />
+	<float32 name="Emp Radius" offset="0x6C" visible="true" />
+	<float32 name="Aoe Spike Radius" offset="0x70" visible="true" />
+	<float32 name="Aoe Spike Damage Bump" offset="0x74" visible="true" />
+	<tagblock name="Player Responses" offset="0x78" visible="true" elementSize="0x70">
+		<enum16 name="Response Type" offset="0x0" visible="true">
+			<option name="Shielded" value="0" />
+			<option name="Unshielded" value="1" />
+			<option name="All" value="2" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<enum16 name="Screen Flash / Type" offset="0x4" visible="true">
+			<option name="None" value="0" />
+			<option name="Lighten" value="1" />
+			<option name="Darken" value="2" />
+			<option name="Max" value="3" />
+			<option name="Min" value="4" />
+			<option name="Invert" value="5" />
+			<option name="Tint" value="6" />
+		</enum16>
+		<enum16 name="Screen Flash / Priority" offset="0x6" visible="true">
+			<option name="Low" value="0" />
+			<option name="Medium" value="1" />
+			<option name="High" value="2" />
+		</enum16>
+		<float32 name="Screen Flash / Duration" offset="0x8" visible="true" />
+		<enum16 name="Screen Flash / Fade Function" offset="0xC" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Screen Flash / Padding 0" offset="0xE" visible="false" />
+		<uint8 name="Screen Flash / Padding 1" offset="0xF" visible="false" />
+		<float32 name="Screen Flash / Maximum Intensity" offset="0x10" visible="true" />
+		<colorf name="Screen Flash / Color" offset="0x14" alpha="true" visible="true" />
+		<float32 name="Rumble / Low Frequency Rumble Duration" offset="0x24" visible="true" />
+		<dataref name="Rumble / Low Frequency Rumble Function / Data" offset="0x28" visible="true" />
+		<float32 name="Rumble / High Frequency Rumble Duration" offset="0x3C" visible="true" />
+		<dataref name="Rumble / High Frequency Rumble Function / Data" offset="0x40" visible="true" />
+		<stringid name="Sound Effect / Effect Name" offset="0x54" visible="true" />
+		<float32 name="Sound Effect / Duration" offset="0x58" visible="true" />
+		<dataref name="Sound Effect / Effect Scale Function / Data" offset="0x5C" visible="true" />
+	</tagblock>
+	<tagref name="Damage Response" offset="0x84" visible="true" />
+	<float32 name="Camera Impulse / Duration" offset="0x94" visible="true" />
+	<enum16 name="Camera Impulse / Fade Function" offset="0x98" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Camera Impulse / Padding 0" offset="0x9A" visible="false" />
+	<uint8 name="Camera Impulse / Padding 1" offset="0x9B" visible="false" />
+	<degree name="Camera Impulse / Rotation" offset="0x9C" visible="true" />
+	<float32 name="Camera Impulse / Pushback" offset="0xA0" visible="true" />
+	<rangef name="Camera Impulse / Jitter" offset="0xA4" visible="true" />
+	<float32 name="Camera Shake / Duration" offset="0xAC" visible="true" />
+	<enum16 name="Camera Shake / Falloff Function" offset="0xB0" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Camera Shake / Padding1 0" offset="0xB2" visible="false" />
+	<uint8 name="Camera Shake / Padding1 1" offset="0xB3" visible="false" />
+	<float32 name="Camera Shake / Random Translation" offset="0xB4" visible="true" />
+	<degree name="Camera Shake / Random Rotation" offset="0xB8" visible="true" />
+	<enum16 name="Camera Shake / Wobble Function" offset="0xBC" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="CosineVariablePeriod" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWaveVariablePeriod" value="5" />
+		<option name="Slide" value="6" />
+		<option name="SlideVariablePeriod" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<uint8 name="Camera Shake / Padding2 0" offset="0xBE" visible="false" />
+	<uint8 name="Camera Shake / Padding2 1" offset="0xBF" visible="false" />
+	<float32 name="Camera Shake / Wobble Function Period" offset="0xC0" visible="true" />
+	<float32 name="Camera Shake / Wobble Weight" offset="0xC4" visible="true" />
+	<tagref name="Sound" offset="0xC8" visible="true" />
+	<float32 name="Breaking Effect / Forward Velocity" offset="0xD8" visible="true" />
+	<float32 name="Breaking Effect / Forward Radius" offset="0xDC" visible="true" />
+	<float32 name="Breaking Effect / Forward Exponent" offset="0xE0" visible="true" />
+	<float32 name="Breaking Effect / Outward Velocity" offset="0xE4" visible="true" />
+	<float32 name="Breaking Effect / Outward Radius" offset="0xE8" visible="true" />
+	<float32 name="Breaking Effect / Outward Exponent" offset="0xEC" visible="true" />
+</plugin>

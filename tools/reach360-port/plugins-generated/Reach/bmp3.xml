@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x5C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiBitmapWidgetDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="ScaleToFitBounds" index="3" />
+		<bit name="RenderAsScreenBlur" index="4" />
+		<bit name="RenderAsPlayerEmblem" index="5" />
+		<bit name="SpriteFromExportedInteger" index="6" />
+		<bit name="SequenceFromExportedInteger" index="7" />
+		<bit name="AttachShaderToExportedInteger" index="8" />
+		<bit name="AllowListItemToOverrideAnimationSkin" index="9" />
+		<bit name="ReplaceWithWhite" index="10" />
+		<bit name="ReplaceWithBlack" index="11" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<tagref name="Bitmap" offset="0x2C" visible="true" />
+	<tagref name="Custom Pixel Shader" offset="0x3C" visible="true" />
+	<enum16 name="Blend Method" offset="0x4C" visible="true">
+		<option name="Opaque" value="0" />
+		<option name="Additive" value="1" />
+		<option name="Multiply" value="2" />
+		<option name="AlphaBlend" value="3" />
+		<option name="DoubleMultiply" value="4" />
+		<option name="PreMultipliedAlpha" value="5" />
+		<option name="Maximum" value="6" />
+		<option name="MultiplyAdd" value="7" />
+		<option name="AddSrcTimesDstalpha" value="8" />
+		<option name="AddSrcTimesSrcalpha" value="9" />
+		<option name="InverseAlphaBlend" value="10" />
+		<option name="MotionBlurStatic" value="11" />
+		<option name="MotionBlurInhibit" value="12" />
+		<option name="AddSrcTimesSrcalphaAlphaAccum" value="13" />
+	</enum16>
+	<int16 name="Initial Sprite Sequence" offset="0x4E" visible="true" />
+	<int16 name="Initial Sprite Frame" offset="0x50" visible="true" />
+	<uint8 name="Bitmap Widget Definition Alignment Pad 0" offset="0x52" visible="false" />
+	<uint8 name="Bitmap Widget Definition Alignment Pad 1" offset="0x53" visible="false" />
+	<stringid name="Value Override List" offset="0x54" visible="true" />
+	<stringid name="Value Identifier" offset="0x58" visible="true" />
+</plugin>

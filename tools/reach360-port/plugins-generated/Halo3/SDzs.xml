@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x28">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Streamingzoneset (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<point2 name="Resource Subregion Aabb Min" offset="0x0" visible="true" />
+	<vector2 name="Resource Subregion Block Size" offset="0x8" visible="true" />
+	<tagblock name="Streaming Resource Ids" offset="0x10" visible="true" elementSize="0x10">
+		<tagref name="Streaming Reference Tag" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Streaming Resource Subregions" offset="0x1C" visible="true" elementSize="0x1C">
+		<int32 name="Block Offset X" offset="0x0" visible="true" />
+		<int32 name="Block Offset Y" offset="0x4" visible="true" />
+		<float32 name="Min Z" offset="0x8" visible="true" />
+		<float32 name="Max Z" offset="0xC" visible="true" />
+		<tagblock name="Resource Levels" offset="0x10" visible="true" elementSize="0x1">
+			<uint8 name="Streaming Subregion Requested Resolution" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

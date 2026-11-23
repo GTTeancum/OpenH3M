@@ -291,6 +291,23 @@ class MaterialImporter:
         return ([strings.text(cache.u(x)) for x in cache.block(offset + 0x6c, 4)],
                 [strings.text(cache.u(x)) for x in cache.block(offset + 0x48, 4)])
 
+    def disc_shader_templates(self):
+        """Names of every shader template on the original disc maps (cached)."""
+        if getattr(self, '_disc_shader_templates', None) is None:
+            from cache_reader import Cache as _Cache
+            from pathlib import Path
+            names = set()
+            for candidate in sorted(Path(self.native_effect_post.disc_maps).glob('*.map')):
+                if candidate.name in ('shared.map', 'campaign.map'):
+                    continue
+                cache = _Cache(str(candidate))
+                try:
+                    names |= {cache.name(i) for i, t in cache.tags.items() if t['group'] == 'rmt2'}
+                finally:
+                    cache.close()
+            self._disc_shader_templates = names
+        return self._disc_shader_templates
+
     def shader(self, datum):
         s, c, b = self.source, self.target, self.builder
         tag = s.tags[datum & 65535]
@@ -778,6 +795,19 @@ class MaterialImporter:
                     variants[1] = 1
             sky_template = 'shaders\\shader_templates\\_' + '_'.join(map(str, variants[:10]))
             prisoner_template = True
+        if (getattr(self, 'stock_materials', False) and not sky_template and key[0] == 'rmsh'
+                and key[1].startswith('levels'+chr(92))):
+            # Kit-authored level materials set to stock H3 option combinations:
+            # reuse the exact-template/parameter path when the original disc has
+            # that combination; otherwise keep the existing conversion.
+            source_template = s.name(s.u(source_post + 12) & 65535)
+            variants = [int(v) for v in source_template.rsplit(chr(92), 1)[-1].split('_')[1:]]
+            if (source_template.startswith('shaders'+chr(92)+'shader_templates'+chr(92))
+                    and len(variants) == 13 and not any(variants[10:])):
+                candidate = chr(92).join(('shaders', 'shader_templates', '_' + '_'.join(map(str, variants[:10]))))
+                if candidate in self.disc_shader_templates():
+                    sky_template = candidate
+                    prisoner_template = True
         powerhouse_lamp = (source_filename == 's3d_powerhouse.map' and key == (
             'rmsh', r'levels\multi\s3d_powerhouse\shaders\m30_lamp_glass'))
         if powerhouse_lamp:
@@ -1466,7 +1496,7 @@ class MaterialImporter:
             struct.pack_into('>i', root, 56, s.unpack('i', tag['offset'] + 56)[0])
             b.meta[address - b.base:address - b.base + 68] = root
         output_post = bytearray(native_sky_post if sky_template else c.data[post:post + 132])
-        if sky_template and (getattr(self, 'boarding_action', False) or getattr(self, 'battle_canyon_rebuilt', False) or getattr(self, 'haven_draft', False) or battle_static_environment or autoturret_emission or gravlift_emission or source_filename == 's3d_powerhouse.map'):
+        if sky_template and (getattr(self, 'boarding_action', False) or getattr(self, 'battle_canyon_rebuilt', False) or getattr(self, 'haven_draft', False) or (getattr(self, 'stock_materials', False) and prisoner_template) or battle_static_environment or autoturret_emission or gravlift_emission or source_filename == 's3d_powerhouse.map'):
             # Shader routing is reusable, but a donor's material switches are not.
             tm = s.tags[s.u(source_post + 12) & 65535]['offset']
             source_booleans = [self.source_strings.text(s.u(x)) for x in s.block(tm + 96, 4)]

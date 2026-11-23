@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xA8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiScreenWidgetDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="BBackShouldntDisposeScreen" index="3" />
+		<bit name="OverlaysOtherScreens" index="4" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<tagref name="String List" offset="0x2C" visible="true" />
+	<tagref name="Screen Template" offset="0x3C" visible="true" />
+	<stringid name="Initial Button Key Name" offset="0x4C" visible="true" />
+	<tagblock name="Debug Datasources" offset="0x50" visible="true" elementSize="0x10">
+		<tagref name="Data Source Tag" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Group Widgets" offset="0x5C" visible="true" elementSize="0x6C">
+		<tagref name="Template Reference" offset="0x0" visible="true" />
+		<flags32 name="Definition / Flags" offset="0x10" visible="true">
+			<bit name="DoNotApplyOldContentUpscaling" index="0" />
+			<bit name="OverrideTemplateFlags" index="1" />
+			<bit name="EnableAnimationDebugging" index="2" />
+			<bit name="NotLoadedUponInitialization" index="3" />
+			<bit name="Bit4" index="4" />
+			<bit name="Bit5" index="5" />
+		</flags32>
+		<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+		<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+			<option name="UNUSED" value="0" />
+			<option name="Centered" value="1" />
+			<option name="TopEdge" value="2" />
+			<option name="BottomEdge" value="3" />
+			<option name="LeftEdge" value="4" />
+			<option name="RightEdge" value="5" />
+			<option name="TopLeftCorner" value="6" />
+			<option name="TopRightCorner" value="7" />
+			<option name="BottomRightCorner" value="8" />
+			<option name="BottomLeftCorner" value="9" />
+		</enum16>
+		<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+		<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+		<tagblock name="Definition / List Widgets" offset="0x3C" visible="true" elementSize="0x80">
+			<tagref name="Template Reference" offset="0x0" visible="true" />
+			<flags32 name="Definition / Flags" offset="0x10" visible="true">
+				<bit name="DoNotApplyOldContentUpscaling" index="0" />
+				<bit name="OverrideTemplateFlags" index="1" />
+				<bit name="EnableAnimationDebugging" index="2" />
+				<bit name="SubmenuList" index="3" />
+				<bit name="HorizontalList" index="4" />
+				<bit name="ListWraps" index="5" />
+				<bit name="SelectionVisibleWithoutFocus" index="6" />
+				<bit name="Noninteractive" index="7" />
+			</flags32>
+			<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+			<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+				<option name="UNUSED" value="0" />
+				<option name="Centered" value="1" />
+				<option name="TopEdge" value="2" />
+				<option name="BottomEdge" value="3" />
+				<option name="LeftEdge" value="4" />
+				<option name="RightEdge" value="5" />
+				<option name="TopLeftCorner" value="6" />
+				<option name="TopRightCorner" value="7" />
+				<option name="BottomRightCorner" value="8" />
+				<option name="BottomLeftCorner" value="9" />
+			</enum16>
+			<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+			<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+			<stringid name="Definition / Data Source Name" offset="0x3C" visible="true" />
+			<tagref name="Definition / Skin" offset="0x40" visible="true" />
+			<int32 name="Definition / Rows" offset="0x50" visible="true" />
+			<tagblock name="Definition / Items" offset="0x54" visible="true" elementSize="0x30">
+				<flags32 name="Flags" offset="0x0" visible="true">
+					<bit name="DoNotApplyOldContentUpscaling" index="0" />
+					<bit name="OverrideTemplateFlags" index="1" />
+					<bit name="EnableAnimationDebugging" index="2" />
+				</flags32>
+				<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+				<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+					<option name="UNUSED" value="0" />
+					<option name="Centered" value="1" />
+					<option name="TopEdge" value="2" />
+					<option name="BottomEdge" value="3" />
+					<option name="LeftEdge" value="4" />
+					<option name="RightEdge" value="5" />
+					<option name="TopLeftCorner" value="6" />
+					<option name="TopRightCorner" value="7" />
+					<option name="BottomRightCorner" value="8" />
+					<option name="BottomLeftCorner" value="9" />
+				</enum16>
+				<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+				<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+				<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+				<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+				<stringid name="Item Label" offset="0x2C" visible="true" />
+			</tagblock>
+			<tagref name="Definition / Prev Indicator Bitmap" offset="0x60" visible="true" />
+			<tagref name="Definition / Next Indicator Bitmap" offset="0x70" visible="true" />
+		</tagblock>
+		<tagblock name="Definition / Text Widgets" offset="0x48" visible="true" elementSize="0x4C">
+			<tagref name="Template Reference" offset="0x0" visible="true" />
+			<flags32 name="Definition / Flags" offset="0x10" visible="true">
+				<bit name="DoNotApplyOldContentUpscaling" index="0" />
+				<bit name="OverrideTemplateFlags" index="1" />
+				<bit name="EnableAnimationDebugging" index="2" />
+				<bit name="LeftJustify" index="3" />
+				<bit name="RightJustify" index="4" />
+				<bit name="Scrollable" index="5" />
+				<bit name="Uppercase" index="6" />
+				<bit name="StringFromExportedText" index="7" />
+				<bit name="StringFromExportedStringId" index="8" />
+				<bit name="StringFromExportedGlobalStringId" index="9" />
+				<bit name="StringFromExportedInteger" index="10" />
+				<bit name="StringFromListItemLabel" index="11" />
+				<bit name="UseBracketsToIndicateFocus" index="12" />
+				<bit name="LargeTextBuffer255Chars" index="13" />
+				<bit name="ExtralargeTextBuffer" index="14" />
+				<bit name="SingleDropShadow" index="15" />
+				<bit name="NoDropShadow" index="16" />
+				<bit name="AllowListItemToOverrideAnimationSkin" index="17" />
+				<bit name="DoNotWrapText" index="18" />
+			</flags32>
+			<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+			<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+				<option name="UNUSED" value="0" />
+				<option name="Centered" value="1" />
+				<option name="TopEdge" value="2" />
+				<option name="BottomEdge" value="3" />
+				<option name="LeftEdge" value="4" />
+				<option name="RightEdge" value="5" />
+				<option name="TopLeftCorner" value="6" />
+				<option name="TopRightCorner" value="7" />
+				<option name="BottomRightCorner" value="8" />
+				<option name="BottomLeftCorner" value="9" />
+			</enum16>
+			<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+			<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+			<stringid name="Definition / Value Override List" offset="0x3C" visible="true" />
+			<stringid name="Definition / Value Identifier" offset="0x40" visible="true" />
+			<stringid name="Definition / Text Color Preset" offset="0x44" visible="true" />
+			<uint8 name="Definition / Padding1 0" offset="0x48" visible="false" />
+			<uint8 name="Definition / Padding1 1" offset="0x49" visible="false" />
+		</tagblock>
+		<tagblock name="Definition / Bitmap Widgets" offset="0x54" visible="true" elementSize="0x6C">
+			<tagref name="Template Reference" offset="0x0" visible="true" />
+			<flags32 name="Definition / Flags" offset="0x10" visible="true">
+				<bit name="DoNotApplyOldContentUpscaling" index="0" />
+				<bit name="OverrideTemplateFlags" index="1" />
+				<bit name="EnableAnimationDebugging" index="2" />
+				<bit name="ScaleToFitBounds" index="3" />
+				<bit name="RenderAsScreenBlur" index="4" />
+				<bit name="RenderAsPlayerEmblem" index="5" />
+				<bit name="SpriteFromExportedInteger" index="6" />
+				<bit name="SequenceFromExportedInteger" index="7" />
+				<bit name="AttachShaderToExportedInteger" index="8" />
+				<bit name="AllowListItemToOverrideAnimationSkin" index="9" />
+				<bit name="ReplaceWithWhite" index="10" />
+				<bit name="ReplaceWithBlack" index="11" />
+			</flags32>
+			<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+			<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+				<option name="UNUSED" value="0" />
+				<option name="Centered" value="1" />
+				<option name="TopEdge" value="2" />
+				<option name="BottomEdge" value="3" />
+				<option name="LeftEdge" value="4" />
+				<option name="RightEdge" value="5" />
+				<option name="TopLeftCorner" value="6" />
+				<option name="TopRightCorner" value="7" />
+				<option name="BottomRightCorner" value="8" />
+				<option name="BottomLeftCorner" value="9" />
+			</enum16>
+			<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+			<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+			<tagref name="Definition / Bitmap" offset="0x3C" visible="true" />
+			<tagref name="Definition / Custom Pixel Shader" offset="0x4C" visible="true" />
+			<enum16 name="Definition / Blend Method" offset="0x5C" visible="true">
+				<option name="Opaque" value="0" />
+				<option name="Additive" value="1" />
+				<option name="Multiply" value="2" />
+				<option name="AlphaBlend" value="3" />
+				<option name="DoubleMultiply" value="4" />
+				<option name="PreMultipliedAlpha" value="5" />
+				<option name="Maximum" value="6" />
+				<option name="MultiplyAdd" value="7" />
+				<option name="AddSrcTimesDstalpha" value="8" />
+				<option name="AddSrcTimesSrcalpha" value="9" />
+				<option name="InverseAlphaBlend" value="10" />
+				<option name="MotionBlurStatic" value="11" />
+				<option name="MotionBlurInhibit" value="12" />
+				<option name="AddSrcTimesSrcalphaAlphaAccum" value="13" />
+			</enum16>
+			<int16 name="Definition / Initial Sprite Sequence" offset="0x5E" visible="true" />
+			<int16 name="Definition / Initial Sprite Frame" offset="0x60" visible="true" />
+			<uint8 name="Definition / Bitmap Widget Definition Alignment Pad 0" offset="0x62" visible="false" />
+			<uint8 name="Definition / Bitmap Widget Definition Alignment Pad 1" offset="0x63" visible="false" />
+			<stringid name="Definition / Value Override List" offset="0x64" visible="true" />
+			<stringid name="Definition / Value Identifier" offset="0x68" visible="true" />
+		</tagblock>
+		<tagblock name="Definition / Model Widgets" offset="0x60" visible="true" elementSize="0x94">
+			<tagref name="Template Reference" offset="0x0" visible="true" />
+			<flags32 name="Definition / Flags" offset="0x10" visible="true">
+				<bit name="DoNotApplyOldContentUpscaling" index="0" />
+				<bit name="OverrideTemplateFlags" index="1" />
+				<bit name="EnableAnimationDebugging" index="2" />
+				<bit name="AllowListItemToOverrideAnimationSkin" index="3" />
+			</flags32>
+			<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+			<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+				<option name="UNUSED" value="0" />
+				<option name="Centered" value="1" />
+				<option name="TopEdge" value="2" />
+				<option name="BottomEdge" value="3" />
+				<option name="LeftEdge" value="4" />
+				<option name="RightEdge" value="5" />
+				<option name="TopLeftCorner" value="6" />
+				<option name="TopRightCorner" value="7" />
+				<option name="BottomRightCorner" value="8" />
+				<option name="BottomLeftCorner" value="9" />
+			</enum16>
+			<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+			<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+			<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+			<tagblock name="Definition / Camera Settings" offset="0x3C" visible="true" elementSize="0xA0">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<point3 name="Model World Position" offset="0x4" visible="true" />
+				<point3 name="Minimum World Position" offset="0x10" visible="true" />
+				<point3 name="Maximum World Position" offset="0x1C" visible="true" />
+				<point3 name="Minimum Camera Offset" offset="0x28" visible="true" />
+				<point3 name="Minimum Camera Focal Offset" offset="0x34" visible="true" />
+				<point3 name="Maximum Camera Offset" offset="0x40" visible="true" />
+				<point3 name="Maximum Camera Focal Offset" offset="0x4C" visible="true" />
+				<float32 name="Initial Zoom" offset="0x58" visible="true" />
+				<float32 name="Movement Speed" offset="0x5C" visible="true" />
+				<float32 name="Magnetism Constant" offset="0x60" visible="true" />
+				<tagblock name="Radial Transition Fxn" offset="0x64" visible="true" elementSize="0x14">
+					<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+				</tagblock>
+				<degree2 name="Initial Rotation" offset="0x70" visible="true" />
+				<degree2 name="Minimum Rotation" offset="0x78" visible="true" />
+				<degree2 name="Maximum Rotation" offset="0x80" visible="true" />
+				<float32 name="Rotation Speed" offset="0x88" visible="true" />
+				<tagref name="Model" offset="0x8C" visible="true" />
+				<stringid name="Variant" offset="0x9C" visible="true" />
+			</tagblock>
+			<colorf name="Definition / Model Widget Globals / Tron Shader Color" offset="0x48" alpha="true" visible="true" />
+			<float32 name="Definition / Model Widget Globals / Tron Shader Intensity" offset="0x58" visible="true" />
+			<float32 name="Definition / Model Widget Globals / FOV" offset="0x5C" visible="true" />
+			<float32 name="Definition / Model Widget Globals / Zoom Speed" offset="0x60" visible="true" />
+			<tagblock name="Definition / Model Widget Globals / Zoom Transition Function" offset="0x64" visible="true" elementSize="0x14">
+				<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+			</tagblock>
+			<enum16 name="Definition / Model Widget Globals / Movement Left" offset="0x70" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Movement Right" offset="0x72" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Movement Up" offset="0x74" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Movement Down" offset="0x76" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Unknown16" offset="0x78" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Unknown17" offset="0x7A" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Zoom In" offset="0x7C" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Zoom Out" offset="0x7E" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Rotate Left" offset="0x80" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Rotate Right" offset="0x82" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Rotate Up" offset="0x84" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<enum16 name="Definition / Model Widget Globals / Rotate Down" offset="0x86" visible="true">
+				<option name="LeftTrigger" value="0" />
+				<option name="RightTrigger" value="1" />
+				<option name="DpadUp" value="2" />
+				<option name="DpadDown" value="3" />
+				<option name="DpadLeft" value="4" />
+				<option name="DpadRight" value="5" />
+				<option name="Start" value="6" />
+				<option name="Back" value="7" />
+				<option name="LeftThumb" value="8" />
+				<option name="RightThumb" value="9" />
+				<option name="ButtonA" value="10" />
+				<option name="ButtonB" value="11" />
+				<option name="ButtonX" value="12" />
+				<option name="ButtonY" value="13" />
+				<option name="LeftBumper" value="14" />
+				<option name="RightBumper" value="15" />
+				<option name="LeftStickLeft" value="16" />
+				<option name="LeftStickRight" value="17" />
+				<option name="LeftStickUp" value="18" />
+				<option name="LeftStickDown" value="19" />
+				<option name="RightStickLeft" value="20" />
+				<option name="RightStickRight" value="21" />
+				<option name="RightStickUp" value="22" />
+				<option name="RightStickDown" value="23" />
+				<option name="Unknown" value="24" />
+			</enum16>
+			<tagblock name="Definition / Texture Camera Slices" offset="0x88" visible="true" elementSize="0x14">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<float32 name="Left" offset="0x4" visible="true" />
+				<float32 name="Right" offset="0x8" visible="true" />
+				<float32 name="Top" offset="0xC" visible="true" />
+				<float32 name="Bottom" offset="0x10" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Button Keys" offset="0x68" visible="true" elementSize="0x10">
+		<tagref name="Definition" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Sound Overrides" offset="0x74" visible="true" />
+	<ascii name="On Load Script Name" offset="0x84" visible="true" size="0x20" />
+	<int16 name="Script Index" offset="0xA4" visible="true" />
+	<uint8 name="Scary 0" offset="0xA6" visible="false" />
+	<uint8 name="Scary 1" offset="0xA7" visible="false" />
+</plugin>

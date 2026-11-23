@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.WaveTemplate (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Squad Specifications" offset="0x0" visible="true" elementSize="0x1C">
+		<tagref name="Squad Template" offset="0x0" visible="true" />
+		<flags16 name="Spawn Conditions / Difficulty Flags" offset="0x10" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Normal" index="1" />
+			<bit name="Heroic" index="2" />
+			<bit name="Legendary" index="3" />
+		</flags16>
+		<uint8 name="Spawn Conditions / Padding 0" offset="0x12" visible="false" />
+		<uint8 name="Spawn Conditions / Padding 1" offset="0x13" visible="false" />
+		<int16 name="Weight" offset="0x14" visible="true" />
+		<int8 name="Min Spawn" offset="0x16" visible="true" />
+		<int8 name="Max Spawn" offset="0x17" visible="true" />
+		<enum32 name="Placement Filter" offset="0x18" visible="true">
+			<option name="None" value="0" />
+			<option name="HeavyInfantry" value="1" />
+			<option name="BossInfantry" value="2" />
+			<option name="LightVehicle" value="3" />
+			<option name="HeavyVehicle" value="4" />
+			<option name="FlyingInfantry" value="5" />
+			<option name="FlyingVehicle" value="6" />
+			<option name="Bonus" value="7" />
+		</enum32>
+	</tagblock>
+</plugin>

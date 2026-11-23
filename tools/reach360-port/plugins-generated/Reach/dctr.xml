@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x100">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.DecoratorSet (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Render Model" offset="0x0" visible="true" />
+	<tagref name="Lod2" offset="0x10" visible="true" />
+	<tagref name="Lod3" offset="0x20" visible="true" />
+	<tagref name="Lod4" offset="0x30" visible="true" />
+	<tagblock name="Render Model Instance Names" offset="0x40" visible="true" elementSize="0x4">
+		<stringid name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Valid Render Model Instance Name Count" offset="0x4C" visible="true" />
+	<tagref name="Texture" offset="0x50" visible="true" />
+	<flags8 name="Render Flags" offset="0x60" visible="true">
+		<bit name="RenderTwoSided" index="0" />
+		<bit name="DontSampleLightThroughGeometry" index="1" />
+		<bit name="EnabledViaPreferences" index="2" />
+		<bit name="Bit3" index="3" />
+		<bit name="Bit4" index="4" />
+		<bit name="Bit5" index="5" />
+		<bit name="Bit6" index="6" />
+		<bit name="Bit7" index="7" />
+	</flags8>
+	<enum8 name="Render Shader Reach" offset="0x61" visible="true">
+		<option name="BillboardWindDynamicLights" value="0" />
+		<option name="BillboardDynamicLights" value="1" />
+		<option name="SolidMeshDynamicLights" value="2" />
+		<option name="SolidMesh" value="3" />
+		<option name="UnderwaterDynamicLights" value="4" />
+		<option name="VolumetricBillboardDynamicLights" value="5" />
+		<option name="VolumetricBillboardWindDynamicLights" value="6" />
+	</enum8>
+	<enum8 name="Light Sampling Pattern" offset="0x62" visible="true">
+		<option name="GroundDefault" value="0" />
+		<option name="Hanging" value="1" />
+	</enum8>
+	<uint8 name="Version" offset="0x63" visible="true" />
+	<colorf name="Translucency ABC" offset="0x64" alpha="false" visible="true" />
+	<float32 name="Translucency" offset="0x70" visible="true" />
+	<rangef name="Wavelength XY" offset="0x74" visible="true" />
+	<float32 name="Wave Speed" offset="0x7C" visible="true" />
+	<float32 name="Wave Frequency" offset="0x80" visible="true" />
+	<float32 name="Shaded Dark" offset="0x84" visible="true" />
+	<float32 name="Shaded Bright" offset="0x88" visible="true" />
+	<uint8 name="Padding1 0" offset="0x8C" visible="false" />
+	<uint8 name="Padding1 1" offset="0x8D" visible="false" />
+	<uint8 name="Padding1 2" offset="0x8E" visible="false" />
+	<uint8 name="Padding1 3" offset="0x8F" visible="false" />
+	<uint8 name="Padding1 4" offset="0x90" visible="false" />
+	<uint8 name="Padding1 5" offset="0x91" visible="false" />
+	<uint8 name="Padding1 6" offset="0x92" visible="false" />
+	<uint8 name="Padding1 7" offset="0x93" visible="false" />
+	<float32 name="Lod Settings / Early Cull" offset="0x94" visible="true" />
+	<float32 name="Lod Settings / Cull Block Size" offset="0x98" visible="true" />
+	<float32 name="Lod Settings / Decimation Speed" offset="0x9C" visible="true" />
+	<float32 name="Lod Settings / Decimation Start Distance" offset="0xA0" visible="true" />
+	<float32 name="Lod Settings / Decimate To" offset="0xA4" visible="true" />
+	<float32 name="Lod Settings / Decimation Start" offset="0xA8" visible="true" />
+	<float32 name="Lod Settings / Decimation End" offset="0xAC" visible="true" />
+	<int32 name="Lod Settings / Max Valid Lod" offset="0xB0" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 0 / Start Point" offset="0xB4" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 0 / End Point" offset="0xB8" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 0 / Scale" offset="0xBC" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 0 / Offset" offset="0xC0" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 1 / Start Point" offset="0xC4" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 1 / End Point" offset="0xC8" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 1 / Scale" offset="0xCC" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 1 / Offset" offset="0xD0" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 2 / Start Point" offset="0xD4" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 2 / End Point" offset="0xD8" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 2 / Scale" offset="0xDC" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 2 / Offset" offset="0xE0" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 3 / Start Point" offset="0xE4" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 3 / End Point" offset="0xE8" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 3 / Scale" offset="0xEC" visible="true" />
+	<float32 name="Lod Settings / Transitions Reach 3 / Offset" offset="0xF0" visible="true" />
+	<tagblock name="Decorator Types" offset="0xF4" visible="true" elementSize="0x64">
+		<int32 name="Index" offset="0x0" visible="true" />
+		<int32 name="Mesh" offset="0x4" visible="true" />
+		<flags32 name="Flags" offset="0x8" visible="true">
+			<bit name="OnlyOnGround" index="0" />
+			<bit name="RandomRotation" index="1" />
+			<bit name="RotateXAxisDown" index="2" />
+			<bit name="AlignToNormal" index="3" />
+			<bit name="AlignRandom" index="4" />
+		</flags32>
+		<float32 name="Scale Min" offset="0xC" visible="true" />
+		<float32 name="Scale Max" offset="0x10" visible="true" />
+		<float32 name="Tilt Min" offset="0x14" visible="true" />
+		<float32 name="Tilt Max" offset="0x18" visible="true" />
+		<float32 name="Wind Min" offset="0x1C" visible="true" />
+		<float32 name="Wind Max" offset="0x20" visible="true" />
+		<colorf name="Color0" offset="0x24" alpha="false" visible="true" />
+		<colorf name="Color1" offset="0x30" alpha="false" visible="true" />
+		<colorf name="Color2" offset="0x3C" alpha="false" visible="true" />
+		<float32 name="Ground Tint Min" offset="0x48" visible="true" />
+		<float32 name="Ground Tint Max" offset="0x4C" visible="true" />
+		<float32 name="Hover Min" offset="0x50" visible="true" />
+		<float32 name="Hover Max" offset="0x54" visible="true" />
+		<float32 name="Minimum Distance Between Decorators" offset="0x58" visible="true" />
+		<float32 name="Placement Weight" offset="0x5C" visible="true" />
+		<float32 name="Postprocessed Weight" offset="0x60" visible="true" />
+	</tagblock>
+</plugin>

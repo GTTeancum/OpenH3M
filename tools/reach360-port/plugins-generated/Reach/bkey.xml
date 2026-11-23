@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x54">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiButtonKeyDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="InitiallyVisible" index="3" />
+		<bit name="Bit4" index="4" />
+		<bit name="Bit5" index="5" />
+		<bit name="Bit6" index="6" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<tagref name="Strings" offset="0x2C" visible="true" />
+	<tagblock name="Text Widgets" offset="0x3C" visible="true" elementSize="0x4C">
+		<tagref name="Template Reference" offset="0x0" visible="true" />
+		<flags32 name="Definition / Flags" offset="0x10" visible="true">
+			<bit name="DoNotApplyOldContentUpscaling" index="0" />
+			<bit name="OverrideTemplateFlags" index="1" />
+			<bit name="EnableAnimationDebugging" index="2" />
+			<bit name="LeftJustify" index="3" />
+			<bit name="RightJustify" index="4" />
+			<bit name="Scrollable" index="5" />
+			<bit name="Uppercase" index="6" />
+			<bit name="StringFromExportedText" index="7" />
+			<bit name="StringFromExportedStringId" index="8" />
+			<bit name="StringFromExportedGlobalStringId" index="9" />
+			<bit name="StringFromExportedInteger" index="10" />
+			<bit name="StringFromListItemLabel" index="11" />
+			<bit name="UseBracketsToIndicateFocus" index="12" />
+			<bit name="LargeTextBuffer255Chars" index="13" />
+			<bit name="ExtralargeTextBuffer" index="14" />
+			<bit name="SingleDropShadow" index="15" />
+			<bit name="NoDropShadow" index="16" />
+			<bit name="AllowListItemToOverrideAnimationSkin" index="17" />
+			<bit name="DoNotWrapText" index="18" />
+		</flags32>
+		<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+		<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+			<option name="UNUSED" value="0" />
+			<option name="Centered" value="1" />
+			<option name="TopEdge" value="2" />
+			<option name="BottomEdge" value="3" />
+			<option name="LeftEdge" value="4" />
+			<option name="RightEdge" value="5" />
+			<option name="TopLeftCorner" value="6" />
+			<option name="TopRightCorner" value="7" />
+			<option name="BottomRightCorner" value="8" />
+			<option name="BottomLeftCorner" value="9" />
+		</enum16>
+		<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+		<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+		<stringid name="Definition / Value Override List" offset="0x3C" visible="true" />
+		<stringid name="Definition / Value Identifier" offset="0x40" visible="true" />
+		<stringid name="Definition / Text Color Preset" offset="0x44" visible="true" />
+		<uint8 name="Definition / Padding1 0" offset="0x48" visible="false" />
+		<uint8 name="Definition / Padding1 1" offset="0x49" visible="false" />
+	</tagblock>
+	<tagblock name="Bitmap Widgets" offset="0x48" visible="true" elementSize="0x6C">
+		<tagref name="Template Reference" offset="0x0" visible="true" />
+		<flags32 name="Definition / Flags" offset="0x10" visible="true">
+			<bit name="DoNotApplyOldContentUpscaling" index="0" />
+			<bit name="OverrideTemplateFlags" index="1" />
+			<bit name="EnableAnimationDebugging" index="2" />
+			<bit name="ScaleToFitBounds" index="3" />
+			<bit name="RenderAsScreenBlur" index="4" />
+			<bit name="RenderAsPlayerEmblem" index="5" />
+			<bit name="SpriteFromExportedInteger" index="6" />
+			<bit name="SequenceFromExportedInteger" index="7" />
+			<bit name="AttachShaderToExportedInteger" index="8" />
+			<bit name="AllowListItemToOverrideAnimationSkin" index="9" />
+			<bit name="ReplaceWithWhite" index="10" />
+			<bit name="ReplaceWithBlack" index="11" />
+		</flags32>
+		<stringid name="Definition / Gui Render Block / Name" offset="0x14" visible="true" />
+		<enum16 name="Definition / Gui Render Block / Scaled Positioning" offset="0x18" visible="true">
+			<option name="UNUSED" value="0" />
+			<option name="Centered" value="1" />
+			<option name="TopEdge" value="2" />
+			<option name="BottomEdge" value="3" />
+			<option name="LeftEdge" value="4" />
+			<option name="RightEdge" value="5" />
+			<option name="TopLeftCorner" value="6" />
+			<option name="TopRightCorner" value="7" />
+			<option name="BottomRightCorner" value="8" />
+			<option name="BottomLeftCorner" value="9" />
+		</enum16>
+		<int16 name="Definition / Gui Render Block / Render Depth Bias" offset="0x1A" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds720p" offset="0x1C" visible="true" />
+		<rect16 name="Definition / Gui Render Block / Bounds480i" offset="0x24" visible="true" />
+		<tagref name="Definition / Gui Render Block / Animation Collection" offset="0x2C" visible="true" />
+		<tagref name="Definition / Bitmap" offset="0x3C" visible="true" />
+		<tagref name="Definition / Custom Pixel Shader" offset="0x4C" visible="true" />
+		<enum16 name="Definition / Blend Method" offset="0x5C" visible="true">
+			<option name="Opaque" value="0" />
+			<option name="Additive" value="1" />
+			<option name="Multiply" value="2" />
+			<option name="AlphaBlend" value="3" />
+			<option name="DoubleMultiply" value="4" />
+			<option name="PreMultipliedAlpha" value="5" />
+			<option name="Maximum" value="6" />
+			<option name="MultiplyAdd" value="7" />
+			<option name="AddSrcTimesDstalpha" value="8" />
+			<option name="AddSrcTimesSrcalpha" value="9" />
+			<option name="InverseAlphaBlend" value="10" />
+			<option name="MotionBlurStatic" value="11" />
+			<option name="MotionBlurInhibit" value="12" />
+			<option name="AddSrcTimesSrcalphaAlphaAccum" value="13" />
+		</enum16>
+		<int16 name="Definition / Initial Sprite Sequence" offset="0x5E" visible="true" />
+		<int16 name="Definition / Initial Sprite Frame" offset="0x60" visible="true" />
+		<uint8 name="Definition / Bitmap Widget Definition Alignment Pad 0" offset="0x62" visible="false" />
+		<uint8 name="Definition / Bitmap Widget Definition Alignment Pad 1" offset="0x63" visible="false" />
+		<stringid name="Definition / Value Override List" offset="0x64" visible="true" />
+		<stringid name="Definition / Value Identifier" offset="0x68" visible="true" />
+	</tagblock>
+</plugin>

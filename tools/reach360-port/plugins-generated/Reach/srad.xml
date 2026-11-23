@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SoundRadioSettings (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<enum32 name="Mix" offset="0x0" visible="true">
+		<option name="Full" value="0" />
+		<option name="_3d" value="1" />
+		<option name="None" value="2" />
+	</enum32>
+	<int32 name="Distortion Settings / Table Size" offset="0x4" visible="true" />
+	<float32 name="Distortion Settings / Noise Amount" offset="0x8" visible="true" />
+	<flags32 name="Distortion Settings / Flags" offset="0xC" visible="true">
+		<bit name="Interpolate" index="0" />
+	</flags32>
+	<float32 name="Equalizer Settings / Input Gain" offset="0x10" visible="true" />
+	<float32 name="Equalizer Settings / Output Gain" offset="0x14" visible="true" />
+	<tagblock name="Equalizer Settings / Band Settings" offset="0x18" visible="true" elementSize="0x10">
+		<enum32 name="Type" offset="0x0" visible="true">
+			<option name="BandPass" value="0" />
+			<option name="LowShelf" value="1" />
+			<option name="HighShelf" value="2" />
+			<option name="LowPass" value="3" />
+			<option name="HighPass" value="4" />
+		</enum32>
+		<float32 name="Frequency" offset="0x4" visible="true" />
+		<float32 name="Gain" offset="0x8" visible="true" />
+		<float32 name="Q" offset="0xC" visible="true" />
+	</tagblock>
+</plugin>

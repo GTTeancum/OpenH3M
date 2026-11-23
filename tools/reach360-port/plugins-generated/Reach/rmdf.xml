@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x15C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.RenderMethodDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Global Options" offset="0x0" visible="true" />
+	<tagblock name="Categories" offset="0x10" visible="true" elementSize="0x18">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Shader Options" offset="0x4" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagref name="Option" offset="0x4" visible="true" />
+			<stringid name="Vertex Function" offset="0x14" visible="true" />
+			<stringid name="Pixel Function" offset="0x18" visible="true" />
+		</tagblock>
+		<stringid name="Vertex Function" offset="0x10" visible="true" />
+		<stringid name="Pixel Function" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Entry Points" offset="0x1C" visible="true" elementSize="0x10">
+		<enum32 name="Entry Point Reach" offset="0x0" visible="true">
+			<option name="Default" value="0" />
+			<option name="Albedo" value="1" />
+			<option name="Static_Default" value="2" />
+			<option name="Static_Per_Pixel" value="3" />
+			<option name="Static_Per_Vertex" value="4" />
+			<option name="Static_Sh" value="5" />
+			<option name="Static_Prt_Ambient" value="6" />
+			<option name="Static_Prt_Linear" value="7" />
+			<option name="Static_Prt_Quadratic" value="8" />
+			<option name="Dynamic_Light" value="9" />
+			<option name="Shadow_Generate" value="10" />
+			<option name="Shadow_Apply" value="11" />
+			<option name="Active_Camo" value="12" />
+			<option name="Lightmap_Debug_Mode" value="13" />
+			<option name="Static_Per_Vertex_Color" value="14" />
+			<option name="Water_Tessellation" value="15" />
+			<option name="Water_Shading" value="16" />
+			<option name="Dynamic_Light_Cinematic" value="17" />
+			<option name="Single_Pass_Per_Pixel" value="18" />
+			<option name="Single_Pass_Per_Vertex" value="19" />
+			<option name="Single_Pass_Single_Probe" value="20" />
+			<option name="Single_Pass_Single_Probe_Ambient" value="21" />
+			<option name="Imposter_Static_Sh" value="22" />
+			<option name="Imposter_Static_Prt_Ambient" value="23" />
+		</enum32>
+		<tagblock name="Passes" offset="0x4" visible="true" elementSize="0x1C">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="HasSharedPixelShader" index="0" />
+			</flags16>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Category Dependencies" offset="0x4" visible="true" elementSize="0x2">
+				<uint16 name="Category" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Shared VS Category Dependencies" offset="0x10" visible="true" elementSize="0x2">
+				<uint16 name="Category" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Vertex Types" offset="0x28" visible="true" elementSize="0x4">
+		<enum16 name="Vertex Type" offset="0x0" visible="true">
+			<option name="World" value="0" />
+			<option name="Rigid" value="1" />
+			<option name="Skinned" value="2" />
+			<option name="ParticleModel" value="3" />
+			<option name="FlatWorld" value="4" />
+			<option name="FlatRigid" value="5" />
+			<option name="FlatSkinned" value="6" />
+			<option name="Screen" value="7" />
+			<option name="Debug" value="8" />
+			<option name="Transparent" value="9" />
+			<option name="Particle" value="10" />
+			<option name="Contrail" value="11" />
+			<option name="LightVolume" value="12" />
+			<option name="SimpleChud" value="13" />
+			<option name="FancyChud" value="14" />
+			<option name="Decorator" value="15" />
+			<option name="TinyPosition" value="16" />
+			<option name="PatchyFog" value="17" />
+			<option name="Water" value="18" />
+			<option name="Ripple" value="19" />
+			<option name="Implicit" value="20" />
+			<option name="Beam" value="21" />
+			<option name="DualQuat" value="22" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+	</tagblock>
+	<tagref name="Global Pixel Shader" offset="0x34" visible="true" />
+	<tagref name="Global Vertex Shader" offset="0x44" visible="true" />
+	<flags32 name="Flags" offset="0x54" visible="true">
+		<bit name="UseAutomaticMacros" index="0" />
+	</flags32>
+	<uint32 name="Version" offset="0x58" visible="true" />
+	<ascii name="Location" offset="0x5C" visible="true" size="0x100" />
+</plugin>

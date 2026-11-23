@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Resources.BitmapTextureInterleavedInteropResource (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<dataref name="Texture / Definition / Primary Resource Data" offset="0x0" visible="true" />
+	<dataref name="Texture / Definition / Secondary Resource Data" offset="0x14" visible="true" />
+	<int16 name="Texture / Definition / Bitmap1 / Width" offset="0x28" visible="true" />
+	<int16 name="Texture / Definition / Bitmap1 / Height" offset="0x2A" visible="true" />
+	<uint8 name="Texture / Definition / Bitmap1 / Depth" offset="0x2C" visible="true" />
+	<int8 name="Texture / Definition / Bitmap1 / Mipmap Count" offset="0x2D" visible="true" />
+	<enum8 name="Texture / Definition / Bitmap1 / Bitmap Type" offset="0x2E" visible="true">
+		<option name="Texture2D" value="0" />
+		<option name="Texture3D" value="1" />
+		<option name="CubeMap" value="2" />
+		<option name="Array" value="3" />
+	</enum8>
+	<uint8 name="Texture / Definition / Bitmap1 / High Res In Secondary Resource" offset="0x2F" visible="true" />
+	<int32 name="Texture / Definition / Bitmap1 / Exponent Bias" offset="0x30" visible="true" />
+	<int32 name="Texture / Definition / Bitmap1 / D3D Format" offset="0x34" visible="true" />
+	<int16 name="Texture / Definition / Bitmap2 / Width" offset="0x38" visible="true" />
+	<int16 name="Texture / Definition / Bitmap2 / Height" offset="0x3A" visible="true" />
+	<uint8 name="Texture / Definition / Bitmap2 / Depth" offset="0x3C" visible="true" />
+	<int8 name="Texture / Definition / Bitmap2 / Mipmap Count" offset="0x3D" visible="true" />
+	<enum8 name="Texture / Definition / Bitmap2 / Bitmap Type" offset="0x3E" visible="true">
+		<option name="Texture2D" value="0" />
+		<option name="Texture3D" value="1" />
+		<option name="CubeMap" value="2" />
+		<option name="Array" value="3" />
+	</enum8>
+	<uint8 name="Texture / Definition / Bitmap2 / High Res In Secondary Resource" offset="0x3F" visible="true" />
+	<int32 name="Texture / Definition / Bitmap2 / Exponent Bias" offset="0x40" visible="true" />
+	<int32 name="Texture / Definition / Bitmap2 / D3D Format" offset="0x44" visible="true" />
+	<enum32 name="Texture / Address Type" offset="0x48" visible="true">
+		<option name="Memory" value="0" />
+		<option name="Definition" value="1" />
+		<option name="Data" value="2" />
+		<option name="SecondaryData" value="3" />
+		<option name="TertiaryData" value="4" />
+	</enum32>
+</plugin>

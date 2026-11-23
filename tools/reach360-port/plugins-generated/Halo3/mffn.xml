@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x38">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Muffin (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Render Model" offset="0x0" visible="true" />
+	<tagblock name="Render Model Permutation Names" offset="0x10" visible="true" elementSize="0x4">
+		<stringid name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Render Model Permutation Name Valid Count" offset="0x1C" visible="true" />
+	<tagblock name="Muffin Locations" offset="0x20" visible="true" elementSize="0x8">
+		<stringid name="Location Name" offset="0x0" visible="true" />
+		<int16 name="Muffinage Chance" offset="0x4" visible="true" />
+		<flags16 name="Allowed Muffin Types" offset="0x6" visible="true">
+			<bit name="Muffin0" index="0" />
+			<bit name="Muffin1" index="1" />
+			<bit name="Muffin2" index="2" />
+			<bit name="Muffin3" index="3" />
+			<bit name="Muffin4" index="4" />
+			<bit name="Muffin5" index="5" />
+			<bit name="Muffin6" index="6" />
+			<bit name="Muffin7" index="7" />
+			<bit name="Muffin8" index="8" />
+			<bit name="Muffin9" index="9" />
+			<bit name="Muffin10" index="10" />
+			<bit name="Muffin11" index="11" />
+			<bit name="Muffin12" index="12" />
+			<bit name="Muffin13" index="13" />
+			<bit name="Muffin14" index="14" />
+			<bit name="Muffin15" index="15" />
+		</flags16>
+	</tagblock>
+	<tagblock name="Muffin Types" offset="0x2C" visible="true" elementSize="0x70">
+		<int16 name="Mesh Index" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x2" visible="true">
+			<bit name="DebugDisable" index="0" />
+			<bit name="JumpToMarkerOnTransition" index="1" />
+		</flags16>
+		<rangef name="Spawn Delay" offset="0x4" visible="true" />
+		<rangef name="Initial Scale" offset="0xC" visible="true" />
+		<dataref name="Initial Growth / Data" offset="0x14" visible="true" />
+		<float32 name="Growth Time" offset="0x28" visible="true" />
+		<dataref name="Periodic Noise / Data" offset="0x2C" visible="true" />
+		<float32 name="Jiggle" offset="0x40" visible="true" />
+		<float32 name="Jiggle Spring Length" offset="0x44" visible="true" />
+		<float32 name="Jiggle Spring Strength" offset="0x48" visible="true" />
+		<float32 name="Jiggle Velocity Dampening" offset="0x4C" visible="true" />
+		<float32 name="Jiggle Max Velocity" offset="0x50" visible="true" />
+		<rangef name="Lifetime" offset="0x54" visible="true" />
+		<float32 name="Immortality Chance" offset="0x5C" visible="true" />
+		<tagref name="Effect" offset="0x60" visible="true" />
+	</tagblock>
+</plugin>

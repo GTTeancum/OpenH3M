@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xB0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SsaoDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<enum8 name="Downsample" offset="0x0" visible="true">
+		<option name="BlockDownsample" value="0" />
+		<option name="CloverDownsample" value="1" />
+	</enum8>
+	<enum8 name="Ssao Type" offset="0x1" visible="true">
+		<option name="Off" value="0" />
+		<option name="HdaoLarge32Sample" value="1" />
+		<option name="HdaoLarge64Predicated" value="2" />
+		<option name="HdaoSmall24Sample" value="3" />
+		<option name="HdaoScreenshot" value="4" />
+		<option name="DebugMask" value="5" />
+		<option name="SsaoMidnight16Sample" value="6" />
+	</enum8>
+	<uint8 name="Version" offset="0x2" visible="true" />
+	<uint8 name="Padding 0" offset="0x3" visible="false" />
+	<float32 name="Hdao Ambient Shadow" offset="0x4" visible="true" />
+	<float32 name="Hdao Point Shadow" offset="0x8" visible="true" />
+	<float32 name="Sharp Ambient Shadow" offset="0xC" visible="true" />
+	<float32 name="Sharp Point Shadow" offset="0x10" visible="true" />
+	<float32 name="Max Intensity" offset="0x14" visible="true" />
+	<float32 name="Min Intensity" offset="0x18" visible="true" />
+	<float32 name="Falloff Width" offset="0x1C" visible="true" />
+	<float32 name="Corner Scale" offset="0x20" visible="true" />
+	<float32 name="Corner Bias" offset="0x24" visible="true" />
+	<float32 name="Bounds Scale" offset="0x28" visible="true" />
+	<float32 name="Bounds Offset" offset="0x2C" visible="true" />
+	<float32 name="Near Clip" offset="0x30" visible="true" />
+	<float32 name="Near Fade Width" offset="0x34" visible="true" />
+	<float32 name="Far Clip" offset="0x38" visible="true" />
+	<float32 name="Far Fade Width" offset="0x3C" visible="true" />
+	<colorf name="Runtime Data0" offset="0x40" alpha="true" visible="true" />
+	<colorf name="Runtime Data1" offset="0x50" alpha="true" visible="true" />
+	<colorf name="Runtime Data2" offset="0x60" alpha="true" visible="true" />
+	<colorf name="Runtime Data3" offset="0x70" alpha="true" visible="true" />
+	<colorf name="Runtime Data4" offset="0x80" alpha="true" visible="true" />
+	<colorf name="Runtime Data5" offset="0x90" alpha="true" visible="true" />
+	<colorf name="Runtime Data7" offset="0xA0" alpha="true" visible="true" />
+</plugin>

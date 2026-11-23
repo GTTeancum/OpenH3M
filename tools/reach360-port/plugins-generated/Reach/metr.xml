@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xAC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Meter (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true" />
+	<tagref name="Stencil Bitmaps" offset="0x4" visible="true" />
+	<tagref name="Source Bitmap" offset="0x14" visible="true" />
+	<int16 name="Stencil Sequence Index" offset="0x24" visible="true" />
+	<int16 name="Source Sequence Index" offset="0x26" visible="true" />
+	<uint8 name="Padding 0" offset="0x28" visible="false" />
+	<uint8 name="Padding 1" offset="0x29" visible="false" />
+	<uint8 name="Padding 2" offset="0x2A" visible="false" />
+	<uint8 name="Padding 3" offset="0x2B" visible="false" />
+	<uint8 name="Padding 4" offset="0x2C" visible="false" />
+	<uint8 name="Padding 5" offset="0x2D" visible="false" />
+	<uint8 name="Padding 6" offset="0x2E" visible="false" />
+	<uint8 name="Padding 7" offset="0x2F" visible="false" />
+	<uint8 name="Padding 8" offset="0x30" visible="false" />
+	<uint8 name="Padding 9" offset="0x31" visible="false" />
+	<uint8 name="Padding 10" offset="0x32" visible="false" />
+	<uint8 name="Padding 11" offset="0x33" visible="false" />
+	<uint8 name="Padding 12" offset="0x34" visible="false" />
+	<uint8 name="Padding 13" offset="0x35" visible="false" />
+	<uint8 name="Padding 14" offset="0x36" visible="false" />
+	<uint8 name="Padding 15" offset="0x37" visible="false" />
+	<uint8 name="Padding1 0" offset="0x38" visible="false" />
+	<uint8 name="Padding1 1" offset="0x39" visible="false" />
+	<uint8 name="Padding1 2" offset="0x3A" visible="false" />
+	<uint8 name="Padding1 3" offset="0x3B" visible="false" />
+	<enum16 name="Interpolate Colors" offset="0x3C" visible="true">
+		<option name="Linearly" value="0" />
+		<option name="FasterNearEmpty" value="1" />
+		<option name="FasterNearFull" value="2" />
+		<option name="ThroughRandomNoise" value="3" />
+	</enum16>
+	<enum16 name="Anchor Colors" offset="0x3E" visible="true">
+		<option name="AtBothEnds" value="0" />
+		<option name="AtEmpty" value="1" />
+		<option name="AtFull" value="2" />
+	</enum16>
+	<uint8 name="Padding2 0" offset="0x40" visible="false" />
+	<uint8 name="Padding2 1" offset="0x41" visible="false" />
+	<uint8 name="Padding2 2" offset="0x42" visible="false" />
+	<uint8 name="Padding2 3" offset="0x43" visible="false" />
+	<uint8 name="Padding2 4" offset="0x44" visible="false" />
+	<uint8 name="Padding2 5" offset="0x45" visible="false" />
+	<uint8 name="Padding2 6" offset="0x46" visible="false" />
+	<uint8 name="Padding2 7" offset="0x47" visible="false" />
+	<colorf name="Empty Color" offset="0x48" alpha="true" visible="true" />
+	<colorf name="Full Color" offset="0x58" alpha="true" visible="true" />
+	<uint8 name="Padding3 0" offset="0x68" visible="false" />
+	<uint8 name="Padding3 1" offset="0x69" visible="false" />
+	<uint8 name="Padding3 2" offset="0x6A" visible="false" />
+	<uint8 name="Padding3 3" offset="0x6B" visible="false" />
+	<uint8 name="Padding3 4" offset="0x6C" visible="false" />
+	<uint8 name="Padding3 5" offset="0x6D" visible="false" />
+	<uint8 name="Padding3 6" offset="0x6E" visible="false" />
+	<uint8 name="Padding3 7" offset="0x6F" visible="false" />
+	<uint8 name="Padding3 8" offset="0x70" visible="false" />
+	<uint8 name="Padding3 9" offset="0x71" visible="false" />
+	<uint8 name="Padding3 10" offset="0x72" visible="false" />
+	<uint8 name="Padding3 11" offset="0x73" visible="false" />
+	<uint8 name="Padding3 12" offset="0x74" visible="false" />
+	<uint8 name="Padding3 13" offset="0x75" visible="false" />
+	<uint8 name="Padding3 14" offset="0x76" visible="false" />
+	<uint8 name="Padding3 15" offset="0x77" visible="false" />
+	<uint8 name="Padding3 16" offset="0x78" visible="false" />
+	<uint8 name="Padding3 17" offset="0x79" visible="false" />
+	<uint8 name="Padding3 18" offset="0x7A" visible="false" />
+	<uint8 name="Padding3 19" offset="0x7B" visible="false" />
+	<float32 name="Unmask Distance" offset="0x7C" visible="true" />
+	<float32 name="Mask Distance" offset="0x80" visible="true" />
+	<uint8 name="Padding4 0" offset="0x84" visible="false" />
+	<uint8 name="Padding4 1" offset="0x85" visible="false" />
+	<uint8 name="Padding4 2" offset="0x86" visible="false" />
+	<uint8 name="Padding4 3" offset="0x87" visible="false" />
+	<uint8 name="Padding4 4" offset="0x88" visible="false" />
+	<uint8 name="Padding4 5" offset="0x89" visible="false" />
+	<uint8 name="Padding4 6" offset="0x8A" visible="false" />
+	<uint8 name="Padding4 7" offset="0x8B" visible="false" />
+	<uint8 name="Padding4 8" offset="0x8C" visible="false" />
+	<uint8 name="Padding4 9" offset="0x8D" visible="false" />
+	<uint8 name="Padding4 10" offset="0x8E" visible="false" />
+	<uint8 name="Padding4 11" offset="0x8F" visible="false" />
+	<uint8 name="Padding4 12" offset="0x90" visible="false" />
+	<uint8 name="Padding4 13" offset="0x91" visible="false" />
+	<uint8 name="Padding4 14" offset="0x92" visible="false" />
+	<uint8 name="Padding4 15" offset="0x93" visible="false" />
+	<uint8 name="Padding4 16" offset="0x94" visible="false" />
+	<uint8 name="Padding4 17" offset="0x95" visible="false" />
+	<uint8 name="Padding4 18" offset="0x96" visible="false" />
+	<uint8 name="Padding4 19" offset="0x97" visible="false" />
+	<dataref name="Encoded Stencil" offset="0x98" visible="true" />
+</plugin>

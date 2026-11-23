@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x10C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CheapParticleEmitter (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="CorrelatePositionAndVelocity" index="0" />
+		<bit name="PositionTextureInLocalSpace" index="1" />
+		<bit name="VelocityTextureInLocalSpace" index="2" />
+		<bit name="NormalizeVelocityBeforeScaling" index="3" />
+		<bit name="RandomlyRotateEmitterAboutUpVector" index="4" />
+	</flags16>
+	<uint16 name="Version" offset="0x2" visible="true" />
+	<float32 name="Spawn Rate" offset="0x4" visible="true" />
+	<stringid name="Spawnrate / Input Variable" offset="0x8" visible="true" />
+	<stringid name="Spawnrate / Range Variable" offset="0xC" visible="true" />
+	<dataref name="Spawnrate / Mapping / Data" offset="0x10" visible="true" />
+	<float32 name="Distance Fade Start" offset="0x24" visible="true" />
+	<float32 name="Distance Fade End" offset="0x28" visible="true" />
+	<stringid name="Type0" offset="0x2C" visible="true" />
+	<float32 name="Weight0" offset="0x30" visible="true" />
+	<stringid name="Type1" offset="0x34" visible="true" />
+	<float32 name="Weight1" offset="0x38" visible="true" />
+	<stringid name="Type2" offset="0x3C" visible="true" />
+	<float32 name="Weight2" offset="0x40" visible="true" />
+	<stringid name="Type3" offset="0x44" visible="true" />
+	<float32 name="Weight3" offset="0x48" visible="true" />
+	<rangef name="Lifetime" offset="0x4C" visible="true" />
+	<tagref name="Position Texture" offset="0x54" visible="true" />
+	<float32 name="Position Scale" offset="0x64" visible="true" />
+	<float32 name="Position Flatten" offset="0x68" visible="true" />
+	<tagref name="Velocity Texture" offset="0x6C" visible="true" />
+	<rangef name="Directionality" offset="0x7C" visible="true" />
+	<rangef name="Speed Scale" offset="0x84" visible="true" />
+	<rangef name="Subframe Offset" offset="0x8C" visible="true" />
+	<float32 name="Rotation Randomness" offset="0x94" visible="true" />
+	<float32 name="Particle Scale Modifier" offset="0x98" visible="true" />
+	<float32 name="Lighting Contrast" offset="0x9C" visible="true" />
+	<float32 name="Lighting Offset" offset="0xA0" visible="true" />
+	<float32 name="Lighting Min" offset="0xA4" visible="true" />
+	<float32 name="Lighting Max" offset="0xA8" visible="true" />
+	<vector4 name="Spawn Params0" offset="0xAC" visible="true" />
+	<vector4 name="Spawn Params1" offset="0xBC" visible="true" />
+	<vector4 name="Spawn Params2" offset="0xCC" visible="true" />
+	<vector4 name="Spawn Params3" offset="0xDC" visible="true" />
+	<vector4 name="Spawn Params4" offset="0xEC" visible="true" />
+	<tagref name="Global Type Library" offset="0xFC" visible="true" />
+</plugin>

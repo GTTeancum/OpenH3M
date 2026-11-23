@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x2C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GameEngineGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Game Engine Settings" offset="0x0" visible="true" />
+	<tagref name="Game Engine Text" offset="0x10" visible="true" />
+	<tagblock name="Game Engine Event Response List" offset="0x20" visible="true" elementSize="0x58">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Audience" offset="0x4" visible="true">
+			<option name="CausePlayer" value="0" />
+			<option name="CauseTeam" value="1" />
+			<option name="EffectPlayer" value="2" />
+			<option name="EffectTeam" value="3" />
+			<option name="All" value="4" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+		<stringid name="Display String" offset="0x8" visible="true" />
+		<enum8 name="Required Field" offset="0xC" visible="true">
+			<option name="None" value="0" />
+			<option name="CausePlayer" value="1" />
+			<option name="CauseTeam" value="2" />
+			<option name="EffectPlayer" value="3" />
+			<option name="EffectTeam" value="4" />
+		</enum8>
+		<flags8 name="Excluded Audience" offset="0xD" visible="true">
+			<bit name="None" index="0" />
+			<bit name="CausePlayer" index="1" />
+			<bit name="CauseTeam" index="2" />
+			<bit name="EffectPlayer" index="3" />
+			<bit name="EffectTeam" index="4" />
+		</flags8>
+		<enum8 name="Splitscreen Suppression" offset="0xE" visible="true">
+			<option name="None" value="0" />
+			<option name="SuppressAudio" value="1" />
+			<option name="SuppressAudioIfOverlapping" value="2" />
+			<option name="SuppressText" value="3" />
+			<option name="SuppressAudioAndText" value="4" />
+		</enum8>
+		<flags8 name="Flags" offset="0xF" visible="true">
+			<bit name="AlwaysPlaySound" index="0" />
+			<bit name="AlwaysPlaySoundInMp" index="1" />
+		</flags8>
+		<stringid name="Primary String" offset="0x10" visible="true" />
+		<int32 name="Primary String Duration" offset="0x14" visible="true" />
+		<float32 name="Sound Delay" offset="0x18" visible="true" />
+		<flags8 name="Default Sound / Sound Flags" offset="0x1C" visible="true">
+			<bit name="AnnouncerSound" index="0" />
+		</flags8>
+		<uint8 name="Default Sound / Padding 0" offset="0x1D" visible="false" />
+		<uint8 name="Default Sound / Padding 1" offset="0x1E" visible="false" />
+		<uint8 name="Default Sound / Padding 2" offset="0x1F" visible="false" />
+		<tagref name="Default Sound / Sound" offset="0x20" visible="true" />
+		<float32 name="Default Sound / Probability" offset="0x30" visible="true" />
+		<stringid name="Category For Prioritization" offset="0x34" visible="true" />
+		<int32 name="Sound Priority" offset="0x38" visible="true" />
+		<float32 name="Priority Suppression Age Max Seconds" offset="0x3C" visible="true" />
+		<stringid name="Category For Pair Culling" offset="0x40" visible="true" />
+		<int32 name="Pair Id" offset="0x44" visible="true" />
+		<float32 name="Delay Before Considering Sound Seconds" offset="0x48" visible="true" />
+		<tagblock name="Sound Permutations" offset="0x4C" visible="true" elementSize="0x18">
+			<flags8 name="Sound Response Definition Struct / Sound Flags" offset="0x0" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags8>
+			<uint8 name="Sound Response Definition Struct / Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Sound Response Definition Struct / Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Sound Response Definition Struct / Padding 2" offset="0x3" visible="false" />
+			<tagref name="Sound Response Definition Struct / Sound" offset="0x4" visible="true" />
+			<float32 name="Sound Response Definition Struct / Probability" offset="0x14" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

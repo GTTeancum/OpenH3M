@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x64">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.StructureSeams (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Structure Manifest / Build Identifer / Manifest Id0" offset="0x0" visible="true" />
+	<int32 name="Structure Manifest / Build Identifer / Manifest Id1" offset="0x4" visible="true" />
+	<int32 name="Structure Manifest / Build Identifer / Manifest Id2" offset="0x8" visible="true" />
+	<int32 name="Structure Manifest / Build Identifer / Manifest Id3" offset="0xC" visible="true" />
+	<int32 name="Structure Manifest / Build Identifer / Build Index" offset="0x10" visible="true" />
+	<int32 name="Structure Manifest / Build Identifer / Structure Importer Version" offset="0x14" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Manifest Id0" offset="0x18" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Manifest Id1" offset="0x1C" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Manifest Id2" offset="0x20" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Manifest Id3" offset="0x24" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Build Index" offset="0x28" visible="true" />
+	<int32 name="Structure Manifest / Parent Build Identifer / Structure Importer Version" offset="0x2C" visible="true" />
+	<tagblock name="Structure Manifest / Bsp Manifest" offset="0x30" visible="true" elementSize="0x130">
+		<int32 name="Build Identifer / Manifest Id0" offset="0x0" visible="true" />
+		<int32 name="Build Identifer / Manifest Id1" offset="0x4" visible="true" />
+		<int32 name="Build Identifer / Manifest Id2" offset="0x8" visible="true" />
+		<int32 name="Build Identifer / Manifest Id3" offset="0xC" visible="true" />
+		<int32 name="Build Identifer / Build Index" offset="0x10" visible="true" />
+		<int32 name="Build Identifer / Structure Importer Version" offset="0x14" visible="true" />
+		<int32 name="Parent Build Identifer / Manifest Id0" offset="0x18" visible="true" />
+		<int32 name="Parent Build Identifer / Manifest Id1" offset="0x1C" visible="true" />
+		<int32 name="Parent Build Identifer / Manifest Id2" offset="0x20" visible="true" />
+		<int32 name="Parent Build Identifer / Manifest Id3" offset="0x24" visible="true" />
+		<int32 name="Parent Build Identifer / Build Index" offset="0x28" visible="true" />
+		<int32 name="Parent Build Identifer / Structure Importer Version" offset="0x2C" visible="true" />
+		<ascii name="Bsp Name" offset="0x30" visible="true" size="0x100" />
+	</tagblock>
+	<int32 name="Version" offset="0x3C" visible="true" />
+	<tagblock name="Errors" offset="0x40" visible="true" elementSize="0x118">
+		<ascii name="Name" offset="0x0" visible="true" size="0x100" />
+		<enum16 name="Report Type" offset="0x100" visible="true">
+			<option name="Silent" value="0" />
+			<option name="Comment" value="1" />
+			<option name="Warning" value="2" />
+			<option name="Error" value="3" />
+		</enum16>
+		<flags16 name="Flags" offset="0x102" visible="true">
+			<bit name="Rendered" index="0" />
+			<bit name="TangentSpace" index="1" />
+			<bit name="NonCritical" index="2" />
+			<bit name="LightmapLight" index="3" />
+			<bit name="ReportKeyIsValid" index="4" />
+		</flags16>
+		<int16 name="Runtime Generation Flags" offset="0x104" visible="true" />
+		<uint8 name="Padding 0" offset="0x106" visible="false" />
+		<uint8 name="Padding 1" offset="0x107" visible="false" />
+		<int32 name="Runtime Something" offset="0x108" visible="true" />
+		<tagblock name="Reports" offset="0x10C" visible="true" elementSize="0xB8">
+			<enum8 name="Type" offset="0x0" visible="true">
+				<option name="Silent" value="0" />
+				<option name="Comment" value="1" />
+				<option name="Warning" value="2" />
+				<option name="Error" value="3" />
+			</enum8>
+			<enum8 name="Source" offset="0x1" visible="true">
+				<option name="None" value="0" />
+				<option name="Structure" value="1" />
+				<option name="Poop" value="2" />
+				<option name="Lightmap" value="3" />
+				<option name="Pathfinding" value="4" />
+			</enum8>
+			<flags16 name="Flags" offset="0x2" visible="true">
+				<bit name="Rendered" index="0" />
+				<bit name="TangentSpace" index="1" />
+				<bit name="NonCritical" index="2" />
+				<bit name="LightmapLight" index="3" />
+				<bit name="ReportKeyIsValid" index="4" />
+			</flags16>
+			<dataref name="Text" offset="0x4" visible="true" />
+			<int32 name="Source Identifier" offset="0x18" visible="true" />
+			<ascii name="Source Filename" offset="0x1C" visible="true" size="0x20" />
+			<int32 name="Source Line Number" offset="0x3C" visible="true" />
+			<tagblock name="Vertices" offset="0x40" visible="true" elementSize="0x34">
+				<point3 name="Point / Position" offset="0x0" visible="true" />
+				<int8 name="Point / Node Indices 0 / Node Index" offset="0xC" visible="true" />
+				<int8 name="Point / Node Indices 1 / Node Index" offset="0xD" visible="true" />
+				<int8 name="Point / Node Indices 2 / Node Index" offset="0xE" visible="true" />
+				<int8 name="Point / Node Indices 3 / Node Index" offset="0xF" visible="true" />
+				<float32 name="Point / Node Weights 0 / Node Weight" offset="0x10" visible="true" />
+				<float32 name="Point / Node Weights 1 / Node Weight" offset="0x14" visible="true" />
+				<float32 name="Point / Node Weights 2 / Node Weight" offset="0x18" visible="true" />
+				<float32 name="Point / Node Weights 3 / Node Weight" offset="0x1C" visible="true" />
+				<colorf name="Color" offset="0x20" alpha="true" visible="true" />
+				<float32 name="Screen Size" offset="0x30" visible="true" />
+			</tagblock>
+			<tagblock name="Vectors" offset="0x4C" visible="true" elementSize="0x40">
+				<point3 name="Point / Position" offset="0x0" visible="true" />
+				<int8 name="Point / Node Indices 0 / Node Index" offset="0xC" visible="true" />
+				<int8 name="Point / Node Indices 1 / Node Index" offset="0xD" visible="true" />
+				<int8 name="Point / Node Indices 2 / Node Index" offset="0xE" visible="true" />
+				<int8 name="Point / Node Indices 3 / Node Index" offset="0xF" visible="true" />
+				<float32 name="Point / Node Weights 0 / Node Weight" offset="0x10" visible="true" />
+				<float32 name="Point / Node Weights 1 / Node Weight" offset="0x14" visible="true" />
+				<float32 name="Point / Node Weights 2 / Node Weight" offset="0x18" visible="true" />
+				<float32 name="Point / Node Weights 3 / Node Weight" offset="0x1C" visible="true" />
+				<colorf name="Color" offset="0x20" alpha="true" visible="true" />
+				<vector3 name="Normal" offset="0x30" visible="true" />
+				<float32 name="Screen Length" offset="0x3C" visible="true" />
+			</tagblock>
+			<tagblock name="Lines" offset="0x58" visible="true" elementSize="0x50">
+				<point3 name="Points 0 / Point / Position" offset="0x0" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 0 / Node Index" offset="0xC" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 1 / Node Index" offset="0xD" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 2 / Node Index" offset="0xE" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 3 / Node Index" offset="0xF" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 0 / Node Weight" offset="0x10" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 1 / Node Weight" offset="0x14" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 2 / Node Weight" offset="0x18" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 3 / Node Weight" offset="0x1C" visible="true" />
+				<point3 name="Points 1 / Point / Position" offset="0x20" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 0 / Node Index" offset="0x2C" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 1 / Node Index" offset="0x2D" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 2 / Node Index" offset="0x2E" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 3 / Node Index" offset="0x2F" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 0 / Node Weight" offset="0x30" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 1 / Node Weight" offset="0x34" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 2 / Node Weight" offset="0x38" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 3 / Node Weight" offset="0x3C" visible="true" />
+				<colorf name="Color" offset="0x40" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Triangles" offset="0x64" visible="true" elementSize="0x70">
+				<point3 name="Points 0 / Point / Position" offset="0x0" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 0 / Node Index" offset="0xC" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 1 / Node Index" offset="0xD" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 2 / Node Index" offset="0xE" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 3 / Node Index" offset="0xF" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 0 / Node Weight" offset="0x10" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 1 / Node Weight" offset="0x14" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 2 / Node Weight" offset="0x18" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 3 / Node Weight" offset="0x1C" visible="true" />
+				<point3 name="Points 1 / Point / Position" offset="0x20" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 0 / Node Index" offset="0x2C" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 1 / Node Index" offset="0x2D" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 2 / Node Index" offset="0x2E" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 3 / Node Index" offset="0x2F" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 0 / Node Weight" offset="0x30" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 1 / Node Weight" offset="0x34" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 2 / Node Weight" offset="0x38" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 3 / Node Weight" offset="0x3C" visible="true" />
+				<point3 name="Points 2 / Point / Position" offset="0x40" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 0 / Node Index" offset="0x4C" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 1 / Node Index" offset="0x4D" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 2 / Node Index" offset="0x4E" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 3 / Node Index" offset="0x4F" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 0 / Node Weight" offset="0x50" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 1 / Node Weight" offset="0x54" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 2 / Node Weight" offset="0x58" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 3 / Node Weight" offset="0x5C" visible="true" />
+				<colorf name="Color" offset="0x60" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Quads" offset="0x70" visible="true" elementSize="0x90">
+				<point3 name="Points 0 / Point / Position" offset="0x0" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 0 / Node Index" offset="0xC" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 1 / Node Index" offset="0xD" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 2 / Node Index" offset="0xE" visible="true" />
+				<int8 name="Points 0 / Point / Node Indices 3 / Node Index" offset="0xF" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 0 / Node Weight" offset="0x10" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 1 / Node Weight" offset="0x14" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 2 / Node Weight" offset="0x18" visible="true" />
+				<float32 name="Points 0 / Point / Node Weights 3 / Node Weight" offset="0x1C" visible="true" />
+				<point3 name="Points 1 / Point / Position" offset="0x20" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 0 / Node Index" offset="0x2C" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 1 / Node Index" offset="0x2D" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 2 / Node Index" offset="0x2E" visible="true" />
+				<int8 name="Points 1 / Point / Node Indices 3 / Node Index" offset="0x2F" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 0 / Node Weight" offset="0x30" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 1 / Node Weight" offset="0x34" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 2 / Node Weight" offset="0x38" visible="true" />
+				<float32 name="Points 1 / Point / Node Weights 3 / Node Weight" offset="0x3C" visible="true" />
+				<point3 name="Points 2 / Point / Position" offset="0x40" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 0 / Node Index" offset="0x4C" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 1 / Node Index" offset="0x4D" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 2 / Node Index" offset="0x4E" visible="true" />
+				<int8 name="Points 2 / Point / Node Indices 3 / Node Index" offset="0x4F" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 0 / Node Weight" offset="0x50" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 1 / Node Weight" offset="0x54" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 2 / Node Weight" offset="0x58" visible="true" />
+				<float32 name="Points 2 / Point / Node Weights 3 / Node Weight" offset="0x5C" visible="true" />
+				<point3 name="Points 3 / Point / Position" offset="0x60" visible="true" />
+				<int8 name="Points 3 / Point / Node Indices 0 / Node Index" offset="0x6C" visible="true" />
+				<int8 name="Points 3 / Point / Node Indices 1 / Node Index" offset="0x6D" visible="true" />
+				<int8 name="Points 3 / Point / Node Indices 2 / Node Index" offset="0x6E" visible="true" />
+				<int8 name="Points 3 / Point / Node Indices 3 / Node Index" offset="0x6F" visible="true" />
+				<float32 name="Points 3 / Point / Node Weights 0 / Node Weight" offset="0x70" visible="true" />
+				<float32 name="Points 3 / Point / Node Weights 1 / Node Weight" offset="0x74" visible="true" />
+				<float32 name="Points 3 / Point / Node Weights 2 / Node Weight" offset="0x78" visible="true" />
+				<float32 name="Points 3 / Point / Node Weights 3 / Node Weight" offset="0x7C" visible="true" />
+				<colorf name="Color" offset="0x80" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Comments" offset="0x7C" visible="true" elementSize="0x44">
+				<dataref name="Text" offset="0x0" visible="true" />
+				<point3 name="Point / Position" offset="0x14" visible="true" />
+				<int8 name="Point / Node Indices 0 / Node Index" offset="0x20" visible="true" />
+				<int8 name="Point / Node Indices 1 / Node Index" offset="0x21" visible="true" />
+				<int8 name="Point / Node Indices 2 / Node Index" offset="0x22" visible="true" />
+				<int8 name="Point / Node Indices 3 / Node Index" offset="0x23" visible="true" />
+				<float32 name="Point / Node Weights 0 / Node Weight" offset="0x24" visible="true" />
+				<float32 name="Point / Node Weights 1 / Node Weight" offset="0x28" visible="true" />
+				<float32 name="Point / Node Weights 2 / Node Weight" offset="0x2C" visible="true" />
+				<float32 name="Point / Node Weights 3 / Node Weight" offset="0x30" visible="true" />
+				<colorf name="Color" offset="0x34" alpha="true" visible="true" />
+			</tagblock>
+			<int32 name="Report Key" offset="0x88" visible="true" />
+			<int32 name="Node Index" offset="0x8C" visible="true" />
+			<rangef name="Bounds X" offset="0x90" visible="true" />
+			<rangef name="Bounds Y" offset="0x98" visible="true" />
+			<rangef name="Bounds Z" offset="0xA0" visible="true" />
+			<colorf name="Color" offset="0xA8" alpha="true" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Seams" offset="0x4C" visible="true" elementSize="0x4C">
+		<int32 name="Identifier / Seam Id0" offset="0x0" visible="true" />
+		<int32 name="Identifier / Seam Id1" offset="0x4" visible="true" />
+		<int32 name="Identifier / Seam Id2" offset="0x8" visible="true" />
+		<int32 name="Identifier / Seam Id3" offset="0xC" visible="true" />
+		<tagblock name="Original / Original Vertices" offset="0x10" visible="true" elementSize="0x1C">
+			<point3 name="Original Vertex" offset="0x0" visible="true" />
+			<int32 name="Final Point Index" offset="0xC" visible="true" />
+			<tagblock name="Plane Normals" offset="0x10" visible="true" elementSize="0xC">
+				<vector3 name="Triangle Normal" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Final / Planes" offset="0x1C" visible="true" elementSize="0x10">
+			<plane3 name="Plane" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Final / Points" offset="0x28" visible="true" elementSize="0xC">
+			<point3 name="Final Point" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Final / Triangles" offset="0x34" visible="true" elementSize="0xC">
+			<int32 name="Final Plane" offset="0x0" visible="true" />
+			<int16 name="Final Point0" offset="0x4" visible="true" />
+			<int16 name="Final Point1" offset="0x6" visible="true" />
+			<int16 name="Final Point2" offset="0x8" visible="true" />
+			<uint8 name="Padding 0" offset="0xA" visible="false" />
+			<uint8 name="Padding 1" offset="0xB" visible="false" />
+		</tagblock>
+		<tagblock name="Final / Edges" offset="0x40" visible="true" elementSize="0x4">
+			<int16 name="Final Point0" offset="0x0" visible="true" />
+			<int16 name="Final Point1" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Seam Triangle Mopp Code Block" offset="0x58" visible="true" elementSize="0x40">
+		<int32 name="Field Pointer Skip" offset="0x0" visible="true" />
+		<int16 name="Size" offset="0x4" visible="true" />
+		<int16 name="Count" offset="0x6" visible="true" />
+		<uint8 name="Padding 0" offset="0x8" visible="false" />
+		<uint8 name="Padding 1" offset="0x9" visible="false" />
+		<uint8 name="Padding 2" offset="0xA" visible="false" />
+		<uint8 name="Padding 3" offset="0xB" visible="false" />
+		<uint8 name="Padding 4" offset="0xC" visible="false" />
+		<uint8 name="Padding 5" offset="0xD" visible="false" />
+		<uint8 name="Padding 6" offset="0xE" visible="false" />
+		<uint8 name="Padding 7" offset="0xF" visible="false" />
+		<float32 name="VI" offset="0x10" visible="true" />
+		<float32 name="VJ" offset="0x14" visible="true" />
+		<float32 name="VK" offset="0x18" visible="true" />
+		<float32 name="VW" offset="0x1C" visible="true" />
+		<int32 name="M Data Pointer" offset="0x20" visible="true" />
+		<int32 name="Int M Size" offset="0x24" visible="true" />
+		<int32 name="Int M Capacityand Flags" offset="0x28" visible="true" />
+		<int8 name="Int8M Buildtype" offset="0x2C" visible="true" />
+		<uint8 name="Padding1 0" offset="0x2D" visible="false" />
+		<uint8 name="Padding1 1" offset="0x2E" visible="false" />
+		<uint8 name="Padding1 2" offset="0x2F" visible="false" />
+		<tagblock name="Mopp Data Block" offset="0x30" visible="true" elementSize="0x1">
+			<uint8 name="Mopp Data" offset="0x0" visible="true" />
+		</tagblock>
+		<int8 name="Mopp Build Type" offset="0x3C" visible="true" />
+		<uint8 name="Padding2 0" offset="0x3D" visible="false" />
+		<uint8 name="Padding2 1" offset="0x3E" visible="false" />
+		<uint8 name="Padding2 2" offset="0x3F" visible="false" />
+	</tagblock>
+</plugin>

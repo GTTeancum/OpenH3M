@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x60">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ShaderTemplate (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<dataref name="Documentation" offset="0x0" visible="true" />
+	<stringid name="Default Material Name" offset="0x14" visible="true" />
+	<uint8 name="Padding 0" offset="0x18" visible="false" />
+	<uint8 name="Padding 1" offset="0x19" visible="false" />
+	<flags16 name="Flags" offset="0x1A" visible="true">
+		<bit name="ForceActiveCamo" index="0" />
+		<bit name="Water" index="1" />
+		<bit name="Foliage" index="2" />
+		<bit name="HideStandardParameters" index="3" />
+	</flags16>
+	<tagblock name="Properties" offset="0x1C" visible="true" elementSize="0x8">
+		<enum16 name="Property" offset="0x0" visible="true">
+			<option name="Unused" value="0" />
+			<option name="DiffuseMap" value="1" />
+			<option name="LightmapEmissiveMap" value="2" />
+			<option name="LightmapEmissiveColor" value="3" />
+			<option name="LightmapEmissivePower" value="4" />
+			<option name="LightmapResolutionScale" value="5" />
+			<option name="LightmapHalfLife" value="6" />
+			<option name="LightmapDiffuseScale" value="7" />
+			<option name="LightmapAlphaTestMap" value="8" />
+			<option name="LightmapTranslucentMap" value="9" />
+			<option name="LightmapTranslucentColor" value="10" />
+			<option name="LightmapTranslucentAlpha" value="11" />
+			<option name="ActiveCamoMap" value="12" />
+			<option name="LightmapFoliageScale" value="13" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<stringid name="Parameter Name" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Categories" offset="0x28" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Parameters" offset="0x4" visible="true" elementSize="0x34">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<dataref name="Explanation" offset="0x4" visible="true" />
+			<enum16 name="Type" offset="0x18" visible="true">
+				<option name="Bitmap" value="0" />
+				<option name="Value" value="1" />
+				<option name="Color" value="2" />
+				<option name="Switch" value="3" />
+			</enum16>
+			<flags16 name="Flags" offset="0x1A" visible="true">
+				<bit name="Animated" index="0" />
+				<bit name="HideBitmapReference" index="1" />
+			</flags16>
+			<tagref name="Default Bitmap" offset="0x1C" visible="true" />
+			<float32 name="Default Const Value" offset="0x2C" visible="true" />
+			<colorf name="Default Const Color" offset="0x30" alpha="false" visible="true" />
+			<enum16 name="Bitmap Type" offset="0x3C" visible="true">
+				<option name="_2d" value="0" />
+				<option name="_3d" value="1" />
+				<option name="CubeMap" value="2" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x3E" visible="false" />
+			<uint8 name="Padding 1" offset="0x3F" visible="false" />
+			<flags16 name="Bitmap Animation Flags" offset="0x40" visible="true">
+				<bit name="ScaleUniform" index="0" />
+				<bit name="Scale" index="1" />
+				<bit name="Translation" index="2" />
+				<bit name="Rotation" index="3" />
+				<bit name="Index" index="4" />
+			</flags16>
+			<uint8 name="Padding1 0" offset="0x42" visible="false" />
+			<uint8 name="Padding1 1" offset="0x43" visible="false" />
+			<float32 name="Bitmap Scale" offset="0x44" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagref name="Light Response" offset="0x34" visible="true" />
+	<tagblock name="Lods" offset="0x44" visible="true" elementSize="0xC">
+		<float32 name="Projected Diameter" offset="0x0" visible="true" />
+		<tagblock name="Pass" offset="0x4" visible="true" elementSize="0x18">
+			<enum16 name="Layer" offset="0x0" visible="true">
+				<option name="Texaccum" value="0" />
+				<option name="EnvironmentMap" value="1" />
+				<option name="SelfIllumination" value="2" />
+				<option name="Overlay" value="3" />
+				<option name="Transparent" value="4" />
+				<option name="LightmapIndirect" value="5" />
+				<option name="Diffuse" value="6" />
+				<option name="Specular" value="7" />
+				<option name="ShadowGenerate" value="8" />
+				<option name="ShadowApply" value="9" />
+				<option name="Boom" value="10" />
+				<option name="Fog" value="11" />
+				<option name="ShPrt" value="12" />
+				<option name="ActiveCamo" value="13" />
+				<option name="WaterEdgeBlend" value="14" />
+				<option name="Decal" value="15" />
+				<option name="ActiveCamoStencilModulate" value="16" />
+				<option name="Hologram" value="17" />
+				<option name="LightAlbedo" value="18" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagref name="Pass" offset="0x4" visible="true" />
+			<uint8 name="Padding1 0" offset="0x14" visible="false" />
+			<uint8 name="Padding1 1" offset="0x15" visible="false" />
+			<uint8 name="Padding1 2" offset="0x16" visible="false" />
+			<uint8 name="Padding1 3" offset="0x17" visible="false" />
+			<uint8 name="Padding1 4" offset="0x18" visible="false" />
+			<uint8 name="Padding1 5" offset="0x19" visible="false" />
+			<uint8 name="Padding1 6" offset="0x1A" visible="false" />
+			<uint8 name="Padding1 7" offset="0x1B" visible="false" />
+			<uint8 name="Padding1 8" offset="0x1C" visible="false" />
+			<uint8 name="Padding1 9" offset="0x1D" visible="false" />
+			<uint8 name="Padding1 10" offset="0x1E" visible="false" />
+			<uint8 name="Padding1 11" offset="0x1F" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Unknown" offset="0x50" visible="true" elementSize="0x4">
+		<int32 name="Unknown" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Unknown1" offset="0x5C" visible="true" elementSize="0x4">
+		<int32 name="Unknown" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Aux1 Shader" offset="0x68" visible="true" />
+	<enum16 name="Aux1 Layer" offset="0x78" visible="true">
+		<option name="Texaccum" value="0" />
+		<option name="EnvironmentMap" value="1" />
+		<option name="SelfIllumination" value="2" />
+		<option name="Overlay" value="3" />
+		<option name="Transparent" value="4" />
+		<option name="LightmapIndirect" value="5" />
+		<option name="Diffuse" value="6" />
+		<option name="Specular" value="7" />
+		<option name="ShadowGenerate" value="8" />
+		<option name="ShadowApply" value="9" />
+		<option name="Boom" value="10" />
+		<option name="Fog" value="11" />
+		<option name="ShPrt" value="12" />
+		<option name="ActiveCamo" value="13" />
+		<option name="WaterEdgeBlend" value="14" />
+		<option name="Decal" value="15" />
+		<option name="ActiveCamoStencilModulate" value="16" />
+		<option name="Hologram" value="17" />
+		<option name="LightAlbedo" value="18" />
+	</enum16>
+	<uint8 name="Padding1 0" offset="0x7A" visible="false" />
+	<uint8 name="Padding1 1" offset="0x7B" visible="false" />
+	<tagref name="Aux2 Shader" offset="0x7C" visible="true" />
+	<enum16 name="Aux2 Layer" offset="0x8C" visible="true">
+		<option name="Texaccum" value="0" />
+		<option name="EnvironmentMap" value="1" />
+		<option name="SelfIllumination" value="2" />
+		<option name="Overlay" value="3" />
+		<option name="Transparent" value="4" />
+		<option name="LightmapIndirect" value="5" />
+		<option name="Diffuse" value="6" />
+		<option name="Specular" value="7" />
+		<option name="ShadowGenerate" value="8" />
+		<option name="ShadowApply" value="9" />
+		<option name="Boom" value="10" />
+		<option name="Fog" value="11" />
+		<option name="ShPrt" value="12" />
+		<option name="ActiveCamo" value="13" />
+		<option name="WaterEdgeBlend" value="14" />
+		<option name="Decal" value="15" />
+		<option name="ActiveCamoStencilModulate" value="16" />
+		<option name="Hologram" value="17" />
+		<option name="LightAlbedo" value="18" />
+	</enum16>
+	<uint8 name="Padding2 0" offset="0x8E" visible="false" />
+	<uint8 name="Padding2 1" offset="0x8F" visible="false" />
+	<tagblock name="Postprocess Definition" offset="0x90" visible="true" elementSize="0x28">
+		<tagblock name="Levels Of Detail" offset="0x0" visible="true" elementSize="0xA">
+			<uint16 name="Layers / Integer" offset="0x0" visible="true" />
+			<int32 name="Available Layers" offset="0x2" visible="true" />
+			<float32 name="Projected Height Percentage" offset="0x6" visible="true" />
+		</tagblock>
+		<tagblock name="Layers" offset="0xC" visible="true" elementSize="0x2">
+			<uint16 name="Integer" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Passes" offset="0x18" visible="true" elementSize="0xA">
+			<tagref name="Pass" offset="0x0" visible="true" />
+			<uint16 name="Implementations / Integer" offset="0x10" visible="true" />
+		</tagblock>
+		<tagblock name="Implementations" offset="0x24" visible="true" elementSize="0x6">
+			<uint16 name="Bitmaps / Integer" offset="0x0" visible="true" />
+			<uint16 name="Pixel Constants / Integer" offset="0x2" visible="true" />
+			<uint16 name="Vertex Constants / Integer" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Remappings" offset="0x30" visible="true" elementSize="0x4">
+			<uint8 name="Unknown 0" offset="0x0" visible="false" />
+			<uint8 name="Unknown 1" offset="0x1" visible="false" />
+			<uint8 name="Unknown 2" offset="0x2" visible="false" />
+			<int8 name="Source Index" offset="0x3" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

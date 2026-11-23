@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MaterialShaderBank (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Compiled Vertex Shaders" offset="0x0" visible="true" elementSize="0x58">
+		<flags32 name="Compiled Shader Splut / Shader Flags1" offset="0x0" visible="true">
+			<bit name="RequiresConstantTable" index="0" />
+		</flags32>
+		<dataref name="Compiled Shader Splut / Xenon Compiled Shader" offset="0x4" visible="true" />
+		<dataref name="Compiled Shader Splut / Dx9 Compiled Shader" offset="0x18" visible="true" />
+		<tagblock name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Constants" offset="0x2C" visible="true" elementSize="0x8">
+			<stringid name="Constant Name" offset="0x0" visible="true" />
+			<uint16 name="Register Start" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Set" offset="0x7" visible="true">
+				<option name="Bool" value="0" />
+				<option name="Int" value="1" />
+				<option name="Float" value="2" />
+				<option name="Sampler" value="3" />
+				<option name="VertexBool" value="4" />
+				<option name="VertexInt" value="5" />
+				<option name="VertexFloat" value="6" />
+				<option name="VertexSampler" value="7" />
+			</enum8>
+		</tagblock>
+		<enum8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Type" offset="0x38" visible="true">
+			<option name="Vertex" value="0" />
+			<option name="Pixel" value="1" />
+		</enum8>
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 0" offset="0x39" visible="false" />
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 1" offset="0x3A" visible="false" />
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 2" offset="0x3B" visible="false" />
+		<tagblock name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Constants" offset="0x3C" visible="true" elementSize="0x8">
+			<stringid name="Constant Name" offset="0x0" visible="true" />
+			<uint16 name="Register Start" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Set" offset="0x7" visible="true">
+				<option name="Bool" value="0" />
+				<option name="Int" value="1" />
+				<option name="Float" value="2" />
+				<option name="Sampler" value="3" />
+				<option name="VertexBool" value="4" />
+				<option name="VertexInt" value="5" />
+				<option name="VertexFloat" value="6" />
+				<option name="VertexSampler" value="7" />
+			</enum8>
+		</tagblock>
+		<enum8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Type" offset="0x48" visible="true">
+			<option name="Vertex" value="0" />
+			<option name="Pixel" value="1" />
+		</enum8>
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 0" offset="0x49" visible="false" />
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 1" offset="0x4A" visible="false" />
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 2" offset="0x4B" visible="false" />
+		<uint32 name="Compiled Shader Splut / Gprs" offset="0x4C" visible="true" />
+		<int32 name="Compiled Shader Splut / Cache File Reference" offset="0x50" visible="true" />
+		<int32 name="Runtime Shader" offset="0x54" visible="true" />
+	</tagblock>
+	<tagblock name="Compiled Vertex Shader Hashes" offset="0xC" visible="true" elementSize="0x4">
+		<int32 name="Hash" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Compiled Vertex Shader Binding Info" offset="0x18" visible="true" elementSize="0xC">
+		<int32 name="Vertex Type" offset="0x0" visible="true" />
+		<int32 name="Entry Point" offset="0x4" visible="true" />
+		<int32 name="Pixel Shader Index" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Compiled Pixel Shaders" offset="0x24" visible="true" elementSize="0x58">
+		<flags32 name="Compiled Shader Splut / Shader Flags1" offset="0x0" visible="true">
+			<bit name="RequiresConstantTable" index="0" />
+		</flags32>
+		<dataref name="Compiled Shader Splut / Xenon Compiled Shader" offset="0x4" visible="true" />
+		<dataref name="Compiled Shader Splut / Dx9 Compiled Shader" offset="0x18" visible="true" />
+		<tagblock name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Constants" offset="0x2C" visible="true" elementSize="0x8">
+			<stringid name="Constant Name" offset="0x0" visible="true" />
+			<uint16 name="Register Start" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Set" offset="0x7" visible="true">
+				<option name="Bool" value="0" />
+				<option name="Int" value="1" />
+				<option name="Float" value="2" />
+				<option name="Sampler" value="3" />
+				<option name="VertexBool" value="4" />
+				<option name="VertexInt" value="5" />
+				<option name="VertexFloat" value="6" />
+				<option name="VertexSampler" value="7" />
+			</enum8>
+		</tagblock>
+		<enum8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Type" offset="0x38" visible="true">
+			<option name="Vertex" value="0" />
+			<option name="Pixel" value="1" />
+		</enum8>
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 0" offset="0x39" visible="false" />
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 1" offset="0x3A" visible="false" />
+		<uint8 name="Compiled Shader Splut / Xenon Rasterizer Constant Table / Padding 2" offset="0x3B" visible="false" />
+		<tagblock name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Constants" offset="0x3C" visible="true" elementSize="0x8">
+			<stringid name="Constant Name" offset="0x0" visible="true" />
+			<uint16 name="Register Start" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Set" offset="0x7" visible="true">
+				<option name="Bool" value="0" />
+				<option name="Int" value="1" />
+				<option name="Float" value="2" />
+				<option name="Sampler" value="3" />
+				<option name="VertexBool" value="4" />
+				<option name="VertexInt" value="5" />
+				<option name="VertexFloat" value="6" />
+				<option name="VertexSampler" value="7" />
+			</enum8>
+		</tagblock>
+		<enum8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Type" offset="0x48" visible="true">
+			<option name="Vertex" value="0" />
+			<option name="Pixel" value="1" />
+		</enum8>
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 0" offset="0x49" visible="false" />
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 1" offset="0x4A" visible="false" />
+		<uint8 name="Compiled Shader Splut / Dx9 Rasterizer Constant Table / Padding 2" offset="0x4B" visible="false" />
+		<uint32 name="Compiled Shader Splut / Gprs" offset="0x4C" visible="true" />
+		<int32 name="Compiled Shader Splut / Cache File Reference" offset="0x50" visible="true" />
+		<int32 name="Runtime Shader" offset="0x54" visible="true" />
+	</tagblock>
+	<tagblock name="Compiled Pixel Shader Hashes" offset="0x30" visible="true" elementSize="0x4">
+		<int32 name="Hash" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SoundEffectCollection (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Sound Effects" offset="0x0" visible="true" elementSize="0x4C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Override Mixbins" offset="0x4" visible="true" elementSize="0x8">
+			<enum32 name="Mixbin" offset="0x0" visible="true">
+				<option name="FrontLeft" value="0" />
+				<option name="FrontRight" value="1" />
+				<option name="BackLeft" value="2" />
+				<option name="BackRight" value="3" />
+				<option name="Center" value="4" />
+				<option name="LowFrequency" value="5" />
+				<option name="Reverb" value="6" />
+				<option name="_3dFrontLeft" value="7" />
+				<option name="_3dFrontRight" value="8" />
+				<option name="_3dBackLeft" value="9" />
+				<option name="_3dBackRight" value="10" />
+				<option name="DefaultLeftSpeakers" value="11" />
+				<option name="DefaultRightSpeakers" value="12" />
+			</enum32>
+			<float32 name="Gain" offset="0x4" visible="true" />
+		</tagblock>
+		<flags32 name="Flags" offset="0x10" visible="true">
+			<bit name="Use3dRadioHack" index="0" />
+			<bit name="ForceFirstPerson" index="1" />
+		</flags32>
+		<uint32 name="Radio Channel" offset="0x14" visible="true" />
+		<uint8 name="Padding0 0" offset="0x18" visible="false" />
+		<uint8 name="Padding0 1" offset="0x19" visible="false" />
+		<uint8 name="Padding0 2" offset="0x1A" visible="false" />
+		<uint8 name="Padding0 3" offset="0x1B" visible="false" />
+		<tagblock name="Filter" offset="0x1C" visible="true" elementSize="0x48">
+			<int32 name="Filter Type" offset="0x0" visible="true" />
+			<int32 name="Filter Width" offset="0x4" visible="true" />
+			<rangef name="Left Frequency Scale" offset="0x8" visible="true" />
+			<rangef name="Left Frequency Random Base Variance" offset="0x10" visible="true" />
+			<rangef name="Left Gain Scale" offset="0x18" visible="true" />
+			<rangef name="Left Gain Random Base Variance" offset="0x20" visible="true" />
+			<rangef name="Right Frequency Scale" offset="0x28" visible="true" />
+			<rangef name="Right Frequency Random Base Variance" offset="0x30" visible="true" />
+			<rangef name="Right Gain Scale" offset="0x38" visible="true" />
+			<rangef name="Right Gain Random Base Variance" offset="0x40" visible="true" />
+		</tagblock>
+		<tagblock name="Pitch LFO" offset="0x28" visible="true" elementSize="0x30">
+			<rangef name="Delay Scale" offset="0x0" visible="true" />
+			<rangef name="Delay Random Base Variance" offset="0x8" visible="true" />
+			<rangef name="Frequency Scale" offset="0x10" visible="true" />
+			<rangef name="Frequency Random Base Variance" offset="0x18" visible="true" />
+			<rangef name="Pitch Modulation Scale" offset="0x20" visible="true" />
+			<rangef name="Pitch Modulation Random Base Variance" offset="0x28" visible="true" />
+		</tagblock>
+		<tagblock name="Filter LFO" offset="0x34" visible="true" elementSize="0x40">
+			<rangef name="Delay Scale" offset="0x0" visible="true" />
+			<rangef name="Delay Random Base Variance" offset="0x8" visible="true" />
+			<rangef name="Frequency Scale" offset="0x10" visible="true" />
+			<rangef name="Frequency Random Base Variance" offset="0x18" visible="true" />
+			<rangef name="Cutoff Modulation Scale" offset="0x20" visible="true" />
+			<rangef name="Cutoff Modulation Random Base Variance" offset="0x28" visible="true" />
+			<rangef name="Gain Modulation Scale" offset="0x30" visible="true" />
+			<rangef name="Gain Modulation Random Base Variance" offset="0x38" visible="true" />
+		</tagblock>
+		<tagblock name="Sound Effect" offset="0x40" visible="true" elementSize="0x48">
+			<tagref name="Template" offset="0x0" visible="true" />
+			<tagblock name="Components" offset="0x10" visible="true" elementSize="0x18">
+				<tagref name="Sound" offset="0x0" visible="true" />
+				<uint32 name="Gain" offset="0x10" visible="true" />
+				<flags32 name="Flags" offset="0x14" visible="true">
+					<bit name="DontPlayAtStart" index="0" />
+					<bit name="PlayOnStop" index="1" />
+					<bit name="PlayOnAbnormalStop" index="2" />
+					<bit name="PlayAlternate" index="3" />
+					<bit name="PlayAlternateOnAbnormalStop" index="4" />
+					<bit name="SyncWithOriginLoopingSound" index="5" />
+				</flags32>
+			</tagblock>
+			<tagblock name="Template Collection" offset="0x1C" visible="true" elementSize="0x10">
+				<stringid name="DSP Effect" offset="0x0" visible="true" />
+				<tagblock name="Overrides" offset="0x4" visible="true" elementSize="0x2C">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<stringid name="Input" offset="0x4" visible="true" />
+					<stringid name="Range" offset="0x8" visible="true" />
+					<float32 name="Time Period" offset="0xC" visible="true" />
+					<int32 name="Integer Value" offset="0x10" visible="true" />
+					<float32 name="Real Value" offset="0x14" visible="true" />
+					<dataref name="Function / Data" offset="0x18" visible="true" />
+				</tagblock>
+			</tagblock>
+			<dataref name="Hardware Format" offset="0x28" visible="true" />
+			<tagblock name="Platform Effect" offset="0x3C" visible="true" elementSize="0x0" />
+		</tagblock>
+	</tagblock>
+</plugin>

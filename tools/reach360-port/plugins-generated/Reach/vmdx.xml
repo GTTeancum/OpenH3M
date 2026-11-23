@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x144">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.VisionMode (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Global Flags" offset="0x0" visible="true">
+		<bit name="FirstPersonOnly" index="0" />
+	</flags16>
+	<int8 name="Internal Version" offset="0x2" visible="true" />
+	<uint8 name="Pad 0" offset="0x3" visible="false" />
+	<float32 name="On Foot Ping / Ping Radius" offset="0x4" visible="true" />
+	<float32 name="On Foot Ping / Default Intensity" offset="0x8" visible="true" />
+	<float32 name="On Foot Ping / Ping Intensity" offset="0xC" visible="true" />
+	<float32 name="On Foot Ping / Ping Speed" offset="0x10" visible="true" />
+	<float32 name="On Foot Ping / Ping Width" offset="0x14" visible="true" />
+	<float32 name="On Foot Ping / Ping Falloff" offset="0x18" visible="true" />
+	<float32 name="On Foot Ping / Ping Delay" offset="0x1C" visible="true" />
+	<dataref name="Weapon Ping Color / Default Colour Function / Data" offset="0x1C" visible="true" />
+	<dataref name="Weapon Ping Color / Ping Colour Function / Data" offset="0x30" visible="true" />
+	<float32 name="Weapon Ping Color / Alpha" offset="0x44" visible="true" />
+	<float32 name="Weapon Ping Color / Default Intensity" offset="0x48" visible="true" />
+	<float32 name="Weapon Ping Color / Ping Intensity" offset="0x4C" visible="true" />
+	<dataref name="Ally Ping Color / Default Colour Function / Data" offset="0x50" visible="true" />
+	<dataref name="Ally Ping Color / Ping Colour Function / Data" offset="0x64" visible="true" />
+	<float32 name="Ally Ping Color / Alpha" offset="0x78" visible="true" />
+	<float32 name="Ally Ping Color / Default Intensity" offset="0x7C" visible="true" />
+	<float32 name="Ally Ping Color / Ping Intensity" offset="0x80" visible="true" />
+	<dataref name="Enemy Ping Color / Default Colour Function / Data" offset="0x84" visible="true" />
+	<dataref name="Enemy Ping Color / Ping Colour Function / Data" offset="0x98" visible="true" />
+	<float32 name="Enemy Ping Color / Alpha" offset="0xAC" visible="true" />
+	<float32 name="Enemy Ping Color / Default Intensity" offset="0xB0" visible="true" />
+	<float32 name="Enemy Ping Color / Ping Intensity" offset="0xB4" visible="true" />
+	<dataref name="Objective Ping Color / Default Colour Function / Data" offset="0xB8" visible="true" />
+	<dataref name="Objective Ping Color / Ping Colour Function / Data" offset="0xCC" visible="true" />
+	<float32 name="Objective Ping Color / Alpha" offset="0xE0" visible="true" />
+	<float32 name="Objective Ping Color / Default Intensity" offset="0xE4" visible="true" />
+	<float32 name="Objective Ping Color / Ping Intensity" offset="0xE8" visible="true" />
+	<dataref name="Environment Ping Color / Default Colour Function / Data" offset="0xEC" visible="true" />
+	<dataref name="Environment Ping Color / Ping Colour Function / Data" offset="0x100" visible="true" />
+	<float32 name="Environment Ping Color / Alpha" offset="0x114" visible="true" />
+	<float32 name="Environment Ping Color / Default Intensity" offset="0x118" visible="true" />
+	<float32 name="Environment Ping Color / Ping Intensity" offset="0x11C" visible="true" />
+	<tagref name="Mask Bitmap" offset="0x120" visible="true" />
+	<tagref name="Camera Fx Overlay" offset="0x130" visible="true" />
+</plugin>

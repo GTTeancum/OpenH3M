@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PlayerModelCustomizationGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Spartan Render Model" offset="0x0" visible="true" />
+	<tagref name="Elite Render Model" offset="0x10" visible="true" />
+	<tagblock name="Helmet Selections" offset="0x20" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Chest Selections" offset="0x2C" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Elite Selections" offset="0x38" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Left Shoulder" offset="0x44" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Right Shoulder" offset="0x50" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Arms" offset="0x5C" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Legs" offset="0x68" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Unused5" offset="0x74" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Spartan Armor Effect Selections" offset="0x80" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Elite Armor Effect Selections" offset="0x8C" visible="true" elementSize="0x14">
+		<stringid name="Selection Name" offset="0x0" visible="true" />
+		<stringid name="App Name" offset="0x4" visible="true" />
+		<tagblock name="Customized Bits" offset="0x8" visible="true" elementSize="0xC">
+			<stringid name="Region Name" offset="0x0" visible="true" />
+			<stringid name="Permutation Name" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="MaleOnly" index="0" />
+				<bit name="FemaleOnly" index="1" />
+				<bit name="MandiblesHidden" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Male Spartan Selections" offset="0x98" visible="true" elementSize="0xC">
+		<stringid name="Region Name" offset="0x0" visible="true" />
+		<stringid name="Permutation Name" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="MaleOnly" index="0" />
+			<bit name="FemaleOnly" index="1" />
+			<bit name="MandiblesHidden" index="2" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+	</tagblock>
+	<tagblock name="Female Spartan Selections" offset="0xA4" visible="true" elementSize="0xC">
+		<stringid name="Region Name" offset="0x0" visible="true" />
+		<stringid name="Permutation Name" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="MaleOnly" index="0" />
+			<bit name="FemaleOnly" index="1" />
+			<bit name="MandiblesHidden" index="2" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+	</tagblock>
+	<tagblock name="Spartan Model Defaults" offset="0xB0" visible="true" elementSize="0xC">
+		<stringid name="Region Name" offset="0x0" visible="true" />
+		<stringid name="Permutation Name" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="MaleOnly" index="0" />
+			<bit name="FemaleOnly" index="1" />
+			<bit name="MandiblesHidden" index="2" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+	</tagblock>
+	<tagblock name="Elite Model Defaults" offset="0xBC" visible="true" elementSize="0xC">
+		<stringid name="Region Name" offset="0x0" visible="true" />
+		<stringid name="Permutation Name" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="MaleOnly" index="0" />
+			<bit name="FemaleOnly" index="1" />
+			<bit name="MandiblesHidden" index="2" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+	</tagblock>
+</plugin>

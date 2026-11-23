@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ParticleEmitterBoatHullShape (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<enum8 name="Distribution" offset="0x0" visible="true">
+		<option name="ConnectTheDots" value="0" />
+		<option name="AlongHullSurfaceOnly" value="1" />
+	</enum8>
+	<uint8 name="Padding 0" offset="0x1" visible="false" />
+	<uint8 name="Padding 1" offset="0x2" visible="false" />
+	<uint8 name="Padding 2" offset="0x3" visible="false" />
+	<tagblock name="Markers" offset="0x4" visible="true" elementSize="0x4">
+		<stringid name="Marker Group" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>

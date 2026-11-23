@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x11C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.DeviceLightFixture (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<uint8 name="Padding 0" offset="0x0" visible="false" />
+	<uint8 name="Padding 1" offset="0x1" visible="false" />
+	<flags16 name="Flags" offset="0x2" visible="true">
+		<bit name="DoesNotCastShadow" index="0" />
+		<bit name="SearchCardinalDirectionLightmapsOnFailure" index="1" />
+		<bit name="Unused" index="2" />
+		<bit name="NotAPathfindingObstacle" index="3" />
+		<bit name="ExtensionOfParent" index="4" />
+		<bit name="DoesNotCauseCollisionDamage" index="5" />
+		<bit name="EarlyMover" index="6" />
+		<bit name="EarlyMoverLocalizedPhysics" index="7" />
+		<bit name="UseStaticMassiveLightmapSample" index="8" />
+		<bit name="ObjectScalesAttachments" index="9" />
+		<bit name="InheritsPlayerSAppearance" index="10" />
+		<bit name="DeadBipedsCanTLocalize" index="11" />
+		<bit name="AttachToClustersByDynamicSphere" index="12" />
+		<bit name="EffectsCreatedByThisObjectDoNotSpawnObjectsInMultiplayer" index="13" />
+	</flags16>
+	<float32 name="Bounding Radius" offset="0x4" visible="true" />
+	<point3 name="Bounding Offset" offset="0x8" visible="true" />
+	<float32 name="Acceleration Scale" offset="0x14" visible="true" />
+	<enum16 name="Lightmap Shadow Mode" offset="0x18" visible="true">
+		<option name="Default" value="0" />
+		<option name="Never" value="1" />
+		<option name="Always" value="2" />
+	</enum16>
+	<enum8 name="Sweetener Size" offset="0x1A" visible="true">
+		<option name="Small" value="0" />
+		<option name="Medium" value="1" />
+		<option name="Large" value="2" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x1B" visible="false" />
+	<uint8 name="Padding2 0" offset="0x1C" visible="false" />
+	<uint8 name="Padding2 1" offset="0x1D" visible="false" />
+	<uint8 name="Padding2 2" offset="0x1E" visible="false" />
+	<uint8 name="Padding2 3" offset="0x1F" visible="false" />
+	<float32 name="Dynamic Light Sphere Radius" offset="0x20" visible="true" />
+	<point3 name="Dynamic Light Sphere Offset" offset="0x24" visible="true" />
+	<stringid name="Default Model Variant" offset="0x30" visible="true" />
+	<tagref name="Model" offset="0x34" visible="true" />
+	<tagref name="Crate Object" offset="0x44" visible="true" />
+	<tagref name="Modifier Shader" offset="0x54" visible="true" />
+	<tagref name="Creation Effect" offset="0x64" visible="true" />
+	<tagref name="Material Effects" offset="0x74" visible="true" />
+	<tagblock name="Ai Properties" offset="0x84" visible="true" elementSize="0x10">
+		<flags32 name="Ai Flags" offset="0x0" visible="true">
+			<bit name="DetroyableCover" index="0" />
+			<bit name="PathfindingIgnoreWhenDead" index="1" />
+			<bit name="DynamicCover" index="2" />
+		</flags32>
+		<stringid name="Ai Type Name" offset="0x4" visible="true" />
+		<uint8 name="Padding 0" offset="0x8" visible="false" />
+		<uint8 name="Padding 1" offset="0x9" visible="false" />
+		<uint8 name="Padding 2" offset="0xA" visible="false" />
+		<uint8 name="Padding 3" offset="0xB" visible="false" />
+		<enum16 name="Ai Size" offset="0xC" visible="true">
+			<option name="Default" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<enum16 name="Leap Jump Speed" offset="0xE" visible="true">
+			<option name="None" value="0" />
+			<option name="Down" value="1" />
+			<option name="Step" value="2" />
+			<option name="Crouch" value="3" />
+			<option name="Stand" value="4" />
+			<option name="Storey" value="5" />
+			<option name="Tower" value="6" />
+			<option name="Infinite" value="7" />
+		</enum16>
+	</tagblock>
+	<tagblock name="Functions" offset="0x90" visible="true" elementSize="0x20">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="Invert" index="0" />
+			<bit name="MappingDoesNotControlsActive" index="1" />
+			<bit name="AlwaysActive" index="2" />
+			<bit name="RandomTimeOffset" index="3" />
+		</flags32>
+		<stringid name="Import Name" offset="0x4" visible="true" />
+		<stringid name="Export Name" offset="0x8" visible="true" />
+		<stringid name="Turn Off With" offset="0xC" visible="true" />
+		<float32 name="Min Value" offset="0x10" visible="true" />
+		<tagblock name="Default Function / Data" offset="0x14" visible="true" elementSize="0x1">
+			<int8 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Scale By" offset="0x1C" visible="true" />
+	</tagblock>
+	<float32 name="Apply Collision Damage Scale" offset="0x9C" visible="true" />
+	<float32 name="Min Game Acc Default" offset="0xA0" visible="true" />
+	<float32 name="Max Game Acc Default" offset="0xA4" visible="true" />
+	<float32 name="Min Game Scale Default" offset="0xA8" visible="true" />
+	<float32 name="Max Game Scale Default" offset="0xAC" visible="true" />
+	<float32 name="Min Abs Acc Default" offset="0xB0" visible="true" />
+	<float32 name="Max Abs Acc Default" offset="0xB4" visible="true" />
+	<float32 name="Min Abs Scale Default" offset="0xB8" visible="true" />
+	<float32 name="Max Abs Scale Default" offset="0xBC" visible="true" />
+	<int16 name="Hud Text Message Index" offset="0xC0" visible="true" />
+	<uint8 name="Padding3 0" offset="0xC2" visible="false" />
+	<uint8 name="Padding3 1" offset="0xC3" visible="false" />
+	<tagblock name="Attachments" offset="0xC4" visible="true" elementSize="0x18">
+		<tagref name="Type" offset="0x0" visible="true" />
+		<stringid name="Marker" offset="0x10" visible="true" />
+		<enum16 name="Change Color" offset="0x14" visible="true">
+			<option name="None" value="0" />
+			<option name="Primary" value="1" />
+			<option name="Secondary" value="2" />
+			<option name="Tertiary" value="3" />
+			<option name="Quaternary" value="4" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x16" visible="false" />
+		<uint8 name="Padding 1" offset="0x17" visible="false" />
+		<stringid name="Primary Scale" offset="0x18" visible="true" />
+		<stringid name="Secondary Scale" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Widgets" offset="0xD0" visible="true" elementSize="0x8">
+		<tagref name="Type" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Old Functions" offset="0xDC" visible="true" elementSize="0x50">
+		<uint8 name="Padding 0" offset="0x0" visible="false" />
+		<uint8 name="Padding 1" offset="0x1" visible="false" />
+		<uint8 name="Padding 2" offset="0x2" visible="false" />
+		<uint8 name="Padding 3" offset="0x3" visible="false" />
+		<uint8 name="Padding 4" offset="0x4" visible="false" />
+		<uint8 name="Padding 5" offset="0x5" visible="false" />
+		<uint8 name="Padding 6" offset="0x6" visible="false" />
+		<uint8 name="Padding 7" offset="0x7" visible="false" />
+		<uint8 name="Padding 8" offset="0x8" visible="false" />
+		<uint8 name="Padding 9" offset="0x9" visible="false" />
+		<uint8 name="Padding 10" offset="0xA" visible="false" />
+		<uint8 name="Padding 11" offset="0xB" visible="false" />
+		<uint8 name="Padding 12" offset="0xC" visible="false" />
+		<uint8 name="Padding 13" offset="0xD" visible="false" />
+		<uint8 name="Padding 14" offset="0xE" visible="false" />
+		<uint8 name="Padding 15" offset="0xF" visible="false" />
+		<uint8 name="Padding 16" offset="0x10" visible="false" />
+		<uint8 name="Padding 17" offset="0x11" visible="false" />
+		<uint8 name="Padding 18" offset="0x12" visible="false" />
+		<uint8 name="Padding 19" offset="0x13" visible="false" />
+		<uint8 name="Padding 20" offset="0x14" visible="false" />
+		<uint8 name="Padding 21" offset="0x15" visible="false" />
+		<uint8 name="Padding 22" offset="0x16" visible="false" />
+		<uint8 name="Padding 23" offset="0x17" visible="false" />
+		<uint8 name="Padding 24" offset="0x18" visible="false" />
+		<uint8 name="Padding 25" offset="0x19" visible="false" />
+		<uint8 name="Padding 26" offset="0x1A" visible="false" />
+		<uint8 name="Padding 27" offset="0x1B" visible="false" />
+		<uint8 name="Padding 28" offset="0x1C" visible="false" />
+		<uint8 name="Padding 29" offset="0x1D" visible="false" />
+		<uint8 name="Padding 30" offset="0x1E" visible="false" />
+		<uint8 name="Padding 31" offset="0x1F" visible="false" />
+		<uint8 name="Padding 32" offset="0x20" visible="false" />
+		<uint8 name="Padding 33" offset="0x21" visible="false" />
+		<uint8 name="Padding 34" offset="0x22" visible="false" />
+		<uint8 name="Padding 35" offset="0x23" visible="false" />
+		<uint8 name="Padding 36" offset="0x24" visible="false" />
+		<uint8 name="Padding 37" offset="0x25" visible="false" />
+		<uint8 name="Padding 38" offset="0x26" visible="false" />
+		<uint8 name="Padding 39" offset="0x27" visible="false" />
+		<uint8 name="Padding 40" offset="0x28" visible="false" />
+		<uint8 name="Padding 41" offset="0x29" visible="false" />
+		<uint8 name="Padding 42" offset="0x2A" visible="false" />
+		<uint8 name="Padding 43" offset="0x2B" visible="false" />
+		<uint8 name="Padding 44" offset="0x2C" visible="false" />
+		<uint8 name="Padding 45" offset="0x2D" visible="false" />
+		<uint8 name="Padding 46" offset="0x2E" visible="false" />
+		<uint8 name="Padding 47" offset="0x2F" visible="false" />
+		<uint8 name="Padding 48" offset="0x30" visible="false" />
+		<uint8 name="Padding 49" offset="0x31" visible="false" />
+		<uint8 name="Padding 50" offset="0x32" visible="false" />
+		<uint8 name="Padding 51" offset="0x33" visible="false" />
+		<uint8 name="Padding 52" offset="0x34" visible="false" />
+		<uint8 name="Padding 53" offset="0x35" visible="false" />
+		<uint8 name="Padding 54" offset="0x36" visible="false" />
+		<uint8 name="Padding 55" offset="0x37" visible="false" />
+		<uint8 name="Padding 56" offset="0x38" visible="false" />
+		<uint8 name="Padding 57" offset="0x39" visible="false" />
+		<uint8 name="Padding 58" offset="0x3A" visible="false" />
+		<uint8 name="Padding 59" offset="0x3B" visible="false" />
+		<uint8 name="Padding 60" offset="0x3C" visible="false" />
+		<uint8 name="Padding 61" offset="0x3D" visible="false" />
+		<uint8 name="Padding 62" offset="0x3E" visible="false" />
+		<uint8 name="Padding 63" offset="0x3F" visible="false" />
+		<uint8 name="Padding 64" offset="0x40" visible="false" />
+		<uint8 name="Padding 65" offset="0x41" visible="false" />
+		<uint8 name="Padding 66" offset="0x42" visible="false" />
+		<uint8 name="Padding 67" offset="0x43" visible="false" />
+		<uint8 name="Padding 68" offset="0x44" visible="false" />
+		<uint8 name="Padding 69" offset="0x45" visible="false" />
+		<uint8 name="Padding 70" offset="0x46" visible="false" />
+		<uint8 name="Padding 71" offset="0x47" visible="false" />
+		<uint8 name="Padding 72" offset="0x48" visible="false" />
+		<uint8 name="Padding 73" offset="0x49" visible="false" />
+		<uint8 name="Padding 74" offset="0x4A" visible="false" />
+		<uint8 name="Padding 75" offset="0x4B" visible="false" />
+		<stringid name="Unknown" offset="0x4C" visible="true" />
+	</tagblock>
+	<tagblock name="Change Colors" offset="0xE8" visible="true" elementSize="0x10">
+		<tagblock name="Initial Permutations" offset="0x0" visible="true" elementSize="0x20">
+			<float32 name="Weight" offset="0x0" visible="true" />
+			<colorf name="Color Lower Bound" offset="0x4" alpha="false" visible="true" />
+			<colorf name="Color Upper Bound" offset="0x10" alpha="false" visible="true" />
+			<stringid name="Variant Name" offset="0x1C" visible="true" />
+		</tagblock>
+		<tagblock name="Functions" offset="0xC" visible="true" elementSize="0x28">
+			<uint8 name="Padding 0" offset="0x0" visible="false" />
+			<uint8 name="Padding 1" offset="0x1" visible="false" />
+			<uint8 name="Padding 2" offset="0x2" visible="false" />
+			<uint8 name="Padding 3" offset="0x3" visible="false" />
+			<flags32 name="Scale Flags" offset="0x4" visible="true">
+				<bit name="BlendInHsv" index="0" />
+				<bit name="MoreColors" index="1" />
+			</flags32>
+			<colorf name="Color Lower Bound" offset="0x8" alpha="false" visible="true" />
+			<colorf name="Color Upper Bound" offset="0x14" alpha="false" visible="true" />
+			<stringid name="Darken By" offset="0x20" visible="true" />
+			<stringid name="Scale By" offset="0x24" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Predicted Resources" offset="0xF4" visible="true" elementSize="0x8">
+		<enum16 name="Type" offset="0x0" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Sound" value="1" />
+			<option name="RenderModelGeometry" value="2" />
+			<option name="ClusterGeometry" value="3" />
+			<option name="ClusterInstancedGeometry" value="4" />
+			<option name="LightmapGeometryObjectBuckets" value="5" />
+			<option name="LightmapGeometryInstanceBuckets" value="6" />
+			<option name="LightmapClusterBitmaps" value="7" />
+			<option name="LightmapInstanceBitmaps" value="8" />
+		</enum16>
+		<int16 name="Resource Index" offset="0x2" visible="true" />
+		<int32 name="Tag Index" offset="0x4" visible="true" />
+	</tagblock>
+	<flags32 name="Flags1" offset="0x100" visible="true">
+		<bit name="PositionLoops" index="0" />
+		<bit name="Unused" index="1" />
+		<bit name="AllowInterpolation" index="2" />
+	</flags32>
+	<float32 name="Power Transition Time" offset="0x104" visible="true" />
+	<float32 name="Power Acceleration Time" offset="0x108" visible="true" />
+	<float32 name="Position Transition Time" offset="0x10C" visible="true" />
+	<float32 name="Position Acceleration Time" offset="0x110" visible="true" />
+	<float32 name="Depowered Position Transition Time" offset="0x114" visible="true" />
+	<float32 name="Depowered Position Acceleration Time" offset="0x118" visible="true" />
+	<flags16 name="Lightmap Flags" offset="0x11C" visible="true">
+		<bit name="DonTUseInLightmap" index="0" />
+		<bit name="DonTUseInLightprobe" index="1" />
+	</flags16>
+	<uint8 name="Padding4 0" offset="0x11E" visible="false" />
+	<uint8 name="Padding4 1" offset="0x11F" visible="false" />
+	<tagref name="Open Up" offset="0x120" visible="true" />
+	<tagref name="Close Down" offset="0x130" visible="true" />
+	<tagref name="Opened" offset="0x140" visible="true" />
+	<tagref name="Closed" offset="0x150" visible="true" />
+	<tagref name="Depowered" offset="0x160" visible="true" />
+	<tagref name="Repowered" offset="0x170" visible="true" />
+	<float32 name="Delay Time" offset="0x180" visible="true" />
+	<tagref name="Delay Effect" offset="0x184" visible="true" />
+	<float32 name="Automatic Activation Radius" offset="0x194" visible="true" />
+</plugin>

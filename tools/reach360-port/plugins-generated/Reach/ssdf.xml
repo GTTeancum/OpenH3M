@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x13C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SpawnSettingsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Minimum Spawn Time" offset="0x0" visible="true" />
+	<float32 name="Min Acceptable Spawn Score" offset="0x4" visible="true" />
+	<float32 name="Maximum Random Spawn Bias" offset="0x8" visible="true" />
+	<float32 name="Num Spawn Points To Use" offset="0xC" visible="true" />
+	<float32 name="Best Weight To Use" offset="0x10" visible="true" />
+	<float32 name="Min Absolute Weight Range" offset="0x14" visible="true" />
+	<flags32 name="Flags" offset="0x18" visible="true">
+		<bit name="AllowNegativeWeightsInRandomization" index="0" />
+	</flags32>
+	<tagblock name="Spawn Settings" offset="0x1C" visible="true" elementSize="0xC">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="OnlyUseLargestInfluence" index="0" />
+			<bit name="PinInfluenceToMinimumAndMaximum" index="1" />
+		</flags32>
+		<float32 name="Minimum Influence" offset="0x4" visible="true" />
+		<float32 name="Maximum Influence" offset="0x8" visible="true" />
+	</tagblock>
+	<float32 name="Ef Full Weight Radius" offset="0x28" visible="true" />
+	<float32 name="Ef Fall Off Radius" offset="0x2C" visible="true" />
+	<tagblock name="Ef Falloff Function" offset="0x30" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Ef Upper Height" offset="0x3C" visible="true" />
+	<float32 name="Ef Lower Height" offset="0x40" visible="true" />
+	<float32 name="Ef Weight" offset="0x44" visible="true" />
+	<float32 name="Eb Full Weight Radius" offset="0x48" visible="true" />
+	<float32 name="Eb Fall Off Radius" offset="0x4C" visible="true" />
+	<tagblock name="Eb Falloff Function" offset="0x50" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Eb Upper Height" offset="0x5C" visible="true" />
+	<float32 name="Eb Lower Height" offset="0x60" visible="true" />
+	<float32 name="Eb Weight" offset="0x64" visible="true" />
+	<float32 name="Ab Full Weight Radius" offset="0x68" visible="true" />
+	<float32 name="Ab Fall Off Radius" offset="0x6C" visible="true" />
+	<tagblock name="Ab Falloff Function" offset="0x70" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Ab Upper Height" offset="0x7C" visible="true" />
+	<float32 name="Ab Lower Height" offset="0x80" visible="true" />
+	<float32 name="Ab Weight" offset="0x84" visible="true" />
+	<float32 name="Sab Full Weight Radius" offset="0x88" visible="true" />
+	<float32 name="Sab Fall Off Radius" offset="0x8C" visible="true" />
+	<tagblock name="Sab Falloff Function" offset="0x90" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Sab Upper Height" offset="0x9C" visible="true" />
+	<float32 name="Sab Lower Height" offset="0xA0" visible="true" />
+	<float32 name="Sab Weight" offset="0xA4" visible="true" />
+	<float32 name="Dt Full Weight Radius" offset="0xA8" visible="true" />
+	<float32 name="Dt Fall Off Radius" offset="0xAC" visible="true" />
+	<tagblock name="Dt Falloff Function" offset="0xB0" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Dt Upper Height" offset="0xBC" visible="true" />
+	<float32 name="Dt Lower Height" offset="0xC0" visible="true" />
+	<float32 name="Dt Weight" offset="0xC4" visible="true" />
+	<float32 name="Dead Teammate Influence Duration" offset="0xC8" visible="true" />
+	<float32 name="Drop Pod Full Weight Radius" offset="0xCC" visible="true" />
+	<float32 name="Drop Pod Fall Off Radius" offset="0xD0" visible="true" />
+	<tagblock name="Drop Pod Falloff Function" offset="0xD4" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Drop Pod Upper Height" offset="0xE0" visible="true" />
+	<float32 name="Drop Pod Lower Height" offset="0xE4" visible="true" />
+	<float32 name="Drop Pod Weight" offset="0xE8" visible="true" />
+	<float32 name="Auto Turret Full Weight Radius" offset="0xEC" visible="true" />
+	<float32 name="Auto Turret Fall Off Radius" offset="0xF0" visible="true" />
+	<tagblock name="Auto Turret Falloff Function" offset="0xF4" visible="true" elementSize="0x14">
+		<dataref name="Function / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Auto Turret Upper Height" offset="0x100" visible="true" />
+	<float32 name="Auto Turret Lower Height" offset="0x104" visible="true" />
+	<float32 name="Auto Turret Weight" offset="0x108" visible="true" />
+	<tagblock name="Weapon Influencers" offset="0x10C" visible="true" elementSize="0x20">
+		<tagref name="Weapon" offset="0x0" visible="true" />
+		<float32 name="Full Weight Range" offset="0x10" visible="true" />
+		<float32 name="Fall Off Range" offset="0x14" visible="true" />
+		<float32 name="Fall Off Cone Radius" offset="0x18" visible="true" />
+		<float32 name="Weight" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Vehicle Influencers" offset="0x118" visible="true" elementSize="0x28">
+		<tagref name="Vehicle" offset="0x0" visible="true" />
+		<float32 name="Box Width" offset="0x10" visible="true" />
+		<float32 name="Box Min Height" offset="0x14" visible="true" />
+		<float32 name="Box Max Height" offset="0x18" visible="true" />
+		<float32 name="Lead Time" offset="0x1C" visible="true" />
+		<float32 name="Minimum Velocity" offset="0x20" visible="true" />
+		<float32 name="Weight" offset="0x24" visible="true" />
+	</tagblock>
+	<tagblock name="Projectile Influencers" offset="0x124" visible="true" elementSize="0x1C">
+		<tagref name="Projectile" offset="0x0" visible="true" />
+		<float32 name="Lead Time" offset="0x10" visible="true" />
+		<float32 name="Collision Cylinder Radius" offset="0x14" visible="true" />
+		<float32 name="Weight" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Equipment Influencers" offset="0x130" visible="true" elementSize="0x14">
+		<tagref name="Equipment" offset="0x0" visible="true" />
+		<float32 name="Weight" offset="0x10" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x84">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiModelWidgetDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="AllowListItemToOverrideAnimationSkin" index="3" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<tagblock name="Camera Settings" offset="0x2C" visible="true" elementSize="0xA0">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<point3 name="Model World Position" offset="0x4" visible="true" />
+		<point3 name="Minimum World Position" offset="0x10" visible="true" />
+		<point3 name="Maximum World Position" offset="0x1C" visible="true" />
+		<point3 name="Minimum Camera Offset" offset="0x28" visible="true" />
+		<point3 name="Minimum Camera Focal Offset" offset="0x34" visible="true" />
+		<point3 name="Maximum Camera Offset" offset="0x40" visible="true" />
+		<point3 name="Maximum Camera Focal Offset" offset="0x4C" visible="true" />
+		<float32 name="Initial Zoom" offset="0x58" visible="true" />
+		<float32 name="Movement Speed" offset="0x5C" visible="true" />
+		<float32 name="Magnetism Constant" offset="0x60" visible="true" />
+		<tagblock name="Radial Transition Fxn" offset="0x64" visible="true" elementSize="0x14">
+			<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+		</tagblock>
+		<degree2 name="Initial Rotation" offset="0x70" visible="true" />
+		<degree2 name="Minimum Rotation" offset="0x78" visible="true" />
+		<degree2 name="Maximum Rotation" offset="0x80" visible="true" />
+		<float32 name="Rotation Speed" offset="0x88" visible="true" />
+		<tagref name="Model" offset="0x8C" visible="true" />
+		<stringid name="Variant" offset="0x9C" visible="true" />
+	</tagblock>
+	<colorf name="Model Widget Globals / Tron Shader Color" offset="0x38" alpha="true" visible="true" />
+	<float32 name="Model Widget Globals / Tron Shader Intensity" offset="0x48" visible="true" />
+	<float32 name="Model Widget Globals / FOV" offset="0x4C" visible="true" />
+	<float32 name="Model Widget Globals / Zoom Speed" offset="0x50" visible="true" />
+	<tagblock name="Model Widget Globals / Zoom Transition Function" offset="0x54" visible="true" elementSize="0x14">
+		<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<enum16 name="Model Widget Globals / Movement Left" offset="0x60" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Movement Right" offset="0x62" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Movement Up" offset="0x64" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Movement Down" offset="0x66" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Unknown16" offset="0x68" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Unknown17" offset="0x6A" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Zoom In" offset="0x6C" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Zoom Out" offset="0x6E" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Rotate Left" offset="0x70" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Rotate Right" offset="0x72" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Rotate Up" offset="0x74" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<enum16 name="Model Widget Globals / Rotate Down" offset="0x76" visible="true">
+		<option name="LeftTrigger" value="0" />
+		<option name="RightTrigger" value="1" />
+		<option name="DpadUp" value="2" />
+		<option name="DpadDown" value="3" />
+		<option name="DpadLeft" value="4" />
+		<option name="DpadRight" value="5" />
+		<option name="Start" value="6" />
+		<option name="Back" value="7" />
+		<option name="LeftThumb" value="8" />
+		<option name="RightThumb" value="9" />
+		<option name="ButtonA" value="10" />
+		<option name="ButtonB" value="11" />
+		<option name="ButtonX" value="12" />
+		<option name="ButtonY" value="13" />
+		<option name="LeftBumper" value="14" />
+		<option name="RightBumper" value="15" />
+		<option name="LeftStickLeft" value="16" />
+		<option name="LeftStickRight" value="17" />
+		<option name="LeftStickUp" value="18" />
+		<option name="LeftStickDown" value="19" />
+		<option name="RightStickLeft" value="20" />
+		<option name="RightStickRight" value="21" />
+		<option name="RightStickUp" value="22" />
+		<option name="RightStickDown" value="23" />
+		<option name="Unknown" value="24" />
+	</enum16>
+	<tagblock name="Texture Camera Slices" offset="0x78" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Left" offset="0x4" visible="true" />
+		<float32 name="Right" offset="0x8" visible="true" />
+		<float32 name="Top" offset="0xC" visible="true" />
+		<float32 name="Bottom" offset="0x10" visible="true" />
+	</tagblock>
+</plugin>

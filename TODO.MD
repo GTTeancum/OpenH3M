@@ -60,3 +60,5 @@ Current performance evidence: [performance investigation](tools/video-options/PE
 - [ ] Forge lifecycle: verify event1 editor reset and finish save-restore delivery and surviving-holder recovery. Reset is connected in the built candidate; restoration is not accepted.
 
 - [ ] Finish scenery creation placement: non-phased point correction and definition radius are built, but large-piece native collision placement still fails clearance checks. Authored H4 Phased defaults and nested-query behavior remain open. Verify retained-attachment selection/activation and restored-holder recovery; the legacy Phased disconnect override has been removed.
+
+- Battle Canyon (deferred, user 2026-11-22): remove its four Reach health stations at the next rebuild (rule in AGENTS.md / REACH-CONVERSION-PROCESS.md). Not to be started until Reflection is done.

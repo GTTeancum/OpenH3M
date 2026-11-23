@@ -21,7 +21,10 @@ def prepare_scripts(i, ss, ds, converter, root):
             raise ValueError(f'Dune script build has not been audited: {build}')
         version = 'U13'
     elif (not name.endswith(('h2_elongation', 's3d_sky_bridgenew'))
-            and name != r'halo_2\levels\foundation\foundation'):
+            and name != r'halo_2\levels\foundation\foundation'
+            # Asset-library throwaway test map: a stock Zanzibar copy with its own scripts removed, so only the
+            # kit's global_scripts remain (as in the kit-built Sky Bridge). The audit below still runs.
+            and name != r'levels\test\asset_library_test\asset_library_test'):
         raise ValueError(f'Script scenario has not been audited: {name}')
     report = audit(s.file.name, version)
     if report['unsupported'] or report['opcode_name_mismatches'] or report['graph']['errors']:

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xD8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CameraGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Default Unit Camera Track" offset="0x0" visible="true" />
+	<dataref name="Unknown / Data" offset="0x10" visible="true" />
+	<float32 name="Field Of View Scale" offset="0x24" visible="true" />
+	<float32 name="Yaw Scale" offset="0x28" visible="true" />
+	<float32 name="Pitch Scale" offset="0x2C" visible="true" />
+	<float32 name="Forward Scale" offset="0x30" visible="true" />
+	<float32 name="Side Scale" offset="0x34" visible="true" />
+	<float32 name="Up Scale" offset="0x38" visible="true" />
+	<float32 name="Deathcam Transition Time" offset="0x3C" visible="true" />
+	<float32 name="Fall Deathcam Transition Time" offset="0x40" visible="true" />
+	<float32 name="Deathcam Initial Distance" offset="0x44" visible="true" />
+	<float32 name="Deathcam Final Distance" offset="0x48" visible="true" />
+	<float32 name="Deathcam Z Offset" offset="0x4C" visible="true" />
+	<float32 name="Deathcam Maximum Elevation" offset="0x50" visible="true" />
+	<float32 name="Deathcam Tracking Delay" offset="0x54" visible="true" />
+	<float32 name="Deathcam Orbit Delay" offset="0x58" visible="true" />
+	<float32 name="Unknown46" offset="0x5C" visible="true" />
+	<float32 name="Unknown47" offset="0x60" visible="true" />
+	<float32 name="Fall Deathcam Minimum Velocity" offset="0x64" visible="true" />
+	<float32 name="Flying Max Boost Speed" offset="0x68" visible="true" />
+	<float32 name="Flying Time To Maximum Boost" offset="0x6C" visible="true" />
+	<enum16 name="Boost Function" offset="0x70" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0x72" visible="false" />
+	<uint8 name="Padding 1" offset="0x73" visible="false" />
+	<float32 name="Flying Zoomed Fov" offset="0x74" visible="true" />
+	<float32 name="Flying Zoomed Look Speed Scale" offset="0x78" visible="true" />
+	<float32 name="Flying Bounding Sphere Radius" offset="0x7C" visible="true" />
+	<float32 name="Flying Movement Delay" offset="0x80" visible="true" />
+	<float32 name="Flying Zoom Transition Time" offset="0x84" visible="true" />
+	<float32 name="Flying Vertical Max Speed Time" offset="0x88" visible="true" />
+	<enum16 name="Hoist Function" offset="0x8C" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Padding1 0" offset="0x8E" visible="false" />
+	<uint8 name="Padding1 1" offset="0x8F" visible="false" />
+	<float32 name="Survival Switch Time" offset="0x90" visible="true" />
+	<rangef name="Orbit Cam Distance Bounds" offset="0x94" visible="true" />
+	<float32 name="Orbit Cam Movement Delay" offset="0x9C" visible="true" />
+	<float32 name="Orbit Cam Z Offset" offset="0xA0" visible="true" />
+	<rangef name="Orbit Cam Elevation Angle Bounds" offset="0xA4" visible="true" />
+	<float32 name="Saved Film Max Playback Speed" offset="0xAC" visible="true" />
+	<float32 name="Saved Film Fade Out Time" offset="0xB0" visible="true" />
+	<float32 name="Saved Film Fade In Time" offset="0xB4" visible="true" />
+	<float32 name="Enter Vehicle Transition Time" offset="0xB8" visible="true" />
+	<float32 name="Exit Vehicle Transition Time" offset="0xBC" visible="true" />
+	<float32 name="Unknown39" offset="0xC0" visible="true" />
+	<degree name="Unknown41" offset="0xC4" visible="true" />
+	<float32 name="Unknown42" offset="0xC8" visible="true" />
+	<float32 name="Unknown43" offset="0xCC" visible="true" />
+	<float32 name="Unknown44" offset="0xD0" visible="true" />
+	<float32 name="Unknown45" offset="0xD4" visible="true" />
+</plugin>

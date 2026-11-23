@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1A8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.BigBattleCreature (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="Unused" index="0" />
+		<bit name="ImmuneToFallingDamage" index="1" />
+		<bit name="RotateWhileAirborne" index="2" />
+		<bit name="ZappedByShields" index="3" />
+		<bit name="AttachUponImpact" index="4" />
+		<bit name="NotOnMotionSensor" index="5" />
+		<bit name="ForceGroundMovement" index="6" />
+	</flags32>
+	<enum16 name="Default Team" offset="0x4" visible="true">
+		<option name="Default" value="0" />
+		<option name="Player" value="1" />
+		<option name="Human" value="2" />
+		<option name="Covenant" value="3" />
+		<option name="Brute" value="4" />
+		<option name="Mule" value="5" />
+		<option name="Spare" value="6" />
+		<option name="CovenantPlayer" value="7" />
+		<option name="Forerunner" value="8" />
+	</enum16>
+	<enum16 name="Motion Sensor Blip Size" offset="0x6" visible="true">
+		<option name="Medium" value="0" />
+		<option name="Small" value="1" />
+		<option name="Large" value="2" />
+	</enum16>
+	<degree name="Turning Velocity Maximum" offset="0x8" visible="true" />
+	<degree name="Turning Acceleration Maximum" offset="0xC" visible="true" />
+	<float32 name="Casual Turning Modifier" offset="0x10" visible="true" />
+	<float32 name="Autoaim Width" offset="0x14" visible="true" />
+	<flags32 name="Physics / Flags" offset="0x18" visible="true">
+		<bit name="CenteredAtOrigin" index="0" />
+		<bit name="ShapeSpherical" index="1" />
+		<bit name="UsePlayerPhysics" index="2" />
+		<bit name="ClimbAnySurface" index="3" />
+		<bit name="Flying" index="4" />
+		<bit name="NotPhysical" index="5" />
+		<bit name="DeadCharacterCollisionGroup" index="6" />
+		<bit name="SuppressGroundPlanesOnBipeds" index="7" />
+		<bit name="PhysicalRagdoll" index="8" />
+		<bit name="DoNotResizeDeadSpheres" index="9" />
+		<bit name="MultipleMantisShapes" index="10" />
+		<bit name="IAmAnExtremeSlipsurface" index="11" />
+		<bit name="SlipsOffMovers" index="12" />
+	</flags32>
+	<float32 name="Physics / Height Standing" offset="0x1C" visible="true" />
+	<float32 name="Physics / Height Crouching" offset="0x20" visible="true" />
+	<float32 name="Physics / Radius" offset="0x24" visible="true" />
+	<float32 name="Physics / Mass" offset="0x28" visible="true" />
+	<stringid name="Physics / Living Material Name" offset="0x2C" visible="true" />
+	<stringid name="Physics / Dead Material Name" offset="0x30" visible="true" />
+	<int16 name="Physics / Runtime Global Material Type" offset="0x34" visible="true" />
+	<int16 name="Physics / Runtime Dead Global Material Type" offset="0x36" visible="true" />
+	<tagblock name="Physics / Dead Sphere Shapes" offset="0x38" visible="true" elementSize="0x70">
+		<stringid name="Base / Name" offset="0x0" visible="true" />
+		<int8 name="Base / Material" offset="0x4" visible="true" />
+		<flags8 name="Base / Material Flags" offset="0x5" visible="true">
+			<bit name="SupressesEffects" index="0" />
+			<bit name="ForceEnableCollisionWithPlayer" index="1" />
+		</flags8>
+		<int16 name="Base / Runtime Material Type" offset="0x6" visible="true" />
+		<float32 name="Base / Relative Mass Scale" offset="0x8" visible="true" />
+		<float32 name="Base / Friction" offset="0xC" visible="true" />
+		<float32 name="Base / Restitution" offset="0x10" visible="true" />
+		<float32 name="Base / Volume" offset="0x14" visible="true" />
+		<float32 name="Base / Mass" offset="0x18" visible="true" />
+		<int16 name="Base / Mass Distribution Index" offset="0x1C" visible="true" />
+		<int8 name="Base / Phantom" offset="0x1E" visible="true" />
+		<enum8 name="Base / Proxy Collision Group" offset="0x1F" visible="true">
+			<option name="None" value="0" />
+			<option name="SmallCrate" value="1" />
+			<option name="Crate" value="2" />
+			<option name="HugeCrate" value="3" />
+			<option name="Item" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Biped" value="6" />
+			<option name="Machine" value="7" />
+			<option name="EarlyMoverMachine" value="8" />
+			<option name="OnlyCollideWithEnvironment" value="9" />
+			<option name="TechArtCustom" value="10" />
+			<option name="SmallExpensivePlant" value="11" />
+			<option name="IgnoreEnvironment" value="12" />
+			<option name="HugeVehicle" value="13" />
+			<option name="Ragdoll" value="14" />
+			<option name="SuperCollidableRagdoll" value="15" />
+			<option name="ItemBlocker" value="16" />
+			<option name="User00" value="17" />
+			<option name="User01" value="18" />
+			<option name="Everything" value="19" />
+			<option name="Creatures" value="20" />
+		</enum8>
+		<int32 name="Sphere Shape / Base / Field Pointer Skip" offset="0x20" visible="true" />
+		<int16 name="Sphere Shape / Base / Size" offset="0x24" visible="true" />
+		<int16 name="Sphere Shape / Base / Count" offset="0x26" visible="true" />
+		<int8 name="Sphere Shape / Base / Type" offset="0x28" visible="true" />
+		<int8 name="Sphere Shape / Base / Dispatchtype" offset="0x29" visible="true" />
+		<int8 name="Sphere Shape / Base / Bitsper Key" offset="0x2A" visible="true" />
+		<int8 name="Sphere Shape / Base / Codectype" offset="0x2B" visible="true" />
+		<int32 name="Sphere Shape / Base / User Data" offset="0x2C" visible="true" />
+		<float32 name="Sphere Shape / Radius" offset="0x30" visible="true" />
+		<uint8 name="Padding 0" offset="0x34" visible="false" />
+		<uint8 name="Padding 1" offset="0x35" visible="false" />
+		<uint8 name="Padding 2" offset="0x36" visible="false" />
+		<uint8 name="Padding 3" offset="0x37" visible="false" />
+		<uint8 name="Padding 4" offset="0x38" visible="false" />
+		<uint8 name="Padding 5" offset="0x39" visible="false" />
+		<uint8 name="Padding 6" offset="0x3A" visible="false" />
+		<uint8 name="Padding 7" offset="0x3B" visible="false" />
+		<uint8 name="Padding 8" offset="0x3C" visible="false" />
+		<uint8 name="Padding 9" offset="0x3D" visible="false" />
+		<uint8 name="Padding 10" offset="0x3E" visible="false" />
+		<uint8 name="Padding 11" offset="0x3F" visible="false" />
+		<int32 name="Translate Shape / Convex / Base / Field Pointer Skip" offset="0x40" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Size" offset="0x44" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Count" offset="0x46" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Type" offset="0x48" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Dispatchtype" offset="0x49" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Bitsper Key" offset="0x4A" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Codectype" offset="0x4B" visible="true" />
+		<int32 name="Translate Shape / Convex / Base / User Data" offset="0x4C" visible="true" />
+		<float32 name="Translate Shape / Convex / Radius" offset="0x50" visible="true" />
+		<int32 name="Translate Shape / Field Pointer Skip" offset="0x54" visible="true" />
+		<enum16 name="Translate Shape / Havok Shape Reference Struct1 / Shape Type" offset="0x58" visible="true">
+			<option name="Sphere" value="0" />
+			<option name="Pill" value="1" />
+			<option name="Box" value="2" />
+			<option name="Triangle" value="3" />
+			<option name="Polyhedron" value="4" />
+			<option name="MultiSphere" value="5" />
+			<option name="Unused0" value="6" />
+			<option name="Unused1" value="7" />
+			<option name="Unused2" value="8" />
+			<option name="Unused3" value="9" />
+			<option name="Unused4" value="10" />
+			<option name="Unused5" value="11" />
+			<option name="Unused6" value="12" />
+			<option name="Unused7" value="13" />
+			<option name="List" value="14" />
+			<option name="Mopp" value="15" />
+		</enum16>
+		<int16 name="Translate Shape / Havok Shape Reference Struct1 / Shape" offset="0x5A" visible="true" />
+		<int32 name="Translate Shape / Child Shape Size" offset="0x5C" visible="true" />
+		<vector3 name="Translate Shape / Translation" offset="0x60" visible="true" />
+		<float32 name="Translate Shape / Havok W Translation" offset="0x6C" visible="true" />
+	</tagblock>
+	<tagblock name="Physics / Pill Shapes" offset="0x44" visible="true" elementSize="0x60">
+		<stringid name="Base / Name" offset="0x0" visible="true" />
+		<int8 name="Base / Material" offset="0x4" visible="true" />
+		<flags8 name="Base / Material Flags" offset="0x5" visible="true">
+			<bit name="SupressesEffects" index="0" />
+			<bit name="ForceEnableCollisionWithPlayer" index="1" />
+		</flags8>
+		<int16 name="Base / Runtime Material Type" offset="0x6" visible="true" />
+		<float32 name="Base / Relative Mass Scale" offset="0x8" visible="true" />
+		<float32 name="Base / Friction" offset="0xC" visible="true" />
+		<float32 name="Base / Restitution" offset="0x10" visible="true" />
+		<float32 name="Base / Volume" offset="0x14" visible="true" />
+		<float32 name="Base / Mass" offset="0x18" visible="true" />
+		<int16 name="Base / Mass Distribution Index" offset="0x1C" visible="true" />
+		<int8 name="Base / Phantom" offset="0x1E" visible="true" />
+		<enum8 name="Base / Proxy Collision Group" offset="0x1F" visible="true">
+			<option name="None" value="0" />
+			<option name="SmallCrate" value="1" />
+			<option name="Crate" value="2" />
+			<option name="HugeCrate" value="3" />
+			<option name="Item" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Biped" value="6" />
+			<option name="Machine" value="7" />
+			<option name="EarlyMoverMachine" value="8" />
+			<option name="OnlyCollideWithEnvironment" value="9" />
+			<option name="TechArtCustom" value="10" />
+			<option name="SmallExpensivePlant" value="11" />
+			<option name="IgnoreEnvironment" value="12" />
+			<option name="HugeVehicle" value="13" />
+			<option name="Ragdoll" value="14" />
+			<option name="SuperCollidableRagdoll" value="15" />
+			<option name="ItemBlocker" value="16" />
+			<option name="User00" value="17" />
+			<option name="User01" value="18" />
+			<option name="Everything" value="19" />
+			<option name="Creatures" value="20" />
+		</enum8>
+		<int32 name="Capsule Shape / Base / Field Pointer Skip" offset="0x20" visible="true" />
+		<int16 name="Capsule Shape / Base / Size" offset="0x24" visible="true" />
+		<int16 name="Capsule Shape / Base / Count" offset="0x26" visible="true" />
+		<int8 name="Capsule Shape / Base / Type" offset="0x28" visible="true" />
+		<int8 name="Capsule Shape / Base / Dispatchtype" offset="0x29" visible="true" />
+		<int8 name="Capsule Shape / Base / Bitsper Key" offset="0x2A" visible="true" />
+		<int8 name="Capsule Shape / Base / Codectype" offset="0x2B" visible="true" />
+		<int32 name="Capsule Shape / Base / User Data" offset="0x2C" visible="true" />
+		<float32 name="Capsule Shape / Radius" offset="0x30" visible="true" />
+		<uint8 name="Padding 0" offset="0x34" visible="false" />
+		<uint8 name="Padding 1" offset="0x35" visible="false" />
+		<uint8 name="Padding 2" offset="0x36" visible="false" />
+		<uint8 name="Padding 3" offset="0x37" visible="false" />
+		<uint8 name="Padding 4" offset="0x38" visible="false" />
+		<uint8 name="Padding 5" offset="0x39" visible="false" />
+		<uint8 name="Padding 6" offset="0x3A" visible="false" />
+		<uint8 name="Padding 7" offset="0x3B" visible="false" />
+		<uint8 name="Padding 8" offset="0x3C" visible="false" />
+		<uint8 name="Padding 9" offset="0x3D" visible="false" />
+		<uint8 name="Padding 10" offset="0x3E" visible="false" />
+		<uint8 name="Padding 11" offset="0x3F" visible="false" />
+		<vector3 name="Bottom" offset="0x40" visible="true" />
+		<float32 name="Havok W Bottom" offset="0x4C" visible="true" />
+		<vector3 name="Top" offset="0x50" visible="true" />
+		<float32 name="Havok W Top" offset="0x5C" visible="true" />
+	</tagblock>
+	<tagblock name="Physics / Sphere Shapes" offset="0x50" visible="true" elementSize="0x70">
+		<stringid name="Base / Name" offset="0x0" visible="true" />
+		<int8 name="Base / Material" offset="0x4" visible="true" />
+		<flags8 name="Base / Material Flags" offset="0x5" visible="true">
+			<bit name="SupressesEffects" index="0" />
+			<bit name="ForceEnableCollisionWithPlayer" index="1" />
+		</flags8>
+		<int16 name="Base / Runtime Material Type" offset="0x6" visible="true" />
+		<float32 name="Base / Relative Mass Scale" offset="0x8" visible="true" />
+		<float32 name="Base / Friction" offset="0xC" visible="true" />
+		<float32 name="Base / Restitution" offset="0x10" visible="true" />
+		<float32 name="Base / Volume" offset="0x14" visible="true" />
+		<float32 name="Base / Mass" offset="0x18" visible="true" />
+		<int16 name="Base / Mass Distribution Index" offset="0x1C" visible="true" />
+		<int8 name="Base / Phantom" offset="0x1E" visible="true" />
+		<enum8 name="Base / Proxy Collision Group" offset="0x1F" visible="true">
+			<option name="None" value="0" />
+			<option name="SmallCrate" value="1" />
+			<option name="Crate" value="2" />
+			<option name="HugeCrate" value="3" />
+			<option name="Item" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Biped" value="6" />
+			<option name="Machine" value="7" />
+			<option name="EarlyMoverMachine" value="8" />
+			<option name="OnlyCollideWithEnvironment" value="9" />
+			<option name="TechArtCustom" value="10" />
+			<option name="SmallExpensivePlant" value="11" />
+			<option name="IgnoreEnvironment" value="12" />
+			<option name="HugeVehicle" value="13" />
+			<option name="Ragdoll" value="14" />
+			<option name="SuperCollidableRagdoll" value="15" />
+			<option name="ItemBlocker" value="16" />
+			<option name="User00" value="17" />
+			<option name="User01" value="18" />
+			<option name="Everything" value="19" />
+			<option name="Creatures" value="20" />
+		</enum8>
+		<int32 name="Sphere Shape / Base / Field Pointer Skip" offset="0x20" visible="true" />
+		<int16 name="Sphere Shape / Base / Size" offset="0x24" visible="true" />
+		<int16 name="Sphere Shape / Base / Count" offset="0x26" visible="true" />
+		<int8 name="Sphere Shape / Base / Type" offset="0x28" visible="true" />
+		<int8 name="Sphere Shape / Base / Dispatchtype" offset="0x29" visible="true" />
+		<int8 name="Sphere Shape / Base / Bitsper Key" offset="0x2A" visible="true" />
+		<int8 name="Sphere Shape / Base / Codectype" offset="0x2B" visible="true" />
+		<int32 name="Sphere Shape / Base / User Data" offset="0x2C" visible="true" />
+		<float32 name="Sphere Shape / Radius" offset="0x30" visible="true" />
+		<uint8 name="Padding 0" offset="0x34" visible="false" />
+		<uint8 name="Padding 1" offset="0x35" visible="false" />
+		<uint8 name="Padding 2" offset="0x36" visible="false" />
+		<uint8 name="Padding 3" offset="0x37" visible="false" />
+		<uint8 name="Padding 4" offset="0x38" visible="false" />
+		<uint8 name="Padding 5" offset="0x39" visible="false" />
+		<uint8 name="Padding 6" offset="0x3A" visible="false" />
+		<uint8 name="Padding 7" offset="0x3B" visible="false" />
+		<uint8 name="Padding 8" offset="0x3C" visible="false" />
+		<uint8 name="Padding 9" offset="0x3D" visible="false" />
+		<uint8 name="Padding 10" offset="0x3E" visible="false" />
+		<uint8 name="Padding 11" offset="0x3F" visible="false" />
+		<int32 name="Translate Shape / Convex / Base / Field Pointer Skip" offset="0x40" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Size" offset="0x44" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Count" offset="0x46" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Type" offset="0x48" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Dispatchtype" offset="0x49" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Bitsper Key" offset="0x4A" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Codectype" offset="0x4B" visible="true" />
+		<int32 name="Translate Shape / Convex / Base / User Data" offset="0x4C" visible="true" />
+		<float32 name="Translate Shape / Convex / Radius" offset="0x50" visible="true" />
+		<int32 name="Translate Shape / Field Pointer Skip" offset="0x54" visible="true" />
+		<enum16 name="Translate Shape / Havok Shape Reference Struct1 / Shape Type" offset="0x58" visible="true">
+			<option name="Sphere" value="0" />
+			<option name="Pill" value="1" />
+			<option name="Box" value="2" />
+			<option name="Triangle" value="3" />
+			<option name="Polyhedron" value="4" />
+			<option name="MultiSphere" value="5" />
+			<option name="Unused0" value="6" />
+			<option name="Unused1" value="7" />
+			<option name="Unused2" value="8" />
+			<option name="Unused3" value="9" />
+			<option name="Unused4" value="10" />
+			<option name="Unused5" value="11" />
+			<option name="Unused6" value="12" />
+			<option name="Unused7" value="13" />
+			<option name="List" value="14" />
+			<option name="Mopp" value="15" />
+		</enum16>
+		<int16 name="Translate Shape / Havok Shape Reference Struct1 / Shape" offset="0x5A" visible="true" />
+		<int32 name="Translate Shape / Child Shape Size" offset="0x5C" visible="true" />
+		<vector3 name="Translate Shape / Translation" offset="0x60" visible="true" />
+		<float32 name="Translate Shape / Havok W Translation" offset="0x6C" visible="true" />
+	</tagblock>
+	<tagblock name="Physics / List Sphere Shapes" offset="0x5C" visible="true" elementSize="0x70">
+		<stringid name="Base / Name" offset="0x0" visible="true" />
+		<int8 name="Base / Material" offset="0x4" visible="true" />
+		<flags8 name="Base / Material Flags" offset="0x5" visible="true">
+			<bit name="SupressesEffects" index="0" />
+			<bit name="ForceEnableCollisionWithPlayer" index="1" />
+		</flags8>
+		<int16 name="Base / Runtime Material Type" offset="0x6" visible="true" />
+		<float32 name="Base / Relative Mass Scale" offset="0x8" visible="true" />
+		<float32 name="Base / Friction" offset="0xC" visible="true" />
+		<float32 name="Base / Restitution" offset="0x10" visible="true" />
+		<float32 name="Base / Volume" offset="0x14" visible="true" />
+		<float32 name="Base / Mass" offset="0x18" visible="true" />
+		<int16 name="Base / Mass Distribution Index" offset="0x1C" visible="true" />
+		<int8 name="Base / Phantom" offset="0x1E" visible="true" />
+		<enum8 name="Base / Proxy Collision Group" offset="0x1F" visible="true">
+			<option name="None" value="0" />
+			<option name="SmallCrate" value="1" />
+			<option name="Crate" value="2" />
+			<option name="HugeCrate" value="3" />
+			<option name="Item" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Biped" value="6" />
+			<option name="Machine" value="7" />
+			<option name="EarlyMoverMachine" value="8" />
+			<option name="OnlyCollideWithEnvironment" value="9" />
+			<option name="TechArtCustom" value="10" />
+			<option name="SmallExpensivePlant" value="11" />
+			<option name="IgnoreEnvironment" value="12" />
+			<option name="HugeVehicle" value="13" />
+			<option name="Ragdoll" value="14" />
+			<option name="SuperCollidableRagdoll" value="15" />
+			<option name="ItemBlocker" value="16" />
+			<option name="User00" value="17" />
+			<option name="User01" value="18" />
+			<option name="Everything" value="19" />
+			<option name="Creatures" value="20" />
+		</enum8>
+		<int32 name="Sphere Shape / Base / Field Pointer Skip" offset="0x20" visible="true" />
+		<int16 name="Sphere Shape / Base / Size" offset="0x24" visible="true" />
+		<int16 name="Sphere Shape / Base / Count" offset="0x26" visible="true" />
+		<int8 name="Sphere Shape / Base / Type" offset="0x28" visible="true" />
+		<int8 name="Sphere Shape / Base / Dispatchtype" offset="0x29" visible="true" />
+		<int8 name="Sphere Shape / Base / Bitsper Key" offset="0x2A" visible="true" />
+		<int8 name="Sphere Shape / Base / Codectype" offset="0x2B" visible="true" />
+		<int32 name="Sphere Shape / Base / User Data" offset="0x2C" visible="true" />
+		<float32 name="Sphere Shape / Radius" offset="0x30" visible="true" />
+		<uint8 name="Padding 0" offset="0x34" visible="false" />
+		<uint8 name="Padding 1" offset="0x35" visible="false" />
+		<uint8 name="Padding 2" offset="0x36" visible="false" />
+		<uint8 name="Padding 3" offset="0x37" visible="false" />
+		<uint8 name="Padding 4" offset="0x38" visible="false" />
+		<uint8 name="Padding 5" offset="0x39" visible="false" />
+		<uint8 name="Padding 6" offset="0x3A" visible="false" />
+		<uint8 name="Padding 7" offset="0x3B" visible="false" />
+		<uint8 name="Padding 8" offset="0x3C" visible="false" />
+		<uint8 name="Padding 9" offset="0x3D" visible="false" />
+		<uint8 name="Padding 10" offset="0x3E" visible="false" />
+		<uint8 name="Padding 11" offset="0x3F" visible="false" />
+		<int32 name="Translate Shape / Convex / Base / Field Pointer Skip" offset="0x40" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Size" offset="0x44" visible="true" />
+		<int16 name="Translate Shape / Convex / Base / Count" offset="0x46" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Type" offset="0x48" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Dispatchtype" offset="0x49" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Bitsper Key" offset="0x4A" visible="true" />
+		<int8 name="Translate Shape / Convex / Base / Codectype" offset="0x4B" visible="true" />
+		<int32 name="Translate Shape / Convex / Base / User Data" offset="0x4C" visible="true" />
+		<float32 name="Translate Shape / Convex / Radius" offset="0x50" visible="true" />
+		<int32 name="Translate Shape / Field Pointer Skip" offset="0x54" visible="true" />
+		<enum16 name="Translate Shape / Havok Shape Reference Struct1 / Shape Type" offset="0x58" visible="true">
+			<option name="Sphere" value="0" />
+			<option name="Pill" value="1" />
+			<option name="Box" value="2" />
+			<option name="Triangle" value="3" />
+			<option name="Polyhedron" value="4" />
+			<option name="MultiSphere" value="5" />
+			<option name="Unused0" value="6" />
+			<option name="Unused1" value="7" />
+			<option name="Unused2" value="8" />
+			<option name="Unused3" value="9" />
+			<option name="Unused4" value="10" />
+			<option name="Unused5" value="11" />
+			<option name="Unused6" value="12" />
+			<option name="Unused7" value="13" />
+			<option name="List" value="14" />
+			<option name="Mopp" value="15" />
+		</enum16>
+		<int16 name="Translate Shape / Havok Shape Reference Struct1 / Shape" offset="0x5A" visible="true" />
+		<int32 name="Translate Shape / Child Shape Size" offset="0x5C" visible="true" />
+		<vector3 name="Translate Shape / Translation" offset="0x60" visible="true" />
+		<float32 name="Translate Shape / Havok W Translation" offset="0x6C" visible="true" />
+	</tagblock>
+	<tagblock name="Physics / List Shapes" offset="0x68" visible="true" elementSize="0x70">
+		<int32 name="Base / Base / Field Pointer Skip" offset="0x0" visible="true" />
+		<int16 name="Base / Base / Size" offset="0x4" visible="true" />
+		<int16 name="Base / Base / Count" offset="0x6" visible="true" />
+		<int32 name="Base / Base / User Data" offset="0x8" visible="true" />
+		<int32 name="Base / Base / Type" offset="0xC" visible="true" />
+		<int32 name="Base / Field Pointer Skip" offset="0x10" visible="true" />
+		<int8 name="Base / Disable Welding" offset="0x14" visible="true" />
+		<int8 name="Base / Collection Type" offset="0x15" visible="true" />
+		<uint8 name="Base / Padding 0" offset="0x16" visible="false" />
+		<uint8 name="Base / Padding 1" offset="0x17" visible="false" />
+		<int32 name="Field Pointer Skip" offset="0x18" visible="true" />
+		<int32 name="Child Shapes Size" offset="0x1C" visible="true" />
+		<int32 name="Child Shapes Capacity" offset="0x20" visible="true" />
+		<uint8 name="Padding 0" offset="0x24" visible="false" />
+		<uint8 name="Padding 1" offset="0x25" visible="false" />
+		<uint8 name="Padding 2" offset="0x26" visible="false" />
+		<uint8 name="Padding 3" offset="0x27" visible="false" />
+		<uint8 name="Padding 4" offset="0x28" visible="false" />
+		<uint8 name="Padding 5" offset="0x29" visible="false" />
+		<uint8 name="Padding 6" offset="0x2A" visible="false" />
+		<uint8 name="Padding 7" offset="0x2B" visible="false" />
+		<uint8 name="Padding 8" offset="0x2C" visible="false" />
+		<uint8 name="Padding 9" offset="0x2D" visible="false" />
+		<uint8 name="Padding 10" offset="0x2E" visible="false" />
+		<uint8 name="Padding 11" offset="0x2F" visible="false" />
+		<vector3 name="Aabb Half Extents" offset="0x30" visible="true" />
+		<float32 name="Havok W Aabb Half Extents" offset="0x3C" visible="true" />
+		<vector3 name="Aabb Center" offset="0x40" visible="true" />
+		<float32 name="Havok W Aabb Center" offset="0x4C" visible="true" />
+		<int32 name="Enabled Children0" offset="0x50" visible="true" />
+		<int32 name="Enabled Children1" offset="0x54" visible="true" />
+		<int32 name="Enabled Children2" offset="0x58" visible="true" />
+		<int32 name="Enabled Children3" offset="0x5C" visible="true" />
+		<int32 name="Enabled Children4" offset="0x60" visible="true" />
+		<int32 name="Enabled Children5" offset="0x64" visible="true" />
+		<int32 name="Enabled Children6" offset="0x68" visible="true" />
+		<int32 name="Enabled Children7" offset="0x6C" visible="true" />
+	</tagblock>
+	<tagblock name="Physics / List Shape Childinfos" offset="0x74" visible="true" elementSize="0x10">
+		<enum16 name="Shape Reference / Shape Type" offset="0x0" visible="true">
+			<option name="Sphere" value="0" />
+			<option name="Pill" value="1" />
+			<option name="Box" value="2" />
+			<option name="Triangle" value="3" />
+			<option name="Polyhedron" value="4" />
+			<option name="MultiSphere" value="5" />
+			<option name="Unused0" value="6" />
+			<option name="Unused1" value="7" />
+			<option name="Unused2" value="8" />
+			<option name="Unused3" value="9" />
+			<option name="Unused4" value="10" />
+			<option name="Unused5" value="11" />
+			<option name="Unused6" value="12" />
+			<option name="Unused7" value="13" />
+			<option name="List" value="14" />
+			<option name="Mopp" value="15" />
+		</enum16>
+		<int16 name="Shape Reference / Shape" offset="0x2" visible="true" />
+		<int32 name="Collision Filter" offset="0x4" visible="true" />
+		<int32 name="Shape Size" offset="0x8" visible="true" />
+		<int32 name="Num Child Shapes" offset="0xC" visible="true" />
+	</tagblock>
+	<degree name="Physics / Ground Physics / Maximum Slope Angle" offset="0x80" visible="true" />
+	<degree name="Physics / Ground Physics / Downhill Falloff Angle" offset="0x84" visible="true" />
+	<degree name="Physics / Ground Physics / Downhill Cutoff Angle" offset="0x88" visible="true" />
+	<degree name="Physics / Ground Physics / Uphill Falloff Angle" offset="0x8C" visible="true" />
+	<degree name="Physics / Ground Physics / Uphill Cutoff Angle" offset="0x90" visible="true" />
+	<float32 name="Physics / Ground Physics / Downhill Velocity Scale" offset="0x94" visible="true" />
+	<float32 name="Physics / Ground Physics / Uphill Velocity Scale" offset="0x98" visible="true" />
+	<float32 name="Physics / Ground Physics / Runtime Minimum Normal K" offset="0x9C" visible="true" />
+	<float32 name="Physics / Ground Physics / Runtime Downhill K0" offset="0xA0" visible="true" />
+	<float32 name="Physics / Ground Physics / Runtime Downhill K1" offset="0xA4" visible="true" />
+	<float32 name="Physics / Ground Physics / Runtime Uphill K0" offset="0xA8" visible="true" />
+	<float32 name="Physics / Ground Physics / Runtime Uphill K1" offset="0xAC" visible="true" />
+	<degree name="Physics / Ground Physics / Climb Inflection Angle" offset="0xB0" visible="true" />
+	<float32 name="Physics / Ground Physics / Scale Airborne Reaction Time" offset="0xB4" visible="true" />
+	<float32 name="Physics / Ground Physics / Scale Ground Adhesion Velocity" offset="0xB8" visible="true" />
+	<float32 name="Physics / Ground Physics / Gravity Scale" offset="0xBC" visible="true" />
+	<float32 name="Physics / Ground Physics / Airborne Acceleration Scale" offset="0xC0" visible="true" />
+	<degree name="Physics / Flying Physics / Bank Angle" offset="0xC4" visible="true" />
+	<float32 name="Physics / Flying Physics / Bank Apply Time" offset="0xC8" visible="true" />
+	<float32 name="Physics / Flying Physics / Bank Decay Time" offset="0xCC" visible="true" />
+	<float32 name="Physics / Flying Physics / Pitch Ratio" offset="0xD0" visible="true" />
+	<float32 name="Physics / Flying Physics / Max Velocity" offset="0xD4" visible="true" />
+	<float32 name="Physics / Flying Physics / Max Sidestep Velocity" offset="0xD8" visible="true" />
+	<float32 name="Physics / Flying Physics / Acceleration" offset="0xDC" visible="true" />
+	<float32 name="Physics / Flying Physics / Deceleration" offset="0xE0" visible="true" />
+	<degree name="Physics / Flying Physics / Angular Velocity Maximum" offset="0xE4" visible="true" />
+	<degree name="Physics / Flying Physics / Angular Acceleration Maximum" offset="0xE8" visible="true" />
+	<float32 name="Physics / Flying Physics / Crouch Velocity Modifier" offset="0xEC" visible="true" />
+	<flags32 name="Physics / Flying Physics / Flags" offset="0xF0" visible="true">
+		<bit name="UseWorldUp" index="0" />
+	</flags32>
+	<tagref name="Impact Damage" offset="0xF4" visible="true" />
+	<tagref name="Impact Shield Damage" offset="0x104" visible="true" />
+	<tagblock name="Campaign Metagame Bucket" offset="0x114" visible="true" elementSize="0x8">
+		<flags8 name="Flags" offset="0x0" visible="true">
+			<bit name="OnlyCountsWithRiders" index="0" />
+		</flags8>
+		<enum8 name="Type" offset="0x1" visible="true">
+			<option name="Brute" value="0" />
+			<option name="Grunt" value="1" />
+			<option name="Jackel" value="2" />
+			<option name="Skirmisher" value="3" />
+			<option name="Marine" value="4" />
+			<option name="Spartan" value="5" />
+			<option name="Bugger" value="6" />
+			<option name="Hunter" value="7" />
+			<option name="FloodInfection" value="8" />
+			<option name="FloodCarrier" value="9" />
+			<option name="FloodCombat" value="10" />
+			<option name="FloodPure" value="11" />
+			<option name="Sentinel" value="12" />
+			<option name="Elite" value="13" />
+			<option name="Engineer" value="14" />
+			<option name="Mule" value="15" />
+			<option name="Turret" value="16" />
+			<option name="Mongoose" value="17" />
+			<option name="Warthog" value="18" />
+			<option name="Scorpion" value="19" />
+			<option name="Hornet" value="20" />
+			<option name="Pelican" value="21" />
+			<option name="Revenant" value="22" />
+			<option name="Seraph" value="23" />
+			<option name="Shade" value="24" />
+			<option name="Watchtower" value="25" />
+			<option name="Ghost" value="26" />
+			<option name="Chopper" value="27" />
+			<option name="Mauler" value="28" />
+			<option name="Wraith" value="29" />
+			<option name="Banshee" value="30" />
+			<option name="Phantom" value="31" />
+			<option name="Scarab" value="32" />
+			<option name="Guntower" value="33" />
+			<option name="TuningFork" value="34" />
+			<option name="Broadsword" value="35" />
+			<option name="Mammoth" value="36" />
+			<option name="Lich" value="37" />
+			<option name="Mantis" value="38" />
+			<option name="Wasp" value="39" />
+			<option name="Phaeton" value="40" />
+			<option name="Bishop" value="41" />
+			<option name="Knight" value="42" />
+			<option name="Pawn" value="43" />
+		</enum8>
+		<enum8 name="Class" offset="0x2" visible="true">
+			<option name="Infantry" value="0" />
+			<option name="Leader" value="1" />
+			<option name="Hero" value="2" />
+			<option name="Specialist" value="3" />
+			<option name="LightVehicle" value="4" />
+			<option name="HeavyVehicle" value="5" />
+			<option name="GiantVehicle" value="6" />
+			<option name="StandardVehicle" value="7" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x3" visible="false" />
+		<int16 name="Point Count" offset="0x4" visible="true" />
+		<uint8 name="Padding1 0" offset="0x6" visible="false" />
+		<uint8 name="Padding1 1" offset="0x7" visible="false" />
+	</tagblock>
+	<rangef name="Destroy After Death Time" offset="0x120" visible="true" />
+	<flags32 name="Big Battle Flags" offset="0x128" visible="true">
+		<bit name="BoidAimsAtBigBattleTarget" index="0" />
+		<bit name="BoidsFlyWithNoPitch" index="1" />
+		<bit name="BoidsFlyNonDirectionally" index="2" />
+	</flags32>
+	<tagref name="Big Battle Weapon Emitter" offset="0x12C" visible="true" />
+	<point3 name="Big Battle Weapon Offset" offset="0x13C" visible="true" />
+	<tagref name="Big Battle Weapon Emitter2" offset="0x148" visible="true" />
+	<point3 name="Big Battle Weapon Offset2" offset="0x158" visible="true" />
+	<tagblock name="Big Battle Weapon Fire Timing" offset="0x164" visible="true" elementSize="0x14">
+		<dataref name="Function Curve / Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Big Battle Expensive Weapon Effect" offset="0x170" visible="true" />
+	<rangef name="Expensive Weapon Fire Time" offset="0x180" visible="true" />
+	<tagref name="Big Battle Death Effect" offset="0x188" visible="true" />
+	<tagref name="Imposter Model" offset="0x198" visible="true" />
+</plugin>

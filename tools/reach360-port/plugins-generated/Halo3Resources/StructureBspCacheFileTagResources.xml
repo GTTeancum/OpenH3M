@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Resources.StructureBspCacheFileTagResources (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Surface Planes" offset="0x0" visible="true" elementSize="0x4">
+		<uint16 name="First Surface To Triangle Mapping Index Old" offset="0x0" visible="true" />
+		<int16 name="Surface To Triangle Mapping Count Old" offset="0x2" visible="true" />
+	</tagblock>
+	<tagblock name="Planes" offset="0xC" visible="true" elementSize="0x4">
+		<uint32 name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Edge To Seams" offset="0x18" visible="true" elementSize="0x4">
+		<int16 name="Seam Index" offset="0x0" visible="true" />
+		<int16 name="Seam Edge Index" offset="0x2" visible="true" />
+	</tagblock>
+	<tagblock name="Pathfinding Data" offset="0x24" visible="true" elementSize="0x94">
+		<tagblock name="Sectors" offset="0x0" visible="true" elementSize="0x8">
+			<flags16 name="Pathfinding Sector Flags" offset="0x0" visible="true">
+				<bit name="SectorWalkable" index="0" />
+				<bit name="SectorBreakable" index="1" />
+				<bit name="SectorMobile" index="2" />
+				<bit name="SectorBspSource" index="3" />
+				<bit name="Floor" index="4" />
+				<bit name="Ceiling" index="5" />
+				<bit name="WallNorth" index="6" />
+				<bit name="WallSouth" index="7" />
+				<bit name="WallEast" index="8" />
+				<bit name="WallWest" index="9" />
+				<bit name="Crouchable" index="10" />
+				<bit name="Aligned" index="11" />
+				<bit name="SectorStep" index="12" />
+				<bit name="SectorInterior" index="13" />
+				<bit name="Bit14" index="14" />
+				<bit name="Bit15" index="15" />
+			</flags16>
+			<int16 name="Hint Index" offset="0x2" visible="true" />
+			<int32 name="First Link" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Links" offset="0xC" visible="true" elementSize="0x10">
+			<int16 name="Vertex1" offset="0x0" visible="true" />
+			<int16 name="Vertex2" offset="0x2" visible="true" />
+			<flags16 name="Link Flags" offset="0x4" visible="true">
+				<bit name="SectorLinkFromCollisionEdge" index="0" />
+				<bit name="SectorIntersectionLink" index="1" />
+				<bit name="SectorLinkBsp2dCreationError" index="2" />
+				<bit name="SectorLinkTopologyError" index="3" />
+				<bit name="SectorLinkChainError" index="4" />
+				<bit name="SectorLinkBothSectorsWalkable" index="5" />
+				<bit name="SectorLinkMagicHangingLink" index="6" />
+				<bit name="SectorLinkThreshold" index="7" />
+				<bit name="SectorLinkCrouchable" index="8" />
+				<bit name="SectorLinkWallBase" index="9" />
+				<bit name="SectorLinkLedge" index="10" />
+				<bit name="SectorLinkLeanable" index="11" />
+				<bit name="SectorLinkStartCorner" index="12" />
+				<bit name="SectorLinkEndCorner" index="13" />
+				<bit name="Bit14" index="14" />
+				<bit name="Bit15" index="15" />
+			</flags16>
+			<int16 name="Hint Index" offset="0x6" visible="true" />
+			<uint16 name="Forward Link" offset="0x8" visible="true" />
+			<uint16 name="Reverse Link" offset="0xA" visible="true" />
+			<int16 name="Left Sector" offset="0xC" visible="true" />
+			<int16 name="Right Sector" offset="0xE" visible="true" />
+		</tagblock>
+		<tagblock name="References" offset="0x18" visible="true" elementSize="0x4">
+			<int32 name="Node Or Sector Index" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Bsp2d Nodes" offset="0x24" visible="true" elementSize="0x14">
+			<plane2 name="Plane" offset="0x0" visible="true" />
+			<int32 name="Left Child" offset="0xC" visible="true" />
+			<int32 name="Right Child" offset="0x10" visible="true" />
+		</tagblock>
+		<tagblock name="Vertices" offset="0x30" visible="true" elementSize="0xC">
+			<point3 name="Position" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Object References" offset="0x3C" visible="true" elementSize="0x18">
+			<uint16 name="Flags" offset="0x0" visible="true" />
+			<uint8 name="Unused 0" offset="0x2" visible="false" />
+			<uint8 name="Unused 1" offset="0x3" visible="false" />
+			<tagblock name="Bsps" offset="0x4" visible="true" elementSize="0x18">
+				<int32 name="Bsp Index" offset="0x0" visible="true" />
+				<int16 name="Node Index" offset="0x4" visible="true" />
+				<uint8 name="Unused 0" offset="0x6" visible="false" />
+				<uint8 name="Unused 1" offset="0x7" visible="false" />
+				<tagblock name="Bsp2d Refs" offset="0x8" visible="true" elementSize="0x4">
+					<datum name="Index" offset="0x0" visible="true" />
+				</tagblock>
+				<int32 name="Vertex Offset" offset="0x14" visible="true" />
+			</tagblock>
+			<int32 name="Object Unique ID" offset="0x10" visible="true" />
+			<int16 name="Origin Bsp Index" offset="0x14" visible="true" />
+			<enum8 name="Object Type / Halo3 Retail" offset="0x16" visible="true">
+				<option name="Biped" value="0" />
+				<option name="Vehicle" value="1" />
+				<option name="Weapon" value="2" />
+				<option name="Equipment" value="3" />
+				<option name="Terminal" value="4" />
+				<option name="Projectile" value="5" />
+				<option name="Scenery" value="6" />
+				<option name="Machine" value="7" />
+				<option name="Control" value="8" />
+				<option name="SoundScenery" value="9" />
+				<option name="Crate" value="10" />
+				<option name="Creature" value="11" />
+				<option name="Giant" value="12" />
+				<option name="EffectScenery" value="13" />
+				<option name="None" value="-1" />
+			</enum8>
+			<enum8 name="Source" offset="0x17" visible="true">
+				<option name="Structure" value="0" />
+				<option name="Editor" value="1" />
+				<option name="Dynamic" value="2" />
+				<option name="Legacy" value="3" />
+				<option name="Sky" value="4" />
+				<option name="Parent" value="5" />
+				<option name="None" value="-1" />
+			</enum8>
+		</tagblock>
+		<tagblock name="Pathfinding Hints" offset="0x48" visible="true" elementSize="0x14">
+			<enum16 name="Hint Type" offset="0x0" visible="true">
+				<option name="IntersectionLink" value="0" />
+				<option name="JumpLink" value="1" />
+				<option name="ClimbLink" value="2" />
+				<option name="VaultLink" value="3" />
+				<option name="MountLink" value="4" />
+				<option name="HoistLink" value="5" />
+				<option name="WallJumpLink" value="6" />
+				<option name="BreakableFloor" value="7" />
+				<option name="RailLink" value="8" />
+				<option name="SeamLink" value="9" />
+				<option name="DoorLink" value="10" />
+			</enum16>
+			<int16 name="Next Hint Index" offset="0x2" visible="true" />
+			<int32 name="Data 0" offset="0x4" visible="true" />
+			<int32 name="Data 1" offset="0x8" visible="true" />
+			<int32 name="Data 2" offset="0xC" visible="true" />
+			<int32 name="Data 3" offset="0x10" visible="true" />
+		</tagblock>
+		<tagblock name="Instanced Geometry References" offset="0x54" visible="true" elementSize="0x4">
+			<int16 name="Pathfinding Object Index" offset="0x0" visible="true" />
+			<int16 name="Unknown" offset="0x2" visible="true" />
+		</tagblock>
+		<int32 name="Structure Checksum" offset="0x60" visible="true" />
+		<tagblock name="Giant Pathfinding" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="Bsp2d Index" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Seams" offset="0x70" visible="true" elementSize="0xC">
+			<tagblock name="Link Indices" offset="0x0" visible="true" elementSize="0x4">
+				<int32 name="Link Index" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Jump Seams" offset="0x7C" visible="true" elementSize="0x14">
+			<int16 name="User Jump Index" offset="0x0" visible="true" />
+			<uint8 name="Dest Only" offset="0x2" visible="true" />
+			<uint8 name="Unused 0" offset="0x3" visible="false" />
+			<float32 name="Length" offset="0x4" visible="true" />
+			<tagblock name="Jump Indices" offset="0x8" visible="true" elementSize="0x4">
+				<int16 name="Jump Index" offset="0x0" visible="true" />
+				<uint8 name="Unused 0" offset="0x2" visible="false" />
+				<uint8 name="Unused 1" offset="0x3" visible="false" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Doors" offset="0x88" visible="true" elementSize="0x4">
+			<int16 name="Scenario Object Index" offset="0x0" visible="true" />
+			<uint8 name="Unused 0" offset="0x2" visible="false" />
+			<uint8 name="Unused 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+</plugin>

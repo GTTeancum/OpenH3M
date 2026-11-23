@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Formation (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Name" offset="0x0" visible="true" />
+	<tagblock name="Primitives" offset="0x4" visible="true" elementSize="0x24">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="Radial" index="0" />
+			<bit name="Leader" index="1" />
+		</flags16>
+		<int16 name="Priority" offset="0x2" visible="true" />
+		<int16 name="Capacity" offset="0x4" visible="true" />
+		<uint8 name="Unused 0" offset="0x6" visible="false" />
+		<uint8 name="Unused 1" offset="0x7" visible="false" />
+		<float32 name="Distance Forwards" offset="0x8" visible="true" />
+		<float32 name="Distance Backwards" offset="0xC" visible="true" />
+		<float32 name="Rank Spacing" offset="0x10" visible="true" />
+		<float32 name="File Spacing" offset="0x14" visible="true" />
+		<tagblock name="Points" offset="0x18" visible="true" elementSize="0x8">
+			<degree name="Angle" offset="0x0" visible="true" />
+			<float32 name="Offset" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

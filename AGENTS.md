@@ -171,11 +171,11 @@
   candidate until traversal identifies a need. Record source/target field semantics
   and units before copying values; see tools/warlock-conversion/REACH-CONVERSION-PROCESS.md.
 
-- Reach health stations, user 2026-10-28 (scope clarified the same day): retain
-  their appearance as nonfunctional scenery in Reach-to-H3 conversions. Do not
-  add healing behavior to the original H3 core. Battle Canyon's four stations
-  are an implementation of this reusable rule, not its scope limit. Earlier
-  map-specific instructions removing CE-style health packs remain unchanged.
+- Reach health stations, user 2026-11-22 (supersedes the 2026-10-28 rule that
+  kept them as nonfunctional scenery): remove them in all Reach-to-H3
+  conversions, including Battle Canyon's four installed stations (taken out at
+  its next rebuild). Do not add healing behavior to the original H3 core.
+  Earlier map-specific instructions removing CE-style health packs remain unchanged.
 
 - Reach Forge decision, user 2026-10-28 (scope clarified the same day): replace the Reach armor-ability
   category with stock Halo 3 equipment. Do not implement Reach armor abilities
@@ -199,3 +199,10 @@
 
 
 - Powerhouse performance steering, user2026-11-11: prioritize concrete optimizations and visual/preservation checks over repeated attempts to obtain clean FPS baselines. User says clean baselines will not be available for the foreseeable future. Known polygon reduction is actionable; record the actual reduction without claiming an unmeasured FPS gain. Leave concurrent applications running.
+
+- Tombstone (Halo 2 highplains -> H3) lift override, user 2026-11-20: port Halo 2's
+  own man cannon/lift object (hp_hvac_lift_short) instead of a stock H3 lift. This
+  stock-asset policy override covers that one object only.
+- Tombstone lift effect, user 2026-11-21: use a stock H3 MP vertical boost effect
+  (The Pit's airlift effect) on the ported Halo 2 lift instead of porting Halo 2's
+  hvac_steam effect. The lift body, forces and placement remain Halo 2's.

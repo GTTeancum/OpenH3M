@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Resources.RenderGeometryApiResourceDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Textures" offset="0x0" visible="true" elementSize="0xC">
+		<dataref name="Definition / Primary Resource Data" offset="0x0" visible="true" />
+		<dataref name="Definition / Secondary Resource Data" offset="0x14" visible="true" />
+		<int16 name="Definition / Bitmap / Width" offset="0x28" visible="true" />
+		<int16 name="Definition / Bitmap / Height" offset="0x2A" visible="true" />
+		<uint8 name="Definition / Bitmap / Depth" offset="0x2C" visible="true" />
+		<int8 name="Definition / Bitmap / Mipmap Count" offset="0x2D" visible="true" />
+		<enum8 name="Definition / Bitmap / Bitmap Type" offset="0x2E" visible="true">
+			<option name="Texture2D" value="0" />
+			<option name="Texture3D" value="1" />
+			<option name="CubeMap" value="2" />
+			<option name="Array" value="3" />
+		</enum8>
+		<uint8 name="Definition / Bitmap / High Res In Secondary Resource" offset="0x2F" visible="true" />
+		<int32 name="Definition / Bitmap / D3D Format" offset="0x30" visible="true" />
+		<enum32 name="Address Type" offset="0x34" visible="true">
+			<option name="Memory" value="0" />
+			<option name="Definition" value="1" />
+			<option name="Data" value="2" />
+			<option name="SecondaryData" value="3" />
+			<option name="TertiaryData" value="4" />
+		</enum32>
+	</tagblock>
+	<tagblock name="Interleaved Textures" offset="0xC" visible="true" elementSize="0xC">
+		<dataref name="Definition / Primary Resource Data" offset="0x0" visible="true" />
+		<dataref name="Definition / Secondary Resource Data" offset="0x14" visible="true" />
+		<int16 name="Definition / Bitmap1 / Width" offset="0x28" visible="true" />
+		<int16 name="Definition / Bitmap1 / Height" offset="0x2A" visible="true" />
+		<uint8 name="Definition / Bitmap1 / Depth" offset="0x2C" visible="true" />
+		<int8 name="Definition / Bitmap1 / Mipmap Count" offset="0x2D" visible="true" />
+		<enum8 name="Definition / Bitmap1 / Bitmap Type" offset="0x2E" visible="true">
+			<option name="Texture2D" value="0" />
+			<option name="Texture3D" value="1" />
+			<option name="CubeMap" value="2" />
+			<option name="Array" value="3" />
+		</enum8>
+		<uint8 name="Definition / Bitmap1 / High Res In Secondary Resource" offset="0x2F" visible="true" />
+		<int32 name="Definition / Bitmap1 / D3D Format" offset="0x30" visible="true" />
+		<int16 name="Definition / Bitmap2 / Width" offset="0x34" visible="true" />
+		<int16 name="Definition / Bitmap2 / Height" offset="0x36" visible="true" />
+		<uint8 name="Definition / Bitmap2 / Depth" offset="0x38" visible="true" />
+		<int8 name="Definition / Bitmap2 / Mipmap Count" offset="0x39" visible="true" />
+		<enum8 name="Definition / Bitmap2 / Bitmap Type" offset="0x3A" visible="true">
+			<option name="Texture2D" value="0" />
+			<option name="Texture3D" value="1" />
+			<option name="CubeMap" value="2" />
+			<option name="Array" value="3" />
+		</enum8>
+		<uint8 name="Definition / Bitmap2 / High Res In Secondary Resource" offset="0x3B" visible="true" />
+		<int32 name="Definition / Bitmap2 / D3D Format" offset="0x3C" visible="true" />
+		<enum32 name="Address Type" offset="0x40" visible="true">
+			<option name="Memory" value="0" />
+			<option name="Definition" value="1" />
+			<option name="Data" value="2" />
+			<option name="SecondaryData" value="3" />
+			<option name="TertiaryData" value="4" />
+		</enum32>
+	</tagblock>
+	<tagblock name="Vertex Buffers" offset="0x18" visible="true" elementSize="0xC">
+		<int32 name="Definition / Count" offset="0x0" visible="true" />
+		<enum16 name="Definition / Format" offset="0x4" visible="true">
+			<option name="Invalid" value="0" />
+			<option name="World" value="1" />
+			<option name="Rigid" value="2" />
+			<option name="Skinned" value="3" />
+			<option name="StaticPerPixel" value="4" />
+			<option name="Unknown5" value="5" />
+			<option name="StaticPerVertex" value="6" />
+			<option name="Unknown7" value="7" />
+			<option name="Unused8" value="8" />
+			<option name="AmbientPrt" value="9" />
+			<option name="LinearPrt" value="10" />
+			<option name="QuadraticPrt" value="11" />
+			<option name="UnknownC" value="12" />
+			<option name="UnknownD" value="13" />
+			<option name="StaticPerVertexColor" value="14" />
+			<option name="UnknownF" value="15" />
+			<option name="Unused10" value="16" />
+			<option name="Unused11" value="17" />
+			<option name="Unused12" value="18" />
+			<option name="Unused13" value="19" />
+			<option name="TinyPosition" value="20" />
+			<option name="Unknown15" value="21" />
+			<option name="Unknown16" value="22" />
+			<option name="Unknown17" value="23" />
+			<option name="Decorator" value="24" />
+			<option name="ParticleModel" value="25" />
+			<option name="WaterTriangleIndices" value="26" />
+			<option name="TesselatedWaterParameters" value="27" />
+			<option name="Unknown1C" value="28" />
+			<option name="Unused1D" value="29" />
+			<option name="World2" value="30" />
+			<option name="RigidCompressed" value="36" />
+			<option name="SkinnedCompressed" value="37" />
+			<option name="RigidBoned" value="47" />
+		</enum16>
+		<int16 name="Definition / Vertex Size" offset="0x6" visible="true" />
+		<dataref name="Definition / Data" offset="0x8" visible="true" />
+		<enum32 name="Address Type" offset="0x1C" visible="true">
+			<option name="Memory" value="0" />
+			<option name="Definition" value="1" />
+			<option name="Data" value="2" />
+			<option name="SecondaryData" value="3" />
+			<option name="TertiaryData" value="4" />
+		</enum32>
+	</tagblock>
+	<tagblock name="Index Buffers" offset="0x24" visible="true" elementSize="0xC">
+		<enum32 name="Definition / Format" offset="0x0" visible="true">
+			<option name="PointList" value="0" />
+			<option name="LineList" value="1" />
+			<option name="LineStrip" value="2" />
+			<option name="TriangleList" value="3" />
+			<option name="TriangleFan" value="4" />
+			<option name="TriangleStrip" value="5" />
+		</enum32>
+		<dataref name="Definition / Data" offset="0x4" visible="true" />
+		<enum32 name="Address Type" offset="0x18" visible="true">
+			<option name="Memory" value="0" />
+			<option name="Definition" value="1" />
+			<option name="Data" value="2" />
+			<option name="SecondaryData" value="3" />
+			<option name="TertiaryData" value="4" />
+		</enum32>
+	</tagblock>
+</plugin>

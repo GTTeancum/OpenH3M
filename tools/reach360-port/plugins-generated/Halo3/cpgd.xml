@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x150">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CookiePurchaseGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Helmet Purchasable Appearance Families" offset="0x0" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Left Shoulder Purchasable Appearance Families" offset="0xC" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Right Shoulder Purchasable Appearance Families" offset="0x18" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Chest Purchasable Appearance Families" offset="0x24" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Legs Purchasable Appearance Families" offset="0x30" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Arms Purchasable Appearance Families" offset="0x3C" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="App1 Loadout Families" offset="0x48" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="App2 Loadout Families" offset="0x54" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Primary Weapon Loadout Families" offset="0x60" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Secondary Weapon Loadout Families" offset="0x6C" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Grenade Purchasable Loadout Families" offset="0x78" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Equipment Purchasable Loadout Families" offset="0x84" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Slot Purchasable Loadout Families" offset="0x90" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Visor Tint Purchasable Appearance Families" offset="0x9C" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Elite Armor Purchasable Appearance Families" offset="0xA8" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Primary Emblem Purchasable Appearance Families" offset="0xB4" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Secondary Emblem Purchasable Appearance Families" offset="0xC0" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Ordnance Slot Purchasable Families" offset="0xCC" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Ordnance Purchasable Families" offset="0xD8" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Portrait Pose Purchasable Families" offset="0xE4" visible="true" elementSize="0x28">
+		<stringid name="Display Title" offset="0x0" visible="true" />
+		<stringid name="Display Description" offset="0x4" visible="true" />
+		<tagref name="Display Bitmap" offset="0x8" visible="true" />
+		<int32 name="Sprite Index" offset="0x18" visible="true" />
+		<tagblock name="Purchasable Items" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Purchasable Appearance Items" offset="0xF0" visible="true" elementSize="0x140">
+		<stringid name="Purchase Id" offset="0x0" visible="true" />
+		<stringid name="Display Name" offset="0x4" visible="true" />
+		<stringid name="Display Description" offset="0x8" visible="true" />
+		<stringid name="Exit Experience Aggregate Group Name" offset="0xC" visible="true" />
+		<flags8 name="Flags" offset="0x10" visible="true">
+			<bit name="AutoBuy" index="0" />
+			<bit name="Default" index="1" />
+			<bit name="DoesnTCountTowardPercentComplete" index="2" />
+			<bit name="DoesnTCountTowardNewItems" index="3" />
+			<bit name="LspAuthoritative" index="4" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x11" visible="false" />
+		<uint8 name="Padding 1" offset="0x12" visible="false" />
+		<uint8 name="Padding 2" offset="0x13" visible="false" />
+		<tagref name="Display Bitmap" offset="0x14" visible="true" />
+		<int32 name="Sprite Index" offset="0x24" visible="true" />
+		<tagref name="Detail Display Bitmap" offset="0x28" visible="true" />
+		<int32 name="Cookie Cost" offset="0x38" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Purchased Item Error String" offset="0x3C" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Unlockable Error String" offset="0x40" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Offers Error String" offset="0x44" visible="true" />
+		<int32 name="Visible Prerequisites / Prerequisite Enlistment Count" offset="0x48" visible="true" />
+		<tagblock name="Visible Prerequisites / Prerequisite Grades" offset="0x4C" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Commendations" offset="0x58" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Appearance Purchased Items" offset="0x64" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Loadout Purchased Items" offset="0x70" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Ordnance Purchased Items" offset="0x7C" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Unlockables" offset="0x88" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Offers" offset="0x94" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<stringid name="Purchasable Prerequisites / Prerequisite Purchased Item Error String" offset="0xA0" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Unlockable Error String" offset="0xA4" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Offers Error String" offset="0xA8" visible="true" />
+		<int32 name="Purchasable Prerequisites / Prerequisite Enlistment Count" offset="0xAC" visible="true" />
+		<tagblock name="Purchasable Prerequisites / Prerequisite Grades" offset="0xB0" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Commendations" offset="0xBC" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Appearance Purchased Items" offset="0xC8" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Loadout Purchased Items" offset="0xD4" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Ordnance Purchased Items" offset="0xE0" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Unlockables" offset="0xEC" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Offers" offset="0xF8" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchase Player Appearance / Permutations" offset="0x104" visible="true" elementSize="0x8">
+			<enum8 name="Model Region" offset="0x0" visible="true">
+				<option name="SpartanHelmet" value="0" />
+				<option name="SpartanChest" value="1" />
+				<option name="EliteArmor" value="2" />
+				<option name="Unused1" value="3" />
+				<option name="Unused2" value="4" />
+				<option name="Unused3" value="5" />
+				<option name="Unused4" value="6" />
+				<option name="Unused5" value="7" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<stringid name="Model Customization Selection Name" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Appearance / Armor Effects Permutations" offset="0x110" visible="true" elementSize="0x8">
+			<enum8 name="Non Model Region" offset="0x0" visible="true">
+				<option name="SpartanArmourEffect" value="0" />
+				<option name="EliteArmourEffect" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<stringid name="Non Model Customization Selection Name" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Appearance / Visor Tints" offset="0x11C" visible="true" elementSize="0x4">
+			<stringid name="Visor Color Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Appearance / Emblem Indices" offset="0x128" visible="true" elementSize="0x1">
+			<int8 name="Emblem Index" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Appearance / Portrait Poses" offset="0x134" visible="true" elementSize="0x4">
+			<stringid name="Pose Name" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Dlc Appearance Unlockables" offset="0xFC" visible="true" elementSize="0xC">
+		<tagblock name="Purchasable Items" offset="0x0" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Waypoint Appearance Unlockables" offset="0x108" visible="true" elementSize="0xC">
+		<tagblock name="Purchasable Items" offset="0x0" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Purchasable Loadout Items" offset="0x114" visible="true" elementSize="0x138">
+		<stringid name="Purchase Id" offset="0x0" visible="true" />
+		<stringid name="Display Name" offset="0x4" visible="true" />
+		<stringid name="Display Description" offset="0x8" visible="true" />
+		<stringid name="Exit Experience Aggregate Group Name" offset="0xC" visible="true" />
+		<flags8 name="Flags" offset="0x10" visible="true">
+			<bit name="AutoBuy" index="0" />
+			<bit name="Default" index="1" />
+			<bit name="DoesnTCountTowardPercentComplete" index="2" />
+			<bit name="DoesnTCountTowardNewItems" index="3" />
+			<bit name="LspAuthoritative" index="4" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x11" visible="false" />
+		<uint8 name="Padding 1" offset="0x12" visible="false" />
+		<uint8 name="Padding 2" offset="0x13" visible="false" />
+		<tagref name="Display Bitmap" offset="0x14" visible="true" />
+		<int32 name="Sprite Index" offset="0x24" visible="true" />
+		<tagref name="Detail Display Bitmap" offset="0x28" visible="true" />
+		<int32 name="Cookie Cost" offset="0x38" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Purchased Item Error String" offset="0x3C" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Unlockable Error String" offset="0x40" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Offers Error String" offset="0x44" visible="true" />
+		<int32 name="Visible Prerequisites / Prerequisite Enlistment Count" offset="0x48" visible="true" />
+		<tagblock name="Visible Prerequisites / Prerequisite Grades" offset="0x4C" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Commendations" offset="0x58" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Appearance Purchased Items" offset="0x64" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Loadout Purchased Items" offset="0x70" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Ordnance Purchased Items" offset="0x7C" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Unlockables" offset="0x88" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Offers" offset="0x94" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<stringid name="Purchasable Prerequisites / Prerequisite Purchased Item Error String" offset="0xA0" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Unlockable Error String" offset="0xA4" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Offers Error String" offset="0xA8" visible="true" />
+		<int32 name="Purchasable Prerequisites / Prerequisite Enlistment Count" offset="0xAC" visible="true" />
+		<tagblock name="Purchasable Prerequisites / Prerequisite Grades" offset="0xB0" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Commendations" offset="0xBC" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Appearance Purchased Items" offset="0xC8" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Loadout Purchased Items" offset="0xD4" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Ordnance Purchased Items" offset="0xE0" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Unlockables" offset="0xEC" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Offers" offset="0xF8" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<stringid name="Icon String Id" offset="0x104" visible="true" />
+		<tagblock name="Purchase Player Loadout / Items" offset="0x108" visible="true" elementSize="0xC">
+			<enum8 name="Item Category" offset="0x0" visible="true">
+				<option name="Weapon" value="0" />
+				<option name="Grenade" value="1" />
+				<option name="Equipment" value="2" />
+				<option name="Vehicle" value="3" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<stringid name="Object Name" offset="0x4" visible="true" />
+			<uint8 name="Object Variant Index" offset="0x8" visible="true" />
+			<uint8 name="Padding1 0" offset="0x9" visible="false" />
+			<uint8 name="Padding1 1" offset="0xA" visible="false" />
+			<uint8 name="Padding1 2" offset="0xB" visible="false" />
+		</tagblock>
+		<tagblock name="Purchase Player Loadout / Apps" offset="0x114" visible="true" elementSize="0x4">
+			<stringid name="Object Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Loadout / Loadout Slots" offset="0x120" visible="true" elementSize="0x1">
+			<uint8 name="Slot Count" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Loadout / App And Mod Slots" offset="0x12C" visible="true" elementSize="0x2">
+			<uint8 name="App Count" offset="0x0" visible="true" />
+			<uint8 name="Mod Count" offset="0x1" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Dlc Loadout Unlockables" offset="0x120" visible="true" elementSize="0xC">
+		<tagblock name="Purchasable Items" offset="0x0" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Waypoint Loadout Unlockables" offset="0x12C" visible="true" elementSize="0xC">
+		<tagblock name="Purchasable Items" offset="0x0" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Purchasable Ordnance Items" offset="0x138" visible="true" elementSize="0x11C">
+		<stringid name="Purchase Id" offset="0x0" visible="true" />
+		<stringid name="Display Name" offset="0x4" visible="true" />
+		<stringid name="Display Description" offset="0x8" visible="true" />
+		<stringid name="Exit Experience Aggregate Group Name" offset="0xC" visible="true" />
+		<flags8 name="Flags" offset="0x10" visible="true">
+			<bit name="AutoBuy" index="0" />
+			<bit name="Default" index="1" />
+			<bit name="DoesnTCountTowardPercentComplete" index="2" />
+			<bit name="DoesnTCountTowardNewItems" index="3" />
+			<bit name="LspAuthoritative" index="4" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x11" visible="false" />
+		<uint8 name="Padding 1" offset="0x12" visible="false" />
+		<uint8 name="Padding 2" offset="0x13" visible="false" />
+		<tagref name="Display Bitmap" offset="0x14" visible="true" />
+		<int32 name="Sprite Index" offset="0x24" visible="true" />
+		<tagref name="Detail Display Bitmap" offset="0x28" visible="true" />
+		<int32 name="Cookie Cost" offset="0x38" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Purchased Item Error String" offset="0x3C" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Unlockable Error String" offset="0x40" visible="true" />
+		<stringid name="Visible Prerequisites / Prerequisite Offers Error String" offset="0x44" visible="true" />
+		<int32 name="Visible Prerequisites / Prerequisite Enlistment Count" offset="0x48" visible="true" />
+		<tagblock name="Visible Prerequisites / Prerequisite Grades" offset="0x4C" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Commendations" offset="0x58" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Appearance Purchased Items" offset="0x64" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Loadout Purchased Items" offset="0x70" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Ordnance Purchased Items" offset="0x7C" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Unlockables" offset="0x88" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visible Prerequisites / Prerequisite Offers" offset="0x94" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<stringid name="Purchasable Prerequisites / Prerequisite Purchased Item Error String" offset="0xA0" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Unlockable Error String" offset="0xA4" visible="true" />
+		<stringid name="Purchasable Prerequisites / Prerequisite Offers Error String" offset="0xA8" visible="true" />
+		<int32 name="Purchasable Prerequisites / Prerequisite Enlistment Count" offset="0xAC" visible="true" />
+		<tagblock name="Purchasable Prerequisites / Prerequisite Grades" offset="0xB0" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Commendations" offset="0xBC" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Appearance Purchased Items" offset="0xC8" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Loadout Purchased Items" offset="0xD4" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Ordnance Purchased Items" offset="0xE0" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Unlockables" offset="0xEC" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchasable Prerequisites / Prerequisite Offers" offset="0xF8" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Purchase Player Ordnance / Ordnance Items" offset="0x104" visible="true" elementSize="0x4">
+			<stringid name="Ordnance Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Purchase Player Ordnance / Ordnance Slots" offset="0x110" visible="true" elementSize="0x1">
+			<uint8 name="Slot Count" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Dlc Ordnance Unlockables" offset="0x144" visible="true" elementSize="0xC">
+		<tagblock name="Purchasable Items" offset="0x0" visible="true" elementSize="0x4">
+			<int16 name="Purchasable Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Purchasable Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Purchasable Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+</plugin>

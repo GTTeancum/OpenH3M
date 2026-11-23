@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ScenarioTriggerVolumesResource (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Kill Trigger Volumes" offset="0x0" visible="true" elementSize="0x44">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Object Name" offset="0x4" visible="true" />
+		<uint8 name="Unknown 0" offset="0x6" visible="false" />
+		<uint8 name="Unknown 1" offset="0x7" visible="false" />
+		<stringid name="Node Name" offset="0x8" visible="true" />
+		<float32 name="Unknown1 0" offset="0xC" visible="true" />
+		<float32 name="Unknown1 1" offset="0x10" visible="true" />
+		<float32 name="Unknown1 2" offset="0x14" visible="true" />
+		<float32 name="Unknown1 3" offset="0x18" visible="true" />
+		<float32 name="Unknown1 4" offset="0x1C" visible="true" />
+		<float32 name="Unknown1 5" offset="0x20" visible="true" />
+		<point3 name="Position" offset="0x24" visible="true" />
+		<point3 name="Extents" offset="0x30" visible="true" />
+		<uint8 name="Padding 0" offset="0x3C" visible="false" />
+		<uint8 name="Padding 1" offset="0x3D" visible="false" />
+		<uint8 name="Padding 2" offset="0x3E" visible="false" />
+		<uint8 name="Padding 3" offset="0x3F" visible="false" />
+		<int16 name="Kill Trigger Volume" offset="0x40" visible="true" />
+		<uint8 name="Padding1 0" offset="0x42" visible="false" />
+		<uint8 name="Padding1 1" offset="0x43" visible="false" />
+	</tagblock>
+	<tagblock name="Object Names" offset="0xC" visible="true" elementSize="0x24">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<int16 name="Unknown" offset="0x20" visible="true" />
+		<int16 name="Unknown1" offset="0x22" visible="true" />
+	</tagblock>
+</plugin>

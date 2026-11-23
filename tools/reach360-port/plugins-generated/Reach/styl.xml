@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x5C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Style (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+	<enum16 name="Combat Status Decay Options" offset="0x20" visible="true">
+		<option name="LatchAtIdle" value="0" />
+		<option name="LatchAtAlert" value="1" />
+		<option name="LatchAtCombat" value="2" />
+	</enum16>
+	<enum16 name="Attitude" offset="0x22" visible="true">
+		<option name="Normal" value="0" />
+		<option name="Timid" value="1" />
+		<option name="Aggressive" value="2" />
+	</enum16>
+	<flags32 name="Style Control" offset="0x24" visible="true">
+		<bit name="NewBehaviorsDefaultToOn" index="0" />
+		<bit name="DoNotForceOnDefaultBehaviors" index="1" />
+	</flags32>
+	<int32 name="Behaviors 0" offset="0x28" visible="true" />
+	<int32 name="Behaviors 1" offset="0x2C" visible="true" />
+	<int32 name="Behaviors 2" offset="0x30" visible="true" />
+	<int32 name="Behaviors 3" offset="0x34" visible="true" />
+	<int32 name="Behaviors 4" offset="0x38" visible="true" />
+	<int32 name="Behaviors 5" offset="0x3C" visible="true" />
+	<int32 name="Behaviors 6" offset="0x40" visible="true" />
+	<tagblock name="Special Movement" offset="0x44" visible="true" elementSize="0x4">
+		<flags32 name="Special Movement1" offset="0x0" visible="true">
+			<bit name="Jump" index="0" />
+			<bit name="Climb" index="1" />
+			<bit name="Vault" index="2" />
+			<bit name="Mount" index="3" />
+			<bit name="Hoist" index="4" />
+			<bit name="WallJump" index="5" />
+			<bit name="Na" index="6" />
+			<bit name="Rail" index="7" />
+			<bit name="Seam" index="8" />
+			<bit name="Door" index="9" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Behavior List" offset="0x50" visible="true" elementSize="0x20">
+		<ascii name="Behavior Name" offset="0x0" visible="true" size="0x20" />
+	</tagblock>
+</plugin>

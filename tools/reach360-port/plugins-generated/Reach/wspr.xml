@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x2C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiWidgetSpriteAnimationDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="LoopCyclic" index="0" />
+		<bit name="LoopReverse" index="1" />
+	</flags32>
+	<tagblock name="Keyframes" offset="0x4" visible="true" elementSize="0x14">
+		<int32 name="Time Offset" offset="0x0" visible="true" />
+		<int16 name="Sprite Sequence" offset="0x4" visible="true" />
+		<int16 name="Sprite Frame" offset="0x6" visible="true" />
+		<tagblock name="Custom Transition Fxn" offset="0x8" visible="true" elementSize="0x14">
+			<dataref name="Data" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<dataref name="Default Function / Data" offset="0x10" visible="true" />
+	<uint32 name="Unknown" offset="0x24" visible="true" />
+	<uint32 name="Unknown2" offset="0x28" visible="true" />
+</plugin>

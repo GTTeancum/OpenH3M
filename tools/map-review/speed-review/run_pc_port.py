@@ -18,9 +18,14 @@ p.add_argument('--package', type=Path, required=True, help='LIVE container to in
 p.add_argument('--map', required=True, help='internal map name, e.g. reactor')
 p.add_argument('--run', type=Path, required=True, help='new run folder inside the repository')
 p.add_argument('--seconds', type=int, default=170)
-p.add_argument('--captures', default='60000,71500,110000,130000,150000')
+p.add_argument('--captures', default=None)
+p.add_argument('--extra-args', default='', help='extra game options, space separated')
 p.add_argument('--extra-input', default='', help='extra steps, e.g. 120000:RSSLOWRIGHT+20000')
 p.add_argument('--headless', action='store_true')
+p.add_argument('--benchmark-points', type=Path, help='text file of up to 3 lines: x y z yaw; uses the built-in spawn benchmark')
+p.add_argument('--benchmark-seconds', type=int, default=20)
+p.add_argument('--fpsunlock', action='store_true')
+p.add_argument('--timing', action='store_true', help='log per-frame present/GPU timing')
 p.add_argument('--skip-install', action='store_true')
 p.add_argument('--no-mute', action='store_true')
 a = p.parse_args()
@@ -36,12 +41,26 @@ inp = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
 inp += [f'{58000 + n * 700}:{direction}+250' for n in range(steps)]
 confirm = max(70000, 58000 + steps * 700 + 500); delay = confirm - 70000
 inp += [f'{confirm}:A+250', f'{72000 + delay}:A+250', f'{74000 + delay}:DOWN+220', f'{95000 + delay}:A+250']
+if a.fpsunlock:
+    # With the frame cap off, long menu presses repeat; keep them short.
+    inp = [step.rsplit('+', 1)[0] + '+50' for step in inp]
 if a.extra_input: inp += a.extra_input.split(',')
 args = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}', f'--cache_root={run / "cache"}',
         f'--log_file={run / "runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(inp), '--input_script_button_state=true', '--input_script_keystrokes=false',
         '--log_level=debug', '--log_max_file_size_mb=5', '--log_max_files=4',
-        f'--halo3mp_capture_guest_output_path={run / "shot.png"}', '--halo3mp_capture_guest_output_times_ms=' + a.captures]
+        f'--halo3mp_capture_guest_output_path={run / "shot.png"}']
+if a.benchmark_points:
+    # The port only accepts points files under the earlier workspace's map-benchmarks folder.
+    bench_root = Path('C:/X360/ISOs/H3M/.local/OpenH3M-source/.local/map-benchmarks/speed-review')
+    bench_root.mkdir(parents=True, exist_ok=True); dest = bench_root / (run.name + '.txt')
+    dest.write_text(a.benchmark_points.read_text())
+    args += [f'--halo3mp_benchmark_map={a.map}', f'--halo3mp_benchmark_points={dest.as_posix()}', f'--halo3mp_benchmark_seconds={a.benchmark_seconds}']
+if a.captures or not a.benchmark_points:
+    args.append('--halo3mp_capture_guest_output_times_ms=' + (a.captures or '60000,71500,110000,130000,150000'))
+if a.fpsunlock: args.append('--fpsunlock')
+args += a.extra_args.split()
+if a.timing: args += ['--d3d12_log_present_timing=true', '--d3d12_slow_preparation_ms=8']
 if a.headless: args.append('--headless=true')
 if not a.skip_install: args.append(f'--halo3mp_install_content={package}')
 if not a.no_mute: args.append('--audio_mute=true')
@@ -76,6 +95,13 @@ if state != 0:
 else:
     kernel32.GetExitCodeProcess(pi.hProcess, C.byref(code)); outcome = f'exited by itself, code {code.value:#x}'
 kernel32.CloseHandle(pi.hThread); kernel32.CloseHandle(pi.hProcess); user32.CloseDesktop(desk)
-shots = sorted(x.name for x in run.glob('shot*.png'))
+shots = sorted(x.name for x in run.glob('*.png'))
+import re
+bench = []
+for log in sorted(run.glob('runtime*.log')):
+    for text in log.read_text(errors='replace').splitlines():
+        m = re.search(r'\[map-benchmark\] ((?:RESULT|FAILED|COMPLETE).*)', text)
+        if m: bench.append(m.group(1))
+for line in bench: print('  ', line)
 print(outcome, '| captures:', shots)
-(run / 'result.json').write_text(json.dumps(dict(outcome=outcome, captures=shots), indent=1))
+(run / 'result.json').write_text(json.dumps(dict(outcome=outcome, captures=shots, benchmark=bench), indent=1))

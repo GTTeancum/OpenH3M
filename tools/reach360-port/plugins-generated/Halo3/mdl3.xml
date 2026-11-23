@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x38">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiModelWidgetDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="AllowListItemToOverrideAnimationSkin" index="3" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<tagblock name="Camera Settings" offset="0x2C" visible="true" elementSize="0x3C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Fov" offset="0x4" visible="true" />
+		<float32 name="Initial Radial Offset" offset="0x8" visible="true" />
+		<float32 name="Final Radial Offset" offset="0xC" visible="true" />
+		<float32 name="Camera Radial Step Size" offset="0x10" visible="true" />
+		<float32 name="Initial Vertical Offset" offset="0x14" visible="true" />
+		<float32 name="Final Vertical Offset" offset="0x18" visible="true" />
+		<float32 name="Camera Vertical Step Size" offset="0x1C" visible="true" />
+		<float32 name="Camera Rotational Step" offset="0x20" visible="true" />
+		<tagblock name="Radial Transition Fxn" offset="0x24" visible="true" elementSize="0x14">
+			<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Vertical Transition Fxn" offset="0x30" visible="true" elementSize="0x14">
+			<dataref name="Custom Function / Data" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

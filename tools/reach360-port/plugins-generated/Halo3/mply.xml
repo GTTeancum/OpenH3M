@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MultiplayerScenarioDescription (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Multiplayer Scenarios" offset="0x0" visible="true" elementSize="0x44">
+		<tagref name="Descriptive Bitmap" offset="0x0" visible="true" />
+		<tagref name="Displayed Map Name" offset="0x10" visible="true" />
+		<ascii name="Scenario Tag Directory Path" offset="0x20" visible="true" size="0x20" />
+		<uint8 name="Padding 0" offset="0x40" visible="false" />
+		<uint8 name="Padding 1" offset="0x41" visible="false" />
+		<uint8 name="Padding 2" offset="0x42" visible="false" />
+		<uint8 name="Padding 3" offset="0x43" visible="false" />
+	</tagblock>
+</plugin>

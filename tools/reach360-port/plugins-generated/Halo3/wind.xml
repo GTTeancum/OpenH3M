@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x78">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Wind (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<dataref name="Direction / Data" offset="0x0" visible="true" />
+	<dataref name="Speed / Data" offset="0x14" visible="true" />
+	<dataref name="Bend / Data" offset="0x28" visible="true" />
+	<dataref name="Oscillation / Data" offset="0x3C" visible="true" />
+	<dataref name="Frequency / Data" offset="0x50" visible="true" />
+	<float32 name="Gust Size" offset="0x64" visible="true" />
+	<tagref name="Gust Noise Bitmap" offset="0x68" visible="true" />
+</plugin>

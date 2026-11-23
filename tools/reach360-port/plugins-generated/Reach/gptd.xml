@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GamePerformanceThrottle (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Entries" offset="0x0" visible="true" elementSize="0x20">
+		<int32 name="Filter / Minimum Player Count" offset="0x0" visible="true" />
+		<int32 name="Profile / Maximum Havok Proxy Count" offset="0x4" visible="true" />
+		<int32 name="Profile / Maximum Ragdoll Count" offset="0x8" visible="true" />
+		<int32 name="Profile / Maximum Impact Count" offset="0xC" visible="true" />
+		<int32 name="Profile / Vehicle Suspension Update Frequency" offset="0x10" visible="true" />
+		<int32 name="Profile / Actor Lod Ai Actors To Update Fully Each Frame" offset="0x14" visible="true" />
+		<int32 name="Profile / Actor Lod Number Of Frames To Tick Loded Ai" offset="0x18" visible="true" />
+		<int32 name="Profile / Actor Lod Number Of Concurrent Lod Actors To Tick" offset="0x1C" visible="true" />
+	</tagblock>
+</plugin>

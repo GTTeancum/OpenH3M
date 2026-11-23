@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Airstrike (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Batteries" offset="0x0" visible="true" elementSize="0x48">
+		<float32 name="Launch Radius" offset="0x0" visible="true" />
+		<float32 name="Launch Z Height" offset="0x4" visible="true" />
+		<float32 name="Launch Warmup" offset="0x8" visible="true" />
+		<float32 name="Launch Arrival" offset="0xC" visible="true" />
+		<float32 name="Launch Cooldown" offset="0x10" visible="true" />
+		<float32 name="Launch Duration" offset="0x14" visible="true" />
+		<int32 name="Shots Per Launch" offset="0x18" visible="true" />
+		<tagref name="Fire Effect" offset="0x1C" visible="true" />
+		<tagref name="Fire Effect1" offset="0x2C" visible="true" />
+		<tagblock name="Fire Offsets" offset="0x3C" visible="true" elementSize="0x8">
+			<point2 name="Offset" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

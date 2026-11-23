@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- ho2h3: converts ElDewrito / Halo Online maps (TagTool mod packages) into original Xbox 360 Halo 3 maps.
+       Reads Halo Online tags with TagTool's definitions, writes them in Halo 3 retail 360 layout with TagTool's
+       serializer, and injects into a stock 360 map with Assembly's Blamite (compiled in, as ReachPort does). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net8.0-windows</TargetFramework><PlatformTarget>x64</PlatformTarget>
+    <Nullable>disable</Nullable><LangVersion>latest</LangVersion><EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo><AllowUnsafeBlocks>true</AllowUnsafeBlocks><UseWindowsForms>false</UseWindowsForms>
+    <NoWarn>CS0618;CS0168;CS0219;CS0414;CS0649;CS0169;CS1591;CA1416;SYSLIB0011;SYSLIB0014</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\.local\asset-tools\src\Assembly\src\Blamite\**\*.cs" Exclude="..\..\.local\asset-tools\src\Assembly\src\Blamite\Properties\**;..\..\.local\asset-tools\src\Assembly\src\Blamite\obj\**;..\..\.local\asset-tools\src\Assembly\src\Blamite\bin\**" />
+    <Compile Include="*.cs" />
+    <Compile Include="..\asset-library\inject360\Xenos.cs" />
+    <Compile Include="..\asset-library\inject360\Resources.cs" Link="Inject360Resources.cs" />
+    <Compile Include="..\asset-library\inject360\Integrity.cs" />
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.8.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <Reference Include="HaloShaderGenerator"><HintPath>C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\HaloShaderGenerator.dll</HintPath></Reference>
+    <Reference Include="TagTool"><HintPath>C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\TagTool.dll</HintPath></Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\.local\asset-tools\src\Assembly\src\Blamite\Formats\**\*" Link="Formats\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\*.dll" Exclude="C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\TagTool.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+    <None Include="C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\Tools\*.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+    <None Include="C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\Tools\*" CopyToOutputDirectory="PreserveNewest" Link="Tools\%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

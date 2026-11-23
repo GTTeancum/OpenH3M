@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x34">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GameGlobalsOrdnanceList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Ordnance Map Width" offset="0x0" visible="true" />
+	<float32 name="Random Ordnance Fanfare Duration" offset="0x4" visible="true" />
+	<tagref name="Drop Pod Cleanup Effect" offset="0x8" visible="true" />
+	<tagblock name="Ordnances" offset="0x18" visible="true" elementSize="0x4C">
+		<stringid name="Ordnance Name" offset="0x0" visible="true" />
+		<ascii name="Ordnance Internal Name" offset="0x4" visible="true" size="0x20" />
+		<int32 name="Activation Point Cost" offset="0x24" visible="true" />
+		<stringid name="Drop Pod Variant Name" offset="0x28" visible="true" />
+		<tagref name="Remote Strike Equipment" offset="0x2C" visible="true" />
+		<uint8 name="Sequence Index" offset="0x3C" visible="true" />
+		<uint8 name="Equipment Count" offset="0x3D" visible="true" />
+		<flags8 name="Premium Flag" offset="0x3E" visible="true">
+			<bit name="PremiumOrdnance" index="0" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x3F" visible="false" />
+		<point3 name="Navpoint Marker Offset" offset="0x40" visible="true" />
+	</tagblock>
+	<tagblock name="Ordnance Remapping Tables" offset="0x24" visible="true" elementSize="0x30">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<ascii name="Internal Name" offset="0x4" visible="true" size="0x20" />
+		<tagblock name="Remappings" offset="0x24" visible="true" elementSize="0x8">
+			<stringid name="From" offset="0x0" visible="true" />
+			<stringid name="To" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<float32 name="Equipment Invulnerable Seconds" offset="0x30" visible="true" />
+</plugin>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Particleman (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<enum16 name="Shape" offset="0x0" visible="true">
+		<option name="Cloud" value="0" />
+	</enum16>
+	<flags16 name="Flags" offset="0x2" visible="true">
+		<bit name="HideObjectWhenEffectCompletes" index="0" />
+		<bit name="MoveParticlesTowardsCurrentSetTargetLocation" index="1" />
+		<bit name="OverrideAnyCurrentlyRunningParticleization" index="2" />
+	</flags16>
+	<float32 name="Duration" offset="0x4" visible="true" />
+	<float32 name="Density" offset="0x8" visible="true" />
+	<float32 name="Size" offset="0xC" visible="true" />
+	<dataref name="Curve / Mapping / Data" offset="0x10" visible="true" />
+</plugin>

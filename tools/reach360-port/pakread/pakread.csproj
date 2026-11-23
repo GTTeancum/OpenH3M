@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Reads tags out of an ElDewrito mod package (.pak) through TagTool's documented ModPackage reader.
+       Reference material only: lists and dumps the Reach map tags a published TagTool port produced. -->
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><PlatformTarget>x64</PlatformTarget><Nullable>disable</Nullable></PropertyGroup>
+  <ItemGroup><Reference Include="TagTool"><HintPath>C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\TagTool.dll</HintPath></Reference></ItemGroup>
+</Project>

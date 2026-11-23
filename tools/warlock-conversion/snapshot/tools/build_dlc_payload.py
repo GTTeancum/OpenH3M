@@ -24,7 +24,8 @@ ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Force Cove', 1731),
                    ('zanzibar', 'sky_bridge', 'Sky Bridge', 1747),
                    ('zanzibar', 'desolation', 'Desolation', 1748),
                    ('zanzibar', 'foundation', 'Foundation', 1749),
-                   ('zanzibar', 'relic', 'Relic', 1750)]
+                   ('zanzibar', 'relic', 'Relic', 1750),
+                   ('zanzibar', 'tombstone', 'Tombstone', 1751)]
 
 
 def fixed(data, offset, length, text, encoding='ascii'):

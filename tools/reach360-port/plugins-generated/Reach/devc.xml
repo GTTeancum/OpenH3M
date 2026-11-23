@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x2C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.InputDeviceDefaults (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<enum16 name="Device Type" offset="0x0" visible="true">
+		<option name="MouseAndKeyboard" value="0" />
+		<option name="JoysticksGamepadsEtc" value="1" />
+		<option name="FullProfileDefinition" value="2" />
+	</enum16>
+	<flags16 name="Flags" offset="0x2" visible="true">
+		<bit name="Unused" index="0" />
+	</flags16>
+	<dataref name="Device Id" offset="0x4" visible="true" />
+	<dataref name="Profile" offset="0x18" visible="true" />
+</plugin>

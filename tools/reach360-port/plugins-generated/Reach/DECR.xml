@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x70">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.DecoratorSet (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Shaders" offset="0x0" visible="true" elementSize="0x8">
+		<tagref name="Shader" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Lighting Min Scale" offset="0xC" visible="true" />
+	<float32 name="Lighting Max Scale" offset="0x10" visible="true" />
+	<tagblock name="Classes" offset="0x14" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Type" offset="0x4" visible="true">
+			<option name="Model" value="0" />
+			<option name="FloatingDecal" value="1" />
+			<option name="ProjectedDecal" value="2" />
+			<option name="ScreenFacingQuad" value="3" />
+			<option name="AxisRotatingQuad" value="4" />
+			<option name="CrossQuad" value="5" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+		<float32 name="Scale" offset="0x8" visible="true" />
+		<tagblock name="Permutations" offset="0xC" visible="true" elementSize="0x28">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int8 name="Shader" offset="0x4" visible="true" />
+			<uint8 name="Padding 0" offset="0x5" visible="false" />
+			<uint8 name="Padding 1" offset="0x6" visible="false" />
+			<uint8 name="Padding 2" offset="0x7" visible="false" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="AlignToNormal" index="0" />
+				<bit name="OnlyOnGround" index="1" />
+				<bit name="Upright" index="2" />
+			</flags8>
+			<enum8 name="Fade Distance" offset="0x9" visible="true">
+				<option name="Close" value="0" />
+				<option name="Medium" value="1" />
+				<option name="Far" value="2" />
+			</enum8>
+			<int8 name="Index" offset="0xA" visible="true" />
+			<int8 name="Distribution Weight" offset="0xB" visible="true" />
+			<rangef name="Scale" offset="0xC" visible="true" />
+			<color32 name="Tint1" offset="0x14" alpha="true" visible="true" />
+			<color32 name="Tint2" offset="0x18" alpha="true" visible="true" />
+			<float32 name="Base Map Tint Percentage" offset="0x1C" visible="true" />
+			<float32 name="Lightmap Tint Percentage" offset="0x20" visible="true" />
+			<float32 name="Wind Scale" offset="0x24" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Models" offset="0x20" visible="true" elementSize="0x8">
+		<stringid name="Model Name" offset="0x0" visible="true" />
+		<int16 name="Index Start" offset="0x4" visible="true" />
+		<int16 name="Index Count" offset="0x6" visible="true" />
+	</tagblock>
+	<tagblock name="Raw Vertices" offset="0x2C" visible="true" elementSize="0x38">
+		<point3 name="Position" offset="0x0" visible="true" />
+		<vector3 name="Normal" offset="0xC" visible="true" />
+		<vector3 name="Tangent" offset="0x18" visible="true" />
+		<vector3 name="Binormal" offset="0x24" visible="true" />
+		<point2 name="Texcoord" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Indices" offset="0x38" visible="true" elementSize="0x2">
+		<int16 name="Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Cached Data" offset="0x44" visible="true" elementSize="0x20">
+		<undefined name="Vertex Buffer +0 (VertexBuffer)" offset="0x0" visible="false" />
+		<undefined name="Vertex Buffer +4 (VertexBuffer)" offset="0x4" visible="false" />
+		<undefined name="Vertex Buffer +8 (VertexBuffer)" offset="0x8" visible="false" />
+		<undefined name="Vertex Buffer +12 (VertexBuffer)" offset="0xC" visible="false" />
+		<undefined name="Vertex Buffer +16 (VertexBuffer)" offset="0x10" visible="false" />
+		<undefined name="Vertex Buffer +20 (VertexBuffer)" offset="0x14" visible="false" />
+		<undefined name="Vertex Buffer +24 (VertexBuffer)" offset="0x18" visible="false" />
+		<undefined name="Vertex Buffer +28 (VertexBuffer)" offset="0x1C" visible="false" />
+	</tagblock>
+	<int32 name="Geometry Section Info / Block Offset" offset="0x50" visible="true" />
+	<int32 name="Geometry Section Info / Block Size" offset="0x54" visible="true" />
+	<int32 name="Geometry Section Info / Section Data Size" offset="0x58" visible="true" />
+	<int32 name="Geometry Section Info / Resource Data Size" offset="0x5C" visible="true" />
+	<tagblock name="Geometry Section Info / Resources" offset="0x60" visible="true" elementSize="0x10">
+		<enum8 name="Type" offset="0x0" visible="true">
+			<option name="TagBlock" value="0" />
+			<option name="TagData" value="1" />
+			<option name="VertexBuffer" value="2" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x1" visible="false" />
+		<uint8 name="Padding 1" offset="0x2" visible="false" />
+		<uint8 name="Padding 2" offset="0x3" visible="false" />
+		<int16 name="Primary Locator" offset="0x4" visible="true" />
+		<int16 name="Secondary Locator" offset="0x6" visible="true" />
+		<int32 name="Resource Data Size" offset="0x8" visible="true" />
+		<int32 name="Resource Data Offset" offset="0xC" visible="true" />
+	</tagblock>
+	<uint8 name="Geometry Section Info / Padding 0" offset="0x6C" visible="false" />
+	<uint8 name="Geometry Section Info / Padding 1" offset="0x6D" visible="false" />
+	<uint8 name="Geometry Section Info / Padding 2" offset="0x6E" visible="false" />
+	<uint8 name="Geometry Section Info / Padding 3" offset="0x6F" visible="false" />
+	<int16 name="Geometry Section Info / Owner Tag Section Offset" offset="0x70" visible="true" />
+	<uint8 name="Geometry Section Info / Padding1 0" offset="0x72" visible="false" />
+	<uint8 name="Geometry Section Info / Padding1 1" offset="0x73" visible="false" />
+	<uint8 name="Geometry Section Info / Padding2 0" offset="0x74" visible="false" />
+	<uint8 name="Geometry Section Info / Padding2 1" offset="0x75" visible="false" />
+	<uint8 name="Geometry Section Info / Padding2 2" offset="0x76" visible="false" />
+	<uint8 name="Geometry Section Info / Padding2 3" offset="0x77" visible="false" />
+	<uint8 name="Padding 0" offset="0x74" visible="false" />
+	<uint8 name="Padding 1" offset="0x75" visible="false" />
+	<uint8 name="Padding 2" offset="0x76" visible="false" />
+	<uint8 name="Padding 3" offset="0x77" visible="false" />
+	<uint8 name="Padding 4" offset="0x78" visible="false" />
+	<uint8 name="Padding 5" offset="0x79" visible="false" />
+	<uint8 name="Padding 6" offset="0x7A" visible="false" />
+	<uint8 name="Padding 7" offset="0x7B" visible="false" />
+	<uint8 name="Padding 8" offset="0x7C" visible="false" />
+	<uint8 name="Padding 9" offset="0x7D" visible="false" />
+	<uint8 name="Padding 10" offset="0x7E" visible="false" />
+	<uint8 name="Padding 11" offset="0x7F" visible="false" />
+	<uint8 name="Padding 12" offset="0x80" visible="false" />
+	<uint8 name="Padding 13" offset="0x81" visible="false" />
+	<uint8 name="Padding 14" offset="0x82" visible="false" />
+	<uint8 name="Padding 15" offset="0x83" visible="false" />
+	<uint8 name="Padding1 0" offset="0x84" visible="false" />
+	<uint8 name="Padding1 1" offset="0x85" visible="false" />
+	<uint8 name="Padding1 2" offset="0x86" visible="false" />
+	<uint8 name="Padding1 3" offset="0x87" visible="false" />
+</plugin>

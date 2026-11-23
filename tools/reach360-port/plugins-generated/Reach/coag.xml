@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CommendationAggregatorList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Lists" offset="0x0" visible="true" elementSize="0x28">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Description Text" offset="0x4" visible="true" />
+		<tagblock name="Rewards" offset="0x8" visible="true" elementSize="0x4">
+			<enum8 name="Currency Type" offset="0x0" visible="true">
+				<option name="Cookies" value="0" />
+				<option name="Xp" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<int16 name="Reward Value" offset="0x2" visible="true" />
+		</tagblock>
+		<int8 name="Sequence Index" offset="0x14" visible="true" />
+		<uint8 name="Padding 0" offset="0x15" visible="false" />
+		<uint8 name="Padding 1" offset="0x16" visible="false" />
+		<uint8 name="Padding 2" offset="0x17" visible="false" />
+		<int16 name="Medal Sprite Index" offset="0x18" visible="true" />
+		<int16 name="Game Type Sprite Index" offset="0x1A" visible="true" />
+		<tagblock name="Prerequisites" offset="0x1C" visible="true" elementSize="0x8">
+			<enum8 name="Type" offset="0x0" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<stringid name="Name" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

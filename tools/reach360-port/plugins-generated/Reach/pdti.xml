@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PgcrDamageTypeImageMappingDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Damage Type Mapping" offset="0x0" visible="true" elementSize="0x1C">
+		<enum32 name="Damage Type" offset="0x0" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="TehGuardians" value="1" />
+			<option name="Scripting" value="2" />
+			<option name="AiSuicide" value="3" />
+			<option name="ForerunnerSmg" value="4" />
+			<option name="SpreadGun" value="5" />
+			<option name="ForerunnerRifle" value="6" />
+			<option name="ForerunnerSniper" value="7" />
+			<option name="BishopBeam" value="8" />
+			<option name="BoltPistol" value="9" />
+			<option name="PulseGrenade" value="10" />
+			<option name="IncinerationLauncher" value="11" />
+			<option name="MagnumPistol" value="12" />
+			<option name="AssaultRifle" value="13" />
+			<option name="MarksmanRifle" value="14" />
+			<option name="Shotgun" value="15" />
+			<option name="BattleRifle" value="16" />
+			<option name="SniperRifle" value="17" />
+			<option name="RocketLauncher" value="18" />
+			<option name="SpartanLaser" value="19" />
+			<option name="FragGrenade" value="20" />
+			<option name="StickyGrenadeLauncher" value="21" />
+			<option name="LightMachineGun" value="22" />
+			<option name="RailGun" value="23" />
+			<option name="PlasmaPistol" value="24" />
+			<option name="Needler" value="25" />
+			<option name="GravityHammer" value="26" />
+			<option name="EnergySword" value="27" />
+			<option name="PlasmaGrenade" value="28" />
+			<option name="Carbine" value="29" />
+			<option name="BeamRifle" value="30" />
+			<option name="AssaultCarbine" value="31" />
+			<option name="ConcussionRifle" value="32" />
+			<option name="FuelRodCannon" value="33" />
+			<option name="Ghost" value="34" />
+			<option name="RevenantDriver" value="35" />
+			<option name="RevenantGunner" value="36" />
+			<option name="Wraith" value="37" />
+			<option name="WraithAntiInfantry" value="38" />
+			<option name="Banshee" value="39" />
+			<option name="BansheeBomb" value="40" />
+			<option name="Seraph" value="41" />
+			<option name="RevenantDeuxDriver" value="42" />
+			<option name="RevenantDeuxGunner" value="43" />
+			<option name="LichDriver" value="44" />
+			<option name="LichGunner" value="45" />
+			<option name="Mongoose" value="46" />
+			<option name="WarthogDriver" value="47" />
+			<option name="WarthogGunner" value="48" />
+			<option name="WarthogGunnerGauss" value="49" />
+			<option name="WarthogGunnerRocket" value="50" />
+			<option name="Scorpion" value="51" />
+			<option name="ScorpionGunner" value="52" />
+			<option name="FalconDriver" value="53" />
+			<option name="FalconGunner" value="54" />
+			<option name="WaspDriver" value="55" />
+			<option name="WaspGunner" value="56" />
+			<option name="WaspGunnerHeavy" value="57" />
+			<option name="MechMelee" value="58" />
+			<option name="MechChaingun" value="59" />
+			<option name="MechCannon" value="60" />
+			<option name="MechRocket" value="61" />
+			<option name="Broadsword" value="62" />
+			<option name="BroadswordMissile" value="63" />
+			<option name="TortoiseDriver" value="64" />
+			<option name="TortoiseGunner" value="65" />
+			<option name="MacCannon" value="66" />
+			<option name="TargetDesignator" value="67" />
+			<option name="OrdnanceDropPod" value="68" />
+			<option name="OrbitalCruiseMissile" value="69" />
+			<option name="PortableShield" value="70" />
+			<option name="PersonalAutoTurret" value="71" />
+			<option name="ThrusterPack" value="72" />
+			<option name="FallingDamage" value="73" />
+			<option name="GenericCollisionDamage" value="74" />
+			<option name="GenericMeleeDamage" value="75" />
+			<option name="GenericExplosion" value="76" />
+			<option name="FireDamage" value="77" />
+			<option name="BirthdayPartyExplosion" value="78" />
+			<option name="FlagMeleeDamage" value="79" />
+			<option name="BombMeleeDamage" value="80" />
+			<option name="BombExplosionDamage" value="81" />
+			<option name="BallMeleeDamage" value="82" />
+			<option name="Teleporter" value="83" />
+			<option name="TransferDamage" value="84" />
+			<option name="ArmorLockCrush" value="85" />
+			<option name="HumanTurret" value="86" />
+			<option name="PlasmaCannon" value="87" />
+			<option name="PlasmaMortar" value="88" />
+			<option name="PlasmaTurret" value="89" />
+			<option name="ShadeTurret" value="90" />
+			<option name="ForerunnerTurret" value="91" />
+			<option name="Tank" value="92" />
+			<option name="Chopper" value="93" />
+			<option name="Hornet" value="94" />
+			<option name="Mantis" value="95" />
+			<option name="MagnumPistolCtf" value="96" />
+			<option name="FloodProngs" value="97" />
+		</enum32>
+		<stringid name="Display Name" offset="0x4" visible="true" />
+		<tagref name="Sprite" offset="0x8" visible="true" />
+		<int16 name="Sprite Index" offset="0x18" visible="true" />
+		<uint8 name="Padding 0" offset="0x1A" visible="false" />
+		<uint8 name="Padding 1" offset="0x1B" visible="false" />
+	</tagblock>
+</plugin>

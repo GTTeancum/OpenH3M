@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x15C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ScenarioLightmapBspData (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="Compressed" index="0" />
+		<bit name="XsyncedGeometry" index="1" />
+		<bit name="Relightmapped" index="2" />
+		<bit name="GenerateFakeSmallLightmaps" index="3" />
+		<bit name="GeneratedFromMatchData" index="4" />
+		<bit name="OnlyACheckerBoard" index="5" />
+		<bit name="SurfaceToTriangleMappingPruned" index="6" />
+		<bit name="FakedLightmapTagForCacheBuild" index="7" />
+		<bit name="OptimizedForLessDpAll" index="8" />
+		<bit name="FloatingShadowsEnabled" index="9" />
+		<bit name="AtlasUnrefinedPacking" index="10" />
+		<bit name="AtlasRepacked" index="11" />
+		<bit name="UsingSimplifiedIrradianceLighting" index="12" />
+		<bit name="DisableShadowGeometry" index="13" />
+		<bit name="DisableHybridRefinement" index="14" />
+	</flags16>
+	<int16 name="Bsp Index" offset="0x2" visible="true" />
+	<int32 name="Structure Checksum" offset="0x4" visible="true" />
+	<tagref name="Unknown1" offset="0x8" visible="true" />
+	<float32 name="Brightness" offset="0x18" visible="true" />
+	<tagref name="Lightmap SH Coefficients Bitmap" offset="0x1C" visible="true" />
+	<tagref name="Lightmap Dominant Light Direction Bitmap" offset="0x2C" visible="true" />
+	<tagblock name="Unknown3" offset="0x3C" visible="true" elementSize="0x0" />
+	<tagblock name="Static Per Vertex Lighting Buffers" offset="0x48" visible="true" elementSize="0x4">
+		<int16 name="Vertex Buffer Index Reach" offset="0x0" visible="true" />
+		<uint16 name="HDR Scalar" offset="0x2" visible="true" />
+	</tagblock>
+	<tagblock name="Cluster Static Per Vertex Lighting Buffers" offset="0x54" visible="true" elementSize="0x8">
+		<int16 name="Lightmap Bitmaps Image Index" offset="0x0" visible="true" />
+		<int16 name="Static Per Vertex Lighting Index" offset="0x2" visible="true" />
+		<int32 name="Per Vertex Offset" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Instanced Geometry" offset="0x60" visible="true" elementSize="0xC">
+		<int16 name="Lightmap Bitmaps Image Index" offset="0x0" visible="true" />
+		<int16 name="Static Per Vertex Lighting Index" offset="0x2" visible="true" />
+		<int16 name="Instanced Geometry Light Probes Index" offset="0x4" visible="true" />
+		<uint8 name="Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Padding 1" offset="0x7" visible="false" />
+		<uint32 name="Analytical Light Index" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Instanced Geometry Light Probes" offset="0x6C" visible="true" elementSize="0x24">
+		<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0x0" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0x2" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0x4" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0x6" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x8" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0xA" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0xC" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0xE" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x10" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x12" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x14" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x16" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x18" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x1A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x1C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x1E" visible="true" />
+		<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x20" visible="true" />
+	</tagblock>
+	<flags32 name="Geometry / Runtime Flags" offset="0x78" visible="true">
+		<bit name="Processed" index="0" />
+		<bit name="Available" index="1" />
+		<bit name="HasValidBudgets" index="2" />
+		<bit name="ManualResourceCalibration" index="3" />
+		<bit name="KeepRawGeometry" index="4" />
+		<bit name="DoNotUseCompressedVertexPositions" index="5" />
+		<bit name="PcaAnimationTableSorted" index="6" />
+		<bit name="HasDualQuat" index="7" />
+	</flags32>
+	<tagblock name="Geometry / Meshes" offset="0x7C" visible="true" elementSize="0x5C">
+		<tagblock name="Parts" offset="0x0" visible="true" elementSize="0x18">
+			<int16 name="Material Index" offset="0x0" visible="true" />
+			<int16 name="Transparent Sorting Index" offset="0x2" visible="true" />
+			<uint32 name="First Index" offset="0x4" visible="true" />
+			<uint32 name="Index Count" offset="0x8" visible="true" />
+			<int16 name="First Sub Part Index" offset="0xC" visible="true" />
+			<int16 name="Sub Part Count" offset="0xE" visible="true" />
+			<enum8 name="Type New" offset="0x10" visible="true">
+				<option name="NotDrawn" value="0" />
+				<option name="OpaqueShadowOnly" value="1" />
+				<option name="OpaqueShadowCasting" value="2" />
+				<option name="OpaqueNonshadowing" value="3" />
+				<option name="Transparent" value="4" />
+				<option name="LightmapOnly" value="5" />
+				<option name="Unknown6" value="6" />
+			</enum8>
+			<enum8 name="Specialized Render" offset="0x11" visible="true">
+				<option name="None" value="0" />
+				<option name="Fail" value="1" />
+				<option name="Fur" value="2" />
+				<option name="FurStencil" value="3" />
+				<option name="Decal" value="4" />
+				<option name="Shield" value="5" />
+				<option name="Water" value="6" />
+				<option name="LightmapOnly" value="7" />
+				<option name="Hologram" value="8" />
+			</enum8>
+			<flags16 name="Flags Reach" offset="0x12" visible="true">
+				<bit name="IsWaterSurface" index="0" />
+				<bit name="PerVertexLightmapPart" index="1" />
+				<bit name="DebugFlagInstancePart" index="2" />
+				<bit name="SubpartsHasUberlightsInfo" index="3" />
+				<bit name="DrawCullDistanceMedium" index="4" />
+				<bit name="DrawCullDistanceClose" index="5" />
+				<bit name="DrawCullRenderingShields" index="6" />
+				<bit name="CannotSinglePassRender" index="7" />
+				<bit name="IsTransparent" index="8" />
+				<bit name="CannotTwoPass" index="9" />
+				<bit name="TransparentShouldOutputDepthForDoF" index="10" />
+				<bit name="DoNotIncludeInStaticLightmap" index="11" />
+				<bit name="DoNotIncludeInPvsGeneration" index="12" />
+				<bit name="DrawCullRenderingActiveCamo" index="13" />
+			</flags16>
+			<uint16 name="Vertex Count" offset="0x14" visible="true" />
+			<uint16 name="Unknown1" offset="0x16" visible="true" />
+		</tagblock>
+		<tagblock name="Sub Parts" offset="0xC" visible="true" elementSize="0x10">
+			<uint32 name="First Index" offset="0x0" visible="true" />
+			<uint32 name="Index Count" offset="0x4" visible="true" />
+			<int16 name="Part Index" offset="0x8" visible="true" />
+			<uint16 name="Vertex Count" offset="0xA" visible="true" />
+			<uint32 name="Analytical Light Index" offset="0xC" visible="true" />
+		</tagblock>
+		<int16 name="Vertex Buffer Indices 0" offset="0x18" visible="true" />
+		<int16 name="Vertex Buffer Indices 1" offset="0x1A" visible="true" />
+		<int16 name="Vertex Buffer Indices 2" offset="0x1C" visible="true" />
+		<int16 name="Vertex Buffer Indices 3" offset="0x1E" visible="true" />
+		<int16 name="Vertex Buffer Indices 4" offset="0x20" visible="true" />
+		<int16 name="Vertex Buffer Indices 5" offset="0x22" visible="true" />
+		<int16 name="Vertex Buffer Indices 6" offset="0x24" visible="true" />
+		<int16 name="Vertex Buffer Indices 7" offset="0x26" visible="true" />
+		<int16 name="Index Buffer Indices 0" offset="0x28" visible="true" />
+		<int16 name="Index Buffer Indices 1" offset="0x2A" visible="true" />
+		<flags16 name="Flags Reach" offset="0x2C" visible="true">
+			<bit name="MeshHasVertexColor" index="0" />
+			<bit name="UseRegionIndexForSorting" index="1" />
+			<bit name="UseVertexBuffersForIndices" index="2" />
+			<bit name="MeshHasPerInstanceLighting" index="3" />
+			<bit name="MeshIsUnindexed" index="4" />
+			<bit name="SubpartWereMerged" index="5" />
+			<bit name="MeshHasFur" index="6" />
+			<bit name="MeshHasDecal" index="7" />
+			<bit name="MeshDoesntUseCompressedPosition" index="8" />
+			<bit name="UseUncompressedVertexFormat" index="9" />
+			<bit name="MeshIsPca" index="10" />
+			<bit name="MeshCompressionDetermined" index="11" />
+			<bit name="MeshHasAuthoredLightmapTextureCoords" index="12" />
+			<bit name="MeshHasAUsefulSetOfSecondTextureCoords" index="13" />
+			<bit name="MeshHasNoLightmap" index="14" />
+			<bit name="PerVertexLighting" index="15" />
+		</flags16>
+		<int8 name="Rigid Node Index" offset="0x2E" visible="true" />
+		<enum8 name="Reach Type" offset="0x2F" visible="true">
+			<option name="World" value="0" />
+			<option name="Rigid" value="1" />
+			<option name="Skinned" value="2" />
+			<option name="ParticleModel" value="3" />
+			<option name="FlatWorld" value="4" />
+			<option name="FlatRigid" value="5" />
+			<option name="FlatSkinned" value="6" />
+			<option name="Screen" value="7" />
+			<option name="Debug" value="8" />
+			<option name="Transparent" value="9" />
+			<option name="Particle" value="10" />
+			<option name="Contrail" value="11" />
+			<option name="LightVolume" value="12" />
+			<option name="SimpleChud" value="13" />
+			<option name="FancyChud" value="14" />
+			<option name="Decorator" value="15" />
+			<option name="TinyPosition" value="16" />
+			<option name="PatchyFog" value="17" />
+			<option name="Water" value="18" />
+			<option name="Ripple" value="19" />
+			<option name="Implicit" value="20" />
+			<option name="Beam" value="21" />
+			<option name="WorldTesselated" value="22" />
+			<option name="RigidTesselated" value="23" />
+			<option name="SkinnedTesselated" value="24" />
+			<option name="ShaderCache" value="25" />
+			<option name="InstanceImposter" value="26" />
+			<option name="ObjectImposter" value="27" />
+			<option name="RigidCompressed" value="28" />
+			<option name="SkinnedCompressed" value="29" />
+			<option name="LightVolumePreCompiled" value="30" />
+			<option name="BlendshapeRigid" value="31" />
+			<option name="BlendshapeRigidBlendshaped" value="32" />
+			<option name="RigidBlendshaped" value="33" />
+			<option name="BlendshapeSkinned" value="34" />
+			<option name="BlendshapeSkinnedBlendshaped" value="35" />
+			<option name="SkinnedBlendshaped" value="36" />
+			<option name="VirtualGeometryHwtess" value="37" />
+			<option name="VirtualGeometryMemexport" value="38" />
+			<option name="PositionOnly1" value="39" />
+			<option name="VirtualGeometryDebug" value="40" />
+			<option name="BlendshaperigidCompressed" value="41" />
+			<option name="SkinneduncompressedBlendshaped" value="42" />
+			<option name="BlendshapeskinnedCompressed" value="43" />
+			<option name="Tracer" value="44" />
+			<option name="Polyart" value="45" />
+			<option name="Vectorart" value="46" />
+			<option name="RigidBoned" value="47" />
+			<option name="RigidBoned2uv" value="48" />
+			<option name="BlendshapeSkinned2uv" value="49" />
+			<option name="BlendshapeSkinned2uvBlendshaped" value="50" />
+			<option name="Skinned2uvBlendshaped" value="51" />
+			<option name="Polyartuv" value="52" />
+			<option name="BlendshapeSkinnedUncompressedBlendshaped" value="53" />
+		</enum8>
+		<enum8 name="Prt Type" offset="0x30" visible="true">
+			<option name="None" value="0" />
+			<option name="Ambient" value="1" />
+			<option name="Linear" value="2" />
+			<option name="Quadratic" value="3" />
+		</enum8>
+		<uint8 name="Lighting Policy" offset="0x31" visible="true" />
+		<enum8 name="Index Buffer Type" offset="0x32" visible="true">
+			<option name="PointList" value="0" />
+			<option name="LineList" value="1" />
+			<option name="LineStrip" value="2" />
+			<option name="TriangleList" value="3" />
+			<option name="TriangleFan" value="4" />
+			<option name="TriangleStrip" value="5" />
+		</enum8>
+		<uint8 name="Unused4 0" offset="0x33" visible="false" />
+		<tagblock name="Instance Buckets" offset="0x34" visible="true" elementSize="0x10">
+			<int16 name="Mesh Index" offset="0x0" visible="true" />
+			<int16 name="Definition Index" offset="0x2" visible="true" />
+			<tagblock name="Instances" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Instance Index" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Water" offset="0x40" visible="true" elementSize="0x2">
+			<int16 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<float32 name="Runtime Bounding Radius" offset="0x4C" visible="true" />
+		<point3 name="Runtime Bounding Offset" offset="0x50" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / Compression" offset="0x88" visible="true" elementSize="0x34">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="CompressedPosition" index="0" />
+			<bit name="CompressedTexcoord" index="1" />
+			<bit name="CompressionOptimized" index="2" />
+		</flags16>
+		<uint8 name="Unused 0" offset="0x2" visible="false" />
+		<uint8 name="Unused 1" offset="0x3" visible="false" />
+		<rangef name="X" offset="0x4" visible="true" />
+		<rangef name="Y" offset="0xC" visible="true" />
+		<rangef name="Z" offset="0x14" visible="true" />
+		<rangef name="U" offset="0x1C" visible="true" />
+		<rangef name="V" offset="0x24" visible="true" />
+		<uint8 name="Unused0 0" offset="0x2C" visible="false" />
+		<uint8 name="Unused0 1" offset="0x2D" visible="false" />
+		<uint8 name="Unused0 2" offset="0x2E" visible="false" />
+		<uint8 name="Unused0 3" offset="0x2F" visible="false" />
+		<uint8 name="Unused0 4" offset="0x30" visible="false" />
+		<uint8 name="Unused0 5" offset="0x31" visible="false" />
+		<uint8 name="Unused0 6" offset="0x32" visible="false" />
+		<uint8 name="Unused0 7" offset="0x33" visible="false" />
+	</tagblock>
+	<tagblock name="Geometry / Bounding Spheres" offset="0x94" visible="true" elementSize="0x30">
+		<plane3 name="Plane" offset="0x0" visible="true" />
+		<point3 name="Position" offset="0x10" visible="true" />
+		<float32 name="Radius" offset="0x1C" visible="true" />
+		<int8 name="Node Indices 0" offset="0x20" visible="true" />
+		<int8 name="Node Indices 1" offset="0x21" visible="true" />
+		<int8 name="Node Indices 2" offset="0x22" visible="true" />
+		<int8 name="Node Indices 3" offset="0x23" visible="true" />
+		<float32 name="Node Weights 0" offset="0x24" visible="true" />
+		<float32 name="Node Weights 1" offset="0x28" visible="true" />
+		<float32 name="Node Weights 2" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / User Data" offset="0xA0" visible="true" elementSize="0x18">
+		<enum8 name="Data Type" offset="0x0" visible="true">
+			<option name="PrtInfo" value="0" />
+		</enum8>
+		<int8 name="Data Count" offset="0x1" visible="true" />
+		<uint16 name="Data Size" offset="0x2" visible="true" />
+		<dataref name="Data" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / Geometry Tag Resources" offset="0xAC" visible="true" elementSize="0x2C">
+		<tagblock name="Raw Vertices" offset="0x0" visible="true" elementSize="0x60">
+			<point3 name="Position" offset="0x0" visible="true" />
+			<point2 name="Texcoord" offset="0xC" visible="true" />
+			<point3 name="Normal" offset="0x14" visible="true" />
+			<point3 name="Binormal" offset="0x20" visible="true" />
+			<point3 name="Tangent" offset="0x2C" visible="true" />
+			<point2 name="Lightmap Texcoord" offset="0x38" visible="true" />
+			<uint8 name="Node Indices 0" offset="0x40" visible="false" />
+			<uint8 name="Node Indices 1" offset="0x41" visible="false" />
+			<uint8 name="Node Indices 2" offset="0x42" visible="false" />
+			<uint8 name="Node Indices 3" offset="0x43" visible="false" />
+			<float32 name="Node Weights 0" offset="0x44" visible="true" />
+			<float32 name="Node Weights 1" offset="0x48" visible="true" />
+			<float32 name="Node Weights 2" offset="0x4C" visible="true" />
+			<float32 name="Node Weights 3" offset="0x50" visible="true" />
+			<point3 name="Vertex Color" offset="0x54" visible="true" />
+		</tagblock>
+		<tagblock name="Raw Indices" offset="0xC" visible="true" elementSize="0x2">
+			<int16 name="Word" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Raw Water Data" offset="0x18" visible="true" elementSize="0x18">
+			<tagblock name="Raw Water Indices" offset="0x0" visible="true" elementSize="0x2">
+				<int16 name="Word" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Raw Water Vertices" offset="0xC" visible="true" elementSize="0x24">
+				<point3 name="Local Info" offset="0x0" visible="true" />
+				<point3 name="Water Velocity" offset="0xC" visible="true" />
+				<point3 name="Base Texcoord" offset="0x18" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int16 name="Parameterized Texture Width" offset="0x24" visible="true" />
+		<int16 name="Parameterized Texture Height" offset="0x26" visible="true" />
+		<flags32 name="Flags" offset="0x28" visible="true">
+			<bit name="IndicesAreTriangleStrips" index="0" />
+			<bit name="IndicesAreTriangleLists" index="1" />
+			<bit name="IndicesAreQuadLists" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Geometry / Mesh Cluster Visibility" offset="0xB8" visible="true" elementSize="0x20">
+		<dataref name="Mopp Code" offset="0x0" visible="true" />
+		<tagblock name="Mopp Reorder Table" offset="0x14" visible="true" elementSize="0x2">
+			<int16 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Node Maps" offset="0xC4" visible="true" elementSize="0xC">
+		<tagblock name="Node Indices" offset="0x0" visible="true" elementSize="0x1">
+			<uint8 name="Node" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Subpart Visibility" offset="0xD0" visible="true" elementSize="0xC">
+		<tagblock name="Bounding Spheres" offset="0x0" visible="true" elementSize="0x30">
+			<plane3 name="Plane" offset="0x0" visible="true" />
+			<point3 name="Position" offset="0x10" visible="true" />
+			<float32 name="Radius" offset="0x1C" visible="true" />
+			<int8 name="Node Indices 0" offset="0x20" visible="true" />
+			<int8 name="Node Indices 1" offset="0x21" visible="true" />
+			<int8 name="Node Indices 2" offset="0x22" visible="true" />
+			<int8 name="Node Indices 3" offset="0x23" visible="true" />
+			<float32 name="Node Weights 0" offset="0x24" visible="true" />
+			<float32 name="Node Weights 1" offset="0x28" visible="true" />
+			<float32 name="Node Weights 2" offset="0x2C" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Prt Data" offset="0xDC" visible="true" elementSize="0x20">
+		<dataref name="Mesh Pca Data" offset="0x0" visible="true" />
+		<tagblock name="Per Instance Prt Data" offset="0x14" visible="true" elementSize="0x14">
+			<dataref name="Mesh Pca Data" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<uint32 name="Geometry / Unknown10" offset="0xE8" visible="true" />
+	<uint32 name="Geometry / Unknown11" offset="0xEC" visible="true" />
+	<uint32 name="Geometry / Unknown12" offset="0xF0" visible="true" />
+	<tagblock name="Geometry / Instanced Geometry Per Pixel Lighting" offset="0xF4" visible="true" elementSize="0x2">
+		<int16 name="Vertex Buffer Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / Water Bounding Boxes" offset="0x100" visible="true" elementSize="0x1C">
+		<int16 name="Mesh Index" offset="0x0" visible="true" />
+		<int16 name="Part Index" offset="0x2" visible="true" />
+		<point3 name="Position Bound Lower" offset="0x4" visible="true" />
+		<point3 name="Position Bound Upper" offset="0x10" visible="true" />
+	</tagblock>
+	<uint32 name="Geometry / Resource (resource datum)" offset="0x10C" visible="true" />
+	<uint32 name="Geometry / Resource (resource pad)" offset="0x110" visible="true" />
+	<tagblock name="Per Mesh Triangle Mapping" offset="0x114" visible="true" elementSize="0xC">
+		<tagblock name="Mesh" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="Word" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Airprobes" offset="0x120" visible="true" elementSize="0x38">
+		<point3 name="Position" offset="0x0" visible="true" />
+		<stringid name="Name" offset="0xC" visible="true" />
+		<uint32 name="Flags" offset="0x10" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0x14" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0x16" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0x18" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0x1A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x1C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x1E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x20" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x22" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x24" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x26" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x28" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x2A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x2C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x2E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x30" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x32" visible="true" />
+		<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x34" visible="true" />
+	</tagblock>
+	<tagblock name="Scenery Light Probes" offset="0x12C" visible="true" elementSize="0x2C">
+		<datum name="Object Id / Unique Handle" offset="0x0" visible="true" />
+		<int16 name="Object Id / Origin Bsp Index" offset="0x4" visible="true" />
+		<enum8 name="Object Id / Object Type / Halo Reach" offset="0x6" visible="true">
+			<option name="Biped" value="0" />
+			<option name="Vehicle" value="1" />
+			<option name="Weapon" value="2" />
+			<option name="Equipment" value="3" />
+			<option name="Terminal" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Scenery" value="6" />
+			<option name="Machine" value="7" />
+			<option name="Control" value="8" />
+			<option name="SoundScenery" value="9" />
+			<option name="Crate" value="10" />
+			<option name="Creature" value="11" />
+			<option name="Giant" value="12" />
+			<option name="EffectScenery" value="13" />
+			<option name="None" value="-1" />
+		</enum8>
+		<enum8 name="Object Id / Source" offset="0x7" visible="true">
+			<option name="Structure" value="0" />
+			<option name="Editor" value="1" />
+			<option name="Dynamic" value="2" />
+			<option name="Legacy" value="3" />
+		</enum8>
+		<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0x8" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0xA" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0xC" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0xE" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x10" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x12" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x14" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x16" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x18" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x1A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x1C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x1E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x20" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x22" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x24" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x26" visible="true" />
+		<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Machine Light Probes" offset="0x138" visible="true" elementSize="0x2C">
+		<datum name="Object Id / Unique Handle" offset="0x0" visible="true" />
+		<int16 name="Object Id / Origin Bsp Index" offset="0x4" visible="true" />
+		<enum8 name="Object Id / Object Type / Halo Reach" offset="0x6" visible="true">
+			<option name="Biped" value="0" />
+			<option name="Vehicle" value="1" />
+			<option name="Weapon" value="2" />
+			<option name="Equipment" value="3" />
+			<option name="Terminal" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Scenery" value="6" />
+			<option name="Machine" value="7" />
+			<option name="Control" value="8" />
+			<option name="SoundScenery" value="9" />
+			<option name="Crate" value="10" />
+			<option name="Creature" value="11" />
+			<option name="Giant" value="12" />
+			<option name="EffectScenery" value="13" />
+			<option name="None" value="-1" />
+		</enum8>
+		<enum8 name="Object Id / Source" offset="0x7" visible="true">
+			<option name="Structure" value="0" />
+			<option name="Editor" value="1" />
+			<option name="Dynamic" value="2" />
+			<option name="Legacy" value="3" />
+		</enum8>
+		<rangef name="Bounds x" offset="0x8" visible="true" />
+		<rangef name="Bounds y" offset="0x10" visible="true" />
+		<rangef name="Bounds z" offset="0x18" visible="true" />
+		<tagblock name="Light Probes" offset="0x20" visible="true" elementSize="0x30">
+			<point3 name="Position" offset="0x0" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0xC" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0xE" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0x10" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0x12" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x14" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x16" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x18" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x1A" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x1C" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x1E" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x20" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x22" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x24" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x26" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x28" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x2A" visible="true" />
+			<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x2C" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Unused" offset="0x144" visible="true" elementSize="0x4">
+		<int32 name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Self Track" offset="0x150" visible="true" elementSize="0x240">
+		<ascii name="Time" offset="0x0" visible="true" size="0x20" />
+		<ascii name="Machine" offset="0x20" visible="true" size="0x20" />
+		<ascii name="Version" offset="0x40" visible="true" size="0x100" />
+		<ascii name="Command" offset="0x140" visible="true" size="0x100" />
+	</tagblock>
+</plugin>

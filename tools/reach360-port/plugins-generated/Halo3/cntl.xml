@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ContrailSystem (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Contrails" offset="0x0" visible="true" elementSize="0x26C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Origin Fade Range" offset="0x4" visible="true" />
+		<float32 name="Origin Fade Cutoff" offset="0x8" visible="true" />
+		<float32 name="Edge Fade Range" offset="0xC" visible="true" />
+		<float32 name="Edge Fade Cutoff" offset="0x10" visible="true" />
+		<float32 name="Lod In Distance" offset="0x14" visible="true" />
+		<float32 name="Lod Feather In Distance" offset="0x18" visible="true" />
+		<float32 name="Lod Out Distance" offset="0x1C" visible="true" />
+		<float32 name="Lod Feather Out Distance" offset="0x20" visible="true" />
+		<enum8 name="Emission Rate / Input Variable" offset="0x24" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Emission Rate / Range Variable" offset="0x25" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Emission Rate / Output Modifier" offset="0x26" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Emission Rate / Output Modifier Input" offset="0x27" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Emission Rate / Mapping Function / Data" offset="0x28" visible="true" />
+		<float32 name="Emission Rate / Runtime M Constant Value" offset="0x3C" visible="true" />
+		<int8 name="Emission Rate / Runtime M Flags" offset="0x40" visible="true" />
+		<uint8 name="Emission Rate / DSFDSGLKJ 0" offset="0x41" visible="false" />
+		<uint8 name="Emission Rate / DSFDSGLKJ 1" offset="0x42" visible="false" />
+		<uint8 name="Emission Rate / DSFDSGLKJ 2" offset="0x43" visible="false" />
+		<enum8 name="Profile Lifespan / Input Variable" offset="0x44" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Range Variable" offset="0x45" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Output Modifier" offset="0x46" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Output Modifier Input" offset="0x47" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Lifespan / Mapping Function / Data" offset="0x48" visible="true" />
+		<float32 name="Profile Lifespan / Runtime M Constant Value" offset="0x5C" visible="true" />
+		<int8 name="Profile Lifespan / Runtime M Flags" offset="0x60" visible="true" />
+		<uint8 name="Profile Lifespan / DSFDSGLKJ 0" offset="0x61" visible="false" />
+		<uint8 name="Profile Lifespan / DSFDSGLKJ 1" offset="0x62" visible="false" />
+		<uint8 name="Profile Lifespan / DSFDSGLKJ 2" offset="0x63" visible="false" />
+		<enum8 name="Profile Self Acceleration / Input Variable" offset="0x64" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Range Variable" offset="0x65" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Output Modifier" offset="0x66" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Output Modifier Input" offset="0x67" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Self Acceleration / Mapping Function / Data" offset="0x68" visible="true" />
+		<float32 name="Profile Self Acceleration / Runtime M Constant Value" offset="0x7C" visible="true" />
+		<int8 name="Profile Self Acceleration / Runtime M Flags" offset="0x80" visible="true" />
+		<uint8 name="Profile Self Acceleration / DSFDSGLKJ 0" offset="0x81" visible="false" />
+		<uint8 name="Profile Self Acceleration / DSFDSGLKJ 1" offset="0x82" visible="false" />
+		<uint8 name="Profile Self Acceleration / DSFDSGLKJ 2" offset="0x83" visible="false" />
+		<vector3 name="Profile Self Acceleration / Starting Interpolant" offset="0x84" visible="true" />
+		<vector3 name="Profile Self Acceleration / Ending Interpolant" offset="0x90" visible="true" />
+		<enum8 name="Profile Size / Input Variable" offset="0x9C" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Size / Range Variable" offset="0x9D" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Size / Output Modifier" offset="0x9E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Size / Output Modifier Input" offset="0x9F" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Size / Mapping Function / Data" offset="0xA0" visible="true" />
+		<float32 name="Profile Size / Runtime M Constant Value" offset="0xB4" visible="true" />
+		<int8 name="Profile Size / Runtime M Flags" offset="0xB8" visible="true" />
+		<uint8 name="Profile Size / DSFDSGLKJ 0" offset="0xB9" visible="false" />
+		<uint8 name="Profile Size / DSFDSGLKJ 1" offset="0xBA" visible="false" />
+		<uint8 name="Profile Size / DSFDSGLKJ 2" offset="0xBB" visible="false" />
+		<enum8 name="Profile Offset / Input Variable" offset="0xBC" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Offset / Range Variable" offset="0xBD" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Offset / Output Modifier" offset="0xBE" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Offset / Output Modifier Input" offset="0xBF" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Offset / Mapping Function / Data" offset="0xC0" visible="true" />
+		<float32 name="Profile Offset / Runtime M Constant Value" offset="0xD4" visible="true" />
+		<int8 name="Profile Offset / Runtime M Flags" offset="0xD8" visible="true" />
+		<uint8 name="Profile Offset / DSFDSGLKJ 0" offset="0xD9" visible="false" />
+		<uint8 name="Profile Offset / DSFDSGLKJ 1" offset="0xDA" visible="false" />
+		<uint8 name="Profile Offset / DSFDSGLKJ 2" offset="0xDB" visible="false" />
+		<point2 name="Profile Offset / Starting Interpolant" offset="0xDC" visible="true" />
+		<point2 name="Profile Offset / Ending Interpolant" offset="0xE4" visible="true" />
+		<enum8 name="Profile Rotation / Input Variable" offset="0xEC" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Rotation / Range Variable" offset="0xED" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Rotation / Output Modifier" offset="0xEE" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Rotation / Output Modifier Input" offset="0xEF" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Rotation / Mapping Function / Data" offset="0xF0" visible="true" />
+		<float32 name="Profile Rotation / Runtime M Constant Value" offset="0x104" visible="true" />
+		<int8 name="Profile Rotation / Runtime M Flags" offset="0x108" visible="true" />
+		<uint8 name="Profile Rotation / DSFDSGLKJ 0" offset="0x109" visible="false" />
+		<uint8 name="Profile Rotation / DSFDSGLKJ 1" offset="0x10A" visible="false" />
+		<uint8 name="Profile Rotation / DSFDSGLKJ 2" offset="0x10B" visible="false" />
+		<enum8 name="Profile Rotation Rate / Input Variable" offset="0x10C" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Range Variable" offset="0x10D" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Output Modifier" offset="0x10E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Output Modifier Input" offset="0x10F" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Rotation Rate / Mapping Function / Data" offset="0x110" visible="true" />
+		<float32 name="Profile Rotation Rate / Runtime M Constant Value" offset="0x124" visible="true" />
+		<int8 name="Profile Rotation Rate / Runtime M Flags" offset="0x128" visible="true" />
+		<uint8 name="Profile Rotation Rate / DSFDSGLKJ 0" offset="0x129" visible="false" />
+		<uint8 name="Profile Rotation Rate / DSFDSGLKJ 1" offset="0x12A" visible="false" />
+		<uint8 name="Profile Rotation Rate / DSFDSGLKJ 2" offset="0x12B" visible="false" />
+		<flags16 name="Appearance Flags" offset="0x12C" visible="true">
+			<bit name="TintFromLightmap" index="0" />
+			<bit name="DoubleSided" index="1" />
+			<bit name="ProfileOpacityFromScaleA" index="2" />
+			<bit name="RandomUOffset" index="3" />
+			<bit name="RandomVOffset" index="4" />
+			<bit name="OriginFaded" index="5" />
+			<bit name="EdgeFaded" index="6" />
+			<bit name="Fogged" index="7" />
+		</flags16>
+		<enum8 name="Profile Shape" offset="0x12E" visible="true">
+			<option name="AlignedRibbon" value="0" />
+			<option name="Cross" value="1" />
+			<option name="Ngon" value="2" />
+		</enum8>
+		<uint8 name="Number Of Ngon Sides" offset="0x12F" visible="true" />
+		<tagref name="Render Method / Base Render Method" offset="0x130" visible="true" />
+		<tagblock name="Render Method / Options" offset="0x140" visible="true" elementSize="0x2">
+			<int16 name="Option Index" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Render Method / Parameters" offset="0x14C" visible="true" elementSize="0x3C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum32 name="Parameter Type" offset="0x4" visible="true">
+				<option name="Bitmap" value="0" />
+				<option name="Color" value="1" />
+				<option name="Real" value="2" />
+				<option name="Int" value="3" />
+				<option name="Bool" value="4" />
+				<option name="ArgbColor" value="5" />
+			</enum32>
+			<tagref name="Bitmap" offset="0x8" visible="true" />
+			<float32 name="Real Value" offset="0x18" visible="true" />
+			<int32 name="Int Bool Value" offset="0x1C" visible="true" />
+			<int16 name="Bitmap Flags" offset="0x20" visible="true" />
+			<int16 name="Bitmap Filter Mode" offset="0x22" visible="true" />
+			<int16 name="Bitmap Address Mode" offset="0x24" visible="true" />
+			<int16 name="Bitmap Address Mode X" offset="0x26" visible="true" />
+			<int16 name="Bitmap Address Mode Y" offset="0x28" visible="true" />
+			<int16 name="Bitmap Anisotropy Amount" offset="0x2A" visible="true" />
+			<int16 name="Bitmap Extern RTT Mode" offset="0x2C" visible="true" />
+			<uint8 name="Padding 0" offset="0x2E" visible="false" />
+			<uint8 name="Padding 1" offset="0x2F" visible="false" />
+			<tagblock name="Animated Parameters" offset="0x30" visible="true" elementSize="0x24">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleX" value="3" />
+					<option name="ScaleY" value="4" />
+					<option name="TranslationX" value="5" />
+					<option name="TranslationY" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+					<option name="ChangeColorPrimary" value="9" />
+					<option name="ChangeColorSecondary" value="10" />
+					<option name="ChangeColorTertiary" value="11" />
+					<option name="ChangeColorQuaternary" value="12" />
+					<option name="ChangeColorQuinary" value="13" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<float32 name="Time Period" offset="0xC" visible="true" />
+				<dataref name="Function / Data" offset="0x10" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Render Method / Shader Properties" offset="0x158" visible="true" elementSize="0x84">
+			<tagref name="Template" offset="0x0" visible="true" />
+			<tagblock name="Texture Constants" offset="0x10" visible="true" elementSize="0x18">
+				<tagref name="Bitmap" offset="0x0" visible="true" />
+				<int16 name="Bitmap Index" offset="0x10" visible="true" />
+				<uint8 name="Sampler Address Mode / Sampler Address UV" offset="0x12" visible="true" />
+				<enum8 name="Filter Mode" offset="0x13" visible="true">
+					<option name="Trilinear" value="0" />
+					<option name="Point" value="1" />
+					<option name="Bilinear" value="2" />
+					<option name="Anisotropic1" value="3" />
+					<option name="Anisotropic2Expensive" value="4" />
+					<option name="Anisotropic3Expensive" value="5" />
+					<option name="Anisotropic4EXPENSIVE" value="6" />
+					<option name="LightprobeTextureArray" value="7" />
+					<option name="ComparisonPoint" value="8" />
+					<option name="ComparisonBilinear" value="9" />
+				</enum8>
+				<enum8 name="Extern Texture Mode" offset="0x14" visible="true">
+					<option name="UseBitmapAsNormal" value="0" />
+					<option name="TextureCamera" value="1" />
+					<option name="ZCamera" value="2" />
+					<option name="Mirror" value="3" />
+					<option name="Refraction" value="4" />
+					<option name="Unused" value="5" />
+					<option name="Scope" value="6" />
+				</enum8>
+				<int8 name="Texture Transform Constant Index" offset="0x15" visible="true" />
+				<uint16 name="Texture Transform Overlay Indices / Integer" offset="0x16" visible="true" />
+			</tagblock>
+			<tagblock name="Real Constants" offset="0x1C" visible="true" elementSize="0x10">
+				<float32 name="Values 0" offset="0x0" visible="true" />
+				<float32 name="Values 1" offset="0x4" visible="true" />
+				<float32 name="Values 2" offset="0x8" visible="true" />
+				<float32 name="Values 3" offset="0xC" visible="true" />
+			</tagblock>
+			<tagblock name="Integer Constants" offset="0x28" visible="true" elementSize="0x4">
+				<uint32 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<uint32 name="Boolean Constants" offset="0x34" visible="true" />
+			<tagblock name="Entry Points" offset="0x38" visible="true" elementSize="0x2">
+				<uint16 name="Integer" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Passes" offset="0x44" visible="true" elementSize="0x6">
+				<uint16 name="Texture / Integer" offset="0x0" visible="true" />
+				<uint16 name="Real Vertex / Integer" offset="0x2" visible="true" />
+				<uint16 name="Real Pixel / Integer" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Routing Info" offset="0x50" visible="true" elementSize="0x4">
+				<int16 name="Register Index" offset="0x0" visible="true" />
+				<uint8 name="Function Index" offset="0x2" visible="true" />
+				<uint8 name="Source Index" offset="0x3" visible="true" />
+			</tagblock>
+			<tagblock name="Functions" offset="0x5C" visible="true" elementSize="0x24">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleX" value="3" />
+					<option name="ScaleY" value="4" />
+					<option name="TranslationX" value="5" />
+					<option name="TranslationY" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+					<option name="ChangeColorPrimary" value="9" />
+					<option name="ChangeColorSecondary" value="10" />
+					<option name="ChangeColorTertiary" value="11" />
+					<option name="ChangeColorQuaternary" value="12" />
+					<option name="ChangeColorQuinary" value="13" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<float32 name="Time Period" offset="0xC" visible="true" />
+				<dataref name="Function / Data" offset="0x10" visible="true" />
+			</tagblock>
+			<enum32 name="Blend Mode" offset="0x68" visible="true">
+				<option name="Opaque" value="0" />
+				<option name="Additive" value="1" />
+				<option name="Multiply" value="2" />
+				<option name="AlphaBlend" value="3" />
+				<option name="DoubleMultiply" value="4" />
+				<option name="PreMultipliedAlpha" value="5" />
+				<option name="Maximum" value="6" />
+				<option name="MultiplyAdd" value="7" />
+				<option name="AddSrcTimesDstalpha" value="8" />
+				<option name="AddSrcTimesSrcalpha" value="9" />
+				<option name="InverseAlphaBlend" value="10" />
+				<option name="MotionBlurStatic" value="11" />
+				<option name="MotionBlurInhibit" value="12" />
+			</enum32>
+			<flags32 name="Flags" offset="0x6C" visible="true">
+				<bit name="ForceSinglePass" index="0" />
+				<bit name="EnableAlphaTest" index="1" />
+				<bit name="SfxDistort_ForceAlphaBlend" index="2" />
+			</flags32>
+			<int32 name="Im So Fired Pad" offset="0x70" visible="true" />
+			<int16 name="Queryable Properties 0" offset="0x74" visible="true" />
+			<int16 name="Queryable Properties 1" offset="0x76" visible="true" />
+			<int16 name="Queryable Properties 2" offset="0x78" visible="true" />
+			<int16 name="Queryable Properties 3" offset="0x7A" visible="true" />
+			<int16 name="Queryable Properties 4" offset="0x7C" visible="true" />
+			<int16 name="Queryable Properties 5" offset="0x7E" visible="true" />
+			<int16 name="Queryable Properties 6" offset="0x80" visible="true" />
+			<int16 name="Queryable Properties 7" offset="0x82" visible="true" />
+		</tagblock>
+		<flags16 name="Render Method / Render Flags" offset="0x164" visible="true">
+			<bit name="IgnoreFog" index="0" />
+			<bit name="UseSkyAtmosphereProperties" index="1" />
+			<bit name="UsesDepthCamera" index="2" />
+		</flags16>
+		<enum8 name="Render Method / Sort Layer" offset="0x166" visible="true">
+			<option name="Invalid" value="0" />
+			<option name="PrePass" value="1" />
+			<option name="Normal" value="2" />
+			<option name="PostPass" value="3" />
+		</enum8>
+		<uint8 name="Render Method / Version" offset="0x167" visible="true" />
+		<int32 name="Render Method / Custom Fog Setting Index" offset="0x168" visible="true" />
+		<int32 name="Render Method / Prediction Atom Index" offset="0x16C" visible="true" />
+		<point2 name="Tiling" offset="0x170" visible="true" />
+		<point2 name="Scroll Speed" offset="0x178" visible="true" />
+		<enum8 name="Profile Color / Input Variable" offset="0x180" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Color / Range Variable" offset="0x181" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier" offset="0x182" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier Input" offset="0x183" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Color / Mapping Function / Data" offset="0x184" visible="true" />
+		<float32 name="Profile Color / Runtime M Constant Value" offset="0x198" visible="true" />
+		<int8 name="Profile Color / Runtime M Flags" offset="0x19C" visible="true" />
+		<uint8 name="Profile Color / DSFDSGLKJ 0" offset="0x19D" visible="false" />
+		<uint8 name="Profile Color / DSFDSGLKJ 1" offset="0x19E" visible="false" />
+		<uint8 name="Profile Color / DSFDSGLKJ 2" offset="0x19F" visible="false" />
+		<enum8 name="Profile Alpha / Input Variable" offset="0x1A0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Alpha / Range Variable" offset="0x1A1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier" offset="0x1A2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier Input" offset="0x1A3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Alpha / Mapping Function / Data" offset="0x1A4" visible="true" />
+		<float32 name="Profile Alpha / Runtime M Constant Value" offset="0x1B8" visible="true" />
+		<int8 name="Profile Alpha / Runtime M Flags" offset="0x1BC" visible="true" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 0" offset="0x1BD" visible="false" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 1" offset="0x1BE" visible="false" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 2" offset="0x1BF" visible="false" />
+		<enum8 name="Profile Secondary Alpha / Input Variable" offset="0x1C0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Secondary Alpha / Range Variable" offset="0x1C1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Secondary Alpha / Output Modifier" offset="0x1C2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Secondary Alpha / Output Modifier Input" offset="0x1C3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Secondary Alpha / Mapping Function / Data" offset="0x1C4" visible="true" />
+		<float32 name="Profile Secondary Alpha / Runtime M Constant Value" offset="0x1D8" visible="true" />
+		<int8 name="Profile Secondary Alpha / Runtime M Flags" offset="0x1DC" visible="true" />
+		<uint8 name="Profile Secondary Alpha / DSFDSGLKJ 0" offset="0x1DD" visible="false" />
+		<uint8 name="Profile Secondary Alpha / DSFDSGLKJ 1" offset="0x1DE" visible="false" />
+		<uint8 name="Profile Secondary Alpha / DSFDSGLKJ 2" offset="0x1DF" visible="false" />
+		<enum8 name="Profile Black Point / Input Variable" offset="0x1E0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Black Point / Range Variable" offset="0x1E1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Black Point / Output Modifier" offset="0x1E2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Black Point / Output Modifier Input" offset="0x1E3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Black Point / Mapping Function / Data" offset="0x1E4" visible="true" />
+		<float32 name="Profile Black Point / Runtime M Constant Value" offset="0x1F8" visible="true" />
+		<int8 name="Profile Black Point / Runtime M Flags" offset="0x1FC" visible="true" />
+		<uint8 name="Profile Black Point / DSFDSGLKJ 0" offset="0x1FD" visible="false" />
+		<uint8 name="Profile Black Point / DSFDSGLKJ 1" offset="0x1FE" visible="false" />
+		<uint8 name="Profile Black Point / DSFDSGLKJ 2" offset="0x1FF" visible="false" />
+		<enum8 name="Profile Palette / Input Variable" offset="0x200" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Palette / Range Variable" offset="0x201" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Palette / Output Modifier" offset="0x202" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Palette / Output Modifier Input" offset="0x203" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Palette / Mapping Function / Data" offset="0x204" visible="true" />
+		<float32 name="Profile Palette / Runtime M Constant Value" offset="0x218" visible="true" />
+		<int8 name="Profile Palette / Runtime M Flags" offset="0x21C" visible="true" />
+		<uint8 name="Profile Palette / DSFDSGLKJ 0" offset="0x21D" visible="false" />
+		<uint8 name="Profile Palette / DSFDSGLKJ 1" offset="0x21E" visible="false" />
+		<uint8 name="Profile Palette / DSFDSGLKJ 2" offset="0x21F" visible="false" />
+		<enum8 name="Profile Intensity / Input Variable" offset="0x220" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Intensity / Range Variable" offset="0x221" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier" offset="0x222" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier Input" offset="0x223" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfileRandom" value="1" />
+			<option name="ProfileCorrelation1" value="2" />
+			<option name="ProfileCorrelation2" value="3" />
+			<option name="ProfileCorrelation3" value="4" />
+			<option name="ProfileCorrelation4" value="5" />
+			<option name="GameTime" value="6" />
+			<option name="ContrailAge" value="7" />
+			<option name="ContrailRandom" value="8" />
+			<option name="ContrailCorrelation1" value="9" />
+			<option name="ContrailCorrelation2" value="10" />
+			<option name="ContrailSpeed" value="11" />
+			<option name="ContrailLod" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="InvalidStatePleaseSetAgain" value="15" />
+		</enum8>
+		<dataref name="Profile Intensity / Mapping Function / Data" offset="0x224" visible="true" />
+		<float32 name="Profile Intensity / Runtime M Constant Value" offset="0x238" visible="true" />
+		<int8 name="Profile Intensity / Runtime M Flags" offset="0x23C" visible="true" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 0" offset="0x23D" visible="false" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 1" offset="0x23E" visible="false" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 2" offset="0x23F" visible="false" />
+		<uint32 name="Runtime M Constant Per Profile Properties" offset="0x240" visible="true" />
+		<uint32 name="Runtime M Used States" offset="0x244" visible="true" />
+		<tagblock name="Runtime M Gpu Data / Properties" offset="0x248" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Magnitude" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpu Data / Functions" offset="0x254" visible="true" elementSize="0x40">
+			<colorf name="Elements 0 / Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Elements 0 / Magnitude" offset="0xC" visible="true" />
+			<colorf name="Elements 1 / Color" offset="0x10" alpha="false" visible="true" />
+			<float32 name="Elements 1 / Magnitude" offset="0x1C" visible="true" />
+			<colorf name="Elements 2 / Color" offset="0x20" alpha="false" visible="true" />
+			<float32 name="Elements 2 / Magnitude" offset="0x2C" visible="true" />
+			<colorf name="Elements 3 / Color" offset="0x30" alpha="false" visible="true" />
+			<float32 name="Elements 3 / Magnitude" offset="0x3C" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpu Data / Colors" offset="0x260" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Magnitude" offset="0xC" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

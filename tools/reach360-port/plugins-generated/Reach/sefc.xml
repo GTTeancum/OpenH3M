@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.AreaScreenEffect (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Global Flags" offset="0x0" visible="true">
+		<bit name="PlaySequentially" index="0" />
+		<bit name="DebugThisScreenEffect" index="1" />
+		<bit name="ForceDeleteWhenAttachedToDeadObject" index="2" />
+		<bit name="ForceMaxOnePerObject" index="3" />
+		<bit name="ForceLooping" index="4" />
+	</flags16>
+	<flags16 name="Global Hidden Flags" offset="0x2" visible="true">
+		<bit name="UpdateThread" index="0" />
+		<bit name="RenderThread" index="1" />
+	</flags16>
+	<tagblock name="Screen Effects" offset="0x4" visible="true" elementSize="0xF0">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags16 name="Flags_ODST" offset="0x4" visible="true">
+			<bit name="DebugDisable" index="0" />
+			<bit name="AllowEffectOutsideRadius" index="1" />
+			<bit name="Unattached" index="2" />
+			<bit name="FirstPersonOnly" index="3" />
+			<bit name="ThirdPersonOnly" index="4" />
+			<bit name="DisableCinematicCameraFalloffs" index="5" />
+			<bit name="OnlyAffectsAttachedObject" index="6" />
+			<bit name="DrawPreciselyOne" index="7" />
+			<bit name="UsePlayerTravelDirection" index="8" />
+		</flags16>
+		<flags16 name="Hidden Flags" offset="0x6" visible="true">
+			<bit name="UpdateThread" index="0" />
+			<bit name="RenderThread" index="1" />
+		</flags16>
+		<float32 name="Maximum Distance" offset="0x8" visible="true" />
+		<dataref name="Distance Falloff Function / Data" offset="0xC" visible="true" />
+		<float32 name="Delay" offset="0x20" visible="true" />
+		<float32 name="Lifetime" offset="0x24" visible="true" />
+		<dataref name="Time Evolution Function / Data" offset="0x28" visible="true" />
+		<dataref name="Angle Falloff Function / Data" offset="0x3C" visible="true" />
+		<stringid name="Input Variable" offset="0x50" visible="true" />
+		<stringid name="Range Variable" offset="0x54" visible="true" />
+		<dataref name="Object Falloff / Data" offset="0x58" visible="true" />
+		<float32 name="Exposure Boost" offset="0x6C" visible="true" />
+		<float32 name="Exposure Deboost" offset="0x70" visible="true" />
+		<float32 name="Hue Left" offset="0x74" visible="true" />
+		<float32 name="Hue Right" offset="0x78" visible="true" />
+		<float32 name="Saturation" offset="0x7C" visible="true" />
+		<float32 name="Desaturation" offset="0x80" visible="true" />
+		<float32 name="Contrast Enhance" offset="0x84" visible="true" />
+		<float32 name="Gamma Enhance" offset="0x88" visible="true" />
+		<float32 name="Gamma Reduce" offset="0x8C" visible="true" />
+		<float32 name="Bright Noise" offset="0x90" visible="true" />
+		<float32 name="Dark Noise" offset="0x94" visible="true" />
+		<colorf name="Color Filter" offset="0x98" alpha="false" visible="true" />
+		<colorf name="Color Floor" offset="0xA4" alpha="false" visible="true" />
+		<float32 name="Tron" offset="0xB0" visible="true" />
+		<float32 name="Motion Suck" offset="0xB4" visible="true" />
+		<vector3 name="Motion Suck Direction" offset="0xB8" visible="true" />
+		<float32 name="Horizontal Blur" offset="0xC4" visible="true" />
+		<float32 name="Vertical Blur" offset="0xC8" visible="true" />
+		<float32 name="Vision Mode" offset="0xCC" visible="true" />
+		<float32 name="Hud Fade" offset="0xD0" visible="true" />
+		<float32 name="Fov In" offset="0xD4" visible="true" />
+		<float32 name="Fov Out" offset="0xD8" visible="true" />
+		<float32 name="Screen Shake" offset="0xDC" visible="true" />
+		<tagref name="Screen Shader" offset="0xE0" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PgcrEnemyToCategoryMappingDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Character Categories" offset="0x0" visible="true" elementSize="0x20">
+		<stringid name="Category Display Name" offset="0x0" visible="true" />
+		<int16 name="Sprite Index" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x6" visible="true">
+			<bit name="CategoryContainsPlayers" index="0" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x7" visible="false" />
+		<tagblock name="Player Types" offset="0x8" visible="true" elementSize="0x4">
+			<enum8 name="Player Type" offset="0x0" visible="true">
+				<option name="Unsc" value="0" />
+				<option name="Covenant" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Enemy Types" offset="0x14" visible="true" elementSize="0x4">
+			<enum8 name="Character Type" offset="0x0" visible="true">
+				<option name="Any" value="0" />
+				<option name="Brute" value="1" />
+				<option name="Grunt" value="2" />
+				<option name="Jackel" value="3" />
+				<option name="Skirmisher" value="4" />
+				<option name="Marine" value="5" />
+				<option name="Spartan" value="6" />
+				<option name="Bugger" value="7" />
+				<option name="Hunter" value="8" />
+				<option name="FloodInfection" value="9" />
+				<option name="FloodCarrier" value="10" />
+				<option name="FloodCombat" value="11" />
+				<option name="FloodPure" value="12" />
+				<option name="Sentinel" value="13" />
+				<option name="Elite" value="14" />
+				<option name="Engineer" value="15" />
+				<option name="Mule" value="16" />
+				<option name="Turret" value="17" />
+				<option name="Mongoose" value="18" />
+				<option name="Warthog" value="19" />
+				<option name="Scorpion" value="20" />
+				<option name="Hornet" value="21" />
+				<option name="Pelican" value="22" />
+				<option name="Revenant" value="23" />
+				<option name="Seraph" value="24" />
+				<option name="Shade" value="25" />
+				<option name="Watchtower" value="26" />
+				<option name="Ghost" value="27" />
+				<option name="Chopper" value="28" />
+				<option name="Mauler" value="29" />
+				<option name="Wraith" value="30" />
+				<option name="Banshee" value="31" />
+				<option name="Phantom" value="32" />
+				<option name="Scarab" value="33" />
+				<option name="Guntower" value="34" />
+				<option name="TuningFork" value="35" />
+				<option name="Broadsword" value="36" />
+				<option name="Mammoth" value="37" />
+				<option name="Lich" value="38" />
+				<option name="Mantis" value="39" />
+				<option name="Wasp" value="40" />
+				<option name="Phaeton" value="41" />
+				<option name="Bishop" value="42" />
+				<option name="Knight" value="43" />
+				<option name="Pawn" value="44" />
+			</enum8>
+			<enum8 name="Character Class" offset="0x1" visible="true">
+				<option name="Any" value="0" />
+				<option name="Infantry" value="1" />
+				<option name="Leader" value="2" />
+				<option name="Hero" value="3" />
+				<option name="Specialist" value="4" />
+				<option name="LightVehicle" value="5" />
+				<option name="HeavyVehicle" value="6" />
+				<option name="GiantVehicle" value="7" />
+				<option name="StandardVehicle" value="8" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Vehicle Categories" offset="0xC" visible="true" elementSize="0x20">
+		<stringid name="Category Display Name" offset="0x0" visible="true" />
+		<int16 name="Sprite Index" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x6" visible="true">
+			<bit name="CategoryContainsPlayers" index="0" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x7" visible="false" />
+		<tagblock name="Player Types" offset="0x8" visible="true" elementSize="0x4">
+			<enum8 name="Player Type" offset="0x0" visible="true">
+				<option name="Unsc" value="0" />
+				<option name="Covenant" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Enemy Types" offset="0x14" visible="true" elementSize="0x4">
+			<enum8 name="Character Type" offset="0x0" visible="true">
+				<option name="Any" value="0" />
+				<option name="Brute" value="1" />
+				<option name="Grunt" value="2" />
+				<option name="Jackel" value="3" />
+				<option name="Skirmisher" value="4" />
+				<option name="Marine" value="5" />
+				<option name="Spartan" value="6" />
+				<option name="Bugger" value="7" />
+				<option name="Hunter" value="8" />
+				<option name="FloodInfection" value="9" />
+				<option name="FloodCarrier" value="10" />
+				<option name="FloodCombat" value="11" />
+				<option name="FloodPure" value="12" />
+				<option name="Sentinel" value="13" />
+				<option name="Elite" value="14" />
+				<option name="Engineer" value="15" />
+				<option name="Mule" value="16" />
+				<option name="Turret" value="17" />
+				<option name="Mongoose" value="18" />
+				<option name="Warthog" value="19" />
+				<option name="Scorpion" value="20" />
+				<option name="Hornet" value="21" />
+				<option name="Pelican" value="22" />
+				<option name="Revenant" value="23" />
+				<option name="Seraph" value="24" />
+				<option name="Shade" value="25" />
+				<option name="Watchtower" value="26" />
+				<option name="Ghost" value="27" />
+				<option name="Chopper" value="28" />
+				<option name="Mauler" value="29" />
+				<option name="Wraith" value="30" />
+				<option name="Banshee" value="31" />
+				<option name="Phantom" value="32" />
+				<option name="Scarab" value="33" />
+				<option name="Guntower" value="34" />
+				<option name="TuningFork" value="35" />
+				<option name="Broadsword" value="36" />
+				<option name="Mammoth" value="37" />
+				<option name="Lich" value="38" />
+				<option name="Mantis" value="39" />
+				<option name="Wasp" value="40" />
+				<option name="Phaeton" value="41" />
+				<option name="Bishop" value="42" />
+				<option name="Knight" value="43" />
+				<option name="Pawn" value="44" />
+			</enum8>
+			<enum8 name="Character Class" offset="0x1" visible="true">
+				<option name="Any" value="0" />
+				<option name="Infantry" value="1" />
+				<option name="Leader" value="2" />
+				<option name="Hero" value="3" />
+				<option name="Specialist" value="4" />
+				<option name="LightVehicle" value="5" />
+				<option name="HeavyVehicle" value="6" />
+				<option name="GiantVehicle" value="7" />
+				<option name="StandardVehicle" value="8" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+</plugin>

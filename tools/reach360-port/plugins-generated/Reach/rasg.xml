@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xB0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.RasterizerGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Default Bitmaps" offset="0x0" visible="true" elementSize="0x14">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="DoNotLoad" index="0" />
+		</flags32>
+		<tagref name="Bitmap" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Material Textures" offset="0xC" visible="true" elementSize="0x10">
+		<tagref name="Bitmap" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Default Vertex Shader" offset="0x18" visible="true" />
+	<tagref name="Default Pixel Shader" offset="0x28" visible="true" />
+	<tagblock name="Default Shaders" offset="0x38" visible="true" elementSize="0x24">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagref name="Vertex Shader" offset="0x4" visible="true" />
+		<tagref name="Pixel Shader" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Atmosphere Lookup Tables" offset="0x44" visible="true" elementSize="0x10">
+		<tagref name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Runtime M Max Vs Gprs" offset="0x50" visible="true" />
+	<int32 name="Runtime M Max Ps Gprs" offset="0x54" visible="true" />
+	<tagref name="Default Performance Template" offset="0x58" visible="true" />
+	<tagref name="Default Shield Impact" offset="0x68" visible="true" />
+	<tagref name="Cheap Particle Type Library" offset="0x78" visible="true" />
+	<tagref name="Emblem Library" offset="0x88" visible="true" />
+	<float32 name="Motion Blur Parameters / Max Blur" offset="0x98" visible="true" />
+	<float32 name="Motion Blur Parameters / Blur Scale" offset="0x9C" visible="true" />
+	<float32 name="Motion Blur Parameters / Center Falloff X" offset="0xA0" visible="true" />
+	<float32 name="Motion Blur Parameters / Center Falloff Y" offset="0xA4" visible="true" />
+	<float32 name="Motion Blur Parameters / Expected Time Per Tick" offset="0xA8" visible="true" />
+	<float32 name="Cheap Albedo Blend" offset="0xAC" visible="true" />
+</plugin>

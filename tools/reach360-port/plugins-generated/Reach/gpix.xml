@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GlobalCacheFilePixelShaders (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<uint32 name="Unknown0" offset="0x0" visible="true" />
+	<uint32 name="Count" offset="0x4" visible="true" />
+	<uint32 name="Unknown2" offset="0x8" visible="true" />
+	<uint32 name="Unknown3" offset="0xC" visible="true" />
+	<tagblock name="Shaders" offset="0x10" visible="true" elementSize="0x58">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="RequiresConstantTable" index="0" />
+		</flags32>
+		<dataref name="Xbox Shader Bytecode" offset="0x4" visible="true" />
+		<dataref name="PC Shader Bytecode" offset="0x18" visible="true" />
+		<tagblock name="X Box Constant Table / Constants" offset="0x2C" visible="true" elementSize="0x8">
+			<stringid name="Parameter Name" offset="0x0" visible="true" />
+			<uint16 name="Register Index" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Type" offset="0x7" visible="true">
+				<option name="Boolean" value="0" />
+				<option name="Integer" value="1" />
+				<option name="Vector" value="2" />
+				<option name="Sampler" value="3" />
+			</enum8>
+		</tagblock>
+		<enum8 name="X Box Constant Table / Shader Type" offset="0x38" visible="true">
+			<option name="VertexShader" value="0" />
+			<option name="PixelShader" value="1" />
+		</enum8>
+		<uint8 name="X Box Constant Table / Padding0 0" offset="0x39" visible="false" />
+		<uint8 name="X Box Constant Table / Padding0 1" offset="0x3A" visible="false" />
+		<uint8 name="X Box Constant Table / Padding0 2" offset="0x3B" visible="false" />
+		<tagblock name="PC Constant Table / Constants" offset="0x3C" visible="true" elementSize="0x8">
+			<stringid name="Parameter Name" offset="0x0" visible="true" />
+			<uint16 name="Register Index" offset="0x4" visible="true" />
+			<uint8 name="Register Count" offset="0x6" visible="true" />
+			<enum8 name="Register Type" offset="0x7" visible="true">
+				<option name="Boolean" value="0" />
+				<option name="Integer" value="1" />
+				<option name="Vector" value="2" />
+				<option name="Sampler" value="3" />
+			</enum8>
+		</tagblock>
+		<enum8 name="PC Constant Table / Shader Type" offset="0x48" visible="true">
+			<option name="VertexShader" value="0" />
+			<option name="PixelShader" value="1" />
+		</enum8>
+		<uint8 name="PC Constant Table / Padding0 0" offset="0x49" visible="false" />
+		<uint8 name="PC Constant Table / Padding0 1" offset="0x4A" visible="false" />
+		<uint8 name="PC Constant Table / Padding0 2" offset="0x4B" visible="false" />
+		<uint32 name="Gprs" offset="0x4C" visible="true" />
+		<int32 name="Global Cache Pixel Shader Index" offset="0x50" visible="true" />
+		<undefined name="Xbox Shader Reference (PixelShaderReference)" offset="0x54" visible="false" />
+	</tagblock>
+</plugin>

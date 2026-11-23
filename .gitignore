@@ -21,3 +21,8 @@ __pycache__/
 *.bak
 .vs/
 .vscode/
+
+# build output of the C# / Python tools
+tools/**/obj/
+tools/**/bin/
+__pycache__/

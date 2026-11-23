@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.DamageResponseDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Classes" offset="0x0" visible="true" elementSize="0xC0">
+		<enum16 name="Type" offset="0x0" visible="true">
+			<option name="Shielded" value="0" />
+			<option name="Unshielded" value="1" />
+			<option name="All" value="2" />
+		</enum16>
+		<flags16 name="Flags" offset="0x2" visible="true">
+			<bit name="IgnoreOnNoDamage" index="0" />
+		</flags16>
+		<enum16 name="Screen Flash / Type" offset="0x4" visible="true">
+			<option name="Add" value="0" />
+			<option name="Multiply" value="1" />
+			<option name="AlphaBlend" value="2" />
+			<option name="DoubleMultiply" value="3" />
+			<option name="Max" value="4" />
+			<option name="MultiplyAdd" value="5" />
+			<option name="InvAlphaBlend" value="6" />
+		</enum16>
+		<enum16 name="Screen Flash / Priority" offset="0x6" visible="true">
+			<option name="Low" value="0" />
+			<option name="Medium" value="1" />
+			<option name="High" value="2" />
+		</enum16>
+		<float32 name="Screen Flash / Duration" offset="0x8" visible="true" />
+		<enum16 name="Screen Flash / Fade Function" offset="0xC" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Screen Flash / Padding0 0" offset="0xE" visible="false" />
+		<uint8 name="Screen Flash / Padding0 1" offset="0xF" visible="false" />
+		<float32 name="Screen Flash / Max Intensity" offset="0x10" visible="true" />
+		<colorf name="Screen Flash / Flash Color" offset="0x14" alpha="true" visible="true" />
+		<float32 name="Motion Blur / Duration" offset="0x24" visible="true" />
+		<enum16 name="Motion Blur / Priority" offset="0x28" visible="true">
+			<option name="Low" value="0" />
+			<option name="Medium" value="1" />
+			<option name="High" value="2" />
+		</enum16>
+		<enum16 name="Motion Blur / Fade Function" offset="0x2A" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<float32 name="Motion Blur / Motion Blur Effect Scale" offset="0x2C" visible="true" />
+		<float32 name="Motion Blur / Motion Blur Cap Scale" offset="0x30" visible="true" />
+		<float32 name="Motion Blur / Motion Blur Center Falloff Scale" offset="0x34" visible="true" />
+		<float32 name="Directional Flash / Duration" offset="0x38" visible="true" />
+		<enum16 name="Directional Flash / Fade Function" offset="0x3C" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Directional Flash / Padding0 0" offset="0x3E" visible="false" />
+		<uint8 name="Directional Flash / Padding0 1" offset="0x3F" visible="false" />
+		<float32 name="Directional Flash / Size" offset="0x40" visible="true" />
+		<float32 name="Directional Flash / Inner Scale" offset="0x44" visible="true" />
+		<float32 name="Directional Flash / Outer Scale" offset="0x48" visible="true" />
+		<colorf name="Directional Flash / Flash Color" offset="0x4C" alpha="true" visible="true" />
+		<float32 name="Rumble / Low Frequency Rumble / Duration" offset="0x5C" visible="true" />
+		<dataref name="Rumble / Low Frequency Rumble / Dirty Rumble / Data" offset="0x60" visible="true" />
+		<float32 name="Rumble / High Frequency Rumble / Duration" offset="0x74" visible="true" />
+		<dataref name="Rumble / High Frequency Rumble / Dirty Rumble / Data" offset="0x78" visible="true" />
+		<float32 name="Camera Shake / Camera Impulse / Impulse Duration" offset="0x8C" visible="true" />
+		<enum16 name="Camera Shake / Camera Impulse / Fade Function" offset="0x90" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Camera Shake / Camera Impulse / Padding0 0" offset="0x92" visible="false" />
+		<uint8 name="Camera Shake / Camera Impulse / Padding0 1" offset="0x93" visible="false" />
+		<degree name="Camera Shake / Camera Impulse / Rotation" offset="0x94" visible="true" />
+		<float32 name="Camera Shake / Camera Impulse / Pushback" offset="0x98" visible="true" />
+		<rangef name="Camera Shake / Camera Impulse / Jitter" offset="0x9C" visible="true" />
+		<float32 name="Camera Shake / Camera Shake Data / Shake Duration" offset="0xA4" visible="true" />
+		<enum16 name="Camera Shake / Camera Shake Data / Fade Function" offset="0xA8" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Camera Shake / Camera Shake Data / Padding0 0" offset="0xAA" visible="false" />
+		<uint8 name="Camera Shake / Camera Shake Data / Padding0 1" offset="0xAB" visible="false" />
+		<float32 name="Camera Shake / Camera Shake Data / Random Translation" offset="0xAC" visible="true" />
+		<degree name="Camera Shake / Camera Shake Data / Random Rotation" offset="0xB0" visible="true" />
+		<enum16 name="Camera Shake / Camera Shake Data / Wobble Function" offset="0xB4" visible="true">
+			<option name="One" value="0" />
+			<option name="Zero" value="1" />
+			<option name="Cosine" value="2" />
+			<option name="Cosine1" value="3" />
+			<option name="DiagonalWave" value="4" />
+			<option name="DiagonalWave1" value="5" />
+			<option name="Slide" value="6" />
+			<option name="Slide1" value="7" />
+			<option name="Noise" value="8" />
+			<option name="Jitter" value="9" />
+			<option name="Wander" value="10" />
+			<option name="Spark" value="11" />
+		</enum16>
+		<uint8 name="Camera Shake / Camera Shake Data / Padding1 0" offset="0xB6" visible="false" />
+		<uint8 name="Camera Shake / Camera Shake Data / Padding1 1" offset="0xB7" visible="false" />
+		<float32 name="Camera Shake / Camera Shake Data / Wobble Function Period" offset="0xB8" visible="true" />
+		<float32 name="Camera Shake / Camera Shake Data / Wobble Weight" offset="0xBC" visible="true" />
+	</tagblock>
+</plugin>

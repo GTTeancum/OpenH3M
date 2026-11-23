@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x98">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.LightmapperGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Version" offset="0x0" visible="true" />
+	<flags32 name="Global Lightmapper Settings / Global Flags" offset="0x4" visible="true">
+		<bit name="ForceDraftLighting" index="0" />
+		<bit name="PerformSunMultisampling" index="1" />
+		<bit name="PerformSkyMultisampling" index="2" />
+		<bit name="UseHighResolutionPointShadows" index="3" />
+		<bit name="UseNewAtlaser" index="4" />
+		<bit name="UseHighQualityPacking" index="5" />
+		<bit name="IncludeGeometryFromAdjacentBsps" index="6" />
+		<bit name="Use32BitPrecisionForDirectPass" index="7" />
+		<bit name="EnableSubsamplingIndirectAcceleration" index="8" />
+		<bit name="RestrictLightmapSamplesToMayaRegions" index="9" />
+		<bit name="PerformRepack" index="10" />
+		<bit name="IsFarmBurn" index="11" />
+		<bit name="DesaturateLighting" index="12" />
+	</flags32>
+	<enum32 name="Global Lightmapper Settings / Mode" offset="0x8" visible="true">
+		<option name="DirectOnly" value="0" />
+		<option name="OneBounce" value="1" />
+		<option name="TwoBounce" value="2" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Hemicube Resolution" offset="0xC" visible="true">
+		<option name="_64X64" value="0" />
+		<option name="_128X128" value="1" />
+		<option name="_256X256" value="2" />
+		<option name="_512X512" value="3" />
+		<option name="_32X32" value="4" />
+		<option name="_16X16" value="5" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Dxt Compression Quality" offset="0x10" visible="true">
+		<option name="Draft" value="0" />
+		<option name="High" value="1" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Indirect Quality" offset="0x14" visible="true">
+		<option name="Low" value="0" />
+		<option name="Medium" value="1" />
+		<option name="High" value="2" />
+		<option name="VeryHigh" value="3" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Direct Shadow Map Resolution" offset="0x18" visible="true">
+		<option name="_1x" value="0" />
+		<option name="_2x" value="1" />
+		<option name="_4x" value="2" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Super Sampling Factor" offset="0x1C" visible="true">
+		<option name="_1x" value="0" />
+		<option name="_2x" value="1" />
+		<option name="_4x" value="2" />
+		<option name="_8x" value="3" />
+	</enum32>
+	<enum32 name="Global Lightmapper Settings / Ao Sample Quality" offset="0x20" visible="true">
+		<option name="Off" value="0" />
+		<option name="_1x" value="1" />
+		<option name="_2x" value="2" />
+		<option name="_4x" value="3" />
+	</enum32>
+	<vector3 name="Global Lightmapper Settings / Indirect Restrict Aabb Min" offset="0x24" visible="true" />
+	<vector3 name="Global Lightmapper Settings / Indirect Restrict Aabb Max" offset="0x30" visible="true" />
+	<flags32 name="Local Lightmapper Settings / Local Flags" offset="0x3C" visible="true">
+		<bit name="EnableFloatingShadows" index="0" />
+		<bit name="ReplaceSunWithBrightestDirectional" index="1" />
+		<bit name="UseLegacyMagicLightScalars" index="2" />
+		<bit name="RemoveLightsOutsideTargetBsp" index="3" />
+		<bit name="IncludeSkydome" index="4" />
+		<bit name="IncludeSun" index="5" />
+		<bit name="PerformBadPixelAnalysis" index="6" />
+		<bit name="EnableAo" index="7" />
+		<bit name="GenerateNewAo" index="8" />
+		<bit name="IgnoreSunSolidAngle" index="9" />
+		<bit name="OverrideAoOnly" index="10" />
+		<bit name="PerformAnalysis" index="11" />
+		<bit name="GlobalIlluminationFalloff" index="12" />
+		<bit name="GenerateBvhAo" index="13" />
+		<bit name="GenerateBvhAo1" index="14" />
+		<bit name="BuildPackingLightmaps" index="15" />
+		<bit name="AttemptToUseDiffuseUvs" index="16" />
+		<bit name="CorrectedLightLinking" index="17" />
+		<bit name="BurnSimplifiedIrradianceLighting" index="18" />
+		<bit name="DisableFloatingShadowGeometry" index="19" />
+		<bit name="DisableHybridRefinement" index="20" />
+		<bit name="BurnProbeAoLighting" index="21" />
+		<bit name="OptOutPerVertexLightingFix" index="22" />
+		<bit name="GenerateAdjacentBounceInfo" index="23" />
+		<bit name="NoShadowNoAoFix" index="24" />
+		<bit name="AllowSpotSuns" index="25" />
+		<bit name="ProbesIgnoreShadowLinking" index="26" />
+	</flags32>
+	<float32 name="Local Lightmapper Settings / Skydome Amplification Factor" offset="0x40" visible="true" />
+	<float32 name="Local Lightmapper Settings / Indirect Amplification Factor" offset="0x44" visible="true" />
+	<float32 name="Local Lightmapper Settings / Lightmap Compression Maximum" offset="0x48" visible="true" />
+	<float32 name="Local Lightmapper Settings / Per Vertex Ao Auto Threshold" offset="0x4C" visible="true" />
+	<float32 name="Local Lightmapper Settings / Ao Settings / Radius" offset="0x50" visible="true" />
+	<float32 name="Local Lightmapper Settings / Ao Settings / Falloff Power" offset="0x54" visible="true" />
+	<float32 name="Local Lightmapper Settings / Ao Settings / Multiplier" offset="0x58" visible="true" />
+	<float32 name="Local Lightmapper Settings / Ao Settings / Max Thread Count" offset="0x5C" visible="true" />
+	<float32 name="Local Lightmapper Settings / Global Illumination Falloff Settings / Falloff Begin" offset="0x60" visible="true" />
+	<float32 name="Local Lightmapper Settings / Global Illumination Falloff Settings / Falloff End" offset="0x64" visible="true" />
+	<colorf name="Local Lightmapper Settings / Global Illumination Falloff Settings / Far Lighting Color" offset="0x68" alpha="false" visible="true" />
+	<float32 name="Local Lightmapper Settings / Global Illumination Falloff Settings / Far Lighting Scalar" offset="0x74" visible="true" />
+	<tagref name="Local Lightmapper Settings / Global Illumination Falloff Settings / Far Lighting Texture" offset="0x78" visible="true" />
+	<int32 name="Local Lightmapper Settings / Local Lightmapper Override Settings / High Quality Average Jitter Samples" offset="0x88" visible="true" />
+	<int32 name="Local Lightmapper Settings / Local Lightmapper Override Settings / Per Vertex Supersample Count" offset="0x8C" visible="true" />
+	<int32 name="Local Lightmapper Settings / Local Lightmapper Override Settings / Indirect Quality Offset" offset="0x90" visible="true" />
+	<enum32 name="Local Lightmapper Settings / Forge Lightmap Size Class" offset="0x94" visible="true">
+		<option name="_32x32" value="0" />
+		<option name="_64x64" value="1" />
+		<option name="_128x128" value="2" />
+		<option name="_256x25604Meg" value="3" />
+		<option name="_512x51215Meg" value="4" />
+		<option name="_768x76834Meg" value="5" />
+		<option name="_1024x10246Meg" value="6" />
+		<option name="_1280x128094Meg" value="7" />
+		<option name="_1536x1536135Meg" value="8" />
+		<option name="_1792x1792184meg" value="9" />
+	</enum32>
+</plugin>

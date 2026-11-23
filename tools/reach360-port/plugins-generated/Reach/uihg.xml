@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x160">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.UserInterfaceHudGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags8 name="Flags" offset="0x0" visible="true">
+		<bit name="ShowScriptedPingsAtAnyDistance" index="0" />
+	</flags8>
+	<uint8 name="Padding 0" offset="0x1" visible="false" />
+	<uint8 name="Padding 1" offset="0x2" visible="false" />
+	<uint8 name="Padding 2" offset="0x3" visible="false" />
+	<float32 name="Active Camo Appears As Enemy When Lower Than" offset="0x4" visible="true" />
+	<float32 name="Height Classified As Above" offset="0x8" visible="true" />
+	<float32 name="Height Classified As Below" offset="0xC" visible="true" />
+	<float32 name="Threshold Speed" offset="0x10" visible="true" />
+	<float32 name="Upwards Movement Scaling" offset="0x14" visible="true" />
+	<float32 name="Downwards Movement Scaling" offset="0x18" visible="true" />
+	<float32 name="Crouching Movement Scaling" offset="0x1C" visible="true" />
+	<float32 name="Normal Detection Range Extension" offset="0x20" visible="true" />
+	<float32 name="Vehicle Detection Range Extension" offset="0x24" visible="true" />
+	<float32 name="Vehicle Radar Range" offset="0x28" visible="true" />
+	<float32 name="Mech Radar Range" offset="0x2C" visible="true" />
+	<float32 name="Vehicle Navigation Marker Range Detection" offset="0x30" visible="true" />
+	<float32 name="Vehicle Contested Flash Time" offset="0x34" visible="true" />
+	<float32 name="Activecamo Xray Animation Cooldown" offset="0x38" visible="true" />
+	<float32 name="Dead People Visible Time" offset="0x3C" visible="true" />
+	<int32 name="Motion Tracker Fade Frames" offset="0x40" visible="true" />
+	<int32 name="Armor Mod Display Counter" offset="0x44" visible="true" />
+	<float32 name="Broadsword Parallax Velocity Override" offset="0x48" visible="true" />
+	<float32 name="Pelican Parallax Velocity Override" offset="0x4C" visible="true" />
+	<float32 name="Fanfare Display Time" offset="0x50" visible="true" />
+	<float32 name="Fanfare Speed Up Display Time" offset="0x54" visible="true" />
+	<float32 name="Medal Score Message Lifetime" offset="0x58" visible="true" />
+	<float32 name="Medal Score Message Restart Time" offset="0x5C" visible="true" />
+	<float32 name="Remote Sensor Range" offset="0x60" visible="true" />
+	<float32 name="Remote Sensor Weak Distance" offset="0x64" visible="true" />
+	<float32 name="Remote Sensor Failure Distance" offset="0x68" visible="true" />
+	<float32 name="Shield Bar Recent Damage Duration" offset="0x6C" visible="true" />
+	<float32 name="Damage Indicator Response Duration" offset="0x70" visible="true" />
+	<float32 name="Damage Flash Response Duration" offset="0x74" visible="true" />
+	<tagref name="Tiled Mesh Seen When Hit In First Person" offset="0x78" visible="true" />
+	<float32 name="Number Of Tiles Across The Screen" offset="0x88" visible="true" />
+	<float32 name="Mesh Alpha Multiplier" offset="0x8C" visible="true" />
+	<float32 name="Mesh Alpha Gradient" offset="0x90" visible="true" />
+	<float32 name="Mesh Alpha At Centre" offset="0x94" visible="true" />
+	<float32 name="Mesh Alpha At Screen Edge" offset="0x98" visible="true" />
+	<point2 name="Screen Transform Basis 0 / Screen Transform Basis Element" offset="0x9C" visible="true" />
+	<point2 name="Screen Transform Basis 1 / Screen Transform Basis Element" offset="0xA4" visible="true" />
+	<point2 name="Screen Transform Basis 2 / Screen Transform Basis Element" offset="0xAC" visible="true" />
+	<point2 name="Screen Transform Basis 3 / Screen Transform Basis Element" offset="0xB4" visible="true" />
+	<point2 name="Screen Transform Basis 4 / Screen Transform Basis Element" offset="0xBC" visible="true" />
+	<point2 name="Screen Transform Basis 5 / Screen Transform Basis Element" offset="0xC4" visible="true" />
+	<point2 name="Screen Transform Basis 6 / Screen Transform Basis Element" offset="0xCC" visible="true" />
+	<point2 name="Screen Transform Basis 7 / Screen Transform Basis Element" offset="0xD4" visible="true" />
+	<point2 name="Screen Transform Basis 8 / Screen Transform Basis Element" offset="0xDC" visible="true" />
+	<float32 name="Reticule Maximum Spread Angle" offset="0xE4" visible="true" />
+	<tagref name="Banned Vehicle Entrance Sound" offset="0xE8" visible="true" />
+	<flags8 name="High Contrast Flags1" offset="0xF8" visible="true">
+		<bit name="DisableDynamicContrast" index="0" />
+		<bit name="DisableDoubleDraw" index="1" />
+	</flags8>
+	<uint8 name="Padding1 0" offset="0xF9" visible="false" />
+	<uint8 name="Padding1 1" offset="0xFA" visible="false" />
+	<uint8 name="Padding1 2" offset="0xFB" visible="false" />
+	<float32 name="Minimum Threshold" offset="0xFC" visible="true" />
+	<float32 name="Maximum Threshold" offset="0x100" visible="true" />
+	<float32 name="Clamp Threshold" offset="0x104" visible="true" />
+	<float32 name="Darken Factor" offset="0x108" visible="true" />
+	<float32 name="Brighten Factor" offset="0x10C" visible="true" />
+	<tagblock name="String References" offset="0x110" visible="true" elementSize="0x10">
+		<tagref name="String List" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Interact Message Appear Sound" offset="0x11C" visible="true" />
+	<tagref name="Interact Message Disappear Sound" offset="0x12C" visible="true" />
+	<float32 name="Medal Fanfare Animation Lifetime" offset="0x13C" visible="true" />
+	<float32 name="Medal Fanfare Animation In Lifetime" offset="0x140" visible="true" />
+	<float32 name="Medal Fanfare Animation Out Begin Time" offset="0x144" visible="true" />
+	<float32 name="Event Fanfare Animation Lifetime" offset="0x148" visible="true" />
+	<float32 name="Event Fanfare Animation In Lifetime" offset="0x14C" visible="true" />
+	<float32 name="Event Fanfare Animation Out Begin Time" offset="0x150" visible="true" />
+	<tagblock name="Player Training Data" offset="0x154" visible="true" elementSize="0x14">
+		<stringid name="Display String" offset="0x0" visible="true" />
+		<uint16 name="Max Display Time" offset="0x4" visible="true" />
+		<uint16 name="Display Count" offset="0x6" visible="true" />
+		<uint16 name="Dissapear Delay" offset="0x8" visible="true" />
+		<uint16 name="Redisplay Delay" offset="0xA" visible="true" />
+		<float32 name="Display Delay" offset="0xC" visible="true" />
+		<flags16 name="Flags" offset="0x10" visible="true">
+			<bit name="NotInMultiplayer" index="0" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x12" visible="false" />
+		<uint8 name="Padding 1" offset="0x13" visible="false" />
+	</tagblock>
+</plugin>

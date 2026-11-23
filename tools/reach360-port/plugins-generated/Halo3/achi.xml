@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Achievements (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Achievement Information" offset="0x0" visible="true" elementSize="0x18">
+		<enum32 name="Achievement" offset="0x0" visible="true">
+			<option name="beat_sc100" value="0" />
+			<option name="beat_sc110" value="1" />
+			<option name="beat_sc120" value="2" />
+			<option name="beat_sc130" value="3" />
+			<option name="beat_sc140" value="4" />
+			<option name="beat_sc150" value="5" />
+			<option name="beat_l200" value="6" />
+			<option name="beat_l300" value="7" />
+			<option name="beat_campaign_normal" value="8" />
+			<option name="beat_campaign_heroic" value="9" />
+			<option name="beat_campaign_legendary" value="10" />
+			<option name="wraith_killer" value="11" />
+			<option name="naughty_naughty" value="12" />
+			<option name="good_samaritan" value="13" />
+			<option name="dome_inspector" value="14" />
+			<option name="laser_blaster" value="15" />
+			<option name="both_tubes" value="16" />
+			<option name="i_like_fire" value="17" />
+			<option name="my_clothes" value="18" />
+			<option name="pink_and_deadly" value="19" />
+			<option name="dark_times" value="20" />
+			<option name="trading_down" value="21" />
+			<option name="headcase" value="22" />
+			<option name="boom_headshot" value="23" />
+			<option name="ewww_sticky" value="24" />
+			<option name="junior_detective" value="25" />
+			<option name="gumshoe" value="26" />
+			<option name="super_sleuth" value="27" />
+			<option name="metagame_points_in_sc100" value="28" />
+			<option name="metagame_points_in_sc110" value="29" />
+			<option name="metagame_points_in_sc120" value="30" />
+			<option name="metagame_points_in_sc130a" value="31" />
+			<option name="metagame_points_in_sc130b" value="32" />
+			<option name="metagame_points_in_sc140" value="33" />
+			<option name="metagame_points_in_l200" value="34" />
+			<option name="metagame_points_in_l300" value="35" />
+			<option name="be_like_marty" value="36" />
+			<option name="find_all_audio_logs" value="37" />
+			<option name="find_01_audio_logs" value="38" />
+			<option name="find_03_audio_logs" value="39" />
+			<option name="find_15_audio_logs" value="40" />
+			<option name="vidmaster_challenge_deja_vu" value="41" />
+			<option name="vidmaster_challenge_endure" value="42" />
+			<option name="vidmaster_challenge_classic" value="43" />
+			<option name="heal_up" value="44" />
+			<option name="stunning" value="45" />
+			<option name="tourist" value="46" />
+		</enum32>
+		<flags32 name="Flags" offset="0x4" visible="true">
+			<bit name="InvalidInCampaign" index="0" />
+			<bit name="InvalidInSurvival" index="1" />
+			<bit name="ResetsOnMapReload" index="2" />
+			<bit name="UsesGameProgression" index="3" />
+		</flags32>
+		<stringid name="Level Name" offset="0x8" visible="true" />
+		<int32 name="Goal" offset="0xC" visible="true" />
+		<flags32 name="Icon Flags" offset="0x10" visible="true">
+			<bit name="DisplaysOnHud" index="0" />
+			<bit name="Bit1" index="1" />
+		</flags32>
+		<int32 name="Icon Index" offset="0x14" visible="true" />
+	</tagblock>
+</plugin>

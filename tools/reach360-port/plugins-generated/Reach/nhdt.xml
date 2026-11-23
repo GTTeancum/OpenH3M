@@ -1,0 +1,1506 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x28">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.NewHudDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Do Not Use" offset="0x0" visible="true" />
+	<tagblock name="Bitmap Widgets" offset="0x10" visible="true" elementSize="0x64">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Unknown / Input1" offset="0x4" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input2" offset="0x5" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input3" offset="0x6" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input4" offset="0x7" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<flags16 name="Widget State / Y Unit Flags" offset="0x8" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Widget State / Y Extra Flags" offset="0xA" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Widget State / Y Weapon Flags" offset="0xC" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Widget State / Y Game Engine State Flags" offset="0xE" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<flags16 name="Widget State / N Unit Flags" offset="0x10" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Widget State / N Extra Flags" offset="0x12" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Widget State / N Weapon Flags" offset="0x14" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Widget State / N Game Engine State Flags" offset="0x16" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<int8 name="Widget State / Age Cutoff" offset="0x18" visible="true" />
+		<int8 name="Widget State / Clip Cutoff" offset="0x19" visible="true" />
+		<int8 name="Widget State / Total Cutoff" offset="0x1A" visible="true" />
+		<uint8 name="Widget State / Padding 0" offset="0x1B" visible="false" />
+		<enum16 name="Anchor" offset="0x1C" visible="true">
+			<option name="HealthAndShield" value="0" />
+			<option name="WeaponHud" value="1" />
+			<option name="MotionSensor" value="2" />
+			<option name="Scoreboard" value="3" />
+			<option name="Crosshair" value="4" />
+			<option name="LockOnTarget" value="5" />
+		</enum16>
+		<flags16 name="Flags" offset="0x1E" visible="true">
+			<bit name="FlipHorizontally" index="0" />
+			<bit name="FlipVertically" index="1" />
+			<bit name="ScopeMirrorHorizontally" index="2" />
+			<bit name="ScopeMirrorVertically" index="3" />
+			<bit name="ScopeStretch" index="4" />
+		</flags16>
+		<tagref name="Bitmap" offset="0x20" visible="true" />
+		<tagref name="Shader" offset="0x30" visible="true" />
+		<int8 name="Fullscreen Sequence Index" offset="0x40" visible="true" />
+		<int8 name="Halfscreen Sequence Index" offset="0x41" visible="true" />
+		<int8 name="Quarterscreen Sequence Index" offset="0x42" visible="true" />
+		<uint8 name="Padding 0" offset="0x43" visible="false" />
+		<point16 name="Fullscreen Offset" offset="0x44" visible="true" />
+		<point16 name="Halfscreen Offset" offset="0x48" visible="true" />
+		<point16 name="Quarterscreen Offset" offset="0x4C" visible="true" />
+		<point2 name="Fullscreen Registration Point" offset="0x50" visible="true" />
+		<point2 name="Halfscreen Registration Point" offset="0x58" visible="true" />
+		<point2 name="Quarterscreen Registration Point" offset="0x60" visible="true" />
+		<tagblock name="Effect" offset="0x68" visible="true" elementSize="0x68">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="ApplyScale" index="0" />
+				<bit name="ApplyTheta" index="1" />
+				<bit name="ApplyOffset" index="2" />
+			</flags16>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<stringid name="Your Mom / Input Name" offset="0x4" visible="true" />
+			<stringid name="Your Mom / Range Name" offset="0x8" visible="true" />
+			<float32 name="Your Mom / Time Period In Seconds" offset="0xC" visible="true" />
+			<tagblock name="Your Mom / Function / Function / Data" offset="0x10" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom1 / Input Name" offset="0x18" visible="true" />
+			<stringid name="Your Mom1 / Range Name" offset="0x1C" visible="true" />
+			<float32 name="Your Mom1 / Time Period In Seconds" offset="0x20" visible="true" />
+			<tagblock name="Your Mom1 / Function / Function / Data" offset="0x24" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom2 / Input Name" offset="0x2C" visible="true" />
+			<stringid name="Your Mom2 / Range Name" offset="0x30" visible="true" />
+			<float32 name="Your Mom2 / Time Period In Seconds" offset="0x34" visible="true" />
+			<tagblock name="Your Mom2 / Function / Function / Data" offset="0x38" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom3 / Input Name" offset="0x40" visible="true" />
+			<stringid name="Your Mom3 / Range Name" offset="0x44" visible="true" />
+			<float32 name="Your Mom3 / Time Period In Seconds" offset="0x48" visible="true" />
+			<tagblock name="Your Mom3 / Function / Function / Data" offset="0x4C" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom4 / Input Name" offset="0x54" visible="true" />
+			<stringid name="Your Mom4 / Range Name" offset="0x58" visible="true" />
+			<float32 name="Your Mom4 / Time Period In Seconds" offset="0x5C" visible="true" />
+			<tagblock name="Your Mom4 / Function / Function / Data" offset="0x60" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<enum16 name="Special Hud Type" offset="0x74" visible="true">
+			<option name="Unspecial" value="0" />
+			<option name="SBPlayerEmblem" value="1" />
+			<option name="SBOtherPlayerEmblem" value="2" />
+			<option name="SBPlayerScoreMeter" value="3" />
+			<option name="SBOtherPlayerScoreMeter" value="4" />
+			<option name="UnitShieldMeter" value="5" />
+			<option name="MotionSensor" value="6" />
+			<option name="TerritoryMeter" value="7" />
+		</enum16>
+		<uint8 name="Padding1 0" offset="0x76" visible="false" />
+		<uint8 name="Padding1 1" offset="0x77" visible="false" />
+	</tagblock>
+	<tagblock name="Text Widgets" offset="0x1C" visible="true" elementSize="0x54">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Unknown / Input1" offset="0x4" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input2" offset="0x5" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input3" offset="0x6" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input4" offset="0x7" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<flags16 name="Widget State / Y Unit Flags" offset="0x8" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Widget State / Y Extra Flags" offset="0xA" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Widget State / Y Weapon Flags" offset="0xC" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Widget State / Y Game Engine State Flags" offset="0xE" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<flags16 name="Widget State / N Unit Flags" offset="0x10" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Widget State / N Extra Flags" offset="0x12" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Widget State / N Weapon Flags" offset="0x14" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Widget State / N Game Engine State Flags" offset="0x16" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<int8 name="Widget State / Age Cutoff" offset="0x18" visible="true" />
+		<int8 name="Widget State / Clip Cutoff" offset="0x19" visible="true" />
+		<int8 name="Widget State / Total Cutoff" offset="0x1A" visible="true" />
+		<uint8 name="Widget State / Padding 0" offset="0x1B" visible="false" />
+		<enum16 name="Anchor" offset="0x1C" visible="true">
+			<option name="HealthAndShield" value="0" />
+			<option name="WeaponHud" value="1" />
+			<option name="MotionSensor" value="2" />
+			<option name="Scoreboard" value="3" />
+			<option name="Crosshair" value="4" />
+			<option name="LockOnTarget" value="5" />
+		</enum16>
+		<flags16 name="Flags" offset="0x1E" visible="true">
+			<bit name="StringIsANumber" index="0" />
+			<bit name="Force2DigitNumber" index="1" />
+			<bit name="Force3DigitNumber" index="2" />
+			<bit name="TalkingPlayerHack" index="3" />
+		</flags16>
+		<tagref name="Shader" offset="0x20" visible="true" />
+		<stringid name="String" offset="0x30" visible="true" />
+		<enum16 name="Justification" offset="0x34" visible="true">
+			<option name="Left" value="0" />
+			<option name="Center" value="1" />
+			<option name="Right" value="2" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x36" visible="false" />
+		<uint8 name="Padding 1" offset="0x37" visible="false" />
+		<enum8 name="Fullscreen Font Index" offset="0x38" visible="true">
+			<option name="Defualt" value="0" />
+			<option name="NumberFont" value="1" />
+		</enum8>
+		<enum8 name="Halfscreen Font Index" offset="0x39" visible="true">
+			<option name="Defualt" value="0" />
+			<option name="NumberFont" value="1" />
+		</enum8>
+		<enum8 name="Quarterscreen Font Index" offset="0x3A" visible="true">
+			<option name="Defualt" value="0" />
+			<option name="NumberFont" value="1" />
+		</enum8>
+		<uint8 name="Padding1 0" offset="0x3B" visible="false" />
+		<float32 name="Fullscreen Scale" offset="0x3C" visible="true" />
+		<float32 name="Halfscreen Scale" offset="0x40" visible="true" />
+		<float32 name="Quarterscreen Scale" offset="0x44" visible="true" />
+		<point16 name="Fullscreen Offset" offset="0x48" visible="true" />
+		<point16 name="Halfscreen Offset" offset="0x4C" visible="true" />
+		<point16 name="Quarterscreen Offset" offset="0x50" visible="true" />
+		<tagblock name="Effect" offset="0x54" visible="true" elementSize="0x68">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="ApplyScale" index="0" />
+				<bit name="ApplyTheta" index="1" />
+				<bit name="ApplyOffset" index="2" />
+			</flags16>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<stringid name="Your Mom / Input Name" offset="0x4" visible="true" />
+			<stringid name="Your Mom / Range Name" offset="0x8" visible="true" />
+			<float32 name="Your Mom / Time Period In Seconds" offset="0xC" visible="true" />
+			<tagblock name="Your Mom / Function / Function / Data" offset="0x10" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom1 / Input Name" offset="0x18" visible="true" />
+			<stringid name="Your Mom1 / Range Name" offset="0x1C" visible="true" />
+			<float32 name="Your Mom1 / Time Period In Seconds" offset="0x20" visible="true" />
+			<tagblock name="Your Mom1 / Function / Function / Data" offset="0x24" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom2 / Input Name" offset="0x2C" visible="true" />
+			<stringid name="Your Mom2 / Range Name" offset="0x30" visible="true" />
+			<float32 name="Your Mom2 / Time Period In Seconds" offset="0x34" visible="true" />
+			<tagblock name="Your Mom2 / Function / Function / Data" offset="0x38" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom3 / Input Name" offset="0x40" visible="true" />
+			<stringid name="Your Mom3 / Range Name" offset="0x44" visible="true" />
+			<float32 name="Your Mom3 / Time Period In Seconds" offset="0x48" visible="true" />
+			<tagblock name="Your Mom3 / Function / Function / Data" offset="0x4C" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Your Mom4 / Input Name" offset="0x54" visible="true" />
+			<stringid name="Your Mom4 / Range Name" offset="0x58" visible="true" />
+			<float32 name="Your Mom4 / Time Period In Seconds" offset="0x5C" visible="true" />
+			<tagblock name="Your Mom4 / Function / Function / Data" offset="0x60" visible="true" elementSize="0x1">
+				<int8 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<int16 name="Dashlight Data / Low Clip Cutoff" offset="0x28" visible="true" />
+	<int16 name="Dashlight Data / Low Ammo Cutoff" offset="0x2A" visible="true" />
+	<float32 name="Dashlight Data / Age Cutoff" offset="0x2C" visible="true" />
+	<tagblock name="Screen Effect Widgets" offset="0x30" visible="true" elementSize="0x50">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Unknown / Input1" offset="0x4" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input2" offset="0x5" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input3" offset="0x6" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<enum8 name="Unknown / Input4" offset="0x7" visible="true">
+			<option name="BasicZero" value="0" />
+			<option name="BasicOne" value="1" />
+			<option name="BasicTime" value="2" />
+			<option name="BasicGlobalHudFade" value="3" />
+			<option name="Unknown" value="4" />
+			<option name="Unknown1" value="5" />
+			<option name="Unknown2" value="6" />
+			<option name="Unknown3" value="7" />
+			<option name="Unknown4" value="8" />
+			<option name="Unknown5" value="9" />
+			<option name="Unknown6" value="10" />
+			<option name="Unknown7" value="11" />
+			<option name="Unknown8" value="12" />
+			<option name="Unknown9" value="13" />
+			<option name="Unknown10" value="14" />
+			<option name="Unknown11" value="15" />
+			<option name="UnitShield" value="16" />
+			<option name="UnitBody" value="17" />
+			<option name="UnitAutoaimed" value="18" />
+			<option name="UnitHasNoGrenades" value="19" />
+			<option name="UnitFragGrenCnt" value="20" />
+			<option name="UnitPlasmaGrenCnt" value="21" />
+			<option name="UnitTimeOnDplShld" value="22" />
+			<option name="UnitZoomFraction" value="23" />
+			<option name="UnitCamoValue" value="24" />
+			<option name="Unknown12" value="25" />
+			<option name="Unknown13" value="26" />
+			<option name="Unknown14" value="27" />
+			<option name="Unknown15" value="28" />
+			<option name="Unknown16" value="29" />
+			<option name="Unknown17" value="30" />
+			<option name="Unknown18" value="31" />
+			<option name="ParentShield" value="32" />
+			<option name="ParentBody" value="33" />
+			<option name="Unknown19" value="34" />
+			<option name="Unknown20" value="35" />
+			<option name="Unknown21" value="36" />
+			<option name="Unknown22" value="37" />
+			<option name="Unknown23" value="38" />
+			<option name="Unknown24" value="39" />
+			<option name="Unknown25" value="40" />
+			<option name="Unknown26" value="41" />
+			<option name="Unknown27" value="42" />
+			<option name="Unknown28" value="43" />
+			<option name="Unknown29" value="44" />
+			<option name="Unknown30" value="45" />
+			<option name="Unknown31" value="46" />
+			<option name="Unknown32" value="47" />
+			<option name="WeaponClipAmmo" value="48" />
+			<option name="WeaponHeat" value="49" />
+			<option name="WeaponBattery" value="50" />
+			<option name="WeaponTotalAmmo" value="51" />
+			<option name="WeaponBarrelSpin" value="52" />
+			<option name="WeaponOverheated" value="53" />
+			<option name="WeaponClipAmmoFraction" value="54" />
+			<option name="WeaponTimeOnOverheat" value="55" />
+			<option name="WeaponBatteryFraction" value="56" />
+			<option name="WeaponLockingFraction" value="57" />
+			<option name="Unknown33" value="58" />
+			<option name="Unknown34" value="59" />
+			<option name="Unknown35" value="60" />
+			<option name="Unknown36" value="61" />
+			<option name="Unknown37" value="62" />
+			<option name="Unknown38" value="63" />
+			<option name="Unknown39" value="64" />
+			<option name="UserScoreFraction" value="65" />
+			<option name="OtherUserScoreFraction" value="66" />
+			<option name="UserWinning" value="67" />
+			<option name="BombArmingAmount" value="68" />
+			<option name="Unknown40" value="69" />
+			<option name="Unknown41" value="70" />
+			<option name="Unknown42" value="71" />
+			<option name="Unknown43" value="72" />
+			<option name="Unknown44" value="73" />
+			<option name="Unknown45" value="74" />
+			<option name="Unknown46" value="75" />
+			<option name="Unknown47" value="76" />
+			<option name="Unknown48" value="77" />
+			<option name="Unknown49" value="78" />
+			<option name="Unknown50" value="79" />
+			<option name="Unknown51" value="80" />
+		</enum8>
+		<flags16 name="Unknown1 / Y Unit Flags" offset="0x8" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Unknown1 / Y Extra Flags" offset="0xA" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Unknown1 / Y Weapon Flags" offset="0xC" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Unknown1 / Y Game Engine State Flags" offset="0xE" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<flags16 name="Unknown1 / N Unit Flags" offset="0x10" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="GrenadeTypeIsNone" index="1" />
+			<bit name="GrenadeTypeIsFrag" index="2" />
+			<bit name="GrenadeTypeIsPlasma" index="3" />
+			<bit name="UnitIsSingleWielding" index="4" />
+			<bit name="UnitIsDualWielding" index="5" />
+			<bit name="UnitIsUnzoomed" index="6" />
+			<bit name="UnitIsZoomedLevel1" index="7" />
+			<bit name="UnitIsZoomedLevel2" index="8" />
+			<bit name="GrenadesDisabled" index="9" />
+			<bit name="BinocularsEnabled" index="10" />
+			<bit name="MotionSensorEnabled" index="11" />
+			<bit name="ShieldEnabled" index="12" />
+			<bit name="Dervish" index="13" />
+		</flags16>
+		<flags16 name="Unknown1 / N Extra Flags" offset="0x12" visible="true">
+			<bit name="AutoaimFriendly" index="0" />
+			<bit name="AutoaimPlasma" index="1" />
+			<bit name="AutoaimHeadshot" index="2" />
+			<bit name="AutoaimVulnerable" index="3" />
+			<bit name="AutoaimInvincible" index="4" />
+		</flags16>
+		<flags16 name="Unknown1 / N Weapon Flags" offset="0x14" visible="true">
+			<bit name="PrimaryWeapon" index="0" />
+			<bit name="SecondaryWeapon" index="1" />
+			<bit name="BackpackWeapon" index="2" />
+			<bit name="AgeBelowCutoff" index="3" />
+			<bit name="ClipBelowCutoff" index="4" />
+			<bit name="TotalBelowCutoff" index="5" />
+			<bit name="Overheated" index="6" />
+			<bit name="OutOfAmmo" index="7" />
+			<bit name="LockTargetAvailable" index="8" />
+			<bit name="Locking" index="9" />
+			<bit name="Locked" index="10" />
+		</flags16>
+		<flags16 name="Unknown1 / N Game Engine State Flags" offset="0x16" visible="true">
+			<bit name="CampaignSolo" index="0" />
+			<bit name="CampaignCoop" index="1" />
+			<bit name="FreeForAll" index="2" />
+			<bit name="TeamGame" index="3" />
+			<bit name="UserLeading" index="4" />
+			<bit name="UserNotLeading" index="5" />
+			<bit name="TimedGame" index="6" />
+			<bit name="UntimedGame" index="7" />
+			<bit name="OtherScoreValid" index="8" />
+			<bit name="OtherScoreInvalid" index="9" />
+			<bit name="PlayerIsArmingBomb" index="10" />
+			<bit name="PlayerTalking" index="11" />
+		</flags16>
+		<int8 name="Unknown1 / Age Cutoff" offset="0x18" visible="true" />
+		<int8 name="Unknown1 / Clip Cutoff" offset="0x19" visible="true" />
+		<int8 name="Unknown1 / Total Cutoff" offset="0x1A" visible="true" />
+		<uint8 name="Unknown1 / Padding 0" offset="0x1B" visible="false" />
+		<enum16 name="Anchor" offset="0x1C" visible="true">
+			<option name="HealthAndShield" value="0" />
+			<option name="WeaponHud" value="1" />
+			<option name="MotionSensor" value="2" />
+			<option name="Scoreboard" value="3" />
+			<option name="Crosshair" value="4" />
+			<option name="LockOnTarget" value="5" />
+		</enum16>
+		<flags16 name="Flags" offset="0x1E" visible="true">
+			<bit name="Unused" index="0" />
+		</flags16>
+		<tagref name="Bitmap" offset="0x20" visible="true" />
+		<tagref name="Fullscreen Screen Effect" offset="0x30" visible="true" />
+		<tagref name="Waa / Halfscreen Screen Effect" offset="0x40" visible="true" />
+		<tagref name="Waa / Quarterscreen Screen Effect" offset="0x50" visible="true" />
+		<int8 name="Fullscreen Sequence Index" offset="0x50" visible="true" />
+		<int8 name="Halfscreen Sequence Index" offset="0x51" visible="true" />
+		<int8 name="Quarterscreen Sequence Index" offset="0x52" visible="true" />
+		<uint8 name="Padding 0" offset="0x53" visible="false" />
+		<point16 name="Fullscreen Offset" offset="0x54" visible="true" />
+		<point16 name="Halfscreen Offset" offset="0x58" visible="true" />
+		<point16 name="Quarterscreen Offset" offset="0x5C" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x94">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Light (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="AllowShadowsAndGels" index="0" />
+		<bit name="ShadowCasting" index="1" />
+		<bit name="RenderFirstPersonOnly" index="2" />
+		<bit name="RenderThirdPersonOnly" index="3" />
+		<bit name="DontRenderSplitscreen" index="4" />
+		<bit name="RenderWhileActiveCamo" index="5" />
+		<bit name="RenderInMultiplayerOverride" index="6" />
+		<bit name="MoveToCameraInFirstPerson" index="7" />
+		<bit name="NeverPriorityCull" index="8" />
+		<bit name="AffectedByGameCanUseFlashlights" index="9" />
+		<bit name="ScreenspaceSpecularLighting" index="10" />
+		<bit name="AlwaysOnForWeapon" index="11" />
+		<bit name="Bit12" index="12" />
+		<bit name="Bit13" index="13" />
+		<bit name="Bit14" index="14" />
+		<bit name="Bit15" index="15" />
+		<bit name="Bit16" index="16" />
+		<bit name="Bit17" index="17" />
+		<bit name="Bit18" index="18" />
+		<bit name="Bit19" index="19" />
+		<bit name="Bit20" index="20" />
+		<bit name="Bit21" index="21" />
+		<bit name="Bit22" index="22" />
+		<bit name="Bit23" index="23" />
+		<bit name="Bit24" index="24" />
+		<bit name="Bit25" index="25" />
+		<bit name="Bit26" index="26" />
+		<bit name="Bit27" index="27" />
+		<bit name="Bit28" index="28" />
+		<bit name="Bit29" index="29" />
+		<bit name="Bit30" index="30" />
+		<bit name="ElDewritoForgeLight" index="31" />
+	</flags32>
+	<enum16 name="Type" offset="0x4" visible="true">
+		<option name="Sphere" value="0" />
+		<option name="Frustum" value="1" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0x6" visible="false" />
+	<uint8 name="Padding 1" offset="0x7" visible="false" />
+	<float32 name="Maximum Distance" offset="0x8" visible="true" />
+	<float32 name="Frustum Near Width" offset="0xC" visible="true" />
+	<float32 name="Frustum Height Scale" offset="0x10" visible="true" />
+	<float32 name="Frustum Field Of View" offset="0x14" visible="true" />
+	<stringid name="Color / Input Variable" offset="0x18" visible="true" />
+	<stringid name="Color / Range Variable" offset="0x1C" visible="true" />
+	<enum16 name="Color / Output Modifier" offset="0x20" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Color / Padding 0" offset="0x22" visible="false" />
+	<uint8 name="Color / Padding 1" offset="0x23" visible="false" />
+	<stringid name="Color / Output Modifier Input" offset="0x24" visible="true" />
+	<dataref name="Color / Function / Data" offset="0x28" visible="true" />
+	<stringid name="Intensity / Input Variable" offset="0x3C" visible="true" />
+	<stringid name="Intensity / Range Variable" offset="0x40" visible="true" />
+	<enum16 name="Intensity / Output Modifier" offset="0x44" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Intensity / Padding 0" offset="0x46" visible="false" />
+	<uint8 name="Intensity / Padding 1" offset="0x47" visible="false" />
+	<stringid name="Intensity / Output Modifier Input" offset="0x48" visible="true" />
+	<dataref name="Intensity / Function / Data" offset="0x4C" visible="true" />
+	<tagref name="Gel Bitmap" offset="0x60" visible="true" />
+	<float32 name="Distance Diffusion" offset="0x70" visible="true" />
+	<float32 name="Angular Smoothness" offset="0x74" visible="true" />
+	<float32 name="Percent Spherical" offset="0x78" visible="true" />
+	<float32 name="Destroy Light After" offset="0x7C" visible="true" />
+	<enum8 name="Near Priority" offset="0x80" visible="true">
+		<option name="Default" value="0" />
+		<option name="InsanelyHigh" value="1" />
+		<option name="_1VeryHigh" value="2" />
+		<option name="_2" value="3" />
+		<option name="_3High" value="4" />
+		<option name="_4" value="5" />
+		<option name="_5Default" value="6" />
+		<option name="_6" value="7" />
+		<option name="_7Low" value="8" />
+		<option name="_8" value="9" />
+		<option name="_9VeryLow" value="10" />
+		<option name="NextToNothing" value="11" />
+	</enum8>
+	<enum8 name="Far Priority" offset="0x81" visible="true">
+		<option name="Default" value="0" />
+		<option name="InsanelyHigh" value="1" />
+		<option name="_1VeryHigh" value="2" />
+		<option name="_2" value="3" />
+		<option name="_3High" value="4" />
+		<option name="_4" value="5" />
+		<option name="_5Default" value="6" />
+		<option name="_6" value="7" />
+		<option name="_7Low" value="8" />
+		<option name="_8" value="9" />
+		<option name="_9VeryLow" value="10" />
+		<option name="NextToNothing" value="11" />
+	</enum8>
+	<enum8 name="Transition Distance" offset="0x82" visible="true">
+		<option name="Default" value="0" />
+		<option name="VeryClose" value="1" />
+		<option name="Close" value="2" />
+		<option name="Middle" value="3" />
+		<option name="Far" value="4" />
+		<option name="VeryFar" value="5" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x83" visible="false" />
+	<tagref name="Lens Flare" offset="0x84" visible="true" />
+</plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ScenarioDecalsResource (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Palette" offset="0x0" visible="true" elementSize="0x8">
+		<tagref name="Reference" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Decals" offset="0xC" visible="true" elementSize="0x10">
+		<int16 name="Decal Type" offset="0x0" visible="true" />
+		<int8 name="Yaw127127" offset="0x2" visible="true" />
+		<int8 name="Pitch127127" offset="0x3" visible="true" />
+		<point3 name="Position" offset="0x4" visible="true" />
+	</tagblock>
+</plugin>

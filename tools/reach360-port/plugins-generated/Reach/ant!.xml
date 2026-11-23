@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x50">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Antenna (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Attachment Marker Name" offset="0x0" visible="true" />
+	<tagref name="Bitmaps" offset="0x4" visible="true" />
+	<tagref name="Physics" offset="0x14" visible="true" />
+	<float32 name="Spring Strength Coefficient" offset="0x24" visible="true" />
+	<float32 name="Texel To World Width Scale" offset="0x28" visible="true" />
+	<float32 name="Falloff Pixels" offset="0x2C" visible="true" />
+	<float32 name="Cutoff Pixels" offset="0x30" visible="true" />
+	<float32 name="Point Of Bend" offset="0x34" visible="true" />
+	<float32 name="Starting Bend" offset="0x38" visible="true" />
+	<float32 name="Ending Bend" offset="0x3C" visible="true" />
+	<float32 name="Runtime Total Length" offset="0x40" visible="true" />
+	<tagblock name="Vertices" offset="0x44" visible="true" elementSize="0x40">
+		<degree2 name="Angles" offset="0x0" visible="true" />
+		<float32 name="Length" offset="0x8" visible="true" />
+		<int16 name="Sequence Index" offset="0xC" visible="true" />
+		<uint8 name="Unused 0" offset="0xE" visible="false" />
+		<uint8 name="Unused 1" offset="0xF" visible="false" />
+		<colorf name="Color" offset="0x10" alpha="true" visible="true" />
+		<colorf name="Lod Color" offset="0x20" alpha="true" visible="true" />
+		<float32 name="Hermite T" offset="0x30" visible="true" />
+		<vector3 name="Vector To Next" offset="0x34" visible="true" />
+	</tagblock>
+</plugin>

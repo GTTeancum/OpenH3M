@@ -1,0 +1,1234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x3EC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.UiWidgetDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<enum16 name="Widget Type" offset="0x0" visible="true">
+		<option name="Container" value="0" />
+		<option name="TextBox" value="1" />
+		<option name="SpinnerList" value="2" />
+		<option name="ColumnList" value="3" />
+		<option name="GameModelNotImplemented" value="4" />
+		<option name="MovieNotImplemented" value="5" />
+		<option name="CustomNotImplemented" value="6" />
+	</enum16>
+	<enum16 name="Controller Index" offset="0x2" visible="true">
+		<option name="Player1" value="0" />
+		<option name="Player2" value="1" />
+		<option name="Player3" value="2" />
+		<option name="Player4" value="3" />
+		<option name="AnyPlayer" value="4" />
+	</enum16>
+	<ascii name="Name" offset="0x4" visible="true" size="0x20" />
+	<rect16 name="Bounds" offset="0x24" visible="true" />
+	<flags32 name="Flags" offset="0x2C" visible="true">
+		<bit name="PassUnhandledEventsToFocusedChild" index="0" />
+		<bit name="PauseGameTime" index="1" />
+		<bit name="FlashBackgroundBitmap" index="2" />
+		<bit name="DpadUpDownTabsThruChildren" index="3" />
+		<bit name="DpadLeftRightTabsThruChildren" index="4" />
+		<bit name="DpadUpDownTabsThruListItems" index="5" />
+		<bit name="DpadLeftRightTabsThruListItems" index="6" />
+		<bit name="DontFocusASpecificChildWidget" index="7" />
+		<bit name="PassUnhandledEventsToAllChildren" index="8" />
+		<bit name="RenderRegardlessOfControllerIndex" index="9" />
+		<bit name="PassHandledEventsToAllChildren" index="10" />
+		<bit name="ReturnToMainMenuIfNoHistory" index="11" />
+		<bit name="AlwaysUseTagControllerIndex" index="12" />
+		<bit name="AlwaysUseNiftyRenderFx" index="13" />
+		<bit name="DonTPushHistory" index="14" />
+		<bit name="ForceHandleMouse" index="15" />
+	</flags32>
+	<int32 name="Milliseconds To Auto Close" offset="0x30" visible="true" />
+	<int32 name="Milliseconds Auto Close Fade Time" offset="0x34" visible="true" />
+	<tagref name="Background Bitmap" offset="0x38" visible="true" />
+	<tagblock name="Game Data Inputs" offset="0x48" visible="true" elementSize="0x24">
+		<enum16 name="Function" offset="0x0" visible="true">
+			<option name="Null" value="0" />
+			<option name="PlayerSettingsMenuUpdateDesc" value="1" />
+			<option name="Unused" value="2" />
+			<option name="PlaylistSettingsMenuUpdateDesc" value="3" />
+			<option name="GametypeSelectMenuUpdateDesc" value="4" />
+			<option name="MultiplayerTypeMenuUpdateDesc" value="5" />
+			<option name="SoloLevelSelectUpdate" value="6" />
+			<option name="DifficultyMenuUpdateDesc" value="7" />
+			<option name="BuildNumberTextboxOnly" value="8" />
+			<option name="ServerListUpdate" value="9" />
+			<option name="NetworkPregameStatusUpdate" value="10" />
+			<option name="SplitscreenPregameStatusUpdate" value="11" />
+			<option name="NetSplitscreenPrejoinPlayers" value="12" />
+			<option name="MpProfileListUpdate" value="13" />
+			<option name="_3widePlayerProfileListUpdate" value="14" />
+			<option name="PlyrProfEditSelectMenuUpd8" value="15" />
+			<option name="PlayerProfileSmallMenuUpdate" value="16" />
+			<option name="GameSettingsListsTextUpdate" value="17" />
+			<option name="SoloGameObjectiveText" value="18" />
+			<option name="ColorPickerUpdate" value="19" />
+			<option name="GameSettingsListsPicUpdate" value="20" />
+			<option name="MainMenuFakeAnimate" value="21" />
+			<option name="MpLevelSelectUpdate" value="22" />
+			<option name="GetActivePlyrProfileName" value="23" />
+			<option name="GetEditPlyrProfileName" value="24" />
+			<option name="GetEditGameSettingsName" value="25" />
+			<option name="GetActivePlyrProfileColor" value="26" />
+			<option name="MpSetTextboxMapName" value="27" />
+			<option name="MpSetTextboxGameRuleset" value="28" />
+			<option name="MpSetTextboxTeamsNoteams" value="29" />
+			<option name="MpSetTextboxScoreLimit" value="30" />
+			<option name="MpSetTextboxScoreLimitType" value="31" />
+			<option name="MpSetBitmapForMap" value="32" />
+			<option name="MpSetBitmapForRuleset" value="33" />
+			<option name="MpSetTextbox" value="34" />
+			<option name="MpEditProfileSetRuleText" value="35" />
+			<option name="SystemLinkStatusCheck" value="36" />
+			<option name="MpGameDirections" value="37" />
+			<option name="TeamsNoTeamsBitmapUpdate" value="38" />
+			<option name="WarnIfDiffWillNukeSavedGame" value="39" />
+			<option name="DimIfNoNetCable" value="40" />
+			<option name="PauseGameSetTextboxInverted" value="41" />
+			<option name="DimUnlessTwoControllers" value="42" />
+			<option name="ControlsUpdateMenu" value="43" />
+			<option name="VideoMenuUpdate" value="44" />
+			<option name="GamespyScreenUpdate" value="45" />
+			<option name="CommonButtonBarUpdate" value="46" />
+			<option name="GamepadUpdateMenu" value="47" />
+			<option name="ServerSettingsUpdate" value="48" />
+			<option name="AudioMenuUpdate" value="49" />
+			<option name="MpProfVehiclesUpdate" value="50" />
+			<option name="SoloMapListUpdate" value="51" />
+			<option name="MpMapListUpdate" value="52" />
+			<option name="GtSelectListUpdate" value="53" />
+			<option name="GtEditListUpdate" value="54" />
+			<option name="LoadGameListUpdate" value="55" />
+			<option name="CheckingForUpdates" value="56" />
+			<option name="DirectIpConnectUpdate" value="57" />
+			<option name="NetworkSettingsUpdate" value="58" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<uint8 name="Padding1 0" offset="0x4" visible="false" />
+		<uint8 name="Padding1 1" offset="0x5" visible="false" />
+		<uint8 name="Padding1 2" offset="0x6" visible="false" />
+		<uint8 name="Padding1 3" offset="0x7" visible="false" />
+		<uint8 name="Padding1 4" offset="0x8" visible="false" />
+		<uint8 name="Padding1 5" offset="0x9" visible="false" />
+		<uint8 name="Padding1 6" offset="0xA" visible="false" />
+		<uint8 name="Padding1 7" offset="0xB" visible="false" />
+		<uint8 name="Padding1 8" offset="0xC" visible="false" />
+		<uint8 name="Padding1 9" offset="0xD" visible="false" />
+		<uint8 name="Padding1 10" offset="0xE" visible="false" />
+		<uint8 name="Padding1 11" offset="0xF" visible="false" />
+		<uint8 name="Padding1 12" offset="0x10" visible="false" />
+		<uint8 name="Padding1 13" offset="0x11" visible="false" />
+		<uint8 name="Padding1 14" offset="0x12" visible="false" />
+		<uint8 name="Padding1 15" offset="0x13" visible="false" />
+		<uint8 name="Padding1 16" offset="0x14" visible="false" />
+		<uint8 name="Padding1 17" offset="0x15" visible="false" />
+		<uint8 name="Padding1 18" offset="0x16" visible="false" />
+		<uint8 name="Padding1 19" offset="0x17" visible="false" />
+		<uint8 name="Padding1 20" offset="0x18" visible="false" />
+		<uint8 name="Padding1 21" offset="0x19" visible="false" />
+		<uint8 name="Padding1 22" offset="0x1A" visible="false" />
+		<uint8 name="Padding1 23" offset="0x1B" visible="false" />
+		<uint8 name="Padding1 24" offset="0x1C" visible="false" />
+		<uint8 name="Padding1 25" offset="0x1D" visible="false" />
+		<uint8 name="Padding1 26" offset="0x1E" visible="false" />
+		<uint8 name="Padding1 27" offset="0x1F" visible="false" />
+		<uint8 name="Padding1 28" offset="0x20" visible="false" />
+		<uint8 name="Padding1 29" offset="0x21" visible="false" />
+		<uint8 name="Padding1 30" offset="0x22" visible="false" />
+		<uint8 name="Padding1 31" offset="0x23" visible="false" />
+	</tagblock>
+	<tagblock name="Event Handlers" offset="0x54" visible="true" elementSize="0x48">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="CloseCurrentWidget" index="0" />
+			<bit name="CloseOtherWidget" index="1" />
+			<bit name="CloseAllWidgets" index="2" />
+			<bit name="OpenWidget" index="3" />
+			<bit name="ReloadSelf" index="4" />
+			<bit name="ReloadOtherWidget" index="5" />
+			<bit name="GiveFocusToWidget" index="6" />
+			<bit name="RunFunction" index="7" />
+			<bit name="ReplaceSelfWWidget" index="8" />
+			<bit name="GoBackToPreviousWidget" index="9" />
+			<bit name="RunScenarioScript" index="10" />
+			<bit name="TryToBranchOnFailure" index="11" />
+		</flags32>
+		<enum16 name="Event Type" offset="0x4" visible="true">
+			<option name="AButton" value="0" />
+			<option name="BButton" value="1" />
+			<option name="XButton" value="2" />
+			<option name="YButton" value="3" />
+			<option name="BlackButton" value="4" />
+			<option name="WhiteButton" value="5" />
+			<option name="LeftTrigger" value="6" />
+			<option name="RightTrigger" value="7" />
+			<option name="DpadUp" value="8" />
+			<option name="DpadDown" value="9" />
+			<option name="DpadLeft" value="10" />
+			<option name="DpadRight" value="11" />
+			<option name="StartButton" value="12" />
+			<option name="BackButton" value="13" />
+			<option name="LeftThumb" value="14" />
+			<option name="RightThumb" value="15" />
+			<option name="LeftAnalogStickUp" value="16" />
+			<option name="LeftAnalogStickDown" value="17" />
+			<option name="LeftAnalogStickLeft" value="18" />
+			<option name="LeftAnalogStickRight" value="19" />
+			<option name="LeftAnalogStickUp1" value="20" />
+			<option name="RightAnalogStickDown" value="21" />
+			<option name="RightAnalogStickLeft" value="22" />
+			<option name="RightAnalogStickRight" value="23" />
+			<option name="Created" value="24" />
+			<option name="Deleted" value="25" />
+			<option name="GetFocus" value="26" />
+			<option name="LoseFocus" value="27" />
+			<option name="LeftMouse" value="28" />
+			<option name="MiddleMouse" value="29" />
+			<option name="RightMouse" value="30" />
+			<option name="DoubleClick" value="31" />
+			<option name="CustomActivation" value="32" />
+			<option name="PostRender" value="33" />
+		</enum16>
+		<enum16 name="Function" offset="0x6" visible="true">
+			<option name="Null" value="0" />
+			<option name="ListGotoNextItem" value="1" />
+			<option name="ListGotoPreviousItem" value="2" />
+			<option name="Unused" value="3" />
+			<option name="Unused1" value="4" />
+			<option name="InitializeSpLevelListSolo" value="5" />
+			<option name="InitializeSpLevelListCoop" value="6" />
+			<option name="DisposeSpLevelList" value="7" />
+			<option name="SoloLevelSetMap" value="8" />
+			<option name="SetDifficulty" value="9" />
+			<option name="StartNewGame" value="10" />
+			<option name="PauseGameRestartAtCheckpoint" value="11" />
+			<option name="PauseGameRestartLevel" value="12" />
+			<option name="PauseGameReturnToMainMenu" value="13" />
+			<option name="ClearMultiplayerPlayerJoins" value="14" />
+			<option name="JoinControllerToMpGame" value="15" />
+			<option name="InitializeNetGameServerList" value="16" />
+			<option name="StartNetworkGameServer" value="17" />
+			<option name="DisposeNetGameServerList" value="18" />
+			<option name="ShutdownNetworkGame" value="19" />
+			<option name="NetGameJoinFromServerList" value="20" />
+			<option name="SplitScreenGameInitialize" value="21" />
+			<option name="CoopGameInitialize" value="22" />
+			<option name="MainMenuIntialize" value="23" />
+			<option name="MpTypeMenuInitialize" value="24" />
+			<option name="PickPlayStageForQuickStart" value="25" />
+			<option name="MpLevelListInitialize" value="26" />
+			<option name="MpLevelListDispose" value="27" />
+			<option name="MpLevelSelect" value="28" />
+			<option name="MpProfilesListInitialize" value="29" />
+			<option name="MpProfilesListDispose" value="30" />
+			<option name="MpProfileSetForGame" value="31" />
+			<option name="SwapPlayerTeam" value="32" />
+			<option name="NetGameJoinPlayer" value="33" />
+			<option name="PlayerProfileListInitialize" value="34" />
+			<option name="PlayerProfileListDispose" value="35" />
+			<option name="_3widePlyrProfSetForGame" value="36" />
+			<option name="_1widePlyrProfSetForGame" value="37" />
+			<option name="MpProfileBeginEditing" value="38" />
+			<option name="MpProfileEndEditing" value="39" />
+			<option name="MpProfileSetGameEngine" value="40" />
+			<option name="MpProfileChangeName" value="41" />
+			<option name="MpProfileSetCtfRules" value="42" />
+			<option name="MpProfileSetKothRules" value="43" />
+			<option name="MpProfileSetSlayerRules" value="44" />
+			<option name="MpProfileSetOddballRules" value="45" />
+			<option name="MpProfileSetRacingRules" value="46" />
+			<option name="MpProfileSetPlayerOptions" value="47" />
+			<option name="MpProfileSetItemOptions" value="48" />
+			<option name="MpProfileSetIndicatorOpts" value="49" />
+			<option name="MpProfileInitGameEngine" value="50" />
+			<option name="MpProfileInitName" value="51" />
+			<option name="MpProfileInitCtfRules" value="52" />
+			<option name="MpProfileInitKothRules" value="53" />
+			<option name="MpProfileInitSlayerRules" value="54" />
+			<option name="MpProfileInitOddballRules" value="55" />
+			<option name="MpProfileInitRacingRules" value="56" />
+			<option name="MpProfileInitPlayerOpts" value="57" />
+			<option name="MpProfileInitItemOptions" value="58" />
+			<option name="MpProfileInitIndicatorOpts" value="59" />
+			<option name="MpProfileSaveChanges" value="60" />
+			<option name="ColorPickerMenuInitialize" value="61" />
+			<option name="ColorPickerMenuDispose" value="62" />
+			<option name="ColorPickerSelectColor" value="63" />
+			<option name="PlayerProfileBeginEditing" value="64" />
+			<option name="PlayerProfileEndEditing" value="65" />
+			<option name="PlayerProfileChangeName" value="66" />
+			<option name="PlayerProfileSaveChanges" value="67" />
+			<option name="PlyrPrfInitCntlSettings" value="68" />
+			<option name="PlyrPrfInitAdvCntlSet" value="69" />
+			<option name="PlyrPrfSaveCntlSettings" value="70" />
+			<option name="PlyrPrfSaveAdvCntlSet" value="71" />
+			<option name="MpGamePlayerQuit" value="72" />
+			<option name="MainMenuSwitchToSoloGame" value="73" />
+			<option name="RequestDelPlayerProfile" value="74" />
+			<option name="RequestDelPlaylistProfile" value="75" />
+			<option name="FinalDelPlayerProfile" value="76" />
+			<option name="FinalDelPlaylistProfile" value="77" />
+			<option name="CancelProfileDelete" value="78" />
+			<option name="CreateEditPlaylistProfile" value="79" />
+			<option name="CreateEditPlayerProfile" value="80" />
+			<option name="NetGameSpeedStart" value="81" />
+			<option name="NetGameDelayStart" value="82" />
+			<option name="NetServerAcceptConx" value="83" />
+			<option name="NetServerDeferStart" value="84" />
+			<option name="NetServerAllowStart" value="85" />
+			<option name="DisableIfNoXdemos" value="86" />
+			<option name="RunXdemos" value="87" />
+			<option name="SpResetControllerChoices" value="88" />
+			<option name="SpSetP1ControllerChoice" value="89" />
+			<option name="SpSetP2ControllerChoice" value="90" />
+			<option name="ErrorIfNoNetworkConnection" value="91" />
+			<option name="StartServerIfNoneAdvertised" value="92" />
+			<option name="NetGameUnjoinPlayer" value="93" />
+			<option name="CloseIfNotEditingProfile" value="94" />
+			<option name="ExitToXboxDashboard" value="95" />
+			<option name="NewCampaignChosen" value="96" />
+			<option name="NewCampaignDecision" value="97" />
+			<option name="PopHistoryStackOnce" value="98" />
+			<option name="DifficultyMenuInit" value="99" />
+			<option name="BeginMusicFadeOut" value="100" />
+			<option name="NewGameIfNoPlyrProfiles" value="101" />
+			<option name="ExitGracefullyToXboxDashboard" value="102" />
+			<option name="PauseGameInvertPitch" value="103" />
+			<option name="StartNewCoopGame" value="104" />
+			<option name="PauseGameInvertSpinnerGet" value="105" />
+			<option name="PauseGameInvertSpinnerSet" value="106" />
+			<option name="MainMenuQuitGame" value="107" />
+			<option name="MouseEmitAcceptEvent" value="108" />
+			<option name="MouseEmitBackEvent" value="109" />
+			<option name="MouseEmitDpadLeftEvent" value="110" />
+			<option name="MouseEmitDpadRightEvent" value="111" />
+			<option name="MouseSpinner3wideClick" value="112" />
+			<option name="ControlsScreenInit" value="113" />
+			<option name="VideoScreenInit" value="114" />
+			<option name="ControlsBeginBinding" value="115" />
+			<option name="GamespyScreenInit" value="116" />
+			<option name="GamespyScreenDispose" value="117" />
+			<option name="GamespySelectHeader" value="118" />
+			<option name="GamespySelectItem" value="119" />
+			<option name="GamespySelectButton" value="120" />
+			<option name="PlrProfInitMouseSet" value="121" />
+			<option name="PlrProfChangeMouseSet" value="122" />
+			<option name="PlrProfInitAudioSet" value="123" />
+			<option name="PlrProfChangeAudioSet" value="124" />
+			<option name="PlrProfChangeVideoSet" value="125" />
+			<option name="ControlsScreenDispose" value="126" />
+			<option name="ControlsScreenChangeSet" value="127" />
+			<option name="MouseEmitXEvent" value="128" />
+			<option name="GamepadScreenInit" value="129" />
+			<option name="GamepadScreenDispose" value="130" />
+			<option name="GamepadScreenChangeGamepads" value="131" />
+			<option name="GamepadScreenSelectItem" value="132" />
+			<option name="MouseScreenDefaults" value="133" />
+			<option name="AudioScreenDefaults" value="134" />
+			<option name="VideoScreenDefaults" value="135" />
+			<option name="ControlsScreenDefaults" value="136" />
+			<option name="ProfileSetEditBegin" value="137" />
+			<option name="ProfileManagerDelete" value="138" />
+			<option name="ProfileManagerSelect" value="139" />
+			<option name="GamespyDismissError" value="140" />
+			<option name="ServerSettingsInit" value="141" />
+			<option name="SsEditServerName" value="142" />
+			<option name="SsEditServerPassword" value="143" />
+			<option name="SsStartGame" value="144" />
+			<option name="VideoTestDialogInit" value="145" />
+			<option name="VideoTestDialogDispose" value="146" />
+			<option name="VideoTestDialogAccept" value="147" />
+			<option name="GamespyDismissFilters" value="148" />
+			<option name="GamespyUpdateFilterSettings" value="149" />
+			<option name="GamespyBackHandler" value="150" />
+			<option name="MouseSpinner1wideClick" value="151" />
+			<option name="ControlsBackHandler" value="152" />
+			<option name="ControlsAdvancedLaunch" value="153" />
+			<option name="ControlsAdvancedOk" value="154" />
+			<option name="MpPauseMenuOpen" value="155" />
+			<option name="MpGameOptionsOpen" value="156" />
+			<option name="MpChooseTeam" value="157" />
+			<option name="MpProfInitVehicleOptions" value="158" />
+			<option name="MpProfSaveVehicleOptions" value="159" />
+			<option name="SinglePrevClItemActivated" value="160" />
+			<option name="MpProfInitTeamplayOptions" value="161" />
+			<option name="MpProfSaveTeamplayOptions" value="162" />
+			<option name="MpGameOptionsChoose" value="163" />
+			<option name="EmitCustomActivationEvent" value="164" />
+			<option name="PlrProfCancelAudioSet" value="165" />
+			<option name="PlrProfInitNetworkOptions" value="166" />
+			<option name="PlrProfSaveNetworkOptions" value="167" />
+			<option name="CreditsPostRender" value="168" />
+			<option name="DifficultyItemSelect" value="169" />
+			<option name="CreditsInitialize" value="170" />
+			<option name="CreditsDispose" value="171" />
+			<option name="GamespyGetPatch" value="172" />
+			<option name="VideoScreenDispose" value="173" />
+			<option name="CampaignMenuInit" value="174" />
+			<option name="CampaignMenuContinue" value="175" />
+			<option name="LoadGameMenuInit" value="176" />
+			<option name="LoadGameMenuDispose" value="177" />
+			<option name="LoadGameMenuActivated" value="178" />
+			<option name="SoloMenuSaveCheckpoint" value="179" />
+			<option name="MpTypeSetMode" value="180" />
+			<option name="CheckingForUpdatesOk" value="181" />
+			<option name="CheckingForUpdatesDismiss" value="182" />
+			<option name="DirectIpConnectInit" value="183" />
+			<option name="DirectIpConnectGo" value="184" />
+			<option name="DirectIpEditField" value="185" />
+			<option name="NetworkSettingsEditAPort" value="186" />
+			<option name="NetworkSettingsDefaults" value="187" />
+			<option name="LoadGameMenuDeleteRequest" value="188" />
+			<option name="LoadGameMenuDeleteFinish" value="189" />
+		</enum16>
+		<tagref name="Widget Tag" offset="0x8" visible="true" />
+		<tagref name="Sound Effect" offset="0x18" visible="true" />
+		<ascii name="Script" offset="0x28" visible="true" size="0x20" />
+	</tagblock>
+	<tagblock name="Search And Replace Functions" offset="0x60" visible="true" elementSize="0x22">
+		<ascii name="Search String" offset="0x0" visible="true" size="0x20" />
+		<enum16 name="Replace Function" offset="0x20" visible="true">
+			<option name="Null" value="0" />
+			<option name="WidgetSController" value="1" />
+			<option name="BuildNumber" value="2" />
+			<option name="Pid" value="3" />
+		</enum16>
+	</tagblock>
+	<uint8 name="Padding 0" offset="0x6C" visible="false" />
+	<uint8 name="Padding 1" offset="0x6D" visible="false" />
+	<uint8 name="Padding 2" offset="0x6E" visible="false" />
+	<uint8 name="Padding 3" offset="0x6F" visible="false" />
+	<uint8 name="Padding 4" offset="0x70" visible="false" />
+	<uint8 name="Padding 5" offset="0x71" visible="false" />
+	<uint8 name="Padding 6" offset="0x72" visible="false" />
+	<uint8 name="Padding 7" offset="0x73" visible="false" />
+	<uint8 name="Padding 8" offset="0x74" visible="false" />
+	<uint8 name="Padding 9" offset="0x75" visible="false" />
+	<uint8 name="Padding 10" offset="0x76" visible="false" />
+	<uint8 name="Padding 11" offset="0x77" visible="false" />
+	<uint8 name="Padding 12" offset="0x78" visible="false" />
+	<uint8 name="Padding 13" offset="0x79" visible="false" />
+	<uint8 name="Padding 14" offset="0x7A" visible="false" />
+	<uint8 name="Padding 15" offset="0x7B" visible="false" />
+	<uint8 name="Padding 16" offset="0x7C" visible="false" />
+	<uint8 name="Padding 17" offset="0x7D" visible="false" />
+	<uint8 name="Padding 18" offset="0x7E" visible="false" />
+	<uint8 name="Padding 19" offset="0x7F" visible="false" />
+	<uint8 name="Padding 20" offset="0x80" visible="false" />
+	<uint8 name="Padding 21" offset="0x81" visible="false" />
+	<uint8 name="Padding 22" offset="0x82" visible="false" />
+	<uint8 name="Padding 23" offset="0x83" visible="false" />
+	<uint8 name="Padding 24" offset="0x84" visible="false" />
+	<uint8 name="Padding 25" offset="0x85" visible="false" />
+	<uint8 name="Padding 26" offset="0x86" visible="false" />
+	<uint8 name="Padding 27" offset="0x87" visible="false" />
+	<uint8 name="Padding 28" offset="0x88" visible="false" />
+	<uint8 name="Padding 29" offset="0x89" visible="false" />
+	<uint8 name="Padding 30" offset="0x8A" visible="false" />
+	<uint8 name="Padding 31" offset="0x8B" visible="false" />
+	<uint8 name="Padding 32" offset="0x8C" visible="false" />
+	<uint8 name="Padding 33" offset="0x8D" visible="false" />
+	<uint8 name="Padding 34" offset="0x8E" visible="false" />
+	<uint8 name="Padding 35" offset="0x8F" visible="false" />
+	<uint8 name="Padding 36" offset="0x90" visible="false" />
+	<uint8 name="Padding 37" offset="0x91" visible="false" />
+	<uint8 name="Padding 38" offset="0x92" visible="false" />
+	<uint8 name="Padding 39" offset="0x93" visible="false" />
+	<uint8 name="Padding 40" offset="0x94" visible="false" />
+	<uint8 name="Padding 41" offset="0x95" visible="false" />
+	<uint8 name="Padding 42" offset="0x96" visible="false" />
+	<uint8 name="Padding 43" offset="0x97" visible="false" />
+	<uint8 name="Padding 44" offset="0x98" visible="false" />
+	<uint8 name="Padding 45" offset="0x99" visible="false" />
+	<uint8 name="Padding 46" offset="0x9A" visible="false" />
+	<uint8 name="Padding 47" offset="0x9B" visible="false" />
+	<uint8 name="Padding 48" offset="0x9C" visible="false" />
+	<uint8 name="Padding 49" offset="0x9D" visible="false" />
+	<uint8 name="Padding 50" offset="0x9E" visible="false" />
+	<uint8 name="Padding 51" offset="0x9F" visible="false" />
+	<uint8 name="Padding 52" offset="0xA0" visible="false" />
+	<uint8 name="Padding 53" offset="0xA1" visible="false" />
+	<uint8 name="Padding 54" offset="0xA2" visible="false" />
+	<uint8 name="Padding 55" offset="0xA3" visible="false" />
+	<uint8 name="Padding 56" offset="0xA4" visible="false" />
+	<uint8 name="Padding 57" offset="0xA5" visible="false" />
+	<uint8 name="Padding 58" offset="0xA6" visible="false" />
+	<uint8 name="Padding 59" offset="0xA7" visible="false" />
+	<uint8 name="Padding 60" offset="0xA8" visible="false" />
+	<uint8 name="Padding 61" offset="0xA9" visible="false" />
+	<uint8 name="Padding 62" offset="0xAA" visible="false" />
+	<uint8 name="Padding 63" offset="0xAB" visible="false" />
+	<uint8 name="Padding 64" offset="0xAC" visible="false" />
+	<uint8 name="Padding 65" offset="0xAD" visible="false" />
+	<uint8 name="Padding 66" offset="0xAE" visible="false" />
+	<uint8 name="Padding 67" offset="0xAF" visible="false" />
+	<uint8 name="Padding 68" offset="0xB0" visible="false" />
+	<uint8 name="Padding 69" offset="0xB1" visible="false" />
+	<uint8 name="Padding 70" offset="0xB2" visible="false" />
+	<uint8 name="Padding 71" offset="0xB3" visible="false" />
+	<uint8 name="Padding 72" offset="0xB4" visible="false" />
+	<uint8 name="Padding 73" offset="0xB5" visible="false" />
+	<uint8 name="Padding 74" offset="0xB6" visible="false" />
+	<uint8 name="Padding 75" offset="0xB7" visible="false" />
+	<uint8 name="Padding 76" offset="0xB8" visible="false" />
+	<uint8 name="Padding 77" offset="0xB9" visible="false" />
+	<uint8 name="Padding 78" offset="0xBA" visible="false" />
+	<uint8 name="Padding 79" offset="0xBB" visible="false" />
+	<uint8 name="Padding 80" offset="0xBC" visible="false" />
+	<uint8 name="Padding 81" offset="0xBD" visible="false" />
+	<uint8 name="Padding 82" offset="0xBE" visible="false" />
+	<uint8 name="Padding 83" offset="0xBF" visible="false" />
+	<uint8 name="Padding 84" offset="0xC0" visible="false" />
+	<uint8 name="Padding 85" offset="0xC1" visible="false" />
+	<uint8 name="Padding 86" offset="0xC2" visible="false" />
+	<uint8 name="Padding 87" offset="0xC3" visible="false" />
+	<uint8 name="Padding 88" offset="0xC4" visible="false" />
+	<uint8 name="Padding 89" offset="0xC5" visible="false" />
+	<uint8 name="Padding 90" offset="0xC6" visible="false" />
+	<uint8 name="Padding 91" offset="0xC7" visible="false" />
+	<uint8 name="Padding 92" offset="0xC8" visible="false" />
+	<uint8 name="Padding 93" offset="0xC9" visible="false" />
+	<uint8 name="Padding 94" offset="0xCA" visible="false" />
+	<uint8 name="Padding 95" offset="0xCB" visible="false" />
+	<uint8 name="Padding 96" offset="0xCC" visible="false" />
+	<uint8 name="Padding 97" offset="0xCD" visible="false" />
+	<uint8 name="Padding 98" offset="0xCE" visible="false" />
+	<uint8 name="Padding 99" offset="0xCF" visible="false" />
+	<uint8 name="Padding 100" offset="0xD0" visible="false" />
+	<uint8 name="Padding 101" offset="0xD1" visible="false" />
+	<uint8 name="Padding 102" offset="0xD2" visible="false" />
+	<uint8 name="Padding 103" offset="0xD3" visible="false" />
+	<uint8 name="Padding 104" offset="0xD4" visible="false" />
+	<uint8 name="Padding 105" offset="0xD5" visible="false" />
+	<uint8 name="Padding 106" offset="0xD6" visible="false" />
+	<uint8 name="Padding 107" offset="0xD7" visible="false" />
+	<uint8 name="Padding 108" offset="0xD8" visible="false" />
+	<uint8 name="Padding 109" offset="0xD9" visible="false" />
+	<uint8 name="Padding 110" offset="0xDA" visible="false" />
+	<uint8 name="Padding 111" offset="0xDB" visible="false" />
+	<uint8 name="Padding 112" offset="0xDC" visible="false" />
+	<uint8 name="Padding 113" offset="0xDD" visible="false" />
+	<uint8 name="Padding 114" offset="0xDE" visible="false" />
+	<uint8 name="Padding 115" offset="0xDF" visible="false" />
+	<uint8 name="Padding 116" offset="0xE0" visible="false" />
+	<uint8 name="Padding 117" offset="0xE1" visible="false" />
+	<uint8 name="Padding 118" offset="0xE2" visible="false" />
+	<uint8 name="Padding 119" offset="0xE3" visible="false" />
+	<uint8 name="Padding 120" offset="0xE4" visible="false" />
+	<uint8 name="Padding 121" offset="0xE5" visible="false" />
+	<uint8 name="Padding 122" offset="0xE6" visible="false" />
+	<uint8 name="Padding 123" offset="0xE7" visible="false" />
+	<uint8 name="Padding 124" offset="0xE8" visible="false" />
+	<uint8 name="Padding 125" offset="0xE9" visible="false" />
+	<uint8 name="Padding 126" offset="0xEA" visible="false" />
+	<uint8 name="Padding 127" offset="0xEB" visible="false" />
+	<tagref name="Text Label Unicode Strings List" offset="0xEC" visible="true" />
+	<tagref name="Text Font" offset="0xFC" visible="true" />
+	<colorf name="Text Color" offset="0x10C" alpha="true" visible="true" />
+	<enum16 name="Justification" offset="0x11C" visible="true">
+		<option name="LeftJustify" value="0" />
+		<option name="RightJustify" value="1" />
+		<option name="CenterJustify" value="2" />
+	</enum16>
+	<flags32 name="Flags1" offset="0x11E" visible="true">
+		<bit name="Editable" index="0" />
+		<bit name="Password" index="1" />
+		<bit name="Flashing" index="2" />
+		<bit name="DonTDoThatWeirdFocusTest" index="3" />
+	</flags32>
+	<uint8 name="Padding1 0" offset="0x122" visible="false" />
+	<uint8 name="Padding1 1" offset="0x123" visible="false" />
+	<uint8 name="Padding1 2" offset="0x124" visible="false" />
+	<uint8 name="Padding1 3" offset="0x125" visible="false" />
+	<uint8 name="Padding1 4" offset="0x126" visible="false" />
+	<uint8 name="Padding1 5" offset="0x127" visible="false" />
+	<uint8 name="Padding1 6" offset="0x128" visible="false" />
+	<uint8 name="Padding1 7" offset="0x129" visible="false" />
+	<uint8 name="Padding1 8" offset="0x12A" visible="false" />
+	<uint8 name="Padding1 9" offset="0x12B" visible="false" />
+	<uint8 name="Padding1 10" offset="0x12C" visible="false" />
+	<uint8 name="Padding1 11" offset="0x12D" visible="false" />
+	<int16 name="String List Index" offset="0x12E" visible="true" />
+	<int16 name="Horiz Offset" offset="0x130" visible="true" />
+	<int16 name="Vert Offset" offset="0x132" visible="true" />
+	<uint8 name="Padding2 0" offset="0x134" visible="false" />
+	<uint8 name="Padding2 1" offset="0x135" visible="false" />
+	<uint8 name="Padding2 2" offset="0x136" visible="false" />
+	<uint8 name="Padding2 3" offset="0x137" visible="false" />
+	<uint8 name="Padding2 4" offset="0x138" visible="false" />
+	<uint8 name="Padding2 5" offset="0x139" visible="false" />
+	<uint8 name="Padding2 6" offset="0x13A" visible="false" />
+	<uint8 name="Padding2 7" offset="0x13B" visible="false" />
+	<uint8 name="Padding2 8" offset="0x13C" visible="false" />
+	<uint8 name="Padding2 9" offset="0x13D" visible="false" />
+	<uint8 name="Padding2 10" offset="0x13E" visible="false" />
+	<uint8 name="Padding2 11" offset="0x13F" visible="false" />
+	<uint8 name="Padding2 12" offset="0x140" visible="false" />
+	<uint8 name="Padding2 13" offset="0x141" visible="false" />
+	<uint8 name="Padding2 14" offset="0x142" visible="false" />
+	<uint8 name="Padding2 15" offset="0x143" visible="false" />
+	<uint8 name="Padding2 16" offset="0x144" visible="false" />
+	<uint8 name="Padding2 17" offset="0x145" visible="false" />
+	<uint8 name="Padding2 18" offset="0x146" visible="false" />
+	<uint8 name="Padding2 19" offset="0x147" visible="false" />
+	<uint8 name="Padding2 20" offset="0x148" visible="false" />
+	<uint8 name="Padding2 21" offset="0x149" visible="false" />
+	<uint8 name="Padding2 22" offset="0x14A" visible="false" />
+	<uint8 name="Padding2 23" offset="0x14B" visible="false" />
+	<uint8 name="Padding2 24" offset="0x14C" visible="false" />
+	<uint8 name="Padding2 25" offset="0x14D" visible="false" />
+	<uint8 name="Padding3 0" offset="0x14E" visible="false" />
+	<uint8 name="Padding3 1" offset="0x14F" visible="false" />
+	<flags32 name="Flags2" offset="0x150" visible="true">
+		<bit name="ListItemsGeneratedInCode" index="0" />
+		<bit name="ListItemsFromStringListTag" index="1" />
+		<bit name="ListItemsOnlyOneTooltip" index="2" />
+		<bit name="ListSinglePreviewNoScroll" index="3" />
+	</flags32>
+	<tagref name="List Header Bitmap" offset="0x154" visible="true" />
+	<tagref name="List Footer Bitmap" offset="0x164" visible="true" />
+	<rect16 name="Header Bounds" offset="0x174" visible="true" />
+	<rect16 name="Footer Bounds" offset="0x17C" visible="true" />
+	<uint8 name="Padding4 0" offset="0x184" visible="false" />
+	<uint8 name="Padding4 1" offset="0x185" visible="false" />
+	<uint8 name="Padding4 2" offset="0x186" visible="false" />
+	<uint8 name="Padding4 3" offset="0x187" visible="false" />
+	<uint8 name="Padding4 4" offset="0x188" visible="false" />
+	<uint8 name="Padding4 5" offset="0x189" visible="false" />
+	<uint8 name="Padding4 6" offset="0x18A" visible="false" />
+	<uint8 name="Padding4 7" offset="0x18B" visible="false" />
+	<uint8 name="Padding4 8" offset="0x18C" visible="false" />
+	<uint8 name="Padding4 9" offset="0x18D" visible="false" />
+	<uint8 name="Padding4 10" offset="0x18E" visible="false" />
+	<uint8 name="Padding4 11" offset="0x18F" visible="false" />
+	<uint8 name="Padding4 12" offset="0x190" visible="false" />
+	<uint8 name="Padding4 13" offset="0x191" visible="false" />
+	<uint8 name="Padding4 14" offset="0x192" visible="false" />
+	<uint8 name="Padding4 15" offset="0x193" visible="false" />
+	<uint8 name="Padding4 16" offset="0x194" visible="false" />
+	<uint8 name="Padding4 17" offset="0x195" visible="false" />
+	<uint8 name="Padding4 18" offset="0x196" visible="false" />
+	<uint8 name="Padding4 19" offset="0x197" visible="false" />
+	<uint8 name="Padding4 20" offset="0x198" visible="false" />
+	<uint8 name="Padding4 21" offset="0x199" visible="false" />
+	<uint8 name="Padding4 22" offset="0x19A" visible="false" />
+	<uint8 name="Padding4 23" offset="0x19B" visible="false" />
+	<uint8 name="Padding4 24" offset="0x19C" visible="false" />
+	<uint8 name="Padding4 25" offset="0x19D" visible="false" />
+	<uint8 name="Padding4 26" offset="0x19E" visible="false" />
+	<uint8 name="Padding4 27" offset="0x19F" visible="false" />
+	<uint8 name="Padding4 28" offset="0x1A0" visible="false" />
+	<uint8 name="Padding4 29" offset="0x1A1" visible="false" />
+	<uint8 name="Padding4 30" offset="0x1A2" visible="false" />
+	<uint8 name="Padding4 31" offset="0x1A3" visible="false" />
+	<tagref name="Extended Description Widget" offset="0x1A4" visible="true" />
+	<uint8 name="Padding5 0" offset="0x1B4" visible="false" />
+	<uint8 name="Padding5 1" offset="0x1B5" visible="false" />
+	<uint8 name="Padding5 2" offset="0x1B6" visible="false" />
+	<uint8 name="Padding5 3" offset="0x1B7" visible="false" />
+	<uint8 name="Padding5 4" offset="0x1B8" visible="false" />
+	<uint8 name="Padding5 5" offset="0x1B9" visible="false" />
+	<uint8 name="Padding5 6" offset="0x1BA" visible="false" />
+	<uint8 name="Padding5 7" offset="0x1BB" visible="false" />
+	<uint8 name="Padding5 8" offset="0x1BC" visible="false" />
+	<uint8 name="Padding5 9" offset="0x1BD" visible="false" />
+	<uint8 name="Padding5 10" offset="0x1BE" visible="false" />
+	<uint8 name="Padding5 11" offset="0x1BF" visible="false" />
+	<uint8 name="Padding5 12" offset="0x1C0" visible="false" />
+	<uint8 name="Padding5 13" offset="0x1C1" visible="false" />
+	<uint8 name="Padding5 14" offset="0x1C2" visible="false" />
+	<uint8 name="Padding5 15" offset="0x1C3" visible="false" />
+	<uint8 name="Padding5 16" offset="0x1C4" visible="false" />
+	<uint8 name="Padding5 17" offset="0x1C5" visible="false" />
+	<uint8 name="Padding5 18" offset="0x1C6" visible="false" />
+	<uint8 name="Padding5 19" offset="0x1C7" visible="false" />
+	<uint8 name="Padding5 20" offset="0x1C8" visible="false" />
+	<uint8 name="Padding5 21" offset="0x1C9" visible="false" />
+	<uint8 name="Padding5 22" offset="0x1CA" visible="false" />
+	<uint8 name="Padding5 23" offset="0x1CB" visible="false" />
+	<uint8 name="Padding5 24" offset="0x1CC" visible="false" />
+	<uint8 name="Padding5 25" offset="0x1CD" visible="false" />
+	<uint8 name="Padding5 26" offset="0x1CE" visible="false" />
+	<uint8 name="Padding5 27" offset="0x1CF" visible="false" />
+	<uint8 name="Padding5 28" offset="0x1D0" visible="false" />
+	<uint8 name="Padding5 29" offset="0x1D1" visible="false" />
+	<uint8 name="Padding5 30" offset="0x1D2" visible="false" />
+	<uint8 name="Padding5 31" offset="0x1D3" visible="false" />
+	<uint8 name="Padding6 0" offset="0x1D4" visible="false" />
+	<uint8 name="Padding6 1" offset="0x1D5" visible="false" />
+	<uint8 name="Padding6 2" offset="0x1D6" visible="false" />
+	<uint8 name="Padding6 3" offset="0x1D7" visible="false" />
+	<uint8 name="Padding6 4" offset="0x1D8" visible="false" />
+	<uint8 name="Padding6 5" offset="0x1D9" visible="false" />
+	<uint8 name="Padding6 6" offset="0x1DA" visible="false" />
+	<uint8 name="Padding6 7" offset="0x1DB" visible="false" />
+	<uint8 name="Padding6 8" offset="0x1DC" visible="false" />
+	<uint8 name="Padding6 9" offset="0x1DD" visible="false" />
+	<uint8 name="Padding6 10" offset="0x1DE" visible="false" />
+	<uint8 name="Padding6 11" offset="0x1DF" visible="false" />
+	<uint8 name="Padding6 12" offset="0x1E0" visible="false" />
+	<uint8 name="Padding6 13" offset="0x1E1" visible="false" />
+	<uint8 name="Padding6 14" offset="0x1E2" visible="false" />
+	<uint8 name="Padding6 15" offset="0x1E3" visible="false" />
+	<uint8 name="Padding6 16" offset="0x1E4" visible="false" />
+	<uint8 name="Padding6 17" offset="0x1E5" visible="false" />
+	<uint8 name="Padding6 18" offset="0x1E6" visible="false" />
+	<uint8 name="Padding6 19" offset="0x1E7" visible="false" />
+	<uint8 name="Padding6 20" offset="0x1E8" visible="false" />
+	<uint8 name="Padding6 21" offset="0x1E9" visible="false" />
+	<uint8 name="Padding6 22" offset="0x1EA" visible="false" />
+	<uint8 name="Padding6 23" offset="0x1EB" visible="false" />
+	<uint8 name="Padding6 24" offset="0x1EC" visible="false" />
+	<uint8 name="Padding6 25" offset="0x1ED" visible="false" />
+	<uint8 name="Padding6 26" offset="0x1EE" visible="false" />
+	<uint8 name="Padding6 27" offset="0x1EF" visible="false" />
+	<uint8 name="Padding6 28" offset="0x1F0" visible="false" />
+	<uint8 name="Padding6 29" offset="0x1F1" visible="false" />
+	<uint8 name="Padding6 30" offset="0x1F2" visible="false" />
+	<uint8 name="Padding6 31" offset="0x1F3" visible="false" />
+	<uint8 name="Padding6 32" offset="0x1F4" visible="false" />
+	<uint8 name="Padding6 33" offset="0x1F5" visible="false" />
+	<uint8 name="Padding6 34" offset="0x1F6" visible="false" />
+	<uint8 name="Padding6 35" offset="0x1F7" visible="false" />
+	<uint8 name="Padding6 36" offset="0x1F8" visible="false" />
+	<uint8 name="Padding6 37" offset="0x1F9" visible="false" />
+	<uint8 name="Padding6 38" offset="0x1FA" visible="false" />
+	<uint8 name="Padding6 39" offset="0x1FB" visible="false" />
+	<uint8 name="Padding6 40" offset="0x1FC" visible="false" />
+	<uint8 name="Padding6 41" offset="0x1FD" visible="false" />
+	<uint8 name="Padding6 42" offset="0x1FE" visible="false" />
+	<uint8 name="Padding6 43" offset="0x1FF" visible="false" />
+	<uint8 name="Padding6 44" offset="0x200" visible="false" />
+	<uint8 name="Padding6 45" offset="0x201" visible="false" />
+	<uint8 name="Padding6 46" offset="0x202" visible="false" />
+	<uint8 name="Padding6 47" offset="0x203" visible="false" />
+	<uint8 name="Padding6 48" offset="0x204" visible="false" />
+	<uint8 name="Padding6 49" offset="0x205" visible="false" />
+	<uint8 name="Padding6 50" offset="0x206" visible="false" />
+	<uint8 name="Padding6 51" offset="0x207" visible="false" />
+	<uint8 name="Padding6 52" offset="0x208" visible="false" />
+	<uint8 name="Padding6 53" offset="0x209" visible="false" />
+	<uint8 name="Padding6 54" offset="0x20A" visible="false" />
+	<uint8 name="Padding6 55" offset="0x20B" visible="false" />
+	<uint8 name="Padding6 56" offset="0x20C" visible="false" />
+	<uint8 name="Padding6 57" offset="0x20D" visible="false" />
+	<uint8 name="Padding6 58" offset="0x20E" visible="false" />
+	<uint8 name="Padding6 59" offset="0x20F" visible="false" />
+	<uint8 name="Padding6 60" offset="0x210" visible="false" />
+	<uint8 name="Padding6 61" offset="0x211" visible="false" />
+	<uint8 name="Padding6 62" offset="0x212" visible="false" />
+	<uint8 name="Padding6 63" offset="0x213" visible="false" />
+	<uint8 name="Padding6 64" offset="0x214" visible="false" />
+	<uint8 name="Padding6 65" offset="0x215" visible="false" />
+	<uint8 name="Padding6 66" offset="0x216" visible="false" />
+	<uint8 name="Padding6 67" offset="0x217" visible="false" />
+	<uint8 name="Padding6 68" offset="0x218" visible="false" />
+	<uint8 name="Padding6 69" offset="0x219" visible="false" />
+	<uint8 name="Padding6 70" offset="0x21A" visible="false" />
+	<uint8 name="Padding6 71" offset="0x21B" visible="false" />
+	<uint8 name="Padding6 72" offset="0x21C" visible="false" />
+	<uint8 name="Padding6 73" offset="0x21D" visible="false" />
+	<uint8 name="Padding6 74" offset="0x21E" visible="false" />
+	<uint8 name="Padding6 75" offset="0x21F" visible="false" />
+	<uint8 name="Padding6 76" offset="0x220" visible="false" />
+	<uint8 name="Padding6 77" offset="0x221" visible="false" />
+	<uint8 name="Padding6 78" offset="0x222" visible="false" />
+	<uint8 name="Padding6 79" offset="0x223" visible="false" />
+	<uint8 name="Padding6 80" offset="0x224" visible="false" />
+	<uint8 name="Padding6 81" offset="0x225" visible="false" />
+	<uint8 name="Padding6 82" offset="0x226" visible="false" />
+	<uint8 name="Padding6 83" offset="0x227" visible="false" />
+	<uint8 name="Padding6 84" offset="0x228" visible="false" />
+	<uint8 name="Padding6 85" offset="0x229" visible="false" />
+	<uint8 name="Padding6 86" offset="0x22A" visible="false" />
+	<uint8 name="Padding6 87" offset="0x22B" visible="false" />
+	<uint8 name="Padding6 88" offset="0x22C" visible="false" />
+	<uint8 name="Padding6 89" offset="0x22D" visible="false" />
+	<uint8 name="Padding6 90" offset="0x22E" visible="false" />
+	<uint8 name="Padding6 91" offset="0x22F" visible="false" />
+	<uint8 name="Padding6 92" offset="0x230" visible="false" />
+	<uint8 name="Padding6 93" offset="0x231" visible="false" />
+	<uint8 name="Padding6 94" offset="0x232" visible="false" />
+	<uint8 name="Padding6 95" offset="0x233" visible="false" />
+	<uint8 name="Padding6 96" offset="0x234" visible="false" />
+	<uint8 name="Padding6 97" offset="0x235" visible="false" />
+	<uint8 name="Padding6 98" offset="0x236" visible="false" />
+	<uint8 name="Padding6 99" offset="0x237" visible="false" />
+	<uint8 name="Padding6 100" offset="0x238" visible="false" />
+	<uint8 name="Padding6 101" offset="0x239" visible="false" />
+	<uint8 name="Padding6 102" offset="0x23A" visible="false" />
+	<uint8 name="Padding6 103" offset="0x23B" visible="false" />
+	<uint8 name="Padding6 104" offset="0x23C" visible="false" />
+	<uint8 name="Padding6 105" offset="0x23D" visible="false" />
+	<uint8 name="Padding6 106" offset="0x23E" visible="false" />
+	<uint8 name="Padding6 107" offset="0x23F" visible="false" />
+	<uint8 name="Padding6 108" offset="0x240" visible="false" />
+	<uint8 name="Padding6 109" offset="0x241" visible="false" />
+	<uint8 name="Padding6 110" offset="0x242" visible="false" />
+	<uint8 name="Padding6 111" offset="0x243" visible="false" />
+	<uint8 name="Padding6 112" offset="0x244" visible="false" />
+	<uint8 name="Padding6 113" offset="0x245" visible="false" />
+	<uint8 name="Padding6 114" offset="0x246" visible="false" />
+	<uint8 name="Padding6 115" offset="0x247" visible="false" />
+	<uint8 name="Padding6 116" offset="0x248" visible="false" />
+	<uint8 name="Padding6 117" offset="0x249" visible="false" />
+	<uint8 name="Padding6 118" offset="0x24A" visible="false" />
+	<uint8 name="Padding6 119" offset="0x24B" visible="false" />
+	<uint8 name="Padding6 120" offset="0x24C" visible="false" />
+	<uint8 name="Padding6 121" offset="0x24D" visible="false" />
+	<uint8 name="Padding6 122" offset="0x24E" visible="false" />
+	<uint8 name="Padding6 123" offset="0x24F" visible="false" />
+	<uint8 name="Padding6 124" offset="0x250" visible="false" />
+	<uint8 name="Padding6 125" offset="0x251" visible="false" />
+	<uint8 name="Padding6 126" offset="0x252" visible="false" />
+	<uint8 name="Padding6 127" offset="0x253" visible="false" />
+	<uint8 name="Padding6 128" offset="0x254" visible="false" />
+	<uint8 name="Padding6 129" offset="0x255" visible="false" />
+	<uint8 name="Padding6 130" offset="0x256" visible="false" />
+	<uint8 name="Padding6 131" offset="0x257" visible="false" />
+	<uint8 name="Padding6 132" offset="0x258" visible="false" />
+	<uint8 name="Padding6 133" offset="0x259" visible="false" />
+	<uint8 name="Padding6 134" offset="0x25A" visible="false" />
+	<uint8 name="Padding6 135" offset="0x25B" visible="false" />
+	<uint8 name="Padding6 136" offset="0x25C" visible="false" />
+	<uint8 name="Padding6 137" offset="0x25D" visible="false" />
+	<uint8 name="Padding6 138" offset="0x25E" visible="false" />
+	<uint8 name="Padding6 139" offset="0x25F" visible="false" />
+	<uint8 name="Padding6 140" offset="0x260" visible="false" />
+	<uint8 name="Padding6 141" offset="0x261" visible="false" />
+	<uint8 name="Padding6 142" offset="0x262" visible="false" />
+	<uint8 name="Padding6 143" offset="0x263" visible="false" />
+	<uint8 name="Padding6 144" offset="0x264" visible="false" />
+	<uint8 name="Padding6 145" offset="0x265" visible="false" />
+	<uint8 name="Padding6 146" offset="0x266" visible="false" />
+	<uint8 name="Padding6 147" offset="0x267" visible="false" />
+	<uint8 name="Padding6 148" offset="0x268" visible="false" />
+	<uint8 name="Padding6 149" offset="0x269" visible="false" />
+	<uint8 name="Padding6 150" offset="0x26A" visible="false" />
+	<uint8 name="Padding6 151" offset="0x26B" visible="false" />
+	<uint8 name="Padding6 152" offset="0x26C" visible="false" />
+	<uint8 name="Padding6 153" offset="0x26D" visible="false" />
+	<uint8 name="Padding6 154" offset="0x26E" visible="false" />
+	<uint8 name="Padding6 155" offset="0x26F" visible="false" />
+	<uint8 name="Padding6 156" offset="0x270" visible="false" />
+	<uint8 name="Padding6 157" offset="0x271" visible="false" />
+	<uint8 name="Padding6 158" offset="0x272" visible="false" />
+	<uint8 name="Padding6 159" offset="0x273" visible="false" />
+	<uint8 name="Padding6 160" offset="0x274" visible="false" />
+	<uint8 name="Padding6 161" offset="0x275" visible="false" />
+	<uint8 name="Padding6 162" offset="0x276" visible="false" />
+	<uint8 name="Padding6 163" offset="0x277" visible="false" />
+	<uint8 name="Padding6 164" offset="0x278" visible="false" />
+	<uint8 name="Padding6 165" offset="0x279" visible="false" />
+	<uint8 name="Padding6 166" offset="0x27A" visible="false" />
+	<uint8 name="Padding6 167" offset="0x27B" visible="false" />
+	<uint8 name="Padding6 168" offset="0x27C" visible="false" />
+	<uint8 name="Padding6 169" offset="0x27D" visible="false" />
+	<uint8 name="Padding6 170" offset="0x27E" visible="false" />
+	<uint8 name="Padding6 171" offset="0x27F" visible="false" />
+	<uint8 name="Padding6 172" offset="0x280" visible="false" />
+	<uint8 name="Padding6 173" offset="0x281" visible="false" />
+	<uint8 name="Padding6 174" offset="0x282" visible="false" />
+	<uint8 name="Padding6 175" offset="0x283" visible="false" />
+	<uint8 name="Padding6 176" offset="0x284" visible="false" />
+	<uint8 name="Padding6 177" offset="0x285" visible="false" />
+	<uint8 name="Padding6 178" offset="0x286" visible="false" />
+	<uint8 name="Padding6 179" offset="0x287" visible="false" />
+	<uint8 name="Padding6 180" offset="0x288" visible="false" />
+	<uint8 name="Padding6 181" offset="0x289" visible="false" />
+	<uint8 name="Padding6 182" offset="0x28A" visible="false" />
+	<uint8 name="Padding6 183" offset="0x28B" visible="false" />
+	<uint8 name="Padding6 184" offset="0x28C" visible="false" />
+	<uint8 name="Padding6 185" offset="0x28D" visible="false" />
+	<uint8 name="Padding6 186" offset="0x28E" visible="false" />
+	<uint8 name="Padding6 187" offset="0x28F" visible="false" />
+	<uint8 name="Padding6 188" offset="0x290" visible="false" />
+	<uint8 name="Padding6 189" offset="0x291" visible="false" />
+	<uint8 name="Padding6 190" offset="0x292" visible="false" />
+	<uint8 name="Padding6 191" offset="0x293" visible="false" />
+	<uint8 name="Padding6 192" offset="0x294" visible="false" />
+	<uint8 name="Padding6 193" offset="0x295" visible="false" />
+	<uint8 name="Padding6 194" offset="0x296" visible="false" />
+	<uint8 name="Padding6 195" offset="0x297" visible="false" />
+	<uint8 name="Padding6 196" offset="0x298" visible="false" />
+	<uint8 name="Padding6 197" offset="0x299" visible="false" />
+	<uint8 name="Padding6 198" offset="0x29A" visible="false" />
+	<uint8 name="Padding6 199" offset="0x29B" visible="false" />
+	<uint8 name="Padding6 200" offset="0x29C" visible="false" />
+	<uint8 name="Padding6 201" offset="0x29D" visible="false" />
+	<uint8 name="Padding6 202" offset="0x29E" visible="false" />
+	<uint8 name="Padding6 203" offset="0x29F" visible="false" />
+	<uint8 name="Padding6 204" offset="0x2A0" visible="false" />
+	<uint8 name="Padding6 205" offset="0x2A1" visible="false" />
+	<uint8 name="Padding6 206" offset="0x2A2" visible="false" />
+	<uint8 name="Padding6 207" offset="0x2A3" visible="false" />
+	<uint8 name="Padding6 208" offset="0x2A4" visible="false" />
+	<uint8 name="Padding6 209" offset="0x2A5" visible="false" />
+	<uint8 name="Padding6 210" offset="0x2A6" visible="false" />
+	<uint8 name="Padding6 211" offset="0x2A7" visible="false" />
+	<uint8 name="Padding6 212" offset="0x2A8" visible="false" />
+	<uint8 name="Padding6 213" offset="0x2A9" visible="false" />
+	<uint8 name="Padding6 214" offset="0x2AA" visible="false" />
+	<uint8 name="Padding6 215" offset="0x2AB" visible="false" />
+	<uint8 name="Padding6 216" offset="0x2AC" visible="false" />
+	<uint8 name="Padding6 217" offset="0x2AD" visible="false" />
+	<uint8 name="Padding6 218" offset="0x2AE" visible="false" />
+	<uint8 name="Padding6 219" offset="0x2AF" visible="false" />
+	<uint8 name="Padding6 220" offset="0x2B0" visible="false" />
+	<uint8 name="Padding6 221" offset="0x2B1" visible="false" />
+	<uint8 name="Padding6 222" offset="0x2B2" visible="false" />
+	<uint8 name="Padding6 223" offset="0x2B3" visible="false" />
+	<uint8 name="Padding6 224" offset="0x2B4" visible="false" />
+	<uint8 name="Padding6 225" offset="0x2B5" visible="false" />
+	<uint8 name="Padding6 226" offset="0x2B6" visible="false" />
+	<uint8 name="Padding6 227" offset="0x2B7" visible="false" />
+	<uint8 name="Padding6 228" offset="0x2B8" visible="false" />
+	<uint8 name="Padding6 229" offset="0x2B9" visible="false" />
+	<uint8 name="Padding6 230" offset="0x2BA" visible="false" />
+	<uint8 name="Padding6 231" offset="0x2BB" visible="false" />
+	<uint8 name="Padding6 232" offset="0x2BC" visible="false" />
+	<uint8 name="Padding6 233" offset="0x2BD" visible="false" />
+	<uint8 name="Padding6 234" offset="0x2BE" visible="false" />
+	<uint8 name="Padding6 235" offset="0x2BF" visible="false" />
+	<uint8 name="Padding6 236" offset="0x2C0" visible="false" />
+	<uint8 name="Padding6 237" offset="0x2C1" visible="false" />
+	<uint8 name="Padding6 238" offset="0x2C2" visible="false" />
+	<uint8 name="Padding6 239" offset="0x2C3" visible="false" />
+	<uint8 name="Padding6 240" offset="0x2C4" visible="false" />
+	<uint8 name="Padding6 241" offset="0x2C5" visible="false" />
+	<uint8 name="Padding6 242" offset="0x2C6" visible="false" />
+	<uint8 name="Padding6 243" offset="0x2C7" visible="false" />
+	<uint8 name="Padding6 244" offset="0x2C8" visible="false" />
+	<uint8 name="Padding6 245" offset="0x2C9" visible="false" />
+	<uint8 name="Padding6 246" offset="0x2CA" visible="false" />
+	<uint8 name="Padding6 247" offset="0x2CB" visible="false" />
+	<uint8 name="Padding6 248" offset="0x2CC" visible="false" />
+	<uint8 name="Padding6 249" offset="0x2CD" visible="false" />
+	<uint8 name="Padding6 250" offset="0x2CE" visible="false" />
+	<uint8 name="Padding6 251" offset="0x2CF" visible="false" />
+	<uint8 name="Padding6 252" offset="0x2D0" visible="false" />
+	<uint8 name="Padding6 253" offset="0x2D1" visible="false" />
+	<uint8 name="Padding6 254" offset="0x2D2" visible="false" />
+	<uint8 name="Padding6 255" offset="0x2D3" visible="false" />
+	<tagblock name="Conditional Widgets" offset="0x2D4" visible="true" elementSize="0x50">
+		<tagref name="Widget Tag" offset="0x0" visible="true" />
+		<ascii name="Name Unused" offset="0x10" visible="true" size="0x20" />
+		<flags32 name="Flags" offset="0x30" visible="true">
+			<bit name="LoadIfEventHandlerFunctionFails" index="0" />
+		</flags32>
+		<int16 name="Custom Controller Index Unused" offset="0x34" visible="true" />
+		<uint8 name="Padding 0" offset="0x36" visible="false" />
+		<uint8 name="Padding 1" offset="0x37" visible="false" />
+		<uint8 name="Padding 2" offset="0x38" visible="false" />
+		<uint8 name="Padding 3" offset="0x39" visible="false" />
+		<uint8 name="Padding 4" offset="0x3A" visible="false" />
+		<uint8 name="Padding 5" offset="0x3B" visible="false" />
+		<uint8 name="Padding 6" offset="0x3C" visible="false" />
+		<uint8 name="Padding 7" offset="0x3D" visible="false" />
+		<uint8 name="Padding 8" offset="0x3E" visible="false" />
+		<uint8 name="Padding 9" offset="0x3F" visible="false" />
+		<uint8 name="Padding 10" offset="0x40" visible="false" />
+		<uint8 name="Padding 11" offset="0x41" visible="false" />
+		<uint8 name="Padding 12" offset="0x42" visible="false" />
+		<uint8 name="Padding 13" offset="0x43" visible="false" />
+		<uint8 name="Padding 14" offset="0x44" visible="false" />
+		<uint8 name="Padding 15" offset="0x45" visible="false" />
+		<uint8 name="Padding 16" offset="0x46" visible="false" />
+		<uint8 name="Padding 17" offset="0x47" visible="false" />
+		<uint8 name="Padding 18" offset="0x48" visible="false" />
+		<uint8 name="Padding 19" offset="0x49" visible="false" />
+		<uint8 name="Padding 20" offset="0x4A" visible="false" />
+		<uint8 name="Padding 21" offset="0x4B" visible="false" />
+		<uint8 name="Padding 22" offset="0x4C" visible="false" />
+		<uint8 name="Padding 23" offset="0x4D" visible="false" />
+		<uint8 name="Padding 24" offset="0x4E" visible="false" />
+		<uint8 name="Padding 25" offset="0x4F" visible="false" />
+	</tagblock>
+	<uint8 name="Padding7 0" offset="0x2E0" visible="false" />
+	<uint8 name="Padding7 1" offset="0x2E1" visible="false" />
+	<uint8 name="Padding7 2" offset="0x2E2" visible="false" />
+	<uint8 name="Padding7 3" offset="0x2E3" visible="false" />
+	<uint8 name="Padding7 4" offset="0x2E4" visible="false" />
+	<uint8 name="Padding7 5" offset="0x2E5" visible="false" />
+	<uint8 name="Padding7 6" offset="0x2E6" visible="false" />
+	<uint8 name="Padding7 7" offset="0x2E7" visible="false" />
+	<uint8 name="Padding7 8" offset="0x2E8" visible="false" />
+	<uint8 name="Padding7 9" offset="0x2E9" visible="false" />
+	<uint8 name="Padding7 10" offset="0x2EA" visible="false" />
+	<uint8 name="Padding7 11" offset="0x2EB" visible="false" />
+	<uint8 name="Padding7 12" offset="0x2EC" visible="false" />
+	<uint8 name="Padding7 13" offset="0x2ED" visible="false" />
+	<uint8 name="Padding7 14" offset="0x2EE" visible="false" />
+	<uint8 name="Padding7 15" offset="0x2EF" visible="false" />
+	<uint8 name="Padding7 16" offset="0x2F0" visible="false" />
+	<uint8 name="Padding7 17" offset="0x2F1" visible="false" />
+	<uint8 name="Padding7 18" offset="0x2F2" visible="false" />
+	<uint8 name="Padding7 19" offset="0x2F3" visible="false" />
+	<uint8 name="Padding7 20" offset="0x2F4" visible="false" />
+	<uint8 name="Padding7 21" offset="0x2F5" visible="false" />
+	<uint8 name="Padding7 22" offset="0x2F6" visible="false" />
+	<uint8 name="Padding7 23" offset="0x2F7" visible="false" />
+	<uint8 name="Padding7 24" offset="0x2F8" visible="false" />
+	<uint8 name="Padding7 25" offset="0x2F9" visible="false" />
+	<uint8 name="Padding7 26" offset="0x2FA" visible="false" />
+	<uint8 name="Padding7 27" offset="0x2FB" visible="false" />
+	<uint8 name="Padding7 28" offset="0x2FC" visible="false" />
+	<uint8 name="Padding7 29" offset="0x2FD" visible="false" />
+	<uint8 name="Padding7 30" offset="0x2FE" visible="false" />
+	<uint8 name="Padding7 31" offset="0x2FF" visible="false" />
+	<uint8 name="Padding7 32" offset="0x300" visible="false" />
+	<uint8 name="Padding7 33" offset="0x301" visible="false" />
+	<uint8 name="Padding7 34" offset="0x302" visible="false" />
+	<uint8 name="Padding7 35" offset="0x303" visible="false" />
+	<uint8 name="Padding7 36" offset="0x304" visible="false" />
+	<uint8 name="Padding7 37" offset="0x305" visible="false" />
+	<uint8 name="Padding7 38" offset="0x306" visible="false" />
+	<uint8 name="Padding7 39" offset="0x307" visible="false" />
+	<uint8 name="Padding7 40" offset="0x308" visible="false" />
+	<uint8 name="Padding7 41" offset="0x309" visible="false" />
+	<uint8 name="Padding7 42" offset="0x30A" visible="false" />
+	<uint8 name="Padding7 43" offset="0x30B" visible="false" />
+	<uint8 name="Padding7 44" offset="0x30C" visible="false" />
+	<uint8 name="Padding7 45" offset="0x30D" visible="false" />
+	<uint8 name="Padding7 46" offset="0x30E" visible="false" />
+	<uint8 name="Padding7 47" offset="0x30F" visible="false" />
+	<uint8 name="Padding7 48" offset="0x310" visible="false" />
+	<uint8 name="Padding7 49" offset="0x311" visible="false" />
+	<uint8 name="Padding7 50" offset="0x312" visible="false" />
+	<uint8 name="Padding7 51" offset="0x313" visible="false" />
+	<uint8 name="Padding7 52" offset="0x314" visible="false" />
+	<uint8 name="Padding7 53" offset="0x315" visible="false" />
+	<uint8 name="Padding7 54" offset="0x316" visible="false" />
+	<uint8 name="Padding7 55" offset="0x317" visible="false" />
+	<uint8 name="Padding7 56" offset="0x318" visible="false" />
+	<uint8 name="Padding7 57" offset="0x319" visible="false" />
+	<uint8 name="Padding7 58" offset="0x31A" visible="false" />
+	<uint8 name="Padding7 59" offset="0x31B" visible="false" />
+	<uint8 name="Padding7 60" offset="0x31C" visible="false" />
+	<uint8 name="Padding7 61" offset="0x31D" visible="false" />
+	<uint8 name="Padding7 62" offset="0x31E" visible="false" />
+	<uint8 name="Padding7 63" offset="0x31F" visible="false" />
+	<uint8 name="Padding7 64" offset="0x320" visible="false" />
+	<uint8 name="Padding7 65" offset="0x321" visible="false" />
+	<uint8 name="Padding7 66" offset="0x322" visible="false" />
+	<uint8 name="Padding7 67" offset="0x323" visible="false" />
+	<uint8 name="Padding7 68" offset="0x324" visible="false" />
+	<uint8 name="Padding7 69" offset="0x325" visible="false" />
+	<uint8 name="Padding7 70" offset="0x326" visible="false" />
+	<uint8 name="Padding7 71" offset="0x327" visible="false" />
+	<uint8 name="Padding7 72" offset="0x328" visible="false" />
+	<uint8 name="Padding7 73" offset="0x329" visible="false" />
+	<uint8 name="Padding7 74" offset="0x32A" visible="false" />
+	<uint8 name="Padding7 75" offset="0x32B" visible="false" />
+	<uint8 name="Padding7 76" offset="0x32C" visible="false" />
+	<uint8 name="Padding7 77" offset="0x32D" visible="false" />
+	<uint8 name="Padding7 78" offset="0x32E" visible="false" />
+	<uint8 name="Padding7 79" offset="0x32F" visible="false" />
+	<uint8 name="Padding7 80" offset="0x330" visible="false" />
+	<uint8 name="Padding7 81" offset="0x331" visible="false" />
+	<uint8 name="Padding7 82" offset="0x332" visible="false" />
+	<uint8 name="Padding7 83" offset="0x333" visible="false" />
+	<uint8 name="Padding7 84" offset="0x334" visible="false" />
+	<uint8 name="Padding7 85" offset="0x335" visible="false" />
+	<uint8 name="Padding7 86" offset="0x336" visible="false" />
+	<uint8 name="Padding7 87" offset="0x337" visible="false" />
+	<uint8 name="Padding7 88" offset="0x338" visible="false" />
+	<uint8 name="Padding7 89" offset="0x339" visible="false" />
+	<uint8 name="Padding7 90" offset="0x33A" visible="false" />
+	<uint8 name="Padding7 91" offset="0x33B" visible="false" />
+	<uint8 name="Padding7 92" offset="0x33C" visible="false" />
+	<uint8 name="Padding7 93" offset="0x33D" visible="false" />
+	<uint8 name="Padding7 94" offset="0x33E" visible="false" />
+	<uint8 name="Padding7 95" offset="0x33F" visible="false" />
+	<uint8 name="Padding7 96" offset="0x340" visible="false" />
+	<uint8 name="Padding7 97" offset="0x341" visible="false" />
+	<uint8 name="Padding7 98" offset="0x342" visible="false" />
+	<uint8 name="Padding7 99" offset="0x343" visible="false" />
+	<uint8 name="Padding7 100" offset="0x344" visible="false" />
+	<uint8 name="Padding7 101" offset="0x345" visible="false" />
+	<uint8 name="Padding7 102" offset="0x346" visible="false" />
+	<uint8 name="Padding7 103" offset="0x347" visible="false" />
+	<uint8 name="Padding7 104" offset="0x348" visible="false" />
+	<uint8 name="Padding7 105" offset="0x349" visible="false" />
+	<uint8 name="Padding7 106" offset="0x34A" visible="false" />
+	<uint8 name="Padding7 107" offset="0x34B" visible="false" />
+	<uint8 name="Padding7 108" offset="0x34C" visible="false" />
+	<uint8 name="Padding7 109" offset="0x34D" visible="false" />
+	<uint8 name="Padding7 110" offset="0x34E" visible="false" />
+	<uint8 name="Padding7 111" offset="0x34F" visible="false" />
+	<uint8 name="Padding7 112" offset="0x350" visible="false" />
+	<uint8 name="Padding7 113" offset="0x351" visible="false" />
+	<uint8 name="Padding7 114" offset="0x352" visible="false" />
+	<uint8 name="Padding7 115" offset="0x353" visible="false" />
+	<uint8 name="Padding7 116" offset="0x354" visible="false" />
+	<uint8 name="Padding7 117" offset="0x355" visible="false" />
+	<uint8 name="Padding7 118" offset="0x356" visible="false" />
+	<uint8 name="Padding7 119" offset="0x357" visible="false" />
+	<uint8 name="Padding7 120" offset="0x358" visible="false" />
+	<uint8 name="Padding7 121" offset="0x359" visible="false" />
+	<uint8 name="Padding7 122" offset="0x35A" visible="false" />
+	<uint8 name="Padding7 123" offset="0x35B" visible="false" />
+	<uint8 name="Padding7 124" offset="0x35C" visible="false" />
+	<uint8 name="Padding7 125" offset="0x35D" visible="false" />
+	<uint8 name="Padding7 126" offset="0x35E" visible="false" />
+	<uint8 name="Padding7 127" offset="0x35F" visible="false" />
+	<uint8 name="Padding8 0" offset="0x360" visible="false" />
+	<uint8 name="Padding8 1" offset="0x361" visible="false" />
+	<uint8 name="Padding8 2" offset="0x362" visible="false" />
+	<uint8 name="Padding8 3" offset="0x363" visible="false" />
+	<uint8 name="Padding8 4" offset="0x364" visible="false" />
+	<uint8 name="Padding8 5" offset="0x365" visible="false" />
+	<uint8 name="Padding8 6" offset="0x366" visible="false" />
+	<uint8 name="Padding8 7" offset="0x367" visible="false" />
+	<uint8 name="Padding8 8" offset="0x368" visible="false" />
+	<uint8 name="Padding8 9" offset="0x369" visible="false" />
+	<uint8 name="Padding8 10" offset="0x36A" visible="false" />
+	<uint8 name="Padding8 11" offset="0x36B" visible="false" />
+	<uint8 name="Padding8 12" offset="0x36C" visible="false" />
+	<uint8 name="Padding8 13" offset="0x36D" visible="false" />
+	<uint8 name="Padding8 14" offset="0x36E" visible="false" />
+	<uint8 name="Padding8 15" offset="0x36F" visible="false" />
+	<uint8 name="Padding8 16" offset="0x370" visible="false" />
+	<uint8 name="Padding8 17" offset="0x371" visible="false" />
+	<uint8 name="Padding8 18" offset="0x372" visible="false" />
+	<uint8 name="Padding8 19" offset="0x373" visible="false" />
+	<uint8 name="Padding8 20" offset="0x374" visible="false" />
+	<uint8 name="Padding8 21" offset="0x375" visible="false" />
+	<uint8 name="Padding8 22" offset="0x376" visible="false" />
+	<uint8 name="Padding8 23" offset="0x377" visible="false" />
+	<uint8 name="Padding8 24" offset="0x378" visible="false" />
+	<uint8 name="Padding8 25" offset="0x379" visible="false" />
+	<uint8 name="Padding8 26" offset="0x37A" visible="false" />
+	<uint8 name="Padding8 27" offset="0x37B" visible="false" />
+	<uint8 name="Padding8 28" offset="0x37C" visible="false" />
+	<uint8 name="Padding8 29" offset="0x37D" visible="false" />
+	<uint8 name="Padding8 30" offset="0x37E" visible="false" />
+	<uint8 name="Padding8 31" offset="0x37F" visible="false" />
+	<uint8 name="Padding8 32" offset="0x380" visible="false" />
+	<uint8 name="Padding8 33" offset="0x381" visible="false" />
+	<uint8 name="Padding8 34" offset="0x382" visible="false" />
+	<uint8 name="Padding8 35" offset="0x383" visible="false" />
+	<uint8 name="Padding8 36" offset="0x384" visible="false" />
+	<uint8 name="Padding8 37" offset="0x385" visible="false" />
+	<uint8 name="Padding8 38" offset="0x386" visible="false" />
+	<uint8 name="Padding8 39" offset="0x387" visible="false" />
+	<uint8 name="Padding8 40" offset="0x388" visible="false" />
+	<uint8 name="Padding8 41" offset="0x389" visible="false" />
+	<uint8 name="Padding8 42" offset="0x38A" visible="false" />
+	<uint8 name="Padding8 43" offset="0x38B" visible="false" />
+	<uint8 name="Padding8 44" offset="0x38C" visible="false" />
+	<uint8 name="Padding8 45" offset="0x38D" visible="false" />
+	<uint8 name="Padding8 46" offset="0x38E" visible="false" />
+	<uint8 name="Padding8 47" offset="0x38F" visible="false" />
+	<uint8 name="Padding8 48" offset="0x390" visible="false" />
+	<uint8 name="Padding8 49" offset="0x391" visible="false" />
+	<uint8 name="Padding8 50" offset="0x392" visible="false" />
+	<uint8 name="Padding8 51" offset="0x393" visible="false" />
+	<uint8 name="Padding8 52" offset="0x394" visible="false" />
+	<uint8 name="Padding8 53" offset="0x395" visible="false" />
+	<uint8 name="Padding8 54" offset="0x396" visible="false" />
+	<uint8 name="Padding8 55" offset="0x397" visible="false" />
+	<uint8 name="Padding8 56" offset="0x398" visible="false" />
+	<uint8 name="Padding8 57" offset="0x399" visible="false" />
+	<uint8 name="Padding8 58" offset="0x39A" visible="false" />
+	<uint8 name="Padding8 59" offset="0x39B" visible="false" />
+	<uint8 name="Padding8 60" offset="0x39C" visible="false" />
+	<uint8 name="Padding8 61" offset="0x39D" visible="false" />
+	<uint8 name="Padding8 62" offset="0x39E" visible="false" />
+	<uint8 name="Padding8 63" offset="0x39F" visible="false" />
+	<uint8 name="Padding8 64" offset="0x3A0" visible="false" />
+	<uint8 name="Padding8 65" offset="0x3A1" visible="false" />
+	<uint8 name="Padding8 66" offset="0x3A2" visible="false" />
+	<uint8 name="Padding8 67" offset="0x3A3" visible="false" />
+	<uint8 name="Padding8 68" offset="0x3A4" visible="false" />
+	<uint8 name="Padding8 69" offset="0x3A5" visible="false" />
+	<uint8 name="Padding8 70" offset="0x3A6" visible="false" />
+	<uint8 name="Padding8 71" offset="0x3A7" visible="false" />
+	<uint8 name="Padding8 72" offset="0x3A8" visible="false" />
+	<uint8 name="Padding8 73" offset="0x3A9" visible="false" />
+	<uint8 name="Padding8 74" offset="0x3AA" visible="false" />
+	<uint8 name="Padding8 75" offset="0x3AB" visible="false" />
+	<uint8 name="Padding8 76" offset="0x3AC" visible="false" />
+	<uint8 name="Padding8 77" offset="0x3AD" visible="false" />
+	<uint8 name="Padding8 78" offset="0x3AE" visible="false" />
+	<uint8 name="Padding8 79" offset="0x3AF" visible="false" />
+	<uint8 name="Padding8 80" offset="0x3B0" visible="false" />
+	<uint8 name="Padding8 81" offset="0x3B1" visible="false" />
+	<uint8 name="Padding8 82" offset="0x3B2" visible="false" />
+	<uint8 name="Padding8 83" offset="0x3B3" visible="false" />
+	<uint8 name="Padding8 84" offset="0x3B4" visible="false" />
+	<uint8 name="Padding8 85" offset="0x3B5" visible="false" />
+	<uint8 name="Padding8 86" offset="0x3B6" visible="false" />
+	<uint8 name="Padding8 87" offset="0x3B7" visible="false" />
+	<uint8 name="Padding8 88" offset="0x3B8" visible="false" />
+	<uint8 name="Padding8 89" offset="0x3B9" visible="false" />
+	<uint8 name="Padding8 90" offset="0x3BA" visible="false" />
+	<uint8 name="Padding8 91" offset="0x3BB" visible="false" />
+	<uint8 name="Padding8 92" offset="0x3BC" visible="false" />
+	<uint8 name="Padding8 93" offset="0x3BD" visible="false" />
+	<uint8 name="Padding8 94" offset="0x3BE" visible="false" />
+	<uint8 name="Padding8 95" offset="0x3BF" visible="false" />
+	<uint8 name="Padding8 96" offset="0x3C0" visible="false" />
+	<uint8 name="Padding8 97" offset="0x3C1" visible="false" />
+	<uint8 name="Padding8 98" offset="0x3C2" visible="false" />
+	<uint8 name="Padding8 99" offset="0x3C3" visible="false" />
+	<uint8 name="Padding8 100" offset="0x3C4" visible="false" />
+	<uint8 name="Padding8 101" offset="0x3C5" visible="false" />
+	<uint8 name="Padding8 102" offset="0x3C6" visible="false" />
+	<uint8 name="Padding8 103" offset="0x3C7" visible="false" />
+	<uint8 name="Padding8 104" offset="0x3C8" visible="false" />
+	<uint8 name="Padding8 105" offset="0x3C9" visible="false" />
+	<uint8 name="Padding8 106" offset="0x3CA" visible="false" />
+	<uint8 name="Padding8 107" offset="0x3CB" visible="false" />
+	<uint8 name="Padding8 108" offset="0x3CC" visible="false" />
+	<uint8 name="Padding8 109" offset="0x3CD" visible="false" />
+	<uint8 name="Padding8 110" offset="0x3CE" visible="false" />
+	<uint8 name="Padding8 111" offset="0x3CF" visible="false" />
+	<uint8 name="Padding8 112" offset="0x3D0" visible="false" />
+	<uint8 name="Padding8 113" offset="0x3D1" visible="false" />
+	<uint8 name="Padding8 114" offset="0x3D2" visible="false" />
+	<uint8 name="Padding8 115" offset="0x3D3" visible="false" />
+	<uint8 name="Padding8 116" offset="0x3D4" visible="false" />
+	<uint8 name="Padding8 117" offset="0x3D5" visible="false" />
+	<uint8 name="Padding8 118" offset="0x3D6" visible="false" />
+	<uint8 name="Padding8 119" offset="0x3D7" visible="false" />
+	<uint8 name="Padding8 120" offset="0x3D8" visible="false" />
+	<uint8 name="Padding8 121" offset="0x3D9" visible="false" />
+	<uint8 name="Padding8 122" offset="0x3DA" visible="false" />
+	<uint8 name="Padding8 123" offset="0x3DB" visible="false" />
+	<uint8 name="Padding8 124" offset="0x3DC" visible="false" />
+	<uint8 name="Padding8 125" offset="0x3DD" visible="false" />
+	<uint8 name="Padding8 126" offset="0x3DE" visible="false" />
+	<uint8 name="Padding8 127" offset="0x3DF" visible="false" />
+	<tagblock name="Child Widgets" offset="0x3E0" visible="true" elementSize="0x50">
+		<tagref name="Widget Tag" offset="0x0" visible="true" />
+		<ascii name="Name Unused" offset="0x10" visible="true" size="0x20" />
+		<flags32 name="Flags" offset="0x30" visible="true">
+			<bit name="UseCustomControllerIndex" index="0" />
+		</flags32>
+		<int16 name="Custom Controller Index" offset="0x34" visible="true" />
+		<int16 name="Vertical Offset" offset="0x36" visible="true" />
+		<int16 name="Horizontal Offset" offset="0x38" visible="true" />
+		<uint8 name="Padding 0" offset="0x3A" visible="false" />
+		<uint8 name="Padding 1" offset="0x3B" visible="false" />
+		<uint8 name="Padding 2" offset="0x3C" visible="false" />
+		<uint8 name="Padding 3" offset="0x3D" visible="false" />
+		<uint8 name="Padding 4" offset="0x3E" visible="false" />
+		<uint8 name="Padding 5" offset="0x3F" visible="false" />
+		<uint8 name="Padding 6" offset="0x40" visible="false" />
+		<uint8 name="Padding 7" offset="0x41" visible="false" />
+		<uint8 name="Padding 8" offset="0x42" visible="false" />
+		<uint8 name="Padding 9" offset="0x43" visible="false" />
+		<uint8 name="Padding 10" offset="0x44" visible="false" />
+		<uint8 name="Padding 11" offset="0x45" visible="false" />
+		<uint8 name="Padding 12" offset="0x46" visible="false" />
+		<uint8 name="Padding 13" offset="0x47" visible="false" />
+		<uint8 name="Padding 14" offset="0x48" visible="false" />
+		<uint8 name="Padding 15" offset="0x49" visible="false" />
+		<uint8 name="Padding 16" offset="0x4A" visible="false" />
+		<uint8 name="Padding 17" offset="0x4B" visible="false" />
+		<uint8 name="Padding 18" offset="0x4C" visible="false" />
+		<uint8 name="Padding 19" offset="0x4D" visible="false" />
+		<uint8 name="Padding 20" offset="0x4E" visible="false" />
+		<uint8 name="Padding 21" offset="0x4F" visible="false" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x2C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.MapList (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Map Images" offset="0x0" visible="true" elementSize="0x20">
+		<int32 name="Map Id" offset="0x0" visible="true" />
+		<tagref name="Bitmap" offset="0x4" visible="true" />
+		<tagblock name="Loading Screen Bitmaps" offset="0x14" visible="true" elementSize="0x10">
+			<tagref name="Value" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagref name="Default Map Image" offset="0xC" visible="true" />
+	<tagref name="Default Loading Screen" offset="0x1C" visible="true" />
+</plugin>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SuppressedIncident (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Suppressed Incidents" offset="0x0" visible="true" elementSize="0x8">
+		<stringid name="Incident Name" offset="0x0" visible="true" />
+		<flags8 name="Suppression Type" offset="0x4" visible="true">
+			<bit name="SuppressCausePlayerGameEngineEvent" index="0" />
+			<bit name="SuppressEffectPlayerGameEngineEvent" index="1" />
+			<bit name="SuppressCauseTeamGameEngineEvent" index="2" />
+			<bit name="SuppressEffectTeamGameEngineEvent" index="3" />
+			<bit name="SuppressMedalDisplay" index="4" />
+			<bit name="SuppressMedalStats" index="5" />
+			<bit name="SuppressFanfare" index="6" />
+			<bit name="SuppressAudio" index="7" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+	</tagblock>
+</plugin>

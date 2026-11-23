@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.LoadoutGlobalsDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Loadouts" offset="0x0" visible="true" elementSize="0x24">
+		<stringid name="Loadout Name" offset="0x0" visible="true" />
+		<stringid name="App1" offset="0x4" visible="true" />
+		<stringid name="App2" offset="0x8" visible="true" />
+		<stringid name="Initial Primary Weapon" offset="0xC" visible="true" />
+		<stringid name="Initial Primary Weapon Variant Name" offset="0x10" visible="true" />
+		<stringid name="Initial Secondary Weapon" offset="0x14" visible="true" />
+		<stringid name="Initial Secondary Weapon Variant Name" offset="0x18" visible="true" />
+		<stringid name="Initial Equipment" offset="0x1C" visible="true" />
+		<enum8 name="Initial Grenade Count" offset="0x20" visible="true">
+			<option name="Unchanged" value="0" />
+			<option name="MapDefault" value="1" />
+			<option name="_0" value="2" />
+			<option name="_1Frag" value="3" />
+			<option name="_2Frag" value="4" />
+			<option name="_1Plasma" value="5" />
+			<option name="_2Plasma" value="6" />
+			<option name="_1Type2" value="7" />
+			<option name="_2Type2" value="8" />
+			<option name="_1Type3" value="9" />
+			<option name="_2Type3" value="10" />
+			<option name="_1Type4" value="11" />
+			<option name="_2Type4" value="12" />
+			<option name="_1Type5" value="13" />
+			<option name="_2Type5" value="14" />
+			<option name="_1Type6" value="15" />
+			<option name="_2Type6" value="16" />
+			<option name="_1Type7" value="17" />
+			<option name="_2Type7" value="18" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x21" visible="false" />
+		<uint8 name="Padding 1" offset="0x22" visible="false" />
+		<uint8 name="Padding 2" offset="0x23" visible="false" />
+	</tagblock>
+	<tagblock name="Loadout Palettes" offset="0xC" visible="true" elementSize="0x10">
+		<stringid name="Palette Name" offset="0x0" visible="true" />
+		<tagblock name="Loadout Choices" offset="0x4" visible="true" elementSize="0x4">
+			<int16 name="Loadout" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Loadout Names" offset="0x18" visible="true" elementSize="0x4">
+		<stringid name="Display Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Default Custom Loadouts" offset="0x24" visible="true" elementSize="0x24">
+		<stringid name="Loadout Name" offset="0x0" visible="true" />
+		<stringid name="App1" offset="0x4" visible="true" />
+		<stringid name="App2" offset="0x8" visible="true" />
+		<stringid name="Initial Primary Weapon" offset="0xC" visible="true" />
+		<stringid name="Initial Primary Weapon Variant Name" offset="0x10" visible="true" />
+		<stringid name="Initial Secondary Weapon" offset="0x14" visible="true" />
+		<stringid name="Initial Secondary Weapon Variant Name" offset="0x18" visible="true" />
+		<stringid name="Initial Equipment" offset="0x1C" visible="true" />
+		<enum8 name="Initial Grenade Count" offset="0x20" visible="true">
+			<option name="Unchanged" value="0" />
+			<option name="MapDefault" value="1" />
+			<option name="_0" value="2" />
+			<option name="_1Frag" value="3" />
+			<option name="_2Frag" value="4" />
+			<option name="_1Plasma" value="5" />
+			<option name="_2Plasma" value="6" />
+			<option name="_1Type2" value="7" />
+			<option name="_2Type2" value="8" />
+			<option name="_1Type3" value="9" />
+			<option name="_2Type3" value="10" />
+			<option name="_1Type4" value="11" />
+			<option name="_2Type4" value="12" />
+			<option name="_1Type5" value="13" />
+			<option name="_2Type5" value="14" />
+			<option name="_1Type6" value="15" />
+			<option name="_2Type6" value="16" />
+			<option name="_1Type7" value="17" />
+			<option name="_2Type7" value="18" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x21" visible="false" />
+		<uint8 name="Padding 1" offset="0x22" visible="false" />
+		<uint8 name="Padding 2" offset="0x23" visible="false" />
+	</tagblock>
+</plugin>

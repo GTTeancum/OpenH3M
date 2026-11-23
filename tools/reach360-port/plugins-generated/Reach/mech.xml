@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MedalChallengeAggregatorList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Lists" offset="0x0" visible="true" elementSize="0x18">
+		<stringid name="Challenge To Increment" offset="0x0" visible="true" />
+		<stringid name="Medals / Display Name" offset="0x4" visible="true" />
+		<flags8 name="Medals / Allowed Game Modes / Game Mode" offset="0x8" visible="true">
+			<bit name="Campaign" index="0" />
+			<bit name="Firefight" index="1" />
+			<bit name="Multiplayer" index="2" />
+		</flags8>
+		<flags8 name="Medals / Allowed Game Modes / Matchmaking Type" offset="0x9" visible="true">
+			<bit name="CustomGame" index="0" />
+			<bit name="Matchmaking" index="1" />
+		</flags8>
+		<flags8 name="Medals / Allowed Game Modes / Difficulty" offset="0xA" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Normal" index="1" />
+			<bit name="Heroic" index="2" />
+			<bit name="Legendary" index="3" />
+		</flags8>
+		<enum8 name="Medals / Allowed Game Modes / Player Count" offset="0xB" visible="true">
+			<option name="Any" value="0" />
+			<option name="_1PlayerOnly" value="1" />
+			<option name="_4PlayersOnly" value="2" />
+			<option name="MoreThanOnePlayer" value="3" />
+		</enum8>
+		<tagblock name="Medals / Contributing Medals" offset="0xC" visible="true" elementSize="0x4">
+			<stringid name="Medal Name" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

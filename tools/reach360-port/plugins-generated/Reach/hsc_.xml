@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x44">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ScenarioHsSourceFile (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+	<dataref name="Source" offset="0x20" visible="true" />
+	<tagblock name="External References" offset="0x34" visible="true" elementSize="0x10">
+		<tagref name="Reference" offset="0x0" visible="true" />
+	</tagblock>
+	<flags32 name="Flags" offset="0x40" visible="true">
+		<bit name="GeneratedAtRuntime" index="0" />
+		<bit name="AiFragments" index="1" />
+	</flags32>
+</plugin>

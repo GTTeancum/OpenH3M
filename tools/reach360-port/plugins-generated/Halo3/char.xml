@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x1D4">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Character (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="Bit0" index="0" />
+		<bit name="Bit1" index="1" />
+		<bit name="Bit2" index="2" />
+		<bit name="Bit3" index="3" />
+		<bit name="Bit4" index="4" />
+		<bit name="Bit5" index="5" />
+		<bit name="Bit6" index="6" />
+	</flags32>
+	<tagref name="Parent Character" offset="0x4" visible="true" />
+	<tagref name="Unit" offset="0x14" visible="true" />
+	<tagref name="Creature" offset="0x24" visible="true" />
+	<tagref name="Style" offset="0x34" visible="true" />
+	<tagref name="Major Character" offset="0x44" visible="true" />
+	<tagblock name="Variants" offset="0x54" visible="true" elementSize="0x14">
+		<stringid name="Variant Name" offset="0x0" visible="true" />
+		<int16 name="Variant Index" offset="0x4" visible="true" />
+		<uint8 name="Unused 0" offset="0x6" visible="false" />
+		<uint8 name="Unused 1" offset="0x7" visible="false" />
+		<tagblock name="Voices" offset="0x8" visible="true" elementSize="0x18">
+			<tagref name="Dialogue" offset="0x0" visible="true" />
+			<stringid name="Designator" offset="0x10" visible="true" />
+			<float32 name="Weight" offset="0x14" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Voice" offset="0x60" visible="true" elementSize="0xC">
+		<tagblock name="Dialogue Variations" offset="0x0" visible="true" elementSize="0x18">
+			<tagref name="Dialogue" offset="0x0" visible="true" />
+			<stringid name="Designator" offset="0x10" visible="true" />
+			<float32 name="Weight" offset="0x14" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="General Properties" offset="0x6C" visible="true" elementSize="0x1C">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="Swarm" index="0" />
+			<bit name="Flying" index="1" />
+			<bit name="DualWields" index="2" />
+			<bit name="UsesGravemind" index="3" />
+			<bit name="GravemindChorus" index="4" />
+			<bit name="DoNotTradeWeapon" index="5" />
+			<bit name="DoNotStowWeapon" index="6" />
+			<bit name="HeroCharacter" index="7" />
+			<bit name="LeaderIndependentPositioning" index="8" />
+			<bit name="HasActiveCamo" index="9" />
+			<bit name="UseHeadMarkerForLooking" index="10" />
+			<bit name="SpaceCharacter" index="11" />
+			<bit name="DoNotDropEquipment" index="12" />
+			<bit name="DoNotAllowCrouch" index="13" />
+			<bit name="DoNotAllowMovingCrouch" index="14" />
+			<bit name="CriticalBetrayal" index="15" />
+			<bit name="DeathlessCriticalBetrayal" index="16" />
+			<bit name="ArmorPreventsAssassination" index="17" />
+			<bit name="DropAllWeaponsOnDeath" index="18" />
+			<bit name="DropNoWeaponsOnDeath" index="19" />
+			<bit name="ShieldPreventsAssassination" index="20" />
+			<bit name="CannotBeAssassinated" index="21" />
+		</flags32>
+		<enum16 name="Actor Type" offset="0x4" visible="true">
+			<option name="Elite" value="0" />
+			<option name="Jackal" value="1" />
+			<option name="Grunt" value="2" />
+			<option name="Hunter" value="3" />
+			<option name="Engineer" value="4" />
+			<option name="Assassin" value="5" />
+			<option name="Player" value="6" />
+			<option name="Marine" value="7" />
+			<option name="Crew" value="8" />
+			<option name="CombatForm" value="9" />
+			<option name="InfectionForm" value="10" />
+			<option name="CarrierForm" value="11" />
+			<option name="Monitor" value="12" />
+			<option name="Sentinel" value="13" />
+			<option name="None" value="14" />
+			<option name="MountedWeapon" value="15" />
+			<option name="Brute" value="16" />
+			<option name="Prophet" value="17" />
+			<option name="Bugger" value="18" />
+			<option name="Juggernaut" value="19" />
+			<option name="PureFormStealth" value="20" />
+			<option name="PureFormTank" value="21" />
+			<option name="PureFormRanged" value="22" />
+			<option name="Scarab" value="23" />
+			<option name="Guardian" value="24" />
+		</enum16>
+		<int16 name="Rank" offset="0x6" visible="true" />
+		<enum16 name="Follower Positioning" offset="0x8" visible="true">
+			<option name="InFrontOfMe" value="0" />
+			<option name="BehindMe" value="1" />
+			<option name="Tight" value="2" />
+		</enum16>
+		<uint8 name="Unused 0" offset="0xA" visible="false" />
+		<uint8 name="Unused 1" offset="0xB" visible="false" />
+		<float32 name="Maximum Leader Distance" offset="0xC" visible="true" />
+		<float32 name="Maximum Player Dialogue Distance" offset="0x10" visible="true" />
+		<float32 name="Scariness" offset="0x14" visible="true" />
+		<enum16 name="Default Grenade Type" offset="0x18" visible="true">
+			<option name="None" value="0" />
+			<option name="HumanFragmentation" value="1" />
+			<option name="CovenantPlasma" value="2" />
+			<option name="BruteClaymore" value="3" />
+			<option name="Firebomb" value="4" />
+		</enum16>
+		<enum16 name="Behavior Tree Root" offset="0x1A" visible="true">
+			<option name="Default" value="0" />
+			<option name="Flying" value="1" />
+		</enum16>
+	</tagblock>
+	<tagblock name="Vitality Properties" offset="0x78" visible="true" elementSize="0x80">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="AutoResurrect" index="0" />
+		</flags32>
+		<float32 name="Normal Body Vitality" offset="0x4" visible="true" />
+		<float32 name="Normal Shield Vitality" offset="0x8" visible="true" />
+		<float32 name="Legendary Body Vitality" offset="0xC" visible="true" />
+		<float32 name="Legendary Shield Vitality" offset="0x10" visible="true" />
+		<float32 name="Body Recharge Fraction" offset="0x14" visible="true" />
+		<float32 name="Soft Ping Shielded Threshold" offset="0x18" visible="true" />
+		<float32 name="Soft Ping Unshielded Threshold" offset="0x1C" visible="true" />
+		<float32 name="Soft Ping Min Interrupt Time" offset="0x20" visible="true" />
+		<float32 name="Hard Ping Shielded Threshold" offset="0x24" visible="true" />
+		<float32 name="Hard Ping Unshielded Threshold" offset="0x28" visible="true" />
+		<float32 name="Hard Ping Min Interrupt Time" offset="0x2C" visible="true" />
+		<float32 name="Current Damage Decay Delay" offset="0x30" visible="true" />
+		<float32 name="Current Damage Decay Time" offset="0x34" visible="true" />
+		<float32 name="Recent Damage Decay Delay" offset="0x38" visible="true" />
+		<float32 name="Recent Damage Decay Time" offset="0x3C" visible="true" />
+		<float32 name="Body Recharge Delay Time" offset="0x40" visible="true" />
+		<float32 name="Body Recharge Time" offset="0x44" visible="true" />
+		<float32 name="Shield Recharge Delay Time" offset="0x48" visible="true" />
+		<float32 name="Shield Recharge Time" offset="0x4C" visible="true" />
+		<float32 name="Stun Threshold" offset="0x50" visible="true" />
+		<rangef name="Stun Time Bounds" offset="0x54" visible="true" />
+		<float32 name="Extended Shield Damage Threshold" offset="0x5C" visible="true" />
+		<float32 name="Extended Body Damage Threshold" offset="0x60" visible="true" />
+		<float32 name="Suicide Radius" offset="0x64" visible="true" />
+		<float32 name="Runtime Body Recharge Velocity" offset="0x68" visible="true" />
+		<float32 name="Runtime Shield Recharge Velocity" offset="0x6C" visible="true" />
+		<tagref name="Resurrect Weapon" offset="0x70" visible="true" />
+	</tagblock>
+	<tagblock name="Placement Properties" offset="0x84" visible="true" elementSize="0x34">
+		<uint8 name="Unused 0" offset="0x0" visible="false" />
+		<uint8 name="Unused 1" offset="0x1" visible="false" />
+		<uint8 name="Unused 2" offset="0x2" visible="false" />
+		<uint8 name="Unused 3" offset="0x3" visible="false" />
+		<float32 name="Few Upgrade Chance Easy" offset="0x4" visible="true" />
+		<float32 name="Few Upgrade Chance Normal" offset="0x8" visible="true" />
+		<float32 name="Few Upgrade Chance Heroic" offset="0xC" visible="true" />
+		<float32 name="Few Upgrade Chance Legendary" offset="0x10" visible="true" />
+		<float32 name="Normal Upgrade Chance Easy" offset="0x14" visible="true" />
+		<float32 name="Normal Upgrade Chance Normal" offset="0x18" visible="true" />
+		<float32 name="Normal Upgrade Chance Heroic" offset="0x1C" visible="true" />
+		<float32 name="Normal Upgrade Chance Legendary" offset="0x20" visible="true" />
+		<float32 name="Many Upgrade Chance Easy" offset="0x24" visible="true" />
+		<float32 name="Many Upgrade Chance Normal" offset="0x28" visible="true" />
+		<float32 name="Many Upgrade Chance Heroic" offset="0x2C" visible="true" />
+		<float32 name="Many Upgrade Chance Legendary" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Perception Properties" offset="0x90" visible="true" elementSize="0x2C">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="CharacterCanSeeInDarkness" index="0" />
+			<bit name="IgnoreTrackingProjectiles" index="1" />
+			<bit name="IgnoreMinorTrackingProjectiles" index="2" />
+		</flags32>
+		<float32 name="Max Vision Distance" offset="0x4" visible="true" />
+		<degree name="Central Vision Angle" offset="0x8" visible="true" />
+		<degree name="Max Vision Angle" offset="0xC" visible="true" />
+		<degree name="Peripheral Vision Angle" offset="0x10" visible="true" />
+		<float32 name="Peripheral Distance" offset="0x14" visible="true" />
+		<float32 name="Hearing Distance" offset="0x18" visible="true" />
+		<float32 name="Notice Projectile Chance" offset="0x1C" visible="true" />
+		<float32 name="Notice Vehicle Chance" offset="0x20" visible="true" />
+		<float32 name="Perception Time" offset="0x24" visible="true" />
+		<float32 name="First Acknowledge Surprise Distance" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Look Properties" offset="0x9C" visible="true" elementSize="0x50">
+		<degree2 name="Maximum Aiming Deviation" offset="0x0" visible="true" />
+		<degree2 name="Maximum Looking Deviation" offset="0x8" visible="true" />
+		<degree2 name="Runtime Aiming Deviation Cosines" offset="0x10" visible="true" />
+		<degree2 name="Runtime Looking Deviation Cosines" offset="0x18" visible="true" />
+		<degree name="Noncombat Look Delta L" offset="0x20" visible="true" />
+		<degree name="Noncombat Look Delta R" offset="0x24" visible="true" />
+		<degree name="Combat Look Delta L" offset="0x28" visible="true" />
+		<degree name="Combat Look Delta R" offset="0x2C" visible="true" />
+		<rangef name="Noncombat Idle Looking" offset="0x30" visible="true" />
+		<rangef name="Noncombat Idle Aiming" offset="0x38" visible="true" />
+		<rangef name="Combat Idle Looking" offset="0x40" visible="true" />
+		<rangef name="Combat Idle Aiming" offset="0x48" visible="true" />
+	</tagblock>
+	<tagblock name="Movement Properties" offset="0xA8" visible="true" elementSize="0x2C">
+		<flags32 name="Flags H3" offset="0x0" visible="true">
+			<bit name="DangerCrouchAllowMovement" index="0" />
+			<bit name="NoSideStep" index="1" />
+			<bit name="PreferToCombatNearFriends" index="2" />
+			<bit name="HopToCoverPathSegements" index="3" />
+			<bit name="HopToEndOfPath" index="4" />
+			<bit name="AllowBoostedJump" index="5" />
+			<bit name="Perch" index="6" />
+			<bit name="Climb" index="7" />
+			<bit name="PreferWallMovement" index="8" />
+			<bit name="HasFlyingMode" index="9" />
+			<bit name="DisallowCrouch" index="10" />
+			<bit name="DisallowAllMovement" index="11" />
+			<bit name="AlwaysUseSearchPoints" index="12" />
+			<bit name="KeepMoving" index="13" />
+			<bit name="CureIsolationJump" index="14" />
+		</flags32>
+		<float32 name="Pathfinding Radius" offset="0x4" visible="true" />
+		<float32 name="Destination Radius" offset="0x8" visible="true" />
+		<float32 name="Dive Grenade Chance" offset="0xC" visible="true" />
+		<enum16 name="Obstacle Leap Min Size" offset="0x10" visible="true">
+			<option name="None" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<enum16 name="Obstacle Leap Max Size" offset="0x12" visible="true">
+			<option name="None" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<enum16 name="Obstacle Ignore Size" offset="0x14" visible="true">
+			<option name="None" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<enum16 name="Obstace Smashable Size" offset="0x16" visible="true">
+			<option name="None" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<uint8 name="Unused 0" offset="0x18" visible="false" />
+		<uint8 name="Unused 1" offset="0x19" visible="false" />
+		<enum16 name="Jump Height" offset="0x1A" visible="true">
+			<option name="None" value="0" />
+			<option name="Down" value="1" />
+			<option name="Step" value="2" />
+			<option name="Crouch" value="3" />
+			<option name="Stand" value="4" />
+			<option name="Storey" value="5" />
+			<option name="Tower" value="6" />
+			<option name="Infinite" value="7" />
+		</enum16>
+		<flags32 name="Movement Hints" offset="0x1C" visible="true">
+			<bit name="VaultStep" index="0" />
+			<bit name="VaultCrouch" index="1" />
+			<bit name="Unused0" index="2" />
+			<bit name="Unused1" index="3" />
+			<bit name="Unused2" index="4" />
+			<bit name="MountStep" index="5" />
+			<bit name="MountCrouch" index="6" />
+			<bit name="MountStand" index="7" />
+			<bit name="Unused3" index="8" />
+			<bit name="Unused4" index="9" />
+			<bit name="Unused5" index="10" />
+			<bit name="HoistCrouch" index="11" />
+			<bit name="HoistStand" index="12" />
+			<bit name="Unused6" index="13" />
+			<bit name="Unused7" index="14" />
+			<bit name="Unused8" index="15" />
+		</flags32>
+		<float32 name="Throttle Scale" offset="0x20" visible="true" />
+		<float32 name="Throttle Dampening" offset="0x24" visible="true" />
+		<float32 name="Walk Distance" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Flocking Properties" offset="0xB4" visible="true" elementSize="0x18">
+		<float32 name="Deceleration Distance" offset="0x0" visible="true" />
+		<float32 name="Normalized Speed" offset="0x4" visible="true" />
+		<float32 name="Buffer Distance" offset="0x8" visible="true" />
+		<rangef name="Throttle Threshold Bounds" offset="0xC" visible="true" />
+		<float32 name="Deceleration Stop Time" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Swarm Properties" offset="0xC0" visible="true" elementSize="0x38">
+		<int16 name="Scatter Killed Count" offset="0x0" visible="true" />
+		<uint8 name="Unused 0" offset="0x2" visible="false" />
+		<uint8 name="Unused 1" offset="0x3" visible="false" />
+		<float32 name="Scatter Radius" offset="0x4" visible="true" />
+		<float32 name="Scatter Time" offset="0x8" visible="true" />
+		<rangef name="Hound Distance" offset="0xC" visible="true" />
+		<rangef name="Infection Time" offset="0x14" visible="true" />
+		<float32 name="Perlin Offset Scale" offset="0x1C" visible="true" />
+		<rangef name="Offset Period" offset="0x20" visible="true" />
+		<float32 name="Perlin Idle Movement Threshold" offset="0x28" visible="true" />
+		<float32 name="Perlin Combat Movement Threshold" offset="0x2C" visible="true" />
+		<float32 name="Stuck Time" offset="0x30" visible="true" />
+		<float32 name="Stuck Distance" offset="0x34" visible="true" />
+	</tagblock>
+	<tagblock name="Ready Properties" offset="0xCC" visible="true" elementSize="0x8">
+		<rangef name="Ready Time Bounds" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Engage Properties" offset="0xD8" visible="true" elementSize="0x28">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="EngagePerch" index="0" />
+			<bit name="FightConstantMovement" index="1" />
+			<bit name="FlightFightConstantMovement" index="2" />
+			<bit name="DisallowCombatCrouching" index="3" />
+			<bit name="DisallowCrouchShooting" index="4" />
+			<bit name="FightStable" index="5" />
+			<bit name="ThrowShouldLob" index="6" />
+			<bit name="AllowPositioningBeyondIdealRange" index="7" />
+			<bit name="CanSuppress" index="8" />
+			<bit name="PrefersBunker" index="9" />
+			<bit name="BurstInhibitsEvasion" index="10" />
+		</flags32>
+		<rangef name="Reposition Bounds" offset="0x4" visible="true" />
+		<float32 name="Crouch Danger Threshold" offset="0xC" visible="true" />
+		<float32 name="Stand Danger Threshold" offset="0x10" visible="true" />
+		<float32 name="Fight Danger Move Threshold" offset="0x14" visible="true" />
+		<tagref name="Override Grenade Projectile" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Charge Properties" offset="0xE4" visible="true" elementSize="0x7C">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="OffhandMeleeAllowed" index="0" />
+			<bit name="BerserkWheneverCharge" index="1" />
+			<bit name="DoNotUseBerserkMode" index="2" />
+			<bit name="DoNotStowWeaponDuringBerserk" index="3" />
+			<bit name="AllowDialogueWhileBerserking" index="4" />
+			<bit name="DoNotPlayBerserkAnimation" index="5" />
+			<bit name="DoNotShootDuringCharge" index="6" />
+			<bit name="AllowLeapWithRangedWeapons" index="7" />
+			<bit name="PermanentBerserkOnceInitiated" index="8" />
+		</flags32>
+		<float32 name="Melee Consider Range" offset="0x4" visible="true" />
+		<float32 name="Melee Chance" offset="0x8" visible="true" />
+		<float32 name="Melee Attack Range" offset="0xC" visible="true" />
+		<float32 name="Melee Abort Range" offset="0x10" visible="true" />
+		<float32 name="Melee Attack Timeout" offset="0x14" visible="true" />
+		<float32 name="Melee Attack Delay Timer" offset="0x18" visible="true" />
+		<rangef name="Melee Leap Range" offset="0x1C" visible="true" />
+		<float32 name="Melee Leap Chance" offset="0x24" visible="true" />
+		<float32 name="Ideal Leap Velocity" offset="0x28" visible="true" />
+		<float32 name="Max Leap Velocity" offset="0x2C" visible="true" />
+		<float32 name="Melee Leap Ballistic" offset="0x30" visible="true" />
+		<float32 name="Melee Delay Timer" offset="0x34" visible="true" />
+		<float32 name="Leader Abandoned Berserk Chance" offset="0x38" visible="true" />
+		<rangef name="Shield Down Berserk Chance" offset="0x3C" visible="true" />
+		<rangef name="Shielddown Berserk Ranges" offset="0x44" visible="true" />
+		<tagref name="Berserk Weapon" offset="0x4C" visible="true" />
+		<float32 name="Beserk Cooldown" offset="0x5C" visible="true" />
+		<float32 name="Broken Kamikaze Chance" offset="0x60" visible="true" />
+		<float32 name="Perimeter Range" offset="0x64" visible="true" />
+		<float32 name="Perimeter Range Close" offset="0x68" visible="true" />
+		<float32 name="Perimeter Damage Timeout" offset="0x6C" visible="true" />
+		<tagblock name="Difficulty Limits" offset="0x70" visible="true" elementSize="0x6">
+			<int16 name="Maximum Kamikaze Count" offset="0x0" visible="true" />
+			<int16 name="Maximum Berserk Count" offset="0x2" visible="true" />
+			<int16 name="Minimum Berserk Count" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Evasion Properties" offset="0xF0" visible="true" elementSize="0x14">
+		<float32 name="Evasion Danger Threshold" offset="0x0" visible="true" />
+		<float32 name="Evasion Delay Timer" offset="0x4" visible="true" />
+		<float32 name="Evasion Chance" offset="0x8" visible="true" />
+		<float32 name="Evasion Proximity Threshold" offset="0xC" visible="true" />
+		<float32 name="Dive Retreat Chance" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Cover Properties" offset="0xFC" visible="true" elementSize="0x54">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="UsePhasing" index="1" />
+		</flags32>
+		<rangef name="Hide Behind Cover Time" offset="0x4" visible="true" />
+		<float32 name="Cover Shield Fraction" offset="0xC" visible="true" />
+		<float32 name="Cover Vitality Threshold" offset="0x10" visible="true" />
+		<float32 name="Disallow Cover Distance" offset="0x14" visible="true" />
+		<float32 name="Cover Danger Threshold" offset="0x18" visible="true" />
+		<float32 name="Danger Upper Threshold" offset="0x1C" visible="true" />
+		<rangef name="Cover Chance Bounds" offset="0x20" visible="true" />
+		<rangef name="Shielded Cover Chance" offset="0x28" visible="true" />
+		<float32 name="Cover Check Delay" offset="0x30" visible="true" />
+		<float32 name="Emerge Shield Threshold" offset="0x34" visible="true" />
+		<float32 name="Proximity Self Preserve" offset="0x38" visible="true" />
+		<float32 name="Proximity Melee Distance" offset="0x3C" visible="true" />
+		<float32 name="Unreachable Enemy Danger Threashold" offset="0x40" visible="true" />
+		<float32 name="Scary Target Threshold" offset="0x44" visible="true" />
+		<float32 name="Vitality Fraction Shield Equipment" offset="0x48" visible="true" />
+		<float32 name="Shield Equipment Vitality Fraction" offset="0x4C" visible="true" />
+		<float32 name="Recent Damage Shield Equipment" offset="0x50" visible="true" />
+	</tagblock>
+	<tagblock name="Retreat Properties" offset="0x108" visible="true" elementSize="0x58">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="ZigZagWhenFleeing" index="0" />
+		</flags32>
+		<float32 name="Shield Threshold" offset="0x4" visible="true" />
+		<float32 name="Scary Target Threshold" offset="0x8" visible="true" />
+		<float32 name="Danger Threshold" offset="0xC" visible="true" />
+		<float32 name="Proximity Threshold" offset="0x10" visible="true" />
+		<rangef name="Forced Cower Time Bounds" offset="0x14" visible="true" />
+		<rangef name="Cower Time Bounds" offset="0x1C" visible="true" />
+		<float32 name="Proximity Ambush Threshold" offset="0x24" visible="true" />
+		<float32 name="Awareness Ambush Threshold" offset="0x28" visible="true" />
+		<float32 name="Leader Dead Retreat Chance" offset="0x2C" visible="true" />
+		<float32 name="Peer Dead Retreat Chance" offset="0x30" visible="true" />
+		<float32 name="Second Peer Dead Retreat Chance" offset="0x34" visible="true" />
+		<float32 name="Flee Timeout" offset="0x38" visible="true" />
+		<degree name="Zig Zag Angle" offset="0x3C" visible="true" />
+		<float32 name="Zig Zag Period" offset="0x40" visible="true" />
+		<float32 name="Retreat Grenade Chance" offset="0x44" visible="true" />
+		<tagref name="Backup Weapon" offset="0x48" visible="true" />
+	</tagblock>
+	<tagblock name="Search Properties" offset="0x114" visible="true" elementSize="0x20">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="CrouchOnInvestigate" index="0" />
+			<bit name="WalkOnPursuit" index="1" />
+			<bit name="SearchForever" index="2" />
+			<bit name="SearchExclusively" index="3" />
+			<bit name="SearchPointsOnlyWhileWalking" index="4" />
+		</flags32>
+		<rangef name="Search Time" offset="0x4" visible="true" />
+		<float32 name="Search Distance" offset="0xC" visible="true" />
+		<rangef name="Uncover Distance Bounds" offset="0x10" visible="true" />
+		<float32 name="Orphan Offset" offset="0x18" visible="true" />
+		<float32 name="Minimum Offset" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Pre Search Properties" offset="0x120" visible="true" elementSize="0x28">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="Flag1" index="0" />
+		</flags32>
+		<rangef name="Minimum Pre Search Time" offset="0x4" visible="true" />
+		<rangef name="Maximum Pre Search Time" offset="0xC" visible="true" />
+		<float32 name="Minimum Certainty Radius" offset="0x14" visible="true" />
+		<float32 name="DEPRECATED" offset="0x18" visible="true" />
+		<rangef name="Minimum Suppressing Time" offset="0x1C" visible="true" />
+		<int16 name="Max Suppress Count" offset="0x24" visible="true" />
+		<uint8 name="Padding 0" offset="0x26" visible="false" />
+		<uint8 name="Padding 1" offset="0x27" visible="false" />
+	</tagblock>
+	<tagblock name="Idle Properties" offset="0x12C" visible="true" elementSize="0xC">
+		<uint8 name="Unused 0" offset="0x0" visible="false" />
+		<uint8 name="Unused 1" offset="0x1" visible="false" />
+		<uint8 name="Unused 2" offset="0x2" visible="false" />
+		<uint8 name="Unused 3" offset="0x3" visible="false" />
+		<rangef name="Idle Pose Delay Time" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Vocalization Properties" offset="0x138" visible="true" elementSize="0xC">
+		<float32 name="Character Skip Fraction" offset="0x0" visible="true" />
+		<float32 name="Look Comment Time" offset="0x4" visible="true" />
+		<float32 name="Look Long Comment Time" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Boarding Properties" offset="0x144" visible="true" elementSize="0x14">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="AirborneBoarding" index="0" />
+		</flags32>
+		<float32 name="Maximum Distance" offset="0x4" visible="true" />
+		<float32 name="Abort Distance" offset="0x8" visible="true" />
+		<float32 name="Maximum Speed" offset="0xC" visible="true" />
+		<float32 name="Board Time" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Guardian Properties" offset="0x150" visible="true" elementSize="0x18">
+		<float32 name="Surge Time" offset="0x0" visible="true" />
+		<float32 name="Surge Delay" offset="0x4" visible="true" />
+		<float32 name="Proximity Surge Distance" offset="0x8" visible="true" />
+		<float32 name="Phase Time" offset="0xC" visible="true" />
+		<float32 name="Min Phase Distance" offset="0x10" visible="true" />
+		<float32 name="Target Phase Distance" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Combatform Properties" offset="0x15C" visible="true" elementSize="0x8">
+		<float32 name="Berserk Distance" offset="0x0" visible="true" />
+		<float32 name="Berserk Chance" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Scarab Properties" offset="0x168" visible="true" elementSize="0x18">
+		<float32 name="Fighting Min Distance" offset="0x0" visible="true" />
+		<float32 name="Fighting Max Distance" offset="0x4" visible="true" />
+		<rangef name="Anticipated Aim Radius" offset="0x8" visible="true" />
+		<float32 name="Snap Forward Angle" offset="0x10" visible="true" />
+		<float32 name="Snap Forward Angle Max" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Weapons Properties" offset="0x174" visible="true" elementSize="0xE0">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="BurstingInhibitsMovement" index="0" />
+			<bit name="MustCrouchToShoot" index="1" />
+			<bit name="UseExtendedSafeToSaveRange" index="2" />
+			<bit name="FixedAimingVector" index="3" />
+			<bit name="AimAtFeet" index="4" />
+			<bit name="ForceAimFromBarrelPosition" index="5" />
+			<bit name="FavorForLongRange" index="6" />
+			<bit name="FavorForCloseRange" index="7" />
+			<bit name="FavorAgainstVehicles" index="8" />
+			<bit name="FavoredSpecialWeapon" index="9" />
+			<bit name="BurstingInhibitsEvasion" index="10" />
+		</flags32>
+		<tagref name="Weapon" offset="0x4" visible="true" />
+		<float32 name="Maximum Firing Range" offset="0x14" visible="true" />
+		<float32 name="Minimum Firing Range" offset="0x18" visible="true" />
+		<rangef name="Normal Combat Range" offset="0x1C" visible="true" />
+		<float32 name="Bombardment Range" offset="0x24" visible="true" />
+		<float32 name="Max Special Target Distance" offset="0x28" visible="true" />
+		<rangef name="Timid Combat Range" offset="0x2C" visible="true" />
+		<rangef name="Aggressive Combat Range" offset="0x34" visible="true" />
+		<float32 name="Super Ballistic Range" offset="0x3C" visible="true" />
+		<rangef name="Ballistic Firing Bounds" offset="0x40" visible="true" />
+		<rangef name="Ballistic Fraction Bounds" offset="0x48" visible="true" />
+		<rangef name="First Burst Delay Time Bounds" offset="0x50" visible="true" />
+		<float32 name="Surprise Delay Time" offset="0x58" visible="true" />
+		<float32 name="Surprise Fire Wildly Time" offset="0x5C" visible="true" />
+		<float32 name="Death Fire Wildly Chance" offset="0x60" visible="true" />
+		<float32 name="Death Fire Wildly Time" offset="0x64" visible="true" />
+		<vector3 name="Custom Stand Gun Offset" offset="0x68" visible="true" />
+		<vector3 name="Custom Crouch Gun Offset" offset="0x74" visible="true" />
+		<enum16 name="Special Fire Mode" offset="0x80" visible="true">
+			<option name="None" value="0" />
+			<option name="Overcharge" value="1" />
+			<option name="SecondaryTrigger" value="2" />
+		</enum16>
+		<enum16 name="Special Fire Situation" offset="0x82" visible="true">
+			<option name="Never" value="0" />
+			<option name="EnemyVisible" value="1" />
+			<option name="EnemyOutOfSight" value="2" />
+			<option name="Strafing" value="3" />
+		</enum16>
+		<float32 name="Special Fire Chance" offset="0x84" visible="true" />
+		<float32 name="Special Fire Delay" offset="0x88" visible="true" />
+		<float32 name="Special Damage Modifier" offset="0x8C" visible="true" />
+		<degree name="Special Projectile Error" offset="0x90" visible="true" />
+		<rangef name="Drop Weapon Loaded Bounds" offset="0x94" visible="true" />
+		<range16 name="Drop Weapon Ammo Bounds" offset="0x9C" visible="true" />
+		<rangef name="Normal Accuracy Bounds" offset="0xA0" visible="true" />
+		<float32 name="Normal Accuracy Time" offset="0xA8" visible="true" />
+		<rangef name="Heroic Accuracy Bounds" offset="0xAC" visible="true" />
+		<float32 name="Heroic Accuracy Time" offset="0xB4" visible="true" />
+		<rangef name="Legendary Accuracy Bounds" offset="0xB8" visible="true" />
+		<float32 name="Legendary Accuracy Time" offset="0xC0" visible="true" />
+		<tagblock name="Firing Patterns" offset="0xC4" visible="true" elementSize="0x40">
+			<float32 name="Rate Of Fire" offset="0x0" visible="true" />
+			<float32 name="Target Tracking" offset="0x4" visible="true" />
+			<float32 name="Target Leading" offset="0x8" visible="true" />
+			<float32 name="Burst Origin Radius" offset="0xC" visible="true" />
+			<degree name="Burst Origin Angle" offset="0x10" visible="true" />
+			<rangef name="Burst Return Length Bounds" offset="0x14" visible="true" />
+			<degree name="Burst Return Angle" offset="0x1C" visible="true" />
+			<rangef name="Burst Duration Bounds" offset="0x20" visible="true" />
+			<rangef name="Burst Separation Bounds" offset="0x28" visible="true" />
+			<float32 name="Weapon Damage Modifier" offset="0x30" visible="true" />
+			<degree name="Projectile Error" offset="0x34" visible="true" />
+			<degree name="Burst Angular Velocity" offset="0x38" visible="true" />
+			<degree name="Maximum Error Angle" offset="0x3C" visible="true" />
+		</tagblock>
+		<tagref name="Weapon Melee Damage" offset="0xD0" visible="true" />
+	</tagblock>
+	<tagblock name="Firing Pattern Properties" offset="0x180" visible="true" elementSize="0x1C">
+		<tagref name="Weapon" offset="0x0" visible="true" />
+		<tagblock name="Firing Patterns" offset="0x10" visible="true" elementSize="0x40">
+			<float32 name="Rate Of Fire" offset="0x0" visible="true" />
+			<float32 name="Target Tracking" offset="0x4" visible="true" />
+			<float32 name="Target Leading" offset="0x8" visible="true" />
+			<float32 name="Burst Origin Radius" offset="0xC" visible="true" />
+			<degree name="Burst Origin Angle" offset="0x10" visible="true" />
+			<rangef name="Burst Return Length Bounds" offset="0x14" visible="true" />
+			<degree name="Burst Return Angle" offset="0x1C" visible="true" />
+			<rangef name="Burst Duration Bounds" offset="0x20" visible="true" />
+			<rangef name="Burst Separation Bounds" offset="0x28" visible="true" />
+			<float32 name="Weapon Damage Modifier" offset="0x30" visible="true" />
+			<degree name="Projectile Error" offset="0x34" visible="true" />
+			<degree name="Burst Angular Velocity" offset="0x38" visible="true" />
+			<degree name="Maximum Error Angle" offset="0x3C" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Grenades Properties" offset="0x18C" visible="true" elementSize="0x3C">
+		<flags32 name="Grenades Flags" offset="0x0" visible="true">
+			<bit name="Flag1" index="0" />
+		</flags32>
+		<enum16 name="Grenade Type" offset="0x4" visible="true">
+			<option name="HumanFragmentation" value="0" />
+			<option name="CovenantPlasma" value="1" />
+			<option name="BruteClaymore" value="2" />
+			<option name="Firebomb" value="3" />
+		</enum16>
+		<enum16 name="Trajectory Type" offset="0x6" visible="true">
+			<option name="Toss" value="0" />
+			<option name="Lob" value="1" />
+			<option name="Bounce" value="2" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x8" visible="false" />
+		<uint8 name="Padding 1" offset="0x9" visible="false" />
+		<int16 name="Minimum Enemy Count" offset="0xA" visible="true" />
+		<float32 name="Enemy Radius" offset="0xC" visible="true" />
+		<float32 name="Grenade Ideal Velocity" offset="0x10" visible="true" />
+		<float32 name="Grenade Velocity" offset="0x14" visible="true" />
+		<rangef name="Grenade Range" offset="0x18" visible="true" />
+		<float32 name="Collateral Damage Radius" offset="0x20" visible="true" />
+		<float32 name="Grenade Chance" offset="0x24" visible="true" />
+		<float32 name="Grenade Throw Cooldown" offset="0x28" visible="true" />
+		<float32 name="Grenade Uncover Chance" offset="0x2C" visible="true" />
+		<float32 name="Anti Vehicle Grenade Chance" offset="0x30" visible="true" />
+		<range16 name="Grenade Count" offset="0x34" visible="true" />
+		<float32 name="No Grenades Dropped Chance" offset="0x38" visible="true" />
+	</tagblock>
+	<tagblock name="Vehicle Properties" offset="0x198" visible="true" elementSize="0xD0">
+		<tagref name="Unit" offset="0x0" visible="true" />
+		<tagref name="Style" offset="0x10" visible="true" />
+		<flags32 name="Flags" offset="0x20" visible="true">
+			<bit name="PassengersAdoptOriginalSquad" index="0" />
+			<bit name="SnapFacingToForwardghosts" index="1" />
+			<bit name="ThrottleToTargethornets" index="2" />
+			<bit name="StationaryFighttanks" index="3" />
+			<bit name="KeepMoving" index="4" />
+		</flags32>
+		<float32 name="Ai Pathfinding Radius" offset="0x24" visible="true" />
+		<float32 name="Ai Destination Radius" offset="0x28" visible="true" />
+		<float32 name="Ai Deceleration Distance" offset="0x2C" visible="true" />
+		<float32 name="Ai Turning Radius" offset="0x30" visible="true" />
+		<float32 name="Ai Inner Turning Radius" offset="0x34" visible="true" />
+		<float32 name="Ai Ideal Turning Radius" offset="0x38" visible="true" />
+		<degree name="Ai Banshee Steering Max Angle" offset="0x3C" visible="true" />
+		<float32 name="Ai Max Steering Angle" offset="0x40" visible="true" />
+		<float32 name="Ai Max Steering Delta" offset="0x44" visible="true" />
+		<float32 name="Ai Oversteering Scale" offset="0x48" visible="true" />
+		<ranged name="Ai Oversteering Bounds" offset="0x4C" visible="true" />
+		<float32 name="Ai Side Slip Distance" offset="0x54" visible="true" />
+		<float32 name="Ai Avoidance Distance" offset="0x58" visible="true" />
+		<float32 name="Ai Minimum Urgency" offset="0x5C" visible="true" />
+		<degree name="Destination Behind Angle" offset="0x60" visible="true" />
+		<float32 name="Skid Scale" offset="0x64" visible="true" />
+		<float32 name="Ai Throttle Maximum" offset="0x68" visible="true" />
+		<float32 name="Ai Goal Min Throttle Scale" offset="0x6C" visible="true" />
+		<float32 name="Ai Turn Min Throttle Scale" offset="0x70" visible="true" />
+		<float32 name="Ai Direction Minimum Throttle Scale" offset="0x74" visible="true" />
+		<float32 name="Ai Acceleration Scale" offset="0x78" visible="true" />
+		<float32 name="Ai Throttle Blend" offset="0x7C" visible="true" />
+		<float32 name="Theoretical Max Speed" offset="0x80" visible="true" />
+		<float32 name="Error Scale" offset="0x84" visible="true" />
+		<degree name="Ai Allowable Aim Deviation Angle" offset="0x88" visible="true" />
+		<float32 name="Ai Charge Tight Angle Distance" offset="0x8C" visible="true" />
+		<float32 name="Ai Charge Tight Angle" offset="0x90" visible="true" />
+		<float32 name="Ai Charge Repeat Timeout" offset="0x94" visible="true" />
+		<float32 name="Ai Charge Look Ahead Time" offset="0x98" visible="true" />
+		<float32 name="Ai Consider Distance" offset="0x9C" visible="true" />
+		<float32 name="Ai Charge Abort Distance" offset="0xA0" visible="true" />
+		<float32 name="Vehicle Ram Timeout" offset="0xA4" visible="true" />
+		<float32 name="Ram Paralysis Time" offset="0xA8" visible="true" />
+		<float32 name="Ai Cover Damage Threshold" offset="0xAC" visible="true" />
+		<float32 name="Ai Cover Minimum Distance" offset="0xB0" visible="true" />
+		<float32 name="Ai Cover Time" offset="0xB4" visible="true" />
+		<float32 name="Ai Cover Minimum Boost Distance" offset="0xB8" visible="true" />
+		<float32 name="Turtling Recent Damage Threshold" offset="0xBC" visible="true" />
+		<float32 name="Turtling Minimum Time" offset="0xC0" visible="true" />
+		<float32 name="Turtling Timeout" offset="0xC4" visible="true" />
+		<enum16 name="Obstacle Ignore Size" offset="0xC8" visible="true">
+			<option name="None" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0xCA" visible="false" />
+		<uint8 name="Padding 1" offset="0xCB" visible="false" />
+		<int16 name="Max Vehicle Charge" offset="0xCC" visible="true" />
+		<int16 name="Min Vehicle Charge" offset="0xCE" visible="true" />
+	</tagblock>
+	<tagblock name="Morph Properties" offset="0x1A4" visible="true" elementSize="0xE4">
+		<tagref name="Ranged Character" offset="0x0" visible="true" />
+		<tagref name="Tank Character" offset="0x10" visible="true" />
+		<tagref name="Stealth Character" offset="0x20" visible="true" />
+		<tagref name="Morph Muffins" offset="0x30" visible="true" />
+		<tagref name="Ranged Weapon" offset="0x40" visible="true" />
+		<tagref name="Tank Weapon" offset="0x50" visible="true" />
+		<tagref name="Stealth Weapon" offset="0x60" visible="true" />
+		<float32 name="Distance Damage Outer Radius" offset="0x70" visible="true" />
+		<float32 name="Distance Damage Inner Radius" offset="0x74" visible="true" />
+		<float32 name="Distance Damage Time" offset="0x78" visible="true" />
+		<float32 name="Distance Damage Reset Time" offset="0x7C" visible="true" />
+		<rangef name="Throttle Distance" offset="0x80" visible="true" />
+		<float32 name="Protect Damage Amount" offset="0x88" visible="true" />
+		<float32 name="Protect Time" offset="0x8C" visible="true" />
+		<tagref name="Spew Infection Character" offset="0x90" visible="true" />
+		<float32 name="Spew Chance" offset="0xA0" visible="true" />
+		<stringid name="Spew Marker" offset="0xA4" visible="true" />
+		<rangef name="Spew Frequency" offset="0xA8" visible="true" />
+		<float32 name="Stealth Morph Distance Threshold" offset="0xB0" visible="true" />
+		<float32 name="Stealth Morph Damage Threshold" offset="0xB4" visible="true" />
+		<float32 name="Stalk Range Min" offset="0xB8" visible="true" />
+		<float32 name="Stalk Range Max" offset="0xBC" visible="true" />
+		<float32 name="Stalk Range Hard Max" offset="0xC0" visible="true" />
+		<float32 name="Stalk Charge Chance" offset="0xC4" visible="true" />
+		<float32 name="Ranged Proximity Distance" offset="0xC8" visible="true" />
+		<float32 name="Turtle Damage Threshold" offset="0xCC" visible="true" />
+		<rangef name="Turtle Time" offset="0xD0" visible="true" />
+		<float32 name="Turtle Distance" offset="0xD8" visible="true" />
+		<float32 name="Turtle Abort Distance" offset="0xDC" visible="true" />
+		<float32 name="Group Morph Range" offset="0xE0" visible="true" />
+	</tagblock>
+	<tagblock name="Equipment Properties" offset="0x1B0" visible="true" elementSize="0x24">
+		<tagref name="Equipment" offset="0x0" visible="true" />
+		<flags32 name="Flags" offset="0x10" visible="true">
+			<bit name="DefaultEquipment" index="0" />
+		</flags32>
+		<float32 name="Relative Drop Chance" offset="0x14" visible="true" />
+		<tagblock name="Use Conditions" offset="0x18" visible="true" elementSize="0xC">
+			<enum16 name="Use When" offset="0x0" visible="true">
+				<option name="Combat" value="0" />
+				<option name="Cover" value="1" />
+				<option name="Shield" value="2" />
+				<option name="Health" value="3" />
+				<option name="Uncover" value="4" />
+				<option name="Berserk" value="5" />
+				<option name="Investigate" value="6" />
+				<option name="AntiVehicle" value="7" />
+			</enum16>
+			<enum16 name="Use How" offset="0x2" visible="true">
+				<option name="AttachToSelf" value="0" />
+				<option name="ThrowAtEnemy" value="1" />
+				<option name="ThrowAtFeet" value="2" />
+				<option name="UseOnSelf" value="3" />
+			</enum16>
+			<float32 name="Easynormal" offset="0x4" visible="true" />
+			<float32 name="Legendary" offset="0x8" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Campaign Metagame Bucket" offset="0x1BC" visible="true" elementSize="0x8">
+		<flags8 name="Flags" offset="0x0" visible="true">
+			<bit name="OnlyCountsWithRiders" index="0" />
+		</flags8>
+		<enum8 name="Type" offset="0x1" visible="true">
+			<option name="Brute" value="0" />
+			<option name="Grunt" value="1" />
+			<option name="Jackel" value="2" />
+			<option name="Marine" value="3" />
+			<option name="Bugger" value="4" />
+			<option name="Hunter" value="5" />
+			<option name="FloodInfection" value="6" />
+			<option name="FloodCarrier" value="7" />
+			<option name="FloodCombat" value="8" />
+			<option name="FloodPure" value="9" />
+			<option name="Sentinel" value="10" />
+			<option name="Elite" value="11" />
+			<option name="Turret" value="12" />
+			<option name="Mongoose" value="13" />
+			<option name="Warthog" value="14" />
+			<option name="Scorpion" value="15" />
+			<option name="Hornet" value="16" />
+			<option name="Pelican" value="17" />
+			<option name="Shade" value="18" />
+			<option name="Watchtower" value="19" />
+			<option name="Ghost" value="20" />
+			<option name="Chopper" value="21" />
+			<option name="Mauler" value="22" />
+			<option name="Wraith" value="23" />
+			<option name="Banshee" value="24" />
+			<option name="Phantom" value="25" />
+			<option name="Scarab" value="26" />
+			<option name="Guntower" value="27" />
+			<option name="Engineer" value="28" />
+			<option name="EngineerRechargeStation" value="29" />
+		</enum8>
+		<enum8 name="Class" offset="0x2" visible="true">
+			<option name="Infantry" value="0" />
+			<option name="Leader" value="1" />
+			<option name="Hero" value="2" />
+			<option name="Specialist" value="3" />
+			<option name="LightVehicle" value="4" />
+			<option name="HeavyVehicle" value="5" />
+			<option name="GiantVehicle" value="6" />
+			<option name="StandardVehicle" value="7" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x3" visible="false" />
+		<int16 name="Point Count" offset="0x4" visible="true" />
+		<uint8 name="Padding1 0" offset="0x6" visible="false" />
+		<uint8 name="Padding1 1" offset="0x7" visible="false" />
+	</tagblock>
+	<tagblock name="Activity Objects" offset="0x1C8" visible="true" elementSize="0x1C">
+		<stringid name="Activity Name" offset="0x0" visible="true" />
+		<tagref name="Crate" offset="0x4" visible="true" />
+		<stringid name="Crate Marker Name" offset="0x14" visible="true" />
+		<stringid name="Unit Marker Name" offset="0x18" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.VariantGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Map Variants" offset="0x0" visible="true" elementSize="0x128">
+		<dataref name="Metadata" offset="0x0" visible="true" />
+		<dataref name="Full Data" offset="0x14" visible="true" />
+		<ascii name="Filename" offset="0x28" visible="true" size="0x100" />
+	</tagblock>
+	<tagblock name="Game Variants" offset="0xC" visible="true" elementSize="0x128">
+		<dataref name="Metadata" offset="0x0" visible="true" />
+		<dataref name="Full Data" offset="0x14" visible="true" />
+		<ascii name="Filename" offset="0x28" visible="true" size="0x100" />
+	</tagblock>
+	<tagblock name="Fallback Hoppers" offset="0x18" visible="true" elementSize="0x114">
+		<dataref name="File Data" offset="0x0" visible="true" />
+		<ascii name="Filename" offset="0x14" visible="true" size="0x100" />
+	</tagblock>
+</plugin>

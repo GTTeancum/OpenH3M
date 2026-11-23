@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x60">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Loadscreen (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="ResolveTwoSided" index="0" />
+		<bit name="DoNotSortVertexOrder" index="1" />
+		<bit name="ParticlesSpawnRadially" index="2" />
+	</flags32>
+	<tagref name="Source Render Model" offset="0x4" visible="true" />
+	<float32 name="Spawn Rate Multiplier" offset="0x14" visible="true" />
+	<point3 name="Source Scan Position" offset="0x18" visible="true" />
+	<float32 name="Scale Factor" offset="0x24" visible="true" />
+	<point3 name="Camera Position" offset="0x28" visible="true" />
+	<point3 name="Camera Target Position" offset="0x34" visible="true" />
+	<float32 name="Camera Orbit Period" offset="0x40" visible="true" />
+	<float32 name="Particle Scale" offset="0x44" visible="true" />
+	<float32 name="Particle Acceleration" offset="0x48" visible="true" />
+	<float32 name="Particle Initial Offset Multiplier" offset="0x4C" visible="true" />
+	<int32 name="Computed Model Vertex Count" offset="0x50" visible="true" />
+	<tagblock name="Model Vertices" offset="0x54" visible="true" elementSize="0xC">
+		<point3 name="Point" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>

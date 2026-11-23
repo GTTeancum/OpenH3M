@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x14">
+	<!-- Generated from TagTool TagTool.Tools.Geometry.BMFHeader (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<uint32 name="Signature (group tag)" offset="0x0" visible="true" />
+	<enum32 name="Version" offset="0x4" visible="true">
+		<option name="Prototype" value="0" />
+	</enum32>
+	<flags32 name="Flags" offset="0x8" visible="true" />
+	<flags32 name="Content Flags" offset="0xC" visible="true">
+		<bit name="Mesh" index="0" />
+		<bit name="Nodes" index="1" />
+		<bit name="Markers" index="2" />
+		<bit name="Materials" index="3" />
+	</flags32>
+	<int32 name="Offset" offset="0x10" visible="true" />
+</plugin>

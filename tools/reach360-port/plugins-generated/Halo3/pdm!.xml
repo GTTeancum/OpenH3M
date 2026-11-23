@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.PodiumSettings (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Camera Offset X" offset="0x0" visible="true" />
+	<float32 name="Camera Offsset Y" offset="0x4" visible="true" />
+	<float32 name="Camera Offset Z" offset="0x8" visible="true" />
+	<degree name="Camera Orientation Y" offset="0xC" visible="true" />
+	<degree name="Camera Orientation P" offset="0x10" visible="true" />
+	<degree name="Camera Orientation R" offset="0x14" visible="true" />
+	<degree name="Camera Fov" offset="0x18" visible="true" />
+	<int32 name="Tick Delay" offset="0x1C" visible="true" />
+	<tagref name="Unknown" offset="0x20" visible="true" />
+	<tagblock name="Podium Bipeds" offset="0x30" visible="true" elementSize="0x2C">
+		<float32 name="Offset X" offset="0x0" visible="true" />
+		<float32 name="Offset Y" offset="0x4" visible="true" />
+		<float32 name="Offset Z" offset="0x8" visible="true" />
+		<degree name="Rotation I" offset="0xC" visible="true" />
+		<degree name="Rotation J" offset="0x10" visible="true" />
+		<degree name="Rotation K" offset="0x14" visible="true" />
+		<int32 name="Spawn Delay" offset="0x18" visible="true" />
+		<tagref name="Spawn Effect" offset="0x1C" visible="true" />
+	</tagblock>
+</plugin>

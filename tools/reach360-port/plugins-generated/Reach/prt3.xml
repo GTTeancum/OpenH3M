@@ -1,0 +1,1093 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1F0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Particle (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DiesAtRest" index="0" />
+		<bit name="DiesOnStructureCollision" index="1" />
+		<bit name="DiesInWater" index="2" />
+		<bit name="DiesInAir" index="3" />
+		<bit name="HasSweetener" index="4" />
+		<bit name="UseCheapShader" index="5" />
+		<bit name="NoAttachments" index="6" />
+		<bit name="HasAttachmentOnBirth" index="7" />
+		<bit name="HasAttachmentOnCollision" index="8" />
+		<bit name="HasAttachmentOnDeath" index="9" />
+	</flags32>
+	<tagblock name="Attachments" offset="0x4" visible="true" elementSize="0x14">
+		<tagref name="Type" offset="0x0" visible="true" />
+		<enum8 name="Trigger" offset="0x10" visible="true">
+			<option name="Birth" value="0" />
+			<option name="Collision" value="1" />
+			<option name="Death" value="2" />
+			<option name="FirstCollision" value="3" />
+		</enum8>
+		<uint8 name="Flags" offset="0x11" visible="true" />
+		<enum8 name="Primary Scale" offset="0x12" visible="true">
+			<option name="ParticleAge" value="0" />
+			<option name="SystemAgeEmitterAge" value="1" />
+			<option name="ParticleRandom" value="2" />
+			<option name="SystemRandomEmitterRandom" value="3" />
+			<option name="ParticleCorrelationRandom1" value="4" />
+			<option name="ParticleCorrelationRandom2" value="5" />
+			<option name="ParticleCorrelationRandom3" value="6" />
+			<option name="ParticleCorrelationRandom4" value="7" />
+			<option name="SystemCorrelationEmitterRandom1" value="8" />
+			<option name="SystemCorrelationEmitterRandom2" value="9" />
+			<option name="ParticleEmissionTimeEmitter" value="10" />
+			<option name="LocationLodSystemLod" value="11" />
+			<option name="GameTime" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="ParticleRotationPhysicsRotation" value="15" />
+			<option name="LocationRandom" value="16" />
+			<option name="DistanceFromEmitter" value="17" />
+			<option name="ExplosionAnimation" value="18" />
+			<option name="ExplosionRotation" value="19" />
+			<option name="Velocity" value="20" />
+			<option name="Random5" value="21" />
+			<option name="Random6" value="22" />
+			<option name="Random7" value="23" />
+			<option name="Random8" value="24" />
+			<option name="SystemRandom3" value="25" />
+			<option name="SystemRandom4" value="26" />
+			<option name="Invalid" value="255" />
+		</enum8>
+		<enum8 name="Secondary Scale" offset="0x13" visible="true">
+			<option name="ParticleAge" value="0" />
+			<option name="SystemAgeEmitterAge" value="1" />
+			<option name="ParticleRandom" value="2" />
+			<option name="SystemRandomEmitterRandom" value="3" />
+			<option name="ParticleCorrelationRandom1" value="4" />
+			<option name="ParticleCorrelationRandom2" value="5" />
+			<option name="ParticleCorrelationRandom3" value="6" />
+			<option name="ParticleCorrelationRandom4" value="7" />
+			<option name="SystemCorrelationEmitterRandom1" value="8" />
+			<option name="SystemCorrelationEmitterRandom2" value="9" />
+			<option name="ParticleEmissionTimeEmitter" value="10" />
+			<option name="LocationLodSystemLod" value="11" />
+			<option name="GameTime" value="12" />
+			<option name="EffectAScale" value="13" />
+			<option name="EffectBScale" value="14" />
+			<option name="ParticleRotationPhysicsRotation" value="15" />
+			<option name="LocationRandom" value="16" />
+			<option name="DistanceFromEmitter" value="17" />
+			<option name="ExplosionAnimation" value="18" />
+			<option name="ExplosionRotation" value="19" />
+			<option name="Velocity" value="20" />
+			<option name="Random5" value="21" />
+			<option name="Random6" value="22" />
+			<option name="Random7" value="23" />
+			<option name="Random8" value="24" />
+			<option name="SystemRandom3" value="25" />
+			<option name="SystemRandom4" value="26" />
+			<option name="Invalid" value="255" />
+		</enum8>
+	</tagblock>
+	<flags32 name="Appearance Flags Reach" offset="0x10" visible="true">
+		<bit name="RandomUMirror" index="0" />
+		<bit name="RandomVMirror" index="1" />
+		<bit name="RandomStartingRotation" index="2" />
+		<bit name="TintFromLightmap" index="3" />
+		<bit name="TintFromDiffuseTexture" index="4" />
+		<bit name="BitmapAuthoredVertically" index="5" />
+		<bit name="IntensityAffectsAlpha" index="6" />
+		<bit name="FadeWhenViewedEdgeOn" index="7" />
+		<bit name="MotionBlur" index="8" />
+		<bit name="DoubleSided" index="9" />
+		<bit name="LowRes" index="10" />
+		<bit name="LowResTighterMask" index="11" />
+		<bit name="Fogged" index="12" />
+		<bit name="LightmapLit" index="13" />
+		<bit name="DepthFadeActive" index="14" />
+		<bit name="DistortionActive" index="15" />
+		<bit name="LdrOnly" index="16" />
+		<bit name="IsParticleModel" index="17" />
+	</flags32>
+	<enum16 name="Particle Billboard Style" offset="0x14" visible="true">
+		<option name="ScreenFacing" value="0" />
+		<option name="CameraFacing" value="1" />
+		<option name="ParallelToDirection" value="2" />
+		<option name="PerpendicularToDirection" value="3" />
+		<option name="Vertical" value="4" />
+		<option name="Horizontal" value="5" />
+		<option name="LocalVertical" value="6" />
+		<option name="LocalHorizontal" value="7" />
+		<option name="WorldParticleModels" value="8" />
+		<option name="VelocityHorizontalParticleModels" value="9" />
+		<option name="Local" value="10" />
+	</enum16>
+	<int16 name="First Sequence Index" offset="0x16" visible="true" />
+	<int16 name="Sequence Count" offset="0x18" visible="true" />
+	<uint8 name="Version" offset="0x1A" visible="true" />
+	<uint8 name="Padding2 0" offset="0x1B" visible="false" />
+	<float32 name="Low Resolution Switch Distance" offset="0x1C" visible="true" />
+	<point2 name="Center Offset" offset="0x20" visible="true" />
+	<float32 name="Curvature" offset="0x28" visible="true" />
+	<float32 name="Angle Fade Range" offset="0x2C" visible="true" />
+	<float32 name="Angle Fade Cutoff" offset="0x30" visible="true" />
+	<float32 name="Motion Blur Translation Scale" offset="0x34" visible="true" />
+	<float32 name="Motion Blur Rotation Scale" offset="0x38" visible="true" />
+	<float32 name="Motion Blur Aspect Scale" offset="0x3C" visible="true" />
+	<tagref name="Render Method / Base Render Method" offset="0x40" visible="true" />
+	<tagref name="Render Method / Reference" offset="0x50" visible="true" />
+	<tagblock name="Render Method / Options" offset="0x60" visible="true" elementSize="0x2">
+		<int16 name="Option Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Render Method / Parameters" offset="0x6C" visible="true" elementSize="0x3C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum32 name="Parameter Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<tagref name="Bitmap" offset="0x8" visible="true" />
+		<float32 name="Real Value" offset="0x18" visible="true" />
+		<int32 name="Int Bool Value" offset="0x1C" visible="true" />
+		<int16 name="Bitmap Flags" offset="0x20" visible="true" />
+		<int16 name="Bitmap Filter Mode" offset="0x22" visible="true" />
+		<int16 name="Bitmap Address Mode" offset="0x24" visible="true" />
+		<int16 name="Bitmap Address Mode X" offset="0x26" visible="true" />
+		<int16 name="Bitmap Address Mode Y" offset="0x28" visible="true" />
+		<int16 name="Bitmap Anisotropy Amount" offset="0x2A" visible="true" />
+		<int16 name="Bitmap Extern RTT Mode" offset="0x2C" visible="true" />
+		<uint8 name="Padding 0" offset="0x2E" visible="false" />
+		<uint8 name="Padding 1" offset="0x2F" visible="false" />
+		<tagblock name="Animated Parameters" offset="0x30" visible="true" elementSize="0x24">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Value" value="0" />
+				<option name="Color" value="1" />
+				<option name="ScaleUniform" value="2" />
+				<option name="ScaleX" value="3" />
+				<option name="ScaleY" value="4" />
+				<option name="TranslationX" value="5" />
+				<option name="TranslationY" value="6" />
+				<option name="FrameIndex" value="7" />
+				<option name="Alpha" value="8" />
+				<option name="ChangeColorPrimary" value="9" />
+				<option name="ChangeColorSecondary" value="10" />
+				<option name="ChangeColorTertiary" value="11" />
+				<option name="ChangeColorQuaternary" value="12" />
+				<option name="ChangeColorQuinary" value="13" />
+			</enum32>
+			<stringid name="Input Name" offset="0x4" visible="true" />
+			<stringid name="Range Name" offset="0x8" visible="true" />
+			<float32 name="Time Period" offset="0xC" visible="true" />
+			<dataref name="Function / Data" offset="0x10" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Render Method / Shader Properties" offset="0x78" visible="true" elementSize="0xAC">
+		<tagref name="Template" offset="0x0" visible="true" />
+		<tagblock name="Texture Constants" offset="0x10" visible="true" elementSize="0x18">
+			<tagref name="Bitmap" offset="0x0" visible="true" />
+			<int16 name="Bitmap Index" offset="0x10" visible="true" />
+			<uint8 name="Sampler Address Mode / Sampler Address UV" offset="0x12" visible="true" />
+			<uint8 name="Filter Mode Packed / Filter Value" offset="0x13" visible="true" />
+			<enum8 name="Extern Texture Mode" offset="0x14" visible="true">
+				<option name="UseBitmapAsNormal" value="0" />
+				<option name="TextureCamera" value="1" />
+				<option name="ZCamera" value="2" />
+				<option name="Mirror" value="3" />
+				<option name="Refraction" value="4" />
+				<option name="Unused" value="5" />
+				<option name="Scope" value="6" />
+			</enum8>
+			<int8 name="Texture Transform Constant Index" offset="0x15" visible="true" />
+			<uint16 name="Texture Transform Overlay Indices / Integer" offset="0x16" visible="true" />
+		</tagblock>
+		<tagblock name="Real Constants" offset="0x1C" visible="true" elementSize="0x10">
+			<float32 name="Values 0" offset="0x0" visible="true" />
+			<float32 name="Values 1" offset="0x4" visible="true" />
+			<float32 name="Values 2" offset="0x8" visible="true" />
+			<float32 name="Values 3" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Integer Constants" offset="0x28" visible="true" elementSize="0x4">
+			<uint32 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<uint32 name="Boolean Constants" offset="0x34" visible="true" />
+		<tagblock name="Entry Points" offset="0x38" visible="true" elementSize="0x2">
+			<uint16 name="Integer" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Passes" offset="0x44" visible="true" elementSize="0x6">
+			<uint16 name="Texture / Integer" offset="0x0" visible="true" />
+			<uint16 name="Real Vertex / Integer" offset="0x2" visible="true" />
+			<uint16 name="Real Pixel / Integer" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Routing Info" offset="0x50" visible="true" elementSize="0x4">
+			<int16 name="Register Index" offset="0x0" visible="true" />
+			<uint8 name="Function Index" offset="0x2" visible="true" />
+			<uint8 name="Source Index" offset="0x3" visible="true" />
+		</tagblock>
+		<tagblock name="Functions" offset="0x5C" visible="true" elementSize="0x24">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Value" value="0" />
+				<option name="Color" value="1" />
+				<option name="ScaleUniform" value="2" />
+				<option name="ScaleX" value="3" />
+				<option name="ScaleY" value="4" />
+				<option name="TranslationX" value="5" />
+				<option name="TranslationY" value="6" />
+				<option name="FrameIndex" value="7" />
+				<option name="Alpha" value="8" />
+				<option name="ChangeColorPrimary" value="9" />
+				<option name="ChangeColorSecondary" value="10" />
+				<option name="ChangeColorTertiary" value="11" />
+				<option name="ChangeColorQuaternary" value="12" />
+				<option name="ChangeColorQuinary" value="13" />
+			</enum32>
+			<stringid name="Input Name" offset="0x4" visible="true" />
+			<stringid name="Range Name" offset="0x8" visible="true" />
+			<float32 name="Time Period" offset="0xC" visible="true" />
+			<dataref name="Function / Data" offset="0x10" visible="true" />
+		</tagblock>
+		<enum32 name="Blend Mode" offset="0x68" visible="true">
+			<option name="Opaque" value="0" />
+			<option name="Additive" value="1" />
+			<option name="Multiply" value="2" />
+			<option name="AlphaBlend" value="3" />
+			<option name="DoubleMultiply" value="4" />
+			<option name="PreMultipliedAlpha" value="5" />
+			<option name="Maximum" value="6" />
+			<option name="MultiplyAdd" value="7" />
+			<option name="AddSrcTimesDstalpha" value="8" />
+			<option name="AddSrcTimesSrcalpha" value="9" />
+			<option name="InverseAlphaBlend" value="10" />
+			<option name="MotionBlurStatic" value="11" />
+			<option name="MotionBlurInhibit" value="12" />
+		</enum32>
+		<flags32 name="Flags" offset="0x6C" visible="true">
+			<bit name="ForceSinglePass" index="0" />
+			<bit name="EnableAlphaTest" index="1" />
+			<bit name="SfxDistort_ForceAlphaBlend" index="2" />
+		</flags32>
+		<int32 name="Im So Fired Pad" offset="0x70" visible="true" />
+		<int16 name="Queryable Properties Reach 0" offset="0x74" visible="true" />
+		<int16 name="Queryable Properties Reach 1" offset="0x76" visible="true" />
+		<int16 name="Queryable Properties Reach 2" offset="0x78" visible="true" />
+		<int16 name="Queryable Properties Reach 3" offset="0x7A" visible="true" />
+		<int16 name="Queryable Properties Reach 4" offset="0x7C" visible="true" />
+		<int16 name="Queryable Properties Reach 5" offset="0x7E" visible="true" />
+		<int16 name="Queryable Properties Reach 6" offset="0x80" visible="true" />
+		<int16 name="Queryable Properties Reach 7" offset="0x82" visible="true" />
+		<int16 name="Queryable Properties Reach 8" offset="0x84" visible="true" />
+		<int16 name="Queryable Properties Reach 9" offset="0x86" visible="true" />
+		<int16 name="Queryable Properties Reach 10" offset="0x88" visible="true" />
+		<int16 name="Queryable Properties Reach 11" offset="0x8A" visible="true" />
+		<int16 name="Queryable Properties Reach 12" offset="0x8C" visible="true" />
+		<int16 name="Queryable Properties Reach 13" offset="0x8E" visible="true" />
+		<int16 name="Queryable Properties Reach 14" offset="0x90" visible="true" />
+		<int16 name="Queryable Properties Reach 15" offset="0x92" visible="true" />
+		<int16 name="Queryable Properties Reach 16" offset="0x94" visible="true" />
+		<int16 name="Queryable Properties Reach 17" offset="0x96" visible="true" />
+		<int16 name="Queryable Properties Reach 18" offset="0x98" visible="true" />
+		<int16 name="Queryable Properties Reach 19" offset="0x9A" visible="true" />
+		<int16 name="Queryable Properties Reach 20" offset="0x9C" visible="true" />
+		<int16 name="Queryable Properties Reach 21" offset="0x9E" visible="true" />
+		<int16 name="Queryable Properties Reach 22" offset="0xA0" visible="true" />
+		<int16 name="Queryable Properties Reach 23" offset="0xA2" visible="true" />
+		<int16 name="Queryable Properties Reach 24" offset="0xA4" visible="true" />
+		<int16 name="Queryable Properties Reach 25" offset="0xA6" visible="true" />
+		<int16 name="Queryable Properties Reach 26" offset="0xA8" visible="true" />
+		<int16 name="Queryable Properties Reach 27" offset="0xAA" visible="true" />
+	</tagblock>
+	<uint32 name="Render Method / Is Template" offset="0x84" visible="true" />
+	<int32 name="Render Method / Locked Options" offset="0x88" visible="true" />
+	<tagblock name="Render Method / Locked Parameters" offset="0x8C" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum32 name="Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<uint32 name="Flags" offset="0x8" visible="true" />
+	</tagblock>
+	<flags16 name="Render Method / Render Flags" offset="0x98" visible="true">
+		<bit name="IgnoreFog" index="0" />
+		<bit name="UseSkyAtmosphereProperties" index="1" />
+		<bit name="UsesDepthCamera" index="2" />
+	</flags16>
+	<enum8 name="Render Method / Sort Layer" offset="0x9A" visible="true">
+		<option name="Invalid" value="0" />
+		<option name="PrePass" value="1" />
+		<option name="Normal" value="2" />
+		<option name="PostPass" value="3" />
+	</enum8>
+	<uint8 name="Render Method / Version" offset="0x9B" visible="true" />
+	<int32 name="Render Method / Custom Fog Setting Index" offset="0x9C" visible="true" />
+	<int32 name="Render Method / Prediction Atom Index" offset="0xA0" visible="true" />
+	<colorf name="Bright Tint" offset="0xA4" alpha="false" visible="true" />
+	<colorf name="Ambient Tint" offset="0xB0" alpha="false" visible="true" />
+	<float32 name="Contrast" offset="0xBC" visible="true" />
+	<float32 name="Blur Weight" offset="0xC0" visible="true" />
+	<float32 name="Intensity Scale" offset="0xC4" visible="true" />
+	<tagref name="Palette" offset="0xC8" visible="true" />
+	<enum8 name="Aspect Ratio / Input Variable" offset="0xD8" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Aspect Ratio / Range Variable" offset="0xD9" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Aspect Ratio / Output Modifier" offset="0xDA" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Aspect Ratio / Output Modifier Input" offset="0xDB" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Aspect Ratio / Function / Data" offset="0xDC" visible="true" />
+	<float32 name="Aspect Ratio / Runtime M Constant Value" offset="0xF0" visible="true" />
+	<uint16 name="Aspect Ratio / Runtime M Flags Reach" offset="0xF4" visible="true" />
+	<flags8 name="Aspect Ratio / Force Flags" offset="0xF6" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Aspect Ratio / Padding2 0" offset="0xF7" visible="false" />
+	<enum8 name="Color / Input Variable" offset="0xF8" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Color / Range Variable" offset="0xF9" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Color / Output Modifier" offset="0xFA" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Color / Output Modifier Input" offset="0xFB" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Color / Function / Data" offset="0xFC" visible="true" />
+	<float32 name="Color / Runtime M Constant Value" offset="0x110" visible="true" />
+	<uint16 name="Color / Runtime M Flags Reach" offset="0x114" visible="true" />
+	<flags8 name="Color / Force Flags" offset="0x116" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Color / Padding2 0" offset="0x117" visible="false" />
+	<enum8 name="Intensity / Input Variable" offset="0x118" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Intensity / Range Variable" offset="0x119" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Intensity / Output Modifier" offset="0x11A" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Intensity / Output Modifier Input" offset="0x11B" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Intensity / Function / Data" offset="0x11C" visible="true" />
+	<float32 name="Intensity / Runtime M Constant Value" offset="0x130" visible="true" />
+	<uint16 name="Intensity / Runtime M Flags Reach" offset="0x134" visible="true" />
+	<flags8 name="Intensity / Force Flags" offset="0x136" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Intensity / Padding2 0" offset="0x137" visible="false" />
+	<enum8 name="Alpha / Input Variable" offset="0x138" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Alpha / Range Variable" offset="0x139" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Alpha / Output Modifier" offset="0x13A" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Alpha / Output Modifier Input" offset="0x13B" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Alpha / Function / Data" offset="0x13C" visible="true" />
+	<float32 name="Alpha / Runtime M Constant Value" offset="0x150" visible="true" />
+	<uint16 name="Alpha / Runtime M Flags Reach" offset="0x154" visible="true" />
+	<flags8 name="Alpha / Force Flags" offset="0x156" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Alpha / Padding2 0" offset="0x157" visible="false" />
+	<flags32 name="Animation Flags" offset="0x158" visible="true">
+		<bit name="FrameAnimationOneShot" index="0" />
+		<bit name="CanAnimateBackwards" index="1" />
+		<bit name="DisableFrameBlending" index="2" />
+		<bit name="Bit3" index="3" />
+	</flags32>
+	<enum8 name="Frame Index / Input Variable" offset="0x15C" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Frame Index / Range Variable" offset="0x15D" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Frame Index / Output Modifier" offset="0x15E" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Frame Index / Output Modifier Input" offset="0x15F" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Frame Index / Function / Data" offset="0x160" visible="true" />
+	<float32 name="Frame Index / Runtime M Constant Value" offset="0x174" visible="true" />
+	<uint16 name="Frame Index / Runtime M Flags Reach" offset="0x178" visible="true" />
+	<flags8 name="Frame Index / Force Flags" offset="0x17A" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Frame Index / Padding2 0" offset="0x17B" visible="false" />
+	<enum8 name="Animation Rate / Input Variable" offset="0x17C" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Animation Rate / Range Variable" offset="0x17D" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Animation Rate / Output Modifier" offset="0x17E" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Animation Rate / Output Modifier Input" offset="0x17F" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Animation Rate / Function / Data" offset="0x180" visible="true" />
+	<float32 name="Animation Rate / Runtime M Constant Value" offset="0x194" visible="true" />
+	<uint16 name="Animation Rate / Runtime M Flags Reach" offset="0x198" visible="true" />
+	<flags8 name="Animation Rate / Force Flags" offset="0x19A" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Animation Rate / Padding2 0" offset="0x19B" visible="false" />
+	<enum8 name="Palette Animation / Input Variable" offset="0x19C" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Palette Animation / Range Variable" offset="0x19D" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<enum8 name="Palette Animation / Output Modifier" offset="0x19E" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum8>
+	<enum8 name="Palette Animation / Output Modifier Input" offset="0x19F" visible="true">
+		<option name="ParticleAge" value="0" />
+		<option name="SystemAgeEmitterAge" value="1" />
+		<option name="ParticleRandom" value="2" />
+		<option name="SystemRandomEmitterRandom" value="3" />
+		<option name="ParticleCorrelationRandom1" value="4" />
+		<option name="ParticleCorrelationRandom2" value="5" />
+		<option name="ParticleCorrelationRandom3" value="6" />
+		<option name="ParticleCorrelationRandom4" value="7" />
+		<option name="SystemCorrelationEmitterRandom1" value="8" />
+		<option name="SystemCorrelationEmitterRandom2" value="9" />
+		<option name="ParticleEmissionTimeEmitter" value="10" />
+		<option name="LocationLodSystemLod" value="11" />
+		<option name="GameTime" value="12" />
+		<option name="EffectAScale" value="13" />
+		<option name="EffectBScale" value="14" />
+		<option name="ParticleRotationPhysicsRotation" value="15" />
+		<option name="LocationRandom" value="16" />
+		<option name="DistanceFromEmitter" value="17" />
+		<option name="ExplosionAnimation" value="18" />
+		<option name="ExplosionRotation" value="19" />
+		<option name="Velocity" value="20" />
+		<option name="Random5" value="21" />
+		<option name="Random6" value="22" />
+		<option name="Random7" value="23" />
+		<option name="Random8" value="24" />
+		<option name="SystemRandom3" value="25" />
+		<option name="SystemRandom4" value="26" />
+		<option name="Invalid" value="255" />
+	</enum8>
+	<dataref name="Palette Animation / Function / Data" offset="0x1A0" visible="true" />
+	<float32 name="Palette Animation / Runtime M Constant Value" offset="0x1B4" visible="true" />
+	<uint16 name="Palette Animation / Runtime M Flags Reach" offset="0x1B8" visible="true" />
+	<flags8 name="Palette Animation / Force Flags" offset="0x1BA" visible="true">
+		<bit name="ForceConstant" index="0" />
+	</flags8>
+	<uint8 name="Palette Animation / Padding2 0" offset="0x1BB" visible="false" />
+	<tagref name="Particle Model" offset="0x1BC" visible="true" />
+	<flags32 name="Runtime M Used Particle States" offset="0x1CC" visible="true">
+		<bit name="Age" index="0" />
+		<bit name="SystemAge" index="1" />
+		<bit name="RandomSeed" index="2" />
+		<bit name="SystemRandomSeed" index="3" />
+		<bit name="Random1" index="4" />
+		<bit name="Random2" index="5" />
+		<bit name="Random3" index="6" />
+		<bit name="Random4" index="7" />
+		<bit name="SystemRandom1" index="8" />
+		<bit name="SystemRandom2" index="9" />
+		<bit name="SystemTime" index="10" />
+		<bit name="SystemLod" index="11" />
+		<bit name="GameTime" index="12" />
+		<bit name="EffectAScale" index="13" />
+		<bit name="EffectBScale" index="14" />
+		<bit name="PhysicsRotation" index="15" />
+		<bit name="LocationRandom" index="16" />
+		<bit name="DistanceFromEmitter" index="17" />
+		<bit name="SimulationA" index="18" />
+		<bit name="SimulationB" index="19" />
+		<bit name="Velocity" index="20" />
+		<bit name="Random5" index="21" />
+		<bit name="Random6" index="22" />
+		<bit name="Random7" index="23" />
+		<bit name="Random8" index="24" />
+		<bit name="SystemRandom3" index="25" />
+		<bit name="SystemRandom4" index="26" />
+	</flags32>
+	<int32 name="Runtime M Constant Per Particle Properties" offset="0x1D0" visible="true" />
+	<int32 name="Runtime M Constant Over Time Properties" offset="0x1D4" visible="true" />
+	<tagblock name="Runtime M Sprites" offset="0x1D8" visible="true" elementSize="0x10">
+		<float32 name="Runtime Gpu Sprite Array 0" offset="0x0" visible="true" />
+		<float32 name="Runtime Gpu Sprite Array 1" offset="0x4" visible="true" />
+		<float32 name="Runtime Gpu Sprite Array 2" offset="0x8" visible="true" />
+		<float32 name="Runtime Gpu Sprite Array 3" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Runtime M Frames" offset="0x1E4" visible="true" elementSize="0x10">
+		<float32 name="Runtime M Count 0" offset="0x0" visible="true" />
+		<float32 name="Runtime M Count 1" offset="0x4" visible="true" />
+		<float32 name="Runtime M Count 2" offset="0x8" visible="true" />
+		<float32 name="Runtime M Count 3" offset="0xC" visible="true" />
+	</tagblock>
+</plugin>

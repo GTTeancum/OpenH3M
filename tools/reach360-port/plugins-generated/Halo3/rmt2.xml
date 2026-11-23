@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x84">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.RenderMethodTemplate (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Vertex Shader" offset="0x0" visible="true" />
+	<tagref name="Pixel Shader" offset="0x10" visible="true" />
+	<flags32 name="Valid Entry Points" offset="0x20" visible="true">
+		<bit name="Default" index="0" />
+		<bit name="Albedo" index="1" />
+		<bit name="Static_Default" index="2" />
+		<bit name="Static_Per_Pixel" index="3" />
+		<bit name="Static_Per_Vertex" index="4" />
+		<bit name="Static_Sh" index="5" />
+		<bit name="Static_Prt_Ambient" index="6" />
+		<bit name="Static_Prt_Linear" index="7" />
+		<bit name="Static_Prt_Quadratic" index="8" />
+		<bit name="Dynamic_Light" index="9" />
+		<bit name="Shadow_Generate" index="10" />
+		<bit name="Shadow_Apply" index="11" />
+		<bit name="Active_Camo" index="12" />
+		<bit name="Lightmap_Debug_Mode" index="13" />
+		<bit name="Static_Per_Vertex_Color" index="14" />
+		<bit name="Water_Tessellation" index="15" />
+		<bit name="Water_Shading" index="16" />
+		<bit name="Dynamic_Light_Cinematic" index="17" />
+		<bit name="Z_Only" index="18" />
+		<bit name="Sfx_Distort" index="19" />
+	</flags32>
+	<tagblock name="Entry Points" offset="0x24" visible="true" elementSize="0x2">
+		<uint16 name="Integer" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Passes" offset="0x30" visible="true" elementSize="0x1C">
+		<uint16 name="Values 0 / Integer" offset="0x0" visible="true" />
+		<uint16 name="Values 1 / Integer" offset="0x2" visible="true" />
+		<uint16 name="Values 2 / Integer" offset="0x4" visible="true" />
+		<uint16 name="Values 3 / Integer" offset="0x6" visible="true" />
+		<uint16 name="Values 4 / Integer" offset="0x8" visible="true" />
+		<uint16 name="Values 5 / Integer" offset="0xA" visible="true" />
+		<uint16 name="Values 6 / Integer" offset="0xC" visible="true" />
+		<uint16 name="Values 7 / Integer" offset="0xE" visible="true" />
+		<uint16 name="Values 8 / Integer" offset="0x10" visible="true" />
+		<uint16 name="Values 9 / Integer" offset="0x12" visible="true" />
+		<uint16 name="Values 10 / Integer" offset="0x14" visible="true" />
+		<uint16 name="Values 11 / Integer" offset="0x16" visible="true" />
+		<int16 name="Pixel Parameters Size" offset="0x18" visible="true" />
+		<int16 name="Vertex Parameters Size" offset="0x1A" visible="true" />
+	</tagblock>
+	<tagblock name="Routing Info" offset="0x3C" visible="true" elementSize="0x4">
+		<uint16 name="Destination Index" offset="0x0" visible="true" />
+		<uint8 name="Source Index" offset="0x2" visible="true" />
+		<uint8 name="Flags" offset="0x3" visible="true" />
+	</tagblock>
+	<tagblock name="Real Parameter Names" offset="0x48" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Integer Parameter Names" offset="0x54" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Boolean Parameter Names" offset="0x60" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Texture Parameter Names" offset="0x6C" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Other Platforms" offset="0x78" visible="true" elementSize="0x78">
+		<tagref name="Vertex Shader" offset="0x0" visible="true" />
+		<tagref name="Pixel Shader" offset="0x10" visible="true" />
+		<flags32 name="Valid Entry Points" offset="0x20" visible="true">
+			<bit name="Default" index="0" />
+			<bit name="Albedo" index="1" />
+			<bit name="Static_Default" index="2" />
+			<bit name="Static_Per_Pixel" index="3" />
+			<bit name="Static_Per_Vertex" index="4" />
+			<bit name="Static_Sh" index="5" />
+			<bit name="Static_Prt_Ambient" index="6" />
+			<bit name="Static_Prt_Linear" index="7" />
+			<bit name="Static_Prt_Quadratic" index="8" />
+			<bit name="Dynamic_Light" index="9" />
+			<bit name="Shadow_Generate" index="10" />
+			<bit name="Shadow_Apply" index="11" />
+			<bit name="Active_Camo" index="12" />
+			<bit name="Lightmap_Debug_Mode" index="13" />
+			<bit name="Static_Per_Vertex_Color" index="14" />
+			<bit name="Water_Tessellation" index="15" />
+			<bit name="Water_Shading" index="16" />
+			<bit name="Dynamic_Light_Cinematic" index="17" />
+			<bit name="Z_Only" index="18" />
+			<bit name="Sfx_Distort" index="19" />
+		</flags32>
+		<tagblock name="Entry Points" offset="0x24" visible="true" elementSize="0x2">
+			<uint16 name="Integer" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Passes" offset="0x30" visible="true" elementSize="0x1C">
+			<uint16 name="Values 0 / Integer" offset="0x0" visible="true" />
+			<uint16 name="Values 1 / Integer" offset="0x2" visible="true" />
+			<uint16 name="Values 2 / Integer" offset="0x4" visible="true" />
+			<uint16 name="Values 3 / Integer" offset="0x6" visible="true" />
+			<uint16 name="Values 4 / Integer" offset="0x8" visible="true" />
+			<uint16 name="Values 5 / Integer" offset="0xA" visible="true" />
+			<uint16 name="Values 6 / Integer" offset="0xC" visible="true" />
+			<uint16 name="Values 7 / Integer" offset="0xE" visible="true" />
+			<uint16 name="Values 8 / Integer" offset="0x10" visible="true" />
+			<uint16 name="Values 9 / Integer" offset="0x12" visible="true" />
+			<uint16 name="Values 10 / Integer" offset="0x14" visible="true" />
+			<uint16 name="Values 11 / Integer" offset="0x16" visible="true" />
+			<int16 name="Pixel Parameters Size" offset="0x18" visible="true" />
+			<int16 name="Vertex Parameters Size" offset="0x1A" visible="true" />
+		</tagblock>
+		<tagblock name="Routing Info" offset="0x3C" visible="true" elementSize="0x4">
+			<uint16 name="Destination Index" offset="0x0" visible="true" />
+			<uint8 name="Source Index" offset="0x2" visible="true" />
+			<uint8 name="Flags" offset="0x3" visible="true" />
+		</tagblock>
+		<tagblock name="Real Parameter Names" offset="0x48" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Integer Parameter Names" offset="0x54" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Boolean Parameter Names" offset="0x60" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Texture Parameter Names" offset="0x6C" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

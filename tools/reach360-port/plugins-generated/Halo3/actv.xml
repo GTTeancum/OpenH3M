@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x238">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.ActorVariant (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="CanShootWhileFlying" index="0" />
+		<bit name="InterpolateColorInHsv" index="1" />
+		<bit name="HasUnlimitedGrenades" index="2" />
+		<bit name="MoveswitchStayWFriends" index="3" />
+		<bit name="ActiveCamouflage" index="4" />
+		<bit name="SuperActiveCamouflage" index="5" />
+		<bit name="CannotUseRangedWeapons" index="6" />
+		<bit name="PreferPassengerSeat" index="7" />
+	</flags32>
+	<tagref name="Actor Definition" offset="0x4" visible="true" />
+	<tagref name="Unit" offset="0x14" visible="true" />
+	<tagref name="Major Variant" offset="0x24" visible="true" />
+	<uint8 name="Padding 0" offset="0x34" visible="false" />
+	<uint8 name="Padding 1" offset="0x35" visible="false" />
+	<uint8 name="Padding 2" offset="0x36" visible="false" />
+	<uint8 name="Padding 3" offset="0x37" visible="false" />
+	<uint8 name="Padding 4" offset="0x38" visible="false" />
+	<uint8 name="Padding 5" offset="0x39" visible="false" />
+	<uint8 name="Padding 6" offset="0x3A" visible="false" />
+	<uint8 name="Padding 7" offset="0x3B" visible="false" />
+	<uint8 name="Padding 8" offset="0x3C" visible="false" />
+	<uint8 name="Padding 9" offset="0x3D" visible="false" />
+	<uint8 name="Padding 10" offset="0x3E" visible="false" />
+	<uint8 name="Padding 11" offset="0x3F" visible="false" />
+	<uint8 name="Padding 12" offset="0x40" visible="false" />
+	<uint8 name="Padding 13" offset="0x41" visible="false" />
+	<uint8 name="Padding 14" offset="0x42" visible="false" />
+	<uint8 name="Padding 15" offset="0x43" visible="false" />
+	<uint8 name="Padding 16" offset="0x44" visible="false" />
+	<uint8 name="Padding 17" offset="0x45" visible="false" />
+	<uint8 name="Padding 18" offset="0x46" visible="false" />
+	<uint8 name="Padding 19" offset="0x47" visible="false" />
+	<uint8 name="Padding 20" offset="0x48" visible="false" />
+	<uint8 name="Padding 21" offset="0x49" visible="false" />
+	<uint8 name="Padding 22" offset="0x4A" visible="false" />
+	<uint8 name="Padding 23" offset="0x4B" visible="false" />
+	<enum16 name="Movement Type" offset="0x4C" visible="true">
+		<option name="AlwaysRun" value="0" />
+		<option name="AlwaysCrouch" value="1" />
+		<option name="SwitchTypes" value="2" />
+	</enum16>
+	<uint8 name="Padding1 0" offset="0x4E" visible="false" />
+	<uint8 name="Padding1 1" offset="0x4F" visible="false" />
+	<float32 name="Initial Crouch Chance" offset="0x50" visible="true" />
+	<rangef name="Crouch Time" offset="0x54" visible="true" />
+	<rangef name="Run Time" offset="0x5C" visible="true" />
+	<tagref name="Weapon" offset="0x64" visible="true" />
+	<float32 name="Maximum Firing Distance" offset="0x74" visible="true" />
+	<float32 name="Rate Of Fire" offset="0x78" visible="true" />
+	<degree name="Projectile Error" offset="0x7C" visible="true" />
+	<rangef name="First Burst Delay Time" offset="0x80" visible="true" />
+	<float32 name="New Target Firing Pattern Time" offset="0x88" visible="true" />
+	<float32 name="Surprise Delay Time" offset="0x8C" visible="true" />
+	<float32 name="Surprise Fire Wildly Time" offset="0x90" visible="true" />
+	<float32 name="Death Fire Wildly Chance" offset="0x94" visible="true" />
+	<float32 name="Death Fire Wildly Time" offset="0x98" visible="true" />
+	<rangef name="Desired Combat Range" offset="0x9C" visible="true" />
+	<vector3 name="Custom Stand Gun Offset" offset="0xA4" visible="true" />
+	<vector3 name="Custom Crouch Gun Offset" offset="0xB0" visible="true" />
+	<float32 name="Target Tracking" offset="0xBC" visible="true" />
+	<float32 name="Target Leading" offset="0xC0" visible="true" />
+	<float32 name="Weapon Damage Modifier" offset="0xC4" visible="true" />
+	<float32 name="Damage Per Second" offset="0xC8" visible="true" />
+	<float32 name="Burst Origin Radius" offset="0xCC" visible="true" />
+	<degree name="Burst Origin Angle" offset="0xD0" visible="true" />
+	<rangef name="Burst Return Length" offset="0xD4" visible="true" />
+	<degree name="Burst Return Angle" offset="0xDC" visible="true" />
+	<rangef name="Burst Duration" offset="0xE0" visible="true" />
+	<rangef name="Burst Separation" offset="0xE8" visible="true" />
+	<degree name="Burst Angular Velocity" offset="0xF0" visible="true" />
+	<uint8 name="Padding2 0" offset="0xF4" visible="false" />
+	<uint8 name="Padding2 1" offset="0xF5" visible="false" />
+	<uint8 name="Padding2 2" offset="0xF6" visible="false" />
+	<uint8 name="Padding2 3" offset="0xF7" visible="false" />
+	<float32 name="Special Damage Modifier" offset="0xF8" visible="true" />
+	<degree name="Special Projectile Error" offset="0xFC" visible="true" />
+	<float32 name="New Target Burst Duration" offset="0x100" visible="true" />
+	<float32 name="New Target Burst Separation" offset="0x104" visible="true" />
+	<float32 name="New Target Rate Of Fire" offset="0x108" visible="true" />
+	<float32 name="New Target Projectile Error" offset="0x10C" visible="true" />
+	<uint8 name="Padding3 0" offset="0x110" visible="false" />
+	<uint8 name="Padding3 1" offset="0x111" visible="false" />
+	<uint8 name="Padding3 2" offset="0x112" visible="false" />
+	<uint8 name="Padding3 3" offset="0x113" visible="false" />
+	<uint8 name="Padding3 4" offset="0x114" visible="false" />
+	<uint8 name="Padding3 5" offset="0x115" visible="false" />
+	<uint8 name="Padding3 6" offset="0x116" visible="false" />
+	<uint8 name="Padding3 7" offset="0x117" visible="false" />
+	<float32 name="Moving Burst Duration" offset="0x118" visible="true" />
+	<float32 name="Moving Burst Separation" offset="0x11C" visible="true" />
+	<float32 name="Moving Rate Of Fire" offset="0x120" visible="true" />
+	<float32 name="Moving Projectile Error" offset="0x124" visible="true" />
+	<uint8 name="Padding4 0" offset="0x128" visible="false" />
+	<uint8 name="Padding4 1" offset="0x129" visible="false" />
+	<uint8 name="Padding4 2" offset="0x12A" visible="false" />
+	<uint8 name="Padding4 3" offset="0x12B" visible="false" />
+	<uint8 name="Padding4 4" offset="0x12C" visible="false" />
+	<uint8 name="Padding4 5" offset="0x12D" visible="false" />
+	<uint8 name="Padding4 6" offset="0x12E" visible="false" />
+	<uint8 name="Padding4 7" offset="0x12F" visible="false" />
+	<float32 name="Berserk Burst Duration" offset="0x130" visible="true" />
+	<float32 name="Berserk Burst Separation" offset="0x134" visible="true" />
+	<float32 name="Berserk Rate Of Fire" offset="0x138" visible="true" />
+	<float32 name="Berserk Projectile Error" offset="0x13C" visible="true" />
+	<uint8 name="Padding5 0" offset="0x140" visible="false" />
+	<uint8 name="Padding5 1" offset="0x141" visible="false" />
+	<uint8 name="Padding5 2" offset="0x142" visible="false" />
+	<uint8 name="Padding5 3" offset="0x143" visible="false" />
+	<uint8 name="Padding5 4" offset="0x144" visible="false" />
+	<uint8 name="Padding5 5" offset="0x145" visible="false" />
+	<uint8 name="Padding5 6" offset="0x146" visible="false" />
+	<uint8 name="Padding5 7" offset="0x147" visible="false" />
+	<float32 name="Super Ballistic Range" offset="0x148" visible="true" />
+	<float32 name="Bombardment Range" offset="0x14C" visible="true" />
+	<float32 name="Modified Vision Range" offset="0x150" visible="true" />
+	<enum16 name="Special Fire Mode" offset="0x154" visible="true">
+		<option name="None" value="0" />
+		<option name="Overcharge" value="1" />
+		<option name="SecondaryTrigger" value="2" />
+	</enum16>
+	<enum16 name="Special Fire Situation" offset="0x156" visible="true">
+		<option name="Never" value="0" />
+		<option name="EnemyVisible" value="1" />
+		<option name="EnemyOutOfSight" value="2" />
+		<option name="Strafing" value="3" />
+	</enum16>
+	<float32 name="Special Fire Chance" offset="0x158" visible="true" />
+	<float32 name="Special Fire Delay" offset="0x15C" visible="true" />
+	<float32 name="Melee Range" offset="0x160" visible="true" />
+	<float32 name="Melee Abort Range" offset="0x164" visible="true" />
+	<rangef name="Berserk Firing Ranges" offset="0x168" visible="true" />
+	<float32 name="Berserk Melee Range" offset="0x170" visible="true" />
+	<float32 name="Berserk Melee Abort Range" offset="0x174" visible="true" />
+	<uint8 name="Padding6 0" offset="0x178" visible="false" />
+	<uint8 name="Padding6 1" offset="0x179" visible="false" />
+	<uint8 name="Padding6 2" offset="0x17A" visible="false" />
+	<uint8 name="Padding6 3" offset="0x17B" visible="false" />
+	<uint8 name="Padding6 4" offset="0x17C" visible="false" />
+	<uint8 name="Padding6 5" offset="0x17D" visible="false" />
+	<uint8 name="Padding6 6" offset="0x17E" visible="false" />
+	<uint8 name="Padding6 7" offset="0x17F" visible="false" />
+	<enum16 name="Grenade Type" offset="0x180" visible="true">
+		<option name="HumanFragmentation" value="0" />
+		<option name="CovenantPlasma" value="1" />
+	</enum16>
+	<enum16 name="Trajectory Type" offset="0x182" visible="true">
+		<option name="Toss" value="0" />
+		<option name="Lob" value="1" />
+		<option name="Bounce" value="2" />
+	</enum16>
+	<enum16 name="Grenade Stimulus" offset="0x184" visible="true">
+		<option name="Never" value="0" />
+		<option name="VisibleTarget" value="1" />
+		<option name="SeekCover" value="2" />
+	</enum16>
+	<int16 name="Minimum Enemy Count" offset="0x186" visible="true" />
+	<float32 name="Enemy Radius" offset="0x188" visible="true" />
+	<uint8 name="Padding7 0" offset="0x18C" visible="false" />
+	<uint8 name="Padding7 1" offset="0x18D" visible="false" />
+	<uint8 name="Padding7 2" offset="0x18E" visible="false" />
+	<uint8 name="Padding7 3" offset="0x18F" visible="false" />
+	<float32 name="Grenade Velocity" offset="0x190" visible="true" />
+	<rangef name="Grenade Ranges" offset="0x194" visible="true" />
+	<float32 name="Collateral Damage Radius" offset="0x19C" visible="true" />
+	<float32 name="Grenade Chance" offset="0x1A0" visible="true" />
+	<float32 name="Grenade Check Time" offset="0x1A4" visible="true" />
+	<float32 name="Encounter Grenade Timeout" offset="0x1A8" visible="true" />
+	<uint8 name="Padding8 0" offset="0x1AC" visible="false" />
+	<uint8 name="Padding8 1" offset="0x1AD" visible="false" />
+	<uint8 name="Padding8 2" offset="0x1AE" visible="false" />
+	<uint8 name="Padding8 3" offset="0x1AF" visible="false" />
+	<uint8 name="Padding8 4" offset="0x1B0" visible="false" />
+	<uint8 name="Padding8 5" offset="0x1B1" visible="false" />
+	<uint8 name="Padding8 6" offset="0x1B2" visible="false" />
+	<uint8 name="Padding8 7" offset="0x1B3" visible="false" />
+	<uint8 name="Padding8 8" offset="0x1B4" visible="false" />
+	<uint8 name="Padding8 9" offset="0x1B5" visible="false" />
+	<uint8 name="Padding8 10" offset="0x1B6" visible="false" />
+	<uint8 name="Padding8 11" offset="0x1B7" visible="false" />
+	<uint8 name="Padding8 12" offset="0x1B8" visible="false" />
+	<uint8 name="Padding8 13" offset="0x1B9" visible="false" />
+	<uint8 name="Padding8 14" offset="0x1BA" visible="false" />
+	<uint8 name="Padding8 15" offset="0x1BB" visible="false" />
+	<uint8 name="Padding8 16" offset="0x1BC" visible="false" />
+	<uint8 name="Padding8 17" offset="0x1BD" visible="false" />
+	<uint8 name="Padding8 18" offset="0x1BE" visible="false" />
+	<uint8 name="Padding8 19" offset="0x1BF" visible="false" />
+	<tagref name="Equipment" offset="0x1C0" visible="true" />
+	<range16 name="Grenade Count" offset="0x1D0" visible="true" />
+	<float32 name="Dont Drop Grenades Chance" offset="0x1D4" visible="true" />
+	<rangef name="Drop Weapon Loaded" offset="0x1D8" visible="true" />
+	<range16 name="Drop Weapon Ammo" offset="0x1E0" visible="true" />
+	<uint8 name="Padding9 0" offset="0x1E4" visible="false" />
+	<uint8 name="Padding9 1" offset="0x1E5" visible="false" />
+	<uint8 name="Padding9 2" offset="0x1E6" visible="false" />
+	<uint8 name="Padding9 3" offset="0x1E7" visible="false" />
+	<uint8 name="Padding9 4" offset="0x1E8" visible="false" />
+	<uint8 name="Padding9 5" offset="0x1E9" visible="false" />
+	<uint8 name="Padding9 6" offset="0x1EA" visible="false" />
+	<uint8 name="Padding9 7" offset="0x1EB" visible="false" />
+	<uint8 name="Padding9 8" offset="0x1EC" visible="false" />
+	<uint8 name="Padding9 9" offset="0x1ED" visible="false" />
+	<uint8 name="Padding9 10" offset="0x1EE" visible="false" />
+	<uint8 name="Padding9 11" offset="0x1EF" visible="false" />
+	<uint8 name="Padding10 0" offset="0x1F0" visible="false" />
+	<uint8 name="Padding10 1" offset="0x1F1" visible="false" />
+	<uint8 name="Padding10 2" offset="0x1F2" visible="false" />
+	<uint8 name="Padding10 3" offset="0x1F3" visible="false" />
+	<uint8 name="Padding10 4" offset="0x1F4" visible="false" />
+	<uint8 name="Padding10 5" offset="0x1F5" visible="false" />
+	<uint8 name="Padding10 6" offset="0x1F6" visible="false" />
+	<uint8 name="Padding10 7" offset="0x1F7" visible="false" />
+	<uint8 name="Padding10 8" offset="0x1F8" visible="false" />
+	<uint8 name="Padding10 9" offset="0x1F9" visible="false" />
+	<uint8 name="Padding10 10" offset="0x1FA" visible="false" />
+	<uint8 name="Padding10 11" offset="0x1FB" visible="false" />
+	<uint8 name="Padding10 12" offset="0x1FC" visible="false" />
+	<uint8 name="Padding10 13" offset="0x1FD" visible="false" />
+	<uint8 name="Padding10 14" offset="0x1FE" visible="false" />
+	<uint8 name="Padding10 15" offset="0x1FF" visible="false" />
+	<float32 name="Body Vitality" offset="0x200" visible="true" />
+	<float32 name="Shield Vitality" offset="0x204" visible="true" />
+	<float32 name="Shield Sapping Radius" offset="0x208" visible="true" />
+	<int16 name="Forced Shader Permutation" offset="0x20C" visible="true" />
+	<uint8 name="Padding11 0" offset="0x20E" visible="false" />
+	<uint8 name="Padding11 1" offset="0x20F" visible="false" />
+	<uint8 name="Padding12 0" offset="0x210" visible="false" />
+	<uint8 name="Padding12 1" offset="0x211" visible="false" />
+	<uint8 name="Padding12 2" offset="0x212" visible="false" />
+	<uint8 name="Padding12 3" offset="0x213" visible="false" />
+	<uint8 name="Padding12 4" offset="0x214" visible="false" />
+	<uint8 name="Padding12 5" offset="0x215" visible="false" />
+	<uint8 name="Padding12 6" offset="0x216" visible="false" />
+	<uint8 name="Padding12 7" offset="0x217" visible="false" />
+	<uint8 name="Padding12 8" offset="0x218" visible="false" />
+	<uint8 name="Padding12 9" offset="0x219" visible="false" />
+	<uint8 name="Padding12 10" offset="0x21A" visible="false" />
+	<uint8 name="Padding12 11" offset="0x21B" visible="false" />
+	<uint8 name="Padding12 12" offset="0x21C" visible="false" />
+	<uint8 name="Padding12 13" offset="0x21D" visible="false" />
+	<uint8 name="Padding12 14" offset="0x21E" visible="false" />
+	<uint8 name="Padding12 15" offset="0x21F" visible="false" />
+	<uint8 name="Padding13 0" offset="0x220" visible="false" />
+	<uint8 name="Padding13 1" offset="0x221" visible="false" />
+	<uint8 name="Padding13 2" offset="0x222" visible="false" />
+	<uint8 name="Padding13 3" offset="0x223" visible="false" />
+	<uint8 name="Padding13 4" offset="0x224" visible="false" />
+	<uint8 name="Padding13 5" offset="0x225" visible="false" />
+	<uint8 name="Padding13 6" offset="0x226" visible="false" />
+	<uint8 name="Padding13 7" offset="0x227" visible="false" />
+	<uint8 name="Padding13 8" offset="0x228" visible="false" />
+	<uint8 name="Padding13 9" offset="0x229" visible="false" />
+	<uint8 name="Padding13 10" offset="0x22A" visible="false" />
+	<uint8 name="Padding13 11" offset="0x22B" visible="false" />
+	<tagblock name="Change Colors" offset="0x22C" visible="true" elementSize="0x20">
+		<colorf name="Color Lower Bound" offset="0x0" alpha="false" visible="true" />
+		<colorf name="Color Upper Bound" offset="0xC" alpha="false" visible="true" />
+		<uint8 name="Padding 0" offset="0x18" visible="false" />
+		<uint8 name="Padding 1" offset="0x19" visible="false" />
+		<uint8 name="Padding 2" offset="0x1A" visible="false" />
+		<uint8 name="Padding 3" offset="0x1B" visible="false" />
+		<uint8 name="Padding 4" offset="0x1C" visible="false" />
+		<uint8 name="Padding 5" offset="0x1D" visible="false" />
+		<uint8 name="Padding 6" offset="0x1E" visible="false" />
+		<uint8 name="Padding 7" offset="0x1F" visible="false" />
+	</tagblock>
+</plugin>

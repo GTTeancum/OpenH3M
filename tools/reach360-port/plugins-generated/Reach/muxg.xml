@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xA4">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MuxGenerator (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Blend Texture" offset="0x0" visible="true" />
+	<int32 name="First Material In Blend Map" offset="0x10" visible="true" />
+	<int32 name="Last Material In Blend Map" offset="0x14" visible="true" />
+	<tagblock name="Materials" offset="0x18" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagref name="Mux Material" offset="0x4" visible="true" />
+	</tagblock>
+	<tagref name="Target Mux Shader" offset="0x24" visible="true" />
+	<tagref name="Target Albedo Base" offset="0x34" visible="true" />
+	<tagref name="Target Albedo Detail" offset="0x44" visible="true" />
+	<tagref name="Target Bump Base" offset="0x54" visible="true" />
+	<tagref name="Target Bump Detail" offset="0x64" visible="true" />
+	<tagref name="Target Parallax" offset="0x74" visible="true" />
+	<tagref name="Target Material0" offset="0x84" visible="true" />
+	<tagref name="Target Material1" offset="0x94" visible="true" />
+</plugin>

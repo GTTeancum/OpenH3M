@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.TestDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Test Block Field" offset="0x0" visible="true" elementSize="0x1E2">
+		<uint8 name="Byte" offset="0x0" visible="true" />
+		<int8 name="S Byte" offset="0x1" visible="true" />
+		<uint16 name="U Short" offset="0x2" visible="true" />
+		<int16 name="Short" offset="0x4" visible="true" />
+		<uint32 name="U Int" offset="0x6" visible="true" />
+		<int32 name="Int" offset="0xA" visible="true" />
+		<uint32 name="U Long (high)" offset="0xE" visible="true" />
+		<uint32 name="U Long (low)" offset="0x12" visible="true" />
+		<uint32 name="Long (high)" offset="0x16" visible="true" />
+		<uint32 name="Long (low)" offset="0x1A" visible="true" />
+		<float32 name="Float" offset="0x1E" visible="true" />
+		<enum32 name="Enum" offset="0x22" visible="true" />
+		<flags32 name="Flags" offset="0x26" visible="true" />
+		<degree name="Angle" offset="0x2A" visible="true" />
+		<color32 name="Argb Color" offset="0x2E" alpha="true" visible="true" />
+		<tagref name="Cached Tag Instance" offset="0x32" visible="true" />
+		<undefined name="Cache Address (CacheAddress)" offset="0x42" visible="false" />
+		<datum name="Datum Index" offset="0x46" visible="true" />
+		<int16 name="Pageable Resource / Page / Salt" offset="0x4A" visible="true" />
+		<uint8 name="Pageable Resource / Page / Xbox Flags" offset="0x4C" visible="true" />
+		<int8 name="Pageable Resource / Page / Compression Codec Index" offset="0x4D" visible="true" />
+		<int16 name="Pageable Resource / Page / Shared Cache Index" offset="0x4E" visible="true" />
+		<int16 name="Pageable Resource / Page / Unknown0" offset="0x50" visible="true" />
+		<uint32 name="Pageable Resource / Page / Block Address" offset="0x52" visible="true" />
+		<uint32 name="Pageable Resource / Page / Compressed Block Size" offset="0x56" visible="true" />
+		<uint32 name="Pageable Resource / Page / Uncompressed Block Size" offset="0x5A" visible="true" />
+		<int32 name="Pageable Resource / Page / Crc Checksum" offset="0x5E" visible="true" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 0" offset="0x62" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 1" offset="0x63" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 2" offset="0x64" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 3" offset="0x65" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 4" offset="0x66" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 5" offset="0x67" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 6" offset="0x68" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 7" offset="0x69" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 8" offset="0x6A" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 9" offset="0x6B" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 10" offset="0x6C" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 11" offset="0x6D" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 12" offset="0x6E" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 13" offset="0x6F" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 14" offset="0x70" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 15" offset="0x71" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 16" offset="0x72" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 17" offset="0x73" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 18" offset="0x74" visible="false" />
+		<uint8 name="Pageable Resource / Page / Entire Buffer Hash 19" offset="0x75" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 0" offset="0x76" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 1" offset="0x77" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 2" offset="0x78" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 3" offset="0x79" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 4" offset="0x7A" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 5" offset="0x7B" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 6" offset="0x7C" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 7" offset="0x7D" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 8" offset="0x7E" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 9" offset="0x7F" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 10" offset="0x80" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 11" offset="0x81" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 12" offset="0x82" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 13" offset="0x83" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 14" offset="0x84" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 15" offset="0x85" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 16" offset="0x86" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 17" offset="0x87" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 18" offset="0x88" visible="false" />
+		<uint8 name="Pageable Resource / Page / First Chunk Hash 19" offset="0x89" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 0" offset="0x8A" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 1" offset="0x8B" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 2" offset="0x8C" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 3" offset="0x8D" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 4" offset="0x8E" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 5" offset="0x8F" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 6" offset="0x90" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 7" offset="0x91" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 8" offset="0x92" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 9" offset="0x93" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 10" offset="0x94" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 11" offset="0x95" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 12" offset="0x96" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 13" offset="0x97" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 14" offset="0x98" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 15" offset="0x99" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 16" offset="0x9A" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 17" offset="0x9B" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 18" offset="0x9C" visible="false" />
+		<uint8 name="Pageable Resource / Page / Last Chunk Hash 19" offset="0x9D" visible="false" />
+		<uint32 name="Pageable Resource / Page / Unknown Size" offset="0x9E" visible="true" />
+		<tagref name="Pageable Resource / Resource / Parent Tag" offset="0xA2" visible="true" />
+		<uint16 name="Pageable Resource / Resource / Salt" offset="0xB2" visible="true" />
+		<int8 name="Pageable Resource / Resource / Resource Type Index" offset="0xB4" visible="true" />
+		<uint8 name="Pageable Resource / Resource / Flags" offset="0xB5" visible="true" />
+		<int32 name="Pageable Resource / Resource / Definition Data Offset" offset="0xB6" visible="true" />
+		<int32 name="Pageable Resource / Resource / Definition Data Length" offset="0xBA" visible="true" />
+		<int32 name="Pageable Resource / Resource / Secondary Fixup Information Offset" offset="0xBE" visible="true" />
+		<flags16 name="Pageable Resource / Resource / Unknown1" offset="0xC2" visible="true">
+			<bit name="PrimaryPageValid" index="0" />
+			<bit name="SecondaryPageValid" index="1" />
+		</flags16>
+		<int16 name="Pageable Resource / Resource / Segment Index" offset="0xC4" visible="true" />
+		<undefined name="Pageable Resource / Resource / Definition Address (CacheAddress)" offset="0xC6" visible="false" />
+		<tagblock name="Pageable Resource / Resource / Fixup Locations" offset="0xCA" visible="true" elementSize="0x8">
+			<uint32 name="Block Offset" offset="0x0" visible="true" />
+			<undefined name="Address (CacheAddress)" offset="0x4" visible="false" />
+		</tagblock>
+		<tagblock name="Pageable Resource / Resource / Interop Locations" offset="0xD6" visible="true" elementSize="0x8">
+			<undefined name="Address (CacheAddress)" offset="0x0" visible="false" />
+			<int32 name="Resource Structure Type Index" offset="0x4" visible="true" />
+		</tagblock>
+		<point16 name="Point2d" offset="0x8A" visible="true" />
+		<colorf name="Real Argb Color" offset="0x8E" alpha="true" visible="true" />
+		<undefined name="Real Bounding Box +0 (RealBoundingBox)" offset="0x9E" visible="false" />
+		<undefined name="Real Bounding Box +4 (RealBoundingBox)" offset="0xA2" visible="false" />
+		<undefined name="Real Bounding Box +8 (RealBoundingBox)" offset="0xA6" visible="false" />
+		<undefined name="Real Bounding Box +12 (RealBoundingBox)" offset="0xAA" visible="false" />
+		<undefined name="Real Bounding Box +16 (RealBoundingBox)" offset="0xAE" visible="false" />
+		<undefined name="Real Bounding Box +20 (RealBoundingBox)" offset="0xB2" visible="false" />
+		<degree2 name="Real Euler Angles2d" offset="0xB6" visible="true" />
+		<degree3 name="Real Euler Angles3d" offset="0xBE" visible="true" />
+		<vector3 name="Real Matrix4x3 row 0" offset="0xCA" visible="true" />
+		<vector3 name="Real Matrix4x3 row 1" offset="0xD6" visible="true" />
+		<vector3 name="Real Matrix4x3 row 2" offset="0xE2" visible="true" />
+		<vector3 name="Real Matrix4x3 row 3" offset="0xEE" visible="true" />
+		<plane2 name="Real Plane2d" offset="0xFA" visible="true" />
+		<plane3 name="Real Plane3d" offset="0x106" visible="true" />
+		<point2 name="Real Point2d" offset="0x116" visible="true" />
+		<point3 name="Real Point3d" offset="0x11E" visible="true" />
+		<vector4 name="Real Quaternion" offset="0x12A" visible="true" />
+		<colorf name="Real Rgb Color" offset="0x13A" alpha="false" visible="true" />
+		<vector2 name="Real Vector2d" offset="0x146" visible="true" />
+		<vector3 name="Real Vector3d" offset="0x14E" visible="true" />
+		<rect16 name="Rectangle2d" offset="0x15A" visible="true" />
+		<stringid name="String Id" offset="0x162" visible="true" />
+		<uint32 name="Tag (group tag)" offset="0x166" visible="true" />
+		<ranged name="Bounds Angle" offset="0x16A" visible="true" />
+		<uint8 name="Bounds Byte min" offset="0x172" visible="true" />
+		<uint8 name="Bounds Byte max" offset="0x173" visible="true" />
+		<int8 name="Bounds S Byte min" offset="0x174" visible="true" />
+		<int8 name="Bounds S Byte max" offset="0x175" visible="true" />
+		<uint16 name="Bounds U Short min" offset="0x176" visible="true" />
+		<uint16 name="Bounds U Short max" offset="0x178" visible="true" />
+		<range16 name="Bounds Short" offset="0x17A" visible="true" />
+		<uint32 name="Bounds U Int min" offset="0x17E" visible="true" />
+		<uint32 name="Bounds U Int max" offset="0x182" visible="true" />
+		<int32 name="Bounds Int min" offset="0x186" visible="true" />
+		<int32 name="Bounds Int max" offset="0x18A" visible="true" />
+		<uint32 name="Bounds U Long min (high)" offset="0x18E" visible="true" />
+		<uint32 name="Bounds U Long min (low)" offset="0x192" visible="true" />
+		<uint32 name="Bounds U Long max (high)" offset="0x196" visible="true" />
+		<uint32 name="Bounds U Long max (low)" offset="0x19A" visible="true" />
+		<uint32 name="Bounds Long min (high)" offset="0x19E" visible="true" />
+		<uint32 name="Bounds Long min (low)" offset="0x1A2" visible="true" />
+		<uint32 name="Bounds Long max (high)" offset="0x1A6" visible="true" />
+		<uint32 name="Bounds Long max (low)" offset="0x1AA" visible="true" />
+		<rangef name="Bounds Float" offset="0x1AE" visible="true" />
+	</tagblock>
+</plugin>

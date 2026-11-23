@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SoundClasses (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Classes" offset="0x0" visible="true" elementSize="0x98">
+		<int16 name="Max Sounds Per Tag" offset="0x0" visible="true" />
+		<int16 name="Max Sounds Per Object" offset="0x2" visible="true" />
+		<int32 name="Preemption Time" offset="0x4" visible="true" />
+		<flags16 name="Internal Flags" offset="0x8" visible="true">
+			<bit name="Valid" index="0" />
+			<bit name="IsSpeech" index="1" />
+			<bit name="Scripted" index="2" />
+			<bit name="StopsWithObject" index="3" />
+			<bit name="ValidXmaCompressionLevel" index="4" />
+			<bit name="ValidDopplerFactor" index="5" />
+			<bit name="ValidObstructionFactor" index="6" />
+			<bit name="Multilingual" index="7" />
+			<bit name="ValidUnderwaterPropagation" index="8" />
+			<bit name="ValidSuppressSpatialization" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="StopsWithDeadObject" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<flags16 name="Class Flags" offset="0xA" visible="true">
+			<bit name="CanPlayDuringPause" index="0" />
+			<bit name="DryStereoMix" index="1" />
+			<bit name="PlaysThroughObjects" index="2" />
+			<bit name="IsCenterUnspatialized" index="3" />
+			<bit name="MonoLfe" index="4" />
+			<bit name="Deterministic" index="5" />
+			<bit name="UseHugeTransmission" index="6" />
+			<bit name="AlwaysUseSpeakers" index="7" />
+			<bit name="IsAvailableOnMainmenu" index="8" />
+			<bit name="IgnoreStereoHeadroom" index="9" />
+			<bit name="LoopFadeOutIsLinear" index="10" />
+			<bit name="StopWhenObjectDies" index="11" />
+			<bit name="DontFadeOnGameOver" index="12" />
+			<bit name="DontPromotePriorityByProximity" index="13" />
+			<bit name="ClassPlaysOnMainmenu" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<int16 name="Priority" offset="0xC" visible="true" />
+		<enum16 name="Cache Miss Mode" offset="0xE" visible="true">
+			<option name="Discard" value="0" />
+			<option name="Postpone" value="1" />
+		</enum16>
+		<float32 name="Air Propagation / Reverb Gain" offset="0x10" visible="true" />
+		<float32 name="Air Propagation / Direct Path Gain" offset="0x14" visible="true" />
+		<float32 name="Air Propagation / Base Obstruction" offset="0x18" visible="true" />
+		<float32 name="Air Propagation / Base Occlusion" offset="0x1C" visible="true" />
+		<float32 name="Underwater Propagation / Reverb Gain" offset="0x20" visible="true" />
+		<float32 name="Underwater Propagation / Direct Path Gain" offset="0x24" visible="true" />
+		<float32 name="Underwater Propagation / Base Obstruction" offset="0x28" visible="true" />
+		<float32 name="Underwater Propagation / Base Occlusion" offset="0x2C" visible="true" />
+		<float32 name="Override Speaker Gain" offset="0x30" visible="true" />
+		<rangef name="Default Distance Bounds" offset="0x34" visible="true" />
+		<rangef name="Distance Bounds" offset="0x3C" visible="true" />
+		<rangef name="Gain Bounds" offset="0x44" visible="true" />
+		<float32 name="Cutscene Ducking / Gain DB" offset="0x4C" visible="true" />
+		<float32 name="Cutscene Ducking / Fade In Time" offset="0x50" visible="true" />
+		<float32 name="Cutscene Ducking / Sustain Time" offset="0x54" visible="true" />
+		<float32 name="Cutscene Ducking / Fade Out Time" offset="0x58" visible="true" />
+		<float32 name="Scripted Dialog Ducking / Gain DB" offset="0x5C" visible="true" />
+		<float32 name="Scripted Dialog Ducking / Fade In Time" offset="0x60" visible="true" />
+		<float32 name="Scripted Dialog Ducking / Sustain Time" offset="0x64" visible="true" />
+		<float32 name="Scripted Dialog Ducking / Fade Out Time" offset="0x68" visible="true" />
+		<float32 name="Cortana Effect Ducking / Gain DB" offset="0x6C" visible="true" />
+		<float32 name="Cortana Effect Ducking / Fade In Time" offset="0x70" visible="true" />
+		<float32 name="Cortana Effect Ducking / Sustain Time" offset="0x74" visible="true" />
+		<float32 name="Cortana Effect Ducking / Fade Out Time" offset="0x78" visible="true" />
+		<float32 name="Unknown Cortana Effect" offset="0x7C" visible="true" />
+		<float32 name="Doppler Factor" offset="0x80" visible="true" />
+		<enum8 name="Stereo Playback Type" offset="0x84" visible="true">
+			<option name="FirstPerson" value="0" />
+			<option name="Ambient" value="1" />
+		</enum8>
+		<uint8 name="Padding2 0" offset="0x85" visible="false" />
+		<uint8 name="Padding2 1" offset="0x86" visible="false" />
+		<uint8 name="Padding2 2" offset="0x87" visible="false" />
+		<float32 name="Transmission Multiplier" offset="0x88" visible="true" />
+		<float32 name="Obstruction Max Bend" offset="0x8C" visible="true" />
+		<float32 name="Occlusion Max Bend" offset="0x90" visible="true" />
+		<int32 name="Xma Compression Level" offset="0x94" visible="true" />
+	</tagblock>
+</plugin>

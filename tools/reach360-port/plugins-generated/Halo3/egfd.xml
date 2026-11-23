@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.EffectGlobalForce (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags8 name="Flags" offset="0x0" visible="true">
+		<bit name="IsInfinitelyLongCylinder" index="0" />
+	</flags8>
+	<uint8 name="Padding 0" offset="0x1" visible="false" />
+	<uint8 name="Padding 1" offset="0x2" visible="false" />
+	<uint8 name="Padding 2" offset="0x3" visible="false" />
+	<float32 name="Force Strength" offset="0x4" visible="true" />
+	<float32 name="Sphere Falloff Begin" offset="0x8" visible="true" />
+	<float32 name="Sphere Falloff End" offset="0xC" visible="true" />
+</plugin>

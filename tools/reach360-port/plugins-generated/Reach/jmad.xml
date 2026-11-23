@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1B8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ModelAnimationGraph (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Parent Animation Graph" offset="0x0" visible="true" />
+	<flags8 name="Inheritance Flags" offset="0x10" visible="true">
+		<bit name="InheritRootTransScaleOnly" index="0" />
+		<bit name="InheritForUseOnPlayer" index="1" />
+		<bit name="AllowFacialAnimationMaskRemap" index="2" />
+	</flags8>
+	<flags8 name="Private Flags" offset="0x11" visible="true">
+		<bit name="PreparedForCache" index="0" />
+		<bit name="Unused" index="1" />
+		<bit name="ImportedWithCodecCompressors" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="WrittenToCache" index="4" />
+		<bit name="AnimationDataReordered" index="5" />
+		<bit name="ReadyForUse" index="6" />
+	</flags8>
+	<int16 name="Animation Codec Pack" offset="0x12" visible="true" />
+	<int16 name="Force Compression Setting" offset="0x14" visible="true" />
+	<int16 name="Misc Graph Flags" offset="0x16" visible="true" />
+	<uint8 name="Node Usage Block 0" offset="0x18" visible="false" />
+	<uint8 name="Node Usage Block 1" offset="0x19" visible="false" />
+	<uint8 name="Node Usage Block 2" offset="0x1A" visible="false" />
+	<uint8 name="Node Usage Block 3" offset="0x1B" visible="false" />
+	<uint8 name="Node Usage Block 4" offset="0x1C" visible="false" />
+	<uint8 name="Node Usage Block 5" offset="0x1D" visible="false" />
+	<uint8 name="Node Usage Block 6" offset="0x1E" visible="false" />
+	<uint8 name="Node Usage Block 7" offset="0x1F" visible="false" />
+	<uint8 name="Node Usage Block 8" offset="0x20" visible="false" />
+	<uint8 name="Node Usage Block 9" offset="0x21" visible="false" />
+	<uint8 name="Node Usage Block 10" offset="0x22" visible="false" />
+	<uint8 name="Node Usage Block 11" offset="0x23" visible="false" />
+	<uint8 name="Node Masks Block 0" offset="0x24" visible="false" />
+	<uint8 name="Node Masks Block 1" offset="0x25" visible="false" />
+	<uint8 name="Node Masks Block 2" offset="0x26" visible="false" />
+	<uint8 name="Node Masks Block 3" offset="0x27" visible="false" />
+	<uint8 name="Node Masks Block 4" offset="0x28" visible="false" />
+	<uint8 name="Node Masks Block 5" offset="0x29" visible="false" />
+	<uint8 name="Node Masks Block 6" offset="0x2A" visible="false" />
+	<uint8 name="Node Masks Block 7" offset="0x2B" visible="false" />
+	<uint8 name="Node Masks Block 8" offset="0x2C" visible="false" />
+	<uint8 name="Node Masks Block 9" offset="0x2D" visible="false" />
+	<uint8 name="Node Masks Block 10" offset="0x2E" visible="false" />
+	<uint8 name="Node Masks Block 11" offset="0x2F" visible="false" />
+	<uint8 name="Functions Block 0" offset="0x30" visible="false" />
+	<uint8 name="Functions Block 1" offset="0x31" visible="false" />
+	<uint8 name="Functions Block 2" offset="0x32" visible="false" />
+	<uint8 name="Functions Block 3" offset="0x33" visible="false" />
+	<uint8 name="Functions Block 4" offset="0x34" visible="false" />
+	<uint8 name="Functions Block 5" offset="0x35" visible="false" />
+	<uint8 name="Functions Block 6" offset="0x36" visible="false" />
+	<uint8 name="Functions Block 7" offset="0x37" visible="false" />
+	<uint8 name="Functions Block 8" offset="0x38" visible="false" />
+	<uint8 name="Functions Block 9" offset="0x39" visible="false" />
+	<uint8 name="Functions Block 10" offset="0x3A" visible="false" />
+	<uint8 name="Functions Block 11" offset="0x3B" visible="false" />
+	<uint8 name="Model Animation Variants Block 0" offset="0x3C" visible="false" />
+	<uint8 name="Model Animation Variants Block 1" offset="0x3D" visible="false" />
+	<uint8 name="Model Animation Variants Block 2" offset="0x3E" visible="false" />
+	<uint8 name="Model Animation Variants Block 3" offset="0x3F" visible="false" />
+	<uint8 name="Model Animation Variants Block 4" offset="0x40" visible="false" />
+	<uint8 name="Model Animation Variants Block 5" offset="0x41" visible="false" />
+	<uint8 name="Model Animation Variants Block 6" offset="0x42" visible="false" />
+	<uint8 name="Model Animation Variants Block 7" offset="0x43" visible="false" />
+	<uint8 name="Model Animation Variants Block 8" offset="0x44" visible="false" />
+	<uint8 name="Model Animation Variants Block 9" offset="0x45" visible="false" />
+	<uint8 name="Model Animation Variants Block 10" offset="0x46" visible="false" />
+	<uint8 name="Model Animation Variants Block 11" offset="0x47" visible="false" />
+	<tagblock name="Skeleton Nodes" offset="0x48" visible="true" elementSize="0x2C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Next Sibling Node Index" offset="0x4" visible="true" />
+		<int16 name="First Child Node Index" offset="0x6" visible="true" />
+		<int16 name="Parent Node Index" offset="0x8" visible="true" />
+		<flags8 name="Model Flags" offset="0xA" visible="true">
+			<bit name="PrimaryModel" index="0" />
+			<bit name="SecondaryModel" index="1" />
+			<bit name="LocalRoot" index="2" />
+			<bit name="LeftHand" index="3" />
+			<bit name="RightHand" index="4" />
+			<bit name="LeftArmMember" index="5" />
+		</flags8>
+		<flags8 name="Node Joint Flags" offset="0xB" visible="true">
+			<bit name="BallSocket" index="0" />
+			<bit name="Hinge" index="1" />
+			<bit name="NoMovement" index="2" />
+		</flags8>
+		<uint8 name="Additional Flags" offset="0xC" visible="true" />
+		<uint8 name="Padding0 0" offset="0xD" visible="false" />
+		<uint8 name="Padding0 1" offset="0xE" visible="false" />
+		<uint8 name="Padding0 2" offset="0xF" visible="false" />
+		<vector3 name="Base Vector" offset="0x10" visible="true" />
+		<float32 name="Vector Range" offset="0x1C" visible="true" />
+		<float32 name="Z Position" offset="0x20" visible="true" />
+		<uint32 name="Frame ID1" offset="0x24" visible="true" />
+		<uint32 name="Frame ID2" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Sound References" offset="0x54" visible="true" elementSize="0x14">
+		<tagref name="Reference" offset="0x0" visible="true" />
+		<flags16 name="Flags Reach" offset="0x10" visible="true">
+			<bit name="AllowOnPlayer" index="0" />
+			<bit name="LeftArmOnly" index="1" />
+			<bit name="RightArmOnly" index="2" />
+			<bit name="FirstPersonOnly" index="3" />
+			<bit name="ThirdPersonOnly" index="4" />
+			<bit name="ForwardOnly" index="5" />
+			<bit name="ReverseOnly" index="6" />
+			<bit name="FpNoAgedWeapons" index="7" />
+		</flags16>
+		<uint8 name="Padding0 0" offset="0x12" visible="false" />
+		<uint8 name="Padding0 1" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Effect References" offset="0x60" visible="true" elementSize="0x14">
+		<tagref name="Reference" offset="0x0" visible="true" />
+		<flags16 name="Flags Reach" offset="0x10" visible="true">
+			<bit name="AllowOnPlayer" index="0" />
+			<bit name="LeftArmOnly" index="1" />
+			<bit name="RightArmOnly" index="2" />
+			<bit name="FirstPersonOnly" index="3" />
+			<bit name="ThirdPersonOnly" index="4" />
+			<bit name="ForwardOnly" index="5" />
+			<bit name="ReverseOnly" index="6" />
+			<bit name="FpNoAgedWeapons" index="7" />
+		</flags16>
+		<uint8 name="Padding0 0" offset="0x12" visible="false" />
+		<uint8 name="Padding0 1" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Blend Screens" offset="0x6C" visible="true" elementSize="0x1C">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<degree name="Right Yaw Per Frame" offset="0x4" visible="true" />
+		<degree name="Left Yaw Per Frame" offset="0x8" visible="true" />
+		<int16 name="Right Frame Count" offset="0xC" visible="true" />
+		<int16 name="Left Frame Count" offset="0xE" visible="true" />
+		<degree name="Down Pitch Per Frame" offset="0x10" visible="true" />
+		<degree name="Up Pitch Per Frame" offset="0x14" visible="true" />
+		<int16 name="Down Pitch Frame Count" offset="0x18" visible="true" />
+		<int16 name="Up Pitch Frame Count" offset="0x1A" visible="true" />
+	</tagblock>
+	<tagblock name="Foot Markers" offset="0x78" visible="true" elementSize="0x1C">
+		<stringid name="Foot Marker" offset="0x0" visible="true" />
+		<rangef name="Foot Ik Range" offset="0x4" visible="true" />
+		<stringid name="Ankle Marker" offset="0xC" visible="true" />
+		<rangef name="Ankle Ik Range" offset="0x10" visible="true" />
+		<enum16 name="Default State" offset="0x18" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum16>
+		<uint8 name="Padding1 0" offset="0x1A" visible="false" />
+		<uint8 name="Padding1 1" offset="0x1B" visible="false" />
+	</tagblock>
+	<tagref name="Frame Events" offset="0x84" visible="true" />
+	<tagblock name="Animations" offset="0x94" visible="true" elementSize="0x3C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Weight" offset="0x4" visible="true" />
+		<int16 name="Loop Frame Index" offset="0x8" visible="true" />
+		<flags16 name="Playback Flags" offset="0xA" visible="true">
+			<bit name="DisableInterpolationIn" index="0" />
+			<bit name="DisableInterpolationOut" index="1" />
+			<bit name="DisableModeIk" index="2" />
+			<bit name="DisableWeaponIk" index="3" />
+			<bit name="DisableWeaponAim1stPerson" index="4" />
+			<bit name="DisableLookScreen" index="5" />
+			<bit name="DisableTransitionAdjustment" index="6" />
+			<bit name="ForceWeaponIkOn" index="7" />
+		</flags16>
+		<float32 name="Override Blend In Time" offset="0xC" visible="true" />
+		<float32 name="Override Blend Out Time" offset="0x10" visible="true" />
+		<int16 name="Previous Variant Sibling Reach" offset="0x14" visible="true" />
+		<int16 name="Next Variant Sibling Reach" offset="0x16" visible="true" />
+		<flags16 name="Production Flags Reach" offset="0x18" visible="true">
+			<bit name="DoNotMonitorChanges" index="0" />
+			<bit name="VerifySoundEvents" index="1" />
+			<bit name="DoNotInheritForPlayerGraphs" index="2" />
+		</flags16>
+		<int8 name="Blend Screen Reach" offset="0x1A" visible="true" />
+		<uint8 name="Padding Reach 0" offset="0x1B" visible="false" />
+		<tagref name="Graph Reference" offset="0x1C" visible="true" />
+		<int16 name="Shared Animation Index" offset="0x2C" visible="true" />
+		<uint8 name="Padding2 0" offset="0x2E" visible="false" />
+		<uint8 name="Padding2 1" offset="0x2F" visible="false" />
+		<tagblock name="Animation Data Block" offset="0x30" visible="true" elementSize="0xD4">
+			<int8 name="Node Count" offset="0x0" visible="true" />
+			<uint8 name="Padding Reach 0" offset="0x1" visible="false" />
+			<int16 name="Frame Count" offset="0x2" visible="true" />
+			<enum8 name="Animation Type Reach" offset="0x4" visible="true">
+				<option name="None" value="0" />
+				<option name="Base" value="1" />
+				<option name="Overlay" value="2" />
+				<option name="Replacement" value="3" />
+			</enum8>
+			<enum8 name="Frame Info Type" offset="0x5" visible="true">
+				<option name="None" value="0" />
+				<option name="DxDy" value="1" />
+				<option name="DxDyDyaw" value="2" />
+				<option name="DxDyDzDyaw" value="3" />
+				<option name="DxDyDzDangleAxis" value="4" />
+				<option name="XYZAbsolute" value="5" />
+				<option name="Auto" value="6" />
+			</enum8>
+			<enum8 name="Desired Compression Reach" offset="0x6" visible="true">
+				<option name="BestScore" value="0" />
+				<option name="BestCompression" value="1" />
+				<option name="BestAccuracy" value="2" />
+				<option name="BestFullframe" value="3" />
+				<option name="BestSmallKeyframe" value="4" />
+				<option name="BestLargeKeyframe" value="5" />
+			</enum8>
+			<enum8 name="Current Compression Reach" offset="0x7" visible="true">
+				<option name="BestScore" value="0" />
+				<option name="BestCompression" value="1" />
+				<option name="BestAccuracy" value="2" />
+				<option name="BestFullframe" value="3" />
+				<option name="BestSmallKeyframe" value="4" />
+				<option name="BestLargeKeyframe" value="5" />
+			</enum8>
+			<uint8 name="Padding Reach1 0" offset="0x8" visible="false" />
+			<uint8 name="Padding Reach1 1" offset="0x9" visible="false" />
+			<flags16 name="Internal Flags" offset="0xA" visible="true">
+				<bit name="Unused1" index="0" />
+				<bit name="WorldRelative" index="1" />
+				<bit name="Unused2" index="2" />
+				<bit name="Unused3" index="3" />
+				<bit name="Unused4" index="4" />
+				<bit name="CompressionDisabled" index="5" />
+				<bit name="OldProductionChecksum" index="6" />
+				<bit name="ValidProductionChecksum" index="7" />
+			</flags16>
+			<int32 name="Uid" offset="0xC" visible="true" />
+			<stringid name="Shared Id" offset="0x10" visible="true" />
+			<int32 name="Node List Checksum" offset="0x14" visible="true" />
+			<int32 name="Production Checksum" offset="0x18" visible="true" />
+			<int16 name="Importer Version" offset="0x1C" visible="true" />
+			<int16 name="Compressor Version" offset="0x1E" visible="true" />
+			<int16 name="Resource Group Index" offset="0x20" visible="true" />
+			<int16 name="Resource Group Member Index" offset="0x22" visible="true" />
+			<vector3 name="Heading Reach" offset="0x24" visible="true" />
+			<float32 name="Average Translation Magnitude Reach" offset="0x30" visible="true" />
+			<float32 name="Average Pivot Yaw Reach" offset="0x34" visible="true" />
+			<tagblock name="Frame Events" offset="0x38" visible="true" elementSize="0x4">
+				<enum16 name="Reach Type" offset="0x0" visible="true">
+					<option name="None" value="0" />
+					<option name="PrimaryKeyframe" value="1" />
+					<option name="SecondaryKeyframe" value="2" />
+					<option name="TertiaryKeyframe" value="3" />
+					<option name="LeftFoot" value="4" />
+					<option name="RightFoot" value="5" />
+					<option name="AllowInterruption" value="6" />
+					<option name="DoNotAllowInterruption" value="7" />
+					<option name="BothFeetShuffle" value="8" />
+					<option name="BodyImpact" value="9" />
+					<option name="LeftFootLock" value="10" />
+					<option name="LeftFootUnlock" value="11" />
+					<option name="RightFootLock" value="12" />
+					<option name="RightFootUnlock" value="13" />
+					<option name="BlendRangeMarker" value="14" />
+					<option name="StrideExpansion" value="15" />
+					<option name="StrideContraction" value="16" />
+					<option name="RagdollKeyframe" value="17" />
+					<option name="DropWeaponKeyframe" value="18" />
+					<option name="MatchA" value="19" />
+					<option name="MatchB" value="20" />
+					<option name="MatchC" value="21" />
+					<option name="MatchD" value="22" />
+					<option name="JetpackClosed" value="23" />
+					<option name="JetpackOpen" value="24" />
+					<option name="SoundEvent" value="25" />
+					<option name="EffectEvent" value="26" />
+				</enum16>
+				<int16 name="Frame" offset="0x2" visible="true" />
+			</tagblock>
+			<tagblock name="Sound Events" offset="0x44" visible="true" elementSize="0x8">
+				<int16 name="Sound" offset="0x0" visible="true" />
+				<int16 name="Frame" offset="0x2" visible="true" />
+				<stringid name="Marker Name" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Effect Events" offset="0x50" visible="true" elementSize="0xC">
+				<int16 name="Effect" offset="0x0" visible="true" />
+				<int16 name="Frame" offset="0x2" visible="true" />
+				<stringid name="Marker Name" offset="0x4" visible="true" />
+				<enum8 name="Damage Effect Reporting Type / Halo Reach" offset="0x8" visible="true">
+					<option name="GuardiansUnknown" value="0" />
+					<option name="Guardians" value="1" />
+					<option name="GuardiansScripting" value="2" />
+					<option name="Suicide" value="3" />
+					<option name="Magnum" value="4" />
+					<option name="AssaultRifle" value="5" />
+					<option name="DMR" value="6" />
+					<option name="Shotgun" value="7" />
+					<option name="SniperRifle" value="8" />
+					<option name="RocketLauncher" value="9" />
+					<option name="SpartanLaser" value="10" />
+					<option name="FragGrenade" value="11" />
+					<option name="GrenadeLauncher" value="12" />
+					<option name="PlasmaPistol" value="13" />
+					<option name="Needler" value="14" />
+					<option name="PlasmaRifle" value="15" />
+					<option name="PlasmaRepeater" value="16" />
+					<option name="NeedleRifle" value="17" />
+					<option name="Spiker" value="18" />
+					<option name="PlasmaLauncher" value="19" />
+					<option name="GravityHammer" value="20" />
+					<option name="EnergySword" value="21" />
+					<option name="PlasmaGrenade" value="22" />
+					<option name="ConcussionRifle" value="23" />
+					<option name="Ghost" value="24" />
+					<option name="Revenant" value="25" />
+					<option name="RevenantGunner" value="26" />
+					<option name="Wraith" value="27" />
+					<option name="WraithTurret" value="28" />
+					<option name="Banshee" value="29" />
+					<option name="BansheeBomb" value="30" />
+					<option name="Seraph" value="31" />
+					<option name="Mongoose" value="32" />
+					<option name="Warthog" value="33" />
+					<option name="WarthogChaingun" value="34" />
+					<option name="WarthogGauss" value="35" />
+					<option name="WarthogRocket" value="36" />
+					<option name="Scorpion" value="37" />
+					<option name="ScorpionTurret" value="38" />
+					<option name="Falcon" value="39" />
+					<option name="FalconGunner" value="40" />
+					<option name="FallingDamage" value="41" />
+					<option name="GenericCollision" value="42" />
+					<option name="GenericMelee" value="43" />
+					<option name="GenericExplosion" value="44" />
+					<option name="BirthdayExplosion" value="45" />
+					<option name="Flag" value="46" />
+					<option name="Bomb" value="47" />
+					<option name="BombExplosion" value="48" />
+					<option name="Ball" value="49" />
+					<option name="Teleporter" value="50" />
+					<option name="TransferDamage" value="51" />
+					<option name="ArmorLock" value="52" />
+					<option name="TargetLocator" value="53" />
+					<option name="HumanTurret" value="54" />
+					<option name="PlasmaCannon" value="55" />
+					<option name="PlasmaMortar" value="56" />
+					<option name="PlasmaTurret" value="57" />
+					<option name="ShadeTurret" value="58" />
+					<option name="Sabre" value="59" />
+					<option name="SMG" value="60" />
+					<option name="Carbine" value="61" />
+					<option name="BattleRifle" value="62" />
+					<option name="FocusRifle" value="63" />
+					<option name="FuelRod" value="64" />
+					<option name="MissilePod" value="65" />
+					<option name="BruteShot" value="66" />
+					<option name="Flamethrower" value="67" />
+					<option name="SentinelGun" value="68" />
+					<option name="SpikeGrenade" value="69" />
+					<option name="FirebombGrenade" value="70" />
+					<option name="ElephantTurret" value="71" />
+					<option name="Spectre" value="72" />
+					<option name="SpectreGunner" value="73" />
+					<option name="Tank" value="74" />
+					<option name="Chopper" value="75" />
+					<option name="Hornet" value="76" />
+					<option name="Mantis" value="77" />
+					<option name="Prowler" value="78" />
+					<option name="SentinelBeam" value="79" />
+					<option name="SentinelRPG" value="80" />
+					<option name="Tripmine" value="81" />
+				</enum8>
+				<uint8 name="Padding3 0" offset="0x9" visible="false" />
+				<uint8 name="Padding3 1" offset="0xA" visible="false" />
+				<uint8 name="Padding3 2" offset="0xB" visible="false" />
+			</tagblock>
+			<tagblock name="Dialogue Events" offset="0x5C" visible="true" elementSize="0x4">
+				<enum16 name="Event Type" offset="0x0" visible="true">
+					<option name="Bump" value="0" />
+					<option name="Dive" value="1" />
+					<option name="Evade" value="2" />
+					<option name="Lift" value="3" />
+					<option name="Sigh" value="4" />
+					<option name="Contempt" value="5" />
+					<option name="Anger" value="6" />
+					<option name="Fear" value="7" />
+					<option name="Relief" value="8" />
+					<option name="Sprint" value="9" />
+					<option name="SprintEnd" value="10" />
+					<option name="AssGrabber" value="11" />
+					<option name="KillAss" value="12" />
+					<option name="AssGrabbed" value="13" />
+					<option name="DieAss" value="14" />
+				</enum16>
+				<int16 name="Frame" offset="0x2" visible="true" />
+			</tagblock>
+			<tagblock name="Object Space Parent Nodes" offset="0x68" visible="true" elementSize="0x1C">
+				<int16 name="Node Index" offset="0x0" visible="true" />
+				<flags16 name="Flags" offset="0x2" visible="true">
+					<bit name="Rotation" index="0" />
+					<bit name="Translation" index="1" />
+					<bit name="Scale" index="2" />
+					<bit name="MotionRoot" index="3" />
+				</flags16>
+				<int16 name="Rotation X" offset="0x4" visible="true" />
+				<int16 name="Rotation Y" offset="0x6" visible="true" />
+				<int16 name="Rotation Z" offset="0x8" visible="true" />
+				<int16 name="Rotation W" offset="0xA" visible="true" />
+				<point3 name="Default Translation" offset="0xC" visible="true" />
+				<float32 name="Default Scale" offset="0x18" visible="true" />
+			</tagblock>
+			<tagblock name="Foot Tracking" offset="0x74" visible="true" elementSize="0x10">
+				<int16 name="Foot" offset="0x0" visible="true" />
+				<uint8 name="Padding4 0" offset="0x2" visible="false" />
+				<uint8 name="Padding4 1" offset="0x3" visible="false" />
+				<tagblock name="Foot Lock Cycles" offset="0x4" visible="true" elementSize="0x14">
+					<int16 name="Started Locking" offset="0x0" visible="true" />
+					<int16 name="Locked" offset="0x2" visible="true" />
+					<int16 name="Started Unlocking" offset="0x4" visible="true" />
+					<int16 name="Unlocked" offset="0x6" visible="true" />
+					<point3 name="Lock Point" offset="0x8" visible="true" />
+				</tagblock>
+			</tagblock>
+			<uint8 name="Object Space Offset Nodes 0" offset="0x80" visible="false" />
+			<uint8 name="Object Space Offset Nodes 1" offset="0x81" visible="false" />
+			<uint8 name="Object Space Offset Nodes 2" offset="0x82" visible="false" />
+			<uint8 name="Object Space Offset Nodes 3" offset="0x83" visible="false" />
+			<uint8 name="Object Space Offset Nodes 4" offset="0x84" visible="false" />
+			<uint8 name="Object Space Offset Nodes 5" offset="0x85" visible="false" />
+			<uint8 name="Object Space Offset Nodes 6" offset="0x86" visible="false" />
+			<uint8 name="Object Space Offset Nodes 7" offset="0x87" visible="false" />
+			<uint8 name="Object Space Offset Nodes 8" offset="0x88" visible="false" />
+			<uint8 name="Object Space Offset Nodes 9" offset="0x89" visible="false" />
+			<uint8 name="Object Space Offset Nodes 10" offset="0x8A" visible="false" />
+			<uint8 name="Object Space Offset Nodes 11" offset="0x8B" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 0" offset="0x8C" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 1" offset="0x8D" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 2" offset="0x8E" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 3" offset="0x8F" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 4" offset="0x90" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 5" offset="0x91" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 6" offset="0x92" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 7" offset="0x93" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 8" offset="0x94" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 9" offset="0x95" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 10" offset="0x96" visible="false" />
+			<uint8 name="Forward Invert Kinetic Anchor Nodes 11" offset="0x97" visible="false" />
+			<uint8 name="ik Chain Events 0" offset="0x98" visible="false" />
+			<uint8 name="ik Chain Events 1" offset="0x99" visible="false" />
+			<uint8 name="ik Chain Events 2" offset="0x9A" visible="false" />
+			<uint8 name="ik Chain Events 3" offset="0x9B" visible="false" />
+			<uint8 name="ik Chain Events 4" offset="0x9C" visible="false" />
+			<uint8 name="ik Chain Events 5" offset="0x9D" visible="false" />
+			<uint8 name="ik Chain Events 6" offset="0x9E" visible="false" />
+			<uint8 name="ik Chain Events 7" offset="0x9F" visible="false" />
+			<uint8 name="ik Chain Events 8" offset="0xA0" visible="false" />
+			<uint8 name="ik Chain Events 9" offset="0xA1" visible="false" />
+			<uint8 name="ik Chain Events 10" offset="0xA2" visible="false" />
+			<uint8 name="ik Chain Events 11" offset="0xA3" visible="false" />
+			<uint8 name="ik Chain Proxies 0" offset="0xA4" visible="false" />
+			<uint8 name="ik Chain Proxies 1" offset="0xA5" visible="false" />
+			<uint8 name="ik Chain Proxies 2" offset="0xA6" visible="false" />
+			<uint8 name="ik Chain Proxies 3" offset="0xA7" visible="false" />
+			<uint8 name="ik Chain Proxies 4" offset="0xA8" visible="false" />
+			<uint8 name="ik Chain Proxies 5" offset="0xA9" visible="false" />
+			<uint8 name="ik Chain Proxies 6" offset="0xAA" visible="false" />
+			<uint8 name="ik Chain Proxies 7" offset="0xAB" visible="false" />
+			<uint8 name="ik Chain Proxies 8" offset="0xAC" visible="false" />
+			<uint8 name="ik Chain Proxies 9" offset="0xAD" visible="false" />
+			<uint8 name="ik Chain Proxies 10" offset="0xAE" visible="false" />
+			<uint8 name="ik Chain Proxies 11" offset="0xAF" visible="false" />
+			<uint8 name="Facial Wrinkle Events 0" offset="0xB0" visible="false" />
+			<uint8 name="Facial Wrinkle Events 1" offset="0xB1" visible="false" />
+			<uint8 name="Facial Wrinkle Events 2" offset="0xB2" visible="false" />
+			<uint8 name="Facial Wrinkle Events 3" offset="0xB3" visible="false" />
+			<uint8 name="Facial Wrinkle Events 4" offset="0xB4" visible="false" />
+			<uint8 name="Facial Wrinkle Events 5" offset="0xB5" visible="false" />
+			<uint8 name="Facial Wrinkle Events 6" offset="0xB6" visible="false" />
+			<uint8 name="Facial Wrinkle Events 7" offset="0xB7" visible="false" />
+			<uint8 name="Facial Wrinkle Events 8" offset="0xB8" visible="false" />
+			<uint8 name="Facial Wrinkle Events 9" offset="0xB9" visible="false" />
+			<uint8 name="Facial Wrinkle Events 10" offset="0xBA" visible="false" />
+			<uint8 name="Facial Wrinkle Events 11" offset="0xBB" visible="false" />
+			<uint8 name="Extended Data Events 0" offset="0xBC" visible="false" />
+			<uint8 name="Extended Data Events 1" offset="0xBD" visible="false" />
+			<uint8 name="Extended Data Events 2" offset="0xBE" visible="false" />
+			<uint8 name="Extended Data Events 3" offset="0xBF" visible="false" />
+			<uint8 name="Extended Data Events 4" offset="0xC0" visible="false" />
+			<uint8 name="Extended Data Events 5" offset="0xC1" visible="false" />
+			<uint8 name="Extended Data Events 6" offset="0xC2" visible="false" />
+			<uint8 name="Extended Data Events 7" offset="0xC3" visible="false" />
+			<uint8 name="Extended Data Events 8" offset="0xC4" visible="false" />
+			<uint8 name="Extended Data Events 9" offset="0xC5" visible="false" />
+			<uint8 name="Extended Data Events 10" offset="0xC6" visible="false" />
+			<uint8 name="Extended Data Events 11" offset="0xC7" visible="false" />
+			<uint8 name="Animation Object Functions 0" offset="0xC8" visible="false" />
+			<uint8 name="Animation Object Functions 1" offset="0xC9" visible="false" />
+			<uint8 name="Animation Object Functions 2" offset="0xCA" visible="false" />
+			<uint8 name="Animation Object Functions 3" offset="0xCB" visible="false" />
+			<uint8 name="Animation Object Functions 4" offset="0xCC" visible="false" />
+			<uint8 name="Animation Object Functions 5" offset="0xCD" visible="false" />
+			<uint8 name="Animation Object Functions 6" offset="0xCE" visible="false" />
+			<uint8 name="Animation Object Functions 7" offset="0xCF" visible="false" />
+			<uint8 name="Animation Object Functions 8" offset="0xD0" visible="false" />
+			<uint8 name="Animation Object Functions 9" offset="0xD1" visible="false" />
+			<uint8 name="Animation Object Functions 10" offset="0xD2" visible="false" />
+			<uint8 name="Animation Object Functions 11" offset="0xD3" visible="false" />
+		</tagblock>
+	</tagblock>
+	<uint8 name="New Blend Screens 0" offset="0xA0" visible="false" />
+	<uint8 name="New Blend Screens 1" offset="0xA1" visible="false" />
+	<uint8 name="New Blend Screens 2" offset="0xA2" visible="false" />
+	<uint8 name="New Blend Screens 3" offset="0xA3" visible="false" />
+	<uint8 name="New Blend Screens 4" offset="0xA4" visible="false" />
+	<uint8 name="New Blend Screens 5" offset="0xA5" visible="false" />
+	<uint8 name="New Blend Screens 6" offset="0xA6" visible="false" />
+	<uint8 name="New Blend Screens 7" offset="0xA7" visible="false" />
+	<uint8 name="New Blend Screens 8" offset="0xA8" visible="false" />
+	<uint8 name="New Blend Screens 9" offset="0xA9" visible="false" />
+	<uint8 name="New Blend Screens 10" offset="0xAA" visible="false" />
+	<uint8 name="New Blend Screens 11" offset="0xAB" visible="false" />
+	<uint8 name="New Function Overlays 0" offset="0xAC" visible="false" />
+	<uint8 name="New Function Overlays 1" offset="0xAD" visible="false" />
+	<uint8 name="New Function Overlays 2" offset="0xAE" visible="false" />
+	<uint8 name="New Function Overlays 3" offset="0xAF" visible="false" />
+	<uint8 name="New Function Overlays 4" offset="0xB0" visible="false" />
+	<uint8 name="New Function Overlays 5" offset="0xB1" visible="false" />
+	<uint8 name="New Function Overlays 6" offset="0xB2" visible="false" />
+	<uint8 name="New Function Overlays 7" offset="0xB3" visible="false" />
+	<uint8 name="New Function Overlays 8" offset="0xB4" visible="false" />
+	<uint8 name="New Function Overlays 9" offset="0xB5" visible="false" />
+	<uint8 name="New Function Overlays 10" offset="0xB6" visible="false" />
+	<uint8 name="New Function Overlays 11" offset="0xB7" visible="false" />
+	<uint8 name="Overlay Groups 0" offset="0xB8" visible="false" />
+	<uint8 name="Overlay Groups 1" offset="0xB9" visible="false" />
+	<uint8 name="Overlay Groups 2" offset="0xBA" visible="false" />
+	<uint8 name="Overlay Groups 3" offset="0xBB" visible="false" />
+	<uint8 name="Overlay Groups 4" offset="0xBC" visible="false" />
+	<uint8 name="Overlay Groups 5" offset="0xBD" visible="false" />
+	<uint8 name="Overlay Groups 6" offset="0xBE" visible="false" />
+	<uint8 name="Overlay Groups 7" offset="0xBF" visible="false" />
+	<uint8 name="Overlay Groups 8" offset="0xC0" visible="false" />
+	<uint8 name="Overlay Groups 9" offset="0xC1" visible="false" />
+	<uint8 name="Overlay Groups 10" offset="0xC2" visible="false" />
+	<uint8 name="Overlay Groups 11" offset="0xC3" visible="false" />
+	<uint8 name="Gaits 0" offset="0xC4" visible="false" />
+	<uint8 name="Gaits 1" offset="0xC5" visible="false" />
+	<uint8 name="Gaits 2" offset="0xC6" visible="false" />
+	<uint8 name="Gaits 3" offset="0xC7" visible="false" />
+	<uint8 name="Gaits 4" offset="0xC8" visible="false" />
+	<uint8 name="Gaits 5" offset="0xC9" visible="false" />
+	<uint8 name="Gaits 6" offset="0xCA" visible="false" />
+	<uint8 name="Gaits 7" offset="0xCB" visible="false" />
+	<uint8 name="Gaits 8" offset="0xCC" visible="false" />
+	<uint8 name="Gaits 9" offset="0xCD" visible="false" />
+	<uint8 name="Gaits 10" offset="0xCE" visible="false" />
+	<uint8 name="Gaits 11" offset="0xCF" visible="false" />
+	<uint8 name="Gait Groups 0" offset="0xD0" visible="false" />
+	<uint8 name="Gait Groups 1" offset="0xD1" visible="false" />
+	<uint8 name="Gait Groups 2" offset="0xD2" visible="false" />
+	<uint8 name="Gait Groups 3" offset="0xD3" visible="false" />
+	<uint8 name="Gait Groups 4" offset="0xD4" visible="false" />
+	<uint8 name="Gait Groups 5" offset="0xD5" visible="false" />
+	<uint8 name="Gait Groups 6" offset="0xD6" visible="false" />
+	<uint8 name="Gait Groups 7" offset="0xD7" visible="false" />
+	<uint8 name="Gait Groups 8" offset="0xD8" visible="false" />
+	<uint8 name="Gait Groups 9" offset="0xD9" visible="false" />
+	<uint8 name="Gait Groups 10" offset="0xDA" visible="false" />
+	<uint8 name="Gait Groups 11" offset="0xDB" visible="false" />
+	<uint8 name="ik Data 0" offset="0xDC" visible="false" />
+	<uint8 name="ik Data 1" offset="0xDD" visible="false" />
+	<uint8 name="ik Data 2" offset="0xDE" visible="false" />
+	<uint8 name="ik Data 3" offset="0xDF" visible="false" />
+	<uint8 name="ik Data 4" offset="0xE0" visible="false" />
+	<uint8 name="ik Data 5" offset="0xE1" visible="false" />
+	<uint8 name="ik Data 6" offset="0xE2" visible="false" />
+	<uint8 name="ik Data 7" offset="0xE3" visible="false" />
+	<uint8 name="ik Data 8" offset="0xE4" visible="false" />
+	<uint8 name="ik Data 9" offset="0xE5" visible="false" />
+	<uint8 name="ik Data 10" offset="0xE6" visible="false" />
+	<uint8 name="ik Data 11" offset="0xE7" visible="false" />
+	<uint8 name="ik Groups 0" offset="0xE8" visible="false" />
+	<uint8 name="ik Groups 1" offset="0xE9" visible="false" />
+	<uint8 name="ik Groups 2" offset="0xEA" visible="false" />
+	<uint8 name="ik Groups 3" offset="0xEB" visible="false" />
+	<uint8 name="ik Groups 4" offset="0xEC" visible="false" />
+	<uint8 name="ik Groups 5" offset="0xED" visible="false" />
+	<uint8 name="ik Groups 6" offset="0xEE" visible="false" />
+	<uint8 name="ik Groups 7" offset="0xEF" visible="false" />
+	<uint8 name="ik Groups 8" offset="0xF0" visible="false" />
+	<uint8 name="ik Groups 9" offset="0xF1" visible="false" />
+	<uint8 name="ik Groups 10" offset="0xF2" visible="false" />
+	<uint8 name="ik Groups 11" offset="0xF3" visible="false" />
+	<uint8 name="ik Chains 0" offset="0xF4" visible="false" />
+	<uint8 name="ik Chains 1" offset="0xF5" visible="false" />
+	<uint8 name="ik Chains 2" offset="0xF6" visible="false" />
+	<uint8 name="ik Chains 3" offset="0xF7" visible="false" />
+	<uint8 name="ik Chains 4" offset="0xF8" visible="false" />
+	<uint8 name="ik Chains 5" offset="0xF9" visible="false" />
+	<uint8 name="ik Chains 6" offset="0xFA" visible="false" />
+	<uint8 name="ik Chains 7" offset="0xFB" visible="false" />
+	<uint8 name="ik Chains 8" offset="0xFC" visible="false" />
+	<uint8 name="ik Chains 9" offset="0xFD" visible="false" />
+	<uint8 name="ik Chains 10" offset="0xFE" visible="false" />
+	<uint8 name="ik Chains 11" offset="0xFF" visible="false" />
+	<int16 name="Default Gait Group" offset="0x100" visible="true" />
+	<uint8 name="Pad 0" offset="0x102" visible="false" />
+	<uint8 name="Pad 1" offset="0x103" visible="false" />
+	<tagblock name="Modes" offset="0x104" visible="true" elementSize="0x30">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Overlay Group" offset="0x4" visible="true" />
+		<int16 name="ik Group" offset="0x6" visible="true" />
+		<int32 name="Stance Flags" offset="0x8" visible="true" />
+		<tagblock name="Weapon Class" offset="0xC" visible="true" elementSize="0x38">
+			<stringid name="Label" offset="0x0" visible="true" />
+			<int16 name="Overlay Group" offset="0x4" visible="true" />
+			<int16 name="ik Group" offset="0x6" visible="true" />
+			<tagblock name="Weapon Type" offset="0x8" visible="true" elementSize="0x14">
+				<stringid name="Label" offset="0x0" visible="true" />
+				<int16 name="Overlay Group" offset="0x4" visible="true" />
+				<int16 name="ik Group" offset="0x6" visible="true" />
+				<tagblock name="Animation Sets Reach" offset="0x8" visible="true" elementSize="0x48">
+					<stringid name="Label" offset="0x0" visible="true" />
+					<int16 name="Overlay Group" offset="0x4" visible="true" />
+					<int16 name="ik Group" offset="0x6" visible="true" />
+					<int16 name="gait Group" offset="0x8" visible="true" />
+					<uint8 name="Padding5 0" offset="0xA" visible="false" />
+					<uint8 name="Padding5 1" offset="0xB" visible="false" />
+					<tagblock name="Actions" offset="0xC" visible="true" elementSize="0xC">
+						<stringid name="Label" offset="0x0" visible="true" />
+						<int16 name="Overlay Group" offset="0x4" visible="true" />
+						<int16 name="ik Group" offset="0x6" visible="true" />
+						<int16 name="Graph Index" offset="0x8" visible="true" />
+						<int16 name="Animation" offset="0xA" visible="true" />
+					</tagblock>
+					<tagblock name="Overlays" offset="0x18" visible="true" elementSize="0xC">
+						<stringid name="Label" offset="0x0" visible="true" />
+						<int16 name="Overlay Group" offset="0x4" visible="true" />
+						<int16 name="ik Group" offset="0x6" visible="true" />
+						<int16 name="Graph Index" offset="0x8" visible="true" />
+						<int16 name="Animation" offset="0xA" visible="true" />
+					</tagblock>
+					<tagblock name="Death And Damage" offset="0x24" visible="true" elementSize="0x10">
+						<stringid name="Label" offset="0x0" visible="true" />
+						<tagblock name="Directions" offset="0x4" visible="true" elementSize="0xC">
+							<tagblock name="Regions" offset="0x0" visible="true" elementSize="0x4">
+								<int16 name="Graph Index" offset="0x0" visible="true" />
+								<int16 name="Animation" offset="0x2" visible="true" />
+							</tagblock>
+						</tagblock>
+					</tagblock>
+					<tagblock name="Transitions" offset="0x30" visible="true" elementSize="0x10">
+						<stringid name="State Name" offset="0x0" visible="true" />
+						<tagblock name="Destinations" offset="0x4" visible="true" elementSize="0xC">
+							<stringid name="Mode Name" offset="0x0" visible="true" />
+							<stringid name="State Name" offset="0x4" visible="true" />
+							<int16 name="Graph Index" offset="0x8" visible="true" />
+							<int16 name="Animation" offset="0xA" visible="true" />
+						</tagblock>
+					</tagblock>
+					<uint8 name="Velocity Boundaries 0" offset="0x3C" visible="false" />
+					<uint8 name="Velocity Boundaries 1" offset="0x3D" visible="false" />
+					<uint8 name="Velocity Boundaries 2" offset="0x3E" visible="false" />
+					<uint8 name="Velocity Boundaries 3" offset="0x3F" visible="false" />
+					<uint8 name="Velocity Boundaries 4" offset="0x40" visible="false" />
+					<uint8 name="Velocity Boundaries 5" offset="0x41" visible="false" />
+					<uint8 name="Velocity Boundaries 6" offset="0x42" visible="false" />
+					<uint8 name="Velocity Boundaries 7" offset="0x43" visible="false" />
+					<uint8 name="Velocity Boundaries 8" offset="0x44" visible="false" />
+					<uint8 name="Velocity Boundaries 9" offset="0x45" visible="false" />
+					<uint8 name="Velocity Boundaries 10" offset="0x46" visible="false" />
+					<uint8 name="Velocity Boundaries 11" offset="0x47" visible="false" />
+				</tagblock>
+			</tagblock>
+			<tagblock name="Weapon Ik" offset="0x14" visible="true" elementSize="0x8">
+				<stringid name="Marker" offset="0x0" visible="true" />
+				<stringid name="Attach To Marker" offset="0x4" visible="true" />
+			</tagblock>
+			<uint8 name="Ranged Actions 0" offset="0x20" visible="false" />
+			<uint8 name="Ranged Actions 1" offset="0x21" visible="false" />
+			<uint8 name="Ranged Actions 2" offset="0x22" visible="false" />
+			<uint8 name="Ranged Actions 3" offset="0x23" visible="false" />
+			<uint8 name="Ranged Actions 4" offset="0x24" visible="false" />
+			<uint8 name="Ranged Actions 5" offset="0x25" visible="false" />
+			<uint8 name="Ranged Actions 6" offset="0x26" visible="false" />
+			<uint8 name="Ranged Actions 7" offset="0x27" visible="false" />
+			<uint8 name="Ranged Actions 8" offset="0x28" visible="false" />
+			<uint8 name="Ranged Actions 9" offset="0x29" visible="false" />
+			<uint8 name="Ranged Actions 10" offset="0x2A" visible="false" />
+			<uint8 name="Ranged Actions 11" offset="0x2B" visible="false" />
+			<tagblock name="Sync Action Groups" offset="0x2C" visible="true" elementSize="0x10">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagblock name="Sync Actions" offset="0x4" visible="true" elementSize="0x1C">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<tagblock name="Same Type Participants" offset="0x4" visible="true" elementSize="0x30">
+						<flags32 name="Flags" offset="0x0" visible="true">
+							<bit name="Initiator" index="0" />
+							<bit name="CriticalParticipant" index="1" />
+							<bit name="Disabled" index="2" />
+							<bit name="Airborne" index="3" />
+							<bit name="Partner" index="4" />
+						</flags32>
+						<int16 name="Graph Index" offset="0x4" visible="true" />
+						<int16 name="Animation" offset="0x6" visible="true" />
+						<point3 name="Start Offset" offset="0x8" visible="true" />
+						<vector3 name="Start Facing" offset="0x14" visible="true" />
+						<vector3 name="End Offset" offset="0x20" visible="true" />
+						<float32 name="Time Until Hurt" offset="0x2C" visible="true" />
+					</tagblock>
+					<tagblock name="Other Participants" offset="0x10" visible="true" elementSize="0x14">
+						<enum32 name="Flags" offset="0x0" visible="true">
+							<option name="None" value="0" />
+							<option name="SupportsAnyType" value="1" />
+							<option name="Disabled" value="2" />
+						</enum32>
+						<tagref name="Object Type" offset="0x4" visible="true" />
+					</tagblock>
+				</tagblock>
+			</tagblock>
+		</tagblock>
+		<tagblock name="Mode Ik" offset="0x18" visible="true" elementSize="0x8">
+			<stringid name="Marker" offset="0x0" visible="true" />
+			<stringid name="Attach To Marker" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Foot Defaults" offset="0x24" visible="true" elementSize="0x4">
+			<int16 name="Foot" offset="0x0" visible="true" />
+			<int16 name="Default State" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Vehicle Suspension" offset="0x110" visible="true" elementSize="0x30">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<int16 name="Graph Index" offset="0x4" visible="true" />
+		<int16 name="Animation" offset="0x6" visible="true" />
+		<stringid name="Function Name" offset="0x8" visible="true" />
+		<stringid name="Marker Name" offset="0xC" visible="true" />
+		<stringid name="Contact Marker" offset="0x10" visible="true" />
+		<float32 name="Mass Point Offset" offset="0x14" visible="true" />
+		<float32 name="Full Extension Ground Depth" offset="0x18" visible="true" />
+		<float32 name="Full Compression Ground Depth" offset="0x1C" visible="true" />
+		<stringid name="Region Name" offset="0x20" visible="true" />
+		<float32 name="Destroyed Mass Point Offset" offset="0x24" visible="true" />
+		<float32 name="Destroyed Full Extension Ground Depth" offset="0x28" visible="true" />
+		<float32 name="Destroyed Full Compression Ground Depth" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Object Overlays" offset="0x11C" visible="true" elementSize="0x14">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<int16 name="Graph Index" offset="0x4" visible="true" />
+		<int16 name="Animation" offset="0x6" visible="true" />
+		<uint8 name="Padding0 0" offset="0x8" visible="false" />
+		<uint8 name="Padding0 1" offset="0x9" visible="false" />
+		<enum16 name="Function Controls" offset="0xA" visible="true">
+			<option name="Frame" value="0" />
+			<option name="Scale" value="1" />
+		</enum16>
+		<stringid name="Function" offset="0xC" visible="true" />
+		<uint8 name="Padding1 0" offset="0x10" visible="false" />
+		<uint8 name="Padding1 1" offset="0x11" visible="false" />
+		<uint8 name="Padding1 2" offset="0x12" visible="false" />
+		<uint8 name="Padding1 3" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Inheritance List" offset="0x128" visible="true" elementSize="0x30">
+		<tagref name="Inherited Graph" offset="0x0" visible="true" />
+		<tagblock name="Node Map" offset="0x10" visible="true" elementSize="0x2">
+			<int16 name="Local Node" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Node Map Flags" offset="0x1C" visible="true" elementSize="0x4">
+			<int32 name="Local Node Flags" offset="0x0" visible="true" />
+		</tagblock>
+		<float32 name="Root Z Offset" offset="0x28" visible="true" />
+		<flags32 name="Flags" offset="0x2C" visible="true">
+			<bit name="TightenNodes" index="0" />
+			<bit name="Bit1" index="1" />
+			<bit name="Bit2" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="New Inheritance List" offset="0x134" visible="true" elementSize="0x30">
+		<tagref name="Inherited Graph" offset="0x0" visible="true" />
+		<tagblock name="Node Map" offset="0x10" visible="true" elementSize="0x2">
+			<int16 name="Local Node" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Node Map Flags" offset="0x1C" visible="true" elementSize="0x4">
+			<int32 name="Local Node Flags" offset="0x0" visible="true" />
+		</tagblock>
+		<float32 name="Root Z Offset" offset="0x28" visible="true" />
+		<flags32 name="Flags" offset="0x2C" visible="true">
+			<bit name="TightenNodes" index="0" />
+			<bit name="Bit1" index="1" />
+			<bit name="Bit2" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Weapon List" offset="0x140" visible="true" elementSize="0x8">
+		<stringid name="Weapon Name" offset="0x0" visible="true" />
+		<stringid name="Weapon Class" offset="0x4" visible="true" />
+	</tagblock>
+	<uint32 name="Left Arm Nodes 0" offset="0x14C" visible="true" />
+	<uint32 name="Left Arm Nodes 1" offset="0x150" visible="true" />
+	<uint32 name="Left Arm Nodes 2" offset="0x154" visible="true" />
+	<uint32 name="Left Arm Nodes 3" offset="0x158" visible="true" />
+	<uint32 name="Left Arm Nodes 4" offset="0x15C" visible="true" />
+	<uint32 name="Left Arm Nodes 5" offset="0x160" visible="true" />
+	<uint32 name="Left Arm Nodes 6" offset="0x164" visible="true" />
+	<uint32 name="Left Arm Nodes 7" offset="0x168" visible="true" />
+	<uint32 name="Right Arm Nodes 0" offset="0x16C" visible="true" />
+	<uint32 name="Right Arm Nodes 1" offset="0x170" visible="true" />
+	<uint32 name="Right Arm Nodes 2" offset="0x174" visible="true" />
+	<uint32 name="Right Arm Nodes 3" offset="0x178" visible="true" />
+	<uint32 name="Right Arm Nodes 4" offset="0x17C" visible="true" />
+	<uint32 name="Right Arm Nodes 5" offset="0x180" visible="true" />
+	<uint32 name="Right Arm Nodes 6" offset="0x184" visible="true" />
+	<uint32 name="Right Arm Nodes 7" offset="0x188" visible="true" />
+	<dataref name="Last Import Results" offset="0x18C" visible="true" />
+	<tagblock name="Additional Node Data" offset="0x1A0" visible="true" elementSize="0x3C">
+		<stringid name="Node Name" offset="0x0" visible="true" />
+		<vector4 name="Default Rotation" offset="0x4" visible="true" />
+		<point3 name="Default Translation" offset="0x14" visible="true" />
+		<float32 name="Default Scale" offset="0x20" visible="true" />
+		<point3 name="Minimum Bounds" offset="0x24" visible="true" />
+		<point3 name="Maximum Bounds" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Resource Groups" offset="0x1AC" visible="true" elementSize="0xC">
+		<int32 name="Member Count" offset="0x0" visible="true" />
+		<uint32 name="Resource Reference (resource datum)" offset="0x4" visible="true" />
+		<uint32 name="Resource Reference (resource pad)" offset="0x8" visible="true" />
+	</tagblock>
+</plugin>

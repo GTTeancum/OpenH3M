@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Converts Reach 360 lightmaps (dual-VMF) to Halo 3 lightmaps (linear SH + intensity, DXT5 arrays) with TagTool's
+       own ReachLightmapConverter. TagTool is used as a library, read only. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="TagTool"><HintPath>C:\Programming\GitHub\OpenH3M\.local\asset-tools\TagTool\TagTool.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

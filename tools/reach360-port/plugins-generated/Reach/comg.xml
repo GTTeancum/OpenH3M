@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x40">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CommendationGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Commendation Aggregators" offset="0x0" visible="true" />
+	<tagref name="Medal Aggregators" offset="0x10" visible="true" />
+	<tagref name="Commendation Text" offset="0x20" visible="true" />
+	<int16 name="Progress Display Time" offset="0x30" visible="true" />
+	<int16 name="Complete Display Time" offset="0x32" visible="true" />
+	<tagblock name="Commendations" offset="0x34" visible="true" elementSize="0x84">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Description" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="Hidden" index="0" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+		<enum8 name="Category" offset="0xC" visible="true">
+			<option name="Default" value="0" />
+			<option name="Weapons" value="1" />
+			<option name="Ordnance" value="2" />
+			<option name="Enemies" value="3" />
+			<option name="Vehicles" value="4" />
+			<option name="Player" value="5" />
+			<option name="ArmorAbilities" value="6" />
+			<option name="Objectives" value="7" />
+			<option name="Customs" value="8" />
+			<option name="Ugc" value="9" />
+		</enum8>
+		<enum8 name="Subcategory" offset="0xD" visible="true">
+			<option name="Default" value="0" />
+			<option name="Unsc" value="1" />
+			<option name="Covenant" value="2" />
+			<option name="Forerunner" value="3" />
+			<option name="CovenantEnemy" value="4" />
+			<option name="ForerunnerEnemy" value="5" />
+			<option name="Campaign" value="6" />
+			<option name="WarGames" value="7" />
+			<option name="Slayer" value="8" />
+			<option name="Regicide" value="9" />
+			<option name="Ctf" value="10" />
+			<option name="Extraction" value="11" />
+			<option name="Oddball" value="12" />
+			<option name="KingOfTheHill" value="13" />
+			<option name="Dominion" value="14" />
+			<option name="Flood" value="15" />
+		</enum8>
+		<int8 name="Sequence Index" offset="0xE" visible="true" />
+		<uint8 name="Padding1 0" offset="0xF" visible="false" />
+		<int16 name="Medal Sprite Index" offset="0x10" visible="true" />
+		<int16 name="Game Type Sprite Index" offset="0x12" visible="true" />
+		<stringid name="Prerequisites / Prerequisite Purchased Item Error String" offset="0x14" visible="true" />
+		<stringid name="Prerequisites / Prerequisite Unlockable Error String" offset="0x18" visible="true" />
+		<stringid name="Prerequisites / Prerequisite Offers Error String" offset="0x1C" visible="true" />
+		<int32 name="Prerequisites / Prerequisite Enlistment Count" offset="0x20" visible="true" />
+		<tagblock name="Prerequisites / Prerequisite Grades" offset="0x24" visible="true" elementSize="0x8">
+			<int32 name="Enlistment Index" offset="0x0" visible="true" />
+			<int32 name="Minimum Grade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Commendations" offset="0x30" visible="true" elementSize="0x8">
+			<stringid name="Commendation Id" offset="0x0" visible="true" />
+			<enum8 name="Type" offset="0x4" visible="true">
+				<option name="Commendation" value="0" />
+				<option name="Aggregator" value="1" />
+			</enum8>
+			<int8 name="Minimum Level" offset="0x5" visible="true" />
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Appearance Purchased Items" offset="0x3C" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Loadout Purchased Items" offset="0x48" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Ordnance Purchased Items" offset="0x54" visible="true" elementSize="0x4">
+			<int16 name="Item Reference / Item Reference" offset="0x0" visible="true" />
+			<uint8 name="Item Reference / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Item Reference / Padding 1" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Unlockables" offset="0x60" visible="true" elementSize="0x4">
+			<stringid name="Unlockable Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Prerequisites / Prerequisite Offers" offset="0x6C" visible="true" elementSize="0x4">
+			<enum8 name="Offer Type" offset="0x0" visible="true">
+				<option name="DeadeyeHelmet" value="0" />
+				<option name="LocusHelmet" value="1" />
+				<option name="GungnirPulse" value="2" />
+				<option name="VenatorRaptor" value="3" />
+				<option name="Cioweb" value="4" />
+				<option name="HazopForest" value="5" />
+				<option name="OceanicCircuit" value="6" />
+				<option name="BattleRifleArctic" value="7" />
+				<option name="BonebreakerEmblem" value="8" />
+				<option name="AssassinEmblem" value="9" />
+				<option name="BulletproofEmblem" value="10" />
+				<option name="SpartanEmblem" value="11" />
+				<option name="MjolnirEmblem" value="12" />
+				<option name="Lce1Emblem" value="13" />
+				<option name="SpartanIvarmorUnique" value="14" />
+				<option name="AssaultRifleUnique" value="15" />
+				<option name="Specializations" value="16" />
+				<option name="UnicornEmblem" value="17" />
+				<option name="UnicornArmor" value="18" />
+				<option name="UnicornLightRifle" value="19" />
+				<option name="LiveEmblem" value="20" />
+				<option name="ScannerHelmet" value="21" />
+				<option name="StriderHelmet" value="22" />
+				<option name="FalconEmblem" value="23" />
+				<option name="Reserved01" value="24" />
+				<option name="Reserved02" value="25" />
+				<option name="Reserved04" value="26" />
+				<option name="Reserved08" value="27" />
+				<option name="Reserved10" value="28" />
+				<option name="Reserved20" value="29" />
+				<option name="Reserved40" value="30" />
+				<option name="ReservedDoNotUse80" value="31" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+		</tagblock>
+		<tagblock name="Levels" offset="0x78" visible="true" elementSize="0x18">
+			<stringid name="Level Name" offset="0x0" visible="true" />
+			<int16 name="Progress Ticks To Level" offset="0x4" visible="true" />
+			<int16 name="Progress Display Interval" offset="0x6" visible="true" />
+			<stringid name="Achievement" offset="0x8" visible="true" />
+			<tagblock name="Level Up Rewards" offset="0xC" visible="true" elementSize="0x4">
+				<enum8 name="Currency Type" offset="0x0" visible="true">
+					<option name="Cookies" value="0" />
+					<option name="Xp" value="1" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<int16 name="Reward Value" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+</plugin>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x70">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MultiplayerObjectTypeList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Object Types" offset="0x0" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagref name="Object" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Weapons" offset="0xC" visible="true" elementSize="0x1C">
+		<int32 name="Object Type" offset="0x0" visible="true" />
+		<stringid name="Object Description" offset="0x4" visible="true" />
+		<stringid name="Object Header Text" offset="0x8" visible="true" />
+		<stringid name="Object Help Text" offset="0xC" visible="true" />
+		<float32 name="Random Weight" offset="0x10" visible="true" />
+		<int32 name="Loadout Menu Sprite Frame" offset="0x14" visible="true" />
+		<stringid name="Icon String Id" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Vehicles" offset="0x18" visible="true" elementSize="0x1C">
+		<int32 name="Object Type" offset="0x0" visible="true" />
+		<stringid name="Object Description" offset="0x4" visible="true" />
+		<stringid name="Object Header Text" offset="0x8" visible="true" />
+		<stringid name="Object Help Text" offset="0xC" visible="true" />
+		<float32 name="Random Weight" offset="0x10" visible="true" />
+		<int32 name="Loadout Menu Sprite Frame" offset="0x14" visible="true" />
+		<stringid name="Icon String Id" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Grenades" offset="0x24" visible="true" elementSize="0x1C">
+		<int32 name="Object Type" offset="0x0" visible="true" />
+		<stringid name="Object Description" offset="0x4" visible="true" />
+		<stringid name="Object Header Text" offset="0x8" visible="true" />
+		<stringid name="Object Help Text" offset="0xC" visible="true" />
+		<float32 name="Random Weight" offset="0x10" visible="true" />
+		<int32 name="Loadout Menu Sprite Frame" offset="0x14" visible="true" />
+		<stringid name="Icon String Id" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Equipment" offset="0x30" visible="true" elementSize="0x1C">
+		<int32 name="Object Type" offset="0x0" visible="true" />
+		<stringid name="Object Description" offset="0x4" visible="true" />
+		<stringid name="Object Header Text" offset="0x8" visible="true" />
+		<stringid name="Object Help Text" offset="0xC" visible="true" />
+		<float32 name="Random Weight" offset="0x10" visible="true" />
+		<int32 name="Loadout Menu Sprite Frame" offset="0x14" visible="true" />
+		<stringid name="Icon String Id" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Weapon Remapping" offset="0x3C" visible="true" elementSize="0x10">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Remap Table" offset="0x4" visible="true" elementSize="0x8">
+			<int32 name="From Object" offset="0x0" visible="true" />
+			<int32 name="To Object" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Vehicle Remapping" offset="0x48" visible="true" elementSize="0x10">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Remap Table" offset="0x4" visible="true" elementSize="0x8">
+			<int32 name="From Object" offset="0x0" visible="true" />
+			<int32 name="To Object" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Equipment Remapping" offset="0x54" visible="true" elementSize="0x10">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Remap Table" offset="0x4" visible="true" elementSize="0x8">
+			<int32 name="From Object" offset="0x0" visible="true" />
+			<int32 name="To Object" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<int32 name="Random Weapon Menu Sprite Frame" offset="0x60" visible="true" />
+	<int32 name="Random Equipment Menu Sprite Frame" offset="0x64" visible="true" />
+	<stringid name="Random Weapon Icon String Id" offset="0x68" visible="true" />
+	<stringid name="Random Equipment Icon String Id" offset="0x6C" visible="true" />
+</plugin>

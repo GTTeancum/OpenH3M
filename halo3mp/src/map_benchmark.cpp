@@ -20,6 +20,7 @@ REXCVAR_DEFINE_STRING(halo3mp_benchmark_map, "", "Halo3MP/Developer", "Expected 
 REXCVAR_DEFINE_STRING(halo3mp_benchmark_variant, "", "Halo3MP/Developer", "Expected saved Forge layout name, if selected");
 REXCVAR_DEFINE_STRING(halo3mp_benchmark_points, "", "Halo3MP/Developer", "Repository-local authored spawn coordinate list");
 REXCVAR_DEFINE_UINT32(halo3mp_benchmark_seconds, 10, "Halo3MP/Developer", "Seconds measured at each spawn").range(5, 60);
+REXCVAR_DEFINE_BOOL(halo3mp_benchmark_uncapped, false, "Halo3MP/Developer", "Release the frame cap when the benchmark starts placing the player (menus stay capped)");
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
 
 namespace {
@@ -119,6 +120,14 @@ struct Benchmark {
     if (!body) return;
     const auto now = Clock::now();
     if (stage == 0) {
+      if (REXCVAR_GET(halo3mp_benchmark_uncapped) && !open_h3m::developer::uncapped.load()) {
+        // Menus need the cap for scripted input; release it only for the measurement itself.
+        open_h3m::developer::uncapped.store(true);
+        rex::cvar::SetFlagByName("host_guest_output_fps", "0");
+        rex::cvar::SetFlagByName("d3d12_host_sync_interval", "0");
+        rex::cvar::SetFlagByName("vsync", "false");
+        REXLOG_INFO("[map-benchmark] frame cap released for measurement");
+      }
       const auto& point = points[index];
       PPCContext call = ctx;
       call.r1.u32 -= 0x200;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SoundIncidentResponse (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Responses" offset="0x0" visible="true" elementSize="0x14">
+		<flags8 name="Audience" offset="0x0" visible="true">
+			<bit name="CausePlayer" index="0" />
+			<bit name="CauseTeam" index="1" />
+			<bit name="EffectPlayer" index="2" />
+			<bit name="EffectTeam" index="3" />
+			<bit name="Everyone" index="4" />
+		</flags8>
+		<flags8 name="Excluded Audience" offset="0x1" visible="true">
+			<bit name="CausePlayer" index="0" />
+			<bit name="CauseTeam" index="1" />
+			<bit name="EffectPlayer" index="2" />
+			<bit name="EffectTeam" index="3" />
+			<bit name="Everyone" index="4" />
+		</flags8>
+		<flags8 name="Split Screen Flags" offset="0x2" visible="true">
+			<bit name="DisableIfSplitScreen" index="0" />
+			<bit name="DisableIfNotSplitScreen" index="1" />
+			<bit name="DisableIfSplitScreenOnDifferentTeams" index="2" />
+			<bit name="DisableIfSplitScreenAllOnSameTeam" index="3" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x3" visible="false" />
+		<tagref name="Response" offset="0x4" visible="true" />
+	</tagblock>
+</plugin>

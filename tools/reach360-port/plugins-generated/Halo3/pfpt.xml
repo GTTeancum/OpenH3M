@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x88">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PlanarFogParameters (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="EnablePatchyEffect" index="0" />
+		<bit name="EnableColorPalette" index="1" />
+		<bit name="EnableAlphaPalette" index="2" />
+		<bit name="RenderOnly" index="3" />
+	</flags16>
+	<uint8 name="Padding 0" offset="0x2" visible="false" />
+	<uint8 name="Padding 1" offset="0x3" visible="false" />
+	<float32 name="Fog Thickness00 To10" offset="0x4" visible="true" />
+	<float32 name="Per Vertex Fog Thickness Modulation" offset="0x8" visible="true" />
+	<float32 name="Full Fog Depth" offset="0xC" visible="true" />
+	<colorf name="Fog Color" offset="0x10" alpha="false" visible="true" />
+	<float32 name="Fog Color Intensity" offset="0x1C" visible="true" />
+	<tagref name="Palette Texture" offset="0x20" visible="true" />
+	<tagref name="Patchy Texture" offset="0x30" visible="true" />
+	<colorf name="Patchy Color" offset="0x40" alpha="false" visible="true" />
+	<float32 name="Patchy Color Intensity" offset="0x4C" visible="true" />
+	<float32 name="Patchy Texture Tile Size" offset="0x50" visible="true" />
+	<float32 name="Patchy Distance Between Sheets" offset="0x54" visible="true" />
+	<float32 name="Patchy Z Buffer Fade Factor" offset="0x58" visible="true" />
+	<float32 name="Patchy Distance Falloff Start" offset="0x5C" visible="true" />
+	<float32 name="Patchy Distance Falloff Power" offset="0x60" visible="true" />
+	<float32 name="Patchy Density" offset="0x64" visible="true" />
+	<float32 name="Patchy Surface Depth" offset="0x68" visible="true" />
+	<float32 name="Patchy Fade Range" offset="0x6C" visible="true" />
+	<vector3 name="Patchy Wind Direction" offset="0x70" visible="true" />
+	<float32 name="Max Fog Draw Distance" offset="0x7C" visible="true" />
+	<float32 name="Patchy Fade Start Distance" offset="0x80" visible="true" />
+	<float32 name="Patchy Fade End Distance" offset="0x84" visible="true" />
+</plugin>

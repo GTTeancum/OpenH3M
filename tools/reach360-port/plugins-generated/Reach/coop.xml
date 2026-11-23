@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x38">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CoopSpawningGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<int16 name="Player Cooldown Timer Seconds" offset="0x0" visible="true" />
+	<int16 name="Backfield Cooldown Timer Seconds" offset="0x2" visible="true" />
+	<int16 name="Unsafe Spawn Timer" offset="0x4" visible="true" />
+	<int16 name="Teammate Damage Timer" offset="0x6" visible="true" />
+	<int16 name="Dead Body Switch Time" offset="0x8" visible="true" />
+	<flags16 name="Flags" offset="0xA" visible="true">
+		<bit name="PushToSpawnEnabled" index="0" />
+		<bit name="ShowMarkerOnRespawnPlayer" index="1" />
+		<bit name="ExterminationSyncsTimers" index="2" />
+		<bit name="ExterminationSyncsLocation" index="3" />
+		<bit name="RotationAllowedOnPlayer" index="4" />
+		<bit name="RotationAllowedOnObject" index="5" />
+		<bit name="DisplayLoadoutsIfChanged" index="6" />
+		<bit name="AlwaysDisplayLoadoutsOnDeath" index="7" />
+		<bit name="DisableSpartanRespawnOnPlayer" index="8" />
+		<bit name="DisableSpartanRespawnOnBackfield" index="9" />
+		<bit name="DisableEliteRespawnOnPlayer" index="10" />
+		<bit name="DisableEliteRespawnOnBackfield" index="11" />
+	</flags16>
+	<int16 name="Loadout Menu Spawn Suppression Time" offset="0xC" visible="true" />
+	<int16 name="Loadout Menu Cooldown Time" offset="0xE" visible="true" />
+	<int16 name="Loadout Menu Initial Choice Time" offset="0x10" visible="true" />
+	<int16 name="Maximum Spawn Suppression Time" offset="0x12" visible="true" />
+	<float32 name="Nearby Enemy Cylinder Height" offset="0x14" visible="true" />
+	<float32 name="Nearby Enemy Cylinder Radius" offset="0x18" visible="true" />
+	<enum32 name="Ready" offset="0x1C" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<enum32 name="Waiting" offset="0x20" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<enum32 name="Enemy Territory" offset="0x24" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<enum32 name="Teammate Damaged" offset="0x28" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<enum32 name="Enemy Nearby" offset="0x2C" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<enum32 name="Projectiles" offset="0x30" visible="true">
+		<option name="HasNoEffect" value="0" />
+		<option name="DisplaysWarning" value="1" />
+		<option name="PreventsSpawn" value="2" />
+	</enum32>
+	<float32 name="Failover To Influence Spawning Time" offset="0x34" visible="true" />
+</plugin>

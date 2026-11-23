@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SandboxTextValuePairDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Sandbox Text Value Pairs" offset="0x0" visible="true" elementSize="0x10">
+		<stringid name="Parameter Name" offset="0x0" visible="true" />
+		<tagblock name="Text Value Pairs" offset="0x4" visible="true" elementSize="0x14">
+			<uint8 name="Flags" offset="0x0" visible="true" />
+			<enum8 name="Expected Value Type" offset="0x1" visible="true">
+				<option name="IntegerIndex" value="0" />
+				<option name="StringidReference" value="1" />
+				<option name="Incremental" value="2" />
+			</enum8>
+			<uint8 name="Pad 0" offset="0x2" visible="false" />
+			<uint8 name="Pad 1" offset="0x3" visible="false" />
+			<int32 name="Enumerated Value" offset="0x4" visible="true" />
+			<stringid name="Ref Name" offset="0x8" visible="true" />
+			<stringid name="Name" offset="0xC" visible="true" />
+			<stringid name="Description" offset="0x10" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x34">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CameraShake (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Camera Impulse / Impulse Duration" offset="0x0" visible="true" />
+	<enum16 name="Camera Impulse / Fade Function" offset="0x4" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Camera Impulse / Padding0 0" offset="0x6" visible="false" />
+	<uint8 name="Camera Impulse / Padding0 1" offset="0x7" visible="false" />
+	<degree name="Camera Impulse / Rotation" offset="0x8" visible="true" />
+	<float32 name="Camera Impulse / Pushback" offset="0xC" visible="true" />
+	<rangef name="Camera Impulse / Jitter" offset="0x10" visible="true" />
+	<float32 name="Camera Shake Data / Shake Duration" offset="0x18" visible="true" />
+	<enum16 name="Camera Shake Data / Fade Function" offset="0x1C" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Camera Shake Data / Padding0 0" offset="0x1E" visible="false" />
+	<uint8 name="Camera Shake Data / Padding0 1" offset="0x1F" visible="false" />
+	<float32 name="Camera Shake Data / Random Translation" offset="0x20" visible="true" />
+	<degree name="Camera Shake Data / Random Rotation" offset="0x24" visible="true" />
+	<enum16 name="Camera Shake Data / Wobble Function" offset="0x28" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="Cosine1" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWave1" value="5" />
+		<option name="Slide" value="6" />
+		<option name="Slide1" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<uint8 name="Camera Shake Data / Padding1 0" offset="0x2A" visible="false" />
+	<uint8 name="Camera Shake Data / Padding1 1" offset="0x2B" visible="false" />
+	<float32 name="Camera Shake Data / Wobble Function Period" offset="0x2C" visible="true" />
+	<float32 name="Camera Shake Data / Wobble Weight" offset="0x30" visible="true" />
+</plugin>

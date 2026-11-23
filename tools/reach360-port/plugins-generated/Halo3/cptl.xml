@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x64">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CheapParticleTypeLibrary (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Types" offset="0x0" visible="true" elementSize="0x54">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Drag" offset="0x4" visible="true" />
+		<float32 name="Gravity" offset="0x8" visible="true" />
+		<float32 name="Turbulence" offset="0xC" visible="true" />
+		<int32 name="Turbulence Type" offset="0x10" visible="true" />
+		<float32 name="Depth Range" offset="0x14" visible="true" />
+		<float32 name="Elasticity" offset="0x18" visible="true" />
+		<float32 name="Death" offset="0x1C" visible="true" />
+		<int32 name="Change Type" offset="0x20" visible="true" />
+		<enum32 name="Orientation" offset="0x24" visible="true">
+			<option name="Velocity" value="0" />
+			<option name="ScreenFacing" value="1" />
+		</enum32>
+		<colorf name="Color0" offset="0x28" alpha="true" visible="true" />
+		<float32 name="Intensity0" offset="0x38" visible="true" />
+		<float32 name="Fade Start" offset="0x3C" visible="true" />
+		<rangef name="Size" offset="0x40" visible="true" />
+		<float32 name="Motion Blur Stretch" offset="0x48" visible="true" />
+		<int32 name="Texture" offset="0x4C" visible="true" />
+		<float32 name="Texture Y Scale" offset="0x50" visible="true" />
+	</tagblock>
+	<tagblock name="Textures" offset="0xC" visible="true" elementSize="0x10">
+		<tagref name="Bitmap" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Random" offset="0x18" visible="true" />
+	<tagblock name="Turbulence Types" offset="0x28" visible="true" elementSize="0x24">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagref name="Turbulence" offset="0x4" visible="true" />
+		<float32 name="Turb Du Dt" offset="0x14" visible="true" />
+		<float32 name="Turb Dv Dt" offset="0x18" visible="true" />
+		<float32 name="Turb Du Dp" offset="0x1C" visible="true" />
+		<float32 name="Turb Dv Dp" offset="0x20" visible="true" />
+	</tagblock>
+	<tagref name="Type Texture" offset="0x34" visible="true" />
+	<tagref name="Render Texture" offset="0x44" visible="true" />
+	<tagref name="Turbulencetexture" offset="0x54" visible="true" />
+</plugin>

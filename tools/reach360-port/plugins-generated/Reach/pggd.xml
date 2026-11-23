@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PlayerGradeGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Player Grades" offset="0x0" visible="true" elementSize="0x1C">
+		<int32 name="Xp Threshold" offset="0x0" visible="true" />
+		<stringid name="Name" offset="0x4" visible="true" />
+		<int16 name="Sprite Index" offset="0x8" visible="true" />
+		<uint8 name="Padding 0" offset="0xA" visible="false" />
+		<uint8 name="Padding 1" offset="0xB" visible="false" />
+		<float32 name="Time Played Multiplier" offset="0xC" visible="true" />
+		<tagblock name="Level Up Rewards" offset="0x10" visible="true" elementSize="0x4">
+			<enum8 name="Currency Type" offset="0x0" visible="true">
+				<option name="Cookies" value="0" />
+				<option name="Xp" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<int16 name="Reward Amount" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

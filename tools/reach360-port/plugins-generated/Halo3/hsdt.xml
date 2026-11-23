@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x74">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Script (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Source Files" offset="0x0" visible="true" elementSize="0x38">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<dataref name="Source" offset="0x20" visible="true" />
+		<flags32 name="Flags" offset="0x34" visible="true">
+			<bit name="GeneratedAtRuntime" index="0" />
+			<bit name="AiFragments" index="1" />
+			<bit name="AiPerformances" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Scripts" offset="0xC" visible="true" elementSize="0x20">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum16 name="Script Type" offset="0x4" visible="true">
+			<option name="Startup" value="0" />
+			<option name="Dormant" value="1" />
+			<option name="Continuous" value="2" />
+			<option name="Static" value="3" />
+			<option name="CommandScript" value="4" />
+			<option name="Stub" value="5" />
+		</enum16>
+		<flags16 name="Script Flags" offset="0x6" visible="true">
+			<bit name="Instanced" index="0" />
+			<bit name="Cinema" index="1" />
+		</flags16>
+		<enum32 name="Return Type" offset="0x8" visible="true">
+			<option name="Unparsed" value="0" />
+			<option name="SpecialForm" value="1" />
+			<option name="FunctionName" value="2" />
+			<option name="Passthrough" value="3" />
+			<option name="Void" value="4" />
+			<option name="Boolean" value="5" />
+			<option name="Real" value="6" />
+			<option name="Short" value="7" />
+			<option name="Long" value="8" />
+			<option name="String" value="9" />
+			<option name="Script" value="10" />
+			<option name="StringId" value="11" />
+			<option name="UnitSeatMapping" value="12" />
+			<option name="TriggerVolume" value="13" />
+			<option name="SoundEvent" value="14" />
+			<option name="CutsceneFlag" value="15" />
+			<option name="CutsceneCameraPoint" value="16" />
+			<option name="CutsceneTitle" value="17" />
+			<option name="CutsceneRecording" value="18" />
+			<option name="DeviceGroup" value="19" />
+			<option name="Ai" value="20" />
+			<option name="AiCommandList" value="21" />
+			<option name="AiCommandScript" value="22" />
+			<option name="AiBehavior" value="23" />
+			<option name="AiOrders" value="24" />
+			<option name="AiLine" value="25" />
+			<option name="StartingProfile" value="26" />
+			<option name="Conversation" value="27" />
+			<option name="Player" value="28" />
+			<option name="ZoneSet" value="29" />
+			<option name="DesignerZone" value="30" />
+			<option name="PointReference" value="31" />
+			<option name="PointSetReference" value="32" />
+			<option name="Style" value="33" />
+			<option name="ObjectList" value="34" />
+			<option name="Folder" value="35" />
+			<option name="Sound" value="36" />
+			<option name="Effect" value="37" />
+			<option name="Damage" value="38" />
+			<option name="LoopingSound" value="39" />
+			<option name="AnimationGraph" value="40" />
+			<option name="DamageEffect" value="41" />
+			<option name="ObjectDefinition" value="42" />
+			<option name="Bitmap" value="43" />
+			<option name="Shader" value="44" />
+			<option name="RenderModel" value="45" />
+			<option name="StructureDefinition" value="46" />
+			<option name="LightmapDefinition" value="47" />
+			<option name="CinematicDefinition" value="48" />
+			<option name="CinematicSceneDefinition" value="49" />
+			<option name="CinematicSceneDataDefinition" value="50" />
+			<option name="CinematicTransitionDefinition" value="51" />
+			<option name="BinkDefinition" value="52" />
+			<option name="CuiScreenDefinition" value="53" />
+			<option name="AnyTag" value="54" />
+			<option name="AnyTagNotResolving" value="55" />
+			<option name="GameDifficulty" value="56" />
+			<option name="Team" value="57" />
+			<option name="MpTeam" value="58" />
+			<option name="Controller" value="59" />
+			<option name="ButtonPreset" value="60" />
+			<option name="JoystickPreset" value="61" />
+			<option name="PlayerColor" value="62" />
+			<option name="PlayerModelChoice" value="63" />
+			<option name="VoiceOutputSetting" value="64" />
+			<option name="VoiceMask" value="65" />
+			<option name="SubtitleSetting" value="66" />
+			<option name="ActorType" value="67" />
+			<option name="ModelState" value="68" />
+			<option name="Event" value="69" />
+			<option name="CharacterPhysics" value="70" />
+			<option name="Skull" value="71" />
+			<option name="FiringPointEvaluator" value="72" />
+			<option name="DamageRegion" value="73" />
+			<option name="CurrencyType" value="74" />
+			<option name="DeliveryMethod" value="75" />
+			<option name="WaveDifficulty" value="76" />
+			<option name="FirefightGoal" value="77" />
+			<option name="FirefightWaveType" value="78" />
+			<option name="Font" value="79" />
+			<option name="TextJustification" value="80" />
+			<option name="TextAlignment" value="81" />
+			<option name="TextDropShadowType" value="82" />
+			<option name="HavokGroup" value="83" />
+			<option name="Object" value="84" />
+			<option name="Unit" value="85" />
+			<option name="Vehicle" value="86" />
+			<option name="Weapon" value="87" />
+			<option name="Device" value="88" />
+			<option name="Scenery" value="89" />
+			<option name="EffectScenery" value="90" />
+			<option name="ObjectName" value="91" />
+			<option name="UnitName" value="92" />
+			<option name="VehicleName" value="93" />
+			<option name="WeaponName" value="94" />
+			<option name="DeviceName" value="95" />
+			<option name="SceneryName" value="96" />
+			<option name="EffectSceneryName" value="97" />
+			<option name="CinematicLightprobe" value="98" />
+			<option name="AnimationBudgetReference" value="99" />
+			<option name="LoopingSoundBudgetReference" value="100" />
+			<option name="SoundBudgetReference" value="101" />
+		</enum32>
+		<int32 name="Root Expression Index" offset="0xC" visible="true" />
+		<int32 name="Locals Stack Space" offset="0x10" visible="true" />
+		<tagblock name="Parameters" offset="0x14" visible="true" elementSize="0x24">
+			<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+			<enum32 name="Return Type" offset="0x20" visible="true">
+				<option name="Unparsed" value="0" />
+				<option name="SpecialForm" value="1" />
+				<option name="FunctionName" value="2" />
+				<option name="Passthrough" value="3" />
+				<option name="Void" value="4" />
+				<option name="Boolean" value="5" />
+				<option name="Real" value="6" />
+				<option name="Short" value="7" />
+				<option name="Long" value="8" />
+				<option name="String" value="9" />
+				<option name="Script" value="10" />
+				<option name="StringId" value="11" />
+				<option name="UnitSeatMapping" value="12" />
+				<option name="TriggerVolume" value="13" />
+				<option name="SoundEvent" value="14" />
+				<option name="CutsceneFlag" value="15" />
+				<option name="CutsceneCameraPoint" value="16" />
+				<option name="CutsceneTitle" value="17" />
+				<option name="CutsceneRecording" value="18" />
+				<option name="DeviceGroup" value="19" />
+				<option name="Ai" value="20" />
+				<option name="AiCommandList" value="21" />
+				<option name="AiCommandScript" value="22" />
+				<option name="AiBehavior" value="23" />
+				<option name="AiOrders" value="24" />
+				<option name="AiLine" value="25" />
+				<option name="StartingProfile" value="26" />
+				<option name="Conversation" value="27" />
+				<option name="Player" value="28" />
+				<option name="ZoneSet" value="29" />
+				<option name="DesignerZone" value="30" />
+				<option name="PointReference" value="31" />
+				<option name="PointSetReference" value="32" />
+				<option name="Style" value="33" />
+				<option name="ObjectList" value="34" />
+				<option name="Folder" value="35" />
+				<option name="Sound" value="36" />
+				<option name="Effect" value="37" />
+				<option name="Damage" value="38" />
+				<option name="LoopingSound" value="39" />
+				<option name="AnimationGraph" value="40" />
+				<option name="DamageEffect" value="41" />
+				<option name="ObjectDefinition" value="42" />
+				<option name="Bitmap" value="43" />
+				<option name="Shader" value="44" />
+				<option name="RenderModel" value="45" />
+				<option name="StructureDefinition" value="46" />
+				<option name="LightmapDefinition" value="47" />
+				<option name="CinematicDefinition" value="48" />
+				<option name="CinematicSceneDefinition" value="49" />
+				<option name="CinematicSceneDataDefinition" value="50" />
+				<option name="CinematicTransitionDefinition" value="51" />
+				<option name="BinkDefinition" value="52" />
+				<option name="CuiScreenDefinition" value="53" />
+				<option name="AnyTag" value="54" />
+				<option name="AnyTagNotResolving" value="55" />
+				<option name="GameDifficulty" value="56" />
+				<option name="Team" value="57" />
+				<option name="MpTeam" value="58" />
+				<option name="Controller" value="59" />
+				<option name="ButtonPreset" value="60" />
+				<option name="JoystickPreset" value="61" />
+				<option name="PlayerColor" value="62" />
+				<option name="PlayerModelChoice" value="63" />
+				<option name="VoiceOutputSetting" value="64" />
+				<option name="VoiceMask" value="65" />
+				<option name="SubtitleSetting" value="66" />
+				<option name="ActorType" value="67" />
+				<option name="ModelState" value="68" />
+				<option name="Event" value="69" />
+				<option name="CharacterPhysics" value="70" />
+				<option name="Skull" value="71" />
+				<option name="FiringPointEvaluator" value="72" />
+				<option name="DamageRegion" value="73" />
+				<option name="CurrencyType" value="74" />
+				<option name="DeliveryMethod" value="75" />
+				<option name="WaveDifficulty" value="76" />
+				<option name="FirefightGoal" value="77" />
+				<option name="FirefightWaveType" value="78" />
+				<option name="Font" value="79" />
+				<option name="TextJustification" value="80" />
+				<option name="TextAlignment" value="81" />
+				<option name="TextDropShadowType" value="82" />
+				<option name="HavokGroup" value="83" />
+				<option name="Object" value="84" />
+				<option name="Unit" value="85" />
+				<option name="Vehicle" value="86" />
+				<option name="Weapon" value="87" />
+				<option name="Device" value="88" />
+				<option name="Scenery" value="89" />
+				<option name="EffectScenery" value="90" />
+				<option name="ObjectName" value="91" />
+				<option name="UnitName" value="92" />
+				<option name="VehicleName" value="93" />
+				<option name="WeaponName" value="94" />
+				<option name="DeviceName" value="95" />
+				<option name="SceneryName" value="96" />
+				<option name="EffectSceneryName" value="97" />
+				<option name="CinematicLightprobe" value="98" />
+				<option name="AnimationBudgetReference" value="99" />
+				<option name="LoopingSoundBudgetReference" value="100" />
+				<option name="SoundBudgetReference" value="101" />
+			</enum32>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Globals" offset="0x18" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum32 name="Type" offset="0x4" visible="true">
+			<option name="Unparsed" value="0" />
+			<option name="SpecialForm" value="1" />
+			<option name="FunctionName" value="2" />
+			<option name="Passthrough" value="3" />
+			<option name="Void" value="4" />
+			<option name="Boolean" value="5" />
+			<option name="Real" value="6" />
+			<option name="Short" value="7" />
+			<option name="Long" value="8" />
+			<option name="String" value="9" />
+			<option name="Script" value="10" />
+			<option name="StringId" value="11" />
+			<option name="UnitSeatMapping" value="12" />
+			<option name="TriggerVolume" value="13" />
+			<option name="SoundEvent" value="14" />
+			<option name="CutsceneFlag" value="15" />
+			<option name="CutsceneCameraPoint" value="16" />
+			<option name="CutsceneTitle" value="17" />
+			<option name="CutsceneRecording" value="18" />
+			<option name="DeviceGroup" value="19" />
+			<option name="Ai" value="20" />
+			<option name="AiCommandList" value="21" />
+			<option name="AiCommandScript" value="22" />
+			<option name="AiBehavior" value="23" />
+			<option name="AiOrders" value="24" />
+			<option name="AiLine" value="25" />
+			<option name="StartingProfile" value="26" />
+			<option name="Conversation" value="27" />
+			<option name="Player" value="28" />
+			<option name="ZoneSet" value="29" />
+			<option name="DesignerZone" value="30" />
+			<option name="PointReference" value="31" />
+			<option name="PointSetReference" value="32" />
+			<option name="Style" value="33" />
+			<option name="ObjectList" value="34" />
+			<option name="Folder" value="35" />
+			<option name="Sound" value="36" />
+			<option name="Effect" value="37" />
+			<option name="Damage" value="38" />
+			<option name="LoopingSound" value="39" />
+			<option name="AnimationGraph" value="40" />
+			<option name="DamageEffect" value="41" />
+			<option name="ObjectDefinition" value="42" />
+			<option name="Bitmap" value="43" />
+			<option name="Shader" value="44" />
+			<option name="RenderModel" value="45" />
+			<option name="StructureDefinition" value="46" />
+			<option name="LightmapDefinition" value="47" />
+			<option name="CinematicDefinition" value="48" />
+			<option name="CinematicSceneDefinition" value="49" />
+			<option name="CinematicSceneDataDefinition" value="50" />
+			<option name="CinematicTransitionDefinition" value="51" />
+			<option name="BinkDefinition" value="52" />
+			<option name="CuiScreenDefinition" value="53" />
+			<option name="AnyTag" value="54" />
+			<option name="AnyTagNotResolving" value="55" />
+			<option name="GameDifficulty" value="56" />
+			<option name="Team" value="57" />
+			<option name="MpTeam" value="58" />
+			<option name="Controller" value="59" />
+			<option name="ButtonPreset" value="60" />
+			<option name="JoystickPreset" value="61" />
+			<option name="PlayerColor" value="62" />
+			<option name="PlayerModelChoice" value="63" />
+			<option name="VoiceOutputSetting" value="64" />
+			<option name="VoiceMask" value="65" />
+			<option name="SubtitleSetting" value="66" />
+			<option name="ActorType" value="67" />
+			<option name="ModelState" value="68" />
+			<option name="Event" value="69" />
+			<option name="CharacterPhysics" value="70" />
+			<option name="Skull" value="71" />
+			<option name="FiringPointEvaluator" value="72" />
+			<option name="DamageRegion" value="73" />
+			<option name="CurrencyType" value="74" />
+			<option name="DeliveryMethod" value="75" />
+			<option name="WaveDifficulty" value="76" />
+			<option name="FirefightGoal" value="77" />
+			<option name="FirefightWaveType" value="78" />
+			<option name="Font" value="79" />
+			<option name="TextJustification" value="80" />
+			<option name="TextAlignment" value="81" />
+			<option name="TextDropShadowType" value="82" />
+			<option name="HavokGroup" value="83" />
+			<option name="Object" value="84" />
+			<option name="Unit" value="85" />
+			<option name="Vehicle" value="86" />
+			<option name="Weapon" value="87" />
+			<option name="Device" value="88" />
+			<option name="Scenery" value="89" />
+			<option name="EffectScenery" value="90" />
+			<option name="ObjectName" value="91" />
+			<option name="UnitName" value="92" />
+			<option name="VehicleName" value="93" />
+			<option name="WeaponName" value="94" />
+			<option name="DeviceName" value="95" />
+			<option name="SceneryName" value="96" />
+			<option name="EffectSceneryName" value="97" />
+			<option name="CinematicLightprobe" value="98" />
+			<option name="AnimationBudgetReference" value="99" />
+			<option name="LoopingSoundBudgetReference" value="100" />
+			<option name="SoundBudgetReference" value="101" />
+		</enum32>
+		<int32 name="Initialization Expression Index" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Instanced Variables" offset="0x24" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum32 name="Type" offset="0x4" visible="true">
+			<option name="Unparsed" value="0" />
+			<option name="SpecialForm" value="1" />
+			<option name="FunctionName" value="2" />
+			<option name="Passthrough" value="3" />
+			<option name="Void" value="4" />
+			<option name="Boolean" value="5" />
+			<option name="Real" value="6" />
+			<option name="Short" value="7" />
+			<option name="Long" value="8" />
+			<option name="String" value="9" />
+			<option name="Script" value="10" />
+			<option name="StringId" value="11" />
+			<option name="UnitSeatMapping" value="12" />
+			<option name="TriggerVolume" value="13" />
+			<option name="SoundEvent" value="14" />
+			<option name="CutsceneFlag" value="15" />
+			<option name="CutsceneCameraPoint" value="16" />
+			<option name="CutsceneTitle" value="17" />
+			<option name="CutsceneRecording" value="18" />
+			<option name="DeviceGroup" value="19" />
+			<option name="Ai" value="20" />
+			<option name="AiCommandList" value="21" />
+			<option name="AiCommandScript" value="22" />
+			<option name="AiBehavior" value="23" />
+			<option name="AiOrders" value="24" />
+			<option name="AiLine" value="25" />
+			<option name="StartingProfile" value="26" />
+			<option name="Conversation" value="27" />
+			<option name="Player" value="28" />
+			<option name="ZoneSet" value="29" />
+			<option name="DesignerZone" value="30" />
+			<option name="PointReference" value="31" />
+			<option name="PointSetReference" value="32" />
+			<option name="Style" value="33" />
+			<option name="ObjectList" value="34" />
+			<option name="Folder" value="35" />
+			<option name="Sound" value="36" />
+			<option name="Effect" value="37" />
+			<option name="Damage" value="38" />
+			<option name="LoopingSound" value="39" />
+			<option name="AnimationGraph" value="40" />
+			<option name="DamageEffect" value="41" />
+			<option name="ObjectDefinition" value="42" />
+			<option name="Bitmap" value="43" />
+			<option name="Shader" value="44" />
+			<option name="RenderModel" value="45" />
+			<option name="StructureDefinition" value="46" />
+			<option name="LightmapDefinition" value="47" />
+			<option name="CinematicDefinition" value="48" />
+			<option name="CinematicSceneDefinition" value="49" />
+			<option name="CinematicSceneDataDefinition" value="50" />
+			<option name="CinematicTransitionDefinition" value="51" />
+			<option name="BinkDefinition" value="52" />
+			<option name="CuiScreenDefinition" value="53" />
+			<option name="AnyTag" value="54" />
+			<option name="AnyTagNotResolving" value="55" />
+			<option name="GameDifficulty" value="56" />
+			<option name="Team" value="57" />
+			<option name="MpTeam" value="58" />
+			<option name="Controller" value="59" />
+			<option name="ButtonPreset" value="60" />
+			<option name="JoystickPreset" value="61" />
+			<option name="PlayerColor" value="62" />
+			<option name="PlayerModelChoice" value="63" />
+			<option name="VoiceOutputSetting" value="64" />
+			<option name="VoiceMask" value="65" />
+			<option name="SubtitleSetting" value="66" />
+			<option name="ActorType" value="67" />
+			<option name="ModelState" value="68" />
+			<option name="Event" value="69" />
+			<option name="CharacterPhysics" value="70" />
+			<option name="Skull" value="71" />
+			<option name="FiringPointEvaluator" value="72" />
+			<option name="DamageRegion" value="73" />
+			<option name="CurrencyType" value="74" />
+			<option name="DeliveryMethod" value="75" />
+			<option name="WaveDifficulty" value="76" />
+			<option name="FirefightGoal" value="77" />
+			<option name="FirefightWaveType" value="78" />
+			<option name="Font" value="79" />
+			<option name="TextJustification" value="80" />
+			<option name="TextAlignment" value="81" />
+			<option name="TextDropShadowType" value="82" />
+			<option name="HavokGroup" value="83" />
+			<option name="Object" value="84" />
+			<option name="Unit" value="85" />
+			<option name="Vehicle" value="86" />
+			<option name="Weapon" value="87" />
+			<option name="Device" value="88" />
+			<option name="Scenery" value="89" />
+			<option name="EffectScenery" value="90" />
+			<option name="ObjectName" value="91" />
+			<option name="UnitName" value="92" />
+			<option name="VehicleName" value="93" />
+			<option name="WeaponName" value="94" />
+			<option name="DeviceName" value="95" />
+			<option name="SceneryName" value="96" />
+			<option name="EffectSceneryName" value="97" />
+			<option name="CinematicLightprobe" value="98" />
+			<option name="AnimationBudgetReference" value="99" />
+			<option name="LoopingSoundBudgetReference" value="100" />
+			<option name="SoundBudgetReference" value="101" />
+		</enum32>
+		<int32 name="Initialization Expression Index" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="References" offset="0x30" visible="true" elementSize="0x10">
+		<tagref name="Reference" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Hs Unit Seats" offset="0x3C" visible="true" elementSize="0xC">
+		<int32 name="Unit Definition Tag Index" offset="0x0" visible="true" />
+		<int32 name="Unit Seats" offset="0x4" visible="true" />
+		<int32 name="Unit Seats2" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Hs Syntax Datums" offset="0x48" visible="true" elementSize="0x1C">
+		<int16 name="Datum Header" offset="0x0" visible="true" />
+		<int16 name="Script Index Function Index Constant Type Union" offset="0x2" visible="true" />
+		<int32 name="Next Node" offset="0x4" visible="true" />
+		<int32 name="Source Data" offset="0x8" visible="true" />
+		<int32 name="Source Offset Location" offset="0xC" visible="true" />
+		<enum32 name="Node Expression Type" offset="0x10" visible="true">
+			<option name="Unparsed" value="0" />
+			<option name="SpecialForm" value="1" />
+			<option name="FunctionName" value="2" />
+			<option name="Passthrough" value="3" />
+			<option name="Void" value="4" />
+			<option name="Boolean" value="5" />
+			<option name="Real" value="6" />
+			<option name="Short" value="7" />
+			<option name="Long" value="8" />
+			<option name="String" value="9" />
+			<option name="Script" value="10" />
+			<option name="StringId" value="11" />
+			<option name="UnitSeatMapping" value="12" />
+			<option name="TriggerVolume" value="13" />
+			<option name="SoundEvent" value="14" />
+			<option name="CutsceneFlag" value="15" />
+			<option name="CutsceneCameraPoint" value="16" />
+			<option name="CutsceneTitle" value="17" />
+			<option name="CutsceneRecording" value="18" />
+			<option name="DeviceGroup" value="19" />
+			<option name="Ai" value="20" />
+			<option name="AiCommandList" value="21" />
+			<option name="AiCommandScript" value="22" />
+			<option name="AiBehavior" value="23" />
+			<option name="AiOrders" value="24" />
+			<option name="AiLine" value="25" />
+			<option name="StartingProfile" value="26" />
+			<option name="Conversation" value="27" />
+			<option name="Player" value="28" />
+			<option name="ZoneSet" value="29" />
+			<option name="DesignerZone" value="30" />
+			<option name="PointReference" value="31" />
+			<option name="PointSetReference" value="32" />
+			<option name="Style" value="33" />
+			<option name="ObjectList" value="34" />
+			<option name="Folder" value="35" />
+			<option name="Sound" value="36" />
+			<option name="Effect" value="37" />
+			<option name="Damage" value="38" />
+			<option name="LoopingSound" value="39" />
+			<option name="AnimationGraph" value="40" />
+			<option name="DamageEffect" value="41" />
+			<option name="ObjectDefinition" value="42" />
+			<option name="Bitmap" value="43" />
+			<option name="Shader" value="44" />
+			<option name="RenderModel" value="45" />
+			<option name="StructureDefinition" value="46" />
+			<option name="LightmapDefinition" value="47" />
+			<option name="CinematicDefinition" value="48" />
+			<option name="CinematicSceneDefinition" value="49" />
+			<option name="CinematicSceneDataDefinition" value="50" />
+			<option name="CinematicTransitionDefinition" value="51" />
+			<option name="BinkDefinition" value="52" />
+			<option name="CuiScreenDefinition" value="53" />
+			<option name="AnyTag" value="54" />
+			<option name="AnyTagNotResolving" value="55" />
+			<option name="GameDifficulty" value="56" />
+			<option name="Team" value="57" />
+			<option name="MpTeam" value="58" />
+			<option name="Controller" value="59" />
+			<option name="ButtonPreset" value="60" />
+			<option name="JoystickPreset" value="61" />
+			<option name="PlayerColor" value="62" />
+			<option name="PlayerModelChoice" value="63" />
+			<option name="VoiceOutputSetting" value="64" />
+			<option name="VoiceMask" value="65" />
+			<option name="SubtitleSetting" value="66" />
+			<option name="ActorType" value="67" />
+			<option name="ModelState" value="68" />
+			<option name="Event" value="69" />
+			<option name="CharacterPhysics" value="70" />
+			<option name="Skull" value="71" />
+			<option name="FiringPointEvaluator" value="72" />
+			<option name="DamageRegion" value="73" />
+			<option name="CurrencyType" value="74" />
+			<option name="DeliveryMethod" value="75" />
+			<option name="WaveDifficulty" value="76" />
+			<option name="FirefightGoal" value="77" />
+			<option name="FirefightWaveType" value="78" />
+			<option name="Font" value="79" />
+			<option name="TextJustification" value="80" />
+			<option name="TextAlignment" value="81" />
+			<option name="TextDropShadowType" value="82" />
+			<option name="HavokGroup" value="83" />
+			<option name="Object" value="84" />
+			<option name="Unit" value="85" />
+			<option name="Vehicle" value="86" />
+			<option name="Weapon" value="87" />
+			<option name="Device" value="88" />
+			<option name="Scenery" value="89" />
+			<option name="EffectScenery" value="90" />
+			<option name="ObjectName" value="91" />
+			<option name="UnitName" value="92" />
+			<option name="VehicleName" value="93" />
+			<option name="WeaponName" value="94" />
+			<option name="DeviceName" value="95" />
+			<option name="SceneryName" value="96" />
+			<option name="EffectSceneryName" value="97" />
+			<option name="CinematicLightprobe" value="98" />
+			<option name="AnimationBudgetReference" value="99" />
+			<option name="LoopingSoundBudgetReference" value="100" />
+			<option name="SoundBudgetReference" value="101" />
+		</enum32>
+		<int16 name="Flags" offset="0x14" visible="true" />
+		<int16 name="Source File Index" offset="0x16" visible="true" />
+		<int32 name="Source File Offset" offset="0x18" visible="true" />
+	</tagblock>
+	<dataref name="Script String Data" offset="0x54" visible="true" />
+	<tagblock name="Import Manifest" offset="0x68" visible="true" elementSize="0x1C">
+		<uint32 name="Callee Tag (group tag)" offset="0x0" visible="true" />
+		<tagblock name="Script Table" offset="0x4" visible="true" elementSize="0xC">
+			<stringid name="Script Name" offset="0x0" visible="true" />
+			<int32 name="Argcount" offset="0x4" visible="true" />
+			<int32 name="Index" offset="0x8" visible="true" />
+		</tagblock>
+		<tagblock name="Variable Table" offset="0x10" visible="true" elementSize="0xC">
+			<stringid name="Script Name" offset="0x0" visible="true" />
+			<int32 name="Argcount" offset="0x4" visible="true" />
+			<int32 name="Index" offset="0x8" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

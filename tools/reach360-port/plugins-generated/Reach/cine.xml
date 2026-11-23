@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xB4">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Cinematic (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<uint32 name="Scenes Flags" offset="0x0" visible="true" />
+	<uint32 name="Scenes Expanded Flags" offset="0x4" visible="true" />
+	<tagblock name="Shots" offset="0x8" visible="true" elementSize="0x4">
+		<uint32 name="Shot Flags" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Scenario" offset="0x14" visible="true" />
+	<int32 name="Zoneset" offset="0x24" visible="true" />
+	<stringid name="Name" offset="0x28" visible="true" />
+	<enum16 name="Channel Type" offset="0x2C" visible="true">
+		<option name="Letterbox" value="0" />
+		<option name="Briefing" value="1" />
+		<option name="Perspective" value="2" />
+		<option name="BinkBriefing" value="3" />
+		<option name="CortanaEffect" value="4" />
+	</enum16>
+	<uint8 name="PADDING 0" offset="0x2E" visible="false" />
+	<uint8 name="PADDING 1" offset="0x2F" visible="false" />
+	<flags32 name="Flags" offset="0x30" visible="true">
+		<bit name="Outro" index="0" />
+	</flags32>
+	<float32 name="Easing In Time" offset="0x34" visible="true" />
+	<float32 name="Easing Out Time" offset="0x38" visible="true" />
+	<colorf name="Fade In Color" offset="0x3C" alpha="false" visible="true" />
+	<int32 name="Fade In Time" offset="0x48" visible="true" />
+	<colorf name="Fade Out Color" offset="0x4C" alpha="false" visible="true" />
+	<int32 name="Fade Out Time" offset="0x58" visible="true" />
+	<tagref name="Bink Movie" offset="0x5C" visible="true" />
+	<dataref name="Import Script Header" offset="0x6C" visible="true" />
+	<tagblock name="Cinematic Scenes" offset="0x80" visible="true" elementSize="0x10">
+		<tagref name="Instance" offset="0x0" visible="true" />
+	</tagblock>
+	<dataref name="Import Script Footer" offset="0x8C" visible="true" />
+	<dataref name="Import Script Skip" offset="0xA0" visible="true" />
+</plugin>

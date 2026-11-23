@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x4C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PcaAnimation (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Render Model" offset="0x0" visible="true" />
+	<tagref name="Animation Graph" offset="0x10" visible="true" />
+	<flags32 name="Pcaflags" offset="0x20" visible="true">
+		<bit name="LookupTableReady" index="0" />
+		<bit name="ResourcesGenerated" index="1" />
+		<bit name="ResourcesCommitted" index="2" />
+	</flags32>
+	<int32 name="Pca Animation Count" offset="0x24" visible="true" />
+	<int32 name="Pca Checksum" offset="0x28" visible="true" />
+	<tagblock name="Frame Data" offset="0x2C" visible="true" elementSize="0x14">
+		<dataref name="Coefficients" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Mesh Data" offset="0x38" visible="true" elementSize="0x64">
+		<int32 name="Render Mesh Index" offset="0x0" visible="true" />
+		<int32 name="Vertices Per Shape" offset="0x4" visible="true" />
+		<int32 name="Vertex Buffer Index" offset="0x8" visible="true" />
+		<vector3 name="Position Scale" offset="0xC" visible="true" />
+		<float32 name="Tension Scale" offset="0x18" visible="true" />
+		<vector3 name="Position Offset" offset="0x1C" visible="true" />
+		<float32 name="Tension Offset" offset="0x28" visible="true" />
+		<vector3 name="Normal Scale" offset="0x2C" visible="true" />
+		<float32 name="Stretch Scale" offset="0x38" visible="true" />
+		<vector3 name="Normal Offset" offset="0x3C" visible="true" />
+		<float32 name="Stretch Offset" offset="0x48" visible="true" />
+		<tagblock name="Animations" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Offset" offset="0x4" visible="true" />
+			<int32 name="Count" offset="0x8" visible="true" />
+			<int32 name="Pca Shape Offset" offset="0xC" visible="true" />
+			<int32 name="Pca Coefficient Count" offset="0x10" visible="true" />
+			<uint32 name="Coefficient Resource (resource datum)" offset="0x14" visible="true" />
+			<uint32 name="Coefficient Resource (resource pad)" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Raw Blendshape Verts" offset="0x58" visible="true" elementSize="0x28">
+			<vector3 name="Position" offset="0x0" visible="true" />
+			<vector3 name="Normal" offset="0xC" visible="true" />
+			<colorf name="Tension And Ambient Occlusion" offset="0x18" alpha="true" visible="true" />
+		</tagblock>
+	</tagblock>
+	<uint32 name="Api Resource (resource datum)" offset="0x44" visible="true" />
+	<uint32 name="Api Resource (resource pad)" offset="0x48" visible="true" />
+</plugin>

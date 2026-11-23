@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.VirtualKeyboard (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Display Font" offset="0x0" visible="true" />
+	<tagref name="Background Bitmap" offset="0x10" visible="true" />
+	<tagref name="Special Key Labels String List" offset="0x20" visible="true" />
+	<tagblock name="Virtual Keys" offset="0x30" visible="true" elementSize="0x50">
+		<enum16 name="Keyboard Key" offset="0x0" visible="true">
+			<option name="_1" value="0" />
+			<option name="_2" value="1" />
+			<option name="_3" value="2" />
+			<option name="_4" value="3" />
+			<option name="_5" value="4" />
+			<option name="_6" value="5" />
+			<option name="_7" value="6" />
+			<option name="_8" value="7" />
+			<option name="_9" value="8" />
+			<option name="_0" value="9" />
+			<option name="A" value="10" />
+			<option name="B" value="11" />
+			<option name="C" value="12" />
+			<option name="D" value="13" />
+			<option name="E" value="14" />
+			<option name="F" value="15" />
+			<option name="G" value="16" />
+			<option name="H" value="17" />
+			<option name="I" value="18" />
+			<option name="J" value="19" />
+			<option name="K" value="20" />
+			<option name="L" value="21" />
+			<option name="M" value="22" />
+			<option name="N" value="23" />
+			<option name="O" value="24" />
+			<option name="P" value="25" />
+			<option name="Q" value="26" />
+			<option name="R" value="27" />
+			<option name="S" value="28" />
+			<option name="T" value="29" />
+			<option name="U" value="30" />
+			<option name="V" value="31" />
+			<option name="W" value="32" />
+			<option name="X" value="33" />
+			<option name="Y" value="34" />
+			<option name="Z" value="35" />
+			<option name="Done" value="36" />
+			<option name="Shift" value="37" />
+			<option name="CapsLock" value="38" />
+			<option name="Symbols" value="39" />
+			<option name="Backspace" value="40" />
+			<option name="Left" value="41" />
+			<option name="Right" value="42" />
+			<option name="Space" value="43" />
+		</enum16>
+		<int16 name="Lowercase Character" offset="0x2" visible="true" />
+		<int16 name="Shift Character" offset="0x4" visible="true" />
+		<int16 name="Caps Character" offset="0x6" visible="true" />
+		<int16 name="Symbols Character" offset="0x8" visible="true" />
+		<int16 name="Shift Caps Character" offset="0xA" visible="true" />
+		<int16 name="Shift Symbols Character" offset="0xC" visible="true" />
+		<int16 name="Caps Symbols Character" offset="0xE" visible="true" />
+		<tagref name="Unselected Background Bitmap" offset="0x10" visible="true" />
+		<tagref name="Selected Background Bitmap" offset="0x20" visible="true" />
+		<tagref name="Active Background Bitmap" offset="0x30" visible="true" />
+		<tagref name="Sticky Background Bitmap" offset="0x40" visible="true" />
+	</tagblock>
+</plugin>

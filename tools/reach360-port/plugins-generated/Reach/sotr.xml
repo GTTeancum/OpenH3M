@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x6C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.ShaderTransparentGeneric (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="SimpleParameterization" index="0" />
+		<bit name="IgnoreNormals" index="1" />
+		<bit name="TransparentLit" index="2" />
+	</flags16>
+	<enum16 name="Detail Level" offset="0x2" visible="true">
+		<option name="High" value="0" />
+		<option name="Medium" value="1" />
+		<option name="Low" value="2" />
+		<option name="Turd" value="3" />
+	</enum16>
+	<float32 name="Power" offset="0x4" visible="true" />
+	<colorf name="Color Of Emitted Light" offset="0x8" alpha="false" visible="true" />
+	<colorf name="Tint Color" offset="0x14" alpha="false" visible="true" />
+	<flags16 name="Flags1" offset="0x20" visible="true" />
+	<enum16 name="Material Type" offset="0x22" visible="true">
+		<option name="Dirt" value="0" />
+		<option name="Sand" value="1" />
+		<option name="Stone" value="2" />
+		<option name="Snow" value="3" />
+		<option name="Wood" value="4" />
+		<option name="MetalHollow" value="5" />
+		<option name="MetalThin" value="6" />
+		<option name="MetalThick" value="7" />
+		<option name="Rubber" value="8" />
+		<option name="Glass" value="9" />
+		<option name="ForceField" value="10" />
+		<option name="Grunt" value="11" />
+		<option name="HunterArmor" value="12" />
+		<option name="HunterSkin" value="13" />
+		<option name="Elite" value="14" />
+		<option name="Jackal" value="15" />
+		<option name="JackalEnergyShield" value="16" />
+		<option name="EngineerSkin" value="17" />
+		<option name="EngineerForceField" value="18" />
+		<option name="FloodCombatForm" value="19" />
+		<option name="FloodCarrierForm" value="20" />
+		<option name="CyborgArmor" value="21" />
+		<option name="CyborgEnergyShield" value="22" />
+		<option name="HumanArmor" value="23" />
+		<option name="HumanSkin" value="24" />
+		<option name="Sentinel" value="25" />
+		<option name="Monitor" value="26" />
+		<option name="Plastic" value="27" />
+		<option name="Water" value="28" />
+		<option name="Leaves" value="29" />
+		<option name="EliteEnergyShield" value="30" />
+		<option name="Ice" value="31" />
+		<option name="HunterShield" value="32" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0x24" visible="false" />
+	<uint8 name="Padding 1" offset="0x25" visible="false" />
+	<uint8 name="Padding1 0" offset="0x26" visible="false" />
+	<uint8 name="Padding1 1" offset="0x27" visible="false" />
+	<int8 name="Numeric Counter Limit" offset="0x28" visible="true" />
+	<flags8 name="Flags2" offset="0x29" visible="true">
+		<bit name="AlphaTested" index="0" />
+		<bit name="Decal" index="1" />
+		<bit name="TwoSided" index="2" />
+		<bit name="FirstMapIsInScreenspace" index="3" />
+		<bit name="DrawBeforeWater" index="4" />
+		<bit name="IgnoreEffect" index="5" />
+		<bit name="ScaleFirstMapWithDistance" index="6" />
+		<bit name="Numeric" index="7" />
+	</flags8>
+	<enum16 name="First Map Type" offset="0x2A" visible="true">
+		<option name="_2dMap" value="0" />
+		<option name="ReflectionCubeMap" value="1" />
+		<option name="ObjectCenteredCubeMap" value="2" />
+		<option name="ViewerCenteredCubeMap" value="3" />
+	</enum16>
+	<enum16 name="Framebuffer Blend Function" offset="0x2C" visible="true">
+		<option name="AlphaBlend" value="0" />
+		<option name="Multiply" value="1" />
+		<option name="DoubleMultiply" value="2" />
+		<option name="Add" value="3" />
+		<option name="Subtract" value="4" />
+		<option name="ComponentMin" value="5" />
+		<option name="ComponentMax" value="6" />
+		<option name="AlphaMultiplyAdd" value="7" />
+	</enum16>
+	<enum16 name="Framebuffer Fade Mode" offset="0x2E" visible="true">
+		<option name="None" value="0" />
+		<option name="FadeWhenPerpendicular" value="1" />
+		<option name="FadeWhenParallel" value="2" />
+	</enum16>
+	<enum16 name="Framebuffer Fade Source" offset="0x30" visible="true">
+		<option name="None" value="0" />
+		<option name="AOut" value="1" />
+		<option name="BOut" value="2" />
+		<option name="COut" value="3" />
+		<option name="DOut" value="4" />
+	</enum16>
+	<uint8 name="Padding2 0" offset="0x32" visible="false" />
+	<uint8 name="Padding2 1" offset="0x33" visible="false" />
+	<float32 name="Lens Flare Spacing" offset="0x34" visible="true" />
+	<tagref name="Lens Flare" offset="0x38" visible="true" />
+	<tagblock name="Extra Layers" offset="0x48" visible="true" elementSize="0x10">
+		<tagref name="Shader" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Maps" offset="0x54" visible="true" elementSize="0x64">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="Unfiltered" index="0" />
+			<bit name="UClamped" index="1" />
+			<bit name="VClamped" index="2" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<float32 name="Map U Scale" offset="0x4" visible="true" />
+		<float32 name="Map V Scale" offset="0x8" visible="true" />
+		<float32 name="Map U Offset" offset="0xC" visible="true" />
+		<float32 name="Map V Offset" offset="0x10" visible="true" />
+		<float32 name="Map Rotation" offset="0x14" visible="true" />
+		<float32 name="Mipmap Bias" offset="0x18" visible="true" />
+		<tagref name="Map" offset="0x1C" visible="true" />
+		<enum16 name="U Animation Source" offset="0x2C" visible="true">
+			<option name="None" value="0" />
+			<option name="AOut" value="1" />
+			<option name="BOut" value="2" />
+			<option name="COut" value="3" />
+			<option name="DOut" value="4" />
+		</enum16>
+		<enum16 name="U Animation Function" offset="0x2E" visible="true">
+			<option name="One" value="0" />
+			<option name="Zero" value="1" />
+			<option name="Cosine" value="2" />
+			<option name="CosineVariablePeriod" value="3" />
+			<option name="DiagonalWave" value="4" />
+			<option name="DiagonalWaveVariablePeriod" value="5" />
+			<option name="Slide" value="6" />
+			<option name="SlideVariablePeriod" value="7" />
+			<option name="Noise" value="8" />
+			<option name="Jitter" value="9" />
+			<option name="Wander" value="10" />
+			<option name="Spark" value="11" />
+		</enum16>
+		<float32 name="U Animation Period" offset="0x30" visible="true" />
+		<float32 name="U Animation Phase" offset="0x34" visible="true" />
+		<float32 name="U Animation Scale" offset="0x38" visible="true" />
+		<enum16 name="V Animation Source" offset="0x3C" visible="true">
+			<option name="None" value="0" />
+			<option name="AOut" value="1" />
+			<option name="BOut" value="2" />
+			<option name="COut" value="3" />
+			<option name="DOut" value="4" />
+		</enum16>
+		<enum16 name="V Animation Function" offset="0x3E" visible="true">
+			<option name="One" value="0" />
+			<option name="Zero" value="1" />
+			<option name="Cosine" value="2" />
+			<option name="CosineVariablePeriod" value="3" />
+			<option name="DiagonalWave" value="4" />
+			<option name="DiagonalWaveVariablePeriod" value="5" />
+			<option name="Slide" value="6" />
+			<option name="SlideVariablePeriod" value="7" />
+			<option name="Noise" value="8" />
+			<option name="Jitter" value="9" />
+			<option name="Wander" value="10" />
+			<option name="Spark" value="11" />
+		</enum16>
+		<float32 name="V Animation Period" offset="0x40" visible="true" />
+		<float32 name="V Animation Phase" offset="0x44" visible="true" />
+		<float32 name="V Animation Scale" offset="0x48" visible="true" />
+		<enum16 name="Rotation Animation Source" offset="0x4C" visible="true">
+			<option name="None" value="0" />
+			<option name="AOut" value="1" />
+			<option name="BOut" value="2" />
+			<option name="COut" value="3" />
+			<option name="DOut" value="4" />
+		</enum16>
+		<enum16 name="Rotation Animation Function" offset="0x4E" visible="true">
+			<option name="One" value="0" />
+			<option name="Zero" value="1" />
+			<option name="Cosine" value="2" />
+			<option name="CosineVariablePeriod" value="3" />
+			<option name="DiagonalWave" value="4" />
+			<option name="DiagonalWaveVariablePeriod" value="5" />
+			<option name="Slide" value="6" />
+			<option name="SlideVariablePeriod" value="7" />
+			<option name="Noise" value="8" />
+			<option name="Jitter" value="9" />
+			<option name="Wander" value="10" />
+			<option name="Spark" value="11" />
+		</enum16>
+		<float32 name="Rotation Animation Period" offset="0x50" visible="true" />
+		<float32 name="Rotation Animation Phase" offset="0x54" visible="true" />
+		<float32 name="Rotation Animation Scale" offset="0x58" visible="true" />
+		<point2 name="Rotation Animation Center" offset="0x5C" visible="true" />
+	</tagblock>
+	<tagblock name="Stages" offset="0x60" visible="true" elementSize="0x70">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="ColorMux" index="0" />
+			<bit name="AlphaMux" index="1" />
+			<bit name="AOutControlsColor0Animation" index="2" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<enum16 name="Color0 Source" offset="0x4" visible="true">
+			<option name="None" value="0" />
+			<option name="A" value="1" />
+			<option name="B" value="2" />
+			<option name="C" value="3" />
+			<option name="D" value="4" />
+		</enum16>
+		<enum16 name="Color0 Animation Function" offset="0x6" visible="true">
+			<option name="One" value="0" />
+			<option name="Zero" value="1" />
+			<option name="Cosine" value="2" />
+			<option name="CosineVariablePeriod" value="3" />
+			<option name="DiagonalWave" value="4" />
+			<option name="DiagonalWaveVariablePeriod" value="5" />
+			<option name="Slide" value="6" />
+			<option name="SlideVariablePeriod" value="7" />
+			<option name="Noise" value="8" />
+			<option name="Jitter" value="9" />
+			<option name="Wander" value="10" />
+			<option name="Spark" value="11" />
+		</enum16>
+		<float32 name="Color0 Animation Period" offset="0x8" visible="true" />
+		<colorf name="Color0 Animation Lower Bound" offset="0xC" alpha="true" visible="true" />
+		<colorf name="Color0 Animation Upper Bound" offset="0x1C" alpha="true" visible="true" />
+		<colorf name="Color1" offset="0x2C" alpha="true" visible="true" />
+		<enum16 name="Input A" offset="0x3C" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+			<option name="VertexColor0DiffuseLight" value="9" />
+			<option name="VertexColor1FadePerpendicular" value="10" />
+			<option name="ScratchColor0" value="11" />
+			<option name="ScratchColor1" value="12" />
+			<option name="ConstantColor0" value="13" />
+			<option name="ConstantColor1" value="14" />
+			<option name="MapAlpha0" value="15" />
+			<option name="MapAlpha1" value="16" />
+			<option name="MapAlpha2" value="17" />
+			<option name="MapAlpha3" value="18" />
+			<option name="VertexAlpha0FadeNone" value="19" />
+			<option name="VertexAlpha1FadePerpendicular" value="20" />
+			<option name="ScratchAlpha0" value="21" />
+			<option name="ScratchAlpha1" value="22" />
+			<option name="ConstantAlpha0" value="23" />
+			<option name="ConstantAlpha1" value="24" />
+		</enum16>
+		<enum16 name="Input A Mapping" offset="0x3E" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input B" offset="0x40" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+			<option name="VertexColor0DiffuseLight" value="9" />
+			<option name="VertexColor1FadePerpendicular" value="10" />
+			<option name="ScratchColor0" value="11" />
+			<option name="ScratchColor1" value="12" />
+			<option name="ConstantColor0" value="13" />
+			<option name="ConstantColor1" value="14" />
+			<option name="MapAlpha0" value="15" />
+			<option name="MapAlpha1" value="16" />
+			<option name="MapAlpha2" value="17" />
+			<option name="MapAlpha3" value="18" />
+			<option name="VertexAlpha0FadeNone" value="19" />
+			<option name="VertexAlpha1FadePerpendicular" value="20" />
+			<option name="ScratchAlpha0" value="21" />
+			<option name="ScratchAlpha1" value="22" />
+			<option name="ConstantAlpha0" value="23" />
+			<option name="ConstantAlpha1" value="24" />
+		</enum16>
+		<enum16 name="Input B Mapping" offset="0x42" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input C" offset="0x44" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+			<option name="VertexColor0DiffuseLight" value="9" />
+			<option name="VertexColor1FadePerpendicular" value="10" />
+			<option name="ScratchColor0" value="11" />
+			<option name="ScratchColor1" value="12" />
+			<option name="ConstantColor0" value="13" />
+			<option name="ConstantColor1" value="14" />
+			<option name="MapAlpha0" value="15" />
+			<option name="MapAlpha1" value="16" />
+			<option name="MapAlpha2" value="17" />
+			<option name="MapAlpha3" value="18" />
+			<option name="VertexAlpha0FadeNone" value="19" />
+			<option name="VertexAlpha1FadePerpendicular" value="20" />
+			<option name="ScratchAlpha0" value="21" />
+			<option name="ScratchAlpha1" value="22" />
+			<option name="ConstantAlpha0" value="23" />
+			<option name="ConstantAlpha1" value="24" />
+		</enum16>
+		<enum16 name="Input C Mapping" offset="0x46" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input D" offset="0x48" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+			<option name="VertexColor0DiffuseLight" value="9" />
+			<option name="VertexColor1FadePerpendicular" value="10" />
+			<option name="ScratchColor0" value="11" />
+			<option name="ScratchColor1" value="12" />
+			<option name="ConstantColor0" value="13" />
+			<option name="ConstantColor1" value="14" />
+			<option name="MapAlpha0" value="15" />
+			<option name="MapAlpha1" value="16" />
+			<option name="MapAlpha2" value="17" />
+			<option name="MapAlpha3" value="18" />
+			<option name="VertexAlpha0FadeNone" value="19" />
+			<option name="VertexAlpha1FadePerpendicular" value="20" />
+			<option name="ScratchAlpha0" value="21" />
+			<option name="ScratchAlpha1" value="22" />
+			<option name="ConstantAlpha0" value="23" />
+			<option name="ConstantAlpha1" value="24" />
+		</enum16>
+		<enum16 name="Input D Mapping" offset="0x4A" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Output Ab" offset="0x4C" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchColor0FinalColor" value="1" />
+			<option name="ScratchColor1" value="2" />
+			<option name="VertexColor0" value="3" />
+			<option name="VertexColor1" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+		</enum16>
+		<enum16 name="Output Ab Function" offset="0x4E" visible="true">
+			<option name="Multiply" value="0" />
+			<option name="DotProduct" value="1" />
+		</enum16>
+		<enum16 name="Output Cd" offset="0x50" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchColor0FinalColor" value="1" />
+			<option name="ScratchColor1" value="2" />
+			<option name="VertexColor0" value="3" />
+			<option name="VertexColor1" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+		</enum16>
+		<enum16 name="Output Cd Function" offset="0x52" visible="true">
+			<option name="Multiply" value="0" />
+			<option name="DotProduct" value="1" />
+		</enum16>
+		<enum16 name="Output Ab Cd Mux Sum" offset="0x54" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchColor0FinalColor" value="1" />
+			<option name="ScratchColor1" value="2" />
+			<option name="VertexColor0" value="3" />
+			<option name="VertexColor1" value="4" />
+			<option name="MapColor0" value="5" />
+			<option name="MapColor1" value="6" />
+			<option name="MapColor2" value="7" />
+			<option name="MapColor3" value="8" />
+		</enum16>
+		<enum16 name="Output Mapping" offset="0x56" visible="true">
+			<option name="Identity" value="0" />
+			<option name="ScaleBy12" value="1" />
+			<option name="ScaleBy2" value="2" />
+			<option name="ScaleBy4" value="3" />
+			<option name="BiasBy12" value="4" />
+			<option name="ExpandNormal" value="5" />
+		</enum16>
+		<enum16 name="Input A1" offset="0x58" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+			<option name="VertexAlpha0FadeNone" value="9" />
+			<option name="VertexAlpha1FadePerpendicular" value="10" />
+			<option name="ScratchAlpha0" value="11" />
+			<option name="ScratchAlpha1" value="12" />
+			<option name="ConstantAlpha0" value="13" />
+			<option name="ConstantAlpha1" value="14" />
+			<option name="MapBlue0" value="15" />
+			<option name="MapBlue1" value="16" />
+			<option name="MapBlue2" value="17" />
+			<option name="MapBlue3" value="18" />
+			<option name="VertexBlue0BlueLight" value="19" />
+			<option name="VertexBlue1FadeParallel" value="20" />
+			<option name="ScratchBlue0" value="21" />
+			<option name="ScratchBlue1" value="22" />
+			<option name="ConstantBlue0" value="23" />
+			<option name="ConstantBlue1" value="24" />
+		</enum16>
+		<enum16 name="Input A Mapping1" offset="0x5A" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input B1" offset="0x5C" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+			<option name="VertexAlpha0FadeNone" value="9" />
+			<option name="VertexAlpha1FadePerpendicular" value="10" />
+			<option name="ScratchAlpha0" value="11" />
+			<option name="ScratchAlpha1" value="12" />
+			<option name="ConstantAlpha0" value="13" />
+			<option name="ConstantAlpha1" value="14" />
+			<option name="MapBlue0" value="15" />
+			<option name="MapBlue1" value="16" />
+			<option name="MapBlue2" value="17" />
+			<option name="MapBlue3" value="18" />
+			<option name="VertexBlue0BlueLight" value="19" />
+			<option name="VertexBlue1FadeParallel" value="20" />
+			<option name="ScratchBlue0" value="21" />
+			<option name="ScratchBlue1" value="22" />
+			<option name="ConstantBlue0" value="23" />
+			<option name="ConstantBlue1" value="24" />
+		</enum16>
+		<enum16 name="Input B Mapping1" offset="0x5E" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input C1" offset="0x60" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+			<option name="VertexAlpha0FadeNone" value="9" />
+			<option name="VertexAlpha1FadePerpendicular" value="10" />
+			<option name="ScratchAlpha0" value="11" />
+			<option name="ScratchAlpha1" value="12" />
+			<option name="ConstantAlpha0" value="13" />
+			<option name="ConstantAlpha1" value="14" />
+			<option name="MapBlue0" value="15" />
+			<option name="MapBlue1" value="16" />
+			<option name="MapBlue2" value="17" />
+			<option name="MapBlue3" value="18" />
+			<option name="VertexBlue0BlueLight" value="19" />
+			<option name="VertexBlue1FadeParallel" value="20" />
+			<option name="ScratchBlue0" value="21" />
+			<option name="ScratchBlue1" value="22" />
+			<option name="ConstantBlue0" value="23" />
+			<option name="ConstantBlue1" value="24" />
+		</enum16>
+		<enum16 name="Input C Mapping1" offset="0x62" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Input D1" offset="0x64" visible="true">
+			<option name="Zero" value="0" />
+			<option name="One" value="1" />
+			<option name="OneHalf" value="2" />
+			<option name="NegativeOne" value="3" />
+			<option name="NegativeOneHalf" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+			<option name="VertexAlpha0FadeNone" value="9" />
+			<option name="VertexAlpha1FadePerpendicular" value="10" />
+			<option name="ScratchAlpha0" value="11" />
+			<option name="ScratchAlpha1" value="12" />
+			<option name="ConstantAlpha0" value="13" />
+			<option name="ConstantAlpha1" value="14" />
+			<option name="MapBlue0" value="15" />
+			<option name="MapBlue1" value="16" />
+			<option name="MapBlue2" value="17" />
+			<option name="MapBlue3" value="18" />
+			<option name="VertexBlue0BlueLight" value="19" />
+			<option name="VertexBlue1FadeParallel" value="20" />
+			<option name="ScratchBlue0" value="21" />
+			<option name="ScratchBlue1" value="22" />
+			<option name="ConstantBlue0" value="23" />
+			<option name="ConstantBlue1" value="24" />
+		</enum16>
+		<enum16 name="Input D Mapping1" offset="0x66" visible="true">
+			<option name="ClampX" value="0" />
+			<option name="_1ClampX" value="1" />
+			<option name="_2ClampX1" value="2" />
+			<option name="_12ClampX" value="3" />
+			<option name="ClampX12" value="4" />
+			<option name="_12ClampX1" value="5" />
+			<option name="X" value="6" />
+			<option name="X1" value="7" />
+		</enum16>
+		<enum16 name="Output Ab1" offset="0x68" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchAlpha0FinalAlpha" value="1" />
+			<option name="ScratchAlpha1" value="2" />
+			<option name="VertexAlpha0Fog" value="3" />
+			<option name="VertexAlpha1" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+		</enum16>
+		<enum16 name="Output Cd1" offset="0x6A" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchAlpha0FinalAlpha" value="1" />
+			<option name="ScratchAlpha1" value="2" />
+			<option name="VertexAlpha0Fog" value="3" />
+			<option name="VertexAlpha1" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+		</enum16>
+		<enum16 name="Output Ab Cd Mux Sum1" offset="0x6C" visible="true">
+			<option name="Discard" value="0" />
+			<option name="ScratchAlpha0FinalAlpha" value="1" />
+			<option name="ScratchAlpha1" value="2" />
+			<option name="VertexAlpha0Fog" value="3" />
+			<option name="VertexAlpha1" value="4" />
+			<option name="MapAlpha0" value="5" />
+			<option name="MapAlpha1" value="6" />
+			<option name="MapAlpha2" value="7" />
+			<option name="MapAlpha3" value="8" />
+		</enum16>
+		<enum16 name="Output Mapping1" offset="0x6E" visible="true">
+			<option name="Identity" value="0" />
+			<option name="ScaleBy12" value="1" />
+			<option name="ScaleBy2" value="2" />
+			<option name="ScaleBy4" value="3" />
+			<option name="BiasBy12" value="4" />
+			<option name="ExpandNormal" value="5" />
+		</enum16>
+	</tagblock>
+</plugin>

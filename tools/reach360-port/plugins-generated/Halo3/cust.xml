@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CuiStaticData (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Static Data / Columns" offset="0x0" visible="true" elementSize="0x8">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum16 name="Type" offset="0x4" visible="true">
+			<option name="Boolean" value="0" />
+			<option name="Long" value="1" />
+			<option name="Real" value="2" />
+			<option name="String" value="3" />
+			<option name="Component" value="4" />
+			<option name="TagReference" value="5" />
+			<option name="StringId" value="6" />
+			<option name="ArgbColor" value="7" />
+			<option name="EmblemInfo" value="8" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Padding 1" offset="0x7" visible="false" />
+	</tagblock>
+	<tagblock name="Static Data / Rows" offset="0xC" visible="true" elementSize="0x54">
+		<tagblock name="Long Properties" offset="0x0" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Real Properties" offset="0xC" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<float32 name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="String Id Properties" offset="0x18" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<stringid name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Component Ptr Properties" offset="0x24" visible="true" elementSize="0xC">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<stringid name="Value" offset="0x4" visible="true" />
+			<flags8 name="Flags" offset="0x8" visible="true">
+				<bit name="SourceIsInExternalSystem" index="0" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x9" visible="false" />
+			<uint8 name="Padding 1" offset="0xA" visible="false" />
+			<uint8 name="Padding 2" offset="0xB" visible="false" />
+		</tagblock>
+		<tagblock name="Tag Reference Properties" offset="0x30" visible="true" elementSize="0x14">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagref name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="String Properties" offset="0x3C" visible="true" elementSize="0x104">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<ascii name="Value" offset="0x4" visible="true" size="0x100" />
+		</tagblock>
+		<tagblock name="Argb Color Properties" offset="0x48" visible="true" elementSize="0x14">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<colorf name="Value" offset="0x4" alpha="true" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

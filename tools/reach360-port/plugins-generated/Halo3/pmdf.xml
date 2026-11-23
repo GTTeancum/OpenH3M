@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x90">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ParticleModel (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Geometry / Runtime Flags" offset="0x0" visible="true">
+		<bit name="Processed" index="0" />
+		<bit name="Available" index="1" />
+		<bit name="HasValidBudgets" index="2" />
+		<bit name="ManualResourceCalibration" index="3" />
+		<bit name="KeepRawGeometry" index="4" />
+		<bit name="DoNotUseCompressedVertexPositions" index="5" />
+		<bit name="PcaAnimationTableSorted" index="6" />
+		<bit name="HasDualQuat" index="7" />
+	</flags32>
+	<tagblock name="Geometry / Meshes" offset="0x4" visible="true" elementSize="0x4C">
+		<tagblock name="Parts" offset="0x0" visible="true" elementSize="0x10">
+			<int16 name="Material Index" offset="0x0" visible="true" />
+			<int16 name="Transparent Sorting Index" offset="0x2" visible="true" />
+			<uint16 name="First Index" offset="0x4" visible="true" />
+			<uint16 name="Index Count" offset="0x6" visible="true" />
+			<int16 name="First Sub Part Index" offset="0x8" visible="true" />
+			<int16 name="Sub Part Count" offset="0xA" visible="true" />
+			<enum8 name="Type New" offset="0xC" visible="true">
+				<option name="NotDrawn" value="0" />
+				<option name="OpaqueShadowOnly" value="1" />
+				<option name="OpaqueShadowCasting" value="2" />
+				<option name="OpaqueNonshadowing" value="3" />
+				<option name="Transparent" value="4" />
+				<option name="LightmapOnly" value="5" />
+				<option name="Unknown6" value="6" />
+			</enum8>
+			<flags8 name="Flags New" offset="0xD" visible="true">
+				<bit name="DislikesPhotons" index="0" />
+				<bit name="IgnoredByLightmapper" index="1" />
+				<bit name="HasTransparentSortingPlane" index="2" />
+				<bit name="IsWaterSurface" index="3" />
+				<bit name="DrawCullRenderingShields" index="4" />
+				<bit name="Unused" index="5" />
+				<bit name="PreventBackfaceCulling" index="6" />
+				<bit name="PerVertexLightmapPart" index="7" />
+			</flags8>
+			<uint16 name="Vertex Count" offset="0xE" visible="true" />
+		</tagblock>
+		<tagblock name="Sub Parts" offset="0xC" visible="true" elementSize="0x8">
+			<uint16 name="First Index" offset="0x0" visible="true" />
+			<uint16 name="Index Count" offset="0x2" visible="true" />
+			<int16 name="Part Index" offset="0x4" visible="true" />
+			<uint16 name="Vertex Count" offset="0x6" visible="true" />
+		</tagblock>
+		<int16 name="Vertex Buffer Indices 0" offset="0x18" visible="true" />
+		<int16 name="Vertex Buffer Indices 1" offset="0x1A" visible="true" />
+		<int16 name="Vertex Buffer Indices 2" offset="0x1C" visible="true" />
+		<int16 name="Vertex Buffer Indices 3" offset="0x1E" visible="true" />
+		<int16 name="Vertex Buffer Indices 4" offset="0x20" visible="true" />
+		<int16 name="Vertex Buffer Indices 5" offset="0x22" visible="true" />
+		<int16 name="Vertex Buffer Indices 6" offset="0x24" visible="true" />
+		<int16 name="Vertex Buffer Indices 7" offset="0x26" visible="true" />
+		<int16 name="Index Buffer Indices 0" offset="0x28" visible="true" />
+		<int16 name="Index Buffer Indices 1" offset="0x2A" visible="true" />
+		<flags8 name="Flags" offset="0x2C" visible="true">
+			<bit name="MeshHasVertexColor" index="0" />
+			<bit name="UseRegionIndexForSorting" index="1" />
+			<bit name="UseVertexBuffersForIndices" index="2" />
+			<bit name="MeshHasPerInstanceLighting" index="3" />
+			<bit name="MeshIsUnindexed" index="4" />
+			<bit name="MashShouldRenderInZPrepass" index="5" />
+			<bit name="MeshHasWater" index="6" />
+			<bit name="MeshHasDecal" index="7" />
+		</flags8>
+		<int8 name="Rigid Node Index" offset="0x2D" visible="true" />
+		<enum8 name="Type" offset="0x2E" visible="true">
+			<option name="World" value="0" />
+			<option name="Rigid" value="1" />
+			<option name="Skinned" value="2" />
+			<option name="ParticleModel" value="3" />
+			<option name="FlatWorld" value="4" />
+			<option name="FlatRigid" value="5" />
+			<option name="FlatSkinned" value="6" />
+			<option name="Screen" value="7" />
+			<option name="Debug" value="8" />
+			<option name="Transparent" value="9" />
+			<option name="Particle" value="10" />
+			<option name="Contrail" value="11" />
+			<option name="LightVolume" value="12" />
+			<option name="SimpleChud" value="13" />
+			<option name="FancyChud" value="14" />
+			<option name="Decorator" value="15" />
+			<option name="TinyPosition" value="16" />
+			<option name="PatchyFog" value="17" />
+			<option name="Water" value="18" />
+			<option name="Ripple" value="19" />
+			<option name="Implicit" value="20" />
+			<option name="Beam" value="21" />
+			<option name="DualQuat" value="22" />
+		</enum8>
+		<enum8 name="Prt Type" offset="0x2F" visible="true">
+			<option name="None" value="0" />
+			<option name="Ambient" value="1" />
+			<option name="Linear" value="2" />
+			<option name="Quadratic" value="3" />
+		</enum8>
+		<enum8 name="Index Buffer Type" offset="0x30" visible="true">
+			<option name="PointList" value="0" />
+			<option name="LineList" value="1" />
+			<option name="LineStrip" value="2" />
+			<option name="TriangleList" value="3" />
+			<option name="TriangleFan" value="4" />
+			<option name="TriangleStrip" value="5" />
+		</enum8>
+		<uint8 name="Unused3 0" offset="0x31" visible="false" />
+		<uint8 name="Unused3 1" offset="0x32" visible="false" />
+		<uint8 name="Unused3 2" offset="0x33" visible="false" />
+		<tagblock name="Instance Buckets" offset="0x34" visible="true" elementSize="0x10">
+			<int16 name="Mesh Index" offset="0x0" visible="true" />
+			<int16 name="Definition Index" offset="0x2" visible="true" />
+			<tagblock name="Instances" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Instance Index" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Water" offset="0x40" visible="true" elementSize="0x2">
+			<int16 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Compression" offset="0x10" visible="true" elementSize="0x2C">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="CompressedPosition" index="0" />
+			<bit name="CompressedTexcoord" index="1" />
+			<bit name="CompressionOptimized" index="2" />
+		</flags16>
+		<uint8 name="Unused 0" offset="0x2" visible="false" />
+		<uint8 name="Unused 1" offset="0x3" visible="false" />
+		<rangef name="X" offset="0x4" visible="true" />
+		<rangef name="Y" offset="0xC" visible="true" />
+		<rangef name="Z" offset="0x14" visible="true" />
+		<rangef name="U" offset="0x1C" visible="true" />
+		<rangef name="V" offset="0x24" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / Bounding Spheres" offset="0x1C" visible="true" elementSize="0x30">
+		<plane3 name="Plane" offset="0x0" visible="true" />
+		<point3 name="Position" offset="0x10" visible="true" />
+		<float32 name="Radius" offset="0x1C" visible="true" />
+		<int8 name="Node Indices 0" offset="0x20" visible="true" />
+		<int8 name="Node Indices 1" offset="0x21" visible="true" />
+		<int8 name="Node Indices 2" offset="0x22" visible="true" />
+		<int8 name="Node Indices 3" offset="0x23" visible="true" />
+		<float32 name="Node Weights 0" offset="0x24" visible="true" />
+		<float32 name="Node Weights 1" offset="0x28" visible="true" />
+		<float32 name="Node Weights 2" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / User Data" offset="0x28" visible="true" elementSize="0x18">
+		<enum8 name="Data Type" offset="0x0" visible="true">
+			<option name="PrtInfo" value="0" />
+		</enum8>
+		<int8 name="Data Count" offset="0x1" visible="true" />
+		<uint16 name="Data Size" offset="0x2" visible="true" />
+		<dataref name="Data" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Geometry / Geometry Tag Resources" offset="0x34" visible="true" elementSize="0x2C">
+		<tagblock name="Raw Vertices" offset="0x0" visible="true" elementSize="0x60">
+			<point3 name="Position" offset="0x0" visible="true" />
+			<point2 name="Texcoord" offset="0xC" visible="true" />
+			<point3 name="Normal" offset="0x14" visible="true" />
+			<point3 name="Binormal" offset="0x20" visible="true" />
+			<point3 name="Tangent" offset="0x2C" visible="true" />
+			<point2 name="Lightmap Texcoord" offset="0x38" visible="true" />
+			<uint8 name="Node Indices 0" offset="0x40" visible="false" />
+			<uint8 name="Node Indices 1" offset="0x41" visible="false" />
+			<uint8 name="Node Indices 2" offset="0x42" visible="false" />
+			<uint8 name="Node Indices 3" offset="0x43" visible="false" />
+			<float32 name="Node Weights 0" offset="0x44" visible="true" />
+			<float32 name="Node Weights 1" offset="0x48" visible="true" />
+			<float32 name="Node Weights 2" offset="0x4C" visible="true" />
+			<float32 name="Node Weights 3" offset="0x50" visible="true" />
+			<point3 name="Vertex Color" offset="0x54" visible="true" />
+		</tagblock>
+		<tagblock name="Raw Indices" offset="0xC" visible="true" elementSize="0x2">
+			<int16 name="Word" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Raw Water Data" offset="0x18" visible="true" elementSize="0x18">
+			<tagblock name="Raw Water Indices" offset="0x0" visible="true" elementSize="0x2">
+				<int16 name="Word" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Raw Water Vertices" offset="0xC" visible="true" elementSize="0x24">
+				<point3 name="Local Info" offset="0x0" visible="true" />
+				<point3 name="Water Velocity" offset="0xC" visible="true" />
+				<point3 name="Base Texcoord" offset="0x18" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int16 name="Parameterized Texture Width" offset="0x24" visible="true" />
+		<int16 name="Parameterized Texture Height" offset="0x26" visible="true" />
+		<flags32 name="Flags" offset="0x28" visible="true">
+			<bit name="IndicesAreTriangleStrips" index="0" />
+			<bit name="IndicesAreTriangleLists" index="1" />
+			<bit name="IndicesAreQuadLists" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Geometry / Mesh Cluster Visibility" offset="0x40" visible="true" elementSize="0x20">
+		<dataref name="Mopp Code" offset="0x0" visible="true" />
+		<tagblock name="Mopp Reorder Table" offset="0x14" visible="true" elementSize="0x2">
+			<int16 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Node Maps" offset="0x4C" visible="true" elementSize="0xC">
+		<tagblock name="Node Indices" offset="0x0" visible="true" elementSize="0x1">
+			<uint8 name="Node" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Subpart Visibility" offset="0x58" visible="true" elementSize="0xC">
+		<tagblock name="Bounding Spheres" offset="0x0" visible="true" elementSize="0x30">
+			<plane3 name="Plane" offset="0x0" visible="true" />
+			<point3 name="Position" offset="0x10" visible="true" />
+			<float32 name="Radius" offset="0x1C" visible="true" />
+			<int8 name="Node Indices 0" offset="0x20" visible="true" />
+			<int8 name="Node Indices 1" offset="0x21" visible="true" />
+			<int8 name="Node Indices 2" offset="0x22" visible="true" />
+			<int8 name="Node Indices 3" offset="0x23" visible="true" />
+			<float32 name="Node Weights 0" offset="0x24" visible="true" />
+			<float32 name="Node Weights 1" offset="0x28" visible="true" />
+			<float32 name="Node Weights 2" offset="0x2C" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Per Mesh Prt Data" offset="0x64" visible="true" elementSize="0x20">
+		<dataref name="Mesh Pca Data" offset="0x0" visible="true" />
+		<tagblock name="Per Instance Prt Data" offset="0x14" visible="true" elementSize="0x14">
+			<dataref name="Mesh Pca Data" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Geometry / Instanced Geometry Per Pixel Lighting" offset="0x70" visible="true" elementSize="0x10">
+		<tagblock name="Unused Vertex Buffer" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<int16 name="Vertex Buffer Index" offset="0xC" visible="true" />
+		<int16 name="Unknown1" offset="0xE" visible="true" />
+	</tagblock>
+	<uint32 name="Geometry / Resource (resource datum)" offset="0x7C" visible="true" />
+	<uint32 name="Geometry / Resource (resource pad)" offset="0x80" visible="true" />
+	<tagblock name="M Variants" offset="0x84" visible="true" elementSize="0x10">
+		<float32 name="Runtime M Count 0" offset="0x0" visible="true" />
+		<float32 name="Runtime M Count 1" offset="0x4" visible="true" />
+		<float32 name="Runtime M Count 2" offset="0x8" visible="true" />
+		<float32 name="Runtime M Count 3" offset="0xC" visible="true" />
+	</tagblock>
+</plugin>

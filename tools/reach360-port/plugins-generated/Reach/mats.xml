@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x58">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.MaterialShader (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="IsDistortion" index="0" />
+		<bit name="IsDecal" index="1" />
+		<bit name="BlendedMaterials" index="2" />
+		<bit name="NoPhysicsMaterial" index="3" />
+		<bit name="IsVolumeFog" index="4" />
+		<bit name="IsWater" index="5" />
+		<bit name="IsWaterfall" index="6" />
+		<bit name="IsHologram" index="7" />
+		<bit name="IsBlendedHologram" index="8" />
+		<bit name="IsEmblem" index="9" />
+		<bit name="BlendedMaterials2" index="10" />
+		<bit name="BlendedMaterials3" index="11" />
+		<bit name="IsAlphaClip" index="12" />
+		<bit name="IsLightableTransparent" index="13" />
+	</flags32>
+	<tagblock name="Source Shader Files" offset="0x4" visible="true" elementSize="0x114">
+		<ascii name="Shader Path" offset="0x0" visible="true" size="0x100" />
+		<dataref name="Shader Data" offset="0x100" visible="true" />
+	</tagblock>
+	<tagblock name="Compiled Effects" offset="0x10" visible="true" elementSize="0x14">
+		<dataref name="Compiled Effect Data" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Source Shader Hash" offset="0x1C" visible="true" />
+	<int32 name="Compiled Shader Hash" offset="0x20" visible="true" />
+	<tagref name="Shader Bank" offset="0x24" visible="true" />
+	<tagblock name="Vertex Shader Entry Points" offset="0x34" visible="true" elementSize="0xC">
+		<tagblock name="Vertex Type Shader Indices" offset="0x0" visible="true" elementSize="0x8">
+			<int32 name="Hash" offset="0x0" visible="true" />
+			<int32 name="Index" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Pixel Shader Entry Points" offset="0x40" visible="true" elementSize="0x8">
+		<int32 name="Hash" offset="0x0" visible="true" />
+		<int32 name="Index" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Material Parameters" offset="0x4C" visible="true" elementSize="0xA8">
+		<stringid name="Parameter Name" offset="0x0" visible="true" />
+		<enum32 name="Parameter Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Real" value="1" />
+			<option name="Int" value="2" />
+			<option name="Bool" value="3" />
+			<option name="Color" value="4" />
+		</enum32>
+		<int32 name="Parameter Index" offset="0x8" visible="true" />
+		<tagref name="Bitmap" offset="0xC" visible="true" />
+		<stringid name="Bitmap Path" offset="0x1C" visible="true" />
+		<colorf name="Color" offset="0x20" alpha="true" visible="true" />
+		<float32 name="Real" offset="0x30" visible="true" />
+		<vector3 name="Vector" offset="0x34" visible="true" />
+		<int32 name="Int Bool" offset="0x40" visible="true" />
+		<uint16 name="Bitmap Flags" offset="0x44" visible="true" />
+		<uint16 name="Bitmap Filter Mode" offset="0x46" visible="true" />
+		<uint16 name="Bitmap Address Mode" offset="0x48" visible="true" />
+		<uint16 name="Bitmap Address Mode X" offset="0x4A" visible="true" />
+		<uint16 name="Bitmap Address Mode Y" offset="0x4C" visible="true" />
+		<uint16 name="Bitmap Sharpen Mode" offset="0x4E" visible="true" />
+		<uint8 name="Bitmap Extern Mode" offset="0x50" visible="true" />
+		<uint8 name="Bitmap Min Mipmap" offset="0x51" visible="true" />
+		<uint8 name="Bitmap Max Mipmap" offset="0x52" visible="true" />
+		<uint8 name="Render Phases Used" offset="0x53" visible="true" />
+		<tagblock name="Function Parameters" offset="0x54" visible="true" elementSize="0x2C">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Value" value="0" />
+				<option name="Color" value="1" />
+				<option name="ScaleUniform" value="2" />
+				<option name="ScaleU" value="3" />
+				<option name="ScaleV" value="4" />
+				<option name="OffsetU" value="5" />
+				<option name="OffsetV" value="6" />
+				<option name="FrameIndex" value="7" />
+				<option name="Alpha" value="8" />
+			</enum32>
+			<stringid name="Input Name" offset="0x4" visible="true" />
+			<stringid name="Range Name" offset="0x8" visible="true" />
+			<enum8 name="Output Modifier" offset="0xC" visible="true">
+				<option name="Unknown" value="0" />
+				<option name="Add" value="1" />
+				<option name="Multiply" value="2" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0xD" visible="false" />
+			<uint8 name="Padding 1" offset="0xE" visible="false" />
+			<uint8 name="Padding 2" offset="0xF" visible="false" />
+			<stringid name="Output Modifier Input" offset="0x10" visible="true" />
+			<float32 name="Time Period" offset="0x14" visible="true" />
+			<dataref name="Function / Data" offset="0x18" visible="true" />
+		</tagblock>
+		<dataref name="Display Name" offset="0x60" visible="true" />
+		<dataref name="Display Group" offset="0x74" visible="true" />
+		<dataref name="Display Help Text" offset="0x88" visible="true" />
+		<float32 name="Display Minimum" offset="0x9C" visible="true" />
+		<float32 name="Display Maximum" offset="0xA0" visible="true" />
+		<uint8 name="Register Index" offset="0xA4" visible="true" />
+		<uint8 name="Register Offset" offset="0xA5" visible="true" />
+		<uint8 name="Register Count" offset="0xA6" visible="true" />
+		<enum8 name="Register Set" offset="0xA7" visible="true">
+			<option name="Bool" value="0" />
+			<option name="Int" value="1" />
+			<option name="Float" value="2" />
+			<option name="Sampler" value="3" />
+			<option name="VertexBool" value="4" />
+			<option name="VertexInt" value="5" />
+			<option name="VertexFloat" value="6" />
+			<option name="VertexSampler" value="7" />
+		</enum8>
+	</tagblock>
+</plugin>

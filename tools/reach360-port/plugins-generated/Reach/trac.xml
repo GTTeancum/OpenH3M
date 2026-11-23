@@ -1,0 +1,1434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x20">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.TracerSystem (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Tracer System Flags" offset="0x0" visible="true">
+		<bit name="PointToPoint" index="0" />
+		<bit name="DrawInFirstPersonPass" index="1" />
+		<bit name="DisableWhenZoomed" index="2" />
+	</flags32>
+	<float32 name="Far Lod Start" offset="0x4" visible="true" />
+	<float32 name="Far Lod End" offset="0x8" visible="true" />
+	<float32 name="Far Lod Start Value" offset="0xC" visible="true" />
+	<float32 name="Far Lod End Value" offset="0x10" visible="true" />
+	<tagblock name="Tracers" offset="0x14" visible="true" elementSize="0x2B0">
+		<stringid name="Tracer Name" offset="0x0" visible="true" />
+		<flags8 name="Flags" offset="0x4" visible="true">
+			<bit name="DisabledForDebugging" index="0" />
+		</flags8>
+		<enum8 name="Profile Shape" offset="0x5" visible="true">
+			<option name="AlignedRibbon" value="0" />
+			<option name="Cross" value="1" />
+			<option name="NGon" value="2" />
+			<option name="Horizontal" value="3" />
+			<option name="Vertical" value="4" />
+		</enum8>
+		<uint8 name="Number Of N Gon Sides" offset="0x6" visible="true" />
+		<uint8 name="Padding 0" offset="0x7" visible="false" />
+		<float32 name="Origin Fade Range" offset="0x8" visible="true" />
+		<float32 name="Origin Fade Cutoff" offset="0xC" visible="true" />
+		<float32 name="Edge Fade Range" offset="0x10" visible="true" />
+		<float32 name="Edge Fade Cutoff" offset="0x14" visible="true" />
+		<enum8 name="Profile Lifespan / Input Variable" offset="0x18" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Range Variable" offset="0x19" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Output Modifier" offset="0x1A" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Lifespan / Output Modifier Input" offset="0x1B" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Lifespan / Mapping / Data" offset="0x1C" visible="true" />
+		<float32 name="Profile Lifespan / Runtime M Constant Value" offset="0x30" visible="true" />
+		<uint16 name="Profile Lifespan / Runtime M Flags" offset="0x34" visible="true" />
+		<uint8 name="Profile Lifespan / Padding 0" offset="0x36" visible="false" />
+		<uint8 name="Profile Lifespan / Padding 1" offset="0x37" visible="false" />
+		<enum8 name="Profile Self Acceleration / Input Variable" offset="0x38" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Range Variable" offset="0x39" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Output Modifier" offset="0x3A" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Self Acceleration / Output Modifier Input" offset="0x3B" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Self Acceleration / Mapping / Data" offset="0x3C" visible="true" />
+		<float32 name="Profile Self Acceleration / Runtime M Constant Value" offset="0x50" visible="true" />
+		<uint16 name="Profile Self Acceleration / Runtime M Flags" offset="0x54" visible="true" />
+		<uint8 name="Profile Self Acceleration / Padding 0" offset="0x56" visible="false" />
+		<uint8 name="Profile Self Acceleration / Padding 1" offset="0x57" visible="false" />
+		<vector3 name="Profile Self Acceleration / Starting Interpolant" offset="0x58" visible="true" />
+		<vector3 name="Profile Self Acceleration / Ending Interpolant" offset="0x64" visible="true" />
+		<enum8 name="Length / Input Variable" offset="0x70" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Length / Range Variable" offset="0x71" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Length / Output Modifier" offset="0x72" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Length / Output Modifier Input" offset="0x73" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Length / Mapping / Data" offset="0x74" visible="true" />
+		<float32 name="Length / Runtime M Constant Value" offset="0x88" visible="true" />
+		<uint16 name="Length / Runtime M Flags" offset="0x8C" visible="true" />
+		<uint8 name="Length / Padding 0" offset="0x8E" visible="false" />
+		<uint8 name="Length / Padding 1" offset="0x8F" visible="false" />
+		<enum8 name="Offset / Input Variable" offset="0x90" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Offset / Range Variable" offset="0x91" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Offset / Output Modifier" offset="0x92" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Offset / Output Modifier Input" offset="0x93" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Offset / Mapping / Data" offset="0x94" visible="true" />
+		<float32 name="Offset / Runtime M Constant Value" offset="0xA8" visible="true" />
+		<uint16 name="Offset / Runtime M Flags" offset="0xAC" visible="true" />
+		<uint8 name="Offset / Padding 0" offset="0xAE" visible="false" />
+		<uint8 name="Offset / Padding 1" offset="0xAF" visible="false" />
+		<enum8 name="Profile Size / Input Variable" offset="0xB0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Size / Range Variable" offset="0xB1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Size / Output Modifier" offset="0xB2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Size / Output Modifier Input" offset="0xB3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Size / Mapping / Data" offset="0xB4" visible="true" />
+		<float32 name="Profile Size / Runtime M Constant Value" offset="0xC8" visible="true" />
+		<uint16 name="Profile Size / Runtime M Flags" offset="0xCC" visible="true" />
+		<uint8 name="Profile Size / Padding 0" offset="0xCE" visible="false" />
+		<uint8 name="Profile Size / Padding 1" offset="0xCF" visible="false" />
+		<enum8 name="Profile Density / Input Variable" offset="0xD0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Density / Range Variable" offset="0xD1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Density / Output Modifier" offset="0xD2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Density / Output Modifier Input" offset="0xD3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Density / Mapping / Data" offset="0xD4" visible="true" />
+		<float32 name="Profile Density / Runtime M Constant Value" offset="0xE8" visible="true" />
+		<uint16 name="Profile Density / Runtime M Flags" offset="0xEC" visible="true" />
+		<uint8 name="Profile Density / Padding 0" offset="0xEE" visible="false" />
+		<uint8 name="Profile Density / Padding 1" offset="0xEF" visible="false" />
+		<enum8 name="Profile Offset / Input Variable" offset="0xF0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Offset / Range Variable" offset="0xF1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Offset / Output Modifier" offset="0xF2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Offset / Output Modifier Input" offset="0xF3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Offset / Mapping / Data" offset="0xF4" visible="true" />
+		<float32 name="Profile Offset / Runtime M Constant Value" offset="0x108" visible="true" />
+		<uint16 name="Profile Offset / Runtime M Flags" offset="0x10C" visible="true" />
+		<uint8 name="Profile Offset / Padding 0" offset="0x10E" visible="false" />
+		<uint8 name="Profile Offset / Padding 1" offset="0x10F" visible="false" />
+		<vector2 name="Profile Offset / Starting Interpolant" offset="0x110" visible="true" />
+		<vector2 name="Profile Offset / Ending Interpolant" offset="0x118" visible="true" />
+		<enum8 name="Profile Rotation / Input Variable" offset="0x120" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Rotation / Range Variable" offset="0x121" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Rotation / Output Modifier" offset="0x122" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Rotation / Output Modifier Input" offset="0x123" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Rotation / Mapping / Data" offset="0x124" visible="true" />
+		<float32 name="Profile Rotation / Runtime M Constant Value" offset="0x138" visible="true" />
+		<uint16 name="Profile Rotation / Runtime M Flags" offset="0x13C" visible="true" />
+		<uint8 name="Profile Rotation / Padding 0" offset="0x13E" visible="false" />
+		<uint8 name="Profile Rotation / Padding 1" offset="0x13F" visible="false" />
+		<enum8 name="Profile Rotation Rate / Input Variable" offset="0x140" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Range Variable" offset="0x141" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Output Modifier" offset="0x142" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Rotation Rate / Output Modifier Input" offset="0x143" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Rotation Rate / Mapping / Data" offset="0x144" visible="true" />
+		<float32 name="Profile Rotation Rate / Runtime M Constant Value" offset="0x158" visible="true" />
+		<uint16 name="Profile Rotation Rate / Runtime M Flags" offset="0x15C" visible="true" />
+		<uint8 name="Profile Rotation Rate / Padding 0" offset="0x15E" visible="false" />
+		<uint8 name="Profile Rotation Rate / Padding 1" offset="0x15F" visible="false" />
+		<flags16 name="Appearance Flags" offset="0x160" visible="true">
+			<bit name="TintFromLightmap" index="0" />
+			<bit name="DoubleSided" index="1" />
+			<bit name="ProfileOpacityFromScaleA" index="2" />
+			<bit name="RandomUOffset" index="3" />
+			<bit name="RandomVOffset" index="4" />
+			<bit name="CanRenderLowRes" index="5" />
+		</flags16>
+		<int16 name="Sort Bias" offset="0x162" visible="true" />
+		<tagref name="Actual Material / Material Shader" offset="0x164" visible="true" />
+		<tagblock name="Actual Material / Material Parameters" offset="0x174" visible="true" elementSize="0xA8">
+			<stringid name="Parameter Name" offset="0x0" visible="true" />
+			<enum32 name="Parameter Type" offset="0x4" visible="true">
+				<option name="Bitmap" value="0" />
+				<option name="Real" value="1" />
+				<option name="Int" value="2" />
+				<option name="Bool" value="3" />
+				<option name="Color" value="4" />
+			</enum32>
+			<int32 name="Parameter Index" offset="0x8" visible="true" />
+			<tagref name="Bitmap" offset="0xC" visible="true" />
+			<stringid name="Bitmap Path" offset="0x1C" visible="true" />
+			<colorf name="Color" offset="0x20" alpha="true" visible="true" />
+			<float32 name="Real" offset="0x30" visible="true" />
+			<vector3 name="Vector" offset="0x34" visible="true" />
+			<int32 name="Int Bool" offset="0x40" visible="true" />
+			<uint16 name="Bitmap Flags" offset="0x44" visible="true" />
+			<uint16 name="Bitmap Filter Mode" offset="0x46" visible="true" />
+			<uint16 name="Bitmap Address Mode" offset="0x48" visible="true" />
+			<uint16 name="Bitmap Address Mode X" offset="0x4A" visible="true" />
+			<uint16 name="Bitmap Address Mode Y" offset="0x4C" visible="true" />
+			<uint16 name="Bitmap Sharpen Mode" offset="0x4E" visible="true" />
+			<uint8 name="Bitmap Extern Mode" offset="0x50" visible="true" />
+			<uint8 name="Bitmap Min Mipmap" offset="0x51" visible="true" />
+			<uint8 name="Bitmap Max Mipmap" offset="0x52" visible="true" />
+			<uint8 name="Render Phases Used" offset="0x53" visible="true" />
+			<tagblock name="Function Parameters" offset="0x54" visible="true" elementSize="0x2C">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleU" value="3" />
+					<option name="ScaleV" value="4" />
+					<option name="OffsetU" value="5" />
+					<option name="OffsetV" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<enum8 name="Output Modifier" offset="0xC" visible="true">
+					<option name="Unknown" value="0" />
+					<option name="Add" value="1" />
+					<option name="Multiply" value="2" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0xD" visible="false" />
+				<uint8 name="Padding 1" offset="0xE" visible="false" />
+				<uint8 name="Padding 2" offset="0xF" visible="false" />
+				<stringid name="Output Modifier Input" offset="0x10" visible="true" />
+				<float32 name="Time Period" offset="0x14" visible="true" />
+				<dataref name="Function / Data" offset="0x18" visible="true" />
+			</tagblock>
+			<dataref name="Display Name" offset="0x60" visible="true" />
+			<dataref name="Display Group" offset="0x74" visible="true" />
+			<dataref name="Display Help Text" offset="0x88" visible="true" />
+			<float32 name="Display Minimum" offset="0x9C" visible="true" />
+			<float32 name="Display Maximum" offset="0xA0" visible="true" />
+			<uint8 name="Register Index" offset="0xA4" visible="true" />
+			<uint8 name="Register Offset" offset="0xA5" visible="true" />
+			<uint8 name="Register Count" offset="0xA6" visible="true" />
+			<enum8 name="Register Set" offset="0xA7" visible="true">
+				<option name="Bool" value="0" />
+				<option name="Int" value="1" />
+				<option name="Float" value="2" />
+				<option name="Sampler" value="3" />
+				<option name="VertexBool" value="4" />
+				<option name="VertexInt" value="5" />
+				<option name="VertexFloat" value="6" />
+				<option name="VertexSampler" value="7" />
+			</enum8>
+		</tagblock>
+		<tagblock name="Actual Material / Postprocess Definition" offset="0x180" visible="true" elementSize="0x9C">
+			<tagblock name="Textures" offset="0x0" visible="true" elementSize="0x18">
+				<tagref name="Bitmap Reference" offset="0x0" visible="true" />
+				<uint8 name="Address Mode" offset="0x10" visible="true" />
+				<uint8 name="Filter Mode" offset="0x11" visible="true" />
+				<uint8 name="Frame Index Parameter" offset="0x12" visible="true" />
+				<uint8 name="Sampler Index" offset="0x13" visible="true" />
+				<int8 name="Level Of Smallest Mipmap To Use" offset="0x14" visible="true" />
+				<int8 name="Level Of Largest Mipmap To Use" offset="0x15" visible="true" />
+				<uint8 name="Render Phase Mask" offset="0x16" visible="true" />
+				<uint8 name="Padding 0" offset="0x17" visible="false" />
+			</tagblock>
+			<tagblock name="Texture Constants" offset="0xC" visible="true" elementSize="0x10">
+				<vector3 name="Vector" offset="0x0" visible="true" />
+				<float32 name="Vector W" offset="0xC" visible="true" />
+			</tagblock>
+			<tagblock name="Real Vectors" offset="0x18" visible="true" elementSize="0x10">
+				<vector3 name="Vector" offset="0x0" visible="true" />
+				<float32 name="Vector W" offset="0xC" visible="true" />
+			</tagblock>
+			<tagblock name="Real Vertex Vectors" offset="0x24" visible="true" elementSize="0x10">
+				<vector3 name="Vector" offset="0x0" visible="true" />
+				<float32 name="Vector W" offset="0xC" visible="true" />
+			</tagblock>
+			<tagblock name="Int Constants" offset="0x30" visible="true" elementSize="0x4">
+				<int32 name="Int Value" offset="0x0" visible="true" />
+			</tagblock>
+			<int32 name="Bool Constants" offset="0x3C" visible="true" />
+			<int32 name="Used Bool Constants" offset="0x40" visible="true" />
+			<int32 name="Bool Render Phase Mask" offset="0x44" visible="true" />
+			<int32 name="Vertex Bool Constants" offset="0x48" visible="true" />
+			<int32 name="Used Vertex Bool Constants" offset="0x4C" visible="true" />
+			<int32 name="Vertex Bool Render Phase Mask" offset="0x50" visible="true" />
+			<tagblock name="Functions" offset="0x54" visible="true" elementSize="0x2C">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleU" value="3" />
+					<option name="ScaleV" value="4" />
+					<option name="OffsetU" value="5" />
+					<option name="OffsetV" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<enum8 name="Output Modifier" offset="0xC" visible="true">
+					<option name="Unknown" value="0" />
+					<option name="Add" value="1" />
+					<option name="Multiply" value="2" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0xD" visible="false" />
+				<uint8 name="Padding 1" offset="0xE" visible="false" />
+				<uint8 name="Padding 2" offset="0xF" visible="false" />
+				<stringid name="Output Modifier Input" offset="0x10" visible="true" />
+				<float32 name="Time Period" offset="0x14" visible="true" />
+				<dataref name="Function / Data" offset="0x18" visible="true" />
+			</tagblock>
+			<tagblock name="Function Parameters" offset="0x60" visible="true" elementSize="0x4">
+				<uint8 name="Function Index" offset="0x0" visible="true" />
+				<uint8 name="Render Phase Mask" offset="0x1" visible="true" />
+				<uint8 name="Register Index" offset="0x2" visible="true" />
+				<uint8 name="Register Offset" offset="0x3" visible="true" />
+			</tagblock>
+			<tagblock name="Extern Parameters" offset="0x6C" visible="true" elementSize="0x4">
+				<uint8 name="Extern Index" offset="0x0" visible="true" />
+				<uint8 name="Extern Register" offset="0x1" visible="true" />
+				<uint8 name="Extern Offset" offset="0x2" visible="true" />
+				<uint8 name="Render Phase Mask" offset="0x3" visible="true" />
+			</tagblock>
+			<enum8 name="Alpha Blend Mode" offset="0x78" visible="true">
+				<option name="Opaque" value="0" />
+				<option name="Additive" value="1" />
+				<option name="Multiply" value="2" />
+				<option name="AlphaBlend" value="3" />
+				<option name="DoubleMultiply" value="4" />
+				<option name="PreMultipliedAlpha" value="5" />
+				<option name="Maximum" value="6" />
+				<option name="MultiplyAdd" value="7" />
+				<option name="AddSrcTimesDstalpha" value="8" />
+				<option name="AddSrcTimesSrcalpha" value="9" />
+				<option name="InvAlphaBlend" value="10" />
+				<option name="MotionBlurStatic" value="11" />
+				<option name="MotionBlurInhibit" value="12" />
+				<option name="ApplyShadowIntoShadowMask" value="13" />
+				<option name="AlphaBlendConstant" value="14" />
+				<option name="OverdrawApply" value="15" />
+				<option name="WetScreenEffect" value="16" />
+				<option name="Minimum" value="17" />
+				<option name="Revsubtract" value="18" />
+				<option name="ForgeLightmap" value="19" />
+				<option name="ForgeLightmapInv" value="20" />
+				<option name="ReplaceAllChannels" value="21" />
+				<option name="AlphaBlendMax" value="22" />
+				<option name="OpaqueAlphaBlend" value="23" />
+				<option name="AlphaBlendAdditiveTransparent" value="24" />
+			</enum8>
+			<enum8 name="Layer Blend Mode" offset="0x79" visible="true">
+				<option name="None" value="0" />
+				<option name="Blended" value="1" />
+				<option name="Layered" value="2" />
+			</enum8>
+			<flags16 name="Flags" offset="0x7A" visible="true">
+				<bit name="WireframeOutline" index="0" />
+				<bit name="ForceSinglePass" index="1" />
+				<bit name="HasPixelConstantFunctions" index="2" />
+				<bit name="HasVertexConstantFunctions" index="3" />
+				<bit name="HasTextureTransformFunctions" index="4" />
+				<bit name="HasTextureFrameFunctions" index="5" />
+				<bit name="ResolveScreenBeforeRendering" index="6" />
+				<bit name="DisableAtmosphereFog" index="7" />
+				<bit name="UsesDepthCamera" index="8" />
+				<bit name="MaterialIsVariable" index="9" />
+			</flags16>
+			<int16 name="Runtime Queryable Properties Table 0 / Index" offset="0x7C" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 1 / Index" offset="0x7E" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 2 / Index" offset="0x80" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 3 / Index" offset="0x82" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 4 / Index" offset="0x84" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 5 / Index" offset="0x86" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 6 / Index" offset="0x88" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 7 / Index" offset="0x8A" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 8 / Index" offset="0x8C" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 9 / Index" offset="0x8E" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 10 / Index" offset="0x90" visible="true" />
+			<int16 name="Runtime Queryable Properties Table 11 / Index" offset="0x92" visible="true" />
+			<int16 name="Physics Material0 / Global Material Index" offset="0x94" visible="true" />
+			<int16 name="Physics Material1 / Global Material Index" offset="0x96" visible="true" />
+			<int16 name="Physics Material2 / Global Material Index" offset="0x98" visible="true" />
+			<int16 name="Physics Material3 / Global Material Index" offset="0x9A" visible="true" />
+		</tagblock>
+		<stringid name="Actual Material / Physics Material Name" offset="0x18C" visible="true" />
+		<stringid name="Actual Material / Physics Material Name2" offset="0x190" visible="true" />
+		<stringid name="Actual Material / Physics Material Name3" offset="0x194" visible="true" />
+		<stringid name="Actual Material / Physics Material Name4" offset="0x198" visible="true" />
+		<float32 name="Actual Material / Sort Offset" offset="0x19C" visible="true" />
+		<enum8 name="Actual Material / Alpha Blend Mode" offset="0x1A0" visible="true">
+			<option name="Opaque" value="0" />
+			<option name="Additive" value="1" />
+			<option name="Multiply" value="2" />
+			<option name="AlphaBlend" value="3" />
+			<option name="DoubleMultiply" value="4" />
+			<option name="PreMultipliedAlpha" value="5" />
+			<option name="Maximum" value="6" />
+			<option name="MultiplyAdd" value="7" />
+			<option name="AddSrcTimesDstalpha" value="8" />
+			<option name="AddSrcTimesSrcalpha" value="9" />
+			<option name="InvAlphaBlend" value="10" />
+			<option name="MotionBlurStatic" value="11" />
+			<option name="MotionBlurInhibit" value="12" />
+			<option name="ApplyShadowIntoShadowMask" value="13" />
+			<option name="AlphaBlendConstant" value="14" />
+			<option name="OverdrawApply" value="15" />
+			<option name="WetScreenEffect" value="16" />
+			<option name="Minimum" value="17" />
+			<option name="Revsubtract" value="18" />
+			<option name="ForgeLightmap" value="19" />
+			<option name="ForgeLightmapInv" value="20" />
+			<option name="ReplaceAllChannels" value="21" />
+			<option name="AlphaBlendMax" value="22" />
+			<option name="OpaqueAlphaBlend" value="23" />
+			<option name="AlphaBlendAdditiveTransparent" value="24" />
+		</enum8>
+		<enum8 name="Actual Material / Sort Layer" offset="0x1A1" visible="true">
+			<option name="Invalid" value="0" />
+			<option name="PrePass" value="1" />
+			<option name="Normal" value="2" />
+			<option name="PostPass" value="3" />
+		</enum8>
+		<flags8 name="Actual Material / Flags" offset="0x1A2" visible="true">
+			<bit name="ConvertedFromShader" index="0" />
+			<bit name="DecalPostLighting" index="1" />
+		</flags8>
+		<flags8 name="Actual Material / Render Flags" offset="0x1A3" visible="true">
+			<bit name="ResolveScreenBeforeRendering" index="0" />
+		</flags8>
+		<enum8 name="Actual Material / Transparent Shadow Policy" offset="0x1A4" visible="true">
+			<option name="None" value="0" />
+			<option name="RenderAsDecal" value="1" />
+			<option name="RenderWithMaterial" value="2" />
+		</enum8>
+		<uint8 name="Actual Material / Padding 0" offset="0x1A5" visible="false" />
+		<uint8 name="Actual Material / Padding 1" offset="0x1A6" visible="false" />
+		<uint8 name="Actual Material / Padding 2" offset="0x1A7" visible="false" />
+		<vector2 name="Uv Tiling" offset="0x1A8" visible="true" />
+		<vector2 name="Uv Scrolling" offset="0x1B0" visible="true" />
+		<float32 name="Angle Fade Range" offset="0x1B8" visible="true" />
+		<float32 name="Angle Fade Begin" offset="0x1BC" visible="true" />
+		<enum8 name="Profile Color / Input Variable" offset="0x1C0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Color / Range Variable" offset="0x1C1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier" offset="0x1C2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier Input" offset="0x1C3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Color / Mapping / Data" offset="0x1C4" visible="true" />
+		<float32 name="Profile Color / Runtime M Constant Value" offset="0x1D8" visible="true" />
+		<uint16 name="Profile Color / Runtime M Flags" offset="0x1DC" visible="true" />
+		<uint8 name="Profile Color / Padding 0" offset="0x1DE" visible="false" />
+		<uint8 name="Profile Color / Padding 1" offset="0x1DF" visible="false" />
+		<enum8 name="Profile Alpha / Input Variable" offset="0x1E0" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Alpha / Range Variable" offset="0x1E1" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier" offset="0x1E2" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier Input" offset="0x1E3" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Alpha / Mapping / Data" offset="0x1E4" visible="true" />
+		<float32 name="Profile Alpha / Runtime M Constant Value" offset="0x1F8" visible="true" />
+		<uint16 name="Profile Alpha / Runtime M Flags" offset="0x1FC" visible="true" />
+		<uint8 name="Profile Alpha / Padding 0" offset="0x1FE" visible="false" />
+		<uint8 name="Profile Alpha / Padding 1" offset="0x1FF" visible="false" />
+		<enum8 name="Profile Alpha2 / Input Variable" offset="0x200" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Alpha2 / Range Variable" offset="0x201" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Alpha2 / Output Modifier" offset="0x202" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Alpha2 / Output Modifier Input" offset="0x203" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Alpha2 / Mapping / Data" offset="0x204" visible="true" />
+		<float32 name="Profile Alpha2 / Runtime M Constant Value" offset="0x218" visible="true" />
+		<uint16 name="Profile Alpha2 / Runtime M Flags" offset="0x21C" visible="true" />
+		<uint8 name="Profile Alpha2 / Padding 0" offset="0x21E" visible="false" />
+		<uint8 name="Profile Alpha2 / Padding 1" offset="0x21F" visible="false" />
+		<enum8 name="Profile Black Point / Input Variable" offset="0x220" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Black Point / Range Variable" offset="0x221" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Black Point / Output Modifier" offset="0x222" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Black Point / Output Modifier Input" offset="0x223" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Black Point / Mapping / Data" offset="0x224" visible="true" />
+		<float32 name="Profile Black Point / Runtime M Constant Value" offset="0x238" visible="true" />
+		<uint16 name="Profile Black Point / Runtime M Flags" offset="0x23C" visible="true" />
+		<uint8 name="Profile Black Point / Padding 0" offset="0x23E" visible="false" />
+		<uint8 name="Profile Black Point / Padding 1" offset="0x23F" visible="false" />
+		<enum8 name="Profile Palette / Input Variable" offset="0x240" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Palette / Range Variable" offset="0x241" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Palette / Output Modifier" offset="0x242" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Palette / Output Modifier Input" offset="0x243" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Palette / Mapping / Data" offset="0x244" visible="true" />
+		<float32 name="Profile Palette / Runtime M Constant Value" offset="0x258" visible="true" />
+		<uint16 name="Profile Palette / Runtime M Flags" offset="0x25C" visible="true" />
+		<uint8 name="Profile Palette / Padding 0" offset="0x25E" visible="false" />
+		<uint8 name="Profile Palette / Padding 1" offset="0x25F" visible="false" />
+		<enum8 name="Profile Intensity / Input Variable" offset="0x260" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Intensity / Range Variable" offset="0x261" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier" offset="0x262" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier Input" offset="0x263" visible="true">
+			<option name="ProfileAge" value="0" />
+			<option name="ProfilePosition" value="1" />
+			<option name="Unused" value="2" />
+			<option name="ProfileRandom" value="3" />
+			<option name="ProfileCorrelation1" value="4" />
+			<option name="ProfileCorrelation2" value="5" />
+			<option name="ProfileCorrelation3" value="6" />
+			<option name="ProfileCorrelation4" value="7" />
+			<option name="GameTime" value="8" />
+			<option name="TracerRandom" value="9" />
+			<option name="TracerCorrelation1" value="10" />
+			<option name="TracerCorrelation2" value="11" />
+			<option name="TracerSpeed" value="12" />
+			<option name="TracerLength" value="13" />
+			<option name="SystemAge" value="14" />
+			<option name="SystemLod" value="15" />
+			<option name="EffectAScale" value="16" />
+			<option name="EffectBScale" value="17" />
+			<option name="InvalidStatePleaseSetAgain" value="18" />
+		</enum8>
+		<dataref name="Profile Intensity / Mapping / Data" offset="0x264" visible="true" />
+		<float32 name="Profile Intensity / Runtime M Constant Value" offset="0x278" visible="true" />
+		<uint16 name="Profile Intensity / Runtime M Flags" offset="0x27C" visible="true" />
+		<uint8 name="Profile Intensity / Padding 0" offset="0x27E" visible="false" />
+		<uint8 name="Profile Intensity / Padding 1" offset="0x27F" visible="false" />
+		<uint32 name="Runtime M Constantper Profile Properties" offset="0x280" visible="true" />
+		<uint32 name="Runtime M Usedstates" offset="0x284" visible="true" />
+		<uint32 name="Runtime M Maxprofile Count" offset="0x288" visible="true" />
+		<tagblock name="Runtime M Gpudata / Runtime Gpu Property Block" offset="0x28C" visible="true" elementSize="0x10">
+			<float32 name="Runtime Gpu Property Sub Array 0 / Runtime Gpu Property Real" offset="0x0" visible="true" />
+			<float32 name="Runtime Gpu Property Sub Array 1 / Runtime Gpu Property Real" offset="0x4" visible="true" />
+			<float32 name="Runtime Gpu Property Sub Array 2 / Runtime Gpu Property Real" offset="0x8" visible="true" />
+			<float32 name="Runtime Gpu Property Sub Array 3 / Runtime Gpu Property Real" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpudata / Runtime Gpu Functions Block" offset="0x298" visible="true" elementSize="0x40">
+			<float32 name="Runtime Gpu Function Sub Array 0 / Runtime Gpu Function Real" offset="0x0" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 1 / Runtime Gpu Function Real" offset="0x4" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 2 / Runtime Gpu Function Real" offset="0x8" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 3 / Runtime Gpu Function Real" offset="0xC" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 4 / Runtime Gpu Function Real" offset="0x10" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 5 / Runtime Gpu Function Real" offset="0x14" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 6 / Runtime Gpu Function Real" offset="0x18" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 7 / Runtime Gpu Function Real" offset="0x1C" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 8 / Runtime Gpu Function Real" offset="0x20" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 9 / Runtime Gpu Function Real" offset="0x24" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 10 / Runtime Gpu Function Real" offset="0x28" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 11 / Runtime Gpu Function Real" offset="0x2C" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 12 / Runtime Gpu Function Real" offset="0x30" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 13 / Runtime Gpu Function Real" offset="0x34" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 14 / Runtime Gpu Function Real" offset="0x38" visible="true" />
+			<float32 name="Runtime Gpu Function Sub Array 15 / Runtime Gpu Function Real" offset="0x3C" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpudata / Runtime Gpu Colors Block" offset="0x2A4" visible="true" elementSize="0x10">
+			<float32 name="Runtime Gpu Color Sub Array 0 / Runtime Gpu Color Real" offset="0x0" visible="true" />
+			<float32 name="Runtime Gpu Color Sub Array 1 / Runtime Gpu Color Real" offset="0x4" visible="true" />
+			<float32 name="Runtime Gpu Color Sub Array 2 / Runtime Gpu Color Real" offset="0x8" visible="true" />
+			<float32 name="Runtime Gpu Color Sub Array 3 / Runtime Gpu Color Real" offset="0xC" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

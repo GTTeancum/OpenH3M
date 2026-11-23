@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x74">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CheapLight (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Color / Input Variable" offset="0x0" visible="true" />
+	<stringid name="Color / Range Variable" offset="0x4" visible="true" />
+	<enum16 name="Color / Output Modifier" offset="0x8" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Color / BVCG 0" offset="0xA" visible="false" />
+	<uint8 name="Color / BVCG 1" offset="0xB" visible="false" />
+	<stringid name="Color / Output Modifier Input" offset="0xC" visible="true" />
+	<dataref name="Color / Mapping / Data" offset="0x10" visible="true" />
+	<stringid name="Intensity / Input Variable" offset="0x24" visible="true" />
+	<stringid name="Intensity / Range Variable" offset="0x28" visible="true" />
+	<enum16 name="Intensity / Output Modifier" offset="0x2C" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Intensity / BVCG 0" offset="0x2E" visible="false" />
+	<uint8 name="Intensity / BVCG 1" offset="0x2F" visible="false" />
+	<stringid name="Intensity / Output Modifier Input" offset="0x30" visible="true" />
+	<dataref name="Intensity / Mapping / Data" offset="0x34" visible="true" />
+	<stringid name="Radius / Input Variable" offset="0x48" visible="true" />
+	<stringid name="Radius / Range Variable" offset="0x4C" visible="true" />
+	<enum16 name="Radius / Output Modifier" offset="0x50" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Radius / BVCG 0" offset="0x52" visible="false" />
+	<uint8 name="Radius / BVCG 1" offset="0x53" visible="false" />
+	<stringid name="Radius / Output Modifier Input" offset="0x54" visible="true" />
+	<dataref name="Radius / Mapping / Data" offset="0x58" visible="true" />
+	<float32 name="Falloff" offset="0x6C" visible="true" />
+	<float32 name="Closeup Fading Distance" offset="0x70" visible="true" />
+</plugin>

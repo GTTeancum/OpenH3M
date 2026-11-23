@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x28">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CinematicSceneData (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Objects" offset="0x0" visible="true" elementSize="0x30">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Identifier" offset="0x4" visible="true" />
+		<tagref name="Model Animation Graph" offset="0x8" visible="true" />
+		<tagref name="Object Type" offset="0x18" visible="true" />
+		<uint32 name="Shots Active Flags 0 / Shot Flag Data" offset="0x28" visible="true" />
+		<uint32 name="Shots Active Flags 1 / Shot Flag Data" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Shots" offset="0xC" visible="true" elementSize="0x4C">
+		<tagblock name="Dialogue" offset="0x0" visible="true" elementSize="0x3C">
+			<tagref name="Dialogue" offset="0x0" visible="true" />
+			<tagref name="Female Dialogue" offset="0x10" visible="true" />
+			<int32 name="Frame" offset="0x20" visible="true" />
+			<float32 name="Scale" offset="0x24" visible="true" />
+			<stringid name="Lipsync Actor" offset="0x28" visible="true" />
+			<stringid name="Default Sound Effect" offset="0x2C" visible="true" />
+			<stringid name="Subtitle" offset="0x30" visible="true" />
+			<stringid name="Female Subtitle" offset="0x34" visible="true" />
+			<stringid name="Character" offset="0x38" visible="true" />
+		</tagblock>
+		<tagblock name="Effects" offset="0xC" visible="true" elementSize="0x34">
+			<flags8 name="Flags" offset="0x0" visible="true">
+				<bit name="UseMayaValue" index="0" />
+				<bit name="Looping" index="1" />
+			</flags8>
+			<enum8 name="State" offset="0x1" visible="true">
+				<option name="Start" value="0" />
+				<option name="Stop" value="1" />
+				<option name="Kill" value="2" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagref name="Effect" offset="0x4" visible="true" />
+			<float32 name="Size Scale" offset="0x14" visible="true" />
+			<int32 name="Frame" offset="0x18" visible="true" />
+			<stringid name="Marker Name" offset="0x1C" visible="true" />
+			<int32 name="Marker Parent" offset="0x20" visible="true" />
+			<stringid name="Function A" offset="0x24" visible="true" />
+			<stringid name="Function B" offset="0x28" visible="true" />
+			<int32 name="Node Id" offset="0x2C" visible="true" />
+			<int32 name="Sequence Id" offset="0x30" visible="true" />
+		</tagblock>
+		<tagblock name="Custom Script" offset="0x18" visible="true" elementSize="0x24">
+			<flags8 name="Flags" offset="0x0" visible="true">
+				<bit name="UseMayaValue" index="0" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<int32 name="Frame" offset="0x4" visible="true" />
+			<dataref name="Script / Script" offset="0x8" visible="true" />
+			<int32 name="Node Id" offset="0x1C" visible="true" />
+			<int32 name="Sequence Id" offset="0x20" visible="true" />
+		</tagblock>
+		<int32 name="Frame Count" offset="0x24" visible="true" />
+		<tagblock name="Frame Data" offset="0x28" visible="true" elementSize="0x44">
+			<point3 name="Camera Frame / Dynamic Data / Camera Position" offset="0x0" visible="true" />
+			<vector3 name="Camera Frame / Dynamic Data / Camera Forward" offset="0xC" visible="true" />
+			<vector3 name="Camera Frame / Dynamic Data / Camera Up" offset="0x18" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Focal Length" offset="0x24" visible="true" />
+			<int32 name="Camera Frame / Constant Data / Depth Of Field" offset="0x28" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Near Focal Plane Distance" offset="0x2C" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Far Focal Plane Distance" offset="0x30" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Near Focal Depth" offset="0x34" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Far Focal Depth" offset="0x38" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Near Blur Amount" offset="0x3C" visible="true" />
+			<float32 name="Camera Frame / Constant Data / Far Blur Amount" offset="0x40" visible="true" />
+		</tagblock>
+		<tagblock name="Dynamic Frame Data" offset="0x34" visible="true" elementSize="0x24">
+			<point3 name="Dynamic Camera Frame / Camera Position" offset="0x0" visible="true" />
+			<vector3 name="Dynamic Camera Frame / Camera Forward" offset="0xC" visible="true" />
+			<vector3 name="Dynamic Camera Frame / Camera Up" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Constant Frame Data" offset="0x40" visible="true" elementSize="0x24">
+			<int32 name="Frame Index" offset="0x0" visible="true" />
+			<float32 name="Constant Camera Frame / Focal Length" offset="0x4" visible="true" />
+			<int32 name="Constant Camera Frame / Depth Of Field" offset="0x8" visible="true" />
+			<float32 name="Constant Camera Frame / Near Focal Plane Distance" offset="0xC" visible="true" />
+			<float32 name="Constant Camera Frame / Far Focal Plane Distance" offset="0x10" visible="true" />
+			<float32 name="Constant Camera Frame / Near Focal Depth" offset="0x14" visible="true" />
+			<float32 name="Constant Camera Frame / Far Focal Depth" offset="0x18" visible="true" />
+			<float32 name="Constant Camera Frame / Near Blur Amount" offset="0x1C" visible="true" />
+			<float32 name="Constant Camera Frame / Far Blur Amount" offset="0x20" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Extra Camera Frame Data" offset="0x18" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Type" offset="0x4" visible="true" />
+		<tagblock name="Shots" offset="0x8" visible="true" elementSize="0xC">
+			<tagblock name="Frame Data" offset="0x0" visible="true" elementSize="0x48">
+				<flags32 name="Flags" offset="0x0" visible="true">
+					<bit name="Enabled" index="0" />
+				</flags32>
+				<point3 name="Frame Data / Dynamic Data / Camera Position" offset="0x4" visible="true" />
+				<vector3 name="Frame Data / Dynamic Data / Camera Forward" offset="0x10" visible="true" />
+				<vector3 name="Frame Data / Dynamic Data / Camera Up" offset="0x1C" visible="true" />
+				<float32 name="Frame Data / Constant Data / Focal Length" offset="0x28" visible="true" />
+				<int32 name="Frame Data / Constant Data / Depth Of Field" offset="0x2C" visible="true" />
+				<float32 name="Frame Data / Constant Data / Near Focal Plane Distance" offset="0x30" visible="true" />
+				<float32 name="Frame Data / Constant Data / Far Focal Plane Distance" offset="0x34" visible="true" />
+				<float32 name="Frame Data / Constant Data / Near Focal Depth" offset="0x38" visible="true" />
+				<float32 name="Frame Data / Constant Data / Far Focal Depth" offset="0x3C" visible="true" />
+				<float32 name="Frame Data / Constant Data / Near Blur Amount" offset="0x40" visible="true" />
+				<float32 name="Frame Data / Constant Data / Far Blur Amount" offset="0x44" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<int32 name="Version" offset="0x24" visible="true" />
+</plugin>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x110">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.HavokCollisionFilter (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Groups" offset="0x0" visible="true" elementSize="0x4">
+		<flags32 name="Filter" offset="0x0" visible="true">
+			<bit name="Everything" index="0" />
+			<bit name="EnvironmentDefault" index="1" />
+			<bit name="EnvironmentOnly" index="2" />
+			<bit name="SmallCrate" index="3" />
+			<bit name="Crate" index="4" />
+			<bit name="HugeCrate" index="5" />
+			<bit name="Item" index="6" />
+			<bit name="Projectile" index="7" />
+			<bit name="Machine" index="8" />
+			<bit name="EarlyMoverMachine" index="9" />
+			<bit name="Creature" index="10" />
+			<bit name="Biped" index="11" />
+			<bit name="DeadBiped" index="12" />
+			<bit name="SuperCollidableRagdoll" index="13" />
+			<bit name="Ragdoll" index="14" />
+			<bit name="Vehicle" index="15" />
+			<bit name="Decal" index="16" />
+			<bit name="ForgeDynamicScenary" index="17" />
+			<bit name="SmallExpensivePlant" index="18" />
+			<bit name="TechArtCustom" index="19" />
+			<bit name="Proxy" index="20" />
+			<bit name="HugeVehicle" index="21" />
+			<bit name="IgnoreEnvironment" index="22" />
+			<bit name="CharacterPosture" index="23" />
+			<bit name="ItemBlocker" index="24" />
+			<bit name="User00" index="25" />
+			<bit name="ZeroExtent" index="26" />
+			<bit name="PhysicalProjectile" index="27" />
+			<bit name="EnvironmentInvisibleWall" index="28" />
+			<bit name="EnvironmentPlayCollision" index="29" />
+			<bit name="EnvironmentBulletCollision" index="30" />
+		</flags32>
+	</tagblock>
+	<uint8 name="Padding 0" offset="0xC" visible="false" />
+	<uint8 name="Padding 1" offset="0xD" visible="false" />
+	<uint8 name="Padding 2" offset="0xE" visible="false" />
+	<uint8 name="Padding 3" offset="0xF" visible="false" />
+	<int32 name="Group Filter / Hkreferenced Object Vtable" offset="0x10" visible="true" />
+	<int16 name="Group Filter / Size" offset="0x14" visible="true" />
+	<int16 name="Group Filter / Count" offset="0x16" visible="true" />
+	<int32 name="Group Filter / Hkpcollidable Collidable Filter Vtable" offset="0x18" visible="true" />
+	<int32 name="Group Filter / Hkpshape Collection Filter Vtable" offset="0x1C" visible="true" />
+	<int32 name="Group Filter / Hkpray Shape Collection Filter Vtable" offset="0x20" visible="true" />
+	<int32 name="Group Filter / Hkpray Collidable Filter Vtable" offset="0x24" visible="true" />
+	<uint8 name="Group Filter / Padding 0" offset="0x28" visible="false" />
+	<uint8 name="Group Filter / Padding 1" offset="0x29" visible="false" />
+	<uint8 name="Group Filter / Padding 2" offset="0x2A" visible="false" />
+	<uint8 name="Group Filter / Padding 3" offset="0x2B" visible="false" />
+	<uint8 name="Group Filter / Padding 4" offset="0x2C" visible="false" />
+	<uint8 name="Group Filter / Padding 5" offset="0x2D" visible="false" />
+	<uint8 name="Group Filter / Padding 6" offset="0x2E" visible="false" />
+	<uint8 name="Group Filter / Padding 7" offset="0x2F" visible="false" />
+	<int32 name="Group Filter / M Type" offset="0x30" visible="true" />
+	<uint8 name="Group Filter / Padding1 0" offset="0x34" visible="false" />
+	<uint8 name="Group Filter / Padding1 1" offset="0x35" visible="false" />
+	<uint8 name="Group Filter / Padding1 2" offset="0x36" visible="false" />
+	<uint8 name="Group Filter / Padding1 3" offset="0x37" visible="false" />
+	<uint8 name="Group Filter / Padding1 4" offset="0x38" visible="false" />
+	<uint8 name="Group Filter / Padding1 5" offset="0x39" visible="false" />
+	<uint8 name="Group Filter / Padding1 6" offset="0x3A" visible="false" />
+	<uint8 name="Group Filter / Padding1 7" offset="0x3B" visible="false" />
+	<uint8 name="Group Filter / Padding1 8" offset="0x3C" visible="false" />
+	<uint8 name="Group Filter / Padding1 9" offset="0x3D" visible="false" />
+	<uint8 name="Group Filter / Padding1 10" offset="0x3E" visible="false" />
+	<uint8 name="Group Filter / Padding1 11" offset="0x3F" visible="false" />
+	<int32 name="Group Filter / M Nextfree System Group" offset="0x40" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table00" offset="0x44" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table01" offset="0x48" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table02" offset="0x4C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table03" offset="0x50" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table04" offset="0x54" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table05" offset="0x58" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table06" offset="0x5C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table07" offset="0x60" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table08" offset="0x64" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table09" offset="0x68" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table10" offset="0x6C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table11" offset="0x70" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table12" offset="0x74" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table13" offset="0x78" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table14" offset="0x7C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table15" offset="0x80" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table16" offset="0x84" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table17" offset="0x88" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table18" offset="0x8C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table19" offset="0x90" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table20" offset="0x94" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table21" offset="0x98" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table22" offset="0x9C" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table23" offset="0xA0" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table24" offset="0xA4" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table25" offset="0xA8" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table26" offset="0xAC" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table27" offset="0xB0" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table28" offset="0xB4" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table29" offset="0xB8" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table30" offset="0xBC" visible="true" />
+	<int32 name="Group Filter / M Collisionlookup Table31" offset="0xC0" visible="true" />
+	<uint8 name="Group Filter / Padding2 0" offset="0xC4" visible="false" />
+	<uint8 name="Group Filter / Padding2 1" offset="0xC5" visible="false" />
+	<uint8 name="Group Filter / Padding2 2" offset="0xC6" visible="false" />
+	<uint8 name="Group Filter / Padding2 3" offset="0xC7" visible="false" />
+	<uint8 name="Group Filter / Padding2 4" offset="0xC8" visible="false" />
+	<uint8 name="Group Filter / Padding2 5" offset="0xC9" visible="false" />
+	<uint8 name="Group Filter / Padding2 6" offset="0xCA" visible="false" />
+	<uint8 name="Group Filter / Padding2 7" offset="0xCB" visible="false" />
+	<uint8 name="Group Filter / Padding2 8" offset="0xCC" visible="false" />
+	<uint8 name="Group Filter / Padding2 9" offset="0xCD" visible="false" />
+	<uint8 name="Group Filter / Padding2 10" offset="0xCE" visible="false" />
+	<uint8 name="Group Filter / Padding2 11" offset="0xCF" visible="false" />
+	<vector3 name="Group Filter / M Pad2560" offset="0xD0" visible="true" />
+	<float32 name="Group Filter / Havok WM Pad2560" offset="0xDC" visible="true" />
+	<vector3 name="Group Filter / M Pad2561" offset="0xE0" visible="true" />
+	<float32 name="Group Filter / Havok WM Pad2561" offset="0xEC" visible="true" />
+	<vector3 name="Group Filter / M Pad2562" offset="0xF0" visible="true" />
+	<float32 name="Group Filter / Havok WM Pad2562" offset="0xFC" visible="true" />
+	<vector3 name="Group Filter / M Pad2563" offset="0x100" visible="true" />
+	<float32 name="Group Filter / Havok WM Pad2563" offset="0x10C" visible="true" />
+</plugin>

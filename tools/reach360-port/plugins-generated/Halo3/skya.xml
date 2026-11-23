@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x4C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SkyAtmParameters (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="LockEffectsToNearestCluster" index="0" />
+	</flags16>
+	<uint8 name="Padding 0" offset="0x2" visible="false" />
+	<uint8 name="Padding 1" offset="0x3" visible="false" />
+	<tagref name="Fog Bitmap" offset="0x4" visible="true" />
+	<float32 name="Texture Repeat Rate" offset="0x14" visible="true" />
+	<float32 name="Distance Between Sheets" offset="0x18" visible="true" />
+	<float32 name="Depth Fade Factor" offset="0x1C" visible="true" />
+	<float32 name="Cluster Search Radius" offset="0x20" visible="true" />
+	<float32 name="Falloff Start Distance" offset="0x24" visible="true" />
+	<float32 name="Distance Falloff Power" offset="0x28" visible="true" />
+	<float32 name="Transparent Sort Distance" offset="0x2C" visible="true" />
+	<enum8 name="Transparent Sort Layer" offset="0x30" visible="true">
+		<option name="Invalid" value="0" />
+		<option name="PrePass" value="1" />
+		<option name="Normal" value="2" />
+		<option name="PostPass" value="3" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x31" visible="false" />
+	<uint8 name="Padding1 1" offset="0x32" visible="false" />
+	<uint8 name="Padding1 2" offset="0x33" visible="false" />
+	<tagblock name="Atmosphere Settings" offset="0x34" visible="true" elementSize="0xA4">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="EnableAtmosphere" index="0" />
+			<bit name="OverrideRealSunValues" index="1" />
+			<bit name="PatchyFog" index="2" />
+			<bit name="Bit3" index="3" />
+		</flags16>
+		<uint8 name="Padding2 0" offset="0x2" visible="false" />
+		<uint8 name="Padding2 1" offset="0x3" visible="false" />
+		<stringid name="Name" offset="0x4" visible="true" />
+		<float32 name="Sun Angle Pitch" offset="0x8" visible="true" />
+		<float32 name="Sun Angle Yaw" offset="0xC" visible="true" />
+		<colorf name="Color" offset="0x10" alpha="false" visible="true" />
+		<float32 name="Intensity" offset="0x1C" visible="true" />
+		<float32 name="Sea Level" offset="0x20" visible="true" />
+		<float32 name="Rayleign Height Scale" offset="0x24" visible="true" />
+		<float32 name="Mie Height Scale" offset="0x28" visible="true" />
+		<float32 name="Rayleigh Multiplier" offset="0x2C" visible="true" />
+		<float32 name="Mie Multiplier" offset="0x30" visible="true" />
+		<float32 name="Sun Phase Function" offset="0x34" visible="true" />
+		<float32 name="Desaturation" offset="0x38" visible="true" />
+		<float32 name="Distance Bias" offset="0x3C" visible="true" />
+		<float32 name="Max Fog Thickness" offset="0x40" visible="true" />
+		<vector3 name="Beta M" offset="0x44" visible="true" />
+		<vector3 name="Beta P" offset="0x50" visible="true" />
+		<vector3 name="Beta M Theta Prefix" offset="0x5C" visible="true" />
+		<vector3 name="Beta P Theta Prefix" offset="0x68" visible="true" />
+		<float32 name="Sheet Density" offset="0x74" visible="true" />
+		<float32 name="Full Intensity Height" offset="0x78" visible="true" />
+		<float32 name="Half Intensity Height" offset="0x7C" visible="true" />
+		<vector3 name="Wind Direction" offset="0x80" visible="true" />
+		<tagref name="Weather Effect" offset="0x8C" visible="true" />
+		<float32 name="Runtime Weight" offset="0x9C" visible="true" />
+		<float32 name="Runtime Effect Weight" offset="0xA0" visible="true" />
+	</tagblock>
+	<tagblock name="Underwater Settings" offset="0x40" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Murkiness" offset="0x4" visible="true" />
+		<colorf name="Fog Color" offset="0x8" alpha="false" visible="true" />
+	</tagblock>
+</plugin>

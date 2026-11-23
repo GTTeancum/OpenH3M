@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.NarrativeGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Narrative Flag Definitions" offset="0x0" visible="true" elementSize="0x8">
+		<int32 name="Index" offset="0x0" visible="true" />
+		<enum8 name="Type" offset="0x4" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Terminal" value="1" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+	</tagblock>
+</plugin>

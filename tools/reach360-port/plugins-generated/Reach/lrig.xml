@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x40">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.LightRig (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Environment Vmf Lobe Weight" offset="0x0" visible="true" />
+	<colorf name="Rig Fill Color" offset="0x4" alpha="false" visible="true" />
+	<float32 name="Rig Fill Scale" offset="0x10" visible="true" />
+	<tagblock name="Directional Light Rigs" offset="0x14" visible="true" elementSize="0x20">
+		<flags32 name="Location" offset="0x0" visible="true">
+			<bit name="FollowObject" index="0" />
+			<bit name="PositionAtMarker" index="1" />
+		</flags32>
+		<float32 name="Theta" offset="0x4" visible="true" />
+		<float32 name="Phi" offset="0x8" visible="true" />
+		<float32 name="Distance From Location" offset="0xC" visible="true" />
+		<tagref name="Midnight Light" offset="0x10" visible="true" />
+	</tagblock>
+	<colorf name="Rig Vmf Lobe Color" offset="0x20" alpha="false" visible="true" />
+	<float32 name="Rig Vmf Lobe Intensity" offset="0x2C" visible="true" />
+	<float32 name="Rig Vmf Lobe Theta" offset="0x30" visible="true" />
+	<float32 name="Rig Vmf Lobe Phi" offset="0x34" visible="true" />
+	<float32 name="Rig Vmf Lobe Scale" offset="0x38" visible="true" />
+	<float32 name="Rig Vmf Lobe Vs Fill Scale" offset="0x3C" visible="true" />
+</plugin>

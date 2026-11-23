@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.EffectGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Holdbacks" offset="0x0" visible="true" elementSize="0x14">
+		<enum32 name="Holdback Type" offset="0x0" visible="true">
+			<option name="TypeEffect" value="0" />
+			<option name="TypeEvent" value="1" />
+			<option name="TypeLocation" value="2" />
+			<option name="TypeLightprobe" value="3" />
+			<option name="TypeEffectMessage" value="4" />
+			<option name="TypeBeamSystem" value="5" />
+			<option name="TypeBeamLocation" value="6" />
+			<option name="TypeBeam" value="7" />
+			<option name="TypeBeamProfileRow" value="8" />
+			<option name="TypeContrailSystem" value="9" />
+			<option name="TypeContrailLocation" value="10" />
+			<option name="TypeContrail" value="11" />
+			<option name="TypeContrailProfileRow" value="12" />
+			<option name="TypeDecalSystem" value="13" />
+			<option name="TypeDecal" value="14" />
+			<option name="TypeDecalVertex" value="15" />
+			<option name="TypeDecalIndex" value="16" />
+			<option name="TypeLightVolumeSystem" value="17" />
+			<option name="TypeLightVolumeLocation" value="18" />
+			<option name="TypeLightVolume" value="19" />
+			<option name="TypeLightVolumeProfileRow" value="20" />
+			<option name="TypeParticleSystem" value="21" />
+			<option name="TypeParticleLocation" value="22" />
+			<option name="TypeParticleEmitter" value="23" />
+			<option name="TypeCpuParticle" value="24" />
+			<option name="TypeGpuParticleRow" value="25" />
+			<option name="TypeContrailQueue" value="26" />
+			<option name="TypeParticleQueue" value="27" />
+		</enum32>
+		<uint32 name="Overall Budget" offset="0x4" visible="true" />
+		<tagblock name="Priority Levels" offset="0x8" visible="true" elementSize="0x10">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Low" value="0" />
+				<option name="Normal" value="1" />
+				<option name="AboveNormal" value="2" />
+				<option name="High" value="3" />
+				<option name="VeryHigh" value="4" />
+				<option name="Essential" value="5" />
+			</enum32>
+			<uint32 name="Absolute Count" offset="0x4" visible="true" />
+			<uint32 name="Relative Percentage" offset="0x8" visible="true" />
+			<uint32 name="Count Available At This Priority" offset="0xC" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

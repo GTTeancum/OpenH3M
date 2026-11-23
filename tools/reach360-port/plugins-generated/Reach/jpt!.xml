@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xE8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.DamageEffect (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<rangef name="Radius" offset="0x0" visible="true" />
+	<float32 name="Cutoff Scale" offset="0x8" visible="true" />
+	<flags32 name="Effect Flags" offset="0xC" visible="true">
+		<bit name="DontScaleDamageByDistance" index="0" />
+		<bit name="AreaDamagePlayersOnly" index="1" />
+		<bit name="AffectsModelTargets" index="2" />
+	</flags32>
+	<enum16 name="Side Effect" offset="0x10" visible="true">
+		<option name="None" value="0" />
+		<option name="Harmless" value="1" />
+		<option name="LethalToTheUnsuspecting" value="2" />
+		<option name="Emp" value="3" />
+	</enum16>
+	<enum16 name="Category" offset="0x12" visible="true">
+		<option name="None" value="0" />
+		<option name="Falling" value="1" />
+		<option name="Bullet" value="2" />
+		<option name="Grenade" value="3" />
+		<option name="HighExplosive" value="4" />
+		<option name="Sniper" value="5" />
+		<option name="Melee" value="6" />
+		<option name="Flame" value="7" />
+		<option name="MountedWeapon" value="8" />
+		<option name="Vehicle" value="9" />
+		<option name="Plasma" value="10" />
+		<option name="Needle" value="11" />
+		<option name="Shotgun" value="12" />
+		<option name="Assassinated" value="13" />
+	</enum16>
+	<enum32 name="Death Vocalization" offset="0x14" visible="true">
+		<option name="Default" value="0" />
+		<option name="Dth" value="1" />
+		<option name="DthFall" value="2" />
+		<option name="DthMjr" value="3" />
+		<option name="DthSlw" value="4" />
+		<option name="DthHdsht" value="5" />
+		<option name="DthSlnt" value="6" />
+		<option name="DthDrama" value="7" />
+		<option name="DthReanimated" value="8" />
+		<option name="Thrwn" value="9" />
+		<option name="DieSpace" value="10" />
+		<option name="DieAss" value="11" />
+	</enum32>
+	<flags32 name="Flags Reach" offset="0x18" visible="true">
+		<bit name="DoesNotHurtOwner" index="0" />
+		<bit name="CanCauseHeadshots" index="1" />
+		<bit name="IgnoresHeadshotObstructions" index="2" />
+		<bit name="PingsResistantUnits" index="3" />
+		<bit name="DoesNotHurtFriends" index="4" />
+		<bit name="DoesNotPingUnits" index="5" />
+		<bit name="DetonatesExplosives" index="6" />
+		<bit name="OnlyHurtsShields" index="7" />
+		<bit name="CausesFlamingDeath" index="8" />
+		<bit name="DamageIndicatorsAlwaysPointDown" index="9" />
+		<bit name="SkipsShields" index="10" />
+		<bit name="TransferDmgAlwaysUsesMin" index="11" />
+		<bit name="IgnoreSeatScaleForDirDmg" index="12" />
+		<bit name="ForcesHardPingIfBodyDmg" index="13" />
+		<bit name="ForcesHardPingAlways" index="14" />
+		<bit name="DoesNotHurtPlayers" index="15" />
+		<bit name="EnablesSpecialDeath" index="16" />
+		<bit name="CannotCauseBetrayals" index="17" />
+		<bit name="UsesOldEmpBehavior" index="18" />
+		<bit name="IgnoresDamageResistance" index="19" />
+		<bit name="ForceSKillOnDeath" index="20" />
+		<bit name="CauseMagicDeceleration" index="21" />
+		<bit name="AoeSkipObstructionTest" index="22" />
+		<bit name="DoesNotSpillOver" index="23" />
+		<bit name="DoesNotHurtBoarders" index="24" />
+		<bit name="DoesNotCauseBipedAoeEffect" index="25" />
+	</flags32>
+	<float32 name="Area Of Effect Core Radius" offset="0x1C" visible="true" />
+	<float32 name="Damage Lower Bound" offset="0x20" visible="true" />
+	<rangef name="Damage Upper Bound" offset="0x24" visible="true" />
+	<dataref name="Damage Falloff Function / Data" offset="0x2C" visible="true" />
+	<degree name="Damage Inner Cone Angle" offset="0x40" visible="true" />
+	<degree name="Damage Outer Cone Angle" offset="0x44" visible="true" />
+	<float32 name="Active Camoflage Damage" offset="0x48" visible="true" />
+	<float32 name="Stun" offset="0x4C" visible="true" />
+	<float32 name="Maximum Stun" offset="0x50" visible="true" />
+	<float32 name="Stun Duration" offset="0x54" visible="true" />
+	<int32 name="Damage Stun" offset="0x58" visible="true" />
+	<float32 name="Instantaneous Acceleration" offset="0x5C" visible="true" />
+	<float32 name="Rider Direct Damage Scale" offset="0x60" visible="true" />
+	<float32 name="Rider Max Transfer Damage Scale" offset="0x64" visible="true" />
+	<float32 name="Rider Min Transfer Damage Scale" offset="0x68" visible="true" />
+	<float32 name="Soft Ping Pain Screen Scale" offset="0x6C" visible="true" />
+	<stringid name="General Damage" offset="0x70" visible="true" />
+	<stringid name="Specific Damage" offset="0x74" visible="true" />
+	<tagblock name="Custom Response Labels" offset="0x78" visible="true" elementSize="0x4">
+		<stringid name="Custom Label" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Ai Stun Radius" offset="0x84" visible="true" />
+	<rangef name="Ai Stun Bounds" offset="0x88" visible="true" />
+	<float32 name="Shake Radius" offset="0x90" visible="true" />
+	<float32 name="Emp Radius" offset="0x94" visible="true" />
+	<float32 name="Aoe Spike Radius" offset="0x98" visible="true" />
+	<float32 name="Aoe Spike Damage Bump" offset="0x9C" visible="true" />
+	<float32 name="Shield Render Effects Scale" offset="0xA0" visible="true" />
+	<tagref name="Damage Response" offset="0xA4" visible="true" />
+	<tagref name="Sound" offset="0xB4" visible="true" />
+	<tagblock name="Damage Sounds" offset="0xC4" visible="true" elementSize="0x14">
+		<tagref name="Sound" offset="0x0" visible="true" />
+		<flags16 name="Damage Types" offset="0x10" visible="true">
+			<bit name="None" index="0" />
+			<bit name="LethalInstantaneous" index="1" />
+			<bit name="Lethal" index="2" />
+			<bit name="NonLethal" index="3" />
+		</flags16>
+		<flags16 name="Object Types" offset="0x12" visible="true">
+			<bit name="Biped" index="0" />
+			<bit name="Vehicle" index="1" />
+			<bit name="Weapon" index="2" />
+			<bit name="Equipment" index="3" />
+			<bit name="Terminal" index="4" />
+			<bit name="Projectile" index="5" />
+			<bit name="Scenery" index="6" />
+			<bit name="Machine" index="7" />
+			<bit name="Control" index="8" />
+			<bit name="Dispenser" index="9" />
+			<bit name="SoundScenery" index="10" />
+			<bit name="Crate" index="11" />
+			<bit name="Creature" index="12" />
+			<bit name="Giant" index="13" />
+			<bit name="EffectScenery" index="14" />
+			<bit name="Spawner" index="15" />
+		</flags16>
+	</tagblock>
+	<float32 name="Breaking Effect / Forward Velocity" offset="0xD0" visible="true" />
+	<float32 name="Breaking Effect / Forward Radius" offset="0xD4" visible="true" />
+	<float32 name="Breaking Effect / Forward Exponent" offset="0xD8" visible="true" />
+	<float32 name="Breaking Effect / Outward Velocity" offset="0xDC" visible="true" />
+	<float32 name="Breaking Effect / Outward Radius" offset="0xE0" visible="true" />
+	<float32 name="Breaking Effect / Outward Exponent" offset="0xE4" visible="true" />
+</plugin>

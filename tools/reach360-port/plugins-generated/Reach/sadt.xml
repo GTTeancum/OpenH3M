@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x14">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SpringAcceleration (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Linear Acceleartions" offset="0x0" visible="true" elementSize="0x38">
+		<float32 name="Acceleration Range" offset="0x0" visible="true" />
+		<float32 name="Inverse Acceleration Range" offset="0x4" visible="true" />
+		<float32 name="World Acceleration Scale" offset="0x8" visible="true" />
+		<dataref name="Spring Damping / Function / Data" offset="0xC" visible="true" />
+		<float32 name="Velocity Domain" offset="0x20" visible="true" />
+		<dataref name="Spring Acceleration / Function / Data" offset="0x24" visible="true" />
+	</tagblock>
+	<int16 name="X Axis" offset="0xC" visible="true" />
+	<int16 name="Y Axis" offset="0xE" visible="true" />
+	<int16 name="Z Axis" offset="0x10" visible="true" />
+	<uint8 name="Padding 0" offset="0x12" visible="false" />
+	<uint8 name="Padding 1" offset="0x13" visible="false" />
+</plugin>

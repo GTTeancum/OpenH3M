@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1E0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ShieldImpact (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="RenderFirstPerson" index="0" />
+		<bit name="DontRenderThirdPerson" index="1" />
+		<bit name="Unused" index="2" />
+		<bit name="DontRenderAsEffect" index="3" />
+	</flags16>
+	<int16 name="Version" offset="0x2" visible="true" />
+	<float32 name="Shield Intensity / Recent Damage Intensity" offset="0x4" visible="true" />
+	<float32 name="Shield Intensity / Current Damage Intensity" offset="0x8" visible="true" />
+	<float32 name="Shield Edge / Depth Fade Range" offset="0xC" visible="true" />
+	<float32 name="Shield Edge / Outer Fade Radius" offset="0x10" visible="true" />
+	<float32 name="Shield Edge / Center Radius" offset="0x14" visible="true" />
+	<float32 name="Shield Edge / Inner Fade Radius" offset="0x18" visible="true" />
+	<stringid name="Shield Edge / Edge Glow Color / Input Variable" offset="0x1C" visible="true" />
+	<stringid name="Shield Edge / Edge Glow Color / Range Variable" offset="0x20" visible="true" />
+	<dataref name="Shield Edge / Edge Glow Color / Function / Data" offset="0x24" visible="true" />
+	<stringid name="Shield Edge / Edge Glow Intensity / Input Variable" offset="0x38" visible="true" />
+	<stringid name="Shield Edge / Edge Glow Intensity / Range Variable" offset="0x3C" visible="true" />
+	<dataref name="Shield Edge / Edge Glow Intensity / Function / Data" offset="0x40" visible="true" />
+	<float32 name="Plasma / Plasma Depth Fade Range" offset="0x54" visible="true" />
+	<tagref name="Plasma / Plasma Noise Bitmap1" offset="0x58" visible="true" />
+	<tagref name="Plasma / Plasma Noise Bitmap2" offset="0x68" visible="true" />
+	<float32 name="Plasma / Tiling Scale" offset="0x78" visible="true" />
+	<float32 name="Plasma / Scroll Speed" offset="0x7C" visible="true" />
+	<float32 name="Plasma / Edge Sharpness" offset="0x80" visible="true" />
+	<float32 name="Plasma / Center Sharpness" offset="0x84" visible="true" />
+	<float32 name="Plasma / Plasma Outer Fade Radius" offset="0x88" visible="true" />
+	<float32 name="Plasma / Plasma Center Radius" offset="0x8C" visible="true" />
+	<float32 name="Plasma / Plasma Inner Fade Radius" offset="0x90" visible="true" />
+	<stringid name="Plasma / Plasma Center Color / Input Variable" offset="0x94" visible="true" />
+	<stringid name="Plasma / Plasma Center Color / Range Variable" offset="0x98" visible="true" />
+	<dataref name="Plasma / Plasma Center Color / Function / Data" offset="0x9C" visible="true" />
+	<stringid name="Plasma / Plasma Center Intensity / Input Variable" offset="0xB0" visible="true" />
+	<stringid name="Plasma / Plasma Center Intensity / Range Variable" offset="0xB4" visible="true" />
+	<dataref name="Plasma / Plasma Center Intensity / Function / Data" offset="0xB8" visible="true" />
+	<stringid name="Plasma / Plasma Edge Color / Input Variable" offset="0xCC" visible="true" />
+	<stringid name="Plasma / Plasma Edge Color / Range Variable" offset="0xD0" visible="true" />
+	<dataref name="Plasma / Plasma Edge Color / Function / Data" offset="0xD4" visible="true" />
+	<stringid name="Plasma / Plasma Edge Intensity / Input Variable" offset="0xE8" visible="true" />
+	<stringid name="Plasma / Plasma Edge Intensity / Range Variable" offset="0xEC" visible="true" />
+	<dataref name="Plasma / Plasma Edge Intensity / Function / Data" offset="0xF0" visible="true" />
+	<tagref name="Extrusion Oscillation / Oscillation Bitmap1" offset="0x104" visible="true" />
+	<tagref name="Extrusion Oscillation / Oscillation Bitmap2" offset="0x114" visible="true" />
+	<float32 name="Extrusion Oscillation / Oscillation Tiling Scale" offset="0x124" visible="true" />
+	<float32 name="Extrusion Oscillation / Oscillation Scroll Speed" offset="0x128" visible="true" />
+	<stringid name="Extrusion Oscillation / Extrusion Amount / Input Variable" offset="0x12C" visible="true" />
+	<stringid name="Extrusion Oscillation / Extrusion Amount / Range Variable" offset="0x130" visible="true" />
+	<dataref name="Extrusion Oscillation / Extrusion Amount / Function / Data" offset="0x134" visible="true" />
+	<stringid name="Extrusion Oscillation / Oscillation Amplitude / Input Variable" offset="0x148" visible="true" />
+	<stringid name="Extrusion Oscillation / Oscillation Amplitude / Range Variable" offset="0x14C" visible="true" />
+	<dataref name="Extrusion Oscillation / Oscillation Amplitude / Function / Data" offset="0x150" visible="true" />
+	<float32 name="Hit Response / Hit Time" offset="0x164" visible="true" />
+	<stringid name="Hit Response / Hit Color / Input Variable" offset="0x168" visible="true" />
+	<stringid name="Hit Response / Hit Color / Range Variable" offset="0x16C" visible="true" />
+	<dataref name="Hit Response / Hit Color / Function / Data" offset="0x170" visible="true" />
+	<stringid name="Hit Response / Hit Intensity / Input Variable" offset="0x184" visible="true" />
+	<stringid name="Hit Response / Hit Intensity / Range Variable" offset="0x188" visible="true" />
+	<dataref name="Hit Response / Hit Intensity / Function / Data" offset="0x18C" visible="true" />
+	<vector4 name="Edge Scales" offset="0x1A0" visible="true" />
+	<vector4 name="Edge Offsets" offset="0x1B0" visible="true" />
+	<vector4 name="Plasma Scales" offset="0x1C0" visible="true" />
+	<vector4 name="Depth Fade Parameters" offset="0x1D0" visible="true" />
+</plugin>

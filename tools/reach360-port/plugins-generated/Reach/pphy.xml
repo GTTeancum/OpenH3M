@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x40">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.PointPhysics (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="Unused" index="0" />
+		<bit name="CollidesWithStructures" index="1" />
+		<bit name="CollidesWithWaterSurface" index="2" />
+		<bit name="UsesSimpleWind" index="3" />
+		<bit name="UsesDampedWind" index="4" />
+		<bit name="NoGravity" index="5" />
+	</flags32>
+	<float32 name="Runtime Mass Over Radius Cubed" offset="0x4" visible="true" />
+	<float32 name="Runtime Inverse Density" offset="0x8" visible="true" />
+	<float32 name="Padding0" offset="0xC" visible="true" />
+	<uint8 name="Padding1 0" offset="0x10" visible="false" />
+	<uint8 name="Padding1 1" offset="0x11" visible="false" />
+	<uint8 name="Padding1 2" offset="0x12" visible="false" />
+	<uint8 name="Padding1 3" offset="0x13" visible="false" />
+	<uint8 name="Padding1 4" offset="0x14" visible="false" />
+	<uint8 name="Padding1 5" offset="0x15" visible="false" />
+	<uint8 name="Padding1 6" offset="0x16" visible="false" />
+	<uint8 name="Padding1 7" offset="0x17" visible="false" />
+	<uint8 name="Padding1 8" offset="0x18" visible="false" />
+	<uint8 name="Padding1 9" offset="0x19" visible="false" />
+	<uint8 name="Padding1 10" offset="0x1A" visible="false" />
+	<uint8 name="Padding1 11" offset="0x1B" visible="false" />
+	<uint8 name="Padding1 12" offset="0x1C" visible="false" />
+	<uint8 name="Padding1 13" offset="0x1D" visible="false" />
+	<uint8 name="Padding1 14" offset="0x1E" visible="false" />
+	<uint8 name="Padding1 15" offset="0x1F" visible="false" />
+	<float32 name="Density" offset="0x20" visible="true" />
+	<float32 name="Air Friction" offset="0x24" visible="true" />
+	<float32 name="Water Friction" offset="0x28" visible="true" />
+	<float32 name="Surface Friction" offset="0x2C" visible="true" />
+	<float32 name="Elasticity" offset="0x30" visible="true" />
+	<uint8 name="Padding2 0" offset="0x34" visible="false" />
+	<uint8 name="Padding2 1" offset="0x35" visible="false" />
+	<uint8 name="Padding2 2" offset="0x36" visible="false" />
+	<uint8 name="Padding2 3" offset="0x37" visible="false" />
+	<uint8 name="Padding2 4" offset="0x38" visible="false" />
+	<uint8 name="Padding2 5" offset="0x39" visible="false" />
+	<uint8 name="Padding2 6" offset="0x3A" visible="false" />
+	<uint8 name="Padding2 7" offset="0x3B" visible="false" />
+	<uint8 name="Padding2 8" offset="0x3C" visible="false" />
+	<uint8 name="Padding2 9" offset="0x3D" visible="false" />
+	<uint8 name="Padding2 10" offset="0x3E" visible="false" />
+	<uint8 name="Padding2 11" offset="0x3F" visible="false" />
+</plugin>

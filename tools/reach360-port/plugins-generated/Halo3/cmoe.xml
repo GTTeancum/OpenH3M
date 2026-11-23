@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Camo (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="AlsoApplyToObjectChildren" index="0" />
+	</flags16>
+	<uint8 name="Unused 0" offset="0x2" visible="false" />
+	<uint8 name="Unused 1" offset="0x3" visible="false" />
+	<stringid name="Active Camo Amount / Input Variable" offset="0x4" visible="true" />
+	<stringid name="Active Camo Amount / Range Variable" offset="0x8" visible="true" />
+	<dataref name="Active Camo Amount / Mapping / Data" offset="0xC" visible="true" />
+	<stringid name="Shadow Amount / Input Variable" offset="0x20" visible="true" />
+	<stringid name="Shadow Amount / Range Variable" offset="0x24" visible="true" />
+	<dataref name="Shadow Amount / Mapping / Data" offset="0x28" visible="true" />
+</plugin>

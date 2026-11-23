@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.DamageResponseDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Classes" offset="0x0" visible="true" elementSize="0x84">
+		<enum16 name="Type" offset="0x0" visible="true">
+			<option name="Shielded" value="0" />
+			<option name="Unshielded" value="1" />
+			<option name="All" value="2" />
+		</enum16>
+		<flags16 name="Flags" offset="0x2" visible="true">
+			<bit name="IgnoreOnNoDamage" index="0" />
+		</flags16>
+		<float32 name="Directional Flash / Duration" offset="0x4" visible="true" />
+		<enum16 name="Directional Flash / Fade Function" offset="0x8" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Late" value="1" />
+			<option name="VeryLate" value="2" />
+			<option name="Early" value="3" />
+			<option name="VeryEarly" value="4" />
+			<option name="Cosine" value="5" />
+			<option name="Zero" value="6" />
+			<option name="One" value="7" />
+		</enum16>
+		<uint8 name="Directional Flash / Padding0 0" offset="0xA" visible="false" />
+		<uint8 name="Directional Flash / Padding0 1" offset="0xB" visible="false" />
+		<float32 name="Directional Flash / Center Size" offset="0xC" visible="true" />
+		<float32 name="Directional Flash / Offscreen Size" offset="0x10" visible="true" />
+		<float32 name="Directional Flash / Center Alpha" offset="0x14" visible="true" />
+		<float32 name="Directional Flash / Offscreen Alpha" offset="0x18" visible="true" />
+		<float32 name="Directional Flash / Inner Scale" offset="0x1C" visible="true" />
+		<float32 name="Directional Flash / Outer Scale" offset="0x20" visible="true" />
+		<colorf name="Directional Flash / Flash Color" offset="0x24" alpha="true" visible="true" />
+		<colorf name="Directional Flash / Arrow Color" offset="0x34" alpha="true" visible="true" />
+		<int16 name="Motion Sensor Ping / Ping Duration" offset="0x44" visible="true" />
+		<int16 name="Motion Sensor Ping / Ping Scale" offset="0x46" visible="true" />
+		<tagref name="Rumble Reference" offset="0x48" visible="true" />
+		<tagref name="Camera Shake Reach Reference" offset="0x58" visible="true" />
+		<tagref name="Simulated Input" offset="0x68" visible="true" />
+		<tagblock name="Global Sound Effect" offset="0x78" visible="true" elementSize="0x18">
+			<stringid name="Effect Name" offset="0x0" visible="true" />
+			<dataref name="Scale Duration / Data" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Area Control" offset="0xC" visible="true" elementSize="0x4C">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="DistanceFalloff" index="0" />
+			<bit name="AngleFalloff" index="1" />
+			<bit name="ObjectFunctionFalloff" index="2" />
+			<bit name="UseUnitPosition" index="3" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<float32 name="Maximum Distance" offset="0x4" visible="true" />
+		<dataref name="Distance Falloff / Mapping / Data" offset="0x8" visible="true" />
+		<dataref name="Angle Falloff / Mapping / Data" offset="0x1C" visible="true" />
+		<stringid name="Object Falloff / Input Variable" offset="0x30" visible="true" />
+		<stringid name="Object Falloff / Range Variable" offset="0x34" visible="true" />
+		<dataref name="Object Falloff / Mapping / Data" offset="0x38" visible="true" />
+	</tagblock>
+</plugin>

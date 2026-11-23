@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x88">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.AuthoredLightProbe (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Lights" offset="0x0" visible="true" elementSize="0x38">
+		<float32 name="Direction1" offset="0x0" visible="true" />
+		<float32 name="Front Back1" offset="0x4" visible="true" />
+		<colorf name="Direct Color1" offset="0x8" alpha="false" visible="true" />
+		<float32 name="Direct Intensity1" offset="0x14" visible="true" />
+		<float32 name="Direction2" offset="0x18" visible="true" />
+		<float32 name="Front Back2" offset="0x1C" visible="true" />
+		<colorf name="Direct Color2" offset="0x20" alpha="false" visible="true" />
+		<float32 name="Direct Intensity2" offset="0x2C" visible="true" />
+		<float32 name="Authored Light Probe Intensity Scale" offset="0x30" visible="true" />
+		<float32 name="Generated Air Probe Intensity Scale" offset="0x34" visible="true" />
+	</tagblock>
+	<float32 name="Authored Light Probe Intensity Scale" offset="0xC" visible="true" />
+	<float32 name="Generated Air Probe Intensity Scale" offset="0x10" visible="true" />
+	<float32 name="Raw Sh Data 0 / Sh Data" offset="0x14" visible="true" />
+	<float32 name="Raw Sh Data 1 / Sh Data" offset="0x18" visible="true" />
+	<float32 name="Raw Sh Data 2 / Sh Data" offset="0x1C" visible="true" />
+	<float32 name="Raw Sh Data 3 / Sh Data" offset="0x20" visible="true" />
+	<float32 name="Raw Sh Data 4 / Sh Data" offset="0x24" visible="true" />
+	<float32 name="Raw Sh Data 5 / Sh Data" offset="0x28" visible="true" />
+	<float32 name="Raw Sh Data 6 / Sh Data" offset="0x2C" visible="true" />
+	<float32 name="Raw Sh Data 7 / Sh Data" offset="0x30" visible="true" />
+	<float32 name="Raw Sh Data 8 / Sh Data" offset="0x34" visible="true" />
+	<float32 name="Raw Sh Data 9 / Sh Data" offset="0x38" visible="true" />
+	<float32 name="Raw Sh Data 10 / Sh Data" offset="0x3C" visible="true" />
+	<float32 name="Raw Sh Data 11 / Sh Data" offset="0x40" visible="true" />
+	<float32 name="Raw Sh Data 12 / Sh Data" offset="0x44" visible="true" />
+	<float32 name="Raw Sh Data 13 / Sh Data" offset="0x48" visible="true" />
+	<float32 name="Raw Sh Data 14 / Sh Data" offset="0x4C" visible="true" />
+	<float32 name="Raw Sh Data 15 / Sh Data" offset="0x50" visible="true" />
+	<float32 name="Raw Sh Data 16 / Sh Data" offset="0x54" visible="true" />
+	<float32 name="Raw Sh Data 17 / Sh Data" offset="0x58" visible="true" />
+	<float32 name="Raw Sh Data 18 / Sh Data" offset="0x5C" visible="true" />
+	<float32 name="Raw Sh Data 19 / Sh Data" offset="0x60" visible="true" />
+	<float32 name="Raw Sh Data 20 / Sh Data" offset="0x64" visible="true" />
+	<float32 name="Raw Sh Data 21 / Sh Data" offset="0x68" visible="true" />
+	<float32 name="Raw Sh Data 22 / Sh Data" offset="0x6C" visible="true" />
+	<float32 name="Raw Sh Data 23 / Sh Data" offset="0x70" visible="true" />
+	<float32 name="Raw Sh Data 24 / Sh Data" offset="0x74" visible="true" />
+	<float32 name="Raw Sh Data 25 / Sh Data" offset="0x78" visible="true" />
+	<float32 name="Raw Sh Data 26 / Sh Data" offset="0x7C" visible="true" />
+	<enum8 name="Is Camera Space" offset="0x80" visible="true">
+		<option name="Off" value="0" />
+		<option name="On" value="1" />
+	</enum8>
+	<enum8 name="Apply To First Person Geometry" offset="0x81" visible="true">
+		<option name="Off" value="0" />
+		<option name="On" value="1" />
+	</enum8>
+	<uint8 name="Padding 0" offset="0x82" visible="false" />
+	<uint8 name="Padding 1" offset="0x83" visible="false" />
+	<float32 name="Io Direct Lighting Minimum Percentage" offset="0x84" visible="true" />
+</plugin>

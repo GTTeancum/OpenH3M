@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.RewardGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Reward Definitions" offset="0x0" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum8 name="Type" offset="0x4" visible="true">
+			<option name="Invasion" value="0" />
+			<option name="Bounties" value="1" />
+			<option name="SlotMachine" value="2" />
+			<option name="Heat" value="3" />
+			<option name="MissionScripting" value="4" />
+			<option name="Commendation" value="5" />
+			<option name="DailyChallenge" value="6" />
+			<option name="Achievement" value="7" />
+			<option name="ConsoleScripting" value="8" />
+			<option name="GameComplete" value="9" />
+			<option name="TimeSpent" value="10" />
+			<option name="Score" value="11" />
+			<option name="Winning" value="12" />
+			<option name="Hopper" value="13" />
+			<option name="SlotMachinelspJackpot" value="14" />
+			<option name="DoubleXp" value="15" />
+			<option name="FastTrackArmor" value="16" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+		<tagblock name="Rewards" offset="0x8" visible="true" elementSize="0x4">
+			<enum8 name="Currency Type" offset="0x0" visible="true">
+				<option name="Cookies" value="0" />
+				<option name="Xp" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<int16 name="Reward Amount" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

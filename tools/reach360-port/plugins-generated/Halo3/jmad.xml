@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x104">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ModelAnimationGraph (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Parent Animation Graph" offset="0x0" visible="true" />
+	<flags8 name="Inheritance Flags" offset="0x10" visible="true">
+		<bit name="InheritRootTransScaleOnly" index="0" />
+		<bit name="InheritForUseOnPlayer" index="1" />
+		<bit name="AllowFacialAnimationMaskRemap" index="2" />
+	</flags8>
+	<flags8 name="Private Flags" offset="0x11" visible="true">
+		<bit name="PreparedForCache" index="0" />
+		<bit name="Unused" index="1" />
+		<bit name="ImportedWithCodecCompressors" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="WrittenToCache" index="4" />
+		<bit name="AnimationDataReordered" index="5" />
+		<bit name="ReadyForUse" index="6" />
+	</flags8>
+	<int16 name="Animation Codec Pack" offset="0x12" visible="true" />
+	<tagblock name="Skeleton Nodes" offset="0x14" visible="true" elementSize="0x20">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Next Sibling Node Index" offset="0x4" visible="true" />
+		<int16 name="First Child Node Index" offset="0x6" visible="true" />
+		<int16 name="Parent Node Index" offset="0x8" visible="true" />
+		<flags8 name="Model Flags" offset="0xA" visible="true">
+			<bit name="PrimaryModel" index="0" />
+			<bit name="SecondaryModel" index="1" />
+			<bit name="LocalRoot" index="2" />
+			<bit name="LeftHand" index="3" />
+			<bit name="RightHand" index="4" />
+			<bit name="LeftArmMember" index="5" />
+		</flags8>
+		<flags8 name="Node Joint Flags" offset="0xB" visible="true">
+			<bit name="BallSocket" index="0" />
+			<bit name="Hinge" index="1" />
+			<bit name="NoMovement" index="2" />
+		</flags8>
+		<vector3 name="Base Vector" offset="0xC" visible="true" />
+		<float32 name="Vector Range" offset="0x18" visible="true" />
+		<float32 name="Z Position" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Sound References" offset="0x20" visible="true" elementSize="0x14">
+		<tagref name="Reference" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x10" visible="true">
+			<bit name="AllowOnPlayer" index="0" />
+			<bit name="LeftArmOnly" index="1" />
+			<bit name="RightArmOnly" index="2" />
+			<bit name="FirstPersonOnly" index="3" />
+			<bit name="ForwardOnly" index="4" />
+			<bit name="ReverseOnly" index="5" />
+			<bit name="FpNoAgedWeapons" index="6" />
+			<bit name="Bit7" index="7" />
+			<bit name="Bit8" index="8" />
+			<bit name="Bit9" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="Bit11" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<uint8 name="Padding0 0" offset="0x12" visible="false" />
+		<uint8 name="Padding0 1" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Effect References" offset="0x2C" visible="true" elementSize="0x14">
+		<tagref name="Reference" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x10" visible="true">
+			<bit name="AllowOnPlayer" index="0" />
+			<bit name="LeftArmOnly" index="1" />
+			<bit name="RightArmOnly" index="2" />
+			<bit name="FirstPersonOnly" index="3" />
+			<bit name="ForwardOnly" index="4" />
+			<bit name="ReverseOnly" index="5" />
+			<bit name="FpNoAgedWeapons" index="6" />
+			<bit name="Bit7" index="7" />
+			<bit name="Bit8" index="8" />
+			<bit name="Bit9" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="Bit11" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<uint8 name="Padding0 0" offset="0x12" visible="false" />
+		<uint8 name="Padding0 1" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Blend Screens" offset="0x38" visible="true" elementSize="0x1C">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<degree name="Right Yaw Per Frame" offset="0x4" visible="true" />
+		<degree name="Left Yaw Per Frame" offset="0x8" visible="true" />
+		<int16 name="Right Frame Count" offset="0xC" visible="true" />
+		<int16 name="Left Frame Count" offset="0xE" visible="true" />
+		<degree name="Down Pitch Per Frame" offset="0x10" visible="true" />
+		<degree name="Up Pitch Per Frame" offset="0x14" visible="true" />
+		<int16 name="Down Pitch Frame Count" offset="0x18" visible="true" />
+		<int16 name="Up Pitch Frame Count" offset="0x1A" visible="true" />
+	</tagblock>
+	<tagblock name="Foot Markers" offset="0x44" visible="true" elementSize="0x1C">
+		<stringid name="Foot Marker" offset="0x0" visible="true" />
+		<rangef name="Foot Ik Range" offset="0x4" visible="true" />
+		<stringid name="Ankle Marker" offset="0xC" visible="true" />
+		<rangef name="Ankle Ik Range" offset="0x10" visible="true" />
+		<enum16 name="Default State" offset="0x18" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum16>
+		<uint8 name="Padding1 0" offset="0x1A" visible="false" />
+		<uint8 name="Padding1 1" offset="0x1B" visible="false" />
+	</tagblock>
+	<tagblock name="Animations" offset="0x50" visible="true" elementSize="0x88">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Weight" offset="0x4" visible="true" />
+		<int16 name="Loop Frame Index" offset="0x8" visible="true" />
+		<flags16 name="Playback Flags" offset="0xA" visible="true">
+			<bit name="DisableInterpolationIn" index="0" />
+			<bit name="DisableInterpolationOut" index="1" />
+			<bit name="DisableModeIk" index="2" />
+			<bit name="DisableWeaponIk" index="3" />
+			<bit name="DisableWeaponAim1stPerson" index="4" />
+			<bit name="DisableLookScreen" index="5" />
+			<bit name="DisableTransitionAdjustment" index="6" />
+			<bit name="ForceWeaponIkOn" index="7" />
+		</flags16>
+		<int8 name="Animation Data / Blend Screen" offset="0xC" visible="true" />
+		<enum8 name="Animation Data / Desired Compression" offset="0xD" visible="true">
+			<option name="BestScore" value="0" />
+			<option name="BestCompression" value="1" />
+			<option name="BestAccuracy" value="2" />
+			<option name="BestFullframe" value="3" />
+			<option name="BestSmallKeyframe" value="4" />
+			<option name="BestLargeKeyframe" value="5" />
+		</enum8>
+		<enum8 name="Animation Data / Current Compression" offset="0xE" visible="true">
+			<option name="BestScore" value="0" />
+			<option name="BestCompression" value="1" />
+			<option name="BestAccuracy" value="2" />
+			<option name="BestFullframe" value="3" />
+			<option name="BestSmallKeyframe" value="4" />
+			<option name="BestLargeKeyframe" value="5" />
+		</enum8>
+		<int8 name="Animation Data / Node Count" offset="0xF" visible="true" />
+		<int16 name="Animation Data / Frame Count" offset="0x10" visible="true" />
+		<enum8 name="Animation Data / Animation Type" offset="0x12" visible="true">
+			<option name="Base" value="0" />
+			<option name="Overlay" value="1" />
+			<option name="Replacement" value="2" />
+		</enum8>
+		<enum8 name="Animation Data / Frame Info Type" offset="0x13" visible="true">
+			<option name="None" value="0" />
+			<option name="DxDy" value="1" />
+			<option name="DxDyDyaw" value="2" />
+			<option name="DxDyDzDyaw" value="3" />
+			<option name="DxDyDzDangleAxis" value="4" />
+			<option name="XYZAbsolute" value="5" />
+			<option name="Auto" value="6" />
+		</enum8>
+		<flags16 name="Animation Data / Production Flags" offset="0x14" visible="true">
+			<bit name="DoNotMonitorChanges" index="0" />
+			<bit name="VerifySoundEvents" index="1" />
+			<bit name="DoNotInheritForPlayerGraphs" index="2" />
+		</flags16>
+		<flags16 name="Animation Data / Internal Flags" offset="0x16" visible="true">
+			<bit name="Unused1" index="0" />
+			<bit name="WorldRelative" index="1" />
+			<bit name="Unused2" index="2" />
+			<bit name="Unused3" index="3" />
+			<bit name="Unused4" index="4" />
+			<bit name="CompressionDisabled" index="5" />
+			<bit name="OldProductionChecksum" index="6" />
+			<bit name="ValidProductionChecksum" index="7" />
+		</flags16>
+		<int32 name="Animation Data / Node List Checksum" offset="0x18" visible="true" />
+		<int32 name="Animation Data / Production Checksum" offset="0x1C" visible="true" />
+		<int16 name="Animation Data / Importer Version" offset="0x20" visible="true" />
+		<int16 name="Animation Data / Compressor Version" offset="0x22" visible="true" />
+		<int16 name="Animation Data / Parent Animation" offset="0x24" visible="true" />
+		<int16 name="Animation Data / Next Animation" offset="0x26" visible="true" />
+		<int16 name="Animation Data / Resource Group Index" offset="0x28" visible="true" />
+		<int16 name="Animation Data / Resource Group Member Index" offset="0x2A" visible="true" />
+		<tagblock name="Animation Data / Frame Events" offset="0x2C" visible="true" elementSize="0x4">
+			<enum16 name="Type" offset="0x0" visible="true">
+				<option name="PrimaryKeyframe" value="0" />
+				<option name="SecondaryKeyframe" value="1" />
+				<option name="LeftFoot" value="2" />
+				<option name="RightFoot" value="3" />
+				<option name="AllowInterruption" value="4" />
+				<option name="TransitionA" value="5" />
+				<option name="TransitionB" value="6" />
+				<option name="TransitionC" value="7" />
+				<option name="TransitionD" value="8" />
+				<option name="BothFeetShuffle" value="9" />
+				<option name="BodyImpact" value="10" />
+				<option name="LeftBackFoot" value="11" />
+				<option name="RightBackFoot" value="12" />
+			</enum16>
+			<int16 name="Frame" offset="0x2" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data / Sound Events" offset="0x38" visible="true" elementSize="0x8">
+			<int16 name="Sound" offset="0x0" visible="true" />
+			<int16 name="Frame" offset="0x2" visible="true" />
+			<stringid name="Marker Name" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data / Effect Events" offset="0x44" visible="true" elementSize="0x8">
+			<int16 name="Effect" offset="0x0" visible="true" />
+			<int16 name="Frame" offset="0x2" visible="true" />
+			<stringid name="Marker Name" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data / Dialogue Events" offset="0x50" visible="true" elementSize="0x4">
+			<enum16 name="Event Type" offset="0x0" visible="true">
+				<option name="Bump" value="0" />
+				<option name="Dive" value="1" />
+				<option name="Evade" value="2" />
+				<option name="Lift" value="3" />
+				<option name="Sigh" value="4" />
+				<option name="Contempt" value="5" />
+				<option name="Anger" value="6" />
+				<option name="Fear" value="7" />
+				<option name="Relief" value="8" />
+				<option name="Sprint" value="9" />
+				<option name="SprintEnd" value="10" />
+				<option name="AssGrabber" value="11" />
+				<option name="KillAss" value="12" />
+				<option name="AssGrabbed" value="13" />
+				<option name="DieAss" value="14" />
+			</enum16>
+			<int16 name="Frame" offset="0x2" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data / Object Space Parent Nodes" offset="0x5C" visible="true" elementSize="0x1C">
+			<int16 name="Node Index" offset="0x0" visible="true" />
+			<flags16 name="Flags" offset="0x2" visible="true">
+				<bit name="Rotation" index="0" />
+				<bit name="Translation" index="1" />
+				<bit name="Scale" index="2" />
+				<bit name="MotionRoot" index="3" />
+			</flags16>
+			<int16 name="Rotation X" offset="0x4" visible="true" />
+			<int16 name="Rotation Y" offset="0x6" visible="true" />
+			<int16 name="Rotation Z" offset="0x8" visible="true" />
+			<int16 name="Rotation W" offset="0xA" visible="true" />
+			<point3 name="Default Translation" offset="0xC" visible="true" />
+			<float32 name="Default Scale" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data / Foot Tracking" offset="0x68" visible="true" elementSize="0x10">
+			<int16 name="Foot" offset="0x0" visible="true" />
+			<uint8 name="Padding4 0" offset="0x2" visible="false" />
+			<uint8 name="Padding4 1" offset="0x3" visible="false" />
+			<tagblock name="Foot Lock Cycles" offset="0x4" visible="true" elementSize="0x14">
+				<int16 name="Started Locking" offset="0x0" visible="true" />
+				<int16 name="Locked" offset="0x2" visible="true" />
+				<int16 name="Started Unlocking" offset="0x4" visible="true" />
+				<int16 name="Unlocked" offset="0x6" visible="true" />
+				<point3 name="Lock Point" offset="0x8" visible="true" />
+			</tagblock>
+		</tagblock>
+		<vector3 name="Animation Data / Heading" offset="0x74" visible="true" />
+		<float32 name="Animation Data / Average Translation Magnitude" offset="0x80" visible="true" />
+		<float32 name="Animation Data / Average Pivot Yaw" offset="0x84" visible="true" />
+	</tagblock>
+	<tagblock name="Modes" offset="0x5C" visible="true" elementSize="0x28">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Weapon Class" offset="0x4" visible="true" elementSize="0x1C">
+			<stringid name="Label" offset="0x0" visible="true" />
+			<tagblock name="Weapon Type" offset="0x4" visible="true" elementSize="0x34">
+				<stringid name="Label" offset="0x0" visible="true" />
+				<tagblock name="Set / Actions" offset="0x4" visible="true" elementSize="0x8">
+					<stringid name="Label" offset="0x0" visible="true" />
+					<int16 name="Graph Index" offset="0x4" visible="true" />
+					<int16 name="Animation" offset="0x6" visible="true" />
+				</tagblock>
+				<tagblock name="Set / Overlays" offset="0x10" visible="true" elementSize="0x8">
+					<stringid name="Label" offset="0x0" visible="true" />
+					<int16 name="Graph Index" offset="0x4" visible="true" />
+					<int16 name="Animation" offset="0x6" visible="true" />
+				</tagblock>
+				<tagblock name="Set / Death And Damage" offset="0x1C" visible="true" elementSize="0x10">
+					<stringid name="Label" offset="0x0" visible="true" />
+					<tagblock name="Directions" offset="0x4" visible="true" elementSize="0xC">
+						<tagblock name="Regions" offset="0x0" visible="true" elementSize="0x4">
+							<int16 name="Graph Index" offset="0x0" visible="true" />
+							<int16 name="Animation" offset="0x2" visible="true" />
+						</tagblock>
+					</tagblock>
+				</tagblock>
+				<tagblock name="Set / Transitions" offset="0x28" visible="true" elementSize="0x18">
+					<stringid name="Full Name" offset="0x0" visible="true" />
+					<stringid name="State Name" offset="0x4" visible="true" />
+					<uint8 name="Padding0 0" offset="0x8" visible="false" />
+					<uint8 name="Padding0 1" offset="0x9" visible="false" />
+					<int8 name="Index A" offset="0xA" visible="true" />
+					<int8 name="Index B" offset="0xB" visible="true" />
+					<tagblock name="Destinations" offset="0xC" visible="true" elementSize="0x14">
+						<stringid name="Full Name" offset="0x0" visible="true" />
+						<stringid name="Mode Name" offset="0x4" visible="true" />
+						<stringid name="State Name" offset="0x8" visible="true" />
+						<enum8 name="Frame Event Link" offset="0xC" visible="true">
+							<option name="NoKeyframe" value="0" />
+							<option name="KeyframeTypeA" value="1" />
+							<option name="KeyframeTypeB" value="2" />
+							<option name="KeyframeTypeC" value="3" />
+							<option name="KeyframeTypeD" value="4" />
+						</enum8>
+						<uint8 name="Padding1 0" offset="0xD" visible="false" />
+						<int8 name="Index A" offset="0xE" visible="true" />
+						<int8 name="Index B" offset="0xF" visible="true" />
+						<int16 name="Graph Index" offset="0x10" visible="true" />
+						<int16 name="Animation" offset="0x12" visible="true" />
+					</tagblock>
+				</tagblock>
+			</tagblock>
+			<tagblock name="Weapon Ik" offset="0x10" visible="true" elementSize="0x8">
+				<stringid name="Marker" offset="0x0" visible="true" />
+				<stringid name="Attach To Marker" offset="0x4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Mode Ik" offset="0x10" visible="true" elementSize="0x8">
+			<stringid name="Marker" offset="0x0" visible="true" />
+			<stringid name="Attach To Marker" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Foot Defaults" offset="0x1C" visible="true" elementSize="0x4">
+			<int16 name="Foot" offset="0x0" visible="true" />
+			<int16 name="Default State" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Vehicle Suspension" offset="0x68" visible="true" elementSize="0x28">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<int16 name="Graph Index" offset="0x4" visible="true" />
+		<int16 name="Animation" offset="0x6" visible="true" />
+		<stringid name="Marker Name" offset="0x8" visible="true" />
+		<float32 name="Mass Point Offset" offset="0xC" visible="true" />
+		<float32 name="Full Extension Ground Depth" offset="0x10" visible="true" />
+		<float32 name="Full Compression Ground Depth" offset="0x14" visible="true" />
+		<stringid name="Region Name" offset="0x18" visible="true" />
+		<float32 name="Destroyed Mass Point Offset" offset="0x1C" visible="true" />
+		<float32 name="Destroyed Full Extension Ground Depth" offset="0x20" visible="true" />
+		<float32 name="Destroyed Full Compression Ground Depth" offset="0x24" visible="true" />
+	</tagblock>
+	<tagblock name="Object Overlays" offset="0x74" visible="true" elementSize="0x14">
+		<stringid name="Label" offset="0x0" visible="true" />
+		<int16 name="Graph Index" offset="0x4" visible="true" />
+		<int16 name="Animation" offset="0x6" visible="true" />
+		<uint8 name="Padding0 0" offset="0x8" visible="false" />
+		<uint8 name="Padding0 1" offset="0x9" visible="false" />
+		<enum16 name="Function Controls" offset="0xA" visible="true">
+			<option name="Frame" value="0" />
+			<option name="Scale" value="1" />
+		</enum16>
+		<stringid name="Function" offset="0xC" visible="true" />
+		<uint8 name="Padding1 0" offset="0x10" visible="false" />
+		<uint8 name="Padding1 1" offset="0x11" visible="false" />
+		<uint8 name="Padding1 2" offset="0x12" visible="false" />
+		<uint8 name="Padding1 3" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Inheritance List" offset="0x80" visible="true" elementSize="0x30">
+		<tagref name="Inherited Graph" offset="0x0" visible="true" />
+		<tagblock name="Node Map" offset="0x10" visible="true" elementSize="0x2">
+			<int16 name="Local Node" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Node Map Flags" offset="0x1C" visible="true" elementSize="0x4">
+			<int32 name="Local Node Flags" offset="0x0" visible="true" />
+		</tagblock>
+		<float32 name="Root Z Offset" offset="0x28" visible="true" />
+		<flags32 name="Flags" offset="0x2C" visible="true">
+			<bit name="TightenNodes" index="0" />
+			<bit name="Bit1" index="1" />
+			<bit name="Bit2" index="2" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Weapon List" offset="0x8C" visible="true" elementSize="0x8">
+		<stringid name="Weapon Name" offset="0x0" visible="true" />
+		<stringid name="Weapon Class" offset="0x4" visible="true" />
+	</tagblock>
+	<uint32 name="Left Arm Nodes 0" offset="0x98" visible="true" />
+	<uint32 name="Left Arm Nodes 1" offset="0x9C" visible="true" />
+	<uint32 name="Left Arm Nodes 2" offset="0xA0" visible="true" />
+	<uint32 name="Left Arm Nodes 3" offset="0xA4" visible="true" />
+	<uint32 name="Left Arm Nodes 4" offset="0xA8" visible="true" />
+	<uint32 name="Left Arm Nodes 5" offset="0xAC" visible="true" />
+	<uint32 name="Left Arm Nodes 6" offset="0xB0" visible="true" />
+	<uint32 name="Left Arm Nodes 7" offset="0xB4" visible="true" />
+	<uint32 name="Right Arm Nodes 0" offset="0xB8" visible="true" />
+	<uint32 name="Right Arm Nodes 1" offset="0xBC" visible="true" />
+	<uint32 name="Right Arm Nodes 2" offset="0xC0" visible="true" />
+	<uint32 name="Right Arm Nodes 3" offset="0xC4" visible="true" />
+	<uint32 name="Right Arm Nodes 4" offset="0xC8" visible="true" />
+	<uint32 name="Right Arm Nodes 5" offset="0xCC" visible="true" />
+	<uint32 name="Right Arm Nodes 6" offset="0xD0" visible="true" />
+	<uint32 name="Right Arm Nodes 7" offset="0xD4" visible="true" />
+	<dataref name="Last Import Results" offset="0xD8" visible="true" />
+	<tagblock name="Additional Node Data" offset="0xEC" visible="true" elementSize="0x3C">
+		<stringid name="Node Name" offset="0x0" visible="true" />
+		<vector4 name="Default Rotation" offset="0x4" visible="true" />
+		<point3 name="Default Translation" offset="0x14" visible="true" />
+		<float32 name="Default Scale" offset="0x20" visible="true" />
+		<point3 name="Minimum Bounds" offset="0x24" visible="true" />
+		<point3 name="Maximum Bounds" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Resource Groups" offset="0xF8" visible="true" elementSize="0xC">
+		<int32 name="Member Count" offset="0x0" visible="true" />
+		<uint32 name="Resource Reference (resource datum)" offset="0x4" visible="true" />
+		<uint32 name="Resource Reference (resource pad)" offset="0x8" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.LightVolumeSystem (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Light Volumes" offset="0x0" visible="true" elementSize="0x17C">
+		<stringid name="Light Volume Name" offset="0x0" visible="true" />
+		<tagref name="Render Method / Base Render Method" offset="0x4" visible="true" />
+		<tagblock name="Render Method / Options" offset="0x14" visible="true" elementSize="0x2">
+			<int16 name="Option Index" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Render Method / Parameters" offset="0x20" visible="true" elementSize="0x3C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum32 name="Parameter Type" offset="0x4" visible="true">
+				<option name="Bitmap" value="0" />
+				<option name="Color" value="1" />
+				<option name="Real" value="2" />
+				<option name="Int" value="3" />
+				<option name="Bool" value="4" />
+				<option name="ArgbColor" value="5" />
+			</enum32>
+			<tagref name="Bitmap" offset="0x8" visible="true" />
+			<float32 name="Real Value" offset="0x18" visible="true" />
+			<int32 name="Int Bool Value" offset="0x1C" visible="true" />
+			<int16 name="Bitmap Flags" offset="0x20" visible="true" />
+			<int16 name="Bitmap Filter Mode" offset="0x22" visible="true" />
+			<int16 name="Bitmap Address Mode" offset="0x24" visible="true" />
+			<int16 name="Bitmap Address Mode X" offset="0x26" visible="true" />
+			<int16 name="Bitmap Address Mode Y" offset="0x28" visible="true" />
+			<int16 name="Bitmap Anisotropy Amount" offset="0x2A" visible="true" />
+			<int16 name="Bitmap Extern RTT Mode" offset="0x2C" visible="true" />
+			<uint8 name="Padding 0" offset="0x2E" visible="false" />
+			<uint8 name="Padding 1" offset="0x2F" visible="false" />
+			<tagblock name="Animated Parameters" offset="0x30" visible="true" elementSize="0x24">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleX" value="3" />
+					<option name="ScaleY" value="4" />
+					<option name="TranslationX" value="5" />
+					<option name="TranslationY" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+					<option name="ChangeColorPrimary" value="9" />
+					<option name="ChangeColorSecondary" value="10" />
+					<option name="ChangeColorTertiary" value="11" />
+					<option name="ChangeColorQuaternary" value="12" />
+					<option name="ChangeColorQuinary" value="13" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<float32 name="Time Period" offset="0xC" visible="true" />
+				<dataref name="Function / Data" offset="0x10" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Render Method / Shader Properties" offset="0x2C" visible="true" elementSize="0x84">
+			<tagref name="Template" offset="0x0" visible="true" />
+			<tagblock name="Texture Constants" offset="0x10" visible="true" elementSize="0x18">
+				<tagref name="Bitmap" offset="0x0" visible="true" />
+				<int16 name="Bitmap Index" offset="0x10" visible="true" />
+				<uint8 name="Sampler Address Mode / Sampler Address UV" offset="0x12" visible="true" />
+				<enum8 name="Filter Mode" offset="0x13" visible="true">
+					<option name="Trilinear" value="0" />
+					<option name="Point" value="1" />
+					<option name="Bilinear" value="2" />
+					<option name="Anisotropic1" value="3" />
+					<option name="Anisotropic2Expensive" value="4" />
+					<option name="Anisotropic3Expensive" value="5" />
+					<option name="Anisotropic4EXPENSIVE" value="6" />
+					<option name="LightprobeTextureArray" value="7" />
+					<option name="ComparisonPoint" value="8" />
+					<option name="ComparisonBilinear" value="9" />
+				</enum8>
+				<enum8 name="Extern Texture Mode" offset="0x14" visible="true">
+					<option name="UseBitmapAsNormal" value="0" />
+					<option name="TextureCamera" value="1" />
+					<option name="ZCamera" value="2" />
+					<option name="Mirror" value="3" />
+					<option name="Refraction" value="4" />
+					<option name="Unused" value="5" />
+					<option name="Scope" value="6" />
+				</enum8>
+				<int8 name="Texture Transform Constant Index" offset="0x15" visible="true" />
+				<uint16 name="Texture Transform Overlay Indices / Integer" offset="0x16" visible="true" />
+			</tagblock>
+			<tagblock name="Real Constants" offset="0x1C" visible="true" elementSize="0x10">
+				<float32 name="Values 0" offset="0x0" visible="true" />
+				<float32 name="Values 1" offset="0x4" visible="true" />
+				<float32 name="Values 2" offset="0x8" visible="true" />
+				<float32 name="Values 3" offset="0xC" visible="true" />
+			</tagblock>
+			<tagblock name="Integer Constants" offset="0x28" visible="true" elementSize="0x4">
+				<uint32 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<uint32 name="Boolean Constants" offset="0x34" visible="true" />
+			<tagblock name="Entry Points" offset="0x38" visible="true" elementSize="0x2">
+				<uint16 name="Integer" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Passes" offset="0x44" visible="true" elementSize="0x6">
+				<uint16 name="Texture / Integer" offset="0x0" visible="true" />
+				<uint16 name="Real Vertex / Integer" offset="0x2" visible="true" />
+				<uint16 name="Real Pixel / Integer" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Routing Info" offset="0x50" visible="true" elementSize="0x4">
+				<int16 name="Register Index" offset="0x0" visible="true" />
+				<uint8 name="Function Index" offset="0x2" visible="true" />
+				<uint8 name="Source Index" offset="0x3" visible="true" />
+			</tagblock>
+			<tagblock name="Functions" offset="0x5C" visible="true" elementSize="0x24">
+				<enum32 name="Type" offset="0x0" visible="true">
+					<option name="Value" value="0" />
+					<option name="Color" value="1" />
+					<option name="ScaleUniform" value="2" />
+					<option name="ScaleX" value="3" />
+					<option name="ScaleY" value="4" />
+					<option name="TranslationX" value="5" />
+					<option name="TranslationY" value="6" />
+					<option name="FrameIndex" value="7" />
+					<option name="Alpha" value="8" />
+					<option name="ChangeColorPrimary" value="9" />
+					<option name="ChangeColorSecondary" value="10" />
+					<option name="ChangeColorTertiary" value="11" />
+					<option name="ChangeColorQuaternary" value="12" />
+					<option name="ChangeColorQuinary" value="13" />
+				</enum32>
+				<stringid name="Input Name" offset="0x4" visible="true" />
+				<stringid name="Range Name" offset="0x8" visible="true" />
+				<float32 name="Time Period" offset="0xC" visible="true" />
+				<dataref name="Function / Data" offset="0x10" visible="true" />
+			</tagblock>
+			<enum32 name="Blend Mode" offset="0x68" visible="true">
+				<option name="Opaque" value="0" />
+				<option name="Additive" value="1" />
+				<option name="Multiply" value="2" />
+				<option name="AlphaBlend" value="3" />
+				<option name="DoubleMultiply" value="4" />
+				<option name="PreMultipliedAlpha" value="5" />
+				<option name="Maximum" value="6" />
+				<option name="MultiplyAdd" value="7" />
+				<option name="AddSrcTimesDstalpha" value="8" />
+				<option name="AddSrcTimesSrcalpha" value="9" />
+				<option name="InverseAlphaBlend" value="10" />
+				<option name="MotionBlurStatic" value="11" />
+				<option name="MotionBlurInhibit" value="12" />
+			</enum32>
+			<flags32 name="Flags" offset="0x6C" visible="true">
+				<bit name="ForceSinglePass" index="0" />
+				<bit name="EnableAlphaTest" index="1" />
+				<bit name="SfxDistort_ForceAlphaBlend" index="2" />
+			</flags32>
+			<int32 name="Im So Fired Pad" offset="0x70" visible="true" />
+			<int16 name="Queryable Properties 0" offset="0x74" visible="true" />
+			<int16 name="Queryable Properties 1" offset="0x76" visible="true" />
+			<int16 name="Queryable Properties 2" offset="0x78" visible="true" />
+			<int16 name="Queryable Properties 3" offset="0x7A" visible="true" />
+			<int16 name="Queryable Properties 4" offset="0x7C" visible="true" />
+			<int16 name="Queryable Properties 5" offset="0x7E" visible="true" />
+			<int16 name="Queryable Properties 6" offset="0x80" visible="true" />
+			<int16 name="Queryable Properties 7" offset="0x82" visible="true" />
+		</tagblock>
+		<flags16 name="Render Method / Render Flags" offset="0x38" visible="true">
+			<bit name="IgnoreFog" index="0" />
+			<bit name="UseSkyAtmosphereProperties" index="1" />
+			<bit name="UsesDepthCamera" index="2" />
+		</flags16>
+		<enum8 name="Render Method / Sort Layer" offset="0x3A" visible="true">
+			<option name="Invalid" value="0" />
+			<option name="PrePass" value="1" />
+			<option name="Normal" value="2" />
+			<option name="PostPass" value="3" />
+		</enum8>
+		<uint8 name="Render Method / Version" offset="0x3B" visible="true" />
+		<int32 name="Render Method / Custom Fog Setting Index" offset="0x3C" visible="true" />
+		<int32 name="Render Method / Prediction Atom Index" offset="0x40" visible="true" />
+		<uint16 name="Appearance Flags" offset="0x44" visible="true" />
+		<uint8 name="Padding0 0" offset="0x46" visible="false" />
+		<uint8 name="Padding0 1" offset="0x47" visible="false" />
+		<float32 name="Brightness Ratio" offset="0x48" visible="true" />
+		<enum8 name="Length / Input Variable" offset="0x4C" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Length / Range Variable" offset="0x4D" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Length / Output Modifier" offset="0x4E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Length / Output Modifier Input" offset="0x4F" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Length / Mapping Function / Data" offset="0x50" visible="true" />
+		<float32 name="Length / Runtime M Constant Value" offset="0x64" visible="true" />
+		<int8 name="Length / Runtime M Flags" offset="0x68" visible="true" />
+		<uint8 name="Length / DSFDSGLKJ 0" offset="0x69" visible="false" />
+		<uint8 name="Length / DSFDSGLKJ 1" offset="0x6A" visible="false" />
+		<uint8 name="Length / DSFDSGLKJ 2" offset="0x6B" visible="false" />
+		<enum8 name="Offset / Input Variable" offset="0x6C" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Offset / Range Variable" offset="0x6D" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Offset / Output Modifier" offset="0x6E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Offset / Output Modifier Input" offset="0x6F" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Offset / Mapping Function / Data" offset="0x70" visible="true" />
+		<float32 name="Offset / Runtime M Constant Value" offset="0x84" visible="true" />
+		<int8 name="Offset / Runtime M Flags" offset="0x88" visible="true" />
+		<uint8 name="Offset / DSFDSGLKJ 0" offset="0x89" visible="false" />
+		<uint8 name="Offset / DSFDSGLKJ 1" offset="0x8A" visible="false" />
+		<uint8 name="Offset / DSFDSGLKJ 2" offset="0x8B" visible="false" />
+		<enum8 name="Profile Density / Input Variable" offset="0x8C" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Density / Range Variable" offset="0x8D" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Density / Output Modifier" offset="0x8E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Density / Output Modifier Input" offset="0x8F" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Density / Mapping Function / Data" offset="0x90" visible="true" />
+		<float32 name="Profile Density / Runtime M Constant Value" offset="0xA4" visible="true" />
+		<int8 name="Profile Density / Runtime M Flags" offset="0xA8" visible="true" />
+		<uint8 name="Profile Density / DSFDSGLKJ 0" offset="0xA9" visible="false" />
+		<uint8 name="Profile Density / DSFDSGLKJ 1" offset="0xAA" visible="false" />
+		<uint8 name="Profile Density / DSFDSGLKJ 2" offset="0xAB" visible="false" />
+		<enum8 name="Profile Length / Input Variable" offset="0xAC" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Length / Range Variable" offset="0xAD" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Length / Output Modifier" offset="0xAE" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Length / Output Modifier Input" offset="0xAF" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Length / Mapping Function / Data" offset="0xB0" visible="true" />
+		<float32 name="Profile Length / Runtime M Constant Value" offset="0xC4" visible="true" />
+		<int8 name="Profile Length / Runtime M Flags" offset="0xC8" visible="true" />
+		<uint8 name="Profile Length / DSFDSGLKJ 0" offset="0xC9" visible="false" />
+		<uint8 name="Profile Length / DSFDSGLKJ 1" offset="0xCA" visible="false" />
+		<uint8 name="Profile Length / DSFDSGLKJ 2" offset="0xCB" visible="false" />
+		<enum8 name="Profile Thickness / Input Variable" offset="0xCC" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Thickness / Range Variable" offset="0xCD" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Thickness / Output Modifier" offset="0xCE" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Thickness / Output Modifier Input" offset="0xCF" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Thickness / Mapping Function / Data" offset="0xD0" visible="true" />
+		<float32 name="Profile Thickness / Runtime M Constant Value" offset="0xE4" visible="true" />
+		<int8 name="Profile Thickness / Runtime M Flags" offset="0xE8" visible="true" />
+		<uint8 name="Profile Thickness / DSFDSGLKJ 0" offset="0xE9" visible="false" />
+		<uint8 name="Profile Thickness / DSFDSGLKJ 1" offset="0xEA" visible="false" />
+		<uint8 name="Profile Thickness / DSFDSGLKJ 2" offset="0xEB" visible="false" />
+		<enum8 name="Profile Color / Input Variable" offset="0xEC" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Color / Range Variable" offset="0xED" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier" offset="0xEE" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Color / Output Modifier Input" offset="0xEF" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Color / Mapping Function / Data" offset="0xF0" visible="true" />
+		<float32 name="Profile Color / Runtime M Constant Value" offset="0x104" visible="true" />
+		<int8 name="Profile Color / Runtime M Flags" offset="0x108" visible="true" />
+		<uint8 name="Profile Color / DSFDSGLKJ 0" offset="0x109" visible="false" />
+		<uint8 name="Profile Color / DSFDSGLKJ 1" offset="0x10A" visible="false" />
+		<uint8 name="Profile Color / DSFDSGLKJ 2" offset="0x10B" visible="false" />
+		<enum8 name="Profile Alpha / Input Variable" offset="0x10C" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Alpha / Range Variable" offset="0x10D" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier" offset="0x10E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Alpha / Output Modifier Input" offset="0x10F" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Alpha / Mapping Function / Data" offset="0x110" visible="true" />
+		<float32 name="Profile Alpha / Runtime M Constant Value" offset="0x124" visible="true" />
+		<int8 name="Profile Alpha / Runtime M Flags" offset="0x128" visible="true" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 0" offset="0x129" visible="false" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 1" offset="0x12A" visible="false" />
+		<uint8 name="Profile Alpha / DSFDSGLKJ 2" offset="0x12B" visible="false" />
+		<enum8 name="Profile Intensity / Input Variable" offset="0x12C" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Intensity / Range Variable" offset="0x12D" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier" offset="0x12E" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum8>
+		<enum8 name="Profile Intensity / Output Modifier Input" offset="0x12F" visible="true">
+			<option name="ProfilePosition" value="0" />
+			<option name="GameTime" value="1" />
+			<option name="LightVolumeAge" value="2" />
+			<option name="LightVolumeRandom" value="3" />
+			<option name="LightVolumeCorrelation1" value="4" />
+			<option name="LightVolumeCorrelation2" value="5" />
+			<option name="LightVolumeLod" value="6" />
+			<option name="EffectAScale" value="7" />
+			<option name="EffectBScale" value="8" />
+			<option name="InvalidStatePleaseSetAgain" value="9" />
+		</enum8>
+		<dataref name="Profile Intensity / Mapping Function / Data" offset="0x130" visible="true" />
+		<float32 name="Profile Intensity / Runtime M Constant Value" offset="0x144" visible="true" />
+		<int8 name="Profile Intensity / Runtime M Flags" offset="0x148" visible="true" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 0" offset="0x149" visible="false" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 1" offset="0x14A" visible="false" />
+		<uint8 name="Profile Intensity / DSFDSGLKJ 2" offset="0x14B" visible="false" />
+		<int32 name="Runtime M Constant Per Profile Properties" offset="0x14C" visible="true" />
+		<int32 name="Runtime M Used States" offset="0x150" visible="true" />
+		<int32 name="Runtime M Max Profile Count" offset="0x154" visible="true" />
+		<tagblock name="Runtime M Gpu Data / Properties" offset="0x158" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Magnitude" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpu Data / Functions" offset="0x164" visible="true" elementSize="0x40">
+			<colorf name="Elements 0 / Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Elements 0 / Magnitude" offset="0xC" visible="true" />
+			<colorf name="Elements 1 / Color" offset="0x10" alpha="false" visible="true" />
+			<float32 name="Elements 1 / Magnitude" offset="0x1C" visible="true" />
+			<colorf name="Elements 2 / Color" offset="0x20" alpha="false" visible="true" />
+			<float32 name="Elements 2 / Magnitude" offset="0x2C" visible="true" />
+			<colorf name="Elements 3 / Color" offset="0x30" alpha="false" visible="true" />
+			<float32 name="Elements 3 / Magnitude" offset="0x3C" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime M Gpu Data / Colors" offset="0x170" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+			<float32 name="Magnitude" offset="0xC" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

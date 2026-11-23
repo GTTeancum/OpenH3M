@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x74">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.EmblemLibrary (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<int16 name="Version" offset="0x0" visible="true" />
+	<uint8 name="PADD 0" offset="0x2" visible="false" />
+	<uint8 name="PADD 1" offset="0x3" visible="false" />
+	<float32 name="Bitmap Resolution" offset="0x4" visible="true" />
+	<float32 name="Antialias Sharpen" offset="0x8" visible="true" />
+	<tagref name="Emblem Bitmaps" offset="0xC" visible="true" />
+	<tagref name="Emblem Bitmaps Hi Rez" offset="0x1C" visible="true" />
+	<tagblock name="Bitmaps" offset="0x2C" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Bitmap Index" offset="0x4" visible="true" />
+		<uint8 name="PADD 0" offset="0x6" visible="false" />
+		<uint8 name="PADD 1" offset="0x7" visible="false" />
+		<float32 name="Gradient Size" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Shapes" offset="0x38" visible="true" elementSize="0x30">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Bitmap List Index" offset="0x4" visible="true" />
+		<enum16 name="Address Mode X" offset="0x6" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Address Mode Y" offset="0x8" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<uint8 name="PADD 0" offset="0xA" visible="false" />
+		<uint8 name="PADD 1" offset="0xB" visible="false" />
+		<point2 name="Transform / Scale" offset="0xC" visible="true" />
+		<point2 name="Transform / Shear" offset="0x14" visible="true" />
+		<float32 name="Transform / Rotation" offset="0x1C" visible="true" />
+		<point2 name="Transform / Offset" offset="0x20" visible="true" />
+		<float32 name="Transform / Expand Contract" offset="0x28" visible="true" />
+		<float32 name="Transform / Blur" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Front Emblems" offset="0x44" visible="true" elementSize="0xB8">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Layer0 / Shape0" offset="0x4" visible="true" />
+		<uint8 name="Layer0 / PADD 0" offset="0x6" visible="false" />
+		<uint8 name="Layer0 / PADD 1" offset="0x7" visible="false" />
+		<float32 name="Layer0 / Multiplier0" offset="0x8" visible="true" />
+		<point2 name="Layer0 / Transform0 / Scale" offset="0xC" visible="true" />
+		<point2 name="Layer0 / Transform0 / Shear" offset="0x14" visible="true" />
+		<float32 name="Layer0 / Transform0 / Rotation" offset="0x1C" visible="true" />
+		<point2 name="Layer0 / Transform0 / Offset" offset="0x20" visible="true" />
+		<float32 name="Layer0 / Transform0 / Expand Contract" offset="0x28" visible="true" />
+		<float32 name="Layer0 / Transform0 / Blur" offset="0x2C" visible="true" />
+		<int16 name="Layer0 / Shape1" offset="0x30" visible="true" />
+		<uint8 name="Layer0 / PADD1 0" offset="0x32" visible="false" />
+		<uint8 name="Layer0 / PADD1 1" offset="0x33" visible="false" />
+		<float32 name="Layer0 / Multiplier1" offset="0x34" visible="true" />
+		<point2 name="Layer0 / Transform1 / Scale" offset="0x38" visible="true" />
+		<point2 name="Layer0 / Transform1 / Shear" offset="0x40" visible="true" />
+		<float32 name="Layer0 / Transform1 / Rotation" offset="0x48" visible="true" />
+		<point2 name="Layer0 / Transform1 / Offset" offset="0x4C" visible="true" />
+		<float32 name="Layer0 / Transform1 / Expand Contract" offset="0x54" visible="true" />
+		<float32 name="Layer0 / Transform1 / Blur" offset="0x58" visible="true" />
+		<int16 name="Layer1 / Shape0" offset="0x5C" visible="true" />
+		<uint8 name="Layer1 / PADD 0" offset="0x5E" visible="false" />
+		<uint8 name="Layer1 / PADD 1" offset="0x5F" visible="false" />
+		<float32 name="Layer1 / Multiplier0" offset="0x60" visible="true" />
+		<point2 name="Layer1 / Transform0 / Scale" offset="0x64" visible="true" />
+		<point2 name="Layer1 / Transform0 / Shear" offset="0x6C" visible="true" />
+		<float32 name="Layer1 / Transform0 / Rotation" offset="0x74" visible="true" />
+		<point2 name="Layer1 / Transform0 / Offset" offset="0x78" visible="true" />
+		<float32 name="Layer1 / Transform0 / Expand Contract" offset="0x80" visible="true" />
+		<float32 name="Layer1 / Transform0 / Blur" offset="0x84" visible="true" />
+		<int16 name="Layer1 / Shape1" offset="0x88" visible="true" />
+		<uint8 name="Layer1 / PADD1 0" offset="0x8A" visible="false" />
+		<uint8 name="Layer1 / PADD1 1" offset="0x8B" visible="false" />
+		<float32 name="Layer1 / Multiplier1" offset="0x8C" visible="true" />
+		<point2 name="Layer1 / Transform1 / Scale" offset="0x90" visible="true" />
+		<point2 name="Layer1 / Transform1 / Shear" offset="0x98" visible="true" />
+		<float32 name="Layer1 / Transform1 / Rotation" offset="0xA0" visible="true" />
+		<point2 name="Layer1 / Transform1 / Offset" offset="0xA4" visible="true" />
+		<float32 name="Layer1 / Transform1 / Expand Contract" offset="0xAC" visible="true" />
+		<float32 name="Layer1 / Transform1 / Blur" offset="0xB0" visible="true" />
+		<enum8 name="Primary Layer" offset="0xB4" visible="true">
+			<option name="Foreground" value="0" />
+			<option name="Midground" value="1" />
+		</enum8>
+		<uint8 name="PADD 0" offset="0xB5" visible="false" />
+		<uint8 name="PADD 1" offset="0xB6" visible="false" />
+		<uint8 name="PADD 2" offset="0xB7" visible="false" />
+	</tagblock>
+	<tagblock name="Back Emblems" offset="0x50" visible="true" elementSize="0x5C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Layer2 / Shape0" offset="0x4" visible="true" />
+		<uint8 name="Layer2 / PADD 0" offset="0x6" visible="false" />
+		<uint8 name="Layer2 / PADD 1" offset="0x7" visible="false" />
+		<float32 name="Layer2 / Multiplier0" offset="0x8" visible="true" />
+		<point2 name="Layer2 / Transform0 / Scale" offset="0xC" visible="true" />
+		<point2 name="Layer2 / Transform0 / Shear" offset="0x14" visible="true" />
+		<float32 name="Layer2 / Transform0 / Rotation" offset="0x1C" visible="true" />
+		<point2 name="Layer2 / Transform0 / Offset" offset="0x20" visible="true" />
+		<float32 name="Layer2 / Transform0 / Expand Contract" offset="0x28" visible="true" />
+		<float32 name="Layer2 / Transform0 / Blur" offset="0x2C" visible="true" />
+		<int16 name="Layer2 / Shape1" offset="0x30" visible="true" />
+		<uint8 name="Layer2 / PADD1 0" offset="0x32" visible="false" />
+		<uint8 name="Layer2 / PADD1 1" offset="0x33" visible="false" />
+		<float32 name="Layer2 / Multiplier1" offset="0x34" visible="true" />
+		<point2 name="Layer2 / Transform1 / Scale" offset="0x38" visible="true" />
+		<point2 name="Layer2 / Transform1 / Shear" offset="0x40" visible="true" />
+		<float32 name="Layer2 / Transform1 / Rotation" offset="0x48" visible="true" />
+		<point2 name="Layer2 / Transform1 / Offset" offset="0x4C" visible="true" />
+		<float32 name="Layer2 / Transform1 / Expand Contract" offset="0x54" visible="true" />
+		<float32 name="Layer2 / Transform1 / Blur" offset="0x58" visible="true" />
+	</tagblock>
+	<tagblock name="Runtime Front" offset="0x5C" visible="true" elementSize="0xDC">
+		<int16 name="Bitmap0 Index" offset="0x0" visible="true" />
+		<enum16 name="Bitmap0 Address X" offset="0x2" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap0 Address Y" offset="0x4" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<int16 name="Bitmap1 Index" offset="0x6" visible="true" />
+		<enum16 name="Bitmap1 Address X" offset="0x8" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap1 Address Y" offset="0xA" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<vector4 name="Bitmap Transform0" offset="0xC" visible="true" />
+		<vector4 name="Bitmap Transform1" offset="0x1C" visible="true" />
+		<vector4 name="Bitmap Transform2" offset="0x2C" visible="true" />
+		<vector4 name="Bitmap Transform3" offset="0x3C" visible="true" />
+		<vector4 name="Bitmap Params0" offset="0x4C" visible="true" />
+		<vector4 name="Bitmap Params1" offset="0x5C" visible="true" />
+		<int16 name="Bitmap2 Index" offset="0x6C" visible="true" />
+		<enum16 name="Bitmap2 Address X" offset="0x6E" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap2 Address Y" offset="0x70" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<int16 name="Bitmap3 Index" offset="0x72" visible="true" />
+		<enum16 name="Bitmap3 Address X" offset="0x74" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap3 Address Y" offset="0x76" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<vector4 name="Bitmap Transform4" offset="0x78" visible="true" />
+		<vector4 name="Bitmap Transform5" offset="0x88" visible="true" />
+		<vector4 name="Bitmap Transform6" offset="0x98" visible="true" />
+		<vector4 name="Bitmap Transform7" offset="0xA8" visible="true" />
+		<vector4 name="Bitmap Params2" offset="0xB8" visible="true" />
+		<vector4 name="Bitmap Params3" offset="0xC8" visible="true" />
+		<enum8 name="Primary Layer" offset="0xD8" visible="true">
+			<option name="Foreground" value="0" />
+			<option name="Midground" value="1" />
+		</enum8>
+		<uint8 name="PADD 0" offset="0xD9" visible="false" />
+		<uint8 name="PADD 1" offset="0xDA" visible="false" />
+		<uint8 name="PADD 2" offset="0xDB" visible="false" />
+	</tagblock>
+	<tagblock name="Runtime Back" offset="0x68" visible="true" elementSize="0x6C">
+		<int16 name="Bitmap0 Index" offset="0x0" visible="true" />
+		<enum16 name="Bitmap0 Address X" offset="0x2" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap0 Address Y" offset="0x4" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<int16 name="Bitmap1 Index" offset="0x6" visible="true" />
+		<enum16 name="Bitmap1 Address X" offset="0x8" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<enum16 name="Bitmap1 Address Y" offset="0xA" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<vector4 name="Bitmap Transform0" offset="0xC" visible="true" />
+		<vector4 name="Bitmap Transform1" offset="0x1C" visible="true" />
+		<vector4 name="Bitmap Transform2" offset="0x2C" visible="true" />
+		<vector4 name="Bitmap Transform3" offset="0x3C" visible="true" />
+		<vector4 name="Bitmap Params0" offset="0x4C" visible="true" />
+		<vector4 name="Bitmap Params1" offset="0x5C" visible="true" />
+	</tagblock>
+</plugin>

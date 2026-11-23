@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiWidgetScaleAnimationDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="LoopCyclic" index="0" />
+		<bit name="LoopReverse" index="1" />
+	</flags32>
+	<tagblock name="Keyframes" offset="0x4" visible="true" elementSize="0x24">
+		<int32 name="Time Offset" offset="0x0" visible="true" />
+		<enum16 name="Special Local Origin" offset="0x4" visible="true">
+			<option name="UNUSED" value="0" />
+			<option name="Centered" value="1" />
+			<option name="TopEdge" value="2" />
+			<option name="BottomEdge" value="3" />
+			<option name="LeftEdge" value="4" />
+			<option name="RightEdge" value="5" />
+			<option name="TopleftCorner" value="6" />
+			<option name="ToprightCorner" value="7" />
+			<option name="BottomrightCorner" value="8" />
+			<option name="BottomleftCorner" value="9" />
+		</enum16>
+		<uint8 name="Rotationpad0 0" offset="0x6" visible="false" />
+		<uint8 name="Rotationpad0 1" offset="0x7" visible="false" />
+		<point2 name="Local Origin" offset="0x8" visible="true" />
+		<vector2 name="Scale Factor" offset="0x10" visible="true" />
+		<tagblock name="Custom Transition Fxn" offset="0x18" visible="true" elementSize="0x14">
+			<dataref name="Data" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<dataref name="Default Function / Data" offset="0x10" visible="true" />
+</plugin>

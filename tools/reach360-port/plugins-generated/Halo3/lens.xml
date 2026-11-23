@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x98">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.LensFlare (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<degree name="Falloff Angle" offset="0x0" visible="true" />
+	<degree name="Cutoff Angle" offset="0x4" visible="true" />
+	<float32 name="Occlusion Offset Distance" offset="0x8" visible="true" />
+	<enum16 name="Occlusion Offset Direction" offset="0xC" visible="true">
+		<option name="TowardViewer" value="0" />
+		<option name="MarkerForward" value="1" />
+		<option name="None" value="2" />
+	</enum16>
+	<flags16 name="Occlusion Inner Radius Scale" offset="0xE" visible="true">
+		<bit name="_12" index="0" />
+		<bit name="_14" index="1" />
+		<bit name="_116" index="2" />
+	</flags16>
+	<float32 name="Near Fade Begin Distance" offset="0x10" visible="true" />
+	<float32 name="Near Fade End Distance" offset="0x14" visible="true" />
+	<float32 name="Near Fade Distance" offset="0x18" visible="true" />
+	<float32 name="Far Fade Distance" offset="0x1C" visible="true" />
+	<tagref name="Bitmap" offset="0x20" visible="true" />
+	<flags16 name="Flags" offset="0x30" visible="true">
+		<bit name="RotateOcclusionTestingBoxWithLensFlare" index="0" />
+		<bit name="NoOcclusionTest" index="1" />
+		<bit name="OnlyRenderInFirstPerson" index="2" />
+		<bit name="OnlyRenderInThirdPerson" index="3" />
+		<bit name="NoReflectionOpacityFeedback" index="4" />
+		<bit name="ScaleByMarker" index="5" />
+		<bit name="DoNotAutofade" index="6" />
+		<bit name="DoNotRenderWhileZoomed" index="7" />
+		<bit name="UseSeparateXAndYFalloffAngles" index="8" />
+	</flags16>
+	<int16 name="Runtime Flags" offset="0x32" visible="true" />
+	<enum16 name="Rotation Function" offset="0x34" visible="true">
+		<option name="None" value="0" />
+		<option name="RotationA" value="1" />
+		<option name="RotationB" value="2" />
+		<option name="RotationTranslation" value="3" />
+		<option name="Translation" value="4" />
+	</enum16>
+	<uint8 name="Padding0 0" offset="0x36" visible="false" />
+	<uint8 name="Padding0 1" offset="0x37" visible="false" />
+	<degree name="Rotation Function Scale" offset="0x38" visible="true" />
+	<enum16 name="Falloff Function" offset="0x3C" visible="true">
+		<option name="Linear" value="0" />
+		<option name="Late" value="1" />
+		<option name="VeryLate" value="2" />
+		<option name="Early" value="3" />
+		<option name="VeryEarly" value="4" />
+		<option name="Cosine" value="5" />
+		<option name="Zero" value="6" />
+		<option name="One" value="7" />
+	</enum16>
+	<uint8 name="Padding1 0" offset="0x3E" visible="false" />
+	<uint8 name="Padding1 1" offset="0x3F" visible="false" />
+	<tagblock name="Reflections" offset="0x40" visible="true" elementSize="0x30">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="AlignRotationWithScreenCenter" index="0" />
+			<bit name="RadiusNotScaledByDistance" index="1" />
+			<bit name="RadiusScaledByOcclusionFactor" index="2" />
+			<bit name="OccludedBySolidObjects" index="3" />
+			<bit name="IgnoreLightColor" index="4" />
+			<bit name="NotAffectedByInnerOcclusion" index="5" />
+			<bit name="Bit6" index="6" />
+			<bit name="Bit7" index="7" />
+			<bit name="Bit8" index="8" />
+			<bit name="Bit9" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="Bit11" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<int16 name="Bitmap Index" offset="0x2" visible="true" />
+		<float32 name="Axis Offset" offset="0x4" visible="true" />
+		<float32 name="Rotation Offset H3" offset="0x8" visible="true" />
+		<rangef name="Radius Bounds" offset="0xC" visible="true" />
+		<rangef name="Brightness Bounds" offset="0x14" visible="true" />
+		<float32 name="Tint Modulation Factor Gen3" offset="0x1C" visible="true" />
+		<colorf name="Tint Color" offset="0x20" alpha="false" visible="true" />
+		<float32 name="Tint Power" offset="0x2C" visible="true" />
+	</tagblock>
+	<flags16 name="Animation Flags" offset="0x4C" visible="true">
+		<bit name="Synchronized" index="0" />
+	</flags16>
+	<uint8 name="Padding2 0" offset="0x4E" visible="false" />
+	<uint8 name="Padding2 1" offset="0x4F" visible="false" />
+	<tagblock name="Time Brightness" offset="0x50" visible="true" elementSize="0x14">
+		<dataref name="Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Age Brightness" offset="0x5C" visible="true" elementSize="0x14">
+		<dataref name="Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Time Color" offset="0x68" visible="true" elementSize="0x24">
+		<stringid name="Input Variable" offset="0x0" visible="true" />
+		<stringid name="Range Variable" offset="0x4" visible="true" />
+		<enum16 name="Output Modifier" offset="0x8" visible="true">
+			<option name="None" value="0" />
+			<option name="Add" value="1" />
+			<option name="Multiply" value="2" />
+		</enum16>
+		<uint8 name="Padding0 0" offset="0xA" visible="false" />
+		<uint8 name="Padding0 1" offset="0xB" visible="false" />
+		<stringid name="Output Modifier Input" offset="0xC" visible="true" />
+		<dataref name="Function / Data" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Age Color" offset="0x74" visible="true" elementSize="0x24">
+		<stringid name="Input Variable" offset="0x0" visible="true" />
+		<stringid name="Range Variable" offset="0x4" visible="true" />
+		<enum16 name="Output Modifier" offset="0x8" visible="true">
+			<option name="None" value="0" />
+			<option name="Add" value="1" />
+			<option name="Multiply" value="2" />
+		</enum16>
+		<uint8 name="Padding0 0" offset="0xA" visible="false" />
+		<uint8 name="Padding0 1" offset="0xB" visible="false" />
+		<stringid name="Output Modifier Input" offset="0xC" visible="true" />
+		<dataref name="Function / Data" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Time Rotation" offset="0x80" visible="true" elementSize="0x14">
+		<dataref name="Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Age Rotation" offset="0x8C" visible="true" elementSize="0x14">
+		<dataref name="Function / Data" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>

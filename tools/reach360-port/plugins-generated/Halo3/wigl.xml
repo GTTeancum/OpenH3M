@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x160">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.UserInterfaceSharedGlobalsDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int16 name="Inc Text Update Period" offset="0x0" visible="true" />
+	<int16 name="Inc Text Block Character" offset="0x2" visible="true" />
+	<float32 name="Near Clip Plane Distance" offset="0x4" visible="true" />
+	<float32 name="Projection Plane Distance" offset="0x8" visible="true" />
+	<float32 name="Far Clip Plane Distance" offset="0xC" visible="true" />
+	<tagref name="Global Strings" offset="0x10" visible="true" />
+	<tagref name="Damage Reporting Strings" offset="0x20" visible="true" />
+	<tagref name="Main Menu Music" offset="0x30" visible="true" />
+	<int32 name="Music Fade Time" offset="0x40" visible="true" />
+	<colorf name="Text Color" offset="0x44" alpha="true" visible="true" />
+	<colorf name="Text Shadow Color" offset="0x54" alpha="true" visible="true" />
+	<tagblock name="Color Presets" offset="0x64" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<colorf name="Color" offset="0x4" alpha="true" visible="true" />
+	</tagblock>
+	<tagblock name="Player Tint Colors" offset="0x70" visible="true" elementSize="0x30">
+		<tagblock name="Player Text Color" offset="0x0" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+		</tagblock>
+		<tagblock name="Team Text Color" offset="0xC" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+		</tagblock>
+		<tagblock name="Player Ui Color" offset="0x18" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+		</tagblock>
+		<tagblock name="Team Ui Color" offset="0x24" visible="true" elementSize="0x10">
+			<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagref name="Default Sounds" offset="0x7C" visible="true" />
+	<tagblock name="Alert Descriptions" offset="0x8C" visible="true" elementSize="0x10">
+		<stringid name="Error Name" offset="0x0" visible="true" />
+		<flags8 name="Flags" offset="0x4" visible="true">
+			<bit name="AllowAutoDismissal" index="0" />
+			<bit name="ShowSpinner" index="1" />
+		</flags8>
+		<enum8 name="Error Category" offset="0x5" visible="true">
+			<option name="Default" value="0" />
+			<option name="Networking" value="1" />
+			<option name="StoragereadingwritingFailure" value="2" />
+			<option name="Controller" value="3" />
+		</enum8>
+		<enum8 name="Icon" offset="0x6" visible="true">
+			<option name="None" value="0" />
+			<option name="Download" value="1" />
+			<option name="Pause" value="2" />
+			<option name="Upload" value="3" />
+			<option name="Checkbox" value="4" />
+		</enum8>
+		<uint8 name="Pad0 0" offset="0x7" visible="false" />
+		<stringid name="Title" offset="0x8" visible="true" />
+		<stringid name="Message" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Dialog Descriptions" offset="0x98" visible="true" elementSize="0x28">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x4" visible="true">
+			<bit name="Unused" index="0" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Padding 1" offset="0x7" visible="false" />
+		<stringid name="Title" offset="0x8" visible="true" />
+		<stringid name="Body" offset="0xC" visible="true" />
+		<stringid name="First Item" offset="0x10" visible="true" />
+		<stringid name="Second Item" offset="0x14" visible="true" />
+		<stringid name="Third Item" offset="0x18" visible="true" />
+		<stringid name="Fourth Item" offset="0x1C" visible="true" />
+		<stringid name="Key Legend" offset="0x20" visible="true" />
+		<enum16 name="Default Option" offset="0x24" visible="true">
+			<option name="FirstItem" value="0" />
+			<option name="SecondItem" value="1" />
+			<option name="ThirdItem" value="2" />
+			<option name="FourthItem" value="3" />
+		</enum16>
+		<enum16 name="B Button Action" offset="0x26" visible="true">
+			<option name="DismissesDialog" value="0" />
+			<option name="ButtonIgnored" value="1" />
+			<option name="FirstItemActivates" value="2" />
+			<option name="SecondItemActivates" value="3" />
+			<option name="ThirdItemActivates" value="4" />
+			<option name="FourthItemActivates" value="5" />
+		</enum16>
+	</tagblock>
+	<tagblock name="Global Data Sources" offset="0xA4" visible="true" elementSize="0x10">
+		<tagref name="Data Source" offset="0x0" visible="true" />
+	</tagblock>
+	<point2 name="Widescreen Bitmap Scale" offset="0xB0" visible="true" />
+	<point2 name="Standard Bitmap Scale" offset="0xB8" visible="true" />
+	<point2 name="Menu Blur Factor" offset="0xC0" visible="true" />
+	<ascii name="Mc Biped Name" offset="0xC8" visible="true" size="0x20" />
+	<ascii name="Mc Ai Squad Name" offset="0xE8" visible="true" size="0x20" />
+	<stringid name="Mc Ai Start Position" offset="0x108" visible="true" />
+	<ascii name="Elite Biped Name" offset="0x10C" visible="true" size="0x20" />
+	<ascii name="Elite Ai Squad Name" offset="0x12C" visible="true" size="0x20" />
+	<stringid name="Elite Ai Start Position" offset="0x14C" visible="true" />
+	<int32 name="Navigation Scroll Interval" offset="0x150" visible="true" />
+	<int32 name="Navigation Fast Scroll Delay" offset="0x154" visible="true" />
+	<int32 name="Navigation Fast Scroll Interval" offset="0x158" visible="true" />
+	<int32 name="Attract Video Delay" offset="0x15C" visible="true" />
+</plugin>

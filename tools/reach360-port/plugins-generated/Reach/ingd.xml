@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.IncidentGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Incidents" offset="0x0" visible="true" elementSize="0x54">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags8 name="Flags" offset="0x4" visible="true">
+			<bit name="NeverNetwork" index="0" />
+			<bit name="AlwaysNetworkToEveryone" index="1" />
+			<bit name="UseLongDelay" index="2" />
+			<bit name="ForceGameEngineEventDisplayInCampaign" index="3" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+		<flags8 name="Disallowed Game Modes / Game Mode" offset="0x8" visible="true">
+			<bit name="Campaign" index="0" />
+			<bit name="Firefight" index="1" />
+			<bit name="Multiplayer" index="2" />
+		</flags8>
+		<flags8 name="Disallowed Game Modes / Matchmaking Type" offset="0x9" visible="true">
+			<bit name="CustomGame" index="0" />
+			<bit name="Matchmaking" index="1" />
+		</flags8>
+		<flags8 name="Disallowed Game Modes / Difficulty" offset="0xA" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Normal" index="1" />
+			<bit name="Heroic" index="2" />
+			<bit name="Legendary" index="3" />
+		</flags8>
+		<enum8 name="Disallowed Game Modes / Player Count" offset="0xB" visible="true">
+			<option name="Any" value="0" />
+			<option name="_1PlayerOnly" value="1" />
+			<option name="_4PlayersOnly" value="2" />
+			<option name="MoreThanOnePlayer" value="3" />
+		</enum8>
+		<tagblock name="Suppressed Incidents" offset="0xC" visible="true" elementSize="0x8">
+			<stringid name="Incident Name" offset="0x0" visible="true" />
+			<flags8 name="Suppression Type" offset="0x4" visible="true">
+				<bit name="SuppressCausePlayerGameEngineEvent" index="0" />
+				<bit name="SuppressEffectPlayerGameEngineEvent" index="1" />
+				<bit name="SuppressCauseTeamGameEngineEvent" index="2" />
+				<bit name="SuppressEffectTeamGameEngineEvent" index="3" />
+				<bit name="SuppressMedalDisplay" index="4" />
+				<bit name="SuppressMedalStats" index="5" />
+				<bit name="SuppressFanfare" index="6" />
+				<bit name="SuppressAudio" index="7" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x5" visible="false" />
+			<uint8 name="Padding 1" offset="0x6" visible="false" />
+			<uint8 name="Padding 2" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Suppressed Incident Blocks" offset="0x18" visible="true" elementSize="0x10">
+			<tagref name="Suppression Block" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Specialized Incidents" offset="0x24" visible="true" elementSize="0x64">
+			<stringid name="Base Incident" offset="0x0" visible="true" />
+			<tagblock name="Kill Implements" offset="0x4" visible="true" elementSize="0x4">
+				<enum8 name="Damage Reporting Type" offset="0x0" visible="true">
+					<option name="Unknown" value="0" />
+					<option name="TehGuardians" value="1" />
+					<option name="Scripting" value="2" />
+					<option name="AiSuicide" value="3" />
+					<option name="ForerunnerSmg" value="4" />
+					<option name="SpreadGun" value="5" />
+					<option name="ForerunnerRifle" value="6" />
+					<option name="ForerunnerSniper" value="7" />
+					<option name="BishopBeam" value="8" />
+					<option name="BoltPistol" value="9" />
+					<option name="PulseGrenade" value="10" />
+					<option name="IncinerationLauncher" value="11" />
+					<option name="MagnumPistol" value="12" />
+					<option name="AssaultRifle" value="13" />
+					<option name="MarksmanRifle" value="14" />
+					<option name="Shotgun" value="15" />
+					<option name="BattleRifle" value="16" />
+					<option name="SniperRifle" value="17" />
+					<option name="RocketLauncher" value="18" />
+					<option name="SpartanLaser" value="19" />
+					<option name="FragGrenade" value="20" />
+					<option name="StickyGrenadeLauncher" value="21" />
+					<option name="LightMachineGun" value="22" />
+					<option name="RailGun" value="23" />
+					<option name="PlasmaPistol" value="24" />
+					<option name="Needler" value="25" />
+					<option name="GravityHammer" value="26" />
+					<option name="EnergySword" value="27" />
+					<option name="PlasmaGrenade" value="28" />
+					<option name="Carbine" value="29" />
+					<option name="BeamRifle" value="30" />
+					<option name="AssaultCarbine" value="31" />
+					<option name="ConcussionRifle" value="32" />
+					<option name="FuelRodCannon" value="33" />
+					<option name="Ghost" value="34" />
+					<option name="RevenantDriver" value="35" />
+					<option name="RevenantGunner" value="36" />
+					<option name="Wraith" value="37" />
+					<option name="WraithAntiInfantry" value="38" />
+					<option name="Banshee" value="39" />
+					<option name="BansheeBomb" value="40" />
+					<option name="Seraph" value="41" />
+					<option name="RevenantDeuxDriver" value="42" />
+					<option name="RevenantDeuxGunner" value="43" />
+					<option name="LichDriver" value="44" />
+					<option name="LichGunner" value="45" />
+					<option name="Mongoose" value="46" />
+					<option name="WarthogDriver" value="47" />
+					<option name="WarthogGunner" value="48" />
+					<option name="WarthogGunnerGauss" value="49" />
+					<option name="WarthogGunnerRocket" value="50" />
+					<option name="Scorpion" value="51" />
+					<option name="ScorpionGunner" value="52" />
+					<option name="FalconDriver" value="53" />
+					<option name="FalconGunner" value="54" />
+					<option name="WaspDriver" value="55" />
+					<option name="WaspGunner" value="56" />
+					<option name="WaspGunnerHeavy" value="57" />
+					<option name="MechMelee" value="58" />
+					<option name="MechChaingun" value="59" />
+					<option name="MechCannon" value="60" />
+					<option name="MechRocket" value="61" />
+					<option name="Broadsword" value="62" />
+					<option name="BroadswordMissile" value="63" />
+					<option name="TortoiseDriver" value="64" />
+					<option name="TortoiseGunner" value="65" />
+					<option name="MacCannon" value="66" />
+					<option name="TargetDesignator" value="67" />
+					<option name="OrdnanceDropPod" value="68" />
+					<option name="OrbitalCruiseMissile" value="69" />
+					<option name="PortableShield" value="70" />
+					<option name="PersonalAutoTurret" value="71" />
+					<option name="ThrusterPack" value="72" />
+					<option name="FallingDamage" value="73" />
+					<option name="GenericCollisionDamage" value="74" />
+					<option name="GenericMeleeDamage" value="75" />
+					<option name="GenericExplosion" value="76" />
+					<option name="FireDamage" value="77" />
+					<option name="BirthdayPartyExplosion" value="78" />
+					<option name="FlagMeleeDamage" value="79" />
+					<option name="BombMeleeDamage" value="80" />
+					<option name="BombExplosionDamage" value="81" />
+					<option name="BallMeleeDamage" value="82" />
+					<option name="Teleporter" value="83" />
+					<option name="TransferDamage" value="84" />
+					<option name="ArmorLockCrush" value="85" />
+					<option name="HumanTurret" value="86" />
+					<option name="PlasmaCannon" value="87" />
+					<option name="PlasmaMortar" value="88" />
+					<option name="PlasmaTurret" value="89" />
+					<option name="ShadeTurret" value="90" />
+					<option name="ForerunnerTurret" value="91" />
+					<option name="Tank" value="92" />
+					<option name="Chopper" value="93" />
+					<option name="Hornet" value="94" />
+					<option name="Mantis" value="95" />
+					<option name="MagnumPistolCtf" value="96" />
+					<option name="FloodProngs" value="97" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<uint8 name="Padding 1" offset="0x2" visible="false" />
+				<uint8 name="Padding 2" offset="0x3" visible="false" />
+			</tagblock>
+			<tagblock name="Cause Object" offset="0x10" visible="true" elementSize="0x34">
+				<flags32 name="Flags" offset="0x0" visible="true">
+					<bit name="Player" index="0" />
+					<bit name="Ai" index="1" />
+					<bit name="_343iEmployee" index="2" />
+					<bit name="Hologram" index="3" />
+					<bit name="Airborne" index="4" />
+					<bit name="Sprinting" index="5" />
+					<bit name="Crouched" index="6" />
+					<bit name="Reloading" index="7" />
+					<bit name="NotFancyAssassinating" index="8" />
+					<bit name="FancyAssassinating" index="9" />
+					<bit name="BeingFancyAssassinated" index="10" />
+					<bit name="LowHealth" index="11" />
+					<bit name="Unshielded" index="12" />
+					<bit name="InStasisField" index="13" />
+					<bit name="ActiveCamouflageActive" index="14" />
+					<bit name="HologramActive" index="15" />
+					<bit name="JetpackActive" index="16" />
+					<bit name="PortableAutomatedTurretActive" index="17" />
+					<bit name="ReflectiveShieldActive" index="18" />
+					<bit name="ThrusterPackActive" index="19" />
+					<bit name="XRayVisionActive" index="20" />
+					<bit name="ActiveCamouflageActiveAndEffective" index="21" />
+					<bit name="HologramRecentlyActivated" index="22" />
+					<bit name="ThrusterPackRecentlyActivated" index="23" />
+					<bit name="HologramTookDamageFromOtherPlayer" index="24" />
+					<bit name="HologramDidNotTakeDamageFromOtherPlayer" index="25" />
+					<bit name="ActiveShieldRecentlyActivated" index="26" />
+					<bit name="InAFullVehicle" index="27" />
+					<bit name="ScopedIn" index="28" />
+					<bit name="NotScopedIn" index="29" />
+					<bit name="JackingVehicle" index="30" />
+					<bit name="Airsassination" index="31" />
+				</flags32>
+				<enum8 name="Bucket Type" offset="0x4" visible="true">
+					<option name="Any" value="0" />
+					<option name="Brute" value="1" />
+					<option name="Grunt" value="2" />
+					<option name="Jackel" value="3" />
+					<option name="Skirmisher" value="4" />
+					<option name="Marine" value="5" />
+					<option name="Spartan" value="6" />
+					<option name="Bugger" value="7" />
+					<option name="Hunter" value="8" />
+					<option name="FloodInfection" value="9" />
+					<option name="FloodCarrier" value="10" />
+					<option name="FloodCombat" value="11" />
+					<option name="FloodPure" value="12" />
+					<option name="Sentinel" value="13" />
+					<option name="Elite" value="14" />
+					<option name="Engineer" value="15" />
+					<option name="Mule" value="16" />
+					<option name="Turret" value="17" />
+					<option name="Mongoose" value="18" />
+					<option name="Warthog" value="19" />
+					<option name="Scorpion" value="20" />
+					<option name="Hornet" value="21" />
+					<option name="Pelican" value="22" />
+					<option name="Revenant" value="23" />
+					<option name="Seraph" value="24" />
+					<option name="Shade" value="25" />
+					<option name="Watchtower" value="26" />
+					<option name="Ghost" value="27" />
+					<option name="Chopper" value="28" />
+					<option name="Mauler" value="29" />
+					<option name="Wraith" value="30" />
+					<option name="Banshee" value="31" />
+					<option name="Phantom" value="32" />
+					<option name="Scarab" value="33" />
+					<option name="Guntower" value="34" />
+					<option name="TuningFork" value="35" />
+					<option name="Broadsword" value="36" />
+					<option name="Mammoth" value="37" />
+					<option name="Lich" value="38" />
+					<option name="Mantis" value="39" />
+					<option name="Wasp" value="40" />
+					<option name="Phaeton" value="41" />
+					<option name="Bishop" value="42" />
+					<option name="Knight" value="43" />
+					<option name="Pawn" value="44" />
+				</enum8>
+				<enum8 name="Bucket Class" offset="0x5" visible="true">
+					<option name="Any" value="0" />
+					<option name="Infantry" value="1" />
+					<option name="Leader" value="2" />
+					<option name="Hero" value="3" />
+					<option name="Specialist" value="4" />
+					<option name="LightVehicle" value="5" />
+					<option name="HeavyVehicle" value="6" />
+					<option name="GiantVehicle" value="7" />
+					<option name="StandardVehicle" value="8" />
+				</enum8>
+				<flags16 name="Secondary Flags" offset="0x6" visible="true">
+					<bit name="LaunchedFromManCannon" index="0" />
+					<bit name="InAirborneVehicle" index="1" />
+					<bit name="NotInVehicle" index="2" />
+				</flags16>
+				<ascii name="Gamertag" offset="0x8" visible="true" size="0x20" />
+				<tagblock name="Riding In Vehicles" offset="0x28" visible="true" elementSize="0x4">
+					<enum32 name="Vehicle Type" offset="0x0" visible="true">
+						<option name="VehicleTypeHumanTank" value="0" />
+						<option name="VehicleTypeHumanJeep" value="1" />
+						<option name="VehicleTypeHumanPlane" value="2" />
+						<option name="VehicleTypeWolverine" value="3" />
+						<option name="VehicleTypeAlienScout" value="4" />
+						<option name="VehicleTypeAlienFighter" value="5" />
+						<option name="VehicleTypeTurret" value="6" />
+						<option name="VehicleTypeMantis" value="7" />
+						<option name="VehicleTypeVtol" value="8" />
+						<option name="VehicleTypeChopper" value="9" />
+						<option name="VehicleTypeGuardian" value="10" />
+						<option name="VehicleTypeJackalGlider" value="11" />
+						<option name="VehicleTypeBoat" value="12" />
+						<option name="VehicleTypeSpaceFighter" value="13" />
+						<option name="VehicleTypeRevenant" value="14" />
+					</enum32>
+				</tagblock>
+			</tagblock>
+			<tagblock name="Effect Object" offset="0x1C" visible="true" elementSize="0x34">
+				<flags32 name="Flags" offset="0x0" visible="true">
+					<bit name="Player" index="0" />
+					<bit name="Ai" index="1" />
+					<bit name="_343iEmployee" index="2" />
+					<bit name="Hologram" index="3" />
+					<bit name="Airborne" index="4" />
+					<bit name="Sprinting" index="5" />
+					<bit name="Crouched" index="6" />
+					<bit name="Reloading" index="7" />
+					<bit name="NotFancyAssassinating" index="8" />
+					<bit name="FancyAssassinating" index="9" />
+					<bit name="BeingFancyAssassinated" index="10" />
+					<bit name="LowHealth" index="11" />
+					<bit name="Unshielded" index="12" />
+					<bit name="InStasisField" index="13" />
+					<bit name="ActiveCamouflageActive" index="14" />
+					<bit name="HologramActive" index="15" />
+					<bit name="JetpackActive" index="16" />
+					<bit name="PortableAutomatedTurretActive" index="17" />
+					<bit name="ReflectiveShieldActive" index="18" />
+					<bit name="ThrusterPackActive" index="19" />
+					<bit name="XRayVisionActive" index="20" />
+					<bit name="ActiveCamouflageActiveAndEffective" index="21" />
+					<bit name="HologramRecentlyActivated" index="22" />
+					<bit name="ThrusterPackRecentlyActivated" index="23" />
+					<bit name="HologramTookDamageFromOtherPlayer" index="24" />
+					<bit name="HologramDidNotTakeDamageFromOtherPlayer" index="25" />
+					<bit name="ActiveShieldRecentlyActivated" index="26" />
+					<bit name="InAFullVehicle" index="27" />
+					<bit name="ScopedIn" index="28" />
+					<bit name="NotScopedIn" index="29" />
+					<bit name="JackingVehicle" index="30" />
+					<bit name="Airsassination" index="31" />
+				</flags32>
+				<enum8 name="Bucket Type" offset="0x4" visible="true">
+					<option name="Any" value="0" />
+					<option name="Brute" value="1" />
+					<option name="Grunt" value="2" />
+					<option name="Jackel" value="3" />
+					<option name="Skirmisher" value="4" />
+					<option name="Marine" value="5" />
+					<option name="Spartan" value="6" />
+					<option name="Bugger" value="7" />
+					<option name="Hunter" value="8" />
+					<option name="FloodInfection" value="9" />
+					<option name="FloodCarrier" value="10" />
+					<option name="FloodCombat" value="11" />
+					<option name="FloodPure" value="12" />
+					<option name="Sentinel" value="13" />
+					<option name="Elite" value="14" />
+					<option name="Engineer" value="15" />
+					<option name="Mule" value="16" />
+					<option name="Turret" value="17" />
+					<option name="Mongoose" value="18" />
+					<option name="Warthog" value="19" />
+					<option name="Scorpion" value="20" />
+					<option name="Hornet" value="21" />
+					<option name="Pelican" value="22" />
+					<option name="Revenant" value="23" />
+					<option name="Seraph" value="24" />
+					<option name="Shade" value="25" />
+					<option name="Watchtower" value="26" />
+					<option name="Ghost" value="27" />
+					<option name="Chopper" value="28" />
+					<option name="Mauler" value="29" />
+					<option name="Wraith" value="30" />
+					<option name="Banshee" value="31" />
+					<option name="Phantom" value="32" />
+					<option name="Scarab" value="33" />
+					<option name="Guntower" value="34" />
+					<option name="TuningFork" value="35" />
+					<option name="Broadsword" value="36" />
+					<option name="Mammoth" value="37" />
+					<option name="Lich" value="38" />
+					<option name="Mantis" value="39" />
+					<option name="Wasp" value="40" />
+					<option name="Phaeton" value="41" />
+					<option name="Bishop" value="42" />
+					<option name="Knight" value="43" />
+					<option name="Pawn" value="44" />
+				</enum8>
+				<enum8 name="Bucket Class" offset="0x5" visible="true">
+					<option name="Any" value="0" />
+					<option name="Infantry" value="1" />
+					<option name="Leader" value="2" />
+					<option name="Hero" value="3" />
+					<option name="Specialist" value="4" />
+					<option name="LightVehicle" value="5" />
+					<option name="HeavyVehicle" value="6" />
+					<option name="GiantVehicle" value="7" />
+					<option name="StandardVehicle" value="8" />
+				</enum8>
+				<flags16 name="Secondary Flags" offset="0x6" visible="true">
+					<bit name="LaunchedFromManCannon" index="0" />
+					<bit name="InAirborneVehicle" index="1" />
+					<bit name="NotInVehicle" index="2" />
+				</flags16>
+				<ascii name="Gamertag" offset="0x8" visible="true" size="0x20" />
+				<tagblock name="Riding In Vehicles" offset="0x28" visible="true" elementSize="0x4">
+					<enum32 name="Vehicle Type" offset="0x0" visible="true">
+						<option name="VehicleTypeHumanTank" value="0" />
+						<option name="VehicleTypeHumanJeep" value="1" />
+						<option name="VehicleTypeHumanPlane" value="2" />
+						<option name="VehicleTypeWolverine" value="3" />
+						<option name="VehicleTypeAlienScout" value="4" />
+						<option name="VehicleTypeAlienFighter" value="5" />
+						<option name="VehicleTypeTurret" value="6" />
+						<option name="VehicleTypeMantis" value="7" />
+						<option name="VehicleTypeVtol" value="8" />
+						<option name="VehicleTypeChopper" value="9" />
+						<option name="VehicleTypeGuardian" value="10" />
+						<option name="VehicleTypeJackalGlider" value="11" />
+						<option name="VehicleTypeBoat" value="12" />
+						<option name="VehicleTypeSpaceFighter" value="13" />
+						<option name="VehicleTypeRevenant" value="14" />
+					</enum32>
+				</tagblock>
+			</tagblock>
+			<tagblock name="Special Kill Type" offset="0x28" visible="true" elementSize="0x4">
+				<enum8 name="Special Kill Type" offset="0x0" visible="true">
+					<option name="Headshot" value="0" />
+					<option name="GrenadeStick" value="1" />
+					<option name="StealthKill" value="2" />
+					<option name="FancyAssassination" value="3" />
+					<option name="Superdetonation" value="4" />
+					<option name="EmpKill" value="5" />
+					<option name="Melee" value="6" />
+					<option name="Collision" value="7" />
+					<option name="LeaderKilled" value="8" />
+					<option name="TeamEliminationKill" value="9" />
+					<option name="FfaEliminationKill" value="10" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<uint8 name="Padding 1" offset="0x2" visible="false" />
+				<uint8 name="Padding 2" offset="0x3" visible="false" />
+			</tagblock>
+			<tagblock name="Game Over Filter" offset="0x34" visible="true" elementSize="0x8">
+				<flags16 name="Flags" offset="0x0" visible="true">
+					<bit name="KilledAllEnemies" index="0" />
+					<bit name="HighestScore" index="1" />
+					<bit name="Top3Score" index="2" />
+					<bit name="Winner" index="3" />
+					<bit name="Hosted" index="4" />
+					<bit name="CheckMegaloCategory" index="5" />
+					<bit name="Loser" index="6" />
+					<bit name="Tied" index="7" />
+					<bit name="NotTied" index="8" />
+				</flags16>
+				<int16 name="Minimum Game Length" offset="0x2" visible="true" />
+				<int8 name="Megalo Category Index" offset="0x4" visible="true" />
+				<uint8 name="Padding 0" offset="0x5" visible="false" />
+				<uint8 name="Padding 1" offset="0x6" visible="false" />
+				<uint8 name="Padding 2" offset="0x7" visible="false" />
+			</tagblock>
+			<tagblock name="Ordnance Filter" offset="0x40" visible="true" elementSize="0x4">
+				<stringid name="Ordnance Name" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Custom Data Filter" offset="0x4C" visible="true" elementSize="0x8">
+				<flags8 name="Flags" offset="0x0" visible="true">
+					<bit name="EqualTo" index="0" />
+					<bit name="GreaterThan" index="1" />
+					<bit name="LessThan" index="2" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<uint8 name="Padding 1" offset="0x2" visible="false" />
+				<uint8 name="Padding 2" offset="0x3" visible="false" />
+				<int32 name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Distance Filter" offset="0x58" visible="true" elementSize="0x8">
+				<flags8 name="Flags" offset="0x0" visible="true">
+					<bit name="EqualTo" index="0" />
+					<bit name="GreaterThan" index="1" />
+					<bit name="LessThan" index="2" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<uint8 name="Padding 1" offset="0x2" visible="false" />
+				<uint8 name="Padding 2" offset="0x3" visible="false" />
+				<int32 name="Distance Between Effect And Cause Player" offset="0x4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Accumulator Incidents" offset="0x30" visible="true" elementSize="0x10">
+			<enum8 name="Aggregation Type" offset="0x0" visible="true">
+				<option name="All" value="0" />
+				<option name="Any" value="1" />
+			</enum8>
+			<enum8 name="Resets On" offset="0x1" visible="true">
+				<option name="FourSecondsSinceLastEvent" value="0" />
+				<option name="PlayerDeath" value="1" />
+				<option name="RoundOver" value="2" />
+				<option name="GameOver" value="3" />
+				<option name="OnIncident" value="4" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Child Incidents" offset="0x4" visible="true" elementSize="0x14">
+				<flags8 name="Flags" offset="0x0" visible="true">
+					<bit name="EqualTo" index="0" />
+					<bit name="GreaterThan" index="1" />
+					<bit name="LessThan" index="2" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<uint8 name="Padding 1" offset="0x2" visible="false" />
+				<uint8 name="Padding 2" offset="0x3" visible="false" />
+				<int32 name="Count" offset="0x4" visible="true" />
+				<stringid name="Incident Name" offset="0x8" visible="true" />
+				<stringid name="Reset Incident Name" offset="0xC" visible="true" />
+				<float32 name="Reset Timeout" offset="0x10" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Sum Accumulator Incidents" offset="0x3C" visible="true" elementSize="0x14">
+			<enum8 name="Resets On" offset="0x0" visible="true">
+				<option name="FourSecondsSinceLastEvent" value="0" />
+				<option name="PlayerDeath" value="1" />
+				<option name="RoundOver" value="2" />
+				<option name="GameOver" value="3" />
+				<option name="OnIncident" value="4" />
+			</enum8>
+			<flags8 name="Flags" offset="0x1" visible="true">
+				<bit name="EqualTo" index="0" />
+				<bit name="GreaterThan" index="1" />
+				<bit name="LessThan" index="2" />
+			</flags8>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<int32 name="Count" offset="0x4" visible="true" />
+			<tagblock name="Child Incidents" offset="0x8" visible="true" elementSize="0xC">
+				<stringid name="Incident Name" offset="0x0" visible="true" />
+				<stringid name="Reset Incident Name" offset="0x4" visible="true" />
+				<float32 name="Reset Timeout" offset="0x8" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Response" offset="0x48" visible="true" elementSize="0x54">
+			<flags8 name="Allowed Game Modes / Game Mode" offset="0x0" visible="true">
+				<bit name="Campaign" index="0" />
+				<bit name="Firefight" index="1" />
+				<bit name="Multiplayer" index="2" />
+			</flags8>
+			<flags8 name="Allowed Game Modes / Matchmaking Type" offset="0x1" visible="true">
+				<bit name="CustomGame" index="0" />
+				<bit name="Matchmaking" index="1" />
+			</flags8>
+			<flags8 name="Allowed Game Modes / Difficulty" offset="0x2" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags8>
+			<enum8 name="Allowed Game Modes / Player Count" offset="0x3" visible="true">
+				<option name="Any" value="0" />
+				<option name="_1PlayerOnly" value="1" />
+				<option name="_4PlayersOnly" value="2" />
+				<option name="MoreThanOnePlayer" value="3" />
+			</enum8>
+			<stringid name="Allowed Level Name" offset="0x4" visible="true" />
+			<flags32 name="Required Skulls" offset="0x8" visible="true">
+				<bit name="SkullIron" index="0" />
+				<bit name="SkullBlackEye" index="1" />
+				<bit name="SkullToughLuck" index="2" />
+				<bit name="SkullCatch" index="3" />
+				<bit name="SkullFog" index="4" />
+				<bit name="SkullFamine" index="5" />
+				<bit name="SkullThunderstorm" index="6" />
+				<bit name="SkullTilt" index="7" />
+				<bit name="SkullMythic" index="8" />
+				<bit name="SkullAssassin" index="9" />
+				<bit name="SkullBlind" index="10" />
+				<bit name="SkullSuperman" index="11" />
+				<bit name="SkullBirthdayParty" index="12" />
+				<bit name="SkullDaddy" index="13" />
+				<bit name="SkullRed" index="14" />
+				<bit name="SkullYellow" index="15" />
+				<bit name="SkullBlue" index="16" />
+			</flags32>
+			<int32 name="Heat Award" offset="0xC" visible="true" />
+			<stringid name="Game Engine Event" offset="0x10" visible="true" />
+			<stringid name="Medal" offset="0x14" visible="true" />
+			<stringid name="Commendation" offset="0x18" visible="true" />
+			<stringid name="Achievement" offset="0x1C" visible="true" />
+			<stringid name="Avatar Award" offset="0x20" visible="true" />
+			<tagblock name="Challenges" offset="0x24" visible="true" elementSize="0x4">
+				<stringid name="Daily Challenge" offset="0x0" visible="true" />
+			</tagblock>
+			<stringid name="Hs Script" offset="0x30" visible="true" />
+			<int16 name="Internal Hs Script Index" offset="0x34" visible="true" />
+			<uint8 name="Padding 0" offset="0x36" visible="false" />
+			<uint8 name="Padding 1" offset="0x37" visible="false" />
+			<tagblock name="Fanfare" offset="0x38" visible="true" elementSize="0x34">
+				<int32 name="Priority" offset="0x0" visible="true" />
+				<enum8 name="Queue Type" offset="0x4" visible="true">
+					<option name="Center" value="0" />
+					<option name="GameMode" value="1" />
+					<option name="Territory" value="2" />
+					<option name="GameModeSecondary" value="3" />
+					<option name="Ordnance" value="4" />
+				</enum8>
+				<flags8 name="Excluded Audience" offset="0x5" visible="true">
+					<bit name="None" index="0" />
+					<bit name="CausePlayer" index="1" />
+					<bit name="CauseTeam" index="2" />
+					<bit name="EffectPlayer" index="3" />
+					<bit name="EffectTeam" index="4" />
+				</flags8>
+				<flags8 name="Broad Cast Message" offset="0x6" visible="true">
+					<bit name="BroadCastMessage" index="0" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x7" visible="false" />
+				<stringid name="Fanfare String" offset="0x8" visible="true" />
+				<int16 name="Fanfare Sprite Index" offset="0xC" visible="true" />
+				<int16 name="Display Time In Seconds" offset="0xE" visible="true" />
+				<tagref name="Hud Screen Reference" offset="0x10" visible="true" />
+				<tagref name="Sound Response" offset="0x20" visible="true" />
+				<stringid name="Carried Object Type" offset="0x30" visible="true" />
+			</tagblock>
+			<tagref name="Sound Response" offset="0x44" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

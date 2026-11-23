@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.AiGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Data" offset="0x0" visible="true" elementSize="0x1B0">
+		<float32 name="Ai Infantry On Ai Weapon Damage Scale" offset="0x0" visible="true" />
+		<float32 name="Ai Vehicle On Ai Weapon Damage Scale" offset="0x4" visible="true" />
+		<float32 name="Ai In Player Vehicle On Ai Weapon Damage Scale" offset="0x8" visible="true" />
+		<float32 name="Danger Broadly Facing" offset="0xC" visible="true" />
+		<float32 name="Danger Shooting Near" offset="0x10" visible="true" />
+		<float32 name="Danger Shooting At" offset="0x14" visible="true" />
+		<float32 name="Danger Extremely Close" offset="0x18" visible="true" />
+		<float32 name="Danger Shield Damage" offset="0x1C" visible="true" />
+		<float32 name="Danger Extended Shield Damage" offset="0x20" visible="true" />
+		<float32 name="Danger Body Damage" offset="0x24" visible="true" />
+		<float32 name="Danger Extended Body Damage" offset="0x28" visible="true" />
+		<tagref name="Global Dialogue" offset="0x2C" visible="true" />
+		<stringid name="Default Mission Dialogue Sound Effect" offset="0x3C" visible="true" />
+		<float32 name="Jump Down" offset="0x40" visible="true" />
+		<float32 name="Jump Step" offset="0x44" visible="true" />
+		<float32 name="Jump Crouch" offset="0x48" visible="true" />
+		<float32 name="Jump Stand" offset="0x4C" visible="true" />
+		<float32 name="Jump Storey" offset="0x50" visible="true" />
+		<float32 name="Jump Tower" offset="0x54" visible="true" />
+		<uint8 name="Reach Padding 0" offset="0x58" visible="false" />
+		<uint8 name="Reach Padding 1" offset="0x59" visible="false" />
+		<uint8 name="Reach Padding 2" offset="0x5A" visible="false" />
+		<uint8 name="Reach Padding 3" offset="0x5B" visible="false" />
+		<float32 name="Max Jump Down Height Down" offset="0x5C" visible="true" />
+		<float32 name="Max Jump Down Height Step" offset="0x60" visible="true" />
+		<float32 name="Max Jump Down Height Crouch" offset="0x64" visible="true" />
+		<float32 name="Max Jump Down Height Stand" offset="0x68" visible="true" />
+		<float32 name="Max Jump Down Height Storey" offset="0x6C" visible="true" />
+		<float32 name="Max Jump Down Height Tower" offset="0x70" visible="true" />
+		<uint8 name="Reach Padding1 0" offset="0x74" visible="false" />
+		<uint8 name="Reach Padding1 1" offset="0x75" visible="false" />
+		<uint8 name="Reach Padding1 2" offset="0x76" visible="false" />
+		<uint8 name="Reach Padding1 3" offset="0x77" visible="false" />
+		<rangef name="Hoist Step" offset="0x78" visible="true" />
+		<rangef name="Hoist Crouch" offset="0x80" visible="true" />
+		<rangef name="Hoist Stand" offset="0x88" visible="true" />
+		<rangef name="Vault Step" offset="0x90" visible="true" />
+		<rangef name="Vault Crouch" offset="0x98" visible="true" />
+		<float32 name="Pathfinding Search Ranges / Infantry" offset="0xA0" visible="true" />
+		<float32 name="Pathfinding Search Ranges / Flying" offset="0xA4" visible="true" />
+		<float32 name="Pathfinding Search Ranges / Vehicle" offset="0xA8" visible="true" />
+		<float32 name="Pathfinding Search Ranges / Giant" offset="0xAC" visible="true" />
+		<tagblock name="Gravemind Properties" offset="0xB0" visible="true" elementSize="0xC">
+			<float32 name="Minimum Retreat Time" offset="0x0" visible="true" />
+			<float32 name="Ideal Retreat Time" offset="0x4" visible="true" />
+			<float32 name="Maximum Retreat Time" offset="0x8" visible="true" />
+		</tagblock>
+		<float32 name="Scary Target Threshold" offset="0xBC" visible="true" />
+		<float32 name="Scary Weapon Threshold" offset="0xC0" visible="true" />
+		<float32 name="Player Scariness" offset="0xC4" visible="true" />
+		<float32 name="Berserking Actor Scariness" offset="0xC8" visible="true" />
+		<float32 name="Kamikazeing Actor Scariness" offset="0xCC" visible="true" />
+		<float32 name="Invincible Actor Scariness" offset="0xD0" visible="true" />
+		<float32 name="Minimum Death Time" offset="0xD4" visible="true" />
+		<float32 name="Projectile Distance" offset="0xD8" visible="true" />
+		<float32 name="Idle Clump Distance" offset="0xDC" visible="true" />
+		<float32 name="Dangerous Clump Distance" offset="0xE0" visible="true" />
+		<float32 name="Conver Search Duration" offset="0xE4" visible="true" />
+		<float32 name="Task Search Duration" offset="0xE8" visible="true" />
+		<tagblock name="Formations" offset="0xEC" visible="true" elementSize="0x10">
+			<tagref name="Instance" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Squad Templates" offset="0xF8" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Sub Folders" offset="0x4" visible="true" elementSize="0x10">
+				<stringid name="Sub Folder Name" offset="0x0" visible="true" />
+				<tagblock name="Templates" offset="0x4" visible="true" elementSize="0x10">
+					<tagref name="Squad Template" offset="0x0" visible="true" />
+				</tagblock>
+			</tagblock>
+			<tagblock name="Templates" offset="0x10" visible="true" elementSize="0x10">
+				<tagref name="Instance" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Performance Templates" offset="0x104" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Characters" offset="0x4" visible="true" elementSize="0x10">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagblock name="Templates" offset="0x4" visible="true" elementSize="0x10">
+					<uint32 name="Group (group tag)" offset="0x0" visible="true" />
+					<int32 name="Unused1" offset="0x4" visible="true" />
+					<int32 name="Unused2" offset="0x8" visible="true" />
+					<int32 name="Index" offset="0xC" visible="true" />
+				</tagblock>
+			</tagblock>
+			<tagblock name="Templates" offset="0x10" visible="true" elementSize="0x10">
+				<tagref name="Thespian Template" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Custom Stimuli" offset="0x110" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cue Templates" offset="0x11C" visible="true" elementSize="0x28">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Firing Points" offset="0x4" visible="true" elementSize="0x4">
+				<float32 name="Stimulus Type" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Stimulus" offset="0x10" visible="true" elementSize="0x4">
+				<stringid name="Stimulus Type" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Combat Cue" offset="0x1C" visible="true" elementSize="0x2C">
+				<point3 name="Position" offset="0x0" visible="true" />
+				<int16 name="Reference Frame" offset="0xC" visible="true" />
+				<int16 name="Structure Bsp" offset="0xE" visible="true" />
+				<flags16 name="Flags" offset="0x10" visible="true">
+					<bit name="Open" index="0" />
+					<bit name="Partial" index="1" />
+					<bit name="Closed" index="2" />
+					<bit name="Mobile" index="3" />
+					<bit name="WallLean" index="4" />
+					<bit name="Perch" index="5" />
+					<bit name="GroundPoint" index="6" />
+					<bit name="DynamicCoverPoint" index="7" />
+					<bit name="AutomaticallyGenerated" index="8" />
+				</flags16>
+				<flags16 name="Posture Flags" offset="0x12" visible="true">
+					<bit name="CornerLeft" index="0" />
+					<bit name="CornerRight" index="1" />
+					<bit name="Bunker" index="2" />
+					<bit name="BunkerHigh" index="3" />
+					<bit name="BunkerLow" index="4" />
+				</flags16>
+				<int16 name="Area" offset="0x14" visible="true" />
+				<int16 name="Cluster Index" offset="0x16" visible="true" />
+				<int16 name="Bsp Index" offset="0x18" visible="true" />
+				<int16 name="Sector Index" offset="0x1A" visible="true" />
+				<degree2 name="Normal" offset="0x1C" visible="true" />
+				<degree name="Facing" offset="0x24" visible="true" />
+				<enum16 name="Preference" offset="0x28" visible="true">
+					<option name="Low" value="0" />
+					<option name="High" value="1" />
+					<option name="Total" value="2" />
+				</enum16>
+				<uint8 name="Padding 0" offset="0x2A" visible="false" />
+				<uint8 name="Padding 1" offset="0x2B" visible="false" />
+			</tagblock>
+		</tagblock>
+		<float32 name="Clump Throttling / Stop Distance" offset="0x128" visible="true" />
+		<float32 name="Clump Throttling / Resume Distance" offset="0x12C" visible="true" />
+		<rangef name="Clump Throttling / Distance Bounds" offset="0x130" visible="true" />
+		<float32 name="Clump Throttling / Minimum Scale" offset="0x138" visible="true" />
+		<float32 name="Squad Patrolling / Passthrough Chance" offset="0x13C" visible="true" />
+		<float32 name="Squad Patrolling / Search Phase Skip Chance" offset="0x140" visible="true" />
+		<float32 name="Squad Patrolling / Patrol Transition Timeout" offset="0x144" visible="true" />
+		<float32 name="Squad Patrolling / Patrol Maneuver T Imeout" offset="0x148" visible="true" />
+		<rangef name="Squad Patrolling / Patrol Search Firing Point Time" offset="0x14C" visible="true" />
+		<float32 name="Squad Patrolling / Patrol Isolation Distance" offset="0x154" visible="true" />
+		<float32 name="Squad Patrolling / Patrol Isolation Time" offset="0x158" visible="true" />
+		<float32 name="Kung Fu Deactivation Delay" offset="0x15C" visible="true" />
+		<int16 name="Suppressing Fire Count" offset="0x160" visible="true" />
+		<int16 name="Uncover Count" offset="0x162" visible="true" />
+		<int16 name="Leap On Cover Count" offset="0x164" visible="true" />
+		<int16 name="Destroy Cover Count" offset="0x166" visible="true" />
+		<int16 name="Guard Count" offset="0x168" visible="true" />
+		<int16 name="Investigate Count" offset="0x16A" visible="true" />
+		<tagblock name="Vision Traits" offset="0x16C" visible="true" elementSize="0x8">
+			<float32 name="Vision Distance Scale" offset="0x0" visible="true" />
+			<float32 name="Vision Angle Scale" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Hearing Traits" offset="0x178" visible="true" elementSize="0x4">
+			<float32 name="Hearing Distance Scale" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Luck Traits" offset="0x184" visible="true" elementSize="0x2C">
+			<float32 name="Evasion Chance Scale" offset="0x0" visible="true" />
+			<float32 name="Grenade Dive Chance Scale" offset="0x4" visible="true" />
+			<float32 name="Broken Kamikaze Chance Scale" offset="0x8" visible="true" />
+			<float32 name="Leader Dead Retreat Chance Scale" offset="0xC" visible="true" />
+			<float32 name="Dive Retreat Chance Scale" offset="0x10" visible="true" />
+			<float32 name="Shield Depleted Berserk Chance Scale" offset="0x14" visible="true" />
+			<float32 name="Leader Abandoned Berserk Chance Scale" offset="0x18" visible="true" />
+			<float32 name="Melee Attack Delay Timer Scale" offset="0x1C" visible="true" />
+			<float32 name="Melee Chance Scale" offset="0x20" visible="true" />
+			<float32 name="Melee Leap Delay Timer Scale" offset="0x24" visible="true" />
+			<float32 name="Throw Grenade Delay Scale" offset="0x28" visible="true" />
+		</tagblock>
+		<tagblock name="Grenade Traits" offset="0x190" visible="true" elementSize="0x1C">
+			<float32 name="Velocity Scale" offset="0x0" visible="true" />
+			<float32 name="Throw Grenade Delay Scale" offset="0x4" visible="true" />
+			<float32 name="Dont Drop Grenades Chance Scale" offset="0x8" visible="true" />
+			<float32 name="Grenade Uncover Chance Scale" offset="0xC" visible="true" />
+			<float32 name="Retreat Throw Grenade Chance Scale" offset="0x10" visible="true" />
+			<float32 name="Anti Vehicle Grenade Chance Scale" offset="0x14" visible="true" />
+			<float32 name="Throw Grenade Chance Scale" offset="0x18" visible="true" />
+		</tagblock>
+		<float32 name="Max Decay Time" offset="0x19C" visible="true" />
+		<float32 name="Decay Time Ping" offset="0x1A0" visible="true" />
+		<float32 name="Search Pattern Radius" offset="0x1A4" visible="true" />
+		<int16 name="Search Pattern Shell Count" offset="0x1A8" visible="true" />
+		<range16 name="Search Pattern Cells Per Shell Range" offset="0x1AA" visible="true" />
+		<uint8 name="Reach Padding2 0" offset="0x1AE" visible="false" />
+		<uint8 name="Reach Padding2 1" offset="0x1AF" visible="false" />
+	</tagblock>
+</plugin>

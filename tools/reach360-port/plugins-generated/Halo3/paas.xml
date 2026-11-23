@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x5C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PolyartAsset (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<enum8 name="Runtime Flags" offset="0x0" visible="true">
+		<option name="Processed" value="0" />
+		<option name="Available" value="1" />
+	</enum8>
+	<enum8 name="Polyart Vertex Type" offset="0x1" visible="true">
+		<option name="Position" value="0" />
+		<option name="PositionAndUv" value="1" />
+	</enum8>
+	<int8 name="Uvset Index" offset="0x2" visible="true" />
+	<uint8 name="Padding 0" offset="0x3" visible="false" />
+	<float32 name="Antialiasing Extent Size" offset="0x4" visible="true" />
+	<tagblock name="Placement Data" offset="0x8" visible="true" elementSize="0x1C">
+		<float32 name="Horizontal Fov" offset="0x0" visible="true" />
+		<float32 name="Vertical Fov" offset="0x4" visible="true" />
+		<float32 name="Near Z Plane Distance" offset="0x8" visible="true" />
+		<float32 name="Far Z Plane Distance" offset="0xC" visible="true" />
+		<point3 name="Camera Position" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Vertices" offset="0x14" visible="true" elementSize="0xC">
+		<int16 name="Half X" offset="0x0" visible="true" />
+		<int16 name="Half Y" offset="0x2" visible="true" />
+		<int16 name="Half Z" offset="0x4" visible="true" />
+		<int16 name="Half Alpha" offset="0x6" visible="true" />
+		<int16 name="Half U" offset="0x8" visible="true" />
+		<int16 name="Half V" offset="0xA" visible="true" />
+	</tagblock>
+	<tagblock name="Indices" offset="0x20" visible="true" elementSize="0x2">
+		<int16 name="Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Pc Vertex Buffers" offset="0x2C" visible="true" elementSize="0xC">
+		<uint8 name="Declaration Type" offset="0x0" visible="true" />
+		<uint8 name="Stride" offset="0x1" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<uint32 name="Count" offset="0x4" visible="true" />
+		<int32 name="D3d Hardware Format" offset="0x8" visible="true" />
+	</tagblock>
+	<tagblock name="Pc Index Buffers" offset="0x38" visible="true" elementSize="0xC">
+		<uint8 name="Declaration Type" offset="0x0" visible="true" />
+		<uint8 name="Stride" offset="0x1" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<uint32 name="Count" offset="0x4" visible="true" />
+		<int32 name="D3d Hardware Format" offset="0x8" visible="true" />
+	</tagblock>
+	<uint32 name="Vertex Buffer Interop / Unknown1" offset="0x44" visible="true" />
+	<uint32 name="Vertex Buffer Interop / Unknown2" offset="0x48" visible="true" />
+	<uint32 name="Vertex Buffer Interop / Unknown3" offset="0x4C" visible="true" />
+	<uint32 name="Index Buffer Interop / Unknown1" offset="0x50" visible="true" />
+	<uint32 name="Index Buffer Interop / Unknown2" offset="0x54" visible="true" />
+	<uint32 name="Index Buffer Interop / Unknown3" offset="0x58" visible="true" />
+</plugin>

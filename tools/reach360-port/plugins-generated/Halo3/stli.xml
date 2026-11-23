@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x58">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ScenarioStructureLightingInfo (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Import Info Checksum" offset="0x0" visible="true" />
+	<tagblock name="Generic Light Definitions" offset="0x4" visible="true" elementSize="0x1C8">
+		<uint32 name="Definition Identifier (high)" offset="0x0" visible="true" />
+		<uint32 name="Definition Identifier (low)" offset="0x4" visible="true" />
+		<int32 name="Midnight Light Parameters / Version" offset="0x8" visible="true" />
+		<stringid name="Midnight Light Parameters / Halolight Node" offset="0xC" visible="true" />
+		<enum32 name="Midnight Light Parameters / Light Type" offset="0x10" visible="true">
+			<option name="Point" value="0" />
+			<option name="Spot" value="1" />
+			<option name="Directional" value="2" />
+			<option name="Area" value="3" />
+			<option name="Sun" value="4" />
+		</enum32>
+		<colorf name="Midnight Light Parameters / Light Color" offset="0x14" alpha="false" visible="true" />
+		<stringid name="Midnight Light Parameters / Intensity / Input Variable" offset="0x20" visible="true" />
+		<stringid name="Midnight Light Parameters / Intensity / Range Variable" offset="0x24" visible="true" />
+		<enum16 name="Midnight Light Parameters / Intensity / Output Modifier" offset="0x28" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Intensity / Padding 0" offset="0x2A" visible="false" />
+		<uint8 name="Midnight Light Parameters / Intensity / Padding 1" offset="0x2B" visible="false" />
+		<stringid name="Midnight Light Parameters / Intensity / Output Modifier Input" offset="0x2C" visible="true" />
+		<dataref name="Midnight Light Parameters / Intensity / Mapping / Data" offset="0x30" visible="true" />
+		<enum32 name="Midnight Light Parameters / Lighting Mode" offset="0x44" visible="true">
+			<option name="PhysicallyCorrect" value="0" />
+			<option name="Artistic" value="1" />
+		</enum32>
+		<float32 name="Midnight Light Parameters / Distance Attenuation Start" offset="0x48" visible="true" />
+		<stringid name="Midnight Light Parameters / Distance Attenuation End / Input Variable" offset="0x4C" visible="true" />
+		<stringid name="Midnight Light Parameters / Distance Attenuation End / Range Variable" offset="0x50" visible="true" />
+		<enum16 name="Midnight Light Parameters / Distance Attenuation End / Output Modifier" offset="0x54" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Distance Attenuation End / Padding 0" offset="0x56" visible="false" />
+		<uint8 name="Midnight Light Parameters / Distance Attenuation End / Padding 1" offset="0x57" visible="false" />
+		<stringid name="Midnight Light Parameters / Distance Attenuation End / Output Modifier Input" offset="0x58" visible="true" />
+		<dataref name="Midnight Light Parameters / Distance Attenuation End / Mapping / Data" offset="0x5C" visible="true" />
+		<float32 name="Midnight Light Parameters / Camera Distance Fade Start" offset="0x70" visible="true" />
+		<float32 name="Midnight Light Parameters / Camera Distance Fade End" offset="0x74" visible="true" />
+		<float32 name="Midnight Light Parameters / Specular Power" offset="0x78" visible="true" />
+		<float32 name="Midnight Light Parameters / Specular Intensity" offset="0x7C" visible="true" />
+		<float32 name="Midnight Light Parameters / Inner Cone Angle" offset="0x80" visible="true" />
+		<stringid name="Midnight Light Parameters / Outer Cone End / Input Variable" offset="0x84" visible="true" />
+		<stringid name="Midnight Light Parameters / Outer Cone End / Range Variable" offset="0x88" visible="true" />
+		<enum16 name="Midnight Light Parameters / Outer Cone End / Output Modifier" offset="0x8C" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Outer Cone End / Padding 0" offset="0x8E" visible="false" />
+		<uint8 name="Midnight Light Parameters / Outer Cone End / Padding 1" offset="0x8F" visible="false" />
+		<stringid name="Midnight Light Parameters / Outer Cone End / Output Modifier Input" offset="0x90" visible="true" />
+		<dataref name="Midnight Light Parameters / Outer Cone End / Mapping / Data" offset="0x94" visible="true" />
+		<enum32 name="Midnight Light Parameters / Cone Projection Shape" offset="0xA8" visible="true">
+			<option name="Cone" value="0" />
+			<option name="Frustum" value="1" />
+		</enum32>
+		<float32 name="Midnight Light Parameters / Shadow Near Clip Plane" offset="0xAC" visible="true" />
+		<float32 name="Midnight Light Parameters / Shadow Far Clip Plane" offset="0xB0" visible="true" />
+		<float32 name="Midnight Light Parameters / Shadow Bias Offset" offset="0xB4" visible="true" />
+		<colorf name="Midnight Light Parameters / Shadow Color" offset="0xB8" alpha="false" visible="true" />
+		<enum16 name="Midnight Light Parameters / Dynamic Shadow Quality" offset="0xC4" visible="true">
+			<option name="Normal" value="0" />
+			<option name="Expensive" value="1" />
+		</enum16>
+		<enum16 name="Midnight Light Parameters / Shadows" offset="0xC6" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum16>
+		<enum8 name="Midnight Light Parameters / Screenspace Light" offset="0xC8" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Midnight Light Parameters / Ignore Dynamic Objects" offset="0xC9" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Midnight Light Parameters / Cinema Objects Only" offset="0xCA" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Midnight Light Parameters / Cinema Only" offset="0xCB" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Midnight Light Parameters / Cinema Exclude" offset="0xCC" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<uint8 name="Midnight Light Parameters / Padding 0" offset="0xCD" visible="false" />
+		<enum8 name="Midnight Light Parameters / Specular Contribution" offset="0xCE" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Midnight Light Parameters / Diffuse Contribution" offset="0xCF" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<tagref name="Midnight Light Parameters / Gobo Tag Path" offset="0xD0" visible="true" />
+		<stringid name="Midnight Light Parameters / Rotation / Input Variable" offset="0xE0" visible="true" />
+		<stringid name="Midnight Light Parameters / Rotation / Range Variable" offset="0xE4" visible="true" />
+		<enum16 name="Midnight Light Parameters / Rotation / Output Modifier" offset="0xE8" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Rotation / Padding 0" offset="0xEA" visible="false" />
+		<uint8 name="Midnight Light Parameters / Rotation / Padding 1" offset="0xEB" visible="false" />
+		<stringid name="Midnight Light Parameters / Rotation / Output Modifier Input" offset="0xEC" visible="true" />
+		<dataref name="Midnight Light Parameters / Rotation / Mapping / Data" offset="0xF0" visible="true" />
+		<float32 name="Midnight Light Parameters / Aspect Ratio" offset="0x104" visible="true" />
+		<enum32 name="Midnight Light Parameters / Tile Behavior" offset="0x108" visible="true">
+			<option name="Clamp" value="0" />
+			<option name="Repeat" value="1" />
+			<option name="Mirror" value="2" />
+		</enum32>
+		<float32 name="Midnight Light Parameters / Repeat X" offset="0x10C" visible="true" />
+		<float32 name="Midnight Light Parameters / Repeat Y" offset="0x110" visible="true" />
+		<stringid name="Midnight Light Parameters / Offset X / Input Variable" offset="0x114" visible="true" />
+		<stringid name="Midnight Light Parameters / Offset X / Range Variable" offset="0x118" visible="true" />
+		<enum16 name="Midnight Light Parameters / Offset X / Output Modifier" offset="0x11C" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Offset X / Padding 0" offset="0x11E" visible="false" />
+		<uint8 name="Midnight Light Parameters / Offset X / Padding 1" offset="0x11F" visible="false" />
+		<stringid name="Midnight Light Parameters / Offset X / Output Modifier Input" offset="0x120" visible="true" />
+		<dataref name="Midnight Light Parameters / Offset X / Mapping / Data" offset="0x124" visible="true" />
+		<stringid name="Midnight Light Parameters / Offset Y / Input Variable" offset="0x138" visible="true" />
+		<stringid name="Midnight Light Parameters / Offset Y / Range Variable" offset="0x13C" visible="true" />
+		<enum16 name="Midnight Light Parameters / Offset Y / Output Modifier" offset="0x140" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Offset Y / Padding 0" offset="0x142" visible="false" />
+		<uint8 name="Midnight Light Parameters / Offset Y / Padding 1" offset="0x143" visible="false" />
+		<stringid name="Midnight Light Parameters / Offset Y / Output Modifier Input" offset="0x144" visible="true" />
+		<dataref name="Midnight Light Parameters / Offset Y / Mapping / Data" offset="0x148" visible="true" />
+		<stringid name="Midnight Light Parameters / Interpolation Function / Input Variable" offset="0x15C" visible="true" />
+		<stringid name="Midnight Light Parameters / Interpolation Function / Range Variable" offset="0x160" visible="true" />
+		<enum16 name="Midnight Light Parameters / Interpolation Function / Output Modifier" offset="0x164" visible="true">
+			<option name="Unknown" value="0" />
+			<option name="Plus" value="1" />
+			<option name="Times" value="2" />
+		</enum16>
+		<uint8 name="Midnight Light Parameters / Interpolation Function / Padding 0" offset="0x166" visible="false" />
+		<uint8 name="Midnight Light Parameters / Interpolation Function / Padding 1" offset="0x167" visible="false" />
+		<stringid name="Midnight Light Parameters / Interpolation Function / Output Modifier Input" offset="0x168" visible="true" />
+		<dataref name="Midnight Light Parameters / Interpolation Function / Mapping / Data" offset="0x16C" visible="true" />
+		<colorf name="Midnight Light Parameters / Target Color" offset="0x180" alpha="false" visible="true" />
+		<flags32 name="Midnight Light Parameters / Light Channels" offset="0x18C" visible="true">
+			<bit name="_0" index="0" />
+			<bit name="_1" index="1" />
+			<bit name="_2" index="2" />
+			<bit name="_3" index="3" />
+			<bit name="_4" index="4" />
+			<bit name="_5" index="5" />
+			<bit name="_6" index="6" />
+			<bit name="_7" index="7" />
+			<bit name="_8" index="8" />
+			<bit name="_9" index="9" />
+			<bit name="_10" index="10" />
+			<bit name="_11" index="11" />
+			<bit name="_12" index="12" />
+			<bit name="_13" index="13" />
+			<bit name="_14" index="14" />
+			<bit name="_15" index="15" />
+			<bit name="_16" index="16" />
+			<bit name="_17" index="17" />
+			<bit name="_18" index="18" />
+			<bit name="_19" index="19" />
+			<bit name="_20" index="20" />
+			<bit name="_21" index="21" />
+			<bit name="_22" index="22" />
+			<bit name="_23" index="23" />
+			<bit name="_24" index="24" />
+			<bit name="_25" index="25" />
+			<bit name="_26" index="26" />
+			<bit name="_27" index="27" />
+			<bit name="_28" index="28" />
+			<bit name="_29" index="29" />
+			<bit name="_30" index="30" />
+			<bit name="_31" index="31" />
+		</flags32>
+		<flags32 name="Midnight Light Parameters / Shadow Channels" offset="0x190" visible="true">
+			<bit name="_0" index="0" />
+			<bit name="_1" index="1" />
+			<bit name="_2" index="2" />
+			<bit name="_3" index="3" />
+			<bit name="_4" index="4" />
+			<bit name="_5" index="5" />
+			<bit name="_6" index="6" />
+			<bit name="_7" index="7" />
+			<bit name="_8" index="8" />
+			<bit name="_9" index="9" />
+			<bit name="_10" index="10" />
+			<bit name="_11" index="11" />
+			<bit name="_12" index="12" />
+			<bit name="_13" index="13" />
+			<bit name="_14" index="14" />
+			<bit name="_15" index="15" />
+			<bit name="_16" index="16" />
+			<bit name="_17" index="17" />
+			<bit name="_18" index="18" />
+			<bit name="_19" index="19" />
+			<bit name="_20" index="20" />
+			<bit name="_21" index="21" />
+			<bit name="_22" index="22" />
+			<bit name="_23" index="23" />
+			<bit name="_24" index="24" />
+			<bit name="_25" index="25" />
+			<bit name="_26" index="26" />
+			<bit name="_27" index="27" />
+			<bit name="_28" index="28" />
+			<bit name="_29" index="29" />
+			<bit name="_30" index="30" />
+			<bit name="_31" index="31" />
+		</flags32>
+		<flags32 name="Midnight Light Parameters / Flags" offset="0x194" visible="true">
+			<bit name="AllowShadowsAndGels" index="0" />
+			<bit name="ShadowCasting" index="1" />
+			<bit name="RenderFirstPersonOnly" index="2" />
+			<bit name="RenderThirdPersonOnly" index="3" />
+			<bit name="DontRenderSplitscreen" index="4" />
+			<bit name="RenderWhileActiveCamo" index="5" />
+			<bit name="RenderInMultiplayerOverride" index="6" />
+			<bit name="MoveToCameraInFirstPerson" index="7" />
+			<bit name="NeverPriorityCull" index="8" />
+			<bit name="AffectedByGameCanUseFlashlights" index="9" />
+			<bit name="ScreenspaceSpecularLighting" index="10" />
+			<bit name="AlwaysOnForWeapon" index="11" />
+		</flags32>
+		<float32 name="Midnight Light Parameters / Destroy Light After" offset="0x198" visible="true" />
+		<tagref name="Midnight Light Parameters / Lens Flare" offset="0x19C" visible="true" />
+		<int32 name="Source File Identifier" offset="0x1AC" visible="true" />
+		<float32 name="Indirect Amplification Factor" offset="0x1B0" visible="true" />
+		<float32 name="Jitter Sphere Radius" offset="0x1B4" visible="true" />
+		<float32 name="Jitter Angle" offset="0x1B8" visible="true" />
+		<enum16 name="Jitter Quality" offset="0x1BC" visible="true">
+			<option name="Low" value="0" />
+			<option name="Medium" value="1" />
+			<option name="High" value="2" />
+		</enum16>
+		<enum8 name="Sun" offset="0x1BE" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<enum8 name="Indirect Only" offset="0x1BF" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<flags32 name="Flags" offset="0x1C0" visible="true">
+			<bit name="UseNearAttenuation" index="0" />
+			<bit name="UseFarAttenuation" index="1" />
+			<bit name="InvereSquaredFalloff" index="2" />
+			<bit name="LightVersion1" index="3" />
+		</flags32>
+		<enum8 name="Static Analytic" offset="0x1C4" visible="true">
+			<option name="Off" value="0" />
+			<option name="On" value="1" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x1C5" visible="false" />
+		<uint8 name="Padding 1" offset="0x1C6" visible="false" />
+		<uint8 name="Padding 2" offset="0x1C7" visible="false" />
+	</tagblock>
+	<tagblock name="Generic Light Instances" offset="0x10" visible="true" elementSize="0x60">
+		<uint32 name="Light Definition Id (high)" offset="0x0" visible="true" />
+		<uint32 name="Light Definition Id (low)" offset="0x4" visible="true" />
+		<uint32 name="Light Instance Id (high)" offset="0x8" visible="true" />
+		<uint32 name="Light Instance Id (low)" offset="0xC" visible="true" />
+		<int32 name="Light Definition Index" offset="0x10" visible="true" />
+		<int32 name="Maya Source Hash" offset="0x14" visible="true" />
+		<tagref name="Runtime Definition" offset="0x18" visible="true" />
+		<enum32 name="Light Mode" offset="0x28" visible="true">
+			<option name="Dynamic" value="0" />
+			<option name="Static" value="1" />
+			<option name="Analytic" value="2" />
+		</enum32>
+		<point3 name="Origin" offset="0x2C" visible="true" />
+		<vector3 name="Forward" offset="0x38" visible="true" />
+		<vector3 name="Up" offset="0x44" visible="true" />
+		<float32 name="Fade Out Distance" offset="0x50" visible="true" />
+		<float32 name="Fade Start Distance" offset="0x54" visible="true" />
+		<int32 name="Shadow Geometry Checksum" offset="0x58" visible="true" />
+		<uint8 name="Padding 0" offset="0x5C" visible="false" />
+		<uint8 name="Padding 1" offset="0x5D" visible="false" />
+		<uint8 name="Padding 2" offset="0x5E" visible="false" />
+		<uint8 name="Padding 3" offset="0x5F" visible="false" />
+	</tagblock>
+	<tagblock name="Screen Space Light Shader Override" offset="0x1C" visible="true" elementSize="0x2C">
+		<colorf name="Specular Color Normal" offset="0x0" alpha="false" visible="true" />
+		<float32 name="Specular Steepness" offset="0xC" visible="true" />
+		<colorf name="Specular Color Gazing" offset="0x10" alpha="false" visible="true" />
+		<float32 name="Specular Coeff" offset="0x1C" visible="true" />
+		<float32 name="Diffuse Coeff" offset="0x20" visible="true" />
+		<float32 name="Roughness Offset" offset="0x24" visible="true" />
+		<float32 name="Albedo Blend" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Cinematic Light Instances" offset="0x28" visible="true" elementSize="0x28">
+		<uint32 name="Light Instance Id (high)" offset="0x0" visible="true" />
+		<uint32 name="Light Instance Id (low)" offset="0x4" visible="true" />
+		<int32 name="Light Definition Index" offset="0x8" visible="true" />
+		<int32 name="Light Instance Index" offset="0xC" visible="true" />
+		<uint32 name="Active Shots 0 / Shot Flag Data" offset="0x10" visible="true" />
+		<uint32 name="Active Shots 1 / Shot Flag Data" offset="0x14" visible="true" />
+		<tagblock name="Linked Objects" offset="0x18" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<uint8 name="Padding 0" offset="0x24" visible="false" />
+		<uint8 name="Padding 1" offset="0x25" visible="false" />
+		<uint8 name="Padding 2" offset="0x26" visible="false" />
+		<uint8 name="Padding 3" offset="0x27" visible="false" />
+	</tagblock>
+	<stringid name="Sun Intensity Multiplier / Input Variable" offset="0x34" visible="true" />
+	<stringid name="Sun Intensity Multiplier / Range Variable" offset="0x38" visible="true" />
+	<enum16 name="Sun Intensity Multiplier / Output Modifier" offset="0x3C" visible="true">
+		<option name="Unknown" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Sun Intensity Multiplier / Padding 0" offset="0x3E" visible="false" />
+	<uint8 name="Sun Intensity Multiplier / Padding 1" offset="0x3F" visible="false" />
+	<stringid name="Sun Intensity Multiplier / Output Modifier Input" offset="0x40" visible="true" />
+	<dataref name="Sun Intensity Multiplier / Mapping / Data" offset="0x44" visible="true" />
+</plugin>

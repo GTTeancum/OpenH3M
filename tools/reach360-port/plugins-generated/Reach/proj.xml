@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x370">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Projectile (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<enum16 name="Object Type / Halo Reach" offset="0x0" visible="true">
+		<option name="Biped" value="0" />
+		<option name="Vehicle" value="1" />
+		<option name="Weapon" value="2" />
+		<option name="Equipment" value="3" />
+		<option name="Terminal" value="4" />
+		<option name="Projectile" value="5" />
+		<option name="Scenery" value="6" />
+		<option name="Machine" value="7" />
+		<option name="Control" value="8" />
+		<option name="SoundScenery" value="9" />
+		<option name="Crate" value="10" />
+		<option name="Creature" value="11" />
+		<option name="Giant" value="12" />
+		<option name="EffectScenery" value="13" />
+		<option name="None" value="-1" />
+	</enum16>
+	<uint8 name="pad 0" offset="0x2" visible="false" />
+	<uint8 name="pad 1" offset="0x3" visible="false" />
+	<flags32 name="Object Flags / Flags Reach" offset="0x4" visible="true">
+		<bit name="DoesNotCastShadow" index="0" />
+		<bit name="SearchCardinalDirectionLightmapsOnFailure" index="1" />
+		<bit name="PreservesInitialDamageOwner" index="2" />
+		<bit name="NotAPathfindingObstacle" index="3" />
+		<bit name="ExtensionOfParent" index="4" />
+		<bit name="DoesNotCauseCollisionDamage" index="5" />
+		<bit name="EarlyMover" index="6" />
+		<bit name="EarlyMoverLocalizedPhysics" index="7" />
+		<bit name="UseStaticMassiveLightmapSample" index="8" />
+		<bit name="ObjectScalesAttachments" index="9" />
+		<bit name="InheritsPlayersAppearance" index="10" />
+		<bit name="NonPhysicalInMapEditor" index="11" />
+		<bit name="AttachToClustersByDynamicSphere" index="12" />
+		<bit name="EffectsDoNotSpawnObjectsInMultiplayer" index="13" />
+		<bit name="DoesNotCollideWithCamera" index="14" />
+		<bit name="DamageNotBlockedByObstructions" index="15" />
+	</flags32>
+	<float32 name="Bounding Radius" offset="0x8" visible="true" />
+	<point3 name="Bounding Offset" offset="0xC" visible="true" />
+	<float32 name="Acceleration Scale" offset="0x18" visible="true" />
+	<float32 name="Vertical Acceleration Scale" offset="0x1C" visible="true" />
+	<float32 name="Angular Acceleration Scale" offset="0x20" visible="true" />
+	<enum16 name="Lightmap Shadow Mode" offset="0x24" visible="true">
+		<option name="Default" value="0" />
+		<option name="Never" value="1" />
+		<option name="Always" value="2" />
+		<option name="Blur" value="3" />
+	</enum16>
+	<enum8 name="Sweetener Size" offset="0x26" visible="true">
+		<option name="Default" value="0" />
+		<option name="Small" value="1" />
+		<option name="Medium" value="2" />
+		<option name="Large" value="3" />
+	</enum8>
+	<enum8 name="Water Density" offset="0x27" visible="true">
+		<option name="Default" value="0" />
+		<option name="SuperFloater" value="1" />
+		<option name="Floater" value="2" />
+		<option name="Neutral" value="3" />
+		<option name="Sinker" value="4" />
+		<option name="SuperSinker" value="5" />
+		<option name="None" value="6" />
+	</enum8>
+	<int32 name="Runtime Flags" offset="0x28" visible="true" />
+	<float32 name="Dynamic Light Sphere Radius" offset="0x2C" visible="true" />
+	<point3 name="Dynamic Light Sphere Offset" offset="0x30" visible="true" />
+	<stringid name="Generic HUD Text" offset="0x3C" visible="true" />
+	<tagref name="Generic Name List" offset="0x40" visible="true" />
+	<tagref name="Generic Service Tag List" offset="0x50" visible="true" />
+	<stringid name="Default Model Variant" offset="0x60" visible="true" />
+	<tagref name="Model" offset="0x64" visible="true" />
+	<tagref name="Crate Object" offset="0x74" visible="true" />
+	<tagref name="Collision Damage" offset="0x84" visible="true" />
+	<tagref name="Brittle Collision Damage" offset="0x94" visible="true" />
+	<tagblock name="Early Mover Properties" offset="0xA4" visible="true" elementSize="0x2C">
+		<stringid name="Node Name" offset="0x0" visible="true" />
+		<int32 name="Runtime Node Index" offset="0x4" visible="true" />
+		<rangef name="X Bounds" offset="0x8" visible="true" />
+		<rangef name="Y Bounds" offset="0x10" visible="true" />
+		<rangef name="Z Bounds" offset="0x18" visible="true" />
+		<degree3 name="Angles" offset="0x20" visible="true" />
+	</tagblock>
+	<tagref name="Creation Effect" offset="0xB0" visible="true" />
+	<tagref name="Material Effects" offset="0xC0" visible="true" />
+	<tagref name="Melee Impact Sound" offset="0xD0" visible="true" />
+	<tagblock name="Ai Properties" offset="0xE0" visible="true" elementSize="0x10">
+		<flags32 name="Ai Flags" offset="0x0" visible="true">
+			<bit name="DestroyableCover" index="0" />
+			<bit name="PathfindingIgnoreWhenDead" index="1" />
+			<bit name="DynamicCover" index="2" />
+			<bit name="NonFlightBlocking" index="3" />
+			<bit name="DynamicCoverFromCentre" index="4" />
+			<bit name="HasCornerMarkers" index="5" />
+			<bit name="Inspectable" index="6" />
+			<bit name="IdleWhenFlying" index="7" />
+		</flags32>
+		<stringid name="Ai Type Name" offset="0x4" visible="true" />
+		<stringid name="Interaction Name" offset="0x8" visible="true" />
+		<enum16 name="Ai Size" offset="0xC" visible="true">
+			<option name="Default" value="0" />
+			<option name="Tiny" value="1" />
+			<option name="Small" value="2" />
+			<option name="Medium" value="3" />
+			<option name="Large" value="4" />
+			<option name="Huge" value="5" />
+			<option name="Immobile" value="6" />
+		</enum16>
+		<enum16 name="Leap Jump Speed" offset="0xE" visible="true">
+			<option name="None" value="0" />
+			<option name="Down" value="1" />
+			<option name="Step" value="2" />
+			<option name="Crouch" value="3" />
+			<option name="Stand" value="4" />
+			<option name="Storey" value="5" />
+			<option name="Tower" value="6" />
+			<option name="Infinite" value="7" />
+		</enum16>
+	</tagblock>
+	<tagblock name="Functions" offset="0xEC" visible="true" elementSize="0x40">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="Invert" index="0" />
+			<bit name="MappingDoesNotControlsActive" index="1" />
+			<bit name="AlwaysActive" index="2" />
+			<bit name="RandomTimeOffset" index="3" />
+			<bit name="AlwaysExportsValue" index="4" />
+			<bit name="TurnOffWithUsesMagnitude" index="5" />
+		</flags32>
+		<stringid name="Import Name" offset="0x4" visible="true" />
+		<stringid name="Export Name" offset="0x8" visible="true" />
+		<stringid name="Turn Off With" offset="0xC" visible="true" />
+		<stringid name="Ranged Interpolation Name" offset="0x10" visible="true" />
+		<float32 name="Minimum Value" offset="0x14" visible="true" />
+		<dataref name="Default Function / Data" offset="0x18" visible="true" />
+		<stringid name="Scale By" offset="0x2C" visible="true" />
+		<tagblock name="Function Interpolations" offset="0x30" visible="true" elementSize="0x18">
+			<int32 name="Interpolation Mode" offset="0x0" visible="true" />
+			<float32 name="Linear Travel Time" offset="0x4" visible="true" />
+			<float32 name="Acceleration" offset="0x8" visible="true" />
+			<float32 name="Spring K" offset="0xC" visible="true" />
+			<float32 name="Spring C" offset="0x10" visible="true" />
+			<float32 name="Fraction" offset="0x14" visible="true" />
+		</tagblock>
+		<int32 name="Runtime Interpolator Index" offset="0x3C" visible="true" />
+	</tagblock>
+	<tagblock name="Runtime Interpolator Functions" offset="0xF8" visible="true" elementSize="0x4">
+		<int32 name="Runtime Interpolator To Object Function Mapping" offset="0x0" visible="true" />
+	</tagblock>
+	<int16 name="Hud Text Message Index" offset="0x104" visible="true" />
+	<flags16 name="Secondary Flags" offset="0x106" visible="true">
+		<bit name="DoesNotAffectProjectileAiming" index="0" />
+	</flags16>
+	<tagblock name="Attachments" offset="0x108" visible="true" elementSize="0x20">
+		<tagref name="Type" offset="0x0" visible="true" />
+		<stringid name="Marker" offset="0x10" visible="true" />
+		<enum16 name="Change Color" offset="0x14" visible="true">
+			<option name="None" value="0" />
+			<option name="Primary" value="1" />
+			<option name="Secondary" value="2" />
+			<option name="Tertiary" value="3" />
+			<option name="Quaternary" value="4" />
+		</enum16>
+		<uint8 name="Padding0 0" offset="0x16" visible="false" />
+		<uint8 name="Padding0 1" offset="0x17" visible="false" />
+		<stringid name="Primary Scale" offset="0x18" visible="true" />
+		<stringid name="Secondary Scale" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Hull Surfaces" offset="0x114" visible="true" elementSize="0x18">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="WorksOnLand" index="0" />
+			<bit name="EffectsOnly" index="1" />
+		</flags16>
+		<uint8 name="pad0 0" offset="0x2" visible="false" />
+		<uint8 name="pad0 1" offset="0x3" visible="false" />
+		<stringid name="Marker Name" offset="0x4" visible="true" />
+		<float32 name="Radius" offset="0x8" visible="true" />
+		<tagblock name="Drag" offset="0xC" visible="true" elementSize="0x3C">
+			<stringid name="Material" offset="0x0" visible="true" />
+			<dataref name="Drag / Pressure / Velocity To Pressure / Data" offset="0x4" visible="true" />
+			<float32 name="Drag / Pressure / Max Velocity" offset="0x18" visible="true" />
+			<dataref name="Drag / Suction / Velocity To Pressure / Data" offset="0x1C" visible="true" />
+			<float32 name="Drag / Suction / Max Velocity" offset="0x30" visible="true" />
+			<float32 name="Drag / Linear Damping" offset="0x34" visible="true" />
+			<float32 name="Drag / Angular Damping" offset="0x38" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Jetwash" offset="0x120" visible="true" elementSize="0x24">
+		<stringid name="Marker Name" offset="0x0" visible="true" />
+		<float32 name="Radius" offset="0x4" visible="true" />
+		<int32 name="Maximum Traces" offset="0x8" visible="true" />
+		<float32 name="Maximum Emission Length" offset="0xC" visible="true" />
+		<ranged name="Trace Yaw Angle" offset="0x10" visible="true" />
+		<ranged name="Trace Pitch Angle" offset="0x18" visible="true" />
+		<float32 name="Particle Offset" offset="0x20" visible="true" />
+	</tagblock>
+	<tagblock name="Widgets" offset="0x12C" visible="true" elementSize="0x10">
+		<tagref name="Instance" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Change Colors" offset="0x138" visible="true" elementSize="0x18">
+		<tagblock name="Initial Permutations" offset="0x0" visible="true" elementSize="0x20">
+			<float32 name="Weight" offset="0x0" visible="true" />
+			<colorf name="Color Lower Bound" offset="0x4" alpha="false" visible="true" />
+			<colorf name="Color Upper Bound" offset="0x10" alpha="false" visible="true" />
+			<stringid name="Variant Name" offset="0x1C" visible="true" />
+		</tagblock>
+		<tagblock name="Functions" offset="0xC" visible="true" elementSize="0x28">
+			<uint8 name="Unused 0" offset="0x0" visible="false" />
+			<uint8 name="Unused 1" offset="0x1" visible="false" />
+			<uint8 name="Unused 2" offset="0x2" visible="false" />
+			<uint8 name="Unused 3" offset="0x3" visible="false" />
+			<flags32 name="Scale Flags" offset="0x4" visible="true">
+				<bit name="BlendInHsv" index="0" />
+				<bit name="MoreColors" index="1" />
+			</flags32>
+			<colorf name="Color Lower Bound" offset="0x8" alpha="false" visible="true" />
+			<colorf name="Color Upper Bound" offset="0x14" alpha="false" visible="true" />
+			<stringid name="Darken By" offset="0x20" visible="true" />
+			<stringid name="Scale By" offset="0x24" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Predicted Resources" offset="0x144" visible="true" elementSize="0x8">
+		<int16 name="Type" offset="0x0" visible="true" />
+		<int16 name="Resource Index" offset="0x2" visible="true" />
+		<tagref name="Tag Index" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Multiplayer Object" offset="0x150" visible="true" elementSize="0xBC">
+		<flags8 name="Reach Engine Flags" offset="0x0" visible="true">
+			<bit name="Sandbox" index="0" />
+			<bit name="Megalo" index="1" />
+			<bit name="Campaign" index="2" />
+			<bit name="Survival" index="3" />
+			<bit name="Firefight" index="4" />
+		</flags8>
+		<enum8 name="Type Reach" offset="0x1" visible="true">
+			<option name="Ordinary" value="0" />
+			<option name="Weapon" value="1" />
+			<option name="Grenade" value="2" />
+			<option name="Projectile" value="3" />
+			<option name="Powerup" value="4" />
+			<option name="Equipment" value="5" />
+			<option name="AmmoPack" value="6" />
+			<option name="LightLandVehicle" value="7" />
+			<option name="HeavyLandVehicle" value="8" />
+			<option name="FlyingVehicle" value="9" />
+			<option name="Turret" value="10" />
+			<option name="Device" value="11" />
+			<option name="Teleporter2way" value="12" />
+			<option name="TeleporterSender" value="13" />
+			<option name="TeleporterReceiver" value="14" />
+			<option name="PlayerSpawnLocation" value="15" />
+			<option name="PlayerRespawnZone" value="16" />
+			<option name="SecondaryObjective" value="17" />
+			<option name="PrimaryObjective" value="18" />
+			<option name="NamedLocationArea" value="19" />
+			<option name="DangerZone" value="20" />
+			<option name="Fireteam1RespawnZone" value="21" />
+			<option name="Fireteam2RespawnZone" value="22" />
+			<option name="Fireteam3RespawnZone" value="23" />
+			<option name="Fireteam4RespawnZone" value="24" />
+			<option name="SafeVolume" value="25" />
+			<option name="KillVolume" value="26" />
+			<option name="CinematicCameraPosition" value="27" />
+			<option name="MoshEnemySpawnLocation" value="28" />
+			<option name="OrdnanceDropPoint" value="29" />
+			<option name="TraitZone" value="30" />
+			<option name="InitialOrdnanceDropPoint" value="31" />
+			<option name="RandomOrdnanceDropPoint" value="32" />
+			<option name="ObjectiveOrdnanceDropPoint" value="33" />
+			<option name="PersonalOrdnanceDropPoint" value="34" />
+		</enum8>
+		<flags8 name="Teleporter Passability" offset="0x2" visible="true">
+			<bit name="DisallowPlayers" index="0" />
+			<bit name="AllowLightLandVehicles" index="1" />
+			<bit name="AllowHeavyLandVehicles" index="2" />
+			<bit name="AllowFlyingVehicles" index="3" />
+			<bit name="AllowProjectiles" index="4" />
+		</flags8>
+		<uint8 name="pad 0" offset="0x3" visible="false" />
+		<float32 name="Boundary Width Radius" offset="0x4" visible="true" />
+		<float32 name="Boundary Box Length" offset="0x8" visible="true" />
+		<float32 name="Boundary Positive Height" offset="0xC" visible="true" />
+		<float32 name="Boundary Negative Height" offset="0x10" visible="true" />
+		<enum8 name="Reach Boundary Shape" offset="0x14" visible="true">
+			<option name="None" value="0" />
+			<option name="Sphere" value="1" />
+			<option name="Cylinder" value="2" />
+			<option name="Box" value="3" />
+			<option name="Count" value="4" />
+		</enum8>
+		<enum8 name="Spawn Timer Type Reach" offset="0x15" visible="true">
+			<option name="StartsOnDeath" value="0" />
+			<option name="StartsOnDisturbance" value="1" />
+		</enum8>
+		<int16 name="Spawn Time Reach" offset="0x16" visible="true" />
+		<int16 name="Abandon Time Reach" offset="0x18" visible="true" />
+		<flags16 name="Flags Reach" offset="0x1A" visible="true">
+			<bit name="OnlyVisibleInEditor" index="0" />
+			<bit name="PhasedPhysicsInForge" index="1" />
+			<bit name="ValidInitialPlayerSpawn" index="2" />
+			<bit name="FixedBoundaryOrientation" index="3" />
+			<bit name="CandyMonitorShouldIgnore" index="4" />
+			<bit name="Bit5" index="5" />
+			<bit name="Bit6" index="6" />
+			<bit name="Bit7" index="7" />
+			<bit name="Bit8" index="8" />
+			<bit name="Bit9" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="Bit11" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+		</flags16>
+		<float32 name="Standard Respawn Zone Weight" offset="0x1C" visible="true" />
+		<stringid name="Boundary Center Marker" offset="0x20" visible="true" />
+		<stringid name="Spawned Object Marker Name" offset="0x24" visible="true" />
+		<tagref name="Spawned Object" offset="0x28" visible="true" />
+		<stringid name="Nyi Boundary Material" offset="0x38" visible="true" />
+		<tagref name="Boundary Shaders 0 / Standard Shader" offset="0x3C" visible="true" />
+		<tagref name="Boundary Shaders 0 / Opaque Shader" offset="0x4C" visible="true" />
+		<tagref name="Boundary Shaders 1 / Standard Shader" offset="0x5C" visible="true" />
+		<tagref name="Boundary Shaders 1 / Opaque Shader" offset="0x6C" visible="true" />
+		<tagref name="Boundary Shaders 2 / Standard Shader" offset="0x7C" visible="true" />
+		<tagref name="Boundary Shaders 2 / Opaque Shader" offset="0x8C" visible="true" />
+		<tagref name="Boundary Shaders 3 / Standard Shader" offset="0x9C" visible="true" />
+		<tagref name="Boundary Shaders 3 / Opaque Shader" offset="0xAC" visible="true" />
+	</tagblock>
+	<tagref name="Simulation Interpolation" offset="0x15C" visible="true" />
+	<tagblock name="Spawn Effects" offset="0x16C" visible="true" elementSize="0x30">
+		<uint32 name="Multiplayer Spawn Effect / Group (group tag)" offset="0x0" visible="true" />
+		<int32 name="Multiplayer Spawn Effect / Unused1" offset="0x4" visible="true" />
+		<int32 name="Multiplayer Spawn Effect / Unused2" offset="0x8" visible="true" />
+		<int32 name="Multiplayer Spawn Effect / Index" offset="0xC" visible="true" />
+		<uint32 name="Survival Spawn Effect / Group (group tag)" offset="0x10" visible="true" />
+		<int32 name="Survival Spawn Effect / Unused1" offset="0x14" visible="true" />
+		<int32 name="Survival Spawn Effect / Unused2" offset="0x18" visible="true" />
+		<int32 name="Survival Spawn Effect / Index" offset="0x1C" visible="true" />
+		<uint32 name="Campaign Spawn Effect / Group (group tag)" offset="0x20" visible="true" />
+		<int32 name="Campaign Spawn Effect / Unused1" offset="0x24" visible="true" />
+		<int32 name="Campaign Spawn Effect / Unused2" offset="0x28" visible="true" />
+		<int32 name="Campaign Spawn Effect / Index" offset="0x2C" visible="true" />
+	</tagblock>
+	<flags32 name="Flags Reach" offset="0x178" visible="true">
+		<bit name="OrientedAlongVelocity" index="0" />
+		<bit name="AiMustUseBallisticAiming" index="1" />
+		<bit name="DetonationMaxTimeIfAttached" index="2" />
+		<bit name="DamageScalesBasedOnDistance" index="3" />
+		<bit name="SteeringAdjustsOrientation" index="4" />
+		<bit name="DoNotNoiseUpSteering" index="5" />
+		<bit name="CanTrackBehindItself" index="6" />
+		<bit name="RobotronSteering" index="7" />
+		<bit name="AffectedByPhantomVolumes" index="8" />
+		<bit name="Bit9" index="9" />
+		<bit name="NotifiesTargetUnits" index="10" />
+		<bit name="UseGroundDetonationWhenAttached" index="11" />
+		<bit name="AIMinorTrackingThreat" index="12" />
+		<bit name="DangerousWhenInactive" index="13" />
+		<bit name="AIStimulusWhenAttached" index="14" />
+		<bit name="OverPeneDetonation" index="15" />
+		<bit name="NoImpactEffectsOnBounce" index="16" />
+		<bit name="RC1OverpenetrationFixes" index="17" />
+		<bit name="DisableInstantaneousFirstTick" index="18" />
+		<bit name="ConstrainGravityToVelocityBounds" index="19" />
+		<bit name="AllowDecelerationToBelowFinalVelocity" index="20" />
+		<bit name="SupportsTethering" index="21" />
+		<bit name="DamageNotPredictableByClients" index="22" />
+		<bit name="CollidesWithPhysicsOnlySurfaces" index="23" />
+		<bit name="DetonatesWhenAttachedToObjects" index="24" />
+		<bit name="CannotBeDetachedByEquipment" index="25" />
+		<bit name="Bit26" index="26" />
+		<bit name="Bit27" index="27" />
+		<bit name="Bit28" index="28" />
+		<bit name="Bit29" index="29" />
+		<bit name="Bit30" index="30" />
+	</flags32>
+	<enum16 name="Detonation Timer Starts" offset="0x17C" visible="true">
+		<option name="Immediately" value="0" />
+		<option name="AfterFirstBounce" value="1" />
+		<option name="WhenAtRest" value="2" />
+		<option name="AfterFirstBounceOffAnySurface" value="3" />
+	</enum16>
+	<enum16 name="Impact Volume For Ai" offset="0x17E" visible="true">
+		<option name="Silent" value="0" />
+		<option name="Medium" value="1" />
+		<option name="Loud" value="2" />
+		<option name="Shout" value="3" />
+		<option name="Quiet" value="4" />
+	</enum16>
+	<float32 name="Collision Radius" offset="0x180" visible="true" />
+	<float32 name="Arming Time" offset="0x184" visible="true" />
+	<float32 name="Danger Radius" offset="0x188" visible="true" />
+	<float32 name="Danger Stimuli Radius" offset="0x18C" visible="true" />
+	<int16 name="Danger Group Burst Count" offset="0x190" visible="true" />
+	<int16 name="Danger Group Burst Max Count" offset="0x192" visible="true" />
+	<rangef name="Timer" offset="0x194" visible="true" />
+	<float32 name="Minimum Velocity" offset="0x19C" visible="true" />
+	<float32 name="Maximum Range" offset="0x1A0" visible="true" />
+	<float32 name="Bounce Maximum Range" offset="0x1A4" visible="true" />
+	<float32 name="Max Latch Time To Detonate" offset="0x1A8" visible="true" />
+	<float32 name="Max Latch Time To Arm" offset="0x1AC" visible="true" />
+	<enum16 name="Detonation Noise For Ai" offset="0x1B0" visible="true">
+		<option name="Silent" value="0" />
+		<option name="Medium" value="1" />
+		<option name="Loud" value="2" />
+		<option name="Shout" value="3" />
+		<option name="Quiet" value="4" />
+	</enum16>
+	<int16 name="Super Detonation Projectile Count" offset="0x1B2" visible="true" />
+	<float32 name="Super Detonation Delay" offset="0x1B4" visible="true" />
+	<tagref name="Detonation Started" offset="0x1B8" visible="true" />
+	<tagref name="Airborne Detonation Effect" offset="0x1C8" visible="true" />
+	<tagref name="Ground Detonation Effect" offset="0x1D8" visible="true" />
+	<tagref name="Detonation Damage" offset="0x1E8" visible="true" />
+	<tagref name="Attached Detonation Damage" offset="0x1F8" visible="true" />
+	<tagref name="Super Detonation" offset="0x208" visible="true" />
+	<tagref name="Super Detonation Damage" offset="0x218" visible="true" />
+	<tagref name="Detonation Sound" offset="0x228" visible="true" />
+	<enum8 name="Damage Reporting Type / Halo Reach" offset="0x238" visible="true">
+		<option name="GuardiansUnknown" value="0" />
+		<option name="Guardians" value="1" />
+		<option name="GuardiansScripting" value="2" />
+		<option name="Suicide" value="3" />
+		<option name="Magnum" value="4" />
+		<option name="AssaultRifle" value="5" />
+		<option name="DMR" value="6" />
+		<option name="Shotgun" value="7" />
+		<option name="SniperRifle" value="8" />
+		<option name="RocketLauncher" value="9" />
+		<option name="SpartanLaser" value="10" />
+		<option name="FragGrenade" value="11" />
+		<option name="GrenadeLauncher" value="12" />
+		<option name="PlasmaPistol" value="13" />
+		<option name="Needler" value="14" />
+		<option name="PlasmaRifle" value="15" />
+		<option name="PlasmaRepeater" value="16" />
+		<option name="NeedleRifle" value="17" />
+		<option name="Spiker" value="18" />
+		<option name="PlasmaLauncher" value="19" />
+		<option name="GravityHammer" value="20" />
+		<option name="EnergySword" value="21" />
+		<option name="PlasmaGrenade" value="22" />
+		<option name="ConcussionRifle" value="23" />
+		<option name="Ghost" value="24" />
+		<option name="Revenant" value="25" />
+		<option name="RevenantGunner" value="26" />
+		<option name="Wraith" value="27" />
+		<option name="WraithTurret" value="28" />
+		<option name="Banshee" value="29" />
+		<option name="BansheeBomb" value="30" />
+		<option name="Seraph" value="31" />
+		<option name="Mongoose" value="32" />
+		<option name="Warthog" value="33" />
+		<option name="WarthogChaingun" value="34" />
+		<option name="WarthogGauss" value="35" />
+		<option name="WarthogRocket" value="36" />
+		<option name="Scorpion" value="37" />
+		<option name="ScorpionTurret" value="38" />
+		<option name="Falcon" value="39" />
+		<option name="FalconGunner" value="40" />
+		<option name="FallingDamage" value="41" />
+		<option name="GenericCollision" value="42" />
+		<option name="GenericMelee" value="43" />
+		<option name="GenericExplosion" value="44" />
+		<option name="BirthdayExplosion" value="45" />
+		<option name="Flag" value="46" />
+		<option name="Bomb" value="47" />
+		<option name="BombExplosion" value="48" />
+		<option name="Ball" value="49" />
+		<option name="Teleporter" value="50" />
+		<option name="TransferDamage" value="51" />
+		<option name="ArmorLock" value="52" />
+		<option name="TargetLocator" value="53" />
+		<option name="HumanTurret" value="54" />
+		<option name="PlasmaCannon" value="55" />
+		<option name="PlasmaMortar" value="56" />
+		<option name="PlasmaTurret" value="57" />
+		<option name="ShadeTurret" value="58" />
+		<option name="Sabre" value="59" />
+		<option name="SMG" value="60" />
+		<option name="Carbine" value="61" />
+		<option name="BattleRifle" value="62" />
+		<option name="FocusRifle" value="63" />
+		<option name="FuelRod" value="64" />
+		<option name="MissilePod" value="65" />
+		<option name="BruteShot" value="66" />
+		<option name="Flamethrower" value="67" />
+		<option name="SentinelGun" value="68" />
+		<option name="SpikeGrenade" value="69" />
+		<option name="FirebombGrenade" value="70" />
+		<option name="ElephantTurret" value="71" />
+		<option name="Spectre" value="72" />
+		<option name="SpectreGunner" value="73" />
+		<option name="Tank" value="74" />
+		<option name="Chopper" value="75" />
+		<option name="Hornet" value="76" />
+		<option name="Mantis" value="77" />
+		<option name="Prowler" value="78" />
+		<option name="SentinelBeam" value="79" />
+		<option name="SentinelRPG" value="80" />
+		<option name="Tripmine" value="81" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x239" visible="false" />
+	<enum16 name="Super Detonation Object Types / Halo Reach" offset="0x23A" visible="true">
+		<option name="Biped" value="0" />
+		<option name="Vehicle" value="1" />
+		<option name="Weapon" value="2" />
+		<option name="Equipment" value="3" />
+		<option name="Terminal" value="4" />
+		<option name="Projectile" value="5" />
+		<option name="Scenery" value="6" />
+		<option name="Machine" value="7" />
+		<option name="Control" value="8" />
+		<option name="SoundScenery" value="9" />
+		<option name="Crate" value="10" />
+		<option name="Creature" value="11" />
+		<option name="Giant" value="12" />
+		<option name="EffectScenery" value="13" />
+		<option name="None" value="-1" />
+	</enum16>
+	<tagref name="Attached Super Detonation Damage" offset="0x23C" visible="true" />
+	<float32 name="Material Effect Radius" offset="0x24C" visible="true" />
+	<tagref name="Flyby Sound" offset="0x250" visible="true" />
+	<tagref name="Flyby Damage Response" offset="0x260" visible="true" />
+	<float32 name="Flyby Damage Response Max Distance" offset="0x270" visible="true" />
+	<tagref name="Impact Effect" offset="0x274" visible="true" />
+	<tagref name="Object Impact Effect" offset="0x284" visible="true" />
+	<tagref name="Impact Damage" offset="0x294" visible="true" />
+	<float32 name="Boarding Detonation Time" offset="0x2A4" visible="true" />
+	<tagref name="Boarding Detonation Damage" offset="0x2A8" visible="true" />
+	<tagref name="Boarding Attached Detonation Damage" offset="0x2B8" visible="true" />
+	<float32 name="Air Gravity Scale" offset="0x2C8" visible="true" />
+	<rangef name="Air Damage Range" offset="0x2CC" visible="true" />
+	<float32 name="Water Gravity Scale" offset="0x2D4" visible="true" />
+	<rangef name="Water Damage Range" offset="0x2D8" visible="true" />
+	<float32 name="Initial Velocity" offset="0x2E0" visible="true" />
+	<float32 name="Final Velocity" offset="0x2E4" visible="true" />
+	<float32 name="Indirect Fire Velocity" offset="0x2E8" visible="true" />
+	<float32 name="Ai Velocity Scale Normal" offset="0x2EC" visible="true" />
+	<float32 name="Ai Velocity Scale Heroic" offset="0x2F0" visible="true" />
+	<float32 name="Ai Velocity Scale Legendary" offset="0x2F4" visible="true" />
+	<float32 name="Ai Guided Angular Velocity Scale Normal" offset="0x2F8" visible="true" />
+	<float32 name="Ai Guided Angular Velocity Scale Legendary" offset="0x2FC" visible="true" />
+	<ranged name="Guided Angular Velocity" offset="0x300" visible="true" />
+	<degree name="Guided Angular Velocity At Rest" offset="0x308" visible="true" />
+	<rangef name="Acceleration Range" offset="0x30C" visible="true" />
+	<float32 name="Runtime Acceleration Bound Inverse" offset="0x314" visible="true" />
+	<float32 name="Targeted Leading Fraction" offset="0x318" visible="true" />
+	<float32 name="Guided Projectile Outer Range Error Radius" offset="0x31C" visible="true" />
+	<float32 name="Autoaim Leading Max Lead Time" offset="0x320" visible="true" />
+	<tagblock name="Material Responses" offset="0x324" visible="true" elementSize="0x3C">
+		<enum16 name="Default Response" offset="0x0" visible="true">
+			<option name="ImpactDetonate" value="0" />
+			<option name="Fizzle" value="1" />
+			<option name="Overpenetrate" value="2" />
+			<option name="Attach" value="3" />
+			<option name="Bounce" value="4" />
+			<option name="BounceDud" value="5" />
+			<option name="FizzleRicochet" value="6" />
+		</enum16>
+		<uint8 name="Padding1 0" offset="0x2" visible="false" />
+		<uint8 name="Padding1 1" offset="0x3" visible="false" />
+		<stringid name="Material Name" offset="0x4" visible="true" />
+		<int16 name="Runtime Material Index" offset="0x8" visible="true" />
+		<uint8 name="Padding2 0" offset="0xA" visible="false" />
+		<uint8 name="Padding2 1" offset="0xB" visible="false" />
+		<enum16 name="Potential Response" offset="0xC" visible="true">
+			<option name="ImpactDetonate" value="0" />
+			<option name="Fizzle" value="1" />
+			<option name="Overpenetrate" value="2" />
+			<option name="Attach" value="3" />
+			<option name="Bounce" value="4" />
+			<option name="BounceDud" value="5" />
+			<option name="FizzleRicochet" value="6" />
+		</enum16>
+		<flags16 name="Response Flags" offset="0xE" visible="true">
+			<bit name="OnlyAgainstUnits" index="0" />
+			<bit name="NeverAgainstUnits" index="1" />
+			<bit name="OnlyAgainstBipeds" index="2" />
+			<bit name="OnlyAgainstVehicles" index="3" />
+			<bit name="NeverAgainstWussPlayers" index="4" />
+			<bit name="OnlyWhenTethered" index="5" />
+			<bit name="OnlyWhenNotTethered" index="6" />
+			<bit name="OnlyAgainstDeadBipeds" index="7" />
+			<bit name="NeverAgainstDeadBipeds" index="8" />
+			<bit name="OnlyAiProjectiles" index="9" />
+			<bit name="NeverAiProjectiles" index="10" />
+		</flags16>
+		<float32 name="Chance Fraction" offset="0x10" visible="true" />
+		<ranged name="Between Angle" offset="0x14" visible="true" />
+		<rangef name="And Velocity" offset="0x1C" visible="true" />
+		<enum16 name="Scale Effects By" offset="0x24" visible="true">
+			<option name="Damage" value="0" />
+			<option name="Angle" value="1" />
+		</enum16>
+		<uint8 name="Padding3 0" offset="0x26" visible="false" />
+		<uint8 name="Padding3 1" offset="0x27" visible="false" />
+		<degree name="Angular Noise" offset="0x28" visible="true" />
+		<float32 name="Velocity Noise" offset="0x2C" visible="true" />
+		<float32 name="Initial Friction" offset="0x30" visible="true" />
+		<float32 name="Parallel Friction" offset="0x34" visible="true" />
+		<float32 name="Perpendicular Friction" offset="0x38" visible="true" />
+	</tagblock>
+	<tagblock name="Material Responses New" offset="0x330" visible="true" elementSize="0x34">
+		<stringid name="Material Name" offset="0x0" visible="true" />
+		<int16 name="Runtime Material Index" offset="0x4" visible="true" />
+		<flags16 name="Response Flags" offset="0x6" visible="true">
+			<bit name="OnlyAgainstUnits" index="0" />
+			<bit name="NeverAgainstUnits" index="1" />
+			<bit name="OnlyAgainstBipeds" index="2" />
+			<bit name="OnlyAgainstVehicles" index="3" />
+			<bit name="NeverAgainstWussPlayers" index="4" />
+			<bit name="OnlyWhenTethered" index="5" />
+			<bit name="OnlyWhenNotTethered" index="6" />
+			<bit name="OnlyAgainstDeadBipeds" index="7" />
+			<bit name="NeverAgainstDeadBipeds" index="8" />
+			<bit name="OnlyAiProjectiles" index="9" />
+			<bit name="NeverAiProjectiles" index="10" />
+		</flags16>
+		<float32 name="Chance Fraction" offset="0x8" visible="true" />
+		<ranged name="Between Angle" offset="0xC" visible="true" />
+		<rangef name="And Velocity" offset="0x14" visible="true" />
+		<enum16 name="Potential Response" offset="0x1C" visible="true">
+			<option name="ImpactDetonate" value="0" />
+			<option name="Fizzle" value="1" />
+			<option name="Overpenetrate" value="2" />
+			<option name="Attach" value="3" />
+			<option name="Bounce" value="4" />
+			<option name="BounceDud" value="5" />
+			<option name="FizzleRicochet" value="6" />
+			<option name="TurnPhysical" value="7" />
+			<option name="Airstrike" value="8" />
+		</enum16>
+		<enum16 name="Scale Effects By" offset="0x1E" visible="true">
+			<option name="Damage" value="0" />
+			<option name="Angle" value="1" />
+		</enum16>
+		<degree name="Angular Noise" offset="0x20" visible="true" />
+		<float32 name="Velocity Noise" offset="0x24" visible="true" />
+		<float32 name="Initial Friction" offset="0x28" visible="true" />
+		<float32 name="Parallel Friction" offset="0x2C" visible="true" />
+		<float32 name="Perpendicular Friction" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Brute Grenade Properties" offset="0x33C" visible="true" elementSize="0x30">
+		<ranged name="Angular Velocity Range" offset="0x0" visible="true" />
+		<degree name="Spin Angular Velocity" offset="0x8" visible="true" />
+		<float32 name="Angular Damping" offset="0xC" visible="true" />
+		<float32 name="Drag Angle K" offset="0x10" visible="true" />
+		<float32 name="Drag Speed K" offset="0x14" visible="true" />
+		<float32 name="Drag Exponent" offset="0x18" visible="true" />
+		<float32 name="Attach Sample Radius" offset="0x1C" visible="true" />
+		<float32 name="Attach Acc K" offset="0x20" visible="true" />
+		<float32 name="Attach Acc S" offset="0x24" visible="true" />
+		<float32 name="Attach Acc E" offset="0x28" visible="true" />
+		<float32 name="Attach Acc Damping" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagblock name="Fire Bomb Grenade Properties" offset="0x348" visible="true" elementSize="0x4">
+		<float32 name="Projection Offset" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Conical Spread" offset="0x354" visible="true" elementSize="0xC">
+		<int16 name="Yaw Count" offset="0x0" visible="true" />
+		<int16 name="Pitch Count" offset="0x2" visible="true" />
+		<float32 name="Distribution Exponent" offset="0x4" visible="true" />
+		<degree name="Spread" offset="0x8" visible="true" />
+	</tagblock>
+	<tagref name="Grounded Friction Settings" offset="0x360" visible="true" />
+</plugin>

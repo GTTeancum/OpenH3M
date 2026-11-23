@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.MaterialEffects (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Effects" offset="0x0" visible="true" elementSize="0x24">
+		<tagblock name="Old Materials" offset="0x0" visible="true" elementSize="0x2C">
+			<tagref name="Effect" offset="0x0" visible="true" />
+			<tagref name="Sound" offset="0x10" visible="true" />
+			<stringid name="Material Name" offset="0x20" visible="true" />
+			<int16 name="Runtime Material Index" offset="0x24" visible="true" />
+			<uint8 name="KTRVUIKB 0" offset="0x26" visible="false" />
+			<uint8 name="KTRVUIKB 1" offset="0x27" visible="false" />
+			<enum8 name="Sweetener Mode" offset="0x28" visible="true">
+				<option name="SweetenerDefault" value="0" />
+				<option name="SweetenerEnabled" value="1" />
+				<option name="SweetenerDisabled" value="2" />
+			</enum8>
+			<uint8 name="QNGPTA 0" offset="0x29" visible="false" />
+			<uint8 name="QNGPTA 1" offset="0x2A" visible="false" />
+			<uint8 name="QNGPTA 2" offset="0x2B" visible="false" />
+		</tagblock>
+		<tagblock name="Sounds" offset="0xC" visible="true" elementSize="0x28">
+			<tagref name="Primary" offset="0x0" visible="true" />
+			<tagref name="Secondary" offset="0x10" visible="true" />
+			<stringid name="Material Name" offset="0x20" visible="true" />
+			<int16 name="Runtime Material Index" offset="0x24" visible="true" />
+			<enum8 name="Sweetener Mode" offset="0x26" visible="true">
+				<option name="Default" value="0" />
+				<option name="Enabled" value="1" />
+				<option name="Disabled" value="2" />
+			</enum8>
+			<uint8 name="Unused 0" offset="0x27" visible="false" />
+		</tagblock>
+		<tagblock name="Effects" offset="0x18" visible="true" elementSize="0x28">
+			<tagref name="Primary" offset="0x0" visible="true" />
+			<tagref name="Secondary" offset="0x10" visible="true" />
+			<stringid name="Material Name" offset="0x20" visible="true" />
+			<int16 name="Runtime Material Index" offset="0x24" visible="true" />
+			<enum8 name="Sweetener Mode" offset="0x26" visible="true">
+				<option name="Default" value="0" />
+				<option name="Enabled" value="1" />
+				<option name="Disabled" value="2" />
+			</enum8>
+			<uint8 name="Unused 0" offset="0x27" visible="false" />
+		</tagblock>
+	</tagblock>
+</plugin>

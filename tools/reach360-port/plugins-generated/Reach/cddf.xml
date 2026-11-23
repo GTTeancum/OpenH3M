@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x50">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CollisionDamage (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Apply Collision Damage Scale" offset="0x0" visible="true" />
+	<float32 name="Friendly Apply Collision Damage" offset="0x4" visible="true" />
+	<float32 name="Minimum Velocity For Game Damage" offset="0x8" visible="true" />
+	<dataref name="Game Collision Damage / Data" offset="0xC" visible="true" />
+	<rangef name="Game Acceleration Bounds" offset="0x20" visible="true" />
+	<float32 name="Apply Absolute Collision Damage Scale" offset="0x28" visible="true" />
+	<float32 name="Friendly Apply Absolute Collision Damage Scale" offset="0x2C" visible="true" />
+	<float32 name="Minimum Velocity For Absolute Damage" offset="0x30" visible="true" />
+	<dataref name="Absolute Collision Damage / Data" offset="0x34" visible="true" />
+	<rangef name="Absolute Damage Acceleration Bounds" offset="0x48" visible="true" />
+</plugin>

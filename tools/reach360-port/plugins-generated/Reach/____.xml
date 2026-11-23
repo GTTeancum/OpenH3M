@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ScenarioCommentsResource (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Comments" offset="0x0" visible="true" elementSize="0x130">
+		<point3 name="Position" offset="0x0" visible="true" />
+		<enum32 name="Type" offset="0xC" visible="true">
+			<option name="Generic" value="0" />
+		</enum32>
+		<ascii name="Name" offset="0x10" visible="true" size="0x20" />
+		<ascii name="Comment" offset="0x30" visible="true" size="0x100" />
+	</tagblock>
+</plugin>

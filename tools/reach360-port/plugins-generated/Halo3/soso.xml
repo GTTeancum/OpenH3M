@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x1B8">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.ShaderModel (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="SimpleParameterization" index="0" />
+		<bit name="IgnoreNormals" index="1" />
+		<bit name="TransparentLit" index="2" />
+	</flags16>
+	<enum16 name="Detail Level" offset="0x2" visible="true">
+		<option name="High" value="0" />
+		<option name="Medium" value="1" />
+		<option name="Low" value="2" />
+		<option name="Turd" value="3" />
+	</enum16>
+	<float32 name="Power" offset="0x4" visible="true" />
+	<colorf name="Color Of Emitted Light" offset="0x8" alpha="false" visible="true" />
+	<colorf name="Tint Color" offset="0x14" alpha="false" visible="true" />
+	<flags16 name="Flags1" offset="0x20" visible="true" />
+	<enum16 name="Material Type" offset="0x22" visible="true">
+		<option name="Dirt" value="0" />
+		<option name="Sand" value="1" />
+		<option name="Stone" value="2" />
+		<option name="Snow" value="3" />
+		<option name="Wood" value="4" />
+		<option name="MetalHollow" value="5" />
+		<option name="MetalThin" value="6" />
+		<option name="MetalThick" value="7" />
+		<option name="Rubber" value="8" />
+		<option name="Glass" value="9" />
+		<option name="ForceField" value="10" />
+		<option name="Grunt" value="11" />
+		<option name="HunterArmor" value="12" />
+		<option name="HunterSkin" value="13" />
+		<option name="Elite" value="14" />
+		<option name="Jackal" value="15" />
+		<option name="JackalEnergyShield" value="16" />
+		<option name="EngineerSkin" value="17" />
+		<option name="EngineerForceField" value="18" />
+		<option name="FloodCombatForm" value="19" />
+		<option name="FloodCarrierForm" value="20" />
+		<option name="CyborgArmor" value="21" />
+		<option name="CyborgEnergyShield" value="22" />
+		<option name="HumanArmor" value="23" />
+		<option name="HumanSkin" value="24" />
+		<option name="Sentinel" value="25" />
+		<option name="Monitor" value="26" />
+		<option name="Plastic" value="27" />
+		<option name="Water" value="28" />
+		<option name="Leaves" value="29" />
+		<option name="EliteEnergyShield" value="30" />
+		<option name="Ice" value="31" />
+		<option name="HunterShield" value="32" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0x24" visible="false" />
+	<uint8 name="Padding 1" offset="0x25" visible="false" />
+	<uint8 name="Padding1 0" offset="0x26" visible="false" />
+	<uint8 name="Padding1 1" offset="0x27" visible="false" />
+	<flags16 name="Flags2" offset="0x28" visible="true">
+		<bit name="DetailAfterReflection" index="0" />
+		<bit name="TwoSided" index="1" />
+		<bit name="NotAlphaTested" index="2" />
+		<bit name="AlphaBlendedDecal" index="3" />
+		<bit name="TrueAtmosphericFog" index="4" />
+		<bit name="DisableTwoSidedCulling" index="5" />
+	</flags16>
+	<uint8 name="Padding2 0" offset="0x2A" visible="false" />
+	<uint8 name="Padding2 1" offset="0x2B" visible="false" />
+	<uint8 name="Padding3 0" offset="0x2C" visible="false" />
+	<uint8 name="Padding3 1" offset="0x2D" visible="false" />
+	<uint8 name="Padding3 2" offset="0x2E" visible="false" />
+	<uint8 name="Padding3 3" offset="0x2F" visible="false" />
+	<uint8 name="Padding3 4" offset="0x30" visible="false" />
+	<uint8 name="Padding3 5" offset="0x31" visible="false" />
+	<uint8 name="Padding3 6" offset="0x32" visible="false" />
+	<uint8 name="Padding3 7" offset="0x33" visible="false" />
+	<uint8 name="Padding3 8" offset="0x34" visible="false" />
+	<uint8 name="Padding3 9" offset="0x35" visible="false" />
+	<uint8 name="Padding3 10" offset="0x36" visible="false" />
+	<uint8 name="Padding3 11" offset="0x37" visible="false" />
+	<float32 name="Translucency" offset="0x38" visible="true" />
+	<uint8 name="Padding4 0" offset="0x3C" visible="false" />
+	<uint8 name="Padding4 1" offset="0x3D" visible="false" />
+	<uint8 name="Padding4 2" offset="0x3E" visible="false" />
+	<uint8 name="Padding4 3" offset="0x3F" visible="false" />
+	<uint8 name="Padding4 4" offset="0x40" visible="false" />
+	<uint8 name="Padding4 5" offset="0x41" visible="false" />
+	<uint8 name="Padding4 6" offset="0x42" visible="false" />
+	<uint8 name="Padding4 7" offset="0x43" visible="false" />
+	<uint8 name="Padding4 8" offset="0x44" visible="false" />
+	<uint8 name="Padding4 9" offset="0x45" visible="false" />
+	<uint8 name="Padding4 10" offset="0x46" visible="false" />
+	<uint8 name="Padding4 11" offset="0x47" visible="false" />
+	<uint8 name="Padding4 12" offset="0x48" visible="false" />
+	<uint8 name="Padding4 13" offset="0x49" visible="false" />
+	<uint8 name="Padding4 14" offset="0x4A" visible="false" />
+	<uint8 name="Padding4 15" offset="0x4B" visible="false" />
+	<enum16 name="Change Color Source" offset="0x4C" visible="true">
+		<option name="None" value="0" />
+		<option name="A" value="1" />
+		<option name="B" value="2" />
+		<option name="C" value="3" />
+		<option name="D" value="4" />
+	</enum16>
+	<uint8 name="Padding5 0" offset="0x4E" visible="false" />
+	<uint8 name="Padding5 1" offset="0x4F" visible="false" />
+	<uint8 name="Padding6 0" offset="0x50" visible="false" />
+	<uint8 name="Padding6 1" offset="0x51" visible="false" />
+	<uint8 name="Padding6 2" offset="0x52" visible="false" />
+	<uint8 name="Padding6 3" offset="0x53" visible="false" />
+	<uint8 name="Padding6 4" offset="0x54" visible="false" />
+	<uint8 name="Padding6 5" offset="0x55" visible="false" />
+	<uint8 name="Padding6 6" offset="0x56" visible="false" />
+	<uint8 name="Padding6 7" offset="0x57" visible="false" />
+	<uint8 name="Padding6 8" offset="0x58" visible="false" />
+	<uint8 name="Padding6 9" offset="0x59" visible="false" />
+	<uint8 name="Padding6 10" offset="0x5A" visible="false" />
+	<uint8 name="Padding6 11" offset="0x5B" visible="false" />
+	<uint8 name="Padding6 12" offset="0x5C" visible="false" />
+	<uint8 name="Padding6 13" offset="0x5D" visible="false" />
+	<uint8 name="Padding6 14" offset="0x5E" visible="false" />
+	<uint8 name="Padding6 15" offset="0x5F" visible="false" />
+	<uint8 name="Padding6 16" offset="0x60" visible="false" />
+	<uint8 name="Padding6 17" offset="0x61" visible="false" />
+	<uint8 name="Padding6 18" offset="0x62" visible="false" />
+	<uint8 name="Padding6 19" offset="0x63" visible="false" />
+	<uint8 name="Padding6 20" offset="0x64" visible="false" />
+	<uint8 name="Padding6 21" offset="0x65" visible="false" />
+	<uint8 name="Padding6 22" offset="0x66" visible="false" />
+	<uint8 name="Padding6 23" offset="0x67" visible="false" />
+	<uint8 name="Padding6 24" offset="0x68" visible="false" />
+	<uint8 name="Padding6 25" offset="0x69" visible="false" />
+	<uint8 name="Padding6 26" offset="0x6A" visible="false" />
+	<uint8 name="Padding6 27" offset="0x6B" visible="false" />
+	<flags16 name="Flags3" offset="0x6C" visible="true">
+		<bit name="NoRandomPhase" index="0" />
+	</flags16>
+	<uint8 name="Padding7 0" offset="0x6E" visible="false" />
+	<uint8 name="Padding7 1" offset="0x6F" visible="false" />
+	<enum16 name="Color Source" offset="0x70" visible="true">
+		<option name="None" value="0" />
+		<option name="A" value="1" />
+		<option name="B" value="2" />
+		<option name="C" value="3" />
+		<option name="D" value="4" />
+	</enum16>
+	<enum16 name="Animation Function" offset="0x72" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="CosineVariablePeriod" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWaveVariablePeriod" value="5" />
+		<option name="Slide" value="6" />
+		<option name="SlideVariablePeriod" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<float32 name="Animation Period" offset="0x74" visible="true" />
+	<colorf name="Animation Color Lower Bound" offset="0x78" alpha="false" visible="true" />
+	<colorf name="Animation Color Upper Bound" offset="0x84" alpha="false" visible="true" />
+	<uint8 name="Padding8 0" offset="0x90" visible="false" />
+	<uint8 name="Padding8 1" offset="0x91" visible="false" />
+	<uint8 name="Padding8 2" offset="0x92" visible="false" />
+	<uint8 name="Padding8 3" offset="0x93" visible="false" />
+	<uint8 name="Padding8 4" offset="0x94" visible="false" />
+	<uint8 name="Padding8 5" offset="0x95" visible="false" />
+	<uint8 name="Padding8 6" offset="0x96" visible="false" />
+	<uint8 name="Padding8 7" offset="0x97" visible="false" />
+	<uint8 name="Padding8 8" offset="0x98" visible="false" />
+	<uint8 name="Padding8 9" offset="0x99" visible="false" />
+	<uint8 name="Padding8 10" offset="0x9A" visible="false" />
+	<uint8 name="Padding8 11" offset="0x9B" visible="false" />
+	<float32 name="Map U Scale" offset="0x9C" visible="true" />
+	<float32 name="Map V Scale" offset="0xA0" visible="true" />
+	<tagref name="Base Map" offset="0xA4" visible="true" />
+	<uint8 name="Padding9 0" offset="0xB4" visible="false" />
+	<uint8 name="Padding9 1" offset="0xB5" visible="false" />
+	<uint8 name="Padding9 2" offset="0xB6" visible="false" />
+	<uint8 name="Padding9 3" offset="0xB7" visible="false" />
+	<uint8 name="Padding9 4" offset="0xB8" visible="false" />
+	<uint8 name="Padding9 5" offset="0xB9" visible="false" />
+	<uint8 name="Padding9 6" offset="0xBA" visible="false" />
+	<uint8 name="Padding9 7" offset="0xBB" visible="false" />
+	<tagref name="Multipurpose Map" offset="0xBC" visible="true" />
+	<uint8 name="Padding10 0" offset="0xCC" visible="false" />
+	<uint8 name="Padding10 1" offset="0xCD" visible="false" />
+	<uint8 name="Padding10 2" offset="0xCE" visible="false" />
+	<uint8 name="Padding10 3" offset="0xCF" visible="false" />
+	<uint8 name="Padding10 4" offset="0xD0" visible="false" />
+	<uint8 name="Padding10 5" offset="0xD1" visible="false" />
+	<uint8 name="Padding10 6" offset="0xD2" visible="false" />
+	<uint8 name="Padding10 7" offset="0xD3" visible="false" />
+	<enum16 name="Detail Function" offset="0xD4" visible="true">
+		<option name="DoubleBiasedMultiply" value="0" />
+		<option name="Multiply" value="1" />
+		<option name="DoubleBiasedAdd" value="2" />
+	</enum16>
+	<enum16 name="Detail Mask" offset="0xD6" visible="true">
+		<option name="None" value="0" />
+		<option name="ReflectionMaskInverse" value="1" />
+		<option name="ReflectionMask" value="2" />
+		<option name="SelfIlluminationMaskInverse" value="3" />
+		<option name="SelfIlluminationMask" value="4" />
+		<option name="ChangeColorMaskInverse" value="5" />
+		<option name="ChangeColorMask" value="6" />
+		<option name="MultipurposeMapAlphaInverse" value="7" />
+		<option name="MultipurposeMapAlpha" value="8" />
+	</enum16>
+	<float32 name="Detail Map Scale" offset="0xD8" visible="true" />
+	<tagref name="Detail Map" offset="0xDC" visible="true" />
+	<float32 name="Detail Map V Scale" offset="0xEC" visible="true" />
+	<uint8 name="Padding11 0" offset="0xF0" visible="false" />
+	<uint8 name="Padding11 1" offset="0xF1" visible="false" />
+	<uint8 name="Padding11 2" offset="0xF2" visible="false" />
+	<uint8 name="Padding11 3" offset="0xF3" visible="false" />
+	<uint8 name="Padding11 4" offset="0xF4" visible="false" />
+	<uint8 name="Padding11 5" offset="0xF5" visible="false" />
+	<uint8 name="Padding11 6" offset="0xF6" visible="false" />
+	<uint8 name="Padding11 7" offset="0xF7" visible="false" />
+	<uint8 name="Padding11 8" offset="0xF8" visible="false" />
+	<uint8 name="Padding11 9" offset="0xF9" visible="false" />
+	<uint8 name="Padding11 10" offset="0xFA" visible="false" />
+	<uint8 name="Padding11 11" offset="0xFB" visible="false" />
+	<enum16 name="U Animation Source" offset="0xFC" visible="true">
+		<option name="None" value="0" />
+		<option name="AOut" value="1" />
+		<option name="BOut" value="2" />
+		<option name="COut" value="3" />
+		<option name="DOut" value="4" />
+	</enum16>
+	<enum16 name="U Animation Function" offset="0xFE" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="CosineVariablePeriod" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWaveVariablePeriod" value="5" />
+		<option name="Slide" value="6" />
+		<option name="SlideVariablePeriod" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<float32 name="U Animation Period" offset="0x100" visible="true" />
+	<float32 name="U Animation Phase" offset="0x104" visible="true" />
+	<float32 name="U Animation Scale" offset="0x108" visible="true" />
+	<enum16 name="V Animation Source" offset="0x10C" visible="true">
+		<option name="None" value="0" />
+		<option name="AOut" value="1" />
+		<option name="BOut" value="2" />
+		<option name="COut" value="3" />
+		<option name="DOut" value="4" />
+	</enum16>
+	<enum16 name="V Animation Function" offset="0x10E" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="CosineVariablePeriod" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWaveVariablePeriod" value="5" />
+		<option name="Slide" value="6" />
+		<option name="SlideVariablePeriod" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<float32 name="V Animation Period" offset="0x110" visible="true" />
+	<float32 name="V Animation Phase" offset="0x114" visible="true" />
+	<float32 name="V Animation Scale" offset="0x118" visible="true" />
+	<enum16 name="Rotation Animation Source" offset="0x11C" visible="true">
+		<option name="None" value="0" />
+		<option name="AOut" value="1" />
+		<option name="BOut" value="2" />
+		<option name="COut" value="3" />
+		<option name="DOut" value="4" />
+	</enum16>
+	<enum16 name="Rotation Animation Function" offset="0x11E" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="CosineVariablePeriod" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWaveVariablePeriod" value="5" />
+		<option name="Slide" value="6" />
+		<option name="SlideVariablePeriod" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<float32 name="Rotation Animation Period" offset="0x120" visible="true" />
+	<float32 name="Rotation Animation Phase" offset="0x124" visible="true" />
+	<float32 name="Rotation Animation Scale" offset="0x128" visible="true" />
+	<point2 name="Rotation Animation Center" offset="0x12C" visible="true" />
+	<uint8 name="Padding12 0" offset="0x134" visible="false" />
+	<uint8 name="Padding12 1" offset="0x135" visible="false" />
+	<uint8 name="Padding12 2" offset="0x136" visible="false" />
+	<uint8 name="Padding12 3" offset="0x137" visible="false" />
+	<uint8 name="Padding12 4" offset="0x138" visible="false" />
+	<uint8 name="Padding12 5" offset="0x139" visible="false" />
+	<uint8 name="Padding12 6" offset="0x13A" visible="false" />
+	<uint8 name="Padding12 7" offset="0x13B" visible="false" />
+	<float32 name="Reflection Falloff Distance" offset="0x13C" visible="true" />
+	<float32 name="Reflection Cutoff Distance" offset="0x140" visible="true" />
+	<float32 name="Perpendicular Brightness" offset="0x144" visible="true" />
+	<colorf name="Perpendicular Tint Color" offset="0x148" alpha="false" visible="true" />
+	<float32 name="Parallel Brightness" offset="0x154" visible="true" />
+	<colorf name="Parallel Tint Color" offset="0x158" alpha="false" visible="true" />
+	<tagref name="Reflection Cube Map" offset="0x164" visible="true" />
+	<uint8 name="Padding13 0" offset="0x174" visible="false" />
+	<uint8 name="Padding13 1" offset="0x175" visible="false" />
+	<uint8 name="Padding13 2" offset="0x176" visible="false" />
+	<uint8 name="Padding13 3" offset="0x177" visible="false" />
+	<uint8 name="Padding13 4" offset="0x178" visible="false" />
+	<uint8 name="Padding13 5" offset="0x179" visible="false" />
+	<uint8 name="Padding13 6" offset="0x17A" visible="false" />
+	<uint8 name="Padding13 7" offset="0x17B" visible="false" />
+	<uint8 name="Padding13 8" offset="0x17C" visible="false" />
+	<uint8 name="Padding13 9" offset="0x17D" visible="false" />
+	<uint8 name="Padding13 10" offset="0x17E" visible="false" />
+	<uint8 name="Padding13 11" offset="0x17F" visible="false" />
+	<uint8 name="Padding13 12" offset="0x180" visible="false" />
+	<uint8 name="Padding13 13" offset="0x181" visible="false" />
+	<uint8 name="Padding13 14" offset="0x182" visible="false" />
+	<uint8 name="Padding13 15" offset="0x183" visible="false" />
+	<uint8 name="Padding14 0" offset="0x184" visible="false" />
+	<uint8 name="Padding14 1" offset="0x185" visible="false" />
+	<uint8 name="Padding14 2" offset="0x186" visible="false" />
+	<uint8 name="Padding14 3" offset="0x187" visible="false" />
+	<uint8 name="Padding15 0" offset="0x188" visible="false" />
+	<uint8 name="Padding15 1" offset="0x189" visible="false" />
+	<uint8 name="Padding15 2" offset="0x18A" visible="false" />
+	<uint8 name="Padding15 3" offset="0x18B" visible="false" />
+	<uint8 name="Padding15 4" offset="0x18C" visible="false" />
+	<uint8 name="Padding15 5" offset="0x18D" visible="false" />
+	<uint8 name="Padding15 6" offset="0x18E" visible="false" />
+	<uint8 name="Padding15 7" offset="0x18F" visible="false" />
+	<uint8 name="Padding15 8" offset="0x190" visible="false" />
+	<uint8 name="Padding15 9" offset="0x191" visible="false" />
+	<uint8 name="Padding15 10" offset="0x192" visible="false" />
+	<uint8 name="Padding15 11" offset="0x193" visible="false" />
+	<uint8 name="Padding15 12" offset="0x194" visible="false" />
+	<uint8 name="Padding15 13" offset="0x195" visible="false" />
+	<uint8 name="Padding15 14" offset="0x196" visible="false" />
+	<uint8 name="Padding15 15" offset="0x197" visible="false" />
+	<uint8 name="Padding16 0" offset="0x198" visible="false" />
+	<uint8 name="Padding16 1" offset="0x199" visible="false" />
+	<uint8 name="Padding16 2" offset="0x19A" visible="false" />
+	<uint8 name="Padding16 3" offset="0x19B" visible="false" />
+	<uint8 name="Padding16 4" offset="0x19C" visible="false" />
+	<uint8 name="Padding16 5" offset="0x19D" visible="false" />
+	<uint8 name="Padding16 6" offset="0x19E" visible="false" />
+	<uint8 name="Padding16 7" offset="0x19F" visible="false" />
+	<uint8 name="Padding16 8" offset="0x1A0" visible="false" />
+	<uint8 name="Padding16 9" offset="0x1A1" visible="false" />
+	<uint8 name="Padding16 10" offset="0x1A2" visible="false" />
+	<uint8 name="Padding16 11" offset="0x1A3" visible="false" />
+	<uint8 name="Padding16 12" offset="0x1A4" visible="false" />
+	<uint8 name="Padding16 13" offset="0x1A5" visible="false" />
+	<uint8 name="Padding16 14" offset="0x1A6" visible="false" />
+	<uint8 name="Padding16 15" offset="0x1A7" visible="false" />
+	<uint8 name="Padding16 16" offset="0x1A8" visible="false" />
+	<uint8 name="Padding16 17" offset="0x1A9" visible="false" />
+	<uint8 name="Padding16 18" offset="0x1AA" visible="false" />
+	<uint8 name="Padding16 19" offset="0x1AB" visible="false" />
+	<uint8 name="Padding16 20" offset="0x1AC" visible="false" />
+	<uint8 name="Padding16 21" offset="0x1AD" visible="false" />
+	<uint8 name="Padding16 22" offset="0x1AE" visible="false" />
+	<uint8 name="Padding16 23" offset="0x1AF" visible="false" />
+	<uint8 name="Padding16 24" offset="0x1B0" visible="false" />
+	<uint8 name="Padding16 25" offset="0x1B1" visible="false" />
+	<uint8 name="Padding16 26" offset="0x1B2" visible="false" />
+	<uint8 name="Padding16 27" offset="0x1B3" visible="false" />
+	<uint8 name="Padding16 28" offset="0x1B4" visible="false" />
+	<uint8 name="Padding16 29" offset="0x1B5" visible="false" />
+	<uint8 name="Padding16 30" offset="0x1B6" visible="false" />
+	<uint8 name="Padding16 31" offset="0x1B7" visible="false" />
+</plugin>

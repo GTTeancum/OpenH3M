@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Hf2pGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Race Armors" offset="0x0" visible="true" elementSize="0xC">
+		<tagblock name="Genders" offset="0x0" visible="true" elementSize="0xC">
+			<tagblock name="Armor Objects" offset="0x0" visible="true" elementSize="0x34">
+				<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+				<tagref name="Armor" offset="0x20" visible="true" />
+				<stringid name="Variant" offset="0x30" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+</plugin>

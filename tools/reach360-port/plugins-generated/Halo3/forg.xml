@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x104">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ForgeGlobalsDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Version" offset="0x0" visible="true" />
+	<tagref name="Default Boundary Render Method" offset="0x4" visible="true" />
+	<tagref name="Invisible Render Method" offset="0x14" visible="true" />
+	<tagref name="Default Render Method" offset="0x24" visible="true" />
+	<tagblock name="Re Forge Materials" offset="0x34" visible="true" elementSize="0x30">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<tagref name="Render Method" offset="0x20" visible="true" />
+	</tagblock>
+	<tagblock name="Re Forge Material Types" offset="0x40" visible="true" elementSize="0x24">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<int16 name="Collision Material Index" offset="0x20" visible="true" />
+		<int16 name="Physics Material Index" offset="0x22" visible="true" />
+	</tagblock>
+	<tagblock name="Re Forge Objects" offset="0x4C" visible="true" elementSize="0x10">
+		<tagref name="Instance" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Prematch Camera Object" offset="0x58" visible="true" />
+	<tagref name="Postmatch Object" offset="0x68" visible="true" />
+	<tagref name="Modifier Object" offset="0x78" visible="true" />
+	<tagref name="Kill Volume Object" offset="0x88" visible="true" />
+	<tagref name="Garbage Volume Object" offset="0x98" visible="true" />
+	<tagblock name="Descriptions" offset="0xA8" visible="true" elementSize="0x100">
+		<ascii name="Text" offset="0x0" visible="true" size="0x100" />
+	</tagblock>
+	<tagblock name="Palette Categories" offset="0xB4" visible="true" elementSize="0x24">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<int16 name="Description Index" offset="0x20" visible="true" />
+		<int16 name="Parent Category Index" offset="0x22" visible="true" />
+	</tagblock>
+	<tagblock name="Palette" offset="0xC0" visible="true" elementSize="0x44">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<enum16 name="Type" offset="0x20" visible="true">
+			<option name="None" value="0" />
+			<option name="Tool" value="1" />
+			<option name="Prop" value="2" />
+			<option name="Light" value="3" />
+			<option name="Effects" value="4" />
+			<option name="Structure" value="5" />
+			<option name="Equipment" value="6" />
+			<option name="Weapon" value="7" />
+			<option name="Vehicle" value="8" />
+			<option name="Teleporter" value="9" />
+			<option name="Game" value="10" />
+			<option name="Assault" value="11" />
+			<option name="CaptureTheFlag" value="12" />
+			<option name="Infection" value="13" />
+			<option name="Juggernaut" value="14" />
+			<option name="KingOfTheHill" value="15" />
+			<option name="Territories" value="16" />
+			<option name="Slayer" value="17" />
+			<option name="VIP" value="18" />
+		</enum16>
+		<int16 name="Category Index" offset="0x22" visible="true" />
+		<int16 name="Description Index" offset="0x24" visible="true" />
+		<uint16 name="Max Allowed" offset="0x26" visible="true" />
+		<tagref name="Object" offset="0x28" visible="true" />
+		<tagblock name="Setters" offset="0x38" visible="true" elementSize="0xC">
+			<enum16 name="Target" offset="0x0" visible="true">
+				<option name="General_OnMapAtStart" value="0" />
+				<option name="General_Symmetry" value="1" />
+				<option name="General_RespawnRate" value="2" />
+				<option name="General_SpareClips" value="3" />
+				<option name="General_SpawnOrder" value="4" />
+				<option name="General_Team" value="5" />
+				<option name="General_TeleporterChannel" value="6" />
+				<option name="General_ShapeType" value="7" />
+				<option name="General_ShapeRadius" value="8" />
+				<option name="General_ShapeWidth" value="9" />
+				<option name="General_ShapeTop" value="10" />
+				<option name="General_ShapeBottom" value="11" />
+				<option name="General_ShapeDepth" value="12" />
+				<option name="General_Physics" value="13" />
+				<option name="General_EngineFlags" value="14" />
+				<option name="Reforge_Material" value="15" />
+				<option name="Reforge_Material_ColorR" value="16" />
+				<option name="Reforge_Material_ColorG" value="17" />
+				<option name="Reforge_Material_ColorB" value="18" />
+				<option name="Reforge_Material_TextureOverride" value="19" />
+				<option name="Reforge_Material_TextureScale" value="20" />
+				<option name="Reforge_Material_TextureOffsetX" value="21" />
+				<option name="Reforge_Material_TextureOffsetY" value="22" />
+				<option name="Reforge_MaterialAllowsProjectiles" value="23" />
+				<option name="Reforge_MaterialType" value="24" />
+				<option name="Light_Type" value="25" />
+				<option name="Light_ColorR" value="26" />
+				<option name="Light_ColorG" value="27" />
+				<option name="Light_ColorB" value="28" />
+				<option name="Light_Intensity" value="29" />
+				<option name="Light_Radius" value="30" />
+				<option name="Light_FieldOfView" value="31" />
+				<option name="Light_NearWidth" value="32" />
+				<option name="Light_IlluminationType" value="33" />
+				<option name="Light_IlluminationBase" value="34" />
+				<option name="Light_IlluminationFreq" value="35" />
+				<option name="Fx_Range" value="36" />
+				<option name="Fx_LightIntensity" value="37" />
+				<option name="Fx_Hue" value="38" />
+				<option name="Fx_Saturation" value="39" />
+				<option name="Fx_Desaturation" value="40" />
+				<option name="Fx_GammaIncrease" value="41" />
+				<option name="Fx_GammaDecrease" value="42" />
+				<option name="Fx_ColorFilterR" value="43" />
+				<option name="Fx_ColorFilterG" value="44" />
+				<option name="Fx_ColorFilterB" value="45" />
+				<option name="Fx_ColorFloorR" value="46" />
+				<option name="Fx_ColorFloorG" value="47" />
+				<option name="Fx_ColorFloorB" value="48" />
+				<option name="Fx_Tracing" value="49" />
+				<option name="GarbageVolume_CollectDeadBiped" value="50" />
+				<option name="GarbageVolume_CollectWeapons" value="51" />
+				<option name="GarbageVolume_CollectObjectives" value="52" />
+				<option name="GarbageVolume_CollectGrenades" value="53" />
+				<option name="GarbageVolume_CollectEquipment" value="54" />
+				<option name="GarbageVolume_CollectVehicles" value="55" />
+				<option name="GarbageVolume_Interval" value="56" />
+				<option name="KillVolume_AlwaysVisible" value="57" />
+				<option name="KillVolume_DestroyVehicles" value="58" />
+				<option name="KillVolume_DamageCause" value="59" />
+				<option name="Map_DisablePushBarrier" value="60" />
+				<option name="Map_DisableDeathBarrier" value="61" />
+				<option name="Map_PhysicsGravity" value="62" />
+				<option name="CameraFx_Exposure" value="63" />
+				<option name="CameraFx_LightIntensity" value="64" />
+				<option name="CameraFx_Bloom" value="65" />
+				<option name="CameraFx_LightBloom" value="66" />
+				<option name="AtmosphereProperties_Enabled" value="67" />
+				<option name="AtmosphereProperties_Weather" value="68" />
+				<option name="AtmosphereProperties_Brightness" value="69" />
+				<option name="AtmosphereProperties_FogDensity" value="70" />
+				<option name="AtmosphereProperties_FogVisibility" value="71" />
+				<option name="AtmosphereProperties_FogColorR" value="72" />
+				<option name="AtmosphereProperties_FogColorG" value="73" />
+				<option name="AtmosphereProperties_FogColorB" value="74" />
+				<option name="AtmosphereProperties_Skybox" value="75" />
+				<option name="AtmosphereProperties_SkyboxOffsetZ" value="76" />
+				<option name="AtmosphereProperties_SkyboxOverrideTransform" value="77" />
+				<option name="Budget_Minimum" value="78" />
+				<option name="Budget_Maximum" value="79" />
+			</enum16>
+			<enum8 name="Type" offset="0x2" visible="true">
+				<option name="Integer" value="0" />
+				<option name="Real" value="1" />
+			</enum8>
+			<flags8 name="Flags" offset="0x3" visible="true">
+				<bit name="Hidden" index="0" />
+			</flags8>
+			<int32 name="Integer Value" offset="0x4" visible="true" />
+			<float32 name="Real Value" offset="0x8" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Weather Effects" offset="0xCC" visible="true" elementSize="0x30">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<tagref name="Effect" offset="0x20" visible="true" />
+	</tagblock>
+	<tagblock name="Skies" offset="0xD8" visible="true" elementSize="0xAC">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<flags32 name="Flags" offset="0x20" visible="true" />
+		<point3 name="Translation" offset="0x24" visible="true" />
+		<degree3 name="Orientation" offset="0x30" visible="true" />
+		<tagref name="Object" offset="0x3C" visible="true" />
+		<tagref name="Parameters" offset="0x4C" visible="true" />
+		<tagref name="Wind" offset="0x5C" visible="true" />
+		<tagref name="Camera FX" offset="0x6C" visible="true" />
+		<tagref name="Screen FX" offset="0x7C" visible="true" />
+		<tagref name="Global Lighting" offset="0x8C" visible="true" />
+		<tagref name="Background Sound" offset="0x9C" visible="true" />
+	</tagblock>
+	<tagref name="Fx Object" offset="0xE4" visible="true" />
+	<tagref name="Fx Light" offset="0xF4" visible="true" />
+</plugin>

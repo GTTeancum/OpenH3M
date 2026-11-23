@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x1C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ChallengeGlobalsDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Medal Aggregators" offset="0x0" visible="true" />
+	<tagblock name="Challenge Categories" offset="0x10" visible="true" elementSize="0x14">
+		<stringid name="Category Name" offset="0x0" visible="true" />
+		<enum8 name="Challenge Category" offset="0x4" visible="true">
+			<option name="Campaign" value="0" />
+			<option name="Competitive" value="1" />
+			<option name="SpartanOps" value="2" />
+			<option name="Waypoint" value="3" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x5" visible="false" />
+		<uint8 name="Padding 1" offset="0x6" visible="false" />
+		<uint8 name="Padding 2" offset="0x7" visible="false" />
+		<tagblock name="Challenges" offset="0x8" visible="true" elementSize="0x54">
+			<stringid name="Challenge Name" offset="0x0" visible="true" />
+			<stringid name="Display String" offset="0x4" visible="true" />
+			<stringid name="Display Name" offset="0x8" visible="true" />
+			<stringid name="Display Description" offset="0xC" visible="true" />
+			<stringid name="Completion Toast String" offset="0x10" visible="true" />
+			<int32 name="Required Progress Count" offset="0x14" visible="true" />
+			<int32 name="Cookies Reward" offset="0x18" visible="true" />
+			<int32 name="Xp Reward" offset="0x1C" visible="true" />
+			<int32 name="Progress Tracking Interval" offset="0x20" visible="true" />
+			<stringid name="Chud Progress String" offset="0x24" visible="true" />
+			<int32 name="Chud Progress Bitmap Sequence Index" offset="0x28" visible="true" />
+			<flags8 name="Flags" offset="0x2C" visible="true">
+				<bit name="ProgressResetsAtEndOfGame" index="0" />
+			</flags8>
+			<enum8 name="Icon" offset="0x2D" visible="true">
+				<option name="Iron" value="0" />
+				<option name="Bronze" value="1" />
+				<option name="Silver" value="2" />
+				<option name="Gold" value="3" />
+				<option name="Onyx" value="4" />
+				<option name="Daily" value="5" />
+				<option name="Weekly" value="6" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x2E" visible="false" />
+			<uint8 name="Padding 1" offset="0x2F" visible="false" />
+			<flags32 name="Auto Progress On" offset="0x30" visible="true">
+				<bit name="MatchmakingMultiplayerGameWon" index="0" />
+				<bit name="CampaignMissionBeaten" index="1" />
+				<bit name="MatchmakingMultiplayerGameCompleted" index="2" />
+				<bit name="CompleteSingleDailyChallenge" index="3" />
+				<bit name="CompleteSingleWeeklyChallenge" index="4" />
+				<bit name="CompleteSingleMonthlyChallenge" index="5" />
+				<bit name="CompleteAllDailyChallengesInADay" index="6" />
+				<bit name="UploadFilmClipThatYouAuthored" index="7" />
+				<bit name="WearAPieceOfArmorInArmory" index="8" />
+				<bit name="AutoProgress" index="9" />
+				<bit name="SpartanOpsMissionBeaten" index="10" />
+				<bit name="SpartanOpsCompletedAllWeeklyMissionsOnEasy" index="11" />
+				<bit name="SpartanOpsCompletedAllWeeklyMissionsOnNormal" index="12" />
+				<bit name="SpartanOpsCompletedAllWeeklyMissionsOnHard" index="13" />
+				<bit name="SpartanOpsCompletedAllWeeklyMissionsOnImpossible" index="14" />
+			</flags32>
+			<flags8 name="Permitted Game Types / Game Mode" offset="0x34" visible="true">
+				<bit name="Campaign" index="0" />
+				<bit name="Firefight" index="1" />
+				<bit name="Multiplayer" index="2" />
+			</flags8>
+			<flags8 name="Permitted Game Types / Matchmaking Type" offset="0x35" visible="true">
+				<bit name="CustomGame" index="0" />
+				<bit name="Matchmaking" index="1" />
+			</flags8>
+			<flags8 name="Permitted Game Types / Difficulty" offset="0x36" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags8>
+			<enum8 name="Permitted Game Types / Player Count" offset="0x37" visible="true">
+				<option name="Any" value="0" />
+				<option name="_1PlayerOnly" value="1" />
+				<option name="_4PlayersOnly" value="2" />
+				<option name="MoreThanOnePlayer" value="3" />
+			</enum8>
+			<stringid name="Level Name" offset="0x38" visible="true" />
+			<int32 name="Map Id" offset="0x3C" visible="true" />
+			<int16 name="Mission Id" offset="0x40" visible="true" />
+			<uint8 name="Padding1 0" offset="0x42" visible="false" />
+			<uint8 name="Padding1 1" offset="0x43" visible="false" />
+			<flags32 name="Skulls" offset="0x44" visible="true">
+				<bit name="SkullIron" index="0" />
+				<bit name="SkullBlackEye" index="1" />
+				<bit name="SkullToughLuck" index="2" />
+				<bit name="SkullCatch" index="3" />
+				<bit name="SkullFog" index="4" />
+				<bit name="SkullFamine" index="5" />
+				<bit name="SkullThunderstorm" index="6" />
+				<bit name="SkullTilt" index="7" />
+				<bit name="SkullMythic" index="8" />
+				<bit name="SkullAssassin" index="9" />
+				<bit name="SkullBlind" index="10" />
+				<bit name="SkullSuperman" index="11" />
+				<bit name="SkullBirthdayParty" index="12" />
+				<bit name="SkullDaddy" index="13" />
+				<bit name="SkullRed" index="14" />
+				<bit name="SkullYellow" index="15" />
+				<bit name="SkullBlue" index="16" />
+			</flags32>
+			<int32 name="Minimum Score" offset="0x48" visible="true" />
+			<int32 name="Maximum Player Death Count" offset="0x4C" visible="true" />
+			<int32 name="Maximum Level Completion Seconds" offset="0x50" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

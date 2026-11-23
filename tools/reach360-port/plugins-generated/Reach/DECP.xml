@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.Decorators (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<point3 name="Grid Origin" offset="0x0" visible="true" />
+	<int32 name="Cell Count Per Dimension" offset="0xC" visible="true" />
+	<tagblock name="Cache Blocks" offset="0x10" visible="true" elementSize="0x34">
+		<int32 name="Geometry Block Info / Block Offset" offset="0x0" visible="true" />
+		<int32 name="Geometry Block Info / Block Size" offset="0x4" visible="true" />
+		<int32 name="Geometry Block Info / Section Data Size" offset="0x8" visible="true" />
+		<int32 name="Geometry Block Info / Resource Data Size" offset="0xC" visible="true" />
+		<tagblock name="Geometry Block Info / Resources" offset="0x10" visible="true" elementSize="0x10">
+			<enum8 name="Type" offset="0x0" visible="true">
+				<option name="TagBlock" value="0" />
+				<option name="TagData" value="1" />
+				<option name="VertexBuffer" value="2" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<int16 name="Primary Locator" offset="0x4" visible="true" />
+			<int16 name="Secondary Locator" offset="0x6" visible="true" />
+			<int32 name="Resource Data Size" offset="0x8" visible="true" />
+			<int32 name="Resource Data Offset" offset="0xC" visible="true" />
+		</tagblock>
+		<uint8 name="Geometry Block Info / Padding 0" offset="0x1C" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 1" offset="0x1D" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 2" offset="0x1E" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 3" offset="0x1F" visible="false" />
+		<int16 name="Geometry Block Info / Owner Tag Section Offset" offset="0x20" visible="true" />
+		<uint8 name="Geometry Block Info / Padding1 0" offset="0x22" visible="false" />
+		<uint8 name="Geometry Block Info / Padding1 1" offset="0x23" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 0" offset="0x24" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 1" offset="0x25" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 2" offset="0x26" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 3" offset="0x27" visible="false" />
+		<tagblock name="Cache Block Data" offset="0x24" visible="true" elementSize="0x88">
+			<tagblock name="Placements" offset="0x0" visible="true" elementSize="0x18">
+				<int32 name="Internal Data1" offset="0x0" visible="true" />
+				<int32 name="Compressed Position" offset="0x4" visible="true" />
+				<color32 name="Tint Color" offset="0x8" alpha="true" visible="true" />
+				<color32 name="Lightmap Color" offset="0xC" alpha="true" visible="true" />
+				<int32 name="Compressed Light Direction" offset="0x10" visible="true" />
+				<int32 name="Compressed Light2 Direction" offset="0x14" visible="true" />
+			</tagblock>
+			<tagblock name="Decal Vertices" offset="0xC" visible="true" elementSize="0x20">
+				<point3 name="Position" offset="0x0" visible="true" />
+				<point2 name="Texcoord0" offset="0xC" visible="true" />
+				<point2 name="Texcoord1" offset="0x14" visible="true" />
+				<color32 name="Color" offset="0x1C" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Decal Indices" offset="0x18" visible="true" elementSize="0x2">
+				<int16 name="Index" offset="0x0" visible="true" />
+			</tagblock>
+			<undefined name="Decal Vertex Buffer +0 (VertexBuffer)" offset="0x24" visible="false" />
+			<undefined name="Decal Vertex Buffer +4 (VertexBuffer)" offset="0x28" visible="false" />
+			<undefined name="Decal Vertex Buffer +8 (VertexBuffer)" offset="0x2C" visible="false" />
+			<undefined name="Decal Vertex Buffer +12 (VertexBuffer)" offset="0x30" visible="false" />
+			<undefined name="Decal Vertex Buffer +16 (VertexBuffer)" offset="0x34" visible="false" />
+			<undefined name="Decal Vertex Buffer +20 (VertexBuffer)" offset="0x38" visible="false" />
+			<undefined name="Decal Vertex Buffer +24 (VertexBuffer)" offset="0x3C" visible="false" />
+			<undefined name="Decal Vertex Buffer +28 (VertexBuffer)" offset="0x40" visible="false" />
+			<uint8 name="Padding 0" offset="0x44" visible="false" />
+			<uint8 name="Padding 1" offset="0x45" visible="false" />
+			<uint8 name="Padding 2" offset="0x46" visible="false" />
+			<uint8 name="Padding 3" offset="0x47" visible="false" />
+			<uint8 name="Padding 4" offset="0x48" visible="false" />
+			<uint8 name="Padding 5" offset="0x49" visible="false" />
+			<uint8 name="Padding 6" offset="0x4A" visible="false" />
+			<uint8 name="Padding 7" offset="0x4B" visible="false" />
+			<uint8 name="Padding 8" offset="0x4C" visible="false" />
+			<uint8 name="Padding 9" offset="0x4D" visible="false" />
+			<uint8 name="Padding 10" offset="0x4E" visible="false" />
+			<uint8 name="Padding 11" offset="0x4F" visible="false" />
+			<uint8 name="Padding 12" offset="0x50" visible="false" />
+			<uint8 name="Padding 13" offset="0x51" visible="false" />
+			<uint8 name="Padding 14" offset="0x52" visible="false" />
+			<uint8 name="Padding 15" offset="0x53" visible="false" />
+			<tagblock name="Sprite Vertices" offset="0x54" visible="true" elementSize="0x30">
+				<point3 name="Position" offset="0x0" visible="true" />
+				<vector3 name="Offset" offset="0xC" visible="true" />
+				<vector3 name="Axis" offset="0x18" visible="true" />
+				<point2 name="Texcoord" offset="0x24" visible="true" />
+				<color32 name="Color" offset="0x2C" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Sprite Indices" offset="0x60" visible="true" elementSize="0x2">
+				<int16 name="Index" offset="0x0" visible="true" />
+			</tagblock>
+			<undefined name="Sprite Vertex Buffer +0 (VertexBuffer)" offset="0x6C" visible="false" />
+			<undefined name="Sprite Vertex Buffer +4 (VertexBuffer)" offset="0x70" visible="false" />
+			<undefined name="Sprite Vertex Buffer +8 (VertexBuffer)" offset="0x74" visible="false" />
+			<undefined name="Sprite Vertex Buffer +12 (VertexBuffer)" offset="0x78" visible="false" />
+			<undefined name="Sprite Vertex Buffer +16 (VertexBuffer)" offset="0x7C" visible="false" />
+			<undefined name="Sprite Vertex Buffer +20 (VertexBuffer)" offset="0x80" visible="false" />
+			<undefined name="Sprite Vertex Buffer +24 (VertexBuffer)" offset="0x84" visible="false" />
+			<undefined name="Sprite Vertex Buffer +28 (VertexBuffer)" offset="0x88" visible="false" />
+			<uint8 name="Padding1 0" offset="0x8C" visible="false" />
+			<uint8 name="Padding1 1" offset="0x8D" visible="false" />
+			<uint8 name="Padding1 2" offset="0x8E" visible="false" />
+			<uint8 name="Padding1 3" offset="0x8F" visible="false" />
+			<uint8 name="Padding1 4" offset="0x90" visible="false" />
+			<uint8 name="Padding1 5" offset="0x91" visible="false" />
+			<uint8 name="Padding1 6" offset="0x92" visible="false" />
+			<uint8 name="Padding1 7" offset="0x93" visible="false" />
+			<uint8 name="Padding1 8" offset="0x94" visible="false" />
+			<uint8 name="Padding1 9" offset="0x95" visible="false" />
+			<uint8 name="Padding1 10" offset="0x96" visible="false" />
+			<uint8 name="Padding1 11" offset="0x97" visible="false" />
+			<uint8 name="Padding1 12" offset="0x98" visible="false" />
+			<uint8 name="Padding1 13" offset="0x99" visible="false" />
+			<uint8 name="Padding1 14" offset="0x9A" visible="false" />
+			<uint8 name="Padding1 15" offset="0x9B" visible="false" />
+		</tagblock>
+		<uint8 name="Padding 0" offset="0x30" visible="false" />
+		<uint8 name="Padding 1" offset="0x31" visible="false" />
+		<uint8 name="Padding 2" offset="0x32" visible="false" />
+		<uint8 name="Padding 3" offset="0x33" visible="false" />
+		<uint8 name="Padding1 0" offset="0x34" visible="false" />
+		<uint8 name="Padding1 1" offset="0x35" visible="false" />
+		<uint8 name="Padding1 2" offset="0x36" visible="false" />
+		<uint8 name="Padding1 3" offset="0x37" visible="false" />
+	</tagblock>
+	<tagblock name="Groups" offset="0x1C" visible="true" elementSize="0x18">
+		<int8 name="Decorator Set" offset="0x0" visible="true" />
+		<enum8 name="Decorator Type" offset="0x1" visible="true">
+			<option name="Model" value="0" />
+			<option name="FloatingDecal" value="1" />
+			<option name="ProjectedDecal" value="2" />
+			<option name="ScreenFacingQuad" value="3" />
+			<option name="AxisRotatingQuad" value="4" />
+			<option name="CrossQuad" value="5" />
+		</enum8>
+		<int8 name="Shader Index" offset="0x2" visible="true" />
+		<int8 name="Compressed Radius" offset="0x3" visible="true" />
+		<int16 name="Cluster" offset="0x4" visible="true" />
+		<int16 name="Cache Block" offset="0x6" visible="true" />
+		<int16 name="Decorator Start Index" offset="0x8" visible="true" />
+		<int16 name="Decorator Count" offset="0xA" visible="true" />
+		<int16 name="Vertex Start Offset" offset="0xC" visible="true" />
+		<int16 name="Vertex Count" offset="0xE" visible="true" />
+		<int16 name="Index Start Offset" offset="0x10" visible="true" />
+		<int16 name="Index Count" offset="0x12" visible="true" />
+		<int32 name="Compressed Bounding Center" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Cells" offset="0x28" visible="true" elementSize="0x18">
+		<int16 name="Child Index 0" offset="0x0" visible="true" />
+		<int16 name="Child Index 1" offset="0x2" visible="true" />
+		<int16 name="Child Index 2" offset="0x4" visible="true" />
+		<int16 name="Child Index 3" offset="0x6" visible="true" />
+		<int16 name="Child Index 4" offset="0x8" visible="true" />
+		<int16 name="Child Index 5" offset="0xA" visible="true" />
+		<int16 name="Child Index 6" offset="0xC" visible="true" />
+		<int16 name="Child Index 7" offset="0xE" visible="true" />
+		<int16 name="Cache Block Index" offset="0x10" visible="true" />
+		<int16 name="Group Count" offset="0x12" visible="true" />
+		<int32 name="Group Start Index" offset="0x14" visible="true" />
+	</tagblock>
+	<tagblock name="Decals" offset="0x34" visible="true" elementSize="0x40">
+		<int8 name="Decorator Set" offset="0x0" visible="true" />
+		<int8 name="Decorator Class" offset="0x1" visible="true" />
+		<int8 name="Decorator Permutation" offset="0x2" visible="true" />
+		<int8 name="Sprite Index" offset="0x3" visible="true" />
+		<point3 name="Position" offset="0x4" visible="true" />
+		<vector3 name="Left" offset="0x10" visible="true" />
+		<vector3 name="Up" offset="0x1C" visible="true" />
+		<vector3 name="Extents" offset="0x28" visible="true" />
+		<point3 name="Previous Position" offset="0x34" visible="true" />
+	</tagblock>
+</plugin>

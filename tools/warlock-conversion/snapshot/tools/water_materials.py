@@ -90,7 +90,7 @@ class WaterImporter:
         if getattr(i, 'battle_canyon', False):
             variants['_0_1_1_1_1_0_1_1'] = ('riverworld.map', '_0_1_1_1_1_0_1_3')
         if variant not in variants:
-            raise ValueError('Water variant has no documented retail mapping')
+            raise ValueError(f'Water variant {variant} has no documented retail mapping')
         if [s.unpack('h', row)[0] for row in s.block(root + 16, 2)] != [int(value) for value in variant.split('_')[1:]]:
             raise ValueError('Water root options differ from its compiled template')
         filename, target_variant = variants[variant]

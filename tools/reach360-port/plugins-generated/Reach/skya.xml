@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x44">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SkyAtmParameters (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Fog Bitmap" offset="0x0" visible="true" />
+	<float32 name="Texture Repeat Rate" offset="0x10" visible="true" />
+	<float32 name="Distance Between Sheets" offset="0x14" visible="true" />
+	<float32 name="Depth Fade Factor" offset="0x18" visible="true" />
+	<float32 name="Falloff Start Distance" offset="0x1C" visible="true" />
+	<float32 name="Distance Falloff Power" offset="0x20" visible="true" />
+	<float32 name="Transparent Sort Distance" offset="0x24" visible="true" />
+	<enum8 name="Transparent Sort Layer" offset="0x28" visible="true">
+		<option name="Invalid" value="0" />
+		<option name="PrePass" value="1" />
+		<option name="Normal" value="2" />
+		<option name="PostPass" value="3" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x29" visible="false" />
+	<uint8 name="Padding1 1" offset="0x2A" visible="false" />
+	<uint8 name="Padding1 2" offset="0x2B" visible="false" />
+	<tagblock name="Atmosphere Settings Reach" offset="0x2C" visible="true" elementSize="0xAC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x4" visible="true">
+			<bit name="Bit0" index="0" />
+			<bit name="Bit1" index="1" />
+			<bit name="Bit2" index="2" />
+			<bit name="Bit3" index="3" />
+			<bit name="Bit4" index="4" />
+			<bit name="Bit5" index="5" />
+			<bit name="Bit6" index="6" />
+			<bit name="Bit7" index="7" />
+		</flags16>
+		<uint8 name="Padding2 0" offset="0x6" visible="false" />
+		<uint8 name="Padding2 1" offset="0x7" visible="false" />
+		<float32 name="Distance Bias" offset="0x8" visible="true" />
+		<float32 name="Depth Fade" offset="0xC" visible="true" />
+		<float32 name="Sky Fog / Base Height" offset="0x10" visible="true" />
+		<float32 name="Sky Fog / Fog Height" offset="0x14" visible="true" />
+		<float32 name="Sky Fog / Fog Thickness" offset="0x18" visible="true" />
+		<float32 name="Sky Fog / Fog Falloff End" offset="0x1C" visible="true" />
+		<colorf name="Sky Fog / Fog Color" offset="0x20" alpha="false" visible="true" />
+		<float32 name="Sky Fog / Fog Color Intensity" offset="0x2C" visible="true" />
+		<float32 name="Ground Fog / Base Height" offset="0x30" visible="true" />
+		<float32 name="Ground Fog / Fog Height" offset="0x34" visible="true" />
+		<float32 name="Ground Fog / Fog Thickness" offset="0x38" visible="true" />
+		<float32 name="Ground Fog / Fog Falloff End" offset="0x3C" visible="true" />
+		<colorf name="Ground Fog / Fog Color" offset="0x40" alpha="false" visible="true" />
+		<float32 name="Ground Fog / Fog Color Intensity" offset="0x4C" visible="true" />
+		<float32 name="Fog Light / Pitch Angle" offset="0x50" visible="true" />
+		<float32 name="Fog Light / Yaw Angle" offset="0x54" visible="true" />
+		<float32 name="Fog Light / Angular Radius" offset="0x58" visible="true" />
+		<colorf name="Fog Light / Tint Color" offset="0x5C" alpha="false" visible="true" />
+		<float32 name="Fog Light / Tint Color Intensity" offset="0x68" visible="true" />
+		<float32 name="Fog Light / Angular Falloff Steepness" offset="0x6C" visible="true" />
+		<float32 name="Fog Light / Distance Falloff Steepness" offset="0x70" visible="true" />
+		<float32 name="Fog Light / Nearby Cutoff Percentage" offset="0x74" visible="true" />
+		<float32 name="Sheet Density" offset="0x78" visible="true" />
+		<float32 name="Full Intensity Height" offset="0x7C" visible="true" />
+		<float32 name="Half Intensity Height" offset="0x80" visible="true" />
+		<vector3 name="Wind Direction" offset="0x84" visible="true" />
+		<float32 name="Reference Plane Height" offset="0x90" visible="true" />
+		<tagref name="Weather Effect" offset="0x94" visible="true" />
+		<float32 name="Runtime Weight" offset="0xA4" visible="true" />
+		<float32 name="Runtime Effect Weight" offset="0xA8" visible="true" />
+	</tagblock>
+	<tagblock name="Underwater Settings" offset="0x38" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Murkiness" offset="0x4" visible="true" />
+		<colorf name="Fog Color" offset="0x8" alpha="false" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x80">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SimulatedInput (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Move / Flags" offset="0x0" visible="true">
+		<bit name="IgnoreBaseScaler" index="0" />
+		<bit name="IgnoreAreaControlFalloff" index="1" />
+		<bit name="IgnoreElapsedTimeFunctionScaler" index="2" />
+		<bit name="IgnoreZoomScaler" index="3" />
+		<bit name="IgnoreTickDeltaSecsScaler" index="4" />
+	</flags32>
+	<enum16 name="Move / Response Type" offset="0x4" visible="true">
+		<option name="AimVector" value="0" />
+		<option name="HitVector" value="1" />
+		<option name="InverseHitVector" value="2" />
+		<option name="AttackerOriginToVictimOrigin" value="3" />
+		<option name="VictimOriginToAttackerOrigin" value="4" />
+	</enum16>
+	<enum16 name="Move / Mapping Type" offset="0x6" visible="true">
+		<option name="TopDown" value="0" />
+		<option name="ScreenSpace" value="1" />
+	</enum16>
+	<rangef name="Move / Angle" offset="0x8" visible="true" />
+	<dataref name="Move / Mapping / Data" offset="0x10" visible="true" />
+	<float32 name="Move / Duration" offset="0x24" visible="true" />
+	<float32 name="Move / Inverse Duration" offset="0x28" visible="true" />
+	<float32 name="Move / Inverse Random Length" offset="0x2C" visible="true" />
+	<rangef name="Move / Inverse Random Angle" offset="0x30" visible="true" />
+	<float32 name="Move / Linear Zoom Penalty" offset="0x38" visible="true" />
+	<float32 name="Move / Square Root Zoom Penalty" offset="0x3C" visible="true" />
+	<flags32 name="Look / Flags" offset="0x40" visible="true">
+		<bit name="IgnoreBaseScaler" index="0" />
+		<bit name="IgnoreAreaControlFalloff" index="1" />
+		<bit name="IgnoreElapsedTimeFunctionScaler" index="2" />
+		<bit name="IgnoreZoomScaler" index="3" />
+		<bit name="IgnoreTickDeltaSecsScaler" index="4" />
+	</flags32>
+	<enum16 name="Look / Response Type" offset="0x44" visible="true">
+		<option name="AimVector" value="0" />
+		<option name="HitVector" value="1" />
+		<option name="InverseHitVector" value="2" />
+		<option name="AttackerOriginToVictimOrigin" value="3" />
+		<option name="VictimOriginToAttackerOrigin" value="4" />
+	</enum16>
+	<enum16 name="Look / Mapping Type" offset="0x46" visible="true">
+		<option name="TopDown" value="0" />
+		<option name="ScreenSpace" value="1" />
+	</enum16>
+	<rangef name="Look / Angle" offset="0x48" visible="true" />
+	<dataref name="Look / Mapping / Data" offset="0x50" visible="true" />
+	<float32 name="Look / Duration" offset="0x64" visible="true" />
+	<float32 name="Look / Inverse Duration" offset="0x68" visible="true" />
+	<float32 name="Look / Inverse Random Length" offset="0x6C" visible="true" />
+	<rangef name="Look / Inverse Random Angle" offset="0x70" visible="true" />
+	<float32 name="Look / Linear Zoom Penalty" offset="0x78" visible="true" />
+	<float32 name="Look / Square Root Zoom Penalty" offset="0x7C" visible="true" />
+</plugin>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x94">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CuiScreen (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="String References" offset="0x0" visible="true" elementSize="0x10">
+		<tagref name="String List" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Logic" offset="0xC" visible="true" />
+	<tagblock name="System / Template Instantiations" offset="0x1C" visible="true" elementSize="0x10">
+		<tagref name="Screen Reference" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="System / Components" offset="0x28" visible="true" elementSize="0x10">
+		<stringid name="Type" offset="0x0" visible="true" />
+		<stringid name="Name" offset="0x4" visible="true" />
+		<stringid name="Parent" offset="0x8" visible="true" />
+		<flags16 name="Flags" offset="0xC" visible="true">
+			<bit name="HiddenToToolsUser" index="0" />
+		</flags16>
+		<int16 name="Template Instantiation Index" offset="0xE" visible="true" />
+	</tagblock>
+	<tagblock name="System / Component Indices" offset="0x34" visible="true" elementSize="0x8">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Component Definition Index" offset="0x4" visible="true" />
+		<uint8 name="Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Padding 1" offset="0x7" visible="false" />
+	</tagblock>
+	<tagblock name="System / Overlays" offset="0x40" visible="true" elementSize="0x20">
+		<stringid name="Resolution" offset="0x0" visible="true" />
+		<stringid name="Theme" offset="0x4" visible="true" />
+		<tagblock name="Components" offset="0x8" visible="true" elementSize="0x58">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Property Values / Long Properties" offset="0x4" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<int32 name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Property Values / Real Properties" offset="0x10" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<float32 name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Property Values / String Id Properties" offset="0x1C" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<stringid name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Property Values / Component Ptr Properties" offset="0x28" visible="true" elementSize="0xC">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<stringid name="Value" offset="0x4" visible="true" />
+				<flags8 name="Flags" offset="0x8" visible="true">
+					<bit name="SourceIsInExternalSystem" index="0" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x9" visible="false" />
+				<uint8 name="Padding 1" offset="0xA" visible="false" />
+				<uint8 name="Padding 2" offset="0xB" visible="false" />
+			</tagblock>
+			<tagblock name="Property Values / Tag Reference Properties" offset="0x34" visible="true" elementSize="0x14">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagref name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Property Values / String Properties" offset="0x40" visible="true" elementSize="0x104">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<ascii name="Value" offset="0x4" visible="true" size="0x100" />
+			</tagblock>
+			<tagblock name="Property Values / Argb Color Properties" offset="0x4C" visible="true" elementSize="0x14">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<colorf name="Value" offset="0x4" alpha="true" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Animations" offset="0x14" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<float32 name="Time Base Offset" offset="0x4" visible="true" />
+			<float32 name="Time Exponential Offset" offset="0x8" visible="true" />
+			<enum8 name="Animation Input" offset="0xC" visible="true">
+				<option name="Time" value="0" />
+				<option name="Binding" value="1" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0xD" visible="false" />
+			<uint8 name="Padding 1" offset="0xE" visible="false" />
+			<uint8 name="Padding 2" offset="0xF" visible="false" />
+			<tagblock name="Components" offset="0x10" visible="true" elementSize="0x20">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<int32 name="Total Milliseconds" offset="0x4" visible="true" />
+				<tagblock name="Real Properties" offset="0x8" visible="true" elementSize="0x18">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<enum16 name="Composition" offset="0x4" visible="true">
+						<option name="RelativeToCurrent" value="0" />
+						<option name="AbsoluteToScreen" value="1" />
+						<option name="AbsoluteToParent" value="2" />
+					</enum16>
+					<flags8 name="Flags" offset="0x6" visible="true">
+						<bit name="Loop" index="0" />
+					</flags8>
+					<uint8 name="Padding 0" offset="0x7" visible="false" />
+					<int32 name="Total Milliseconds" offset="0x8" visible="true" />
+					<tagblock name="Real Keyframes" offset="0xC" visible="true" elementSize="0x1C">
+						<int32 name="Duration" offset="0x0" visible="true" />
+						<float32 name="Value" offset="0x4" visible="true" />
+						<dataref name="Transition Function / Scalar Function / Data" offset="0x8" visible="true" />
+					</tagblock>
+				</tagblock>
+				<tagblock name="Argb Color Properties" offset="0x14" visible="true" elementSize="0x18">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<enum16 name="Composition" offset="0x4" visible="true">
+						<option name="RelativeToCurrent" value="0" />
+						<option name="AbsoluteToScreen" value="1" />
+						<option name="AbsoluteToParent" value="2" />
+					</enum16>
+					<flags8 name="Flags" offset="0x6" visible="true">
+						<bit name="Loop" index="0" />
+					</flags8>
+					<uint8 name="Padding 0" offset="0x7" visible="false" />
+					<int32 name="Total Milliseconds" offset="0x8" visible="true" />
+					<tagblock name="Argb Color Keyframes" offset="0xC" visible="true" elementSize="0x28">
+						<int32 name="Duration" offset="0x0" visible="true" />
+						<colorf name="Color" offset="0x4" alpha="true" visible="true" />
+						<dataref name="Transition Function / Scalar Function / Data" offset="0x14" visible="true" />
+					</tagblock>
+				</tagblock>
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="System / Overlays Editor Only" offset="0x4C" visible="true" elementSize="0x24">
+		<stringid name="Resolution" offset="0x0" visible="true" />
+		<stringid name="Theme" offset="0x4" visible="true" />
+		<flags8 name="Flags" offset="0x8" visible="true">
+			<bit name="ExcludeOverlay" index="0" />
+		</flags8>
+		<tagblock name="Components Editor Only" offset="0x9" visible="true" elementSize="0x10">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Properties Editor Only" offset="0x4" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<flags8 name="Flags" offset="0x4" visible="true">
+					<bit name="DefaultValue" index="0" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x5" visible="false" />
+				<uint8 name="Padding 1" offset="0x6" visible="false" />
+				<uint8 name="Padding 2" offset="0x7" visible="false" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Animations Editor Only" offset="0x15" visible="true" elementSize="0x10">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Components Editor Only" offset="0x4" visible="true" elementSize="0x10">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagblock name="Properties Editor Only" offset="0x4" visible="true" elementSize="0x8">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<flags8 name="Flags" offset="0x4" visible="true">
+						<bit name="DefaultValue" index="0" />
+					</flags8>
+					<uint8 name="Padding 0" offset="0x5" visible="false" />
+					<uint8 name="Padding 1" offset="0x6" visible="false" />
+					<uint8 name="Padding 2" offset="0x7" visible="false" />
+				</tagblock>
+			</tagblock>
+		</tagblock>
+		<uint8 name="Padding 0" offset="0x21" visible="false" />
+		<uint8 name="Padding 1" offset="0x22" visible="false" />
+		<uint8 name="Padding 2" offset="0x23" visible="false" />
+	</tagblock>
+	<tagblock name="System / Property Bindings" offset="0x58" visible="true" elementSize="0x14">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="SourceIsInExternalScreen" index="0" />
+			<bit name="SourceIsInExternalSystem" index="1" />
+			<bit name="TargetIsInExternalSystem" index="2" />
+		</flags16>
+		<enum16 name="Conversion Function" offset="0x2" visible="true">
+			<option name="None" value="0" />
+			<option name="NegateBool" value="1" />
+			<option name="CompareLong" value="2" />
+		</enum16>
+		<stringid name="Source Component Name" offset="0x4" visible="true" />
+		<stringid name="Source Property Name" offset="0x8" visible="true" />
+		<stringid name="Target Component Name" offset="0xC" visible="true" />
+		<stringid name="Target Property Name" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="System / Binding Conversion Long Comparisons" offset="0x64" visible="true" elementSize="0x10">
+		<stringid name="Target Component Name" offset="0x0" visible="true" />
+		<stringid name="Target Property Name" offset="0x4" visible="true" />
+		<enum8 name="Comparison Operator" offset="0x8" visible="true">
+			<option name="Equality" value="0" />
+			<option name="Inequality" value="1" />
+			<option name="LessThan" value="2" />
+			<option name="LessThanOrEqual" value="3" />
+			<option name="GreaterThanOrEqual" value="4" />
+			<option name="GreaterThan" value="5" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+		<int32 name="Comparison Value" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="System / Static Data Tables" offset="0x70" visible="true" elementSize="0x20">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Mock Data For Component" offset="0x4" visible="true" />
+		<tagblock name="Static Data / Columns" offset="0x8" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum16 name="Type" offset="0x4" visible="true">
+				<option name="Boolean" value="0" />
+				<option name="Long" value="1" />
+				<option name="Real" value="2" />
+				<option name="String" value="3" />
+				<option name="Component" value="4" />
+				<option name="TagReference" value="5" />
+				<option name="StringId" value="6" />
+				<option name="ArgbColor" value="7" />
+				<option name="EmblemInfo" value="8" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+		<tagblock name="Static Data / Rows" offset="0x14" visible="true" elementSize="0x54">
+			<tagblock name="Long Properties" offset="0x0" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<int32 name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Real Properties" offset="0xC" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<float32 name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="String Id Properties" offset="0x18" visible="true" elementSize="0x8">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<stringid name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="Component Ptr Properties" offset="0x24" visible="true" elementSize="0xC">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<stringid name="Value" offset="0x4" visible="true" />
+				<flags8 name="Flags" offset="0x8" visible="true">
+					<bit name="SourceIsInExternalSystem" index="0" />
+				</flags8>
+				<uint8 name="Padding 0" offset="0x9" visible="false" />
+				<uint8 name="Padding 1" offset="0xA" visible="false" />
+				<uint8 name="Padding 2" offset="0xB" visible="false" />
+			</tagblock>
+			<tagblock name="Tag Reference Properties" offset="0x30" visible="true" elementSize="0x14">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagref name="Value" offset="0x4" visible="true" />
+			</tagblock>
+			<tagblock name="String Properties" offset="0x3C" visible="true" elementSize="0x104">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<ascii name="Value" offset="0x4" visible="true" size="0x100" />
+			</tagblock>
+			<tagblock name="Argb Color Properties" offset="0x48" visible="true" elementSize="0x14">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<colorf name="Value" offset="0x4" alpha="true" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="System / Expressions" offset="0x7C" visible="true" elementSize="0x110">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<ascii name="Expression Text" offset="0x4" visible="true" size="0x100" />
+		<tagblock name="Steps" offset="0x104" visible="true" elementSize="0xC">
+			<enum8 name="Step Type1" offset="0x0" visible="true">
+				<option name="Operator" value="0" />
+				<option name="Variable" value="1" />
+				<option name="RealValue" value="2" />
+				<option name="StringIdValue" value="3" />
+			</enum8>
+			<enum8 name="Operator" offset="0x1" visible="true">
+				<option name="Add" value="0" />
+				<option name="Subtract" value="1" />
+				<option name="Multiply" value="2" />
+				<option name="Divide" value="3" />
+				<option name="Negate" value="4" />
+				<option name="Not" value="5" />
+				<option name="LessThan" value="6" />
+				<option name="LessThanOrEqualTo" value="7" />
+				<option name="GreaterThan" value="8" />
+				<option name="GreaterThanOrEqualTo" value="9" />
+				<option name="Equals" value="10" />
+				<option name="NotEquals" value="11" />
+				<option name="And" value="12" />
+				<option name="Or" value="13" />
+				<option name="Mod" value="14" />
+			</enum8>
+			<enum8 name="Variable" offset="0x2" visible="true">
+				<option name="VariableA" value="0" />
+				<option name="VariableB" value="1" />
+				<option name="VariableC" value="2" />
+				<option name="VariableD" value="3" />
+				<option name="VariableE" value="4" />
+				<option name="VariableF" value="5" />
+				<option name="VariableG" value="6" />
+				<option name="VariableH" value="7" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x3" visible="false" />
+			<float32 name="Value" offset="0x4" visible="true" />
+			<stringid name="String Id Value" offset="0x8" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="System / Encapsulated Properties" offset="0x88" visible="true" elementSize="0x10">
+		<stringid name="Encapsulation Name" offset="0x0" visible="true" />
+		<tagblock name="Properties" offset="0x4" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum16 name="Type" offset="0x4" visible="true">
+				<option name="Boolean" value="0" />
+				<option name="Long" value="1" />
+				<option name="Real" value="2" />
+				<option name="String" value="3" />
+				<option name="Component" value="4" />
+				<option name="TagReference" value="5" />
+				<option name="StringId" value="6" />
+				<option name="ArgbColor" value="7" />
+				<option name="EmblemInfo" value="8" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x6" visible="false" />
+			<uint8 name="Padding 1" offset="0x7" visible="false" />
+		</tagblock>
+	</tagblock>
+</plugin>

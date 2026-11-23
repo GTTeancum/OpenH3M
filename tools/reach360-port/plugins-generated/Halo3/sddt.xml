@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x40">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.StructureDesign (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Version" offset="0x0" visible="true" />
+	<tagblock name="Soft Ceiling Mopp Codes" offset="0x4" visible="true" elementSize="0x40">
+		<uint32 name="Vf Table Address" offset="0x0" visible="true" />
+		<uint16 name="Referenced Object / Size And Flags" offset="0x4" visible="true" />
+		<uint16 name="Referenced Object / Reference Count" offset="0x6" visible="true" />
+		<vector4 name="Info / Offset" offset="0x10" visible="true" />
+		<uint32 name="Array Base / Data Address" offset="0x20" visible="true" />
+		<uint32 name="Array Base / Size" offset="0x24" visible="true" />
+		<uint32 name="Array Base / Capacity And Flags" offset="0x28" visible="true" />
+		<uint8 name="Padding1 0" offset="0x2C" visible="false" />
+		<uint8 name="Padding1 1" offset="0x2D" visible="false" />
+		<uint8 name="Padding1 2" offset="0x2E" visible="false" />
+		<uint8 name="Padding1 3" offset="0x2F" visible="false" />
+		<tagblock name="Data" offset="0x30" visible="true" elementSize="0x1">
+			<uint8 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<enum8 name="Build Type" offset="0x3C" visible="true">
+			<option name="BuiltWithChunkSubdivision" value="0" />
+			<option name="BuiltWithoutChunkSubdivision" value="1" />
+		</enum8>
+		<uint8 name="Padding2 0" offset="0x3D" visible="false" />
+		<uint8 name="Padding2 1" offset="0x3E" visible="false" />
+		<uint8 name="Padding2 2" offset="0x3F" visible="false" />
+	</tagblock>
+	<tagblock name="Soft Ceilings" offset="0x10" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum16 name="Type" offset="0x4" visible="true">
+			<option name="Acceleration" value="0" />
+			<option name="SoftKill" value="1" />
+			<option name="SlipSurface" value="2" />
+		</enum16>
+		<uint8 name="Unused 0" offset="0x6" visible="false" />
+		<uint8 name="Unused 1" offset="0x7" visible="false" />
+		<tagblock name="Soft Ceiling Triangles" offset="0x8" visible="true" elementSize="0x44">
+			<plane3 name="Plane" offset="0x0" visible="true" />
+			<point3 name="Bounding Sphere Center" offset="0x10" visible="true" />
+			<float32 name="Bounding Sphere Radius" offset="0x1C" visible="true" />
+			<point3 name="Point1" offset="0x20" visible="true" />
+			<point3 name="Point2" offset="0x2C" visible="true" />
+			<point3 name="Point3" offset="0x38" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Water Mopp Codes" offset="0x1C" visible="true" elementSize="0x40">
+		<uint32 name="Vf Table Address" offset="0x0" visible="true" />
+		<uint16 name="Referenced Object / Size And Flags" offset="0x4" visible="true" />
+		<uint16 name="Referenced Object / Reference Count" offset="0x6" visible="true" />
+		<vector4 name="Info / Offset" offset="0x10" visible="true" />
+		<uint32 name="Array Base / Data Address" offset="0x20" visible="true" />
+		<uint32 name="Array Base / Size" offset="0x24" visible="true" />
+		<uint32 name="Array Base / Capacity And Flags" offset="0x28" visible="true" />
+		<uint8 name="Padding1 0" offset="0x2C" visible="false" />
+		<uint8 name="Padding1 1" offset="0x2D" visible="false" />
+		<uint8 name="Padding1 2" offset="0x2E" visible="false" />
+		<uint8 name="Padding1 3" offset="0x2F" visible="false" />
+		<tagblock name="Data" offset="0x30" visible="true" elementSize="0x1">
+			<uint8 name="Value" offset="0x0" visible="true" />
+		</tagblock>
+		<enum8 name="Build Type" offset="0x3C" visible="true">
+			<option name="BuiltWithChunkSubdivision" value="0" />
+			<option name="BuiltWithoutChunkSubdivision" value="1" />
+		</enum8>
+		<uint8 name="Padding2 0" offset="0x3D" visible="false" />
+		<uint8 name="Padding2 1" offset="0x3E" visible="false" />
+		<uint8 name="Padding2 2" offset="0x3F" visible="false" />
+	</tagblock>
+	<tagblock name="Water Groups" offset="0x28" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Water Instances" offset="0x34" visible="true" elementSize="0x2C">
+		<int16 name="Water Name Index" offset="0x0" visible="true" />
+		<uint8 name="Unused 0" offset="0x2" visible="false" />
+		<uint8 name="Unused 1" offset="0x3" visible="false" />
+		<vector3 name="Flow Velocity" offset="0x4" visible="true" />
+		<float32 name="Flow Force" offset="0x10" visible="true" />
+		<tagblock name="Water Planes" offset="0x14" visible="true" elementSize="0x10">
+			<plane3 name="Plane" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Water Debug Triangles" offset="0x20" visible="true" elementSize="0x24">
+			<point3 name="Point1" offset="0x0" visible="true" />
+			<point3 name="Point2" offset="0xC" visible="true" />
+			<point3 name="Point3" offset="0x18" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x4C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ScenarioLightmap (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<uint32 name="Job Guid" offset="0x0" visible="true" />
+	<tagblock name="Per Pixel Lightmap Data References" offset="0x4" visible="true" elementSize="0x20">
+		<tagref name="Lightmap Bsp Data" offset="0x0" visible="true" />
+		<tagref name="Wetness Bsp Data" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Airprobes" offset="0x10" visible="true" elementSize="0x38">
+		<point3 name="Position" offset="0x0" visible="true" />
+		<stringid name="Name" offset="0xC" visible="true" />
+		<uint32 name="Flags" offset="0x10" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0x14" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0x16" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0x18" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0x1A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x1C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x1E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x20" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x22" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x24" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x26" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x28" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x2A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x2C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x2E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x30" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x32" visible="true" />
+		<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x34" visible="true" />
+	</tagblock>
+	<tagblock name="Scenery Light Probes" offset="0x1C" visible="true" elementSize="0x2C">
+		<datum name="Object Id / Unique Handle" offset="0x0" visible="true" />
+		<int16 name="Object Id / Origin Bsp Index" offset="0x4" visible="true" />
+		<enum8 name="Object Id / Object Type / Halo Reach" offset="0x6" visible="true">
+			<option name="Biped" value="0" />
+			<option name="Vehicle" value="1" />
+			<option name="Weapon" value="2" />
+			<option name="Equipment" value="3" />
+			<option name="Terminal" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Scenery" value="6" />
+			<option name="Machine" value="7" />
+			<option name="Control" value="8" />
+			<option name="SoundScenery" value="9" />
+			<option name="Crate" value="10" />
+			<option name="Creature" value="11" />
+			<option name="Giant" value="12" />
+			<option name="EffectScenery" value="13" />
+			<option name="None" value="-1" />
+		</enum8>
+		<enum8 name="Object Id / Source" offset="0x7" visible="true">
+			<option name="Structure" value="0" />
+			<option name="Editor" value="1" />
+			<option name="Dynamic" value="2" />
+			<option name="Legacy" value="3" />
+		</enum8>
+		<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0x8" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0xA" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0xC" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0xE" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x10" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x12" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x14" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x16" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x18" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x1A" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x1C" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x1E" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x20" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x22" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x24" visible="true" />
+		<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x26" visible="true" />
+		<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Machine Light Probes" offset="0x28" visible="true" elementSize="0x2C">
+		<datum name="Object Id / Unique Handle" offset="0x0" visible="true" />
+		<int16 name="Object Id / Origin Bsp Index" offset="0x4" visible="true" />
+		<enum8 name="Object Id / Object Type / Halo Reach" offset="0x6" visible="true">
+			<option name="Biped" value="0" />
+			<option name="Vehicle" value="1" />
+			<option name="Weapon" value="2" />
+			<option name="Equipment" value="3" />
+			<option name="Terminal" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Scenery" value="6" />
+			<option name="Machine" value="7" />
+			<option name="Control" value="8" />
+			<option name="SoundScenery" value="9" />
+			<option name="Crate" value="10" />
+			<option name="Creature" value="11" />
+			<option name="Giant" value="12" />
+			<option name="EffectScenery" value="13" />
+			<option name="None" value="-1" />
+		</enum8>
+		<enum8 name="Object Id / Source" offset="0x7" visible="true">
+			<option name="Structure" value="0" />
+			<option name="Editor" value="1" />
+			<option name="Dynamic" value="2" />
+			<option name="Legacy" value="3" />
+		</enum8>
+		<rangef name="Bounds x" offset="0x8" visible="true" />
+		<rangef name="Bounds y" offset="0x10" visible="true" />
+		<rangef name="Bounds z" offset="0x18" visible="true" />
+		<tagblock name="Light Probes" offset="0x20" visible="true" elementSize="0x30">
+			<point3 name="Position" offset="0x0" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 0" offset="0xC" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 1" offset="0xE" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 2" offset="0x10" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 3" offset="0x12" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 4" offset="0x14" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 5" offset="0x16" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 6" offset="0x18" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 7" offset="0x1A" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 8" offset="0x1C" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 9" offset="0x1E" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 10" offset="0x20" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 11" offset="0x22" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 12" offset="0x24" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 13" offset="0x26" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 14" offset="0x28" visible="true" />
+			<uint16 name="Vmf Light Probe / Vmf Terms 15" offset="0x2A" visible="true" />
+			<uint32 name="Vmf Light Probe / Analytical Light Index" offset="0x2C" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Unknown3 Reach" offset="0x34" visible="true" elementSize="0x0" />
+	<tagblock name="Unknown4 Reach" offset="0x40" visible="true" elementSize="0x0" />
+</plugin>

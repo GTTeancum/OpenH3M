@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Dialogue (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Global Dialogue Info" offset="0x0" visible="true" />
+	<flags32 name="Flags" offset="0x10" visible="true">
+		<bit name="Female" index="0" />
+	</flags32>
+	<tagblock name="Vocalizations" offset="0x14" visible="true" elementSize="0x18">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="NewVocalization" index="0" />
+		</flags16>
+		<uint8 name="Padding0 0" offset="0x2" visible="false" />
+		<uint8 name="Padding0 1" offset="0x3" visible="false" />
+		<stringid name="Vocalization" offset="0x4" visible="true" />
+		<tagref name="Sound" offset="0x8" visible="true" />
+	</tagblock>
+	<stringid name="Mission Dialogue Designator" offset="0x20" visible="true" />
+</plugin>

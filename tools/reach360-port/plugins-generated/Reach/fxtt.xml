@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.FxTest (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Properties" offset="0x0" visible="true" elementSize="0x36C">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<flags32 name="Flags" offset="0x20" visible="true">
+			<bit name="Predefined" index="0" />
+			<bit name="State" index="1" />
+			<bit name="Derived" index="2" />
+		</flags32>
+		<int32 name="Scope" offset="0x24" visible="true" />
+		<enum32 name="Value Type" offset="0x28" visible="true">
+			<option name="Default" value="0" />
+			<option name="Expression" value="1" />
+			<option name="Texture" value="2" />
+			<option name="Function" value="3" />
+		</enum32>
+		<ascii name="Expression" offset="0x2C" visible="true" size="0x100" />
+		<ascii name="Initialize" offset="0x12C" visible="true" size="0x100" />
+		<ascii name="Update" offset="0x22C" visible="true" size="0x100" />
+		<tagblock name="Defaults" offset="0x32C" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Default Name" offset="0x338" visible="true" />
+		<tagref name="Reference" offset="0x33C" visible="true" />
+		<enum8 name="Filter Mode" offset="0x34C" visible="true">
+			<option name="Default" value="0" />
+			<option name="Point" value="1" />
+			<option name="Bilinear" value="2" />
+			<option name="Trilinear" value="3" />
+			<option name="Anisotropic2x" value="4" />
+			<option name="Anisotropic4x" value="5" />
+		</enum8>
+		<enum8 name="Address Mode X" offset="0x34D" visible="true">
+			<option name="Default" value="0" />
+			<option name="Wrap" value="1" />
+			<option name="Clamp" value="2" />
+			<option name="Mirror" value="3" />
+			<option name="Border" value="4" />
+		</enum8>
+		<enum8 name="Address Mode Y" offset="0x34E" visible="true">
+			<option name="Default" value="0" />
+			<option name="Wrap" value="1" />
+			<option name="Clamp" value="2" />
+			<option name="Mirror" value="3" />
+			<option name="Border" value="4" />
+		</enum8>
+		<enum8 name="Mip Bias Mode" offset="0x34F" visible="true">
+			<option name="Default" value="0" />
+			<option name="Bias0" value="1" />
+			<option name="Bias1" value="2" />
+			<option name="Bias2" value="3" />
+			<option name="Bias3" value="4" />
+		</enum8>
+		<stringid name="Function / Input Variable" offset="0x350" visible="true" />
+		<stringid name="Function / Range Variable" offset="0x354" visible="true" />
+		<dataref name="Function / Mapping / Data" offset="0x358" visible="true" />
+	</tagblock>
+</plugin>

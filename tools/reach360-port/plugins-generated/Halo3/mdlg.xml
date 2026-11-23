@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.AiMissionDialogue (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Lines" offset="0x0" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<tagblock name="Variants" offset="0x4" visible="true" elementSize="0x18">
+			<stringid name="Designation" offset="0x0" visible="true" />
+			<tagref name="Sound" offset="0x4" visible="true" />
+			<stringid name="Sound Effect" offset="0x14" visible="true" />
+		</tagblock>
+		<stringid name="Default Sound Effect" offset="0x10" visible="true" />
+	</tagblock>
+</plugin>

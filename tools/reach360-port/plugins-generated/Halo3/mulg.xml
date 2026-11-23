@@ -1,0 +1,2135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.MultiplayerGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Universal" offset="0x0" visible="true" elementSize="0xB4">
+		<tagref name="Random Player Name Strings" offset="0x0" visible="true" />
+		<tagref name="Team Name Strings" offset="0x10" visible="true" />
+		<tagblock name="Team Colors" offset="0x20" visible="true" elementSize="0xC">
+			<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		</tagblock>
+		<tagblock name="Customizable Characters" offset="0x2C" visible="true" elementSize="0x10">
+			<stringid name="Character Name" offset="0x0" visible="true" />
+			<tagblock name="Regions" offset="0x4" visible="true" elementSize="0x10">
+				<stringid name="Name" offset="0x0" visible="true" />
+				<tagblock name="Permutations" offset="0x4" visible="true" elementSize="0x1C">
+					<stringid name="Name" offset="0x0" visible="true" />
+					<stringid name="Description" offset="0x4" visible="true" />
+					<flags16 name="Flags" offset="0x8" visible="true">
+						<bit name="HasRequirement" index="0" />
+						<bit name="HasSpecialRequirement" index="1" />
+						<bit name="Bit2" index="2" />
+						<bit name="Bit3" index="3" />
+						<bit name="Bit4" index="4" />
+						<bit name="Bit5" index="5" />
+						<bit name="Bit6" index="6" />
+						<bit name="Bit7" index="7" />
+						<bit name="Bit8" index="8" />
+						<bit name="Bit9" index="9" />
+						<bit name="Bit10" index="10" />
+						<bit name="Bit11" index="11" />
+						<bit name="Bit12" index="12" />
+						<bit name="Bit13" index="13" />
+						<bit name="Bit14" index="14" />
+						<bit name="Bit15" index="15" />
+					</flags16>
+					<uint8 name="Padding0 0" offset="0xA" visible="false" />
+					<uint8 name="Padding0 1" offset="0xB" visible="false" />
+					<stringid name="Achievement Requirement" offset="0xC" visible="true" />
+					<tagblock name="Variant" offset="0x10" visible="true" elementSize="0x8">
+						<stringid name="Region" offset="0x0" visible="true" />
+						<stringid name="Permutation" offset="0x4" visible="true" />
+					</tagblock>
+				</tagblock>
+			</tagblock>
+		</tagblock>
+		<tagref name="Multiplayer Strings" offset="0x38" visible="true" />
+		<tagref name="Sandbox Ui Strings" offset="0x48" visible="true" />
+		<tagref name="Sandbox Object Properties" offset="0x58" visible="true" />
+		<tagblock name="Game Variant Weapons" offset="0x68" visible="true" elementSize="0x18">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<float32 name="Random Chance" offset="0x4" visible="true" />
+			<tagref name="Weapon" offset="0x8" visible="true" />
+		</tagblock>
+		<tagblock name="Game Variant Vehicles" offset="0x74" visible="true" elementSize="0x14">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagref name="Vehicle" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Game Variant Grenades" offset="0x80" visible="true" elementSize="0x14">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagref name="Grenade" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Weapon Sets" offset="0x8C" visible="true" elementSize="0x10">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Substitutions" offset="0x4" visible="true" elementSize="0x8">
+				<stringid name="Original Weapon" offset="0x0" visible="true" />
+				<stringid name="Substituted Weapon" offset="0x4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Vehicle Sets" offset="0x98" visible="true" elementSize="0x10">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<tagblock name="Substitutions" offset="0x4" visible="true" elementSize="0x8">
+				<stringid name="Original Vehicle" offset="0x0" visible="true" />
+				<stringid name="Substituted Vehicle" offset="0x4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagref name="Game Engine Settings" offset="0xA4" visible="true" />
+	</tagblock>
+	<tagblock name="Runtime" offset="0xC" visible="true" elementSize="0x20C">
+		<tagref name="Editor Biped" offset="0x0" visible="true" />
+		<tagref name="Editor Helper Object" offset="0x10" visible="true" />
+		<tagref name="Flag" offset="0x20" visible="true" />
+		<tagref name="Ball" offset="0x30" visible="true" />
+		<tagref name="Bomb" offset="0x40" visible="true" />
+		<tagref name="Vip Influence Area" offset="0x50" visible="true" />
+		<tagref name="In Game Strings" offset="0x60" visible="true" />
+		<tagblock name="Sounds" offset="0x70" visible="true" elementSize="0x10">
+			<tagref name="Type" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Looping Sounds" offset="0x7C" visible="true" elementSize="0x10">
+			<tagref name="Type" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="General Events" offset="0x88" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Flavor Events" offset="0x94" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Slayer Events" offset="0xA0" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Ctf Events" offset="0xAC" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Oddball Events" offset="0xB8" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="King Of The Hill Events" offset="0xC4" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Vip Events" offset="0xD0" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Juggernaut Events" offset="0xDC" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Territories Events" offset="0xE8" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Assault Events" offset="0xF4" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Infection Events" offset="0x100" visible="true" elementSize="0x104">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="QuantityMessage" index="0" />
+			</flags16>
+			<enum16 name="Runtime Event Type" offset="0x2" visible="true">
+				<option name="General" value="0" />
+				<option name="Flavor" value="1" />
+				<option name="Slayer" value="2" />
+				<option name="CaptureTheFlag" value="3" />
+				<option name="Oddball" value="4" />
+				<option name="Unused" value="5" />
+				<option name="KingOfTheHill" value="6" />
+				<option name="Vip" value="7" />
+				<option name="Juggernaut" value="8" />
+				<option name="Territories" value="9" />
+				<option name="Assault" value="10" />
+				<option name="Infection" value="11" />
+				<option name="Survival" value="12" />
+				<option name="EarnWp" value="13" />
+			</enum16>
+			<enum16 name="Event_H3" offset="0x4" visible="true">
+				<option name="Kill" value="0" />
+				<option name="Suicide" value="1" />
+				<option name="KillTeammate" value="2" />
+				<option name="Victory" value="3" />
+				<option name="TeamVictory" value="4" />
+				<option name="Unused1" value="5" />
+				<option name="Unused2" value="6" />
+				<option name="_1MinToWin" value="7" />
+				<option name="Team1MinToWin" value="8" />
+				<option name="_30SecsToWin" value="9" />
+				<option name="Team30SecsToWin" value="10" />
+				<option name="PlayerQuit" value="11" />
+				<option name="PlayerJoined" value="12" />
+				<option name="KilledByUnknown" value="13" />
+				<option name="_30MinutesLeft" value="14" />
+				<option name="_15MinutesLeft" value="15" />
+				<option name="_5MinutesLeft" value="16" />
+				<option name="_1MinuteLeft" value="17" />
+				<option name="TimeExpired" value="18" />
+				<option name="GameOver" value="19" />
+				<option name="RespawnTick" value="20" />
+				<option name="LastRespawnTick" value="21" />
+				<option name="TeleporterUsed" value="22" />
+				<option name="TeleporterBlocked" value="23" />
+				<option name="PlayerChangedTeam" value="24" />
+				<option name="PlayerRejoined" value="25" />
+				<option name="GainedLead" value="26" />
+				<option name="GainedTeamLead" value="27" />
+				<option name="LostLead" value="28" />
+				<option name="LostTeamLead" value="29" />
+				<option name="TiedLeader" value="30" />
+				<option name="TiedTeamLeader" value="31" />
+				<option name="RoundOver" value="32" />
+				<option name="_30SecondsLeft" value="33" />
+				<option name="_10SecondsLeft" value="34" />
+				<option name="Killfalling" value="35" />
+				<option name="Killcollision" value="36" />
+				<option name="Killmelee" value="37" />
+				<option name="SuddenDeath" value="38" />
+				<option name="PlayerBootedPlayer" value="39" />
+				<option name="KillflagCarrier" value="40" />
+				<option name="KillbombCarrier" value="41" />
+				<option name="KillstickyGrenade" value="42" />
+				<option name="Killsniper" value="43" />
+				<option name="KillstMelee" value="44" />
+				<option name="BoardedVehicle" value="45" />
+				<option name="StartTeamNoti" value="46" />
+				<option name="Telefrag" value="47" />
+				<option name="_10SecsToWin" value="48" />
+				<option name="Team10SecsToWin" value="49" />
+				<option name="Bulltrue" value="50" />
+				<option name="DeathFromTheGrave" value="51" />
+				<option name="Hijack" value="52" />
+				<option name="Skyjack" value="53" />
+				<option name="KillspartanLaser" value="54" />
+				<option name="Killflame" value="55" />
+				<option name="AssisttoDriver" value="56" />
+				<option name="Assist" value="57" />
+				<option name="PreGameOver" value="58" />
+			</enum16>
+			<enum16 name="Audience" offset="0x6" visible="true">
+				<option name="CausePlayer" value="0" />
+				<option name="CauseTeam" value="1" />
+				<option name="EffectPlayer" value="2" />
+				<option name="EffectTeam" value="3" />
+				<option name="All" value="4" />
+			</enum16>
+			<int16 name="Display Priority" offset="0x8" visible="true" />
+			<int16 name="Sub Priority" offset="0xA" visible="true" />
+			<enum16 name="Display Context" offset="0xC" visible="true">
+				<option name="Self" value="0" />
+				<option name="Friendly" value="1" />
+				<option name="Enemy" value="2" />
+				<option name="Neutral" value="3" />
+				<option name="Unknown4" value="4" />
+				<option name="Unknown5" value="5" />
+			</enum16>
+			<uint8 name="Padding0 0" offset="0xE" visible="false" />
+			<uint8 name="Padding0 1" offset="0xF" visible="false" />
+			<stringid name="Display String" offset="0x10" visible="true" />
+			<stringid name="Medal Award" offset="0x14" visible="true" />
+			<enum16 name="Required Field" offset="0x18" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Excluded Audience" offset="0x1A" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<enum16 name="Splitscreen Suppression" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="CausePlayer" value="1" />
+				<option name="CauseTeam" value="2" />
+				<option name="EffectPlayer" value="3" />
+				<option name="EffectTeam" value="4" />
+			</enum16>
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+			<stringid name="Primary String" offset="0x20" visible="true" />
+			<int32 name="Primary String Duration" offset="0x24" visible="true" />
+			<stringid name="Plural Display String" offset="0x28" visible="true" />
+			<float32 name="Sound Delay Announcer Only" offset="0x2C" visible="true" />
+			<flags16 name="Sound Flags" offset="0x30" visible="true">
+				<bit name="AnnouncerSound" index="0" />
+			</flags16>
+			<uint8 name="Padding3 0" offset="0x32" visible="false" />
+			<uint8 name="Padding3 1" offset="0x33" visible="false" />
+			<tagref name="English Sound" offset="0x34" visible="true" />
+			<tagref name="Japanese Sound" offset="0x44" visible="true" />
+			<tagref name="German Sound" offset="0x54" visible="true" />
+			<tagref name="French Sound" offset="0x64" visible="true" />
+			<tagref name="Spanish Sound" offset="0x74" visible="true" />
+			<tagref name="Latin American Spanish Sound" offset="0x84" visible="true" />
+			<tagref name="Italian Sound" offset="0x94" visible="true" />
+			<tagref name="Korean Sound" offset="0xA4" visible="true" />
+			<tagref name="Chinese Traditional Sound" offset="0xB4" visible="true" />
+			<tagref name="Chinese Simplified Sound" offset="0xC4" visible="true" />
+			<tagref name="Portuguese Sound" offset="0xD4" visible="true" />
+			<tagref name="Polish Sound" offset="0xE4" visible="true" />
+			<float32 name="Probability" offset="0xF4" visible="true" />
+			<tagblock name="Sound Permutations" offset="0xF8" visible="true" elementSize="0xC8">
+				<flags16 name="Sound Flags" offset="0x0" visible="true">
+					<bit name="AnnouncerSound" index="0" />
+				</flags16>
+				<uint8 name="AGQD 0" offset="0x2" visible="false" />
+				<uint8 name="AGQD 1" offset="0x3" visible="false" />
+				<tagref name="English Sound" offset="0x4" visible="true" />
+				<tagref name="Japanese Sound" offset="0x14" visible="true" />
+				<tagref name="German Sound" offset="0x24" visible="true" />
+				<tagref name="French Sound" offset="0x34" visible="true" />
+				<tagref name="Spanish Sound" offset="0x44" visible="true" />
+				<tagref name="Mexican Sound" offset="0x54" visible="true" />
+				<tagref name="Italian Sound" offset="0x64" visible="true" />
+				<tagref name="Korean Sound" offset="0x74" visible="true" />
+				<tagref name="Chinese Soundtraditional" offset="0x84" visible="true" />
+				<tagref name="Chinese Soundsimplified" offset="0x94" visible="true" />
+				<tagref name="Portuguese Sound" offset="0xA4" visible="true" />
+				<tagref name="Polish Sound" offset="0xB4" visible="true" />
+				<float32 name="Probability" offset="0xC4" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Maximum Frag Count" offset="0x10C" visible="true" />
+		<int32 name="Maximum Plasma Count" offset="0x110" visible="true" />
+		<tagblock name="Multiplayer Constants" offset="0x114" visible="true" elementSize="0x21C">
+			<float32 name="Forbid Enemy Spawn Constants / Full Weight Radius" offset="0x0" visible="true" />
+			<float32 name="Forbid Enemy Spawn Constants / Falloff Radius" offset="0x4" visible="true" />
+			<float32 name="Forbid Enemy Spawn Constants / Cylinder Upper Height" offset="0x8" visible="true" />
+			<float32 name="Forbid Enemy Spawn Constants / Cylinder Lower Height" offset="0xC" visible="true" />
+			<float32 name="Forbid Enemy Spawn Constants / Weight" offset="0x10" visible="true" />
+			<float32 name="Enemy Spawn Bias Constants / Full Weight Radius" offset="0x14" visible="true" />
+			<float32 name="Enemy Spawn Bias Constants / Falloff Radius" offset="0x18" visible="true" />
+			<float32 name="Enemy Spawn Bias Constants / Cylinder Upper Height" offset="0x1C" visible="true" />
+			<float32 name="Enemy Spawn Bias Constants / Cylinder Lower Height" offset="0x20" visible="true" />
+			<float32 name="Enemy Spawn Bias Constants / Weight" offset="0x24" visible="true" />
+			<float32 name="Ally Spawn Bias / Full Weight Radius" offset="0x28" visible="true" />
+			<float32 name="Ally Spawn Bias / Falloff Radius" offset="0x2C" visible="true" />
+			<float32 name="Ally Spawn Bias / Cylinder Upper Height" offset="0x30" visible="true" />
+			<float32 name="Ally Spawn Bias / Cylinder Lower Height" offset="0x34" visible="true" />
+			<float32 name="Ally Spawn Bias / Weight" offset="0x38" visible="true" />
+			<float32 name="Spectated Ally Spawn Bias / Full Weight Radius" offset="0x3C" visible="true" />
+			<float32 name="Spectated Ally Spawn Bias / Falloff Radius" offset="0x40" visible="true" />
+			<float32 name="Spectated Ally Spawn Bias / Cylinder Upper Height" offset="0x44" visible="true" />
+			<float32 name="Spectated Ally Spawn Bias / Cylinder Lower Height" offset="0x48" visible="true" />
+			<float32 name="Spectated Ally Spawn Bias / Weight" offset="0x4C" visible="true" />
+			<float32 name="Forbid Ally Spawn Constants / Full Weight Radius" offset="0x50" visible="true" />
+			<float32 name="Forbid Ally Spawn Constants / Falloff Radius" offset="0x54" visible="true" />
+			<float32 name="Forbid Ally Spawn Constants / Cylinder Upper Height" offset="0x58" visible="true" />
+			<float32 name="Forbid Ally Spawn Constants / Cylinder Lower Height" offset="0x5C" visible="true" />
+			<float32 name="Forbid Ally Spawn Constants / Weight" offset="0x60" visible="true" />
+			<float32 name="Dead Teammate Influence Duration" offset="0x64" visible="true" />
+			<tagblock name="Weapons" offset="0x68" visible="true" elementSize="0x20">
+				<tagref name="Weapon" offset="0x0" visible="true" />
+				<float32 name="Full Weight Radius" offset="0x10" visible="true" />
+				<float32 name="Falloff Radius" offset="0x14" visible="true" />
+				<float32 name="Falloff Cone Radius" offset="0x18" visible="true" />
+				<float32 name="Weight" offset="0x1C" visible="true" />
+			</tagblock>
+			<tagblock name="Vehicles" offset="0x74" visible="true" elementSize="0x20">
+				<tagref name="Vehicle" offset="0x0" visible="true" />
+				<float32 name="Pill Radius" offset="0x10" visible="true" />
+				<float32 name="Lead Time" offset="0x14" visible="true" />
+				<float32 name="Minimum Velocity" offset="0x18" visible="true" />
+				<float32 name="Weight" offset="0x1C" visible="true" />
+			</tagblock>
+			<tagblock name="Projectiles" offset="0x80" visible="true" elementSize="0x1C">
+				<tagref name="Projectile" offset="0x0" visible="true" />
+				<float32 name="Lead Time" offset="0x10" visible="true" />
+				<float32 name="Collision Cylinder Radius" offset="0x14" visible="true" />
+				<float32 name="Weight" offset="0x18" visible="true" />
+			</tagblock>
+			<tagblock name="Equipment" offset="0x8C" visible="true" elementSize="0x14">
+				<tagref name="Equipment" offset="0x0" visible="true" />
+				<float32 name="Weight" offset="0x10" visible="true" />
+			</tagblock>
+			<float32 name="Gametype Spawn Constants / King Of The Hill / Full Weight Radius" offset="0x98" visible="true" />
+			<float32 name="Gametype Spawn Constants / King Of The Hill / Falloff Radius" offset="0x9C" visible="true" />
+			<float32 name="Gametype Spawn Constants / King Of The Hill / Cylinder Upper Height" offset="0xA0" visible="true" />
+			<float32 name="Gametype Spawn Constants / King Of The Hill / Cylinder Lower Height" offset="0xA4" visible="true" />
+			<float32 name="Gametype Spawn Constants / King Of The Hill / Weight" offset="0xA8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Oddball / Full Weight Radius" offset="0xAC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Oddball / Falloff Radius" offset="0xB0" visible="true" />
+			<float32 name="Gametype Spawn Constants / Oddball / Cylinder Upper Height" offset="0xB4" visible="true" />
+			<float32 name="Gametype Spawn Constants / Oddball / Cylinder Lower Height" offset="0xB8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Oddball / Weight" offset="0xBC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Capture The Flag / Full Weight Radius" offset="0xC0" visible="true" />
+			<float32 name="Gametype Spawn Constants / Capture The Flag / Falloff Radius" offset="0xC4" visible="true" />
+			<float32 name="Gametype Spawn Constants / Capture The Flag / Cylinder Upper Height" offset="0xC8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Capture The Flag / Cylinder Lower Height" offset="0xCC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Capture The Flag / Weight" offset="0xD0" visible="true" />
+			<float32 name="Gametype Spawn Constants / Tera Spawn Constants / Full Weight Radius" offset="0xD4" visible="true" />
+			<float32 name="Gametype Spawn Constants / Tera Spawn Constants / Falloff Radius" offset="0xD8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Tera Spawn Constants / Cylinder Upper Height" offset="0xDC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Tera Spawn Constants / Cylinder Lower Height" offset="0xE0" visible="true" />
+			<float32 name="Gametype Spawn Constants / Tera Spawn Constants / Weight" offset="0xE4" visible="true" />
+			<float32 name="Gametype Spawn Constants / Territories / Full Weight Radius" offset="0xE8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Territories / Falloff Radius" offset="0xEC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Territories / Cylinder Upper Height" offset="0xF0" visible="true" />
+			<float32 name="Gametype Spawn Constants / Territories / Cylinder Lower Height" offset="0xF4" visible="true" />
+			<float32 name="Gametype Spawn Constants / Territories / Weight" offset="0xF8" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Humans / Full Weight Radius" offset="0xFC" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Humans / Falloff Radius" offset="0x100" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Humans / Cylinder Upper Height" offset="0x104" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Humans / Cylinder Lower Height" offset="0x108" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Humans / Weight" offset="0x10C" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Zombies / Full Weight Radius" offset="0x110" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Zombies / Falloff Radius" offset="0x114" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Zombies / Cylinder Upper Height" offset="0x118" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Zombies / Cylinder Lower Height" offset="0x11C" visible="true" />
+			<float32 name="Gametype Spawn Constants / Infection Zombies / Weight" offset="0x120" visible="true" />
+			<float32 name="Gametype Spawn Constants / Vip / Full Weight Radius" offset="0x124" visible="true" />
+			<float32 name="Gametype Spawn Constants / Vip / Falloff Radius" offset="0x128" visible="true" />
+			<float32 name="Gametype Spawn Constants / Vip / Cylinder Upper Height" offset="0x12C" visible="true" />
+			<float32 name="Gametype Spawn Constants / Vip / Cylinder Lower Height" offset="0x130" visible="true" />
+			<float32 name="Gametype Spawn Constants / Vip / Weight" offset="0x134" visible="true" />
+			<float32 name="Maximum Random Spawn Bias" offset="0x138" visible="true" />
+			<float32 name="Teleporter Recharge Time" offset="0x13C" visible="true" />
+			<float32 name="Grenade Constants / Weight" offset="0x140" visible="true" />
+			<float32 name="Grenade Constants / Inner Radius" offset="0x144" visible="true" />
+			<float32 name="Grenade Constants / Outer Radius" offset="0x148" visible="true" />
+			<float32 name="Grenade Constants / Lead Time" offset="0x14C" visible="true" />
+			<float32 name="Vehicle Constants / Danger Minimum Speed" offset="0x150" visible="true" />
+			<float32 name="Vehicle Constants / Danger Weight" offset="0x154" visible="true" />
+			<float32 name="Vehicle Constants / Danger Radius" offset="0x158" visible="true" />
+			<float32 name="Vehicle Constants / Danger Lead Time" offset="0x15C" visible="true" />
+			<float32 name="Vehicle Constants / Nearby Player Distance" offset="0x160" visible="true" />
+			<tagref name="Hill Bitmap" offset="0x164" visible="true" />
+			<float32 name="Flag Constants / Return Distance" offset="0x174" visible="true" />
+			<float32 name="Flag Constants / Contested Inner Radius" offset="0x178" visible="true" />
+			<float32 name="Flag Constants / Contested Outer Radius" offset="0x17C" visible="true" />
+			<float32 name="Territories Waypoint Vertical Offset" offset="0x180" visible="true" />
+			<tagref name="Assault Bomb Effects / Explode Effect" offset="0x184" visible="true" />
+			<tagref name="Assault Bomb Effects / Explode Secondary Effect" offset="0x194" visible="true" />
+			<tagref name="Assault Bomb Effects / Explode Damage Effect" offset="0x1A4" visible="true" />
+			<tagref name="Assault Bomb Effects / Defuse Effect" offset="0x1B4" visible="true" />
+			<tagref name="Forge Cursor Impact Effect" offset="0x1C4" visible="true" />
+			<stringid name="Bomb Defusal String" offset="0x1D4" visible="true" />
+			<stringid name="Blocked Teleporter String" offset="0x1D8" visible="true" />
+			<stringid name="Voluntary Respawn Control Instructions" offset="0x1DC" visible="true" />
+			<stringid name="Spawn Allowed Default Respawn String" offset="0x1E0" visible="true" />
+			<stringid name="Spawn At Player Allowed Looking At Self String" offset="0x1E4" visible="true" />
+			<stringid name="Spawn At Player Allowed Looking At Target String" offset="0x1E8" visible="true" />
+			<stringid name="Spawn At Player Allowed Looking At Potential Target String" offset="0x1EC" visible="true" />
+			<stringid name="Spawn At Territory Allowed Looking At Target String" offset="0x1F0" visible="true" />
+			<stringid name="Spawn At Territory Allowed Looking At Potential Target String" offset="0x1F4" visible="true" />
+			<stringid name="Player Out Of Lives String" offset="0x1F8" visible="true" />
+			<stringid name="Invalid Spawn Target String" offset="0x1FC" visible="true" />
+			<stringid name="Targeted Player Enemies Nearby String" offset="0x200" visible="true" />
+			<stringid name="Targeted Player Unfriendly Team String" offset="0x204" visible="true" />
+			<stringid name="Targeted Player Is Dead String" offset="0x208" visible="true" />
+			<stringid name="Targeted Player In Combat String" offset="0x20C" visible="true" />
+			<stringid name="Targeted Player Too Far From Owned Flag String" offset="0x210" visible="true" />
+			<stringid name="No Available Netpoints String" offset="0x214" visible="true" />
+			<stringid name="Netpoint Contested String" offset="0x218" visible="true" />
+		</tagblock>
+		<tagblock name="State Responses" offset="0x120" visible="true" elementSize="0x24">
+			<flags16 name="Flags" offset="0x0" visible="true">
+				<bit name="Unused" index="0" />
+			</flags16>
+			<uint8 name="Padding0 0" offset="0x2" visible="false" />
+			<uint8 name="Padding0 1" offset="0x3" visible="false" />
+			<enum16 name="State" offset="0x4" visible="true">
+				<option name="WaitingForSpaceToClear" value="0" />
+				<option name="Observing" value="1" />
+				<option name="RespawningSoon" value="2" />
+				<option name="SittingOut" value="3" />
+				<option name="OutOfLives" value="4" />
+				<option name="PlayingWinning" value="5" />
+				<option name="PlayingTied" value="6" />
+				<option name="PlayingLosing" value="7" />
+				<option name="GameOverWon" value="8" />
+				<option name="GameOverTied" value="9" />
+				<option name="GameOverLost" value="10" />
+				<option name="GameOverTied2" value="11" />
+				<option name="YouHaveFlag" value="12" />
+				<option name="EnemyHasFlag" value="13" />
+				<option name="FlagNotHome" value="14" />
+				<option name="CarryingOddball" value="15" />
+				<option name="YouAreJuggernaut" value="16" />
+				<option name="YouControlHill" value="17" />
+				<option name="SwitchingSidesSoon" value="18" />
+				<option name="PlayerRecentlyStarted" value="19" />
+				<option name="YouHaveBomb" value="20" />
+				<option name="FlagContested" value="21" />
+				<option name="BombContested" value="22" />
+				<option name="LimitedLivesMultiple" value="23" />
+				<option name="LimitedLivesSingle" value="24" />
+				<option name="LimitedLivesFinal" value="25" />
+				<option name="PlayingWinningUnlimited" value="26" />
+				<option name="PlayingTiedUnlimited" value="27" />
+				<option name="PlayingLosingUnlimited" value="28" />
+				<option name="StartingSoon" value="29" />
+			</enum16>
+			<uint8 name="Padding1 0" offset="0x6" visible="false" />
+			<uint8 name="Padding1 1" offset="0x7" visible="false" />
+			<stringid name="Free For All Message" offset="0x8" visible="true" />
+			<stringid name="Team Message" offset="0xC" visible="true" />
+			<tagref name="Unused" offset="0x10" visible="true" />
+			<uint8 name="Padding2 0" offset="0x20" visible="false" />
+			<uint8 name="Padding2 1" offset="0x21" visible="false" />
+			<uint8 name="Padding2 2" offset="0x22" visible="false" />
+			<uint8 name="Padding2 3" offset="0x23" visible="false" />
+		</tagblock>
+		<tagref name="Scoreboard Emblem Bitmap" offset="0x12C" visible="true" />
+		<tagref name="Scoreboard Dead Bitmap" offset="0x13C" visible="true" />
+		<tagref name="Hill Shader" offset="0x14C" visible="true" />
+		<tagref name="Game Intro Messages / Pregame" offset="0x15C" visible="true" />
+		<tagref name="Game Intro Messages / Ctf" offset="0x16C" visible="true" />
+		<tagref name="Game Intro Messages / Slayer" offset="0x17C" visible="true" />
+		<tagref name="Game Intro Messages / Oddball" offset="0x18C" visible="true" />
+		<tagref name="Game Intro Messages / King" offset="0x19C" visible="true" />
+		<tagref name="Game Intro Messages / Sandbox" offset="0x1AC" visible="true" />
+		<tagref name="Game Intro Messages / Vip" offset="0x1BC" visible="true" />
+		<tagref name="Game Intro Messages / Juggernaut" offset="0x1CC" visible="true" />
+		<tagref name="Game Intro Messages / Territories" offset="0x1DC" visible="true" />
+		<tagref name="Game Intro Messages / Assault" offset="0x1EC" visible="true" />
+		<tagref name="Game Intro Messages / Infection" offset="0x1FC" visible="true" />
+	</tagblock>
+</plugin>

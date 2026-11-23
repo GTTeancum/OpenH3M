@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.NewCinematicLighting (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Sh Lights" offset="0x0" visible="true" elementSize="0x20">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="DebugThisLight" index="0" />
+		</flags32>
+		<float32 name="Direction" offset="0x4" visible="true" />
+		<float32 name="Front Back" offset="0x8" visible="true" />
+		<float32 name="Intensity" offset="0xC" visible="true" />
+		<colorf name="Color" offset="0x10" alpha="false" visible="true" />
+		<float32 name="Diffusion" offset="0x1C" visible="true" />
+	</tagblock>
+	<tagblock name="Dynamic Lights" offset="0xC" visible="true" elementSize="0x20">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="DebugThisLight" index="0" />
+			<bit name="FollowObject" index="1" />
+			<bit name="PositionAtMarker" index="2" />
+		</flags32>
+		<float32 name="Direction" offset="0x4" visible="true" />
+		<float32 name="Front Back" offset="0x8" visible="true" />
+		<float32 name="Distance" offset="0xC" visible="true" />
+		<tagref name="Light" offset="0x10" visible="true" />
+	</tagblock>
+	<float32 name="Environmental Lighting Scale" offset="0x18" visible="true" />
+</plugin>

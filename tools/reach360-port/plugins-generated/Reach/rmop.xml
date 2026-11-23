@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.RenderMethodOption (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Parameters" offset="0x0" visible="true" elementSize="0x60">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Ui Name Override" offset="0x4" visible="true" />
+		<enum32 name="Type" offset="0x8" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<enum32 name="Render Method Extern Reach" offset="0xC" visible="true">
+			<option name="none" value="0" />
+			<option name="texture_global_target_texaccum" value="1" />
+			<option name="texture_global_target_normal" value="2" />
+			<option name="texture_global_target_z" value="3" />
+			<option name="texture_global_target_shadow_mask" value="4" />
+			<option name="texture_global_target_shadow_buffer1" value="5" />
+			<option name="texture_global_target_shadow_buffer2" value="6" />
+			<option name="texture_global_target_shadow_buffer3" value="7" />
+			<option name="texture_global_target_shadow_buffer4" value="8" />
+			<option name="texture_global_target_texture_camera" value="9" />
+			<option name="texture_global_target_reflection" value="10" />
+			<option name="texture_global_target_refraction" value="11" />
+			<option name="object_change_color_primary" value="12" />
+			<option name="object_change_color_secondary" value="13" />
+			<option name="object_change_color_tertiary" value="14" />
+			<option name="object_change_color_quaternary" value="15" />
+			<option name="object_emblem_bitmap_and_data" value="16" />
+			<option name="object_emblem_color_background" value="17" />
+			<option name="object_emblem_color_primary" value="18" />
+			<option name="object_emblem_color_secondary" value="19" />
+			<option name="texture_dynamic_light_gel_0" value="20" />
+			<option name="flat_envmap_matrix_x" value="21" />
+			<option name="flat_envmap_matrix_y" value="22" />
+			<option name="flat_envmap_matrix_z" value="23" />
+			<option name="debug_tint" value="24" />
+			<option name="screen_constants" value="25" />
+			<option name="active_camo_distortion_texture" value="26" />
+			<option name="scene_ldr_texture" value="27" />
+			<option name="water_memory_export_address" value="28" />
+			<option name="tree_animation_timer" value="29" />
+			<option name="depth_constants" value="30" />
+			<option name="camera_forward" value="31" />
+			<option name="wrinkle_weights_a" value="32" />
+			<option name="wrinkle_weights_b" value="33" />
+		</enum32>
+		<tagref name="Default Sampler Bitmap" offset="0x10" visible="true" />
+		<float32 name="Default Float Argument" offset="0x20" visible="true" />
+		<uint32 name="Default Int Bool Argument" offset="0x24" visible="true" />
+		<int16 name="Flags" offset="0x28" visible="true" />
+		<enum16 name="Default Filter Mode" offset="0x2A" visible="true">
+			<option name="Trilinear" value="0" />
+			<option name="Point" value="1" />
+			<option name="Bilinear" value="2" />
+			<option name="Anisotropic1" value="3" />
+			<option name="Anisotropic2Expensive" value="4" />
+			<option name="Anisotropic3Expensive" value="5" />
+			<option name="Anisotropic4EXPENSIVE" value="6" />
+			<option name="LightprobeTextureArray" value="7" />
+			<option name="ComparisonPoint" value="8" />
+			<option name="ComparisonBilinear" value="9" />
+		</enum16>
+		<enum16 name="Default Address Mode" offset="0x2C" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<int16 name="Anisotropy Amount" offset="0x2E" visible="true" />
+		<color32 name="Default Color" offset="0x30" alpha="true" visible="true" />
+		<float32 name="Default Bitmap Scale" offset="0x34" visible="true" />
+		<flags32 name="Usage Flags" offset="0x38" visible="true">
+			<bit name="UseForceFunctionType" index="0" />
+			<bit name="UseForceFunctionColorCount" index="1" />
+			<bit name="ParameterInvisibleInUi" index="2" />
+			<bit name="LockFunctionValue" index="3" />
+		</flags32>
+		<enum16 name="Force Function Type" offset="0x3C" visible="true">
+			<option name="Identity" value="0" />
+			<option name="Constant" value="1" />
+			<option name="Transition" value="2" />
+			<option name="Periodic" value="3" />
+			<option name="Linear" value="4" />
+			<option name="LinearKey" value="5" />
+			<option name="MultiLinearKey" value="6" />
+			<option name="Spline" value="7" />
+			<option name="MultiSpline" value="8" />
+			<option name="Exponent" value="9" />
+			<option name="Spline2" value="10" />
+		</enum16>
+		<enum16 name="Force Function Color Count" offset="0x3E" visible="true">
+			<option name="Scalar" value="0" />
+			<option name="Constant" value="1" />
+			<option name="_2Color" value="2" />
+			<option name="_3Color" value="3" />
+			<option name="_4Color" value="4" />
+		</enum16>
+		<float32 name="Suggested Real Min" offset="0x40" visible="true" />
+		<float32 name="Suggested Real Max" offset="0x44" visible="true" />
+		<int32 name="Ticks From Min To Max" offset="0x48" visible="true" />
+		<dataref name="Help Text" offset="0x4C" visible="true" />
+	</tagblock>
+</plugin>

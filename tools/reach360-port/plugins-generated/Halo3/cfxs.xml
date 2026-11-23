@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xE4">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CameraFxSettings (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Exposure / Flags" offset="0x0" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Exposure / Unused 0" offset="0x2" visible="false" />
+	<uint8 name="Exposure / Unused 1" offset="0x3" visible="false" />
+	<float32 name="Exposure / Strength" offset="0x4" visible="true" />
+	<float32 name="Exposure / Maximum Change" offset="0x8" visible="true" />
+	<float32 name="Exposure / Blend Speed" offset="0xC" visible="true" />
+	<rangef name="Exposure / Exposure Range" offset="0x10" visible="true" />
+	<float32 name="Exposure / Auto Brightness" offset="0x18" visible="true" />
+	<float32 name="Exposure / Auto Brightness Delay" offset="0x1C" visible="true" />
+	<flags16 name="Auto Exposure Sensitivity / Flags" offset="0x20" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Auto Exposure Sensitivity / Unused 0" offset="0x22" visible="false" />
+	<uint8 name="Auto Exposure Sensitivity / Unused 1" offset="0x23" visible="false" />
+	<float32 name="Auto Exposure Sensitivity / Value" offset="0x24" visible="true" />
+	<flags16 name="Auto Exposure Anti Bloom / Flags" offset="0x28" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Auto Exposure Anti Bloom / Unused 0" offset="0x2A" visible="false" />
+	<uint8 name="Auto Exposure Anti Bloom / Unused 1" offset="0x2B" visible="false" />
+	<float32 name="Auto Exposure Anti Bloom / Value" offset="0x2C" visible="true" />
+	<flags16 name="Bloom Point / Flags" offset="0x30" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Bloom Point / Unused 0" offset="0x32" visible="false" />
+	<uint8 name="Bloom Point / Unused 1" offset="0x33" visible="false" />
+	<float32 name="Bloom Point / Strength" offset="0x34" visible="true" />
+	<float32 name="Bloom Point / Maximum Change" offset="0x38" visible="true" />
+	<float32 name="Bloom Point / Blend Speed" offset="0x3C" visible="true" />
+	<flags16 name="Inherent Bloom / Flags" offset="0x40" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Inherent Bloom / Unused 0" offset="0x42" visible="false" />
+	<uint8 name="Inherent Bloom / Unused 1" offset="0x43" visible="false" />
+	<float32 name="Inherent Bloom / Strength" offset="0x44" visible="true" />
+	<float32 name="Inherent Bloom / Maximum Change" offset="0x48" visible="true" />
+	<float32 name="Inherent Bloom / Blend Speed" offset="0x4C" visible="true" />
+	<flags16 name="Bloom Intensity / Flags" offset="0x50" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Bloom Intensity / Unused 0" offset="0x52" visible="false" />
+	<uint8 name="Bloom Intensity / Unused 1" offset="0x53" visible="false" />
+	<float32 name="Bloom Intensity / Strength" offset="0x54" visible="true" />
+	<float32 name="Bloom Intensity / Maximum Change" offset="0x58" visible="true" />
+	<float32 name="Bloom Intensity / Blend Speed" offset="0x5C" visible="true" />
+	<flags16 name="Highlight Bloom Tint / Flags" offset="0x60" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Highlight Bloom Tint / Unused 0" offset="0x62" visible="false" />
+	<uint8 name="Highlight Bloom Tint / Unused 1" offset="0x63" visible="false" />
+	<colorf name="Highlight Bloom Tint / Color" offset="0x64" alpha="false" visible="true" />
+	<flags16 name="Inherent Bloom Tint / Flags" offset="0x70" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Inherent Bloom Tint / Unused 0" offset="0x72" visible="false" />
+	<uint8 name="Inherent Bloom Tint / Unused 1" offset="0x73" visible="false" />
+	<colorf name="Inherent Bloom Tint / Color" offset="0x74" alpha="false" visible="true" />
+	<flags16 name="Lighting Bloom Tint / Flags" offset="0x80" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Lighting Bloom Tint / Unused 0" offset="0x82" visible="false" />
+	<uint8 name="Lighting Bloom Tint / Unused 1" offset="0x83" visible="false" />
+	<colorf name="Lighting Bloom Tint / Color" offset="0x84" alpha="false" visible="true" />
+	<flags16 name="Bling Intensity / Flags" offset="0x90" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Bling Intensity / Unused 0" offset="0x92" visible="false" />
+	<uint8 name="Bling Intensity / Unused 1" offset="0x93" visible="false" />
+	<float32 name="Bling Intensity / Strength" offset="0x94" visible="true" />
+	<float32 name="Bling Intensity / Maximum Change" offset="0x98" visible="true" />
+	<float32 name="Bling Intensity / Blend Speed" offset="0x9C" visible="true" />
+	<flags16 name="Bling Size / Flags" offset="0xA0" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Bling Size / Unused 0" offset="0xA2" visible="false" />
+	<uint8 name="Bling Size / Unused 1" offset="0xA3" visible="false" />
+	<float32 name="Bling Size / Strength" offset="0xA4" visible="true" />
+	<float32 name="Bling Size / Maximum Change" offset="0xA8" visible="true" />
+	<float32 name="Bling Size / Blend Speed" offset="0xAC" visible="true" />
+	<flags16 name="Bling Angle / Flags" offset="0xB0" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Bling Angle / Unused 0" offset="0xB2" visible="false" />
+	<uint8 name="Bling Angle / Unused 1" offset="0xB3" visible="false" />
+	<float32 name="Bling Angle / Strength" offset="0xB4" visible="true" />
+	<float32 name="Bling Angle / Maximum Change" offset="0xB8" visible="true" />
+	<float32 name="Bling Angle / Blend Speed" offset="0xBC" visible="true" />
+	<flags16 name="Bling Count / Flags" offset="0xC0" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<int16 name="Bling Count / Bling Spikes" offset="0xC2" visible="true" />
+	<flags16 name="Self Illum Preferred / Flags" offset="0xC4" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Self Illum Preferred / Unused 0" offset="0xC6" visible="false" />
+	<uint8 name="Self Illum Preferred / Unused 1" offset="0xC7" visible="false" />
+	<float32 name="Self Illum Preferred / Strength" offset="0xC8" visible="true" />
+	<float32 name="Self Illum Preferred / Maximum Change" offset="0xCC" visible="true" />
+	<float32 name="Self Illum Preferred / Blend Speed" offset="0xD0" visible="true" />
+	<flags16 name="Self Illum Scale / Flags" offset="0xD4" visible="true">
+		<bit name="UseDefault" index="0" />
+		<bit name="MaximumChangeIsRelative" index="1" />
+		<bit name="AutoAdjustTarget" index="2" />
+		<bit name="Unused1" index="3" />
+		<bit name="Fixed1" index="4" />
+		<bit name="Unused2" index="5" />
+		<bit name="Fixed2" index="6" />
+	</flags16>
+	<uint8 name="Self Illum Scale / Unused 0" offset="0xD6" visible="false" />
+	<uint8 name="Self Illum Scale / Unused 1" offset="0xD7" visible="false" />
+	<float32 name="Self Illum Scale / Strength" offset="0xD8" visible="true" />
+	<float32 name="Self Illum Scale / Maximum Change" offset="0xDC" visible="true" />
+	<float32 name="Self Illum Scale / Blend Speed" offset="0xE0" visible="true" />
+</plugin>

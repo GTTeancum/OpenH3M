@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiTextWidgetDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoNotApplyOldContentUpscaling" index="0" />
+		<bit name="OverrideTemplateFlags" index="1" />
+		<bit name="EnableAnimationDebugging" index="2" />
+		<bit name="LeftJustify" index="3" />
+		<bit name="RightJustify" index="4" />
+		<bit name="Scrollable" index="5" />
+		<bit name="Uppercase" index="6" />
+		<bit name="StringFromExportedText" index="7" />
+		<bit name="StringFromExportedStringId" index="8" />
+		<bit name="StringFromExportedGlobalStringId" index="9" />
+		<bit name="StringFromExportedInteger" index="10" />
+		<bit name="StringFromListItemLabel" index="11" />
+		<bit name="UseBracketsToIndicateFocus" index="12" />
+		<bit name="LargeTextBuffer255Chars" index="13" />
+		<bit name="ExtralargeTextBuffer" index="14" />
+		<bit name="SingleDropShadow" index="15" />
+		<bit name="NoDropShadow" index="16" />
+		<bit name="AllowListItemToOverrideAnimationSkin" index="17" />
+		<bit name="DoNotWrapText" index="18" />
+	</flags32>
+	<stringid name="Gui Render Block / Name" offset="0x4" visible="true" />
+	<enum16 name="Gui Render Block / Scaled Positioning" offset="0x8" visible="true">
+		<option name="UNUSED" value="0" />
+		<option name="Centered" value="1" />
+		<option name="TopEdge" value="2" />
+		<option name="BottomEdge" value="3" />
+		<option name="LeftEdge" value="4" />
+		<option name="RightEdge" value="5" />
+		<option name="TopLeftCorner" value="6" />
+		<option name="TopRightCorner" value="7" />
+		<option name="BottomRightCorner" value="8" />
+		<option name="BottomLeftCorner" value="9" />
+	</enum16>
+	<int16 name="Gui Render Block / Render Depth Bias" offset="0xA" visible="true" />
+	<rect16 name="Gui Render Block / Bounds720p" offset="0xC" visible="true" />
+	<rect16 name="Gui Render Block / Bounds480i" offset="0x14" visible="true" />
+	<tagref name="Gui Render Block / Animation Collection" offset="0x1C" visible="true" />
+	<stringid name="Value Override List" offset="0x2C" visible="true" />
+	<stringid name="Value Identifier" offset="0x30" visible="true" />
+	<stringid name="Text Color Preset" offset="0x34" visible="true" />
+	<uint8 name="Padding1 0" offset="0x38" visible="false" />
+	<uint8 name="Padding1 1" offset="0x39" visible="false" />
+</plugin>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x20">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.VFilesList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Files" offset="0x0" visible="true" elementSize="0x208">
+		<ascii name="Name" offset="0x0" visible="true" size="0x100" />
+		<ascii name="Folder" offset="0x100" visible="true" size="0x100" />
+		<int32 name="Offset" offset="0x200" visible="true" />
+		<int32 name="Size" offset="0x204" visible="true" />
+	</tagblock>
+	<dataref name="Data" offset="0xC" visible="true" />
+</plugin>

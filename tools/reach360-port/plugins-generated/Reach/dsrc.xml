@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x1C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GuiDatasourceDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Name" offset="0x0" visible="true" />
+	<uint8 name="Datasource Padding 0" offset="0x4" visible="false" />
+	<uint8 name="Datasource Padding 1" offset="0x5" visible="false" />
+	<uint8 name="Datasource Padding 2" offset="0x6" visible="false" />
+	<uint8 name="Datasource Padding 3" offset="0x7" visible="false" />
+	<uint8 name="Datasource Padding 4" offset="0x8" visible="false" />
+	<uint8 name="Datasource Padding 5" offset="0x9" visible="false" />
+	<uint8 name="Datasource Padding 6" offset="0xA" visible="false" />
+	<uint8 name="Datasource Padding 7" offset="0xB" visible="false" />
+	<uint8 name="Datasource Padding 8" offset="0xC" visible="false" />
+	<uint8 name="Datasource Padding 9" offset="0xD" visible="false" />
+	<uint8 name="Datasource Padding 10" offset="0xE" visible="false" />
+	<uint8 name="Datasource Padding 11" offset="0xF" visible="false" />
+	<tagblock name="Elements" offset="0x10" visible="true" elementSize="0x28">
+		<tagblock name="Integer Values" offset="0x0" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="String Values" offset="0xC" visible="true" elementSize="0x24">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<ascii name="Value" offset="0x4" visible="true" size="0x20" />
+		</tagblock>
+		<tagblock name="Stringid Values" offset="0x18" visible="true" elementSize="0x8">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<stringid name="Value" offset="0x4" visible="true" />
+		</tagblock>
+		<stringid name="Submenu Control Name" offset="0x24" visible="true" />
+	</tagblock>
+</plugin>

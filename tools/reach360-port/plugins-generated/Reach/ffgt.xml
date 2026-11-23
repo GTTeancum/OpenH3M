@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xAC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GameEngineFirefightVariantTag (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Variant / Localizable Name" offset="0x0" visible="true" />
+	<stringid name="Variant / Localizable Description" offset="0x4" visible="true" />
+	<tagblock name="Variant / Miscellaneous Options" offset="0x8" visible="true" elementSize="0x8">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="TeamsEnabled" index="0" />
+			<bit name="RoundResetPlayers" index="1" />
+			<bit name="RoundResetMap" index="2" />
+			<bit name="PerfectionEnabled" index="3" />
+			<bit name="Mosh" index="4" />
+			<bit name="DropWeaponsOnDeath" index="5" />
+			<bit name="KillcamEnabled" index="6" />
+			<bit name="MedalScoringEnabled" index="7" />
+			<bit name="AsymmetricRoundScoring" index="8" />
+		</flags16>
+		<int8 name="Early Victory Win Count" offset="0x2" visible="true" />
+		<int8 name="Round Time Limit" offset="0x3" visible="true" />
+		<int8 name="Number Of Rounds" offset="0x4" visible="true" />
+		<enum8 name="Mosh Difficulty Level" offset="0x5" visible="true">
+			<option name="Easy" value="0" />
+			<option name="Normal" value="1" />
+			<option name="Heroic" value="2" />
+			<option name="Legendary" value="3" />
+		</enum8>
+		<uint8 name="Overshield Deplete Time" offset="0x6" visible="true" />
+		<uint8 name="Padding 0" offset="0x7" visible="false" />
+	</tagblock>
+	<tagblock name="Variant / Prototype Options" offset="0x14" visible="true" elementSize="0x6">
+		<int8 name="Prototype Mode" offset="0x0" visible="true" />
+		<int8 name="Promethean Energy Kill Percent" offset="0x1" visible="true" />
+		<int8 name="Promethean Energy Time Percent" offset="0x2" visible="true" />
+		<int8 name="Promethean Energy Medal Percent" offset="0x3" visible="true" />
+		<int8 name="Promethean Duration" offset="0x4" visible="true" />
+		<int8 name="Class Color Override" offset="0x5" visible="true" />
+	</tagblock>
+	<tagblock name="Variant / Respawn Options" offset="0x20" visible="true" elementSize="0x14">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="InheritRespawnTime" index="0" />
+			<bit name="RespawnWithTeammate" index="1" />
+			<bit name="RespawnAtLocation" index="2" />
+			<bit name="RespawnOnKills" index="3" />
+			<bit name="EarlyRespawnAllowed" index="4" />
+		</flags16>
+		<int8 name="Lives Per Round" offset="0x2" visible="true" />
+		<int8 name="Team Lives Per Round" offset="0x3" visible="true" />
+		<int8 name="Min Respawn Time" offset="0x4" visible="true" />
+		<int8 name="Respawn Time" offset="0x5" visible="true" />
+		<int8 name="Suicide Penalty" offset="0x6" visible="true" />
+		<int8 name="Betrayal Penalty" offset="0x7" visible="true" />
+		<int8 name="Respawn Growth" offset="0x8" visible="true" />
+		<uint8 name="Padding 0" offset="0x9" visible="false" />
+		<uint8 name="Padding 1" offset="0xA" visible="false" />
+		<uint8 name="Padding 2" offset="0xB" visible="false" />
+		<stringid name="Respawn Player Traits Name" offset="0xC" visible="true" />
+		<int8 name="Initial Loadout Selection Time" offset="0x10" visible="true" />
+		<int8 name="Respawn Player Traits Duration" offset="0x11" visible="true" />
+		<uint8 name="Padding1 0" offset="0x12" visible="false" />
+		<uint8 name="Padding1 1" offset="0x13" visible="false" />
+	</tagblock>
+	<tagblock name="Variant / Social Options" offset="0x2C" visible="true" elementSize="0x4">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="ObserversEnabled" index="0" />
+			<bit name="TeamChangingEnabled" index="1" />
+			<bit name="TeamChangingBalancingOnly" index="2" />
+			<bit name="FriendlyFireEnabled" index="3" />
+			<bit name="BetrayalBootingEnabled" index="4" />
+			<bit name="EnemyVoiceEnabled" index="5" />
+			<bit name="OpenChannelVoiceEnabled" index="6" />
+			<bit name="DeadPlayerVoiceEnabled" index="7" />
+		</flags32>
+	</tagblock>
+	<tagblock name="Variant / Map Override Options" offset="0x38" visible="true" elementSize="0x3C">
+		<stringid name="Player Traits Name" offset="0x0" visible="true" />
+		<stringid name="Weapon Set Name" offset="0x4" visible="true" />
+		<stringid name="Vehicle Set Name" offset="0x8" visible="true" />
+		<stringid name="Equipment Set Name" offset="0xC" visible="true" />
+		<stringid name="Red Powerup Traits Name" offset="0x10" visible="true" />
+		<stringid name="Blue Powerup Traits Name" offset="0x14" visible="true" />
+		<stringid name="Yellow Powerup Traits Name" offset="0x18" visible="true" />
+		<stringid name="Custom Powerup Traits Name" offset="0x1C" visible="true" />
+		<int8 name="Red Powerup Duration" offset="0x20" visible="true" />
+		<int8 name="Blue Powerup Duration" offset="0x21" visible="true" />
+		<int8 name="Yellow Powerup Duration" offset="0x22" visible="true" />
+		<int8 name="Custom Powerup Duration" offset="0x23" visible="true" />
+		<stringid name="Red Powerup Secondary Traits Name" offset="0x24" visible="true" />
+		<stringid name="Blue Powerup Secondary Traits Name" offset="0x28" visible="true" />
+		<stringid name="Yellow Powerup Secondary Traits Name" offset="0x2C" visible="true" />
+		<stringid name="Custom Powerup Secondary Traits Name" offset="0x30" visible="true" />
+		<int8 name="Red Powerup Secondary Duration" offset="0x34" visible="true" />
+		<int8 name="Blue Powerup Secondary Duration" offset="0x35" visible="true" />
+		<int8 name="Yellow Powerup Secondary Duration" offset="0x36" visible="true" />
+		<int8 name="Custom Powerup Secondary Duration" offset="0x37" visible="true" />
+		<flags8 name="Flags" offset="0x38" visible="true">
+			<bit name="GrenadesOnMap" index="0" />
+			<bit name="ShortcutsOnMap" index="1" />
+			<bit name="EquipmentOnMap" index="2" />
+			<bit name="PowerupsOnMap" index="3" />
+			<bit name="TurretsOnMap" index="4" />
+			<bit name="IndestructibleVehicles" index="5" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x39" visible="false" />
+		<uint8 name="Padding 1" offset="0x3A" visible="false" />
+		<uint8 name="Padding 2" offset="0x3B" visible="false" />
+	</tagblock>
+	<tagblock name="Variant / Team Options" offset="0x44" visible="true" elementSize="0xC4">
+		<enum8 name="Model Override Type" offset="0x0" visible="true">
+			<option name="None" value="0" />
+			<option name="ForceSpartan" value="1" />
+			<option name="ForceElite" value="2" />
+			<option name="SetByTeam" value="3" />
+			<option name="SetByDesignator" value="4" />
+		</enum8>
+		<enum8 name="Designator Switch Type" offset="0x1" visible="true">
+			<option name="None" value="0" />
+			<option name="Random" value="1" />
+			<option name="Rotate" value="2" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<flags8 name="Teams 0 / Flags" offset="0x4" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 0 / Initial Team Designator" offset="0x5" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 0 / Model Override" offset="0x6" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 0 / Number Of Fireteams" offset="0x7" visible="true" />
+		<stringid name="Teams 0 / Description" offset="0x8" visible="true" />
+		<color32 name="Teams 0 / Primary Color Override" offset="0xC" alpha="true" visible="true" />
+		<color32 name="Teams 0 / Secondary Color Override" offset="0x10" alpha="true" visible="true" />
+		<color32 name="Teams 0 / Ui Text Tint Color Override" offset="0x14" alpha="true" visible="true" />
+		<color32 name="Teams 0 / Ui Bitmap Tint Color Override" offset="0x18" alpha="true" visible="true" />
+		<flags8 name="Teams 1 / Flags" offset="0x1C" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 1 / Initial Team Designator" offset="0x1D" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 1 / Model Override" offset="0x1E" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 1 / Number Of Fireteams" offset="0x1F" visible="true" />
+		<stringid name="Teams 1 / Description" offset="0x20" visible="true" />
+		<color32 name="Teams 1 / Primary Color Override" offset="0x24" alpha="true" visible="true" />
+		<color32 name="Teams 1 / Secondary Color Override" offset="0x28" alpha="true" visible="true" />
+		<color32 name="Teams 1 / Ui Text Tint Color Override" offset="0x2C" alpha="true" visible="true" />
+		<color32 name="Teams 1 / Ui Bitmap Tint Color Override" offset="0x30" alpha="true" visible="true" />
+		<flags8 name="Teams 2 / Flags" offset="0x34" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 2 / Initial Team Designator" offset="0x35" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 2 / Model Override" offset="0x36" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 2 / Number Of Fireteams" offset="0x37" visible="true" />
+		<stringid name="Teams 2 / Description" offset="0x38" visible="true" />
+		<color32 name="Teams 2 / Primary Color Override" offset="0x3C" alpha="true" visible="true" />
+		<color32 name="Teams 2 / Secondary Color Override" offset="0x40" alpha="true" visible="true" />
+		<color32 name="Teams 2 / Ui Text Tint Color Override" offset="0x44" alpha="true" visible="true" />
+		<color32 name="Teams 2 / Ui Bitmap Tint Color Override" offset="0x48" alpha="true" visible="true" />
+		<flags8 name="Teams 3 / Flags" offset="0x4C" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 3 / Initial Team Designator" offset="0x4D" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 3 / Model Override" offset="0x4E" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 3 / Number Of Fireteams" offset="0x4F" visible="true" />
+		<stringid name="Teams 3 / Description" offset="0x50" visible="true" />
+		<color32 name="Teams 3 / Primary Color Override" offset="0x54" alpha="true" visible="true" />
+		<color32 name="Teams 3 / Secondary Color Override" offset="0x58" alpha="true" visible="true" />
+		<color32 name="Teams 3 / Ui Text Tint Color Override" offset="0x5C" alpha="true" visible="true" />
+		<color32 name="Teams 3 / Ui Bitmap Tint Color Override" offset="0x60" alpha="true" visible="true" />
+		<flags8 name="Teams 4 / Flags" offset="0x64" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 4 / Initial Team Designator" offset="0x65" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 4 / Model Override" offset="0x66" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 4 / Number Of Fireteams" offset="0x67" visible="true" />
+		<stringid name="Teams 4 / Description" offset="0x68" visible="true" />
+		<color32 name="Teams 4 / Primary Color Override" offset="0x6C" alpha="true" visible="true" />
+		<color32 name="Teams 4 / Secondary Color Override" offset="0x70" alpha="true" visible="true" />
+		<color32 name="Teams 4 / Ui Text Tint Color Override" offset="0x74" alpha="true" visible="true" />
+		<color32 name="Teams 4 / Ui Bitmap Tint Color Override" offset="0x78" alpha="true" visible="true" />
+		<flags8 name="Teams 5 / Flags" offset="0x7C" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 5 / Initial Team Designator" offset="0x7D" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 5 / Model Override" offset="0x7E" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 5 / Number Of Fireteams" offset="0x7F" visible="true" />
+		<stringid name="Teams 5 / Description" offset="0x80" visible="true" />
+		<color32 name="Teams 5 / Primary Color Override" offset="0x84" alpha="true" visible="true" />
+		<color32 name="Teams 5 / Secondary Color Override" offset="0x88" alpha="true" visible="true" />
+		<color32 name="Teams 5 / Ui Text Tint Color Override" offset="0x8C" alpha="true" visible="true" />
+		<color32 name="Teams 5 / Ui Bitmap Tint Color Override" offset="0x90" alpha="true" visible="true" />
+		<flags8 name="Teams 6 / Flags" offset="0x94" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 6 / Initial Team Designator" offset="0x95" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 6 / Model Override" offset="0x96" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 6 / Number Of Fireteams" offset="0x97" visible="true" />
+		<stringid name="Teams 6 / Description" offset="0x98" visible="true" />
+		<color32 name="Teams 6 / Primary Color Override" offset="0x9C" alpha="true" visible="true" />
+		<color32 name="Teams 6 / Secondary Color Override" offset="0xA0" alpha="true" visible="true" />
+		<color32 name="Teams 6 / Ui Text Tint Color Override" offset="0xA4" alpha="true" visible="true" />
+		<color32 name="Teams 6 / Ui Bitmap Tint Color Override" offset="0xA8" alpha="true" visible="true" />
+		<flags8 name="Teams 7 / Flags" offset="0xAC" visible="true">
+			<bit name="Enabled" index="0" />
+			<bit name="PrimaryOverrideColor" index="1" />
+			<bit name="SecondaryOverrideColor" index="2" />
+			<bit name="OverrideUiTextTintColor" index="3" />
+			<bit name="OverrideUiBitmapTintColor" index="4" />
+			<bit name="OverrideEmblem" index="5" />
+		</flags8>
+		<enum8 name="Teams 7 / Initial Team Designator" offset="0xAD" visible="true">
+			<option name="Defender" value="0" />
+			<option name="Attacker" value="1" />
+			<option name="ThirdParty" value="2" />
+			<option name="FourthParty" value="3" />
+			<option name="FifthParty" value="4" />
+			<option name="SixthParty" value="5" />
+			<option name="SeventhParty" value="6" />
+			<option name="EighthParty" value="7" />
+			<option name="Neutral" value="8" />
+		</enum8>
+		<enum8 name="Teams 7 / Model Override" offset="0xAE" visible="true">
+			<option name="Spartan" value="0" />
+			<option name="Elite" value="1" />
+		</enum8>
+		<uint8 name="Teams 7 / Number Of Fireteams" offset="0xAF" visible="true" />
+		<stringid name="Teams 7 / Description" offset="0xB0" visible="true" />
+		<color32 name="Teams 7 / Primary Color Override" offset="0xB4" alpha="true" visible="true" />
+		<color32 name="Teams 7 / Secondary Color Override" offset="0xB8" alpha="true" visible="true" />
+		<color32 name="Teams 7 / Ui Text Tint Color Override" offset="0xBC" alpha="true" visible="true" />
+		<color32 name="Teams 7 / Ui Bitmap Tint Color Override" offset="0xC0" alpha="true" visible="true" />
+	</tagblock>
+	<tagblock name="Variant / Loadout Options" offset="0x50" visible="true" elementSize="0x10">
+		<flags8 name="Flags" offset="0x0" visible="true">
+			<bit name="CustomLoadoutsEnabled" index="0" />
+			<bit name="SpartanLoadoutsEnabled" index="1" />
+			<bit name="EliteLoadoutsEnabled" index="2" />
+			<bit name="MapLoadoutsEnabled" index="3" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0x1" visible="false" />
+		<uint8 name="Padding 1" offset="0x2" visible="false" />
+		<uint8 name="Padding 2" offset="0x3" visible="false" />
+		<tagblock name="Loadout Palettes" offset="0x4" visible="true" elementSize="0x4">
+			<stringid name="Palette Name" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Variant / Ordnance Options" offset="0x5C" visible="true" elementSize="0x1">
+		<flags8 name="Flags" offset="0x0" visible="true">
+			<bit name="OrdnanceEnabled" index="0" />
+		</flags8>
+	</tagblock>
+	<int32 name="Variant / Mission Id" offset="0x68" visible="true" />
+	<enum8 name="Variant / Game Difficulty" offset="0x6C" visible="true">
+		<option name="Easy" value="0" />
+		<option name="Normal" value="1" />
+		<option name="Heroic" value="2" />
+		<option name="Legendary" value="3" />
+	</enum8>
+	<flags8 name="Variant / Firefight Variant Flags" offset="0x6D" visible="true">
+		<bit name="UseAmmoCrates" index="0" />
+		<bit name="PlayersRespawnOnWave" index="1" />
+	</flags8>
+	<int16 name="Variant / Shared Team Life Count" offset="0x6E" visible="true" />
+	<int16 name="Variant / Maximum Lives" offset="0x70" visible="true" />
+	<int8 name="Variant / Starting Crate1" offset="0x72" visible="true" />
+	<int8 name="Variant / Starting Crate2" offset="0x73" visible="true" />
+	<int8 name="Variant / Starting Crate3" offset="0x74" visible="true" />
+	<int8 name="Variant / Starting Crate4" offset="0x75" visible="true" />
+	<int8 name="Variant / Starting Crate5" offset="0x76" visible="true" />
+	<int8 name="Variant / Starting Crate6" offset="0x77" visible="true" />
+	<int8 name="Variant / Starting Crate7" offset="0x78" visible="true" />
+	<int8 name="Variant / Starting Crate8" offset="0x79" visible="true" />
+	<int8 name="Variant / Starting Crate9" offset="0x7A" visible="true" />
+	<int8 name="Variant / Starting Crate10" offset="0x7B" visible="true" />
+	<int8 name="Variant / Starting Crate11" offset="0x7C" visible="true" />
+	<int8 name="Variant / Starting Crate12" offset="0x7D" visible="true" />
+	<int8 name="Variant / Starting Crate13" offset="0x7E" visible="true" />
+	<int8 name="Variant / Starting Crate14" offset="0x7F" visible="true" />
+	<ascii name="Variant / Variant Event" offset="0x80" visible="true" size="0x20" />
+	<tagblock name="Variant / Midnight Player Goal Properties" offset="0xA0" visible="true" elementSize="0x68">
+		<enum8 name="Player Goal" offset="0x0" visible="true">
+			<option name="ObjectDestruction" value="0" />
+			<option name="ObjectDelivery" value="1" />
+			<option name="LocationArrival" value="2" />
+			<option name="TimePassed" value="3" />
+			<option name="NoMoreWaves" value="4" />
+			<option name="KillBoss" value="5" />
+			<option name="Defense" value="6" />
+			<option name="Other" value="7" />
+		</enum8>
+		<int8 name="Lives" offset="0x1" visible="true" />
+		<int8 name="Time Limit" offset="0x2" visible="true" />
+		<flags8 name="Wave Difficulty" offset="0x3" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Medium" index="1" />
+			<bit name="Hard" index="2" />
+		</flags8>
+		<tagblock name="Firefight Waves" offset="0x4" visible="true" elementSize="0x4C">
+			<stringid name="Squad Type" offset="0x0" visible="true" />
+			<enum8 name="Delivery Type" offset="0x4" visible="true">
+				<option name="Dropship" value="0" />
+				<option name="MonsterCloset" value="1" />
+				<option name="DropPod" value="2" />
+				<option name="TestSpawn" value="3" />
+			</enum8>
+			<int8 name="Ai Allowed Before Next Wave Spawns" offset="0x5" visible="true" />
+			<int8 name="Enemies Left Before Hud Marking" offset="0x6" visible="true" />
+			<int8 name="Wave Type" offset="0x7" visible="true" />
+			<int8 name="Weapon To Drop" offset="0x8" visible="true" />
+			<int8 name="Vehicle To Drop" offset="0x9" visible="true" />
+			<int8 name="Squad1" offset="0xA" visible="true" />
+			<int8 name="Squad2" offset="0xB" visible="true" />
+			<ascii name="Start Event" offset="0xC" visible="true" size="0x20" />
+			<ascii name="End Event" offset="0x2C" visible="true" size="0x20" />
+		</tagblock>
+		<flags32 name="Player Goal Flags" offset="0x10" visible="true">
+			<bit name="Looping" index="0" />
+			<bit name="RandomWaves" index="1" />
+		</flags32>
+		<stringid name="Spartan Player Traits" offset="0x14" visible="true" />
+		<stringid name="Ai Traits" offset="0x18" visible="true" />
+		<ascii name="Start Event" offset="0x1C" visible="true" size="0x20" />
+		<ascii name="End Event" offset="0x3C" visible="true" size="0x20" />
+		<flags32 name="Skulls" offset="0x5C" visible="true">
+			<bit name="SkullIron" index="0" />
+			<bit name="SkullBlackEye" index="1" />
+			<bit name="SkullToughLuck" index="2" />
+			<bit name="SkullCatch" index="3" />
+			<bit name="SkullFog" index="4" />
+			<bit name="SkullFamine" index="5" />
+			<bit name="SkullThunderstorm" index="6" />
+			<bit name="SkullTilt" index="7" />
+			<bit name="SkullMythic" index="8" />
+			<bit name="SkullAssassin" index="9" />
+			<bit name="SkullBlind" index="10" />
+			<bit name="SkullSuperman" index="11" />
+			<bit name="SkullBirthdayParty" index="12" />
+			<bit name="SkullDaddy" index="13" />
+			<bit name="SkullRed" index="14" />
+			<bit name="SkullYellow" index="15" />
+			<bit name="SkullBlue" index="16" />
+		</flags32>
+		<int8 name="Objective1" offset="0x60" visible="true" />
+		<int8 name="Objective2" offset="0x61" visible="true" />
+		<int8 name="Objective3" offset="0x62" visible="true" />
+		<int8 name="Objective4" offset="0x63" visible="true" />
+		<int8 name="User Data" offset="0x64" visible="true" />
+		<int8 name="Start Location Folder" offset="0x65" visible="true" />
+		<uint8 name="Padding 0" offset="0x66" visible="false" />
+		<uint8 name="Padding 1" offset="0x67" visible="false" />
+	</tagblock>
+</plugin>

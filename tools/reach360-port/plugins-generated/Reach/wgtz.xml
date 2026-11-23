@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x50">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.UserInterfaceGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Shared Globals" offset="0x0" visible="true" />
+	<tagref name="Mp Variant Settings Ui" offset="0x10" visible="true" />
+	<tagref name="Game Hopper Descriptions" offset="0x20" visible="true" />
+	<tagblock name="Screen Widgets" offset="0x30" visible="true" elementSize="0x10">
+		<tagref name="Widget" offset="0x0" visible="true" />
+	</tagblock>
+	<tagref name="Texture Render List" offset="0x3C" visible="true" />
+	<tagref name="Swear Filter" offset="0x4C" visible="true" />
+	<uint32 name="Unknown HO" offset="0x5C" visible="true" />
+</plugin>

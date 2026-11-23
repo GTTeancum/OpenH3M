@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x68">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.CameraShake (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<float32 name="Camera Impulse / Impulse Duration" offset="0x0" visible="true" />
+	<dataref name="Camera Impulse / Fade Function Reach / Data" offset="0x4" visible="true" />
+	<degree name="Camera Impulse / Rotation" offset="0x18" visible="true" />
+	<float32 name="Camera Impulse / Pushback" offset="0x1C" visible="true" />
+	<rangef name="Camera Impulse / Jitter" offset="0x20" visible="true" />
+	<float32 name="Camera Shake Data / Shake Duration" offset="0x28" visible="true" />
+	<dataref name="Camera Shake Data / Fade Function Reach / Data" offset="0x2C" visible="true" />
+	<float32 name="Camera Shake Data / Random Translation" offset="0x40" visible="true" />
+	<degree name="Camera Shake Data / Random Rotation" offset="0x44" visible="true" />
+	<float32 name="Camera Shake Data / Wobble Function Period" offset="0x48" visible="true" />
+	<float32 name="Camera Shake Data / Wobble Weight" offset="0x4C" visible="true" />
+	<enum16 name="Camera Shake Data / Wobble Function Reach" offset="0x50" visible="true">
+		<option name="One" value="0" />
+		<option name="Zero" value="1" />
+		<option name="Cosine" value="2" />
+		<option name="Cosine1" value="3" />
+		<option name="DiagonalWave" value="4" />
+		<option name="DiagonalWave1" value="5" />
+		<option name="Slide" value="6" />
+		<option name="Slide1" value="7" />
+		<option name="Noise" value="8" />
+		<option name="Jitter" value="9" />
+		<option name="Wander" value="10" />
+		<option name="Spark" value="11" />
+	</enum16>
+	<enum8 name="Camera Shake Data / Animated Shake Playback" offset="0x52" visible="true">
+		<option name="Looping" value="0" />
+		<option name="FrameRatio" value="1" />
+	</enum8>
+	<enum8 name="Camera Shake Data / Animated Shake Weight" offset="0x53" visible="true">
+		<option name="EffectScale" value="0" />
+		<option name="Full" value="1" />
+	</enum8>
+	<tagref name="Camera Shake Data / Animation Graph" offset="0x54" visible="true" />
+	<stringid name="Camera Shake Data / Animation Name" offset="0x64" visible="true" />
+</plugin>

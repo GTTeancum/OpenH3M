@@ -1,0 +1,1447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x22C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CacheFileResourceGestalt (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<enum16 name="Scenario Type" offset="0x0" visible="true">
+		<option name="Solo" value="0" />
+		<option name="Multiplayer" value="1" />
+		<option name="MainMenu" value="2" />
+		<option name="MultiplayerShared" value="3" />
+		<option name="SinglePlayerShared" value="4" />
+	</enum16>
+	<flags16 name="Scenario Flags1" offset="0x2" visible="true">
+		<bit name="AlwaysDrawSky" index="0" />
+		<bit name="DonTStripPathfinding" index="1" />
+		<bit name="SymmetricMultiplayerMap" index="2" />
+		<bit name="QuickLoading" index="3" />
+		<bit name="CharactersUsePreviousMissionWeapons" index="4" />
+		<bit name="LightmapsSmoothPalettesWithNeighbors" index="5" />
+		<bit name="SnapToWhiteAtStart" index="6" />
+		<bit name="OverrideGlobals" index="7" />
+		<bit name="BigVehicleUseCenterPointForLightSampling" index="8" />
+		<bit name="DonTUseCampaignSharing" index="9" />
+		<bit name="IgnoreSizeAndCanTShip" index="10" />
+		<bit name="AlwaysRunLightmapsPerBsp" index="11" />
+		<bit name="InSpace" index="12" />
+		<bit name="Survival" index="13" />
+		<bit name="DoNotStripVariants" index="14" />
+	</flags16>
+	<tagblock name="Resource Type Identifiers" offset="0x4" visible="true" elementSize="0x20">
+		<int32 name="Identifier Part0" offset="0x0" visible="true" />
+		<int32 name="Identifier Part1" offset="0x4" visible="true" />
+		<int32 name="Identifier Part2" offset="0x8" visible="true" />
+		<int32 name="Identifier Part3" offset="0xC" visible="true" />
+		<int32 name="Definition Flags" offset="0x10" visible="true" />
+		<stringid name="Name" offset="0x14" visible="true" />
+		<int16 name="Page Alignment Bits 0 / Page Alignment Bits" offset="0x18" visible="true" />
+		<int16 name="Page Alignment Bits 1 / Page Alignment Bits" offset="0x1A" visible="true" />
+		<int16 name="Page Alignment Bits 2 / Page Alignment Bits" offset="0x1C" visible="true" />
+		<uint8 name="Padding 0" offset="0x1E" visible="false" />
+		<uint8 name="Padding 1" offset="0x1F" visible="false" />
+	</tagblock>
+	<tagblock name="Interop Type Identifiers" offset="0x10" visible="true" elementSize="0x14">
+		<int32 name="Identifier Part0" offset="0x0" visible="true" />
+		<int32 name="Identifier Part1" offset="0x4" visible="true" />
+		<int32 name="Identifier Part2" offset="0x8" visible="true" />
+		<int32 name="Identifier Part3" offset="0xC" visible="true" />
+		<stringid name="Name" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Codec Identifiers" offset="0x1C" visible="true" elementSize="0x10">
+		<int32 name="Identifier Part0" offset="0x0" visible="true" />
+		<int32 name="Identifier Part1" offset="0x4" visible="true" />
+		<int32 name="Identifier Part2" offset="0x8" visible="true" />
+		<int32 name="Identifier Part3" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Shared Files" offset="0x28" visible="true" elementSize="0x108">
+		<ascii name="Dvd Relative Path" offset="0x0" visible="true" size="0x100" />
+		<flags16 name="Flags" offset="0x100" visible="true">
+			<bit name="UseHeaderIoOffset" index="0" />
+			<bit name="NotRequired" index="1" />
+			<bit name="UseHeaderLocations" index="2" />
+		</flags16>
+		<int16 name="Global Shared Location Offset" offset="0x102" visible="true" />
+		<int32 name="Io Offset" offset="0x104" visible="true" />
+	</tagblock>
+	<tagblock name="File Pages" offset="0x34" visible="true" elementSize="0x58">
+		<int16 name="Header Salt At Runtime" offset="0x0" visible="true" />
+		<flags8 name="Flags" offset="0x2" visible="true">
+			<bit name="ValidChecksum" index="0" />
+			<bit name="SharedAndRequired" index="1" />
+			<bit name="DvdOnlySharedAndRequired" index="2" />
+			<bit name="DvdOnlyAndRequired" index="3" />
+			<bit name="ReferencedByCacheFileHeader" index="4" />
+			<bit name="OnlyFullValidChecksum" index="5" />
+		</flags8>
+		<int8 name="Codec" offset="0x3" visible="true" />
+		<int16 name="Shared File" offset="0x4" visible="true" />
+		<int16 name="Shared File Location Index" offset="0x6" visible="true" />
+		<int32 name="File Offset" offset="0x8" visible="true" />
+		<int32 name="File Size" offset="0xC" visible="true" />
+		<int32 name="Size" offset="0x10" visible="true" />
+		<int32 name="Checksum / Checksum" offset="0x14" visible="true" />
+		<uint8 name="Checksum / Entire Hash 0 / Hash Byte" offset="0x18" visible="true" />
+		<uint8 name="Checksum / Entire Hash 1 / Hash Byte" offset="0x19" visible="true" />
+		<uint8 name="Checksum / Entire Hash 2 / Hash Byte" offset="0x1A" visible="true" />
+		<uint8 name="Checksum / Entire Hash 3 / Hash Byte" offset="0x1B" visible="true" />
+		<uint8 name="Checksum / Entire Hash 4 / Hash Byte" offset="0x1C" visible="true" />
+		<uint8 name="Checksum / Entire Hash 5 / Hash Byte" offset="0x1D" visible="true" />
+		<uint8 name="Checksum / Entire Hash 6 / Hash Byte" offset="0x1E" visible="true" />
+		<uint8 name="Checksum / Entire Hash 7 / Hash Byte" offset="0x1F" visible="true" />
+		<uint8 name="Checksum / Entire Hash 8 / Hash Byte" offset="0x20" visible="true" />
+		<uint8 name="Checksum / Entire Hash 9 / Hash Byte" offset="0x21" visible="true" />
+		<uint8 name="Checksum / Entire Hash 10 / Hash Byte" offset="0x22" visible="true" />
+		<uint8 name="Checksum / Entire Hash 11 / Hash Byte" offset="0x23" visible="true" />
+		<uint8 name="Checksum / Entire Hash 12 / Hash Byte" offset="0x24" visible="true" />
+		<uint8 name="Checksum / Entire Hash 13 / Hash Byte" offset="0x25" visible="true" />
+		<uint8 name="Checksum / Entire Hash 14 / Hash Byte" offset="0x26" visible="true" />
+		<uint8 name="Checksum / Entire Hash 15 / Hash Byte" offset="0x27" visible="true" />
+		<uint8 name="Checksum / Entire Hash 16 / Hash Byte" offset="0x28" visible="true" />
+		<uint8 name="Checksum / Entire Hash 17 / Hash Byte" offset="0x29" visible="true" />
+		<uint8 name="Checksum / Entire Hash 18 / Hash Byte" offset="0x2A" visible="true" />
+		<uint8 name="Checksum / Entire Hash 19 / Hash Byte" offset="0x2B" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 0 / Hash Byte" offset="0x2C" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 1 / Hash Byte" offset="0x2D" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 2 / Hash Byte" offset="0x2E" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 3 / Hash Byte" offset="0x2F" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 4 / Hash Byte" offset="0x30" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 5 / Hash Byte" offset="0x31" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 6 / Hash Byte" offset="0x32" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 7 / Hash Byte" offset="0x33" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 8 / Hash Byte" offset="0x34" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 9 / Hash Byte" offset="0x35" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 10 / Hash Byte" offset="0x36" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 11 / Hash Byte" offset="0x37" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 12 / Hash Byte" offset="0x38" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 13 / Hash Byte" offset="0x39" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 14 / Hash Byte" offset="0x3A" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 15 / Hash Byte" offset="0x3B" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 16 / Hash Byte" offset="0x3C" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 17 / Hash Byte" offset="0x3D" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 18 / Hash Byte" offset="0x3E" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 19 / Hash Byte" offset="0x3F" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 0 / Hash Byte" offset="0x40" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 1 / Hash Byte" offset="0x41" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 2 / Hash Byte" offset="0x42" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 3 / Hash Byte" offset="0x43" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 4 / Hash Byte" offset="0x44" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 5 / Hash Byte" offset="0x45" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 6 / Hash Byte" offset="0x46" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 7 / Hash Byte" offset="0x47" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 8 / Hash Byte" offset="0x48" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 9 / Hash Byte" offset="0x49" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 10 / Hash Byte" offset="0x4A" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 11 / Hash Byte" offset="0x4B" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 12 / Hash Byte" offset="0x4C" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 13 / Hash Byte" offset="0x4D" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 14 / Hash Byte" offset="0x4E" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 15 / Hash Byte" offset="0x4F" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 16 / Hash Byte" offset="0x50" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 17 / Hash Byte" offset="0x51" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 18 / Hash Byte" offset="0x52" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 19 / Hash Byte" offset="0x53" visible="true" />
+		<int16 name="Resource Reference Count" offset="0x54" visible="true" />
+		<int16 name="Streaming Subpage Table" offset="0x56" visible="true" />
+	</tagblock>
+	<tagblock name="Streaming Subpage Tables" offset="0x40" visible="true" elementSize="0x10">
+		<int32 name="Total Memory Size" offset="0x0" visible="true" />
+		<tagblock name="Streaming Subpages" offset="0x4" visible="true" elementSize="0x8">
+			<int32 name="Memory Offset" offset="0x0" visible="true" />
+			<int32 name="Memory Size" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Sections" offset="0x4C" visible="true" elementSize="0x18">
+		<int32 name="Page Offsets 0 / Offset" offset="0x0" visible="true" />
+		<int32 name="Page Offsets 1 / Offset" offset="0x4" visible="true" />
+		<int32 name="Page Offsets 2 / Offset" offset="0x8" visible="true" />
+		<int16 name="File Page Indexes 0 / Page Index" offset="0xC" visible="true" />
+		<int16 name="File Page Indexes 1 / Page Index" offset="0xE" visible="true" />
+		<int16 name="File Page Indexes 2 / Page Index" offset="0x10" visible="true" />
+		<int16 name="Subpage Table Indexes 0 / Subpage Table Index" offset="0x12" visible="true" />
+		<int16 name="Subpage Table Indexes 1 / Subpage Table Index" offset="0x14" visible="true" />
+		<int16 name="Subpage Table Indexes 2 / Subpage Table Index" offset="0x16" visible="true" />
+	</tagblock>
+	<tagblock name="Resources" offset="0x58" visible="true" elementSize="0x44">
+		<tagref name="Owner Tag" offset="0x0" visible="true" />
+		<int16 name="Resource Salt" offset="0x10" visible="true" />
+		<int8 name="Resource Type Index" offset="0x12" visible="true" />
+		<int8 name="Control Alignment Bits" offset="0x13" visible="true" />
+		<int32 name="Control Size" offset="0x14" visible="true" />
+		<flags16 name="Flags" offset="0x18" visible="true">
+			<bit name="HasHighestPriorityData" index="0" />
+			<bit name="HasMediumPriorityData" index="1" />
+			<bit name="HasLowPriorityData" index="2" />
+		</flags16>
+		<int16 name="Page" offset="0x1A" visible="true" />
+		<undefined name="Root Fixup (CacheAddress)" offset="0x1C" visible="false" />
+		<tagblock name="Control Fixups" offset="0x20" visible="true" elementSize="0x8">
+			<uint32 name="Block Offset" offset="0x0" visible="true" />
+			<undefined name="Address (CacheAddress)" offset="0x4" visible="false" />
+		</tagblock>
+		<tagblock name="Interop Locations" offset="0x2C" visible="true" elementSize="0x8">
+			<int32 name="Encoded Interop Location" offset="0x0" visible="true" />
+			<int32 name="Interop Type Index" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Priority Level Data" offset="0x38" visible="true" elementSize="0x4">
+			<int32 name="Naive Data Offset" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Designer Zone Manifests" offset="0x64" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Global Zone Manifest" offset="0x70" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Hs Zone Manifest" offset="0x7C" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Unattached Designer Zone Manifest" offset="0x88" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Dvd Forbidden Zone Manifest" offset="0x94" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Dvd Always Streaming Zone Manifest" offset="0xA0" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Default Bsp Zone Manifests" offset="0xAC" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Static Bsp Zone Manifests" offset="0xB8" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Dynamic Bsp Zone Manifests" offset="0xC4" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Cinematic Zone Manifests" offset="0xD0" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Required Map Variant Manifests" offset="0xDC" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Sandbox Map Variant Manifests" offset="0xE8" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Zone Only Zone Set Manifests" offset="0xF4" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Expected Zone Set Manifests" offset="0x100" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Fully Populated Zone Set Manifests" offset="0x10C" visible="true" elementSize="0x90">
+		<tagblock name="Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Name" offset="0x18" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Designer Zone Mask (low)" offset="0x8C" visible="true" />
+	</tagblock>
+	<tagblock name="Zone Set Zone Usage" offset="0x118" visible="true" elementSize="0x28">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags32 name="Flags" offset="0x4" visible="true">
+			<bit name="BeginLoadingNextLevel" index="0" />
+			<bit name="DebugPurposesOnly" index="1" />
+			<bit name="InteralZoneSet" index="2" />
+			<bit name="DisableSkyClearing" index="3" />
+			<bit name="OverrideSkyClearColor" index="4" />
+		</flags32>
+		<uint32 name="Required Bsp Zones" offset="0x8" visible="true" />
+		<uint32 name="Expected Touched Bsp Zones" offset="0xC" visible="true" />
+		<uint32 name="Required Designer Zones (high)" offset="0x10" visible="true" />
+		<uint32 name="Required Designer Zones (low)" offset="0x14" visible="true" />
+		<uint32 name="Expected Designer Zones (high)" offset="0x18" visible="true" />
+		<uint32 name="Expected Designer Zones (low)" offset="0x1C" visible="true" />
+		<uint32 name="Required Cinematic Zones" offset="0x20" visible="true" />
+		<int32 name="Hint Previous Zone Set" offset="0x24" visible="true" />
+	</tagblock>
+	<tagblock name="Bsp References" offset="0x124" visible="true" elementSize="0x10">
+		<tagref name="Bsp" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Resource Owners" offset="0x130" visible="true" elementSize="0x14">
+		<tagref name="Resource Owner" offset="0x0" visible="true" />
+		<int32 name="Actual Tag Index" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Model Variant Usage" offset="0x13C" visible="true" elementSize="0x14">
+		<int16 name="Model" offset="0x0" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<stringid name="Variant" offset="0x4" visible="true" />
+		<tagblock name="Used Materials" offset="0x8" visible="true" elementSize="0x2">
+			<int16 name="Tag" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Character Usage" offset="0x148" visible="true" elementSize="0x10">
+		<int16 name="Model" offset="0x0" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<tagblock name="Used Model Variants" offset="0x4" visible="true" elementSize="0x2">
+			<int16 name="Model Variant" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<dataref name="Naive Resource Control Data" offset="0x154" visible="true" />
+	<int32 name="Minimum Complete Resource Size" offset="0x168" visible="true" />
+	<int32 name="Minimum Required Resource Size" offset="0x16C" visible="true" />
+	<int32 name="Minimum Dvd Resource Size" offset="0x170" visible="true" />
+	<int32 name="Global Required Resource Size" offset="0x174" visible="true" />
+	<int32 name="Total Optional Control Data Size" offset="0x178" visible="true" />
+	<tagblock name="Overall Resource Usage" offset="0x17C" visible="true" elementSize="0x1C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+		<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+		<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+		<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+		<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+		<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+	</tagblock>
+	<tagblock name="Bsp Game Attachments" offset="0x188" visible="true" elementSize="0x24">
+		<tagblock name="Static" offset="0x0" visible="true" elementSize="0x10">
+			<tagref name="Attachment" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Persistent" offset="0xC" visible="true" elementSize="0x10">
+			<tagref name="Attachment" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Dynamic" offset="0x18" visible="true" elementSize="0x10">
+			<tagref name="Attachment" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Model Variant Zones" offset="0x194" visible="true" elementSize="0xA8">
+		<tagblock name="Cache Zone Manifest / Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Cache Zone Manifest / Name" offset="0x18" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Cache Zone Manifest / Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Cache Zone Manifest / Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Cache Zone Manifest / Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Cache Zone Manifest / Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Cache Zone Manifest / Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Cache Zone Manifest / Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cache Zone Manifest / Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (low)" offset="0x8C" visible="true" />
+		<int32 name="Disk Size" offset="0x90" visible="true" />
+		<int32 name="Unused Size" offset="0x94" visible="true" />
+		<tagref name="Owner Tag" offset="0x98" visible="true" />
+	</tagblock>
+	<tagblock name="Combat Dialogue Zones" offset="0x1A0" visible="true" elementSize="0xA8">
+		<tagblock name="Cache Zone Manifest / Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Cache Zone Manifest / Name" offset="0x18" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Cache Zone Manifest / Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Cache Zone Manifest / Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Cache Zone Manifest / Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Cache Zone Manifest / Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Cache Zone Manifest / Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Cache Zone Manifest / Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cache Zone Manifest / Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (low)" offset="0x8C" visible="true" />
+		<int32 name="Disk Size" offset="0x90" visible="true" />
+		<int32 name="Unused Size" offset="0x94" visible="true" />
+		<tagref name="Owner Tag" offset="0x98" visible="true" />
+	</tagblock>
+	<tagblock name="Tag Zones" offset="0x1AC" visible="true" elementSize="0xA8">
+		<tagblock name="Cache Zone Manifest / Cached Resource Bitvector" offset="0x0" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Streamed Resource Bitvector" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<stringid name="Cache Zone Manifest / Name" offset="0x18" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 0 / Page Size" offset="0x1C" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 1 / Page Size" offset="0x20" visible="true" />
+		<int32 name="Cache Zone Manifest / Page Sizes 2 / Page Size" offset="0x24" visible="true" />
+		<int32 name="Cache Zone Manifest / Deferred Required Size" offset="0x28" visible="true" />
+		<int32 name="Cache Zone Manifest / Streamed Resource Size" offset="0x2C" visible="true" />
+		<int32 name="Cache Zone Manifest / Dvd In Memory Resource Size" offset="0x30" visible="true" />
+		<tagblock name="Cache Zone Manifest / Resource Usage" offset="0x34" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Budget Usage" offset="0x40" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Unique Budget Usage" offset="0x4C" visible="true" elementSize="0x1C">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<int32 name="Page Sizes 0 / Page Size" offset="0x4" visible="true" />
+			<int32 name="Page Sizes 1 / Page Size" offset="0x8" visible="true" />
+			<int32 name="Page Sizes 2 / Page Size" offset="0xC" visible="true" />
+			<int32 name="Deferred Required Size" offset="0x10" visible="true" />
+			<int32 name="Streamed Resource Size" offset="0x14" visible="true" />
+			<int32 name="Dvd In Memory Resource Size" offset="0x18" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Active Resource Owners" offset="0x58" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Top Level Resource Owners" offset="0x64" visible="true" elementSize="0x4">
+			<int32 name="_32 Bits" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Cache Zone Manifest / Visitation Hierarchy" offset="0x70" visible="true" elementSize="0x10">
+			<int16 name="Parent Tag" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<tagblock name="Children" offset="0x4" visible="true" elementSize="0x2">
+				<int16 name="Child Tag" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<int32 name="Cache Zone Manifest / Active Bsp Mask" offset="0x7C" visible="true" />
+		<int32 name="Cache Zone Manifest / Touched Bsp Mask" offset="0x80" visible="true" />
+		<int32 name="Cache Zone Manifest / Cinematic Zone Mask" offset="0x84" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (high)" offset="0x88" visible="true" />
+		<uint32 name="Cache Zone Manifest / Designer Zone Mask (low)" offset="0x8C" visible="true" />
+		<int32 name="Disk Size" offset="0x90" visible="true" />
+		<int32 name="Unused Size" offset="0x94" visible="true" />
+		<tagref name="Owner Tag" offset="0x98" visible="true" />
+	</tagblock>
+	<tagblock name="Debug Resource Definitions" offset="0x1B8" visible="true" elementSize="0xC">
+		<tagblock name="Categories" offset="0x0" visible="true" elementSize="0x4">
+			<stringid name="Name" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Resource Layouts" offset="0x1C4" visible="true" elementSize="0x38">
+		<int32 name="Memory Sizes 0 / Memory Size" offset="0x0" visible="true" />
+		<int32 name="Memory Sizes 1 / Memory Size" offset="0x4" visible="true" />
+		<int32 name="Memory Sizes 2 / Memory Size" offset="0x8" visible="true" />
+		<int32 name="Compressed Sizes 0 / Compressed Size" offset="0xC" visible="true" />
+		<int32 name="Compressed Sizes 1 / Compressed Size" offset="0x10" visible="true" />
+		<int32 name="Compressed Sizes 2 / Compressed Size" offset="0x14" visible="true" />
+		<int32 name="Deferred Required Resource Size" offset="0x18" visible="true" />
+		<int32 name="Unused Resource Size" offset="0x1C" visible="true" />
+		<flags16 name="Global Zone Attachment" offset="0x20" visible="true">
+			<bit name="Global" index="0" />
+			<bit name="Script" index="1" />
+			<bit name="HddOnly" index="2" />
+			<bit name="AlwaysStreaming" index="3" />
+			<bit name="Unattached" index="4" />
+		</flags16>
+		<uint8 name="Padding 0" offset="0x22" visible="false" />
+		<uint8 name="Padding 1" offset="0x23" visible="false" />
+		<uint32 name="Bsp Zone Attachment" offset="0x24" visible="true" />
+		<uint32 name="Designer Zone Attachment (high)" offset="0x28" visible="true" />
+		<uint32 name="Designer Zone Attachment (low)" offset="0x2C" visible="true" />
+		<uint32 name="Cinematic Zone Attachment" offset="0x30" visible="true" />
+		<uint8 name="Padding1 0" offset="0x34" visible="false" />
+		<uint8 name="Padding1 1" offset="0x35" visible="false" />
+		<uint8 name="Padding1 2" offset="0x36" visible="false" />
+		<uint8 name="Padding1 3" offset="0x37" visible="false" />
+	</tagblock>
+	<tagblock name="Resource Properties" offset="0x1D0" visible="true" elementSize="0xC">
+		<tagblock name="Named Values" offset="0x0" visible="true" elementSize="0x18">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum32 name="Type" offset="0x4" visible="true">
+				<option name="Unknown" value="0" />
+				<option name="String" value="1" />
+				<option name="Real" value="2" />
+				<option name="Int" value="3" />
+			</enum32>
+			<int32 name="Row" offset="0x8" visible="true" />
+			<stringid name="String Value" offset="0xC" visible="true" />
+			<float32 name="Real Value" offset="0x10" visible="true" />
+			<int32 name="Int Value" offset="0x14" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Parentages" offset="0x1DC" visible="true" elementSize="0x2C">
+		<tagref name="Tag" offset="0x0" visible="true" />
+		<flags16 name="Flags" offset="0x10" visible="true">
+			<bit name="LoadedByGame" index="0" />
+			<bit name="Unloaded" index="1" />
+		</flags16>
+		<int16 name="Resource Owner Index" offset="0x12" visible="true" />
+		<tagblock name="Parents" offset="0x14" visible="true" elementSize="0x4">
+			<int32 name="Link" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Children" offset="0x20" visible="true" elementSize="0x4">
+			<int32 name="Link" offset="0x0" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Prediction Table / Prediction Quanta" offset="0x1E8" visible="true" elementSize="0x4">
+		<int32 name="Internal Resource Handle" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Prediction Table / Prediction Atoms" offset="0x1F4" visible="true" elementSize="0x8">
+		<int16 name="Index Salt" offset="0x0" visible="true" />
+		<uint16 name="Prediction Quantum Count" offset="0x2" visible="true" />
+		<int32 name="First Prediction Quantum Index" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Prediction Table / Prediction Molecule Atoms" offset="0x200" visible="true" elementSize="0x4">
+		<int32 name="Prediction Atom Handle" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Prediction Table / Prediction Molecules" offset="0x20C" visible="true" elementSize="0x8">
+		<uint16 name="Prediction Atom Count" offset="0x0" visible="true" />
+		<int16 name="First Prediction Atom Index" offset="0x2" visible="true" />
+		<uint16 name="Prediction Quantum Count" offset="0x4" visible="true" />
+		<uint16 name="First Prediction Quantum Index" offset="0x6" visible="true" />
+	</tagblock>
+	<tagblock name="Prediction Table / Prediction Molecule Keys" offset="0x218" visible="true" elementSize="0xC">
+		<int32 name="Index A" offset="0x0" visible="true" />
+		<int32 name="Index B" offset="0x4" visible="true" />
+		<int32 name="Index C" offset="0x8" visible="true" />
+	</tagblock>
+	<int32 name="Mat Is In A Really Bad Mood Campaign Id" offset="0x224" visible="true" />
+	<int32 name="Next Time We Don T Put Things That The Game Depends On Outside Of Tool Guerilla Or Sapien Map Id" offset="0x228" visible="true" />
+</plugin>

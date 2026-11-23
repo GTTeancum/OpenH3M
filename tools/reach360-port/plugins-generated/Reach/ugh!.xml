@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xDC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SoundCacheFileGestalt (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Platform Codecs" offset="0x0" visible="true" elementSize="0x3">
+		<enum8 name="Sample Rate / value" offset="0x0" visible="true">
+			<option name="_22khz" value="0" />
+			<option name="_44khz" value="1" />
+			<option name="_32khz" value="2" />
+			<option name="_48khz" value="3" />
+		</enum8>
+		<enum8 name="Encoding" offset="0x1" visible="true">
+			<option name="Mono" value="0" />
+			<option name="Stereo" value="1" />
+			<option name="Surround" value="2" />
+			<option name="_51Surround" value="3" />
+		</enum8>
+		<enum8 name="Compression" offset="0x2" visible="true">
+			<option name="PCM_BigEndian" value="0" />
+			<option name="XboxADPCM" value="1" />
+			<option name="IMAADPCM" value="2" />
+			<option name="PCM" value="3" />
+			<option name="WMA" value="4" />
+			<option name="XMA" value="7" />
+			<option name="MP3" value="8" />
+			<option name="FSB4" value="9" />
+			<option name="OGG" value="32" />
+			<option name="Tagtool_WAV" value="-1" />
+		</enum8>
+	</tagblock>
+	<tagblock name="Playback Parameters" offset="0xC" visible="true" elementSize="0x54">
+		<flags32 name="Field Disable Flags" offset="0x0" visible="true">
+			<bit name="DistanceA" index="0" />
+			<bit name="DistanceB" index="1" />
+			<bit name="DistanceC" index="2" />
+			<bit name="DistanceD" index="3" />
+			<bit name="Bit4" index="4" />
+			<bit name="Bit5" index="5" />
+			<bit name="Bit6" index="6" />
+			<bit name="Bit7" index="7" />
+			<bit name="Bit8" index="8" />
+			<bit name="Bit9" index="9" />
+			<bit name="Bit10" index="10" />
+			<bit name="Bit11" index="11" />
+			<bit name="Bit12" index="12" />
+			<bit name="Bit13" index="13" />
+			<bit name="Bit14" index="14" />
+			<bit name="Bit15" index="15" />
+			<bit name="Bit16" index="16" />
+			<bit name="Bit17" index="17" />
+			<bit name="Bit18" index="18" />
+			<bit name="Bit19" index="19" />
+			<bit name="Bit20" index="20" />
+			<bit name="Bit21" index="21" />
+			<bit name="Bit22" index="22" />
+			<bit name="Bit23" index="23" />
+			<bit name="Bit24" index="24" />
+			<bit name="Bit25" index="25" />
+			<bit name="Bit26" index="26" />
+			<bit name="Bit27" index="27" />
+			<bit name="Bit28" index="28" />
+			<bit name="Bit29" index="29" />
+			<bit name="Bit30" index="30" />
+		</flags32>
+		<float32 name="Skip Fraction Reach" offset="0x4" visible="true" />
+		<float32 name="Maximum Bend Per Second Reach" offset="0x8" visible="true" />
+		<float32 name="Distance Parameters / Dont Obstruct Distance" offset="0xC" visible="true" />
+		<float32 name="Distance Parameters / Dont Play Distance" offset="0x10" visible="true" />
+		<float32 name="Distance Parameters / Attack Distance" offset="0x14" visible="true" />
+		<float32 name="Distance Parameters / Minimum Distance" offset="0x18" visible="true" />
+		<float32 name="Distance Parameters / Sustain Begin Distance" offset="0x1C" visible="true" />
+		<float32 name="Distance Parameters / Sustain End Distance" offset="0x20" visible="true" />
+		<float32 name="Distance Parameters / Maximum Distance" offset="0x24" visible="true" />
+		<float32 name="Distance Parameters / Sustain DB" offset="0x28" visible="true" />
+		<float32 name="Gain Base" offset="0x2C" visible="true" />
+		<float32 name="Gain Variance" offset="0x30" visible="true" />
+		<range16 name="Random Pitch Bounds" offset="0x34" visible="true" />
+		<degree name="Inner Cone Angle" offset="0x38" visible="true" />
+		<degree name="Outer Cone Angle" offset="0x3C" visible="true" />
+		<float32 name="Outer Cone Gain" offset="0x40" visible="true" />
+		<flags32 name="Flags" offset="0x44" visible="true">
+			<bit name="OverrideAzimuth" index="0" />
+			<bit name="Override3dGain" index="1" />
+			<bit name="OverrideSpeakerGain" index="2" />
+		</flags32>
+		<degree name="Azimuth" offset="0x48" visible="true" />
+		<float32 name="Positional Gain" offset="0x4C" visible="true" />
+		<float32 name="First Person Gain" offset="0x50" visible="true" />
+	</tagblock>
+	<tagblock name="Scales" offset="0x18" visible="true" elementSize="0x14">
+		<rangef name="Gain Modifier Bounds" offset="0x0" visible="true" />
+		<range16 name="Pitch Modifier Bounds" offset="0x8" visible="true" />
+		<rangef name="Skip Fraction Modifier Bounds" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Import Names" offset="0x24" visible="true" elementSize="0x4">
+		<stringid name="Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Pitch Range Distances" offset="0x30" visible="true" elementSize="0x10">
+		<int32 name="Dont Play Distance" offset="0x0" visible="true" />
+		<int32 name="Attack Distance" offset="0x4" visible="true" />
+		<int32 name="Minimum Distance" offset="0x8" visible="true" />
+		<int32 name="Maximum Distance" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Pitch Range Parameters" offset="0x3C" visible="true" elementSize="0x10">
+		<int16 name="Natural Pitch" offset="0x0" visible="true" />
+		<int16 name="First Deterministic Flag Index" offset="0x2" visible="true" />
+		<range16 name="Bend Bounds" offset="0x4" visible="true" />
+		<range16 name="Max Gain Pitch Bounds" offset="0x8" visible="true" />
+		<range16 name="Playback Bend Bounds" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Pitch Ranges" offset="0x48" visible="true" elementSize="0xC">
+		<int16 name="Import Name Index" offset="0x0" visible="true" />
+		<int16 name="Pitch Range Parameters Index" offset="0x2" visible="true" />
+		<int16 name="Encoded Permutation Data Index" offset="0x4" visible="true" />
+		<int16 name="Encoded Runtime Permutation Flag Index" offset="0x6" visible="true" />
+		<int16 name="Encoded Permutation Count" offset="0x8" visible="true" />
+		<uint16 name="First Permutation Index" offset="0xA" visible="true" />
+	</tagblock>
+	<tagblock name="Permutations" offset="0x54" visible="true" elementSize="0x14">
+		<int16 name="Import Name Index" offset="0x0" visible="true" />
+		<int16 name="Encoded Skip Fraction" offset="0x2" visible="true" />
+		<uint32 name="Sample Count" offset="0x4" visible="true" />
+		<int32 name="First Permutation Chunk Index" offset="0x8" visible="true" />
+		<int16 name="Permutation Chunk Count" offset="0xC" visible="true" />
+		<int8 name="Encoded Gain" offset="0xE" visible="true" />
+		<int8 name="Overall Permutation Index" offset="0xF" visible="true" />
+		<int16 name="First Layer Marker Index" offset="0x10" visible="true" />
+		<int16 name="Layer Marker Count" offset="0x12" visible="true" />
+	</tagblock>
+	<tagblock name="Language Permutations" offset="0x60" visible="true" elementSize="0x94">
+		<int32 name="Parent Permutation Index" offset="0x0" visible="true" />
+		<uint32 name="English / Sample Size" offset="0x4" visible="true" />
+		<int32 name="English / First Permutation Chunk Index" offset="0x8" visible="true" />
+		<int32 name="English / Permutation Chunk Count" offset="0xC" visible="true" />
+		<uint32 name="Japanese / Sample Size" offset="0x10" visible="true" />
+		<int32 name="Japanese / First Permutation Chunk Index" offset="0x14" visible="true" />
+		<int32 name="Japanese / Permutation Chunk Count" offset="0x18" visible="true" />
+		<uint32 name="German / Sample Size" offset="0x1C" visible="true" />
+		<int32 name="German / First Permutation Chunk Index" offset="0x20" visible="true" />
+		<int32 name="German / Permutation Chunk Count" offset="0x24" visible="true" />
+		<uint32 name="French / Sample Size" offset="0x28" visible="true" />
+		<int32 name="French / First Permutation Chunk Index" offset="0x2C" visible="true" />
+		<int32 name="French / Permutation Chunk Count" offset="0x30" visible="true" />
+		<uint32 name="Spanish / Sample Size" offset="0x34" visible="true" />
+		<int32 name="Spanish / First Permutation Chunk Index" offset="0x38" visible="true" />
+		<int32 name="Spanish / Permutation Chunk Count" offset="0x3C" visible="true" />
+		<uint32 name="Latin American Spanish / Sample Size" offset="0x40" visible="true" />
+		<int32 name="Latin American Spanish / First Permutation Chunk Index" offset="0x44" visible="true" />
+		<int32 name="Latin American Spanish / Permutation Chunk Count" offset="0x48" visible="true" />
+		<uint32 name="Italian / Sample Size" offset="0x4C" visible="true" />
+		<int32 name="Italian / First Permutation Chunk Index" offset="0x50" visible="true" />
+		<int32 name="Italian / Permutation Chunk Count" offset="0x54" visible="true" />
+		<uint32 name="Korean / Sample Size" offset="0x58" visible="true" />
+		<int32 name="Korean / First Permutation Chunk Index" offset="0x5C" visible="true" />
+		<int32 name="Korean / Permutation Chunk Count" offset="0x60" visible="true" />
+		<uint32 name="Chinese Traditional / Sample Size" offset="0x64" visible="true" />
+		<int32 name="Chinese Traditional / First Permutation Chunk Index" offset="0x68" visible="true" />
+		<int32 name="Chinese Traditional / Permutation Chunk Count" offset="0x6C" visible="true" />
+		<uint32 name="Chinese Simplified / Sample Size" offset="0x70" visible="true" />
+		<int32 name="Chinese Simplified / First Permutation Chunk Index" offset="0x74" visible="true" />
+		<int32 name="Chinese Simplified / Permutation Chunk Count" offset="0x78" visible="true" />
+		<uint32 name="Portuguese / Sample Size" offset="0x7C" visible="true" />
+		<int32 name="Portuguese / First Permutation Chunk Index" offset="0x80" visible="true" />
+		<int32 name="Portuguese / Permutation Chunk Count" offset="0x84" visible="true" />
+		<uint32 name="Polish / Sample Size" offset="0x88" visible="true" />
+		<int32 name="Polish / First Permutation Chunk Index" offset="0x8C" visible="true" />
+		<int32 name="Polish / Permutation Chunk Count" offset="0x90" visible="true" />
+	</tagblock>
+	<tagblock name="Unknown Reach1" offset="0x6C" visible="true" elementSize="0x2C">
+		<int32 name="Unknown1" offset="0x0" visible="true" />
+		<tagref name="Unknown2" offset="0x4" visible="true" />
+		<int32 name="Unknown3" offset="0x14" visible="true" />
+		<int32 name="Unknown4" offset="0x18" visible="true" />
+		<int32 name="Unknown5" offset="0x1C" visible="true" />
+		<int32 name="Unknown6" offset="0x20" visible="true" />
+		<int32 name="Unknown7" offset="0x24" visible="true" />
+		<int32 name="Unknown8" offset="0x28" visible="true" />
+	</tagblock>
+	<tagblock name="Languages" offset="0x78" visible="true" elementSize="0x1C">
+		<enum32 name="Language" offset="0x0" visible="true">
+			<option name="English" value="0" />
+			<option name="Japanese" value="1" />
+			<option name="German" value="2" />
+			<option name="French" value="3" />
+			<option name="Spanish" value="4" />
+			<option name="Mexican" value="5" />
+			<option name="Italian" value="6" />
+			<option name="Korean" value="7" />
+			<option name="ChineseTraditional" value="8" />
+			<option name="ChineseSimplified" value="9" />
+			<option name="Portuguese" value="10" />
+			<option name="Russian" value="11" />
+		</enum32>
+		<tagblock name="Permutation Durations" offset="0x4" visible="true" elementSize="0x2">
+			<int16 name="Frame Count" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Pitch Range Durations" offset="0x10" visible="true" elementSize="0x4">
+			<int16 name="Permutation Start Index" offset="0x0" visible="true" />
+			<int16 name="Permutation Count" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Runtime Permutation Flags" offset="0x84" visible="true" elementSize="0x1">
+		<int8 name="Value" offset="0x0" visible="true" />
+	</tagblock>
+	<dataref name="Native Sample Data / Data" offset="0x90" visible="true" />
+	<uint32 name="Unknown4" offset="0xA4" visible="true" />
+	<uint32 name="Unknown5" offset="0xA8" visible="true" />
+	<tagblock name="Permutation Chunks" offset="0xAC" visible="true" elementSize="0x14">
+		<int32 name="Offset" offset="0x0" visible="true" />
+		<int32 name="Encoded Size" offset="0x4" visible="true" />
+		<int32 name="Runtime Index" offset="0x8" visible="true" />
+		<uint32 name="First Sample" offset="0xC" visible="true" />
+		<uint32 name="Last Sample" offset="0x10" visible="true" />
+	</tagblock>
+	<tagblock name="Promotions" offset="0xB8" visible="true" elementSize="0x24">
+		<tagblock name="Rules" offset="0x0" visible="true" elementSize="0x10">
+			<int16 name="Pitch Range Index" offset="0x0" visible="true" />
+			<int16 name="Maximum Playing Count" offset="0x2" visible="true" />
+			<float32 name="Suppression Time" offset="0x4" visible="true" />
+			<uint32 name="Unknown1" offset="0x8" visible="true" />
+			<uint32 name="Unknown2" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Runtime Timers" offset="0xC" visible="true" elementSize="0x4">
+			<int32 name="Timer" offset="0x0" visible="true" />
+		</tagblock>
+		<uint32 name="Unknown1" offset="0x18" visible="true" />
+		<uint32 name="Unknown2" offset="0x1C" visible="true" />
+		<uint32 name="Unknown3" offset="0x20" visible="true" />
+	</tagblock>
+	<tagblock name="Extra Info" offset="0xC4" visible="true" elementSize="0x8">
+		<uint32 name="Facial Animation Resource (resource datum)" offset="0x0" visible="true" />
+		<uint32 name="Facial Animation Resource (resource pad)" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Unknown Reach2" offset="0xD0" visible="true" elementSize="0x4">
+		<int32 name="Value" offset="0x0" visible="true" />
+	</tagblock>
+</plugin>

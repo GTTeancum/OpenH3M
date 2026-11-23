@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.PerformanceThrottles (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Performance Throttle" offset="0x0" visible="true" elementSize="0x38">
+		<flags32 name="Flags" offset="0x0" visible="true">
+			<bit name="BloomIgnoreLDR" index="0" />
+			<bit name="DisableObjectPRT" index="1" />
+			<bit name="DisableFirstPersonShadow" index="2" />
+			<bit name="HighQualityShadows" index="3" />
+			<bit name="DisableFxaa" index="4" />
+			<bit name="DisableMotionBlur" index="5" />
+			<bit name="DisableHeavyPerfEffectsxbox" index="6" />
+			<bit name="MultithreadedVisibility" index="7" />
+		</flags32>
+		<float32 name="Water Lod" offset="0x4" visible="true" />
+		<float32 name="Decorator Fade Distance Scale" offset="0x8" visible="true" />
+		<float32 name="Effect Lod Distance Scale" offset="0xC" visible="true" />
+		<float32 name="Instanced Geometry Fade Modifier" offset="0x10" visible="true" />
+		<float32 name="Object Fade Modifier" offset="0x14" visible="true" />
+		<float32 name="Object Lod Threshold Modifier" offset="0x18" visible="true" />
+		<float32 name="Decal Fade Distance Scale" offset="0x1C" visible="true" />
+		<int32 name="Max Cpu Dynamic Lights" offset="0x20" visible="true" />
+		<float32 name="Cpu Light Fade Distance Scale" offset="0x24" visible="true" />
+		<int32 name="Max Gpu Dynamic Lights" offset="0x28" visible="true" />
+		<float32 name="Gpu Light Fade Distance Scale" offset="0x2C" visible="true" />
+		<int32 name="Max Shadow Casting Objects" offset="0x30" visible="true" />
+		<float32 name="Shadow Quality Lod" offset="0x34" visible="true" />
+	</tagblock>
+</plugin>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x44">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.GameProgression (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Integer Progression Value" offset="0x0" visible="true" elementSize="0x4">
+		<stringid name="Variable" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Boolean Progression Value" offset="0xC" visible="true" elementSize="0x4">
+		<stringid name="Variable" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Boolean Progression Regions" offset="0x18" visible="true" elementSize="0x4">
+		<int16 name="Start Index" offset="0x0" visible="true" />
+		<int16 name="End Index" offset="0x2" visible="true" />
+	</tagblock>
+	<tagblock name="Integer Progression Unknown" offset="0x24" visible="true" elementSize="0x4">
+		<int16 name="Integer Progression Index" offset="0x0" visible="true" />
+		<uint8 name="Unused 0" offset="0x2" visible="false" />
+		<uint8 name="Unused 1" offset="0x3" visible="false" />
+	</tagblock>
+	<tagblock name="Map Progression Data" offset="0x30" visible="true" elementSize="0x124">
+		<stringid name="Internal Map Name" offset="0x0" visible="true" />
+		<flags32 name="Flags" offset="0x4" visible="true">
+			<bit name="Bit0" index="0" />
+			<bit name="Bit1" index="1" />
+		</flags32>
+		<enum32 name="Map Progression Type" offset="0x8" visible="true">
+			<option name="Default" value="0" />
+			<option name="IsHub" value="1" />
+			<option name="ReturnsToHub" value="2" />
+		</enum32>
+		<tagref name="Scenario Unused" offset="0xC" visible="true" />
+		<int32 name="Map Id" offset="0x1C" visible="true" />
+		<int32 name="Campaign Id" offset="0x20" visible="true" />
+		<ascii name="Scenario Path" offset="0x24" visible="true" size="0x100" />
+	</tagblock>
+	<uint8 name="Unused 0" offset="0x3C" visible="false" />
+	<uint8 name="Unused 1" offset="0x3D" visible="false" />
+	<uint8 name="Unused 2" offset="0x3E" visible="false" />
+	<uint8 name="Unused 3" offset="0x3F" visible="false" />
+	<uint8 name="Unused 4" offset="0x40" visible="false" />
+	<uint8 name="Unused 5" offset="0x41" visible="false" />
+	<uint8 name="Unused 6" offset="0x42" visible="false" />
+	<uint8 name="Unused 7" offset="0x43" visible="false" />
+</plugin>

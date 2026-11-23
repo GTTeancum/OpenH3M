@@ -1,0 +1,2579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ChudDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Hud Widgets" offset="0x0" visible="true" elementSize="0x50">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum16 name="Scripting Class" offset="0x4" visible="true">
+			<option name="UseParent" value="0" />
+			<option name="WeaponStats" value="1" />
+			<option name="Crosshair" value="2" />
+			<option name="Shield" value="3" />
+			<option name="Grenades" value="4" />
+			<option name="Messages" value="5" />
+			<option name="MotionSensor" value="6" />
+			<option name="SpikeGrenade" value="7" />
+			<option name="FireGrenade" value="8" />
+			<option name="Compass" value="9" />
+			<option name="Stamina" value="10" />
+			<option name="EnergyMeter" value="11" />
+			<option name="Consumable" value="12" />
+		</enum16>
+		<flags8 name="Base Flags" offset="0x6" visible="true">
+			<bit name="DieOnActive" index="0" />
+			<bit name="SkipInputUpdateWhenUnreadying" index="1" />
+			<bit name="ResetTimerOnInputChange" index="2" />
+			<bit name="WeaponSwapHack" index="3" />
+			<bit name="EquipmentHack" index="4" />
+		</flags8>
+		<enum8 name="Sort Layer" offset="0x7" visible="true">
+			<option name="Background" value="0" />
+			<option name="Flashes" value="1" />
+			<option name="Parent" value="2" />
+			<option name="Middle" value="3" />
+			<option name="Child" value="4" />
+			<option name="Foreground" value="5" />
+			<option name="Inherited" value="6" />
+			<option name="SavedFilm" value="7" />
+		</enum8>
+		<tagblock name="State Data" offset="0x8" visible="true" elementSize="0x28">
+			<flags16 name="Game State H3" offset="0x0" visible="true">
+				<bit name="CampaignSolo" index="0" />
+				<bit name="CampaignCoop" index="1" />
+				<bit name="FreeForAll" index="2" />
+				<bit name="TeamGame" index="3" />
+				<bit name="CTF" index="4" />
+				<bit name="Slayer" index="5" />
+				<bit name="Oddball" index="6" />
+				<bit name="KOTH" index="7" />
+				<bit name="Juggernaut" index="8" />
+				<bit name="Territories" index="9" />
+				<bit name="Assault" index="10" />
+				<bit name="VIP" index="11" />
+				<bit name="Infection" index="12" />
+				<bit name="Unused" index="13" />
+				<bit name="Editor" index="14" />
+				<bit name="Theater" index="15" />
+			</flags16>
+			<flags16 name="Skin State" offset="0x2" visible="true">
+				<bit name="Spartan" index="0" />
+				<bit name="Elite" index="1" />
+				<bit name="Monitor" index="2" />
+			</flags16>
+			<flags16 name="Game Team" offset="0x4" visible="true">
+				<bit name="Offense" index="0" />
+				<bit name="Defense" index="1" />
+				<bit name="NotApplicable" index="2" />
+				<bit name="PlayerIsSpecial" index="3" />
+				<bit name="PlayerSpecialAndDefense" index="4" />
+				<bit name="NoMicrophone" index="5" />
+				<bit name="TalkingDisabled" index="6" />
+				<bit name="TapToTalk" index="7" />
+				<bit name="TalkingEnabled" index="8" />
+				<bit name="NotTalking" index="9" />
+				<bit name="Talking" index="10" />
+			</flags16>
+			<flags16 name="Window State" offset="0x6" visible="true">
+				<bit name="WideFull" index="0" />
+				<bit name="WideHalf" index="1" />
+				<bit name="NativeFull" index="2" />
+				<bit name="StandardFull" index="3" />
+				<bit name="WideQuarter" index="4" />
+				<bit name="StandardHalf" index="5" />
+				<bit name="NativeQuarter" index="6" />
+				<bit name="StandardQuarter" index="7" />
+			</flags16>
+			<flags16 name="Multiplayer Events Flags_H3" offset="0x8" visible="true">
+				<bit name="FriendlyScoreAvailable" index="0" />
+				<bit name="EnemyScoreAvailable" index="1" />
+				<bit name="VariantNameAvailable" index="2" />
+				<bit name="TalkingPlayerAvailable" index="3" />
+				<bit name="ArmingMeterAvailable" index="4" />
+				<bit name="TimeLeftAvailable" index="5" />
+				<bit name="FriendlyPossession" index="6" />
+				<bit name="EnemyPossession" index="7" />
+				<bit name="VariantCustomA" index="8" />
+				<bit name="VariantCustomB" index="9" />
+				<bit name="VariantCustomC" index="10" />
+				<bit name="RoundStartPeriod" index="11" />
+				<bit name="TestEnabled" index="12" />
+			</flags16>
+			<flags16 name="Unit Base Flags_H3" offset="0xA" visible="true">
+				<bit name="TextureCamAvailable" index="0" />
+				<bit name="SniperFlavaAvailable" index="1" />
+				<bit name="SavedFilmRecordingMode" index="2" />
+				<bit name="SavedFilmNormalMode" index="3" />
+				<bit name="PlayerTrainingAvailable" index="4" />
+				<bit name="CampaignObjectiveAvailable" index="5" />
+			</flags16>
+			<flags16 name="Editor Flags" offset="0xC" visible="true">
+				<bit name="DefaultCrosshair" index="0" />
+				<bit name="ActiveCrosshair" index="1" />
+				<bit name="ManipulationCrosshair" index="2" />
+				<bit name="NotallowedCrosshair" index="3" />
+				<bit name="BudgetAvailable" index="4" />
+			</flags16>
+			<flags16 name="Hindsight State" offset="0xE" visible="true">
+				<bit name="SensorRange10m" index="0" />
+				<bit name="SensorRange25m" index="1" />
+				<bit name="SensorRange75m" index="2" />
+				<bit name="SensorRange150m" index="3" />
+				<bit name="MetagameP1Talking" index="4" />
+				<bit name="MetagameP2Enabled" index="5" />
+				<bit name="MetagameP2Talking" index="6" />
+				<bit name="MetagameP3Enabled" index="7" />
+				<bit name="MetagameP3Talking" index="8" />
+				<bit name="MetagameP4Enabled" index="9" />
+				<bit name="MetagameP4Talking" index="10" />
+				<bit name="TransientScoreAvail" index="11" />
+				<bit name="MetagameMultikillAvail" index="12" />
+				<bit name="MetagameNegScoreAvail" index="13" />
+				<bit name="MetagameTeamScoring" index="14" />
+				<bit name="MetagameFfaScoring" index="15" />
+			</flags16>
+			<flags16 name="General Kudos Flags_H3" offset="0x10" visible="true">
+				<bit name="PickupFragGrenades" index="0" />
+				<bit name="PickupPlasmaGrenades" index="1" />
+				<bit name="PickupSpikeGrenades" index="2" />
+				<bit name="PickupFireGrenades" index="3" />
+				<bit name="GrenadesEmpty" index="4" />
+				<bit name="Zoom0To1" index="5" />
+				<bit name="Zoom1To2" index="6" />
+				<bit name="Zoom1To0" index="7" />
+				<bit name="Zoom2To0" index="8" />
+				<bit name="LivesAdded" index="9" />
+			</flags16>
+			<flags16 name="Unit Zoom Flags" offset="0x12" visible="true">
+				<bit name="BinocularsEnabled" index="0" />
+				<bit name="UnitIsZoomedLevel1" index="1" />
+				<bit name="UnitIsZoomedLevel2" index="2" />
+			</flags16>
+			<flags16 name="Unit Inventory Flags" offset="0x14" visible="true">
+				<bit name="None" index="0" />
+				<bit name="IsSingleWielding" index="1" />
+				<bit name="IsDualWielding" index="2" />
+				<bit name="HasSupportWeapon" index="3" />
+			</flags16>
+			<flags16 name="Unit General Flags" offset="0x16" visible="true">
+				<bit name="MotionTrackerEnabled" index="0" />
+				<bit name="MotionTrackerDisabled" index="1" />
+				<bit name="SelectedFragGrenades" index="2" />
+				<bit name="SelectedPlasmaGrenades" index="3" />
+				<bit name="SelectedSpikeGrenades" index="4" />
+				<bit name="SelectedFireGrenades" index="5" />
+				<bit name="BinocularsActive" index="6" />
+				<bit name="BinocularsNotActive" index="7" />
+				<bit name="FirstPersonCamera" index="8" />
+				<bit name="ThirdPersonCamera" index="9" />
+				<bit name="IsSpeaking" index="10" />
+				<bit name="IsTappingToTalk" index="11" />
+				<bit name="HasOvershieldLevel1" index="12" />
+				<bit name="HasOvershieldLevel2" index="13" />
+				<bit name="HasOvershieldLevel3" index="14" />
+				<bit name="HasShields" index="15" />
+			</flags16>
+			<flags16 name="Weapon Kudos Flags" offset="0x18" visible="true">
+				<bit name="AmmoUsed" index="0" />
+				<bit name="AmmoPickup" index="1" />
+				<bit name="AmmoThreshold" index="2" />
+			</flags16>
+			<flags16 name="Weapon Status Flags" offset="0x1A" visible="true">
+				<bit name="SourceIsPrimaryWeapon" index="0" />
+				<bit name="SourceIsDualWeapon" index="1" />
+				<bit name="SourceIsBackpacked" index="2" />
+				<bit name="Hidden" index="3" />
+				<bit name="PickupMessage" index="4" />
+				<bit name="Bit5" index="5" />
+				<bit name="Bit6" index="6" />
+				<bit name="Bit7" index="7" />
+			</flags16>
+			<flags16 name="Weapon Target Flags" offset="0x1C" visible="true">
+				<bit name="Normal" index="0" />
+				<bit name="Friendly" index="1" />
+				<bit name="Enemy" index="2" />
+				<bit name="EnemyHeadshot" index="3" />
+				<bit name="EnemyWeakpoint" index="4" />
+				<bit name="Invincible" index="5" />
+				<bit name="LockAvailable" index="6" />
+				<bit name="PlasmaTrack" index="7" />
+				<bit name="LockUnavailable" index="8" />
+				<bit name="TargetUnobstructed" index="9" />
+				<bit name="TargetObstructed" index="10" />
+			</flags16>
+			<flags16 name="Weapon Target B Flags" offset="0x1E" visible="true">
+				<bit name="LockingOnAvailable" index="0" />
+				<bit name="LockedOnAvailable" index="1" />
+				<bit name="LockedOnUnavailable" index="2" />
+			</flags16>
+			<flags16 name="Player_ Special Flags_H3" offset="0x20" visible="true">
+				<bit name="ShieldsMediumDamage" index="0" />
+				<bit name="ShieldsHeavyDamage" index="1" />
+				<bit name="HasFragGrenades" index="2" />
+				<bit name="HasPlasmaGrenades" index="3" />
+				<bit name="HasSpikeGrenades" index="4" />
+				<bit name="HasFireGrenades" index="5" />
+				<bit name="Unknown1" index="6" />
+				<bit name="Unknown2" index="7" />
+			</flags16>
+			<flags16 name="Weapon_ Special Flags" offset="0x22" visible="true">
+				<bit name="ClipBelowCutoff" index="0" />
+				<bit name="ClipEmpty" index="1" />
+				<bit name="AmmoBelowCutoff" index="2" />
+				<bit name="AmmoEmpty" index="3" />
+				<bit name="BatteryBelowCutoff" index="4" />
+				<bit name="BatteryEmpty" index="5" />
+				<bit name="Overheated" index="6" />
+			</flags16>
+			<flags16 name="Inverse Flags" offset="0x24" visible="true">
+				<bit name="NotZoomedIn" index="0" />
+				<bit name="NotArmedWithSupportWeapon" index="1" />
+				<bit name="NotFullyArmed" index="2" />
+				<bit name="Bit3" index="3" />
+				<bit name="Bit4" index="4" />
+				<bit name="Bit5" index="5" />
+				<bit name="Bit6" index="6" />
+				<bit name="Bit7" index="7" />
+				<bit name="Bit8" index="8" />
+				<bit name="Bit9" index="9" />
+				<bit name="Bit10" index="10" />
+				<bit name="Bit11" index="11" />
+				<bit name="Bit12" index="12" />
+				<bit name="Bit13" index="13" />
+				<bit name="Bit14" index="14" />
+				<bit name="Bit15" index="15" />
+			</flags16>
+			<uint8 name="Padding H3 0" offset="0x26" visible="false" />
+			<uint8 name="Padding H3 1" offset="0x27" visible="false" />
+		</tagblock>
+		<tagblock name="Placement Data" offset="0x14" visible="true" elementSize="0x1C">
+			<enum16 name="Anchor" offset="0x0" visible="true">
+				<option name="TopLeft" value="0" />
+				<option name="TopRight" value="1" />
+				<option name="BottomRight" value="2" />
+				<option name="BottomLeft" value="3" />
+				<option name="Crosshair" value="4" />
+				<option name="TopCenter" value="5" />
+				<option name="GrenadeHuman" value="6" />
+				<option name="GrenadePlasma" value="7" />
+				<option name="GrenadeBrute" value="8" />
+				<option name="GrenadeFire" value="9" />
+				<option name="ScoreboardFriendly" value="10" />
+				<option name="ScoreboardEnemy" value="11" />
+				<option name="Parent" value="12" />
+				<option name="Center" value="13" />
+				<option name="BackpackWeapon" value="14" />
+				<option name="Equipment" value="15" />
+				<option name="Ddamge" value="16" />
+				<option name="Territory1" value="17" />
+				<option name="Territory2" value="18" />
+				<option name="Territory3" value="19" />
+				<option name="Territory4" value="20" />
+				<option name="Territory5" value="21" />
+				<option name="Messaging" value="22" />
+				<option name="BottomCenter" value="23" />
+				<option name="WeaponTarget" value="24" />
+				<option name="StateMessageRight" value="25" />
+				<option name="StateMessageLeft" value="26" />
+				<option name="MessageBottomState" value="27" />
+				<option name="MessageBottomPrimary" value="28" />
+				<option name="ScoreboardFriendlyScoreOffset" value="29" />
+				<option name="ScoreboardEnemyScoreOffset" value="30" />
+				<option name="MetagameBar" value="31" />
+				<option name="MetagamePlayer1" value="32" />
+				<option name="MetagamePlayer2" value="33" />
+				<option name="MetagamePlayer3" value="34" />
+				<option name="MetagamePlayer4" value="35" />
+				<option name="TopCenterSavedfilm" value="36" />
+				<option name="Prompt" value="37" />
+				<option name="HologramTarget" value="38" />
+				<option name="Medals" value="39" />
+				<option name="SurvivalMedals" value="40" />
+				<option name="UnknownHO_Offset3" value="41" />
+				<option name="MotionSensor" value="42" />
+			</enum16>
+			<flags16 name="Anchor Flags" offset="0x2" visible="true">
+				<bit name="MoreSoon" index="0" />
+			</flags16>
+			<point2 name="Origin" offset="0x4" visible="true" />
+			<point2 name="Offset" offset="0xC" visible="true" />
+			<point2 name="Scale" offset="0x14" visible="true" />
+		</tagblock>
+		<tagblock name="Animation Data" offset="0x20" visible="true" elementSize="0x78">
+			<flags16 name="Initializing / Flags" offset="0x0" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Initializing / Input Type" offset="0x2" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Initializing / Animation" offset="0x4" visible="true" />
+			<flags16 name="Active / Flags" offset="0x14" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Active / Input Type" offset="0x16" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Active / Animation" offset="0x18" visible="true" />
+			<flags16 name="Flashing / Flags" offset="0x28" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Flashing / Input Type" offset="0x2A" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Flashing / Animation" offset="0x2C" visible="true" />
+			<flags16 name="Readying / Flags" offset="0x3C" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Readying / Input Type" offset="0x3E" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Readying / Animation" offset="0x40" visible="true" />
+			<flags16 name="Unreadying / Flags" offset="0x50" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Unreadying / Input Type" offset="0x52" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Unreadying / Animation" offset="0x54" visible="true" />
+			<flags16 name="Impulse / Flags" offset="0x64" visible="true">
+				<bit name="PlayReverse" index="0" />
+			</flags16>
+			<enum16 name="Impulse / Input Type" offset="0x66" visible="true">
+				<option name="Time" value="0" />
+				<option name="Extern1" value="1" />
+				<option name="Extern2" value="2" />
+				<option name="UseCompassTarget" value="3" />
+				<option name="UseUserTarget" value="4" />
+			</enum16>
+			<tagref name="Impulse / Animation" offset="0x68" visible="true" />
+		</tagblock>
+		<tagblock name="Render Data" offset="0x2C" visible="true" elementSize="0x40">
+			<enum16 name="Shader Type" offset="0x0" visible="true">
+				<option name="Simple" value="0" />
+				<option name="Meter" value="1" />
+				<option name="TextSimple" value="2" />
+				<option name="MeterShield" value="3" />
+				<option name="MeterGradient" value="4" />
+				<option name="Crosshair" value="5" />
+				<option name="DirectionalDamage" value="6" />
+				<option name="Solid" value="7" />
+				<option name="Sensor" value="8" />
+				<option name="MeterSingleColor" value="9" />
+				<option name="Navpoints" value="10" />
+				<option name="Medal" value="11" />
+				<option name="TextureCam" value="12" />
+				<option name="CortanaScreen" value="13" />
+				<option name="CortanaCamera" value="14" />
+				<option name="CortanaOffscreen" value="15" />
+				<option name="CortanaScreenFinal" value="16" />
+				<option name="MeterChapter" value="17" />
+				<option name="MeterDoubleGradient" value="18" />
+				<option name="MeterRadialGradient" value="19" />
+				<option name="DistortionAndBlur" value="20" />
+				<option name="Emblem" value="21" />
+				<option name="CortanaComposite" value="22" />
+				<option name="DirectionalDamageApply" value="23" />
+				<option name="ReallySimple" value="24" />
+				<option name="Unknown" value="25" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<enum16 name="External Input_H3" offset="0x4" visible="true">
+				<option name="Zero" value="0" />
+				<option name="One" value="1" />
+				<option name="DebugSlide1" value="2" />
+				<option name="DebugSlide100" value="3" />
+				<option name="ShieldAmount" value="4" />
+				<option name="ShieldRecentDamage" value="5" />
+				<option name="WeaponAmmoLoaded" value="6" />
+				<option name="WeaponAmmoReserve" value="7" />
+				<option name="WeaponHeatFraction" value="8" />
+				<option name="WeaponBatteryFraction" value="9" />
+				<option name="ImpulseValue" value="10" />
+				<option name="Autoaim" value="11" />
+				<option name="GrenadeSelected" value="12" />
+				<option name="GrenadeCount" value="13" />
+				<option name="WeaponChargeFraction" value="14" />
+				<option name="FriendlyScore" value="15" />
+				<option name="EnemyScore" value="16" />
+				<option name="ScoreToWin" value="17" />
+				<option name="ArmingFraction" value="18" />
+				<option name="LockingAmount" value="19" />
+				<option name="Unit1xOvershieldCurrent" value="20" />
+				<option name="Unit1xOvershieldRecentDmg" value="21" />
+				<option name="Unit2xOvershieldCurrent" value="22" />
+				<option name="Unit2xOvershieldRecentDmg" value="23" />
+				<option name="Unit3xOvershieldCurrent" value="24" />
+				<option name="Unit3xOvershieldRecentDmg" value="25" />
+				<option name="CameraYaw" value="26" />
+				<option name="CameraPitch" value="27" />
+				<option name="TargetDistance" value="28" />
+				<option name="TargetElevation" value="29" />
+				<option name="EditorBudgetFraction" value="30" />
+				<option name="EditorBudgetLeft" value="31" />
+				<option name="SavedFilmTotalTime" value="32" />
+				<option name="SavedFilmMarkerTime" value="33" />
+				<option name="SavedFilmChapterWidth" value="34" />
+				<option name="SavedFilmBufferedTheta" value="35" />
+				<option name="SavedFilmCurrentPositionTheta" value="36" />
+				<option name="SavedFilmRecordStartTheta" value="37" />
+				<option name="SavedFilmPieFraction" value="38" />
+				<option name="MetagameTime" value="39" />
+				<option name="MetagameTransientScore" value="40" />
+				<option name="MetagameP1Score" value="41" />
+				<option name="MetagameP2Score" value="42" />
+				<option name="MetagameP3Score" value="43" />
+				<option name="MetagameP4Score" value="44" />
+				<option name="MetagameTimeMultiplier" value="45" />
+				<option name="MetagameSkullDifficultyModifier" value="46" />
+				<option name="MotionSensorRange" value="47" />
+				<option name="NetworkLatency" value="48" />
+				<option name="NetworkLatencyQuality" value="49" />
+				<option name="NetworkHostQuality" value="50" />
+				<option name="NetworkLocalQuality" value="51" />
+				<option name="MetagameScoreNegative" value="52" />
+			</enum16>
+			<enum16 name="Range Input_H3" offset="0x6" visible="true">
+				<option name="Zero" value="0" />
+				<option name="One" value="1" />
+				<option name="DebugSlide1" value="2" />
+				<option name="DebugSlide100" value="3" />
+				<option name="ShieldAmount" value="4" />
+				<option name="ShieldRecentDamage" value="5" />
+				<option name="WeaponAmmoLoaded" value="6" />
+				<option name="WeaponAmmoReserve" value="7" />
+				<option name="WeaponHeatFraction" value="8" />
+				<option name="WeaponBatteryFraction" value="9" />
+				<option name="ImpulseValue" value="10" />
+				<option name="Autoaim" value="11" />
+				<option name="GrenadeSelected" value="12" />
+				<option name="GrenadeCount" value="13" />
+				<option name="WeaponChargeFraction" value="14" />
+				<option name="FriendlyScore" value="15" />
+				<option name="EnemyScore" value="16" />
+				<option name="ScoreToWin" value="17" />
+				<option name="ArmingFraction" value="18" />
+				<option name="LockingAmount" value="19" />
+				<option name="Unit1xOvershieldCurrent" value="20" />
+				<option name="Unit1xOvershieldRecentDmg" value="21" />
+				<option name="Unit2xOvershieldCurrent" value="22" />
+				<option name="Unit2xOvershieldRecentDmg" value="23" />
+				<option name="Unit3xOvershieldCurrent" value="24" />
+				<option name="Unit3xOvershieldRecentDmg" value="25" />
+				<option name="CameraYaw" value="26" />
+				<option name="CameraPitch" value="27" />
+				<option name="TargetDistance" value="28" />
+				<option name="TargetElevation" value="29" />
+				<option name="EditorBudgetFraction" value="30" />
+				<option name="EditorBudgetLeft" value="31" />
+				<option name="SavedFilmTotalTime" value="32" />
+				<option name="SavedFilmMarkerTime" value="33" />
+				<option name="SavedFilmChapterWidth" value="34" />
+				<option name="SavedFilmBufferedTheta" value="35" />
+				<option name="SavedFilmCurrentPositionTheta" value="36" />
+				<option name="SavedFilmRecordStartTheta" value="37" />
+				<option name="SavedFilmPieFraction" value="38" />
+				<option name="MetagameTime" value="39" />
+				<option name="MetagameTransientScore" value="40" />
+				<option name="MetagameP1Score" value="41" />
+				<option name="MetagameP2Score" value="42" />
+				<option name="MetagameP3Score" value="43" />
+				<option name="MetagameP4Score" value="44" />
+				<option name="MetagameTimeMultiplier" value="45" />
+				<option name="MetagameSkullDifficultyModifier" value="46" />
+				<option name="MotionSensorRange" value="47" />
+				<option name="NetworkLatency" value="48" />
+				<option name="NetworkLatencyQuality" value="49" />
+				<option name="NetworkHostQuality" value="50" />
+				<option name="NetworkLocalQuality" value="51" />
+				<option name="MetagameScoreNegative" value="52" />
+			</enum16>
+			<color32 name="Local Color A" offset="0x8" alpha="true" visible="true" />
+			<color32 name="Local Color B" offset="0xC" alpha="true" visible="true" />
+			<color32 name="Local Color C" offset="0x10" alpha="true" visible="true" />
+			<color32 name="Local Color D" offset="0x14" alpha="true" visible="true" />
+			<float32 name="Local Scalar A" offset="0x18" visible="true" />
+			<float32 name="Local Scalar B" offset="0x1C" visible="true" />
+			<float32 name="Local Scalar C" offset="0x20" visible="true" />
+			<float32 name="Local Scalar D" offset="0x24" visible="true" />
+			<enum16 name="Output Color A_ Retail" offset="0x28" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Color B_ Retail" offset="0x2A" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Color C_ Retail" offset="0x2C" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Color D_ Retail" offset="0x2E" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Color E_ Retail" offset="0x30" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Color F_ Retail" offset="0x32" visible="true">
+				<option name="LocalA" value="0" />
+				<option name="LocalB" value="1" />
+				<option name="LocalC" value="2" />
+				<option name="LocalD" value="3" />
+				<option name="ColorAnimationA" value="4" />
+				<option name="ColorAnimationB" value="5" />
+				<option name="ScoreboardFriendly" value="6" />
+				<option name="ScoreboardEnemy" value="7" />
+				<option name="ArmingMeter" value="8" />
+				<option name="MetagamePlayer1" value="9" />
+				<option name="MetagamePlayer2" value="10" />
+				<option name="MetagamePlayer3" value="11" />
+				<option name="MetagamePlayer4" value="12" />
+				<option name="GameTimeRemaining" value="13" />
+				<option name="PrimaryBackground" value="14" />
+				<option name="SecondaryBackground" value="15" />
+				<option name="HighlightForeground" value="16" />
+				<option name="WarningFlash" value="17" />
+				<option name="CrosshairNormal" value="18" />
+				<option name="CrosshairEnemy" value="19" />
+				<option name="CrosshairFriendly" value="20" />
+				<option name="BlipBase" value="21" />
+				<option name="SelfBlip" value="22" />
+				<option name="EnemyBlip" value="23" />
+				<option name="NeutralBlip" value="24" />
+				<option name="FriendlyBlip" value="25" />
+				<option name="BlipPing" value="26" />
+				<option name="ObjectiveBlipOnRadar" value="27" />
+				<option name="ObjectiveBlipOffRadar" value="28" />
+				<option name="NavpointFriendly" value="29" />
+				<option name="NavpointNeutral" value="30" />
+				<option name="NavpointEnemy" value="31" />
+				<option name="NavpointAllyDead" value="32" />
+				<option name="MessageFlashSelf" value="33" />
+				<option name="MessageFlashFriendly" value="34" />
+				<option name="MessageFlashEnemy" value="35" />
+				<option name="MessageFlashNeutral" value="36" />
+				<option name="InvincibleShield" value="37" />
+				<option name="NavpointAllyStandingBy" value="38" />
+				<option name="NavpointAllyFiring" value="39" />
+				<option name="NavpointAllyTakingDamage" value="40" />
+				<option name="NavpointAllySpeaking" value="41" />
+			</enum16>
+			<enum16 name="Output Scalar A" offset="0x34" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+			<enum16 name="Output Scalar B" offset="0x36" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+			<enum16 name="Output Scalar C" offset="0x38" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+			<enum16 name="Output Scalar D" offset="0x3A" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+			<enum16 name="Output Scalar E" offset="0x3C" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+			<enum16 name="Output Scalar F" offset="0x3E" visible="true">
+				<option name="Input" value="0" />
+				<option name="RangeInput" value="1" />
+				<option name="LocalA" value="2" />
+				<option name="LocalB" value="3" />
+				<option name="LocalC" value="4" />
+				<option name="LocalD" value="5" />
+				<option name="FlashAnimation" value="6" />
+				<option name="ScalarAnimationB" value="7" />
+			</enum16>
+		</tagblock>
+		<tagblock name="Bitmap Widgets" offset="0x38" visible="true" elementSize="0x54">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum16 name="Scripting Class" offset="0x4" visible="true">
+				<option name="UseParent" value="0" />
+				<option name="WeaponStats" value="1" />
+				<option name="Crosshair" value="2" />
+				<option name="Shield" value="3" />
+				<option name="Grenades" value="4" />
+				<option name="Messages" value="5" />
+				<option name="MotionSensor" value="6" />
+				<option name="SpikeGrenade" value="7" />
+				<option name="FireGrenade" value="8" />
+				<option name="Compass" value="9" />
+				<option name="Stamina" value="10" />
+				<option name="EnergyMeter" value="11" />
+				<option name="Consumable" value="12" />
+			</enum16>
+			<flags8 name="Base Flags" offset="0x6" visible="true">
+				<bit name="DieOnActive" index="0" />
+				<bit name="SkipInputUpdateWhenUnreadying" index="1" />
+				<bit name="ResetTimerOnInputChange" index="2" />
+				<bit name="WeaponSwapHack" index="3" />
+				<bit name="EquipmentHack" index="4" />
+			</flags8>
+			<enum8 name="Sort Layer" offset="0x7" visible="true">
+				<option name="Background" value="0" />
+				<option name="Flashes" value="1" />
+				<option name="Parent" value="2" />
+				<option name="Middle" value="3" />
+				<option name="Child" value="4" />
+				<option name="Foreground" value="5" />
+				<option name="Inherited" value="6" />
+				<option name="SavedFilm" value="7" />
+			</enum8>
+			<tagblock name="State Data" offset="0x8" visible="true" elementSize="0x28">
+				<flags16 name="Game State H3" offset="0x0" visible="true">
+					<bit name="CampaignSolo" index="0" />
+					<bit name="CampaignCoop" index="1" />
+					<bit name="FreeForAll" index="2" />
+					<bit name="TeamGame" index="3" />
+					<bit name="CTF" index="4" />
+					<bit name="Slayer" index="5" />
+					<bit name="Oddball" index="6" />
+					<bit name="KOTH" index="7" />
+					<bit name="Juggernaut" index="8" />
+					<bit name="Territories" index="9" />
+					<bit name="Assault" index="10" />
+					<bit name="VIP" index="11" />
+					<bit name="Infection" index="12" />
+					<bit name="Unused" index="13" />
+					<bit name="Editor" index="14" />
+					<bit name="Theater" index="15" />
+				</flags16>
+				<flags16 name="Skin State" offset="0x2" visible="true">
+					<bit name="Spartan" index="0" />
+					<bit name="Elite" index="1" />
+					<bit name="Monitor" index="2" />
+				</flags16>
+				<flags16 name="Game Team" offset="0x4" visible="true">
+					<bit name="Offense" index="0" />
+					<bit name="Defense" index="1" />
+					<bit name="NotApplicable" index="2" />
+					<bit name="PlayerIsSpecial" index="3" />
+					<bit name="PlayerSpecialAndDefense" index="4" />
+					<bit name="NoMicrophone" index="5" />
+					<bit name="TalkingDisabled" index="6" />
+					<bit name="TapToTalk" index="7" />
+					<bit name="TalkingEnabled" index="8" />
+					<bit name="NotTalking" index="9" />
+					<bit name="Talking" index="10" />
+				</flags16>
+				<flags16 name="Window State" offset="0x6" visible="true">
+					<bit name="WideFull" index="0" />
+					<bit name="WideHalf" index="1" />
+					<bit name="NativeFull" index="2" />
+					<bit name="StandardFull" index="3" />
+					<bit name="WideQuarter" index="4" />
+					<bit name="StandardHalf" index="5" />
+					<bit name="NativeQuarter" index="6" />
+					<bit name="StandardQuarter" index="7" />
+				</flags16>
+				<flags16 name="Multiplayer Events Flags_H3" offset="0x8" visible="true">
+					<bit name="FriendlyScoreAvailable" index="0" />
+					<bit name="EnemyScoreAvailable" index="1" />
+					<bit name="VariantNameAvailable" index="2" />
+					<bit name="TalkingPlayerAvailable" index="3" />
+					<bit name="ArmingMeterAvailable" index="4" />
+					<bit name="TimeLeftAvailable" index="5" />
+					<bit name="FriendlyPossession" index="6" />
+					<bit name="EnemyPossession" index="7" />
+					<bit name="VariantCustomA" index="8" />
+					<bit name="VariantCustomB" index="9" />
+					<bit name="VariantCustomC" index="10" />
+					<bit name="RoundStartPeriod" index="11" />
+					<bit name="TestEnabled" index="12" />
+				</flags16>
+				<flags16 name="Unit Base Flags_H3" offset="0xA" visible="true">
+					<bit name="TextureCamAvailable" index="0" />
+					<bit name="SniperFlavaAvailable" index="1" />
+					<bit name="SavedFilmRecordingMode" index="2" />
+					<bit name="SavedFilmNormalMode" index="3" />
+					<bit name="PlayerTrainingAvailable" index="4" />
+					<bit name="CampaignObjectiveAvailable" index="5" />
+				</flags16>
+				<flags16 name="Editor Flags" offset="0xC" visible="true">
+					<bit name="DefaultCrosshair" index="0" />
+					<bit name="ActiveCrosshair" index="1" />
+					<bit name="ManipulationCrosshair" index="2" />
+					<bit name="NotallowedCrosshair" index="3" />
+					<bit name="BudgetAvailable" index="4" />
+				</flags16>
+				<flags16 name="Hindsight State" offset="0xE" visible="true">
+					<bit name="SensorRange10m" index="0" />
+					<bit name="SensorRange25m" index="1" />
+					<bit name="SensorRange75m" index="2" />
+					<bit name="SensorRange150m" index="3" />
+					<bit name="MetagameP1Talking" index="4" />
+					<bit name="MetagameP2Enabled" index="5" />
+					<bit name="MetagameP2Talking" index="6" />
+					<bit name="MetagameP3Enabled" index="7" />
+					<bit name="MetagameP3Talking" index="8" />
+					<bit name="MetagameP4Enabled" index="9" />
+					<bit name="MetagameP4Talking" index="10" />
+					<bit name="TransientScoreAvail" index="11" />
+					<bit name="MetagameMultikillAvail" index="12" />
+					<bit name="MetagameNegScoreAvail" index="13" />
+					<bit name="MetagameTeamScoring" index="14" />
+					<bit name="MetagameFfaScoring" index="15" />
+				</flags16>
+				<flags16 name="General Kudos Flags_H3" offset="0x10" visible="true">
+					<bit name="PickupFragGrenades" index="0" />
+					<bit name="PickupPlasmaGrenades" index="1" />
+					<bit name="PickupSpikeGrenades" index="2" />
+					<bit name="PickupFireGrenades" index="3" />
+					<bit name="GrenadesEmpty" index="4" />
+					<bit name="Zoom0To1" index="5" />
+					<bit name="Zoom1To2" index="6" />
+					<bit name="Zoom1To0" index="7" />
+					<bit name="Zoom2To0" index="8" />
+					<bit name="LivesAdded" index="9" />
+				</flags16>
+				<flags16 name="Unit Zoom Flags" offset="0x12" visible="true">
+					<bit name="BinocularsEnabled" index="0" />
+					<bit name="UnitIsZoomedLevel1" index="1" />
+					<bit name="UnitIsZoomedLevel2" index="2" />
+				</flags16>
+				<flags16 name="Unit Inventory Flags" offset="0x14" visible="true">
+					<bit name="None" index="0" />
+					<bit name="IsSingleWielding" index="1" />
+					<bit name="IsDualWielding" index="2" />
+					<bit name="HasSupportWeapon" index="3" />
+				</flags16>
+				<flags16 name="Unit General Flags" offset="0x16" visible="true">
+					<bit name="MotionTrackerEnabled" index="0" />
+					<bit name="MotionTrackerDisabled" index="1" />
+					<bit name="SelectedFragGrenades" index="2" />
+					<bit name="SelectedPlasmaGrenades" index="3" />
+					<bit name="SelectedSpikeGrenades" index="4" />
+					<bit name="SelectedFireGrenades" index="5" />
+					<bit name="BinocularsActive" index="6" />
+					<bit name="BinocularsNotActive" index="7" />
+					<bit name="FirstPersonCamera" index="8" />
+					<bit name="ThirdPersonCamera" index="9" />
+					<bit name="IsSpeaking" index="10" />
+					<bit name="IsTappingToTalk" index="11" />
+					<bit name="HasOvershieldLevel1" index="12" />
+					<bit name="HasOvershieldLevel2" index="13" />
+					<bit name="HasOvershieldLevel3" index="14" />
+					<bit name="HasShields" index="15" />
+				</flags16>
+				<flags16 name="Weapon Kudos Flags" offset="0x18" visible="true">
+					<bit name="AmmoUsed" index="0" />
+					<bit name="AmmoPickup" index="1" />
+					<bit name="AmmoThreshold" index="2" />
+				</flags16>
+				<flags16 name="Weapon Status Flags" offset="0x1A" visible="true">
+					<bit name="SourceIsPrimaryWeapon" index="0" />
+					<bit name="SourceIsDualWeapon" index="1" />
+					<bit name="SourceIsBackpacked" index="2" />
+					<bit name="Hidden" index="3" />
+					<bit name="PickupMessage" index="4" />
+					<bit name="Bit5" index="5" />
+					<bit name="Bit6" index="6" />
+					<bit name="Bit7" index="7" />
+				</flags16>
+				<flags16 name="Weapon Target Flags" offset="0x1C" visible="true">
+					<bit name="Normal" index="0" />
+					<bit name="Friendly" index="1" />
+					<bit name="Enemy" index="2" />
+					<bit name="EnemyHeadshot" index="3" />
+					<bit name="EnemyWeakpoint" index="4" />
+					<bit name="Invincible" index="5" />
+					<bit name="LockAvailable" index="6" />
+					<bit name="PlasmaTrack" index="7" />
+					<bit name="LockUnavailable" index="8" />
+					<bit name="TargetUnobstructed" index="9" />
+					<bit name="TargetObstructed" index="10" />
+				</flags16>
+				<flags16 name="Weapon Target B Flags" offset="0x1E" visible="true">
+					<bit name="LockingOnAvailable" index="0" />
+					<bit name="LockedOnAvailable" index="1" />
+					<bit name="LockedOnUnavailable" index="2" />
+				</flags16>
+				<flags16 name="Player_ Special Flags_H3" offset="0x20" visible="true">
+					<bit name="ShieldsMediumDamage" index="0" />
+					<bit name="ShieldsHeavyDamage" index="1" />
+					<bit name="HasFragGrenades" index="2" />
+					<bit name="HasPlasmaGrenades" index="3" />
+					<bit name="HasSpikeGrenades" index="4" />
+					<bit name="HasFireGrenades" index="5" />
+					<bit name="Unknown1" index="6" />
+					<bit name="Unknown2" index="7" />
+				</flags16>
+				<flags16 name="Weapon_ Special Flags" offset="0x22" visible="true">
+					<bit name="ClipBelowCutoff" index="0" />
+					<bit name="ClipEmpty" index="1" />
+					<bit name="AmmoBelowCutoff" index="2" />
+					<bit name="AmmoEmpty" index="3" />
+					<bit name="BatteryBelowCutoff" index="4" />
+					<bit name="BatteryEmpty" index="5" />
+					<bit name="Overheated" index="6" />
+				</flags16>
+				<flags16 name="Inverse Flags" offset="0x24" visible="true">
+					<bit name="NotZoomedIn" index="0" />
+					<bit name="NotArmedWithSupportWeapon" index="1" />
+					<bit name="NotFullyArmed" index="2" />
+					<bit name="Bit3" index="3" />
+					<bit name="Bit4" index="4" />
+					<bit name="Bit5" index="5" />
+					<bit name="Bit6" index="6" />
+					<bit name="Bit7" index="7" />
+					<bit name="Bit8" index="8" />
+					<bit name="Bit9" index="9" />
+					<bit name="Bit10" index="10" />
+					<bit name="Bit11" index="11" />
+					<bit name="Bit12" index="12" />
+					<bit name="Bit13" index="13" />
+					<bit name="Bit14" index="14" />
+					<bit name="Bit15" index="15" />
+				</flags16>
+				<uint8 name="Padding H3 0" offset="0x26" visible="false" />
+				<uint8 name="Padding H3 1" offset="0x27" visible="false" />
+			</tagblock>
+			<tagblock name="Placement Data" offset="0x14" visible="true" elementSize="0x1C">
+				<enum16 name="Anchor" offset="0x0" visible="true">
+					<option name="TopLeft" value="0" />
+					<option name="TopRight" value="1" />
+					<option name="BottomRight" value="2" />
+					<option name="BottomLeft" value="3" />
+					<option name="Crosshair" value="4" />
+					<option name="TopCenter" value="5" />
+					<option name="GrenadeHuman" value="6" />
+					<option name="GrenadePlasma" value="7" />
+					<option name="GrenadeBrute" value="8" />
+					<option name="GrenadeFire" value="9" />
+					<option name="ScoreboardFriendly" value="10" />
+					<option name="ScoreboardEnemy" value="11" />
+					<option name="Parent" value="12" />
+					<option name="Center" value="13" />
+					<option name="BackpackWeapon" value="14" />
+					<option name="Equipment" value="15" />
+					<option name="Ddamge" value="16" />
+					<option name="Territory1" value="17" />
+					<option name="Territory2" value="18" />
+					<option name="Territory3" value="19" />
+					<option name="Territory4" value="20" />
+					<option name="Territory5" value="21" />
+					<option name="Messaging" value="22" />
+					<option name="BottomCenter" value="23" />
+					<option name="WeaponTarget" value="24" />
+					<option name="StateMessageRight" value="25" />
+					<option name="StateMessageLeft" value="26" />
+					<option name="MessageBottomState" value="27" />
+					<option name="MessageBottomPrimary" value="28" />
+					<option name="ScoreboardFriendlyScoreOffset" value="29" />
+					<option name="ScoreboardEnemyScoreOffset" value="30" />
+					<option name="MetagameBar" value="31" />
+					<option name="MetagamePlayer1" value="32" />
+					<option name="MetagamePlayer2" value="33" />
+					<option name="MetagamePlayer3" value="34" />
+					<option name="MetagamePlayer4" value="35" />
+					<option name="TopCenterSavedfilm" value="36" />
+					<option name="Prompt" value="37" />
+					<option name="HologramTarget" value="38" />
+					<option name="Medals" value="39" />
+					<option name="SurvivalMedals" value="40" />
+					<option name="UnknownHO_Offset3" value="41" />
+					<option name="MotionSensor" value="42" />
+				</enum16>
+				<flags16 name="Anchor Flags" offset="0x2" visible="true">
+					<bit name="MoreSoon" index="0" />
+				</flags16>
+				<point2 name="Origin" offset="0x4" visible="true" />
+				<point2 name="Offset" offset="0xC" visible="true" />
+				<point2 name="Scale" offset="0x14" visible="true" />
+			</tagblock>
+			<tagblock name="Animation Data" offset="0x20" visible="true" elementSize="0x78">
+				<flags16 name="Initializing / Flags" offset="0x0" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Initializing / Input Type" offset="0x2" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Initializing / Animation" offset="0x4" visible="true" />
+				<flags16 name="Active / Flags" offset="0x14" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Active / Input Type" offset="0x16" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Active / Animation" offset="0x18" visible="true" />
+				<flags16 name="Flashing / Flags" offset="0x28" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Flashing / Input Type" offset="0x2A" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Flashing / Animation" offset="0x2C" visible="true" />
+				<flags16 name="Readying / Flags" offset="0x3C" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Readying / Input Type" offset="0x3E" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Readying / Animation" offset="0x40" visible="true" />
+				<flags16 name="Unreadying / Flags" offset="0x50" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Unreadying / Input Type" offset="0x52" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Unreadying / Animation" offset="0x54" visible="true" />
+				<flags16 name="Impulse / Flags" offset="0x64" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Impulse / Input Type" offset="0x66" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Impulse / Animation" offset="0x68" visible="true" />
+			</tagblock>
+			<tagblock name="Render Data" offset="0x2C" visible="true" elementSize="0x40">
+				<enum16 name="Shader Type" offset="0x0" visible="true">
+					<option name="Simple" value="0" />
+					<option name="Meter" value="1" />
+					<option name="TextSimple" value="2" />
+					<option name="MeterShield" value="3" />
+					<option name="MeterGradient" value="4" />
+					<option name="Crosshair" value="5" />
+					<option name="DirectionalDamage" value="6" />
+					<option name="Solid" value="7" />
+					<option name="Sensor" value="8" />
+					<option name="MeterSingleColor" value="9" />
+					<option name="Navpoints" value="10" />
+					<option name="Medal" value="11" />
+					<option name="TextureCam" value="12" />
+					<option name="CortanaScreen" value="13" />
+					<option name="CortanaCamera" value="14" />
+					<option name="CortanaOffscreen" value="15" />
+					<option name="CortanaScreenFinal" value="16" />
+					<option name="MeterChapter" value="17" />
+					<option name="MeterDoubleGradient" value="18" />
+					<option name="MeterRadialGradient" value="19" />
+					<option name="DistortionAndBlur" value="20" />
+					<option name="Emblem" value="21" />
+					<option name="CortanaComposite" value="22" />
+					<option name="DirectionalDamageApply" value="23" />
+					<option name="ReallySimple" value="24" />
+					<option name="Unknown" value="25" />
+				</enum16>
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+				<enum16 name="External Input_H3" offset="0x4" visible="true">
+					<option name="Zero" value="0" />
+					<option name="One" value="1" />
+					<option name="DebugSlide1" value="2" />
+					<option name="DebugSlide100" value="3" />
+					<option name="ShieldAmount" value="4" />
+					<option name="ShieldRecentDamage" value="5" />
+					<option name="WeaponAmmoLoaded" value="6" />
+					<option name="WeaponAmmoReserve" value="7" />
+					<option name="WeaponHeatFraction" value="8" />
+					<option name="WeaponBatteryFraction" value="9" />
+					<option name="ImpulseValue" value="10" />
+					<option name="Autoaim" value="11" />
+					<option name="GrenadeSelected" value="12" />
+					<option name="GrenadeCount" value="13" />
+					<option name="WeaponChargeFraction" value="14" />
+					<option name="FriendlyScore" value="15" />
+					<option name="EnemyScore" value="16" />
+					<option name="ScoreToWin" value="17" />
+					<option name="ArmingFraction" value="18" />
+					<option name="LockingAmount" value="19" />
+					<option name="Unit1xOvershieldCurrent" value="20" />
+					<option name="Unit1xOvershieldRecentDmg" value="21" />
+					<option name="Unit2xOvershieldCurrent" value="22" />
+					<option name="Unit2xOvershieldRecentDmg" value="23" />
+					<option name="Unit3xOvershieldCurrent" value="24" />
+					<option name="Unit3xOvershieldRecentDmg" value="25" />
+					<option name="CameraYaw" value="26" />
+					<option name="CameraPitch" value="27" />
+					<option name="TargetDistance" value="28" />
+					<option name="TargetElevation" value="29" />
+					<option name="EditorBudgetFraction" value="30" />
+					<option name="EditorBudgetLeft" value="31" />
+					<option name="SavedFilmTotalTime" value="32" />
+					<option name="SavedFilmMarkerTime" value="33" />
+					<option name="SavedFilmChapterWidth" value="34" />
+					<option name="SavedFilmBufferedTheta" value="35" />
+					<option name="SavedFilmCurrentPositionTheta" value="36" />
+					<option name="SavedFilmRecordStartTheta" value="37" />
+					<option name="SavedFilmPieFraction" value="38" />
+					<option name="MetagameTime" value="39" />
+					<option name="MetagameTransientScore" value="40" />
+					<option name="MetagameP1Score" value="41" />
+					<option name="MetagameP2Score" value="42" />
+					<option name="MetagameP3Score" value="43" />
+					<option name="MetagameP4Score" value="44" />
+					<option name="MetagameTimeMultiplier" value="45" />
+					<option name="MetagameSkullDifficultyModifier" value="46" />
+					<option name="MotionSensorRange" value="47" />
+					<option name="NetworkLatency" value="48" />
+					<option name="NetworkLatencyQuality" value="49" />
+					<option name="NetworkHostQuality" value="50" />
+					<option name="NetworkLocalQuality" value="51" />
+					<option name="MetagameScoreNegative" value="52" />
+				</enum16>
+				<enum16 name="Range Input_H3" offset="0x6" visible="true">
+					<option name="Zero" value="0" />
+					<option name="One" value="1" />
+					<option name="DebugSlide1" value="2" />
+					<option name="DebugSlide100" value="3" />
+					<option name="ShieldAmount" value="4" />
+					<option name="ShieldRecentDamage" value="5" />
+					<option name="WeaponAmmoLoaded" value="6" />
+					<option name="WeaponAmmoReserve" value="7" />
+					<option name="WeaponHeatFraction" value="8" />
+					<option name="WeaponBatteryFraction" value="9" />
+					<option name="ImpulseValue" value="10" />
+					<option name="Autoaim" value="11" />
+					<option name="GrenadeSelected" value="12" />
+					<option name="GrenadeCount" value="13" />
+					<option name="WeaponChargeFraction" value="14" />
+					<option name="FriendlyScore" value="15" />
+					<option name="EnemyScore" value="16" />
+					<option name="ScoreToWin" value="17" />
+					<option name="ArmingFraction" value="18" />
+					<option name="LockingAmount" value="19" />
+					<option name="Unit1xOvershieldCurrent" value="20" />
+					<option name="Unit1xOvershieldRecentDmg" value="21" />
+					<option name="Unit2xOvershieldCurrent" value="22" />
+					<option name="Unit2xOvershieldRecentDmg" value="23" />
+					<option name="Unit3xOvershieldCurrent" value="24" />
+					<option name="Unit3xOvershieldRecentDmg" value="25" />
+					<option name="CameraYaw" value="26" />
+					<option name="CameraPitch" value="27" />
+					<option name="TargetDistance" value="28" />
+					<option name="TargetElevation" value="29" />
+					<option name="EditorBudgetFraction" value="30" />
+					<option name="EditorBudgetLeft" value="31" />
+					<option name="SavedFilmTotalTime" value="32" />
+					<option name="SavedFilmMarkerTime" value="33" />
+					<option name="SavedFilmChapterWidth" value="34" />
+					<option name="SavedFilmBufferedTheta" value="35" />
+					<option name="SavedFilmCurrentPositionTheta" value="36" />
+					<option name="SavedFilmRecordStartTheta" value="37" />
+					<option name="SavedFilmPieFraction" value="38" />
+					<option name="MetagameTime" value="39" />
+					<option name="MetagameTransientScore" value="40" />
+					<option name="MetagameP1Score" value="41" />
+					<option name="MetagameP2Score" value="42" />
+					<option name="MetagameP3Score" value="43" />
+					<option name="MetagameP4Score" value="44" />
+					<option name="MetagameTimeMultiplier" value="45" />
+					<option name="MetagameSkullDifficultyModifier" value="46" />
+					<option name="MotionSensorRange" value="47" />
+					<option name="NetworkLatency" value="48" />
+					<option name="NetworkLatencyQuality" value="49" />
+					<option name="NetworkHostQuality" value="50" />
+					<option name="NetworkLocalQuality" value="51" />
+					<option name="MetagameScoreNegative" value="52" />
+				</enum16>
+				<color32 name="Local Color A" offset="0x8" alpha="true" visible="true" />
+				<color32 name="Local Color B" offset="0xC" alpha="true" visible="true" />
+				<color32 name="Local Color C" offset="0x10" alpha="true" visible="true" />
+				<color32 name="Local Color D" offset="0x14" alpha="true" visible="true" />
+				<float32 name="Local Scalar A" offset="0x18" visible="true" />
+				<float32 name="Local Scalar B" offset="0x1C" visible="true" />
+				<float32 name="Local Scalar C" offset="0x20" visible="true" />
+				<float32 name="Local Scalar D" offset="0x24" visible="true" />
+				<enum16 name="Output Color A_ Retail" offset="0x28" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color B_ Retail" offset="0x2A" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color C_ Retail" offset="0x2C" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color D_ Retail" offset="0x2E" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color E_ Retail" offset="0x30" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color F_ Retail" offset="0x32" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Scalar A" offset="0x34" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar B" offset="0x36" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar C" offset="0x38" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar D" offset="0x3A" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar E" offset="0x3C" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar F" offset="0x3E" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+			</tagblock>
+			<int32 name="Runtime Widget Index" offset="0x38" visible="true" />
+			<flags16 name="Flags H3" offset="0x3C" visible="true">
+				<bit name="MirrorHorizontally" index="0" />
+				<bit name="MirrorVertically" index="1" />
+				<bit name="ExtendBorder" index="2" />
+				<bit name="UseTextureCam" index="3" />
+				<bit name="UseWrapSampling" index="4" />
+				<bit name="SpriteFromPlayerCharacterType" index="5" />
+				<bit name="Player1Emblem" index="6" />
+				<bit name="Player2Emblem" index="7" />
+				<bit name="Player3Emblem" index="8" />
+				<bit name="Player4Emblem" index="9" />
+				<bit name="ScaleAlphaByColOutA" index="10" />
+				<bit name="Stretch" index="11" />
+			</flags16>
+			<uint8 name="Padding0 0" offset="0x3E" visible="false" />
+			<uint8 name="Padding0 1" offset="0x3F" visible="false" />
+			<tagref name="Bitmap" offset="0x40" visible="true" />
+			<uint8 name="Bitmap Sequence Index" offset="0x50" visible="true" />
+			<uint8 name="Padding2 0" offset="0x51" visible="false" />
+			<uint8 name="Padding2 1" offset="0x52" visible="false" />
+			<uint8 name="Padding2 2" offset="0x53" visible="false" />
+		</tagblock>
+		<tagblock name="Text Widgets" offset="0x44" visible="true" elementSize="0x44">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<enum16 name="Scripting Class" offset="0x4" visible="true">
+				<option name="UseParent" value="0" />
+				<option name="WeaponStats" value="1" />
+				<option name="Crosshair" value="2" />
+				<option name="Shield" value="3" />
+				<option name="Grenades" value="4" />
+				<option name="Messages" value="5" />
+				<option name="MotionSensor" value="6" />
+				<option name="SpikeGrenade" value="7" />
+				<option name="FireGrenade" value="8" />
+				<option name="Compass" value="9" />
+				<option name="Stamina" value="10" />
+				<option name="EnergyMeter" value="11" />
+				<option name="Consumable" value="12" />
+			</enum16>
+			<flags8 name="Base Flags" offset="0x6" visible="true">
+				<bit name="DieOnActive" index="0" />
+				<bit name="SkipInputUpdateWhenUnreadying" index="1" />
+				<bit name="ResetTimerOnInputChange" index="2" />
+				<bit name="WeaponSwapHack" index="3" />
+				<bit name="EquipmentHack" index="4" />
+			</flags8>
+			<enum8 name="Sort Layer" offset="0x7" visible="true">
+				<option name="Background" value="0" />
+				<option name="Flashes" value="1" />
+				<option name="Parent" value="2" />
+				<option name="Middle" value="3" />
+				<option name="Child" value="4" />
+				<option name="Foreground" value="5" />
+				<option name="Inherited" value="6" />
+				<option name="SavedFilm" value="7" />
+			</enum8>
+			<tagblock name="State Data" offset="0x8" visible="true" elementSize="0x28">
+				<flags16 name="Game State H3" offset="0x0" visible="true">
+					<bit name="CampaignSolo" index="0" />
+					<bit name="CampaignCoop" index="1" />
+					<bit name="FreeForAll" index="2" />
+					<bit name="TeamGame" index="3" />
+					<bit name="CTF" index="4" />
+					<bit name="Slayer" index="5" />
+					<bit name="Oddball" index="6" />
+					<bit name="KOTH" index="7" />
+					<bit name="Juggernaut" index="8" />
+					<bit name="Territories" index="9" />
+					<bit name="Assault" index="10" />
+					<bit name="VIP" index="11" />
+					<bit name="Infection" index="12" />
+					<bit name="Unused" index="13" />
+					<bit name="Editor" index="14" />
+					<bit name="Theater" index="15" />
+				</flags16>
+				<flags16 name="Skin State" offset="0x2" visible="true">
+					<bit name="Spartan" index="0" />
+					<bit name="Elite" index="1" />
+					<bit name="Monitor" index="2" />
+				</flags16>
+				<flags16 name="Game Team" offset="0x4" visible="true">
+					<bit name="Offense" index="0" />
+					<bit name="Defense" index="1" />
+					<bit name="NotApplicable" index="2" />
+					<bit name="PlayerIsSpecial" index="3" />
+					<bit name="PlayerSpecialAndDefense" index="4" />
+					<bit name="NoMicrophone" index="5" />
+					<bit name="TalkingDisabled" index="6" />
+					<bit name="TapToTalk" index="7" />
+					<bit name="TalkingEnabled" index="8" />
+					<bit name="NotTalking" index="9" />
+					<bit name="Talking" index="10" />
+				</flags16>
+				<flags16 name="Window State" offset="0x6" visible="true">
+					<bit name="WideFull" index="0" />
+					<bit name="WideHalf" index="1" />
+					<bit name="NativeFull" index="2" />
+					<bit name="StandardFull" index="3" />
+					<bit name="WideQuarter" index="4" />
+					<bit name="StandardHalf" index="5" />
+					<bit name="NativeQuarter" index="6" />
+					<bit name="StandardQuarter" index="7" />
+				</flags16>
+				<flags16 name="Multiplayer Events Flags_H3" offset="0x8" visible="true">
+					<bit name="FriendlyScoreAvailable" index="0" />
+					<bit name="EnemyScoreAvailable" index="1" />
+					<bit name="VariantNameAvailable" index="2" />
+					<bit name="TalkingPlayerAvailable" index="3" />
+					<bit name="ArmingMeterAvailable" index="4" />
+					<bit name="TimeLeftAvailable" index="5" />
+					<bit name="FriendlyPossession" index="6" />
+					<bit name="EnemyPossession" index="7" />
+					<bit name="VariantCustomA" index="8" />
+					<bit name="VariantCustomB" index="9" />
+					<bit name="VariantCustomC" index="10" />
+					<bit name="RoundStartPeriod" index="11" />
+					<bit name="TestEnabled" index="12" />
+				</flags16>
+				<flags16 name="Unit Base Flags_H3" offset="0xA" visible="true">
+					<bit name="TextureCamAvailable" index="0" />
+					<bit name="SniperFlavaAvailable" index="1" />
+					<bit name="SavedFilmRecordingMode" index="2" />
+					<bit name="SavedFilmNormalMode" index="3" />
+					<bit name="PlayerTrainingAvailable" index="4" />
+					<bit name="CampaignObjectiveAvailable" index="5" />
+				</flags16>
+				<flags16 name="Editor Flags" offset="0xC" visible="true">
+					<bit name="DefaultCrosshair" index="0" />
+					<bit name="ActiveCrosshair" index="1" />
+					<bit name="ManipulationCrosshair" index="2" />
+					<bit name="NotallowedCrosshair" index="3" />
+					<bit name="BudgetAvailable" index="4" />
+				</flags16>
+				<flags16 name="Hindsight State" offset="0xE" visible="true">
+					<bit name="SensorRange10m" index="0" />
+					<bit name="SensorRange25m" index="1" />
+					<bit name="SensorRange75m" index="2" />
+					<bit name="SensorRange150m" index="3" />
+					<bit name="MetagameP1Talking" index="4" />
+					<bit name="MetagameP2Enabled" index="5" />
+					<bit name="MetagameP2Talking" index="6" />
+					<bit name="MetagameP3Enabled" index="7" />
+					<bit name="MetagameP3Talking" index="8" />
+					<bit name="MetagameP4Enabled" index="9" />
+					<bit name="MetagameP4Talking" index="10" />
+					<bit name="TransientScoreAvail" index="11" />
+					<bit name="MetagameMultikillAvail" index="12" />
+					<bit name="MetagameNegScoreAvail" index="13" />
+					<bit name="MetagameTeamScoring" index="14" />
+					<bit name="MetagameFfaScoring" index="15" />
+				</flags16>
+				<flags16 name="General Kudos Flags_H3" offset="0x10" visible="true">
+					<bit name="PickupFragGrenades" index="0" />
+					<bit name="PickupPlasmaGrenades" index="1" />
+					<bit name="PickupSpikeGrenades" index="2" />
+					<bit name="PickupFireGrenades" index="3" />
+					<bit name="GrenadesEmpty" index="4" />
+					<bit name="Zoom0To1" index="5" />
+					<bit name="Zoom1To2" index="6" />
+					<bit name="Zoom1To0" index="7" />
+					<bit name="Zoom2To0" index="8" />
+					<bit name="LivesAdded" index="9" />
+				</flags16>
+				<flags16 name="Unit Zoom Flags" offset="0x12" visible="true">
+					<bit name="BinocularsEnabled" index="0" />
+					<bit name="UnitIsZoomedLevel1" index="1" />
+					<bit name="UnitIsZoomedLevel2" index="2" />
+				</flags16>
+				<flags16 name="Unit Inventory Flags" offset="0x14" visible="true">
+					<bit name="None" index="0" />
+					<bit name="IsSingleWielding" index="1" />
+					<bit name="IsDualWielding" index="2" />
+					<bit name="HasSupportWeapon" index="3" />
+				</flags16>
+				<flags16 name="Unit General Flags" offset="0x16" visible="true">
+					<bit name="MotionTrackerEnabled" index="0" />
+					<bit name="MotionTrackerDisabled" index="1" />
+					<bit name="SelectedFragGrenades" index="2" />
+					<bit name="SelectedPlasmaGrenades" index="3" />
+					<bit name="SelectedSpikeGrenades" index="4" />
+					<bit name="SelectedFireGrenades" index="5" />
+					<bit name="BinocularsActive" index="6" />
+					<bit name="BinocularsNotActive" index="7" />
+					<bit name="FirstPersonCamera" index="8" />
+					<bit name="ThirdPersonCamera" index="9" />
+					<bit name="IsSpeaking" index="10" />
+					<bit name="IsTappingToTalk" index="11" />
+					<bit name="HasOvershieldLevel1" index="12" />
+					<bit name="HasOvershieldLevel2" index="13" />
+					<bit name="HasOvershieldLevel3" index="14" />
+					<bit name="HasShields" index="15" />
+				</flags16>
+				<flags16 name="Weapon Kudos Flags" offset="0x18" visible="true">
+					<bit name="AmmoUsed" index="0" />
+					<bit name="AmmoPickup" index="1" />
+					<bit name="AmmoThreshold" index="2" />
+				</flags16>
+				<flags16 name="Weapon Status Flags" offset="0x1A" visible="true">
+					<bit name="SourceIsPrimaryWeapon" index="0" />
+					<bit name="SourceIsDualWeapon" index="1" />
+					<bit name="SourceIsBackpacked" index="2" />
+					<bit name="Hidden" index="3" />
+					<bit name="PickupMessage" index="4" />
+					<bit name="Bit5" index="5" />
+					<bit name="Bit6" index="6" />
+					<bit name="Bit7" index="7" />
+				</flags16>
+				<flags16 name="Weapon Target Flags" offset="0x1C" visible="true">
+					<bit name="Normal" index="0" />
+					<bit name="Friendly" index="1" />
+					<bit name="Enemy" index="2" />
+					<bit name="EnemyHeadshot" index="3" />
+					<bit name="EnemyWeakpoint" index="4" />
+					<bit name="Invincible" index="5" />
+					<bit name="LockAvailable" index="6" />
+					<bit name="PlasmaTrack" index="7" />
+					<bit name="LockUnavailable" index="8" />
+					<bit name="TargetUnobstructed" index="9" />
+					<bit name="TargetObstructed" index="10" />
+				</flags16>
+				<flags16 name="Weapon Target B Flags" offset="0x1E" visible="true">
+					<bit name="LockingOnAvailable" index="0" />
+					<bit name="LockedOnAvailable" index="1" />
+					<bit name="LockedOnUnavailable" index="2" />
+				</flags16>
+				<flags16 name="Player_ Special Flags_H3" offset="0x20" visible="true">
+					<bit name="ShieldsMediumDamage" index="0" />
+					<bit name="ShieldsHeavyDamage" index="1" />
+					<bit name="HasFragGrenades" index="2" />
+					<bit name="HasPlasmaGrenades" index="3" />
+					<bit name="HasSpikeGrenades" index="4" />
+					<bit name="HasFireGrenades" index="5" />
+					<bit name="Unknown1" index="6" />
+					<bit name="Unknown2" index="7" />
+				</flags16>
+				<flags16 name="Weapon_ Special Flags" offset="0x22" visible="true">
+					<bit name="ClipBelowCutoff" index="0" />
+					<bit name="ClipEmpty" index="1" />
+					<bit name="AmmoBelowCutoff" index="2" />
+					<bit name="AmmoEmpty" index="3" />
+					<bit name="BatteryBelowCutoff" index="4" />
+					<bit name="BatteryEmpty" index="5" />
+					<bit name="Overheated" index="6" />
+				</flags16>
+				<flags16 name="Inverse Flags" offset="0x24" visible="true">
+					<bit name="NotZoomedIn" index="0" />
+					<bit name="NotArmedWithSupportWeapon" index="1" />
+					<bit name="NotFullyArmed" index="2" />
+					<bit name="Bit3" index="3" />
+					<bit name="Bit4" index="4" />
+					<bit name="Bit5" index="5" />
+					<bit name="Bit6" index="6" />
+					<bit name="Bit7" index="7" />
+					<bit name="Bit8" index="8" />
+					<bit name="Bit9" index="9" />
+					<bit name="Bit10" index="10" />
+					<bit name="Bit11" index="11" />
+					<bit name="Bit12" index="12" />
+					<bit name="Bit13" index="13" />
+					<bit name="Bit14" index="14" />
+					<bit name="Bit15" index="15" />
+				</flags16>
+				<uint8 name="Padding H3 0" offset="0x26" visible="false" />
+				<uint8 name="Padding H3 1" offset="0x27" visible="false" />
+			</tagblock>
+			<tagblock name="Placement Data" offset="0x14" visible="true" elementSize="0x1C">
+				<enum16 name="Anchor" offset="0x0" visible="true">
+					<option name="TopLeft" value="0" />
+					<option name="TopRight" value="1" />
+					<option name="BottomRight" value="2" />
+					<option name="BottomLeft" value="3" />
+					<option name="Crosshair" value="4" />
+					<option name="TopCenter" value="5" />
+					<option name="GrenadeHuman" value="6" />
+					<option name="GrenadePlasma" value="7" />
+					<option name="GrenadeBrute" value="8" />
+					<option name="GrenadeFire" value="9" />
+					<option name="ScoreboardFriendly" value="10" />
+					<option name="ScoreboardEnemy" value="11" />
+					<option name="Parent" value="12" />
+					<option name="Center" value="13" />
+					<option name="BackpackWeapon" value="14" />
+					<option name="Equipment" value="15" />
+					<option name="Ddamge" value="16" />
+					<option name="Territory1" value="17" />
+					<option name="Territory2" value="18" />
+					<option name="Territory3" value="19" />
+					<option name="Territory4" value="20" />
+					<option name="Territory5" value="21" />
+					<option name="Messaging" value="22" />
+					<option name="BottomCenter" value="23" />
+					<option name="WeaponTarget" value="24" />
+					<option name="StateMessageRight" value="25" />
+					<option name="StateMessageLeft" value="26" />
+					<option name="MessageBottomState" value="27" />
+					<option name="MessageBottomPrimary" value="28" />
+					<option name="ScoreboardFriendlyScoreOffset" value="29" />
+					<option name="ScoreboardEnemyScoreOffset" value="30" />
+					<option name="MetagameBar" value="31" />
+					<option name="MetagamePlayer1" value="32" />
+					<option name="MetagamePlayer2" value="33" />
+					<option name="MetagamePlayer3" value="34" />
+					<option name="MetagamePlayer4" value="35" />
+					<option name="TopCenterSavedfilm" value="36" />
+					<option name="Prompt" value="37" />
+					<option name="HologramTarget" value="38" />
+					<option name="Medals" value="39" />
+					<option name="SurvivalMedals" value="40" />
+					<option name="UnknownHO_Offset3" value="41" />
+					<option name="MotionSensor" value="42" />
+				</enum16>
+				<flags16 name="Anchor Flags" offset="0x2" visible="true">
+					<bit name="MoreSoon" index="0" />
+				</flags16>
+				<point2 name="Origin" offset="0x4" visible="true" />
+				<point2 name="Offset" offset="0xC" visible="true" />
+				<point2 name="Scale" offset="0x14" visible="true" />
+			</tagblock>
+			<tagblock name="Animation Data" offset="0x20" visible="true" elementSize="0x78">
+				<flags16 name="Initializing / Flags" offset="0x0" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Initializing / Input Type" offset="0x2" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Initializing / Animation" offset="0x4" visible="true" />
+				<flags16 name="Active / Flags" offset="0x14" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Active / Input Type" offset="0x16" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Active / Animation" offset="0x18" visible="true" />
+				<flags16 name="Flashing / Flags" offset="0x28" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Flashing / Input Type" offset="0x2A" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Flashing / Animation" offset="0x2C" visible="true" />
+				<flags16 name="Readying / Flags" offset="0x3C" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Readying / Input Type" offset="0x3E" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Readying / Animation" offset="0x40" visible="true" />
+				<flags16 name="Unreadying / Flags" offset="0x50" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Unreadying / Input Type" offset="0x52" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Unreadying / Animation" offset="0x54" visible="true" />
+				<flags16 name="Impulse / Flags" offset="0x64" visible="true">
+					<bit name="PlayReverse" index="0" />
+				</flags16>
+				<enum16 name="Impulse / Input Type" offset="0x66" visible="true">
+					<option name="Time" value="0" />
+					<option name="Extern1" value="1" />
+					<option name="Extern2" value="2" />
+					<option name="UseCompassTarget" value="3" />
+					<option name="UseUserTarget" value="4" />
+				</enum16>
+				<tagref name="Impulse / Animation" offset="0x68" visible="true" />
+			</tagblock>
+			<tagblock name="Render Data" offset="0x2C" visible="true" elementSize="0x40">
+				<enum16 name="Shader Type" offset="0x0" visible="true">
+					<option name="Simple" value="0" />
+					<option name="Meter" value="1" />
+					<option name="TextSimple" value="2" />
+					<option name="MeterShield" value="3" />
+					<option name="MeterGradient" value="4" />
+					<option name="Crosshair" value="5" />
+					<option name="DirectionalDamage" value="6" />
+					<option name="Solid" value="7" />
+					<option name="Sensor" value="8" />
+					<option name="MeterSingleColor" value="9" />
+					<option name="Navpoints" value="10" />
+					<option name="Medal" value="11" />
+					<option name="TextureCam" value="12" />
+					<option name="CortanaScreen" value="13" />
+					<option name="CortanaCamera" value="14" />
+					<option name="CortanaOffscreen" value="15" />
+					<option name="CortanaScreenFinal" value="16" />
+					<option name="MeterChapter" value="17" />
+					<option name="MeterDoubleGradient" value="18" />
+					<option name="MeterRadialGradient" value="19" />
+					<option name="DistortionAndBlur" value="20" />
+					<option name="Emblem" value="21" />
+					<option name="CortanaComposite" value="22" />
+					<option name="DirectionalDamageApply" value="23" />
+					<option name="ReallySimple" value="24" />
+					<option name="Unknown" value="25" />
+				</enum16>
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+				<enum16 name="External Input_H3" offset="0x4" visible="true">
+					<option name="Zero" value="0" />
+					<option name="One" value="1" />
+					<option name="DebugSlide1" value="2" />
+					<option name="DebugSlide100" value="3" />
+					<option name="ShieldAmount" value="4" />
+					<option name="ShieldRecentDamage" value="5" />
+					<option name="WeaponAmmoLoaded" value="6" />
+					<option name="WeaponAmmoReserve" value="7" />
+					<option name="WeaponHeatFraction" value="8" />
+					<option name="WeaponBatteryFraction" value="9" />
+					<option name="ImpulseValue" value="10" />
+					<option name="Autoaim" value="11" />
+					<option name="GrenadeSelected" value="12" />
+					<option name="GrenadeCount" value="13" />
+					<option name="WeaponChargeFraction" value="14" />
+					<option name="FriendlyScore" value="15" />
+					<option name="EnemyScore" value="16" />
+					<option name="ScoreToWin" value="17" />
+					<option name="ArmingFraction" value="18" />
+					<option name="LockingAmount" value="19" />
+					<option name="Unit1xOvershieldCurrent" value="20" />
+					<option name="Unit1xOvershieldRecentDmg" value="21" />
+					<option name="Unit2xOvershieldCurrent" value="22" />
+					<option name="Unit2xOvershieldRecentDmg" value="23" />
+					<option name="Unit3xOvershieldCurrent" value="24" />
+					<option name="Unit3xOvershieldRecentDmg" value="25" />
+					<option name="CameraYaw" value="26" />
+					<option name="CameraPitch" value="27" />
+					<option name="TargetDistance" value="28" />
+					<option name="TargetElevation" value="29" />
+					<option name="EditorBudgetFraction" value="30" />
+					<option name="EditorBudgetLeft" value="31" />
+					<option name="SavedFilmTotalTime" value="32" />
+					<option name="SavedFilmMarkerTime" value="33" />
+					<option name="SavedFilmChapterWidth" value="34" />
+					<option name="SavedFilmBufferedTheta" value="35" />
+					<option name="SavedFilmCurrentPositionTheta" value="36" />
+					<option name="SavedFilmRecordStartTheta" value="37" />
+					<option name="SavedFilmPieFraction" value="38" />
+					<option name="MetagameTime" value="39" />
+					<option name="MetagameTransientScore" value="40" />
+					<option name="MetagameP1Score" value="41" />
+					<option name="MetagameP2Score" value="42" />
+					<option name="MetagameP3Score" value="43" />
+					<option name="MetagameP4Score" value="44" />
+					<option name="MetagameTimeMultiplier" value="45" />
+					<option name="MetagameSkullDifficultyModifier" value="46" />
+					<option name="MotionSensorRange" value="47" />
+					<option name="NetworkLatency" value="48" />
+					<option name="NetworkLatencyQuality" value="49" />
+					<option name="NetworkHostQuality" value="50" />
+					<option name="NetworkLocalQuality" value="51" />
+					<option name="MetagameScoreNegative" value="52" />
+				</enum16>
+				<enum16 name="Range Input_H3" offset="0x6" visible="true">
+					<option name="Zero" value="0" />
+					<option name="One" value="1" />
+					<option name="DebugSlide1" value="2" />
+					<option name="DebugSlide100" value="3" />
+					<option name="ShieldAmount" value="4" />
+					<option name="ShieldRecentDamage" value="5" />
+					<option name="WeaponAmmoLoaded" value="6" />
+					<option name="WeaponAmmoReserve" value="7" />
+					<option name="WeaponHeatFraction" value="8" />
+					<option name="WeaponBatteryFraction" value="9" />
+					<option name="ImpulseValue" value="10" />
+					<option name="Autoaim" value="11" />
+					<option name="GrenadeSelected" value="12" />
+					<option name="GrenadeCount" value="13" />
+					<option name="WeaponChargeFraction" value="14" />
+					<option name="FriendlyScore" value="15" />
+					<option name="EnemyScore" value="16" />
+					<option name="ScoreToWin" value="17" />
+					<option name="ArmingFraction" value="18" />
+					<option name="LockingAmount" value="19" />
+					<option name="Unit1xOvershieldCurrent" value="20" />
+					<option name="Unit1xOvershieldRecentDmg" value="21" />
+					<option name="Unit2xOvershieldCurrent" value="22" />
+					<option name="Unit2xOvershieldRecentDmg" value="23" />
+					<option name="Unit3xOvershieldCurrent" value="24" />
+					<option name="Unit3xOvershieldRecentDmg" value="25" />
+					<option name="CameraYaw" value="26" />
+					<option name="CameraPitch" value="27" />
+					<option name="TargetDistance" value="28" />
+					<option name="TargetElevation" value="29" />
+					<option name="EditorBudgetFraction" value="30" />
+					<option name="EditorBudgetLeft" value="31" />
+					<option name="SavedFilmTotalTime" value="32" />
+					<option name="SavedFilmMarkerTime" value="33" />
+					<option name="SavedFilmChapterWidth" value="34" />
+					<option name="SavedFilmBufferedTheta" value="35" />
+					<option name="SavedFilmCurrentPositionTheta" value="36" />
+					<option name="SavedFilmRecordStartTheta" value="37" />
+					<option name="SavedFilmPieFraction" value="38" />
+					<option name="MetagameTime" value="39" />
+					<option name="MetagameTransientScore" value="40" />
+					<option name="MetagameP1Score" value="41" />
+					<option name="MetagameP2Score" value="42" />
+					<option name="MetagameP3Score" value="43" />
+					<option name="MetagameP4Score" value="44" />
+					<option name="MetagameTimeMultiplier" value="45" />
+					<option name="MetagameSkullDifficultyModifier" value="46" />
+					<option name="MotionSensorRange" value="47" />
+					<option name="NetworkLatency" value="48" />
+					<option name="NetworkLatencyQuality" value="49" />
+					<option name="NetworkHostQuality" value="50" />
+					<option name="NetworkLocalQuality" value="51" />
+					<option name="MetagameScoreNegative" value="52" />
+				</enum16>
+				<color32 name="Local Color A" offset="0x8" alpha="true" visible="true" />
+				<color32 name="Local Color B" offset="0xC" alpha="true" visible="true" />
+				<color32 name="Local Color C" offset="0x10" alpha="true" visible="true" />
+				<color32 name="Local Color D" offset="0x14" alpha="true" visible="true" />
+				<float32 name="Local Scalar A" offset="0x18" visible="true" />
+				<float32 name="Local Scalar B" offset="0x1C" visible="true" />
+				<float32 name="Local Scalar C" offset="0x20" visible="true" />
+				<float32 name="Local Scalar D" offset="0x24" visible="true" />
+				<enum16 name="Output Color A_ Retail" offset="0x28" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color B_ Retail" offset="0x2A" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color C_ Retail" offset="0x2C" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color D_ Retail" offset="0x2E" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color E_ Retail" offset="0x30" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Color F_ Retail" offset="0x32" visible="true">
+					<option name="LocalA" value="0" />
+					<option name="LocalB" value="1" />
+					<option name="LocalC" value="2" />
+					<option name="LocalD" value="3" />
+					<option name="ColorAnimationA" value="4" />
+					<option name="ColorAnimationB" value="5" />
+					<option name="ScoreboardFriendly" value="6" />
+					<option name="ScoreboardEnemy" value="7" />
+					<option name="ArmingMeter" value="8" />
+					<option name="MetagamePlayer1" value="9" />
+					<option name="MetagamePlayer2" value="10" />
+					<option name="MetagamePlayer3" value="11" />
+					<option name="MetagamePlayer4" value="12" />
+					<option name="GameTimeRemaining" value="13" />
+					<option name="PrimaryBackground" value="14" />
+					<option name="SecondaryBackground" value="15" />
+					<option name="HighlightForeground" value="16" />
+					<option name="WarningFlash" value="17" />
+					<option name="CrosshairNormal" value="18" />
+					<option name="CrosshairEnemy" value="19" />
+					<option name="CrosshairFriendly" value="20" />
+					<option name="BlipBase" value="21" />
+					<option name="SelfBlip" value="22" />
+					<option name="EnemyBlip" value="23" />
+					<option name="NeutralBlip" value="24" />
+					<option name="FriendlyBlip" value="25" />
+					<option name="BlipPing" value="26" />
+					<option name="ObjectiveBlipOnRadar" value="27" />
+					<option name="ObjectiveBlipOffRadar" value="28" />
+					<option name="NavpointFriendly" value="29" />
+					<option name="NavpointNeutral" value="30" />
+					<option name="NavpointEnemy" value="31" />
+					<option name="NavpointAllyDead" value="32" />
+					<option name="MessageFlashSelf" value="33" />
+					<option name="MessageFlashFriendly" value="34" />
+					<option name="MessageFlashEnemy" value="35" />
+					<option name="MessageFlashNeutral" value="36" />
+					<option name="InvincibleShield" value="37" />
+					<option name="NavpointAllyStandingBy" value="38" />
+					<option name="NavpointAllyFiring" value="39" />
+					<option name="NavpointAllyTakingDamage" value="40" />
+					<option name="NavpointAllySpeaking" value="41" />
+				</enum16>
+				<enum16 name="Output Scalar A" offset="0x34" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar B" offset="0x36" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar C" offset="0x38" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar D" offset="0x3A" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar E" offset="0x3C" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+				<enum16 name="Output Scalar F" offset="0x3E" visible="true">
+					<option name="Input" value="0" />
+					<option name="RangeInput" value="1" />
+					<option name="LocalA" value="2" />
+					<option name="LocalB" value="3" />
+					<option name="LocalC" value="4" />
+					<option name="LocalD" value="5" />
+					<option name="FlashAnimation" value="6" />
+					<option name="ScalarAnimationB" value="7" />
+				</enum16>
+			</tagblock>
+			<int32 name="Widget Index" offset="0x38" visible="true" />
+			<flags16 name="Text Flags_H3 Original" offset="0x3C" visible="true">
+				<bit name="StringIsANumber" index="0" />
+				<bit name="Force2DigitNumber" index="1" />
+				<bit name="Force3DigitNumber" index="2" />
+				<bit name="SuffixWithPlus" index="3" />
+				<bit name="SuffixWithM" index="4" />
+				<bit name="Decimal2Digits" index="5" />
+				<bit name="Decimal3Digits" index="6" />
+				<bit name="Decimal5Digits" index="7" />
+				<bit name="SuperHugeNumber" index="8" />
+				<bit name="SuffixWithX" index="9" />
+				<bit name="WrapWithBrackets" index="10" />
+				<bit name="FormatAsTime" index="11" />
+				<bit name="FormatAsHhmmssTime" index="12" />
+				<bit name="FormatAsBudgetNumber" index="13" />
+				<bit name="PrefixWithMinus" index="14" />
+				<bit name="OnlyAxesGlobal" index="15" />
+			</flags16>
+			<enum16 name="Font_H3" offset="0x3E" visible="true">
+				<option name="Terminal" value="0" />
+				<option name="BodyText" value="1" />
+				<option name="Title" value="2" />
+				<option name="SuperLargeFont" value="3" />
+				<option name="LargeBodyText" value="4" />
+				<option name="SplitscreenHudMessage" value="5" />
+				<option name="FullscreenHudMessage" value="6" />
+				<option name="EnglishBodyText" value="7" />
+				<option name="HudNumberText" value="8" />
+				<option name="SubtitleFont" value="9" />
+				<option name="MainMenuFont" value="10" />
+			</enum16>
+			<stringid name="Input String" offset="0x40" visible="true" />
+		</tagblock>
+	</tagblock>
+	<int32 name="Hud Ammunition Info / Low Ammo Loaded Threshold" offset="0xC" visible="true" />
+	<int32 name="Hud Ammunition Info / Low Ammo Reserve Threshold" offset="0x10" visible="true" />
+	<int32 name="Hud Ammunition Info / Low Battery Threshold" offset="0x14" visible="true" />
+</plugin>

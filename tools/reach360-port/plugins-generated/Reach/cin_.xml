@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.ScenarioCinematicsResource (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Flags" offset="0x0" visible="true" elementSize="0x38">
+		<uint8 name="Padding 0" offset="0x0" visible="false" />
+		<uint8 name="Padding 1" offset="0x1" visible="false" />
+		<uint8 name="Padding 2" offset="0x2" visible="false" />
+		<uint8 name="Padding 3" offset="0x3" visible="false" />
+		<ascii name="Name" offset="0x4" visible="true" size="0x20" />
+		<point3 name="Position" offset="0x24" visible="true" />
+		<degree2 name="Facing" offset="0x30" visible="true" />
+	</tagblock>
+	<tagblock name="Camera Points" offset="0xC" visible="true" elementSize="0x40">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="EditAsRelative" index="0" />
+		</flags16>
+		<enum16 name="Type" offset="0x2" visible="true">
+			<option name="Normal" value="0" />
+			<option name="IgnoreTargetOrientation" value="1" />
+			<option name="Dolly" value="2" />
+			<option name="IgnoreTargetUpdates" value="3" />
+		</enum16>
+		<ascii name="Name" offset="0x4" visible="true" size="0x20" />
+		<point3 name="Position" offset="0x24" visible="true" />
+		<degree3 name="Orientation" offset="0x30" visible="true" />
+		<degree name="Unused" offset="0x3C" visible="true" />
+	</tagblock>
+	<tagblock name="Recorded Animations" offset="0x18" visible="true" elementSize="0x34">
+		<ascii name="Name" offset="0x0" visible="true" size="0x20" />
+		<int8 name="Version" offset="0x20" visible="true" />
+		<int8 name="Raw Animation Data" offset="0x21" visible="true" />
+		<int8 name="Unit Control Data Version" offset="0x22" visible="true" />
+		<uint8 name="Padding 0" offset="0x23" visible="false" />
+		<int16 name="Length Of Animation" offset="0x24" visible="true" />
+		<uint8 name="Padding1 0" offset="0x26" visible="false" />
+		<uint8 name="Padding1 1" offset="0x27" visible="false" />
+		<uint8 name="Padding2 0" offset="0x28" visible="false" />
+		<uint8 name="Padding2 1" offset="0x29" visible="false" />
+		<uint8 name="Padding2 2" offset="0x2A" visible="false" />
+		<uint8 name="Padding2 3" offset="0x2B" visible="false" />
+		<dataref name="Recorded Animation Event Stream" offset="0x2C" visible="true" />
+	</tagblock>
+</plugin>

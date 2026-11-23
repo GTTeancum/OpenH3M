@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.InfinityUiimages (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Seasons" offset="0x0" visible="true" elementSize="0x20">
+		<int32 name="Season Number" offset="0x0" visible="true" />
+		<tagref name="Epilogue Image" offset="0x4" visible="true" />
+		<tagblock name="Season Images" offset="0x14" visible="true" elementSize="0x40">
+			<tagref name="Card Image" offset="0x0" visible="true" />
+			<tagref name="Detail Image" offset="0x10" visible="true" />
+			<tagref name="Lobby Image" offset="0x20" visible="true" />
+			<tagref name="Match Image" offset="0x30" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

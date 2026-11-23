@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x60">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen1.Flag (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true" />
+	<enum16 name="Trailing Edge Shape" offset="0x4" visible="true">
+		<option name="Flat" value="0" />
+		<option name="ConcaveTriangular" value="1" />
+		<option name="ConvexTriangular" value="2" />
+		<option name="TrapezoidShortTop" value="3" />
+		<option name="TrapezoidShortBottom" value="4" />
+	</enum16>
+	<int16 name="Trailing Edge Shape Offset" offset="0x6" visible="true" />
+	<enum16 name="Attached Edge Shape" offset="0x8" visible="true">
+		<option name="Flat" value="0" />
+		<option name="ConcaveTriangular" value="1" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0xA" visible="false" />
+	<uint8 name="Padding 1" offset="0xB" visible="false" />
+	<int16 name="Width" offset="0xC" visible="true" />
+	<int16 name="Height" offset="0xE" visible="true" />
+	<float32 name="Cell Width" offset="0x10" visible="true" />
+	<float32 name="Cell Height" offset="0x14" visible="true" />
+	<tagref name="Red Flag Shader" offset="0x18" visible="true" />
+	<tagref name="Physics" offset="0x28" visible="true" />
+	<float32 name="Wind Noise" offset="0x38" visible="true" />
+	<uint8 name="Padding1 0" offset="0x3C" visible="false" />
+	<uint8 name="Padding1 1" offset="0x3D" visible="false" />
+	<uint8 name="Padding1 2" offset="0x3E" visible="false" />
+	<uint8 name="Padding1 3" offset="0x3F" visible="false" />
+	<uint8 name="Padding1 4" offset="0x40" visible="false" />
+	<uint8 name="Padding1 5" offset="0x41" visible="false" />
+	<uint8 name="Padding1 6" offset="0x42" visible="false" />
+	<uint8 name="Padding1 7" offset="0x43" visible="false" />
+	<tagref name="Blue Flag Shader" offset="0x44" visible="true" />
+	<tagblock name="Attachment Points" offset="0x54" visible="true" elementSize="0x34">
+		<int16 name="Height To Next Attachment" offset="0x0" visible="true" />
+		<uint8 name="Padding 0" offset="0x2" visible="false" />
+		<uint8 name="Padding 1" offset="0x3" visible="false" />
+		<uint8 name="Padding1 0" offset="0x4" visible="false" />
+		<uint8 name="Padding1 1" offset="0x5" visible="false" />
+		<uint8 name="Padding1 2" offset="0x6" visible="false" />
+		<uint8 name="Padding1 3" offset="0x7" visible="false" />
+		<uint8 name="Padding1 4" offset="0x8" visible="false" />
+		<uint8 name="Padding1 5" offset="0x9" visible="false" />
+		<uint8 name="Padding1 6" offset="0xA" visible="false" />
+		<uint8 name="Padding1 7" offset="0xB" visible="false" />
+		<uint8 name="Padding1 8" offset="0xC" visible="false" />
+		<uint8 name="Padding1 9" offset="0xD" visible="false" />
+		<uint8 name="Padding1 10" offset="0xE" visible="false" />
+		<uint8 name="Padding1 11" offset="0xF" visible="false" />
+		<uint8 name="Padding1 12" offset="0x10" visible="false" />
+		<uint8 name="Padding1 13" offset="0x11" visible="false" />
+		<uint8 name="Padding1 14" offset="0x12" visible="false" />
+		<uint8 name="Padding1 15" offset="0x13" visible="false" />
+		<ascii name="Marker Name" offset="0x14" visible="true" size="0x20" />
+	</tagblock>
+</plugin>

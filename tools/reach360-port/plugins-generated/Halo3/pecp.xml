@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x34">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ParticleEmitterCustomPoints (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Particle Model" offset="0x0" visible="true" />
+	<vector3 name="Compression Scale" offset="0x10" visible="true" />
+	<vector3 name="Compression Offset" offset="0x1C" visible="true" />
+	<tagblock name="Points" offset="0x28" visible="true" elementSize="0xA">
+		<int16 name="Position X" offset="0x0" visible="true" />
+		<int16 name="Position Y" offset="0x2" visible="true" />
+		<int16 name="Position Z" offset="0x4" visible="true" />
+		<int8 name="Normal X" offset="0x6" visible="true" />
+		<int8 name="Normal Y" offset="0x7" visible="true" />
+		<int8 name="Normal Z" offset="0x8" visible="true" />
+		<uint8 name="Correlation" offset="0x9" visible="true" />
+	</tagblock>
+</plugin>

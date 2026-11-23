@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ScenarioOrdnanceList (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Random Ordnance Drop List" offset="0x0" visible="true" elementSize="0x4">
+		<stringid name="Ordnance Name" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Player Ordnance Drop Groups" offset="0xC" visible="true" elementSize="0xC">
+		<tagblock name="Player Ordnance Drops" offset="0x0" visible="true" elementSize="0x24">
+			<ascii name="Ordnance Name" offset="0x0" visible="true" size="0x20" />
+			<float32 name="Ordnance Frequency" offset="0x20" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

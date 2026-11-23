@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.PlayerEnlistmentGlobalsDefinition (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Enlistments" offset="0x0" visible="true" elementSize="0x3C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Description" offset="0x4" visible="true" />
+		<int16 name="Sprite Index" offset="0x8" visible="true" />
+		<flags8 name="Flags" offset="0xA" visible="true">
+			<bit name="Disabled" index="0" />
+		</flags8>
+		<uint8 name="Padding 0" offset="0xB" visible="false" />
+		<stringid name="Unlocked Emblem Fg" offset="0xC" visible="true" />
+		<stringid name="Unlocked Emblem Bg" offset="0x10" visible="true" />
+		<stringid name="Unlocked Helmet" offset="0x14" visible="true" />
+		<stringid name="Unlocked Chest" offset="0x18" visible="true" />
+		<stringid name="Unlocked Left Shoulder" offset="0x1C" visible="true" />
+		<stringid name="Unlocked Right Shoulder" offset="0x20" visible="true" />
+		<stringid name="Unlocked Arms" offset="0x24" visible="true" />
+		<stringid name="Unlocked Legs" offset="0x28" visible="true" />
+		<stringid name="Unlocked Visor" offset="0x2C" visible="true" />
+		<tagblock name="Grades" offset="0x30" visible="true" elementSize="0x1C">
+			<int32 name="Xp Threshold" offset="0x0" visible="true" />
+			<stringid name="Name" offset="0x4" visible="true" />
+			<int16 name="Sprite Index" offset="0x8" visible="true" />
+			<uint8 name="Padding 0" offset="0xA" visible="false" />
+			<uint8 name="Padding 1" offset="0xB" visible="false" />
+			<float32 name="Time Played Multiplier" offset="0xC" visible="true" />
+			<tagblock name="Level Up Rewards" offset="0x10" visible="true" elementSize="0x4">
+				<enum8 name="Currency Type" offset="0x0" visible="true">
+					<option name="Cookies" value="0" />
+					<option name="Xp" value="1" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0x1" visible="false" />
+				<int16 name="Reward Amount" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+</plugin>

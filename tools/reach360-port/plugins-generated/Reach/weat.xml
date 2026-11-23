@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xB0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.WeatherSystem (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Particle System" offset="0x0" visible="true" elementSize="0x8C">
+		<tagref name="Sprites" offset="0x0" visible="true" />
+		<float32 name="View Box Width" offset="0x10" visible="true" />
+		<float32 name="View Box Height" offset="0x14" visible="true" />
+		<float32 name="View Box Depth" offset="0x18" visible="true" />
+		<float32 name="Exclusion Radius" offset="0x1C" visible="true" />
+		<float32 name="Max Velocity" offset="0x20" visible="true" />
+		<float32 name="Min Mass" offset="0x24" visible="true" />
+		<float32 name="Max Mass" offset="0x28" visible="true" />
+		<float32 name="Min Size" offset="0x2C" visible="true" />
+		<float32 name="Max Size" offset="0x30" visible="true" />
+		<int32 name="Maximum Number Of Particles" offset="0x34" visible="true" />
+		<vector3 name="Initial Velocity" offset="0x38" visible="true" />
+		<float32 name="Bitmap Animation Speed" offset="0x44" visible="true" />
+		<int32 name="Geometry Block Info / Block Offset" offset="0x48" visible="true" />
+		<int32 name="Geometry Block Info / Block Size" offset="0x4C" visible="true" />
+		<int32 name="Geometry Block Info / Section Data Size" offset="0x50" visible="true" />
+		<int32 name="Geometry Block Info / Resource Data Size" offset="0x54" visible="true" />
+		<tagblock name="Geometry Block Info / Resources" offset="0x58" visible="true" elementSize="0x10">
+			<enum8 name="Type" offset="0x0" visible="true">
+				<option name="TagBlock" value="0" />
+				<option name="TagData" value="1" />
+				<option name="VertexBuffer" value="2" />
+			</enum8>
+			<uint8 name="Padding 0" offset="0x1" visible="false" />
+			<uint8 name="Padding 1" offset="0x2" visible="false" />
+			<uint8 name="Padding 2" offset="0x3" visible="false" />
+			<int16 name="Primary Locator" offset="0x4" visible="true" />
+			<int16 name="Secondary Locator" offset="0x6" visible="true" />
+			<int32 name="Resource Data Size" offset="0x8" visible="true" />
+			<int32 name="Resource Data Offset" offset="0xC" visible="true" />
+		</tagblock>
+		<uint8 name="Geometry Block Info / Padding 0" offset="0x64" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 1" offset="0x65" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 2" offset="0x66" visible="false" />
+		<uint8 name="Geometry Block Info / Padding 3" offset="0x67" visible="false" />
+		<int16 name="Geometry Block Info / Owner Tag Section Offset" offset="0x68" visible="true" />
+		<uint8 name="Geometry Block Info / Padding1 0" offset="0x6A" visible="false" />
+		<uint8 name="Geometry Block Info / Padding1 1" offset="0x6B" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 0" offset="0x6C" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 1" offset="0x6D" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 2" offset="0x6E" visible="false" />
+		<uint8 name="Geometry Block Info / Padding2 3" offset="0x6F" visible="false" />
+		<tagblock name="Particle System Data" offset="0x6C" visible="true" elementSize="0x30">
+			<tagblock name="Particles Render Data" offset="0x0" visible="true" elementSize="0x14">
+				<float32 name="Position X" offset="0x0" visible="true" />
+				<float32 name="Position Y" offset="0x4" visible="true" />
+				<float32 name="Position Z" offset="0x8" visible="true" />
+				<float32 name="Size" offset="0xC" visible="true" />
+				<color32 name="Color" offset="0x10" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Particles Other Data" offset="0xC" visible="true" elementSize="0x20">
+				<float32 name="Velocity X" offset="0x0" visible="true" />
+				<float32 name="Velocity Y" offset="0x4" visible="true" />
+				<float32 name="Velocity Z" offset="0x8" visible="true" />
+				<uint8 name="Padding 0" offset="0xC" visible="false" />
+				<uint8 name="Padding 1" offset="0xD" visible="false" />
+				<uint8 name="Padding 2" offset="0xE" visible="false" />
+				<uint8 name="Padding 3" offset="0xF" visible="false" />
+				<uint8 name="Padding 4" offset="0x10" visible="false" />
+				<uint8 name="Padding 5" offset="0x11" visible="false" />
+				<uint8 name="Padding 6" offset="0x12" visible="false" />
+				<uint8 name="Padding 7" offset="0x13" visible="false" />
+				<uint8 name="Padding 8" offset="0x14" visible="false" />
+				<uint8 name="Padding 9" offset="0x15" visible="false" />
+				<uint8 name="Padding 10" offset="0x16" visible="false" />
+				<uint8 name="Padding 11" offset="0x17" visible="false" />
+				<float32 name="Mass" offset="0x18" visible="true" />
+				<float32 name="Creation Time Stamp" offset="0x1C" visible="true" />
+			</tagblock>
+			<uint8 name="Padding 0" offset="0x18" visible="false" />
+			<uint8 name="Padding 1" offset="0x19" visible="false" />
+			<uint8 name="Padding 2" offset="0x1A" visible="false" />
+			<uint8 name="Padding 3" offset="0x1B" visible="false" />
+			<uint8 name="Padding 4" offset="0x1C" visible="false" />
+			<uint8 name="Padding 5" offset="0x1D" visible="false" />
+			<uint8 name="Padding 6" offset="0x1E" visible="false" />
+			<uint8 name="Padding 7" offset="0x1F" visible="false" />
+			<uint8 name="Padding 8" offset="0x20" visible="false" />
+			<uint8 name="Padding 9" offset="0x21" visible="false" />
+			<uint8 name="Padding 10" offset="0x22" visible="false" />
+			<uint8 name="Padding 11" offset="0x23" visible="false" />
+			<uint8 name="Padding 12" offset="0x24" visible="false" />
+			<uint8 name="Padding 13" offset="0x25" visible="false" />
+			<uint8 name="Padding 14" offset="0x26" visible="false" />
+			<uint8 name="Padding 15" offset="0x27" visible="false" />
+			<uint8 name="Padding 16" offset="0x28" visible="false" />
+			<uint8 name="Padding 17" offset="0x29" visible="false" />
+			<uint8 name="Padding 18" offset="0x2A" visible="false" />
+			<uint8 name="Padding 19" offset="0x2B" visible="false" />
+			<uint8 name="Padding 20" offset="0x2C" visible="false" />
+			<uint8 name="Padding 21" offset="0x2D" visible="false" />
+			<uint8 name="Padding 22" offset="0x2E" visible="false" />
+			<uint8 name="Padding 23" offset="0x2F" visible="false" />
+			<uint8 name="Padding 24" offset="0x30" visible="false" />
+			<uint8 name="Padding 25" offset="0x31" visible="false" />
+			<uint8 name="Padding 26" offset="0x32" visible="false" />
+			<uint8 name="Padding 27" offset="0x33" visible="false" />
+			<uint8 name="Padding 28" offset="0x34" visible="false" />
+			<uint8 name="Padding 29" offset="0x35" visible="false" />
+			<uint8 name="Padding 30" offset="0x36" visible="false" />
+			<uint8 name="Padding 31" offset="0x37" visible="false" />
+		</tagblock>
+		<enum16 name="Type" offset="0x78" visible="true">
+			<option name="Generic" value="0" />
+			<option name="Snow" value="1" />
+			<option name="Rain" value="2" />
+			<option name="RainSplash" value="3" />
+			<option name="Bugs" value="4" />
+			<option name="SandStorm" value="5" />
+			<option name="Debris" value="6" />
+			<option name="Bubbles" value="7" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x7A" visible="false" />
+		<uint8 name="Padding 1" offset="0x7B" visible="false" />
+		<float32 name="Mininum Opacity" offset="0x7C" visible="true" />
+		<float32 name="Maxinum Opacity" offset="0x80" visible="true" />
+		<float32 name="Rain Streak Scale" offset="0x84" visible="true" />
+		<float32 name="Rain Line Width" offset="0x88" visible="true" />
+		<uint8 name="Padding1 0" offset="0x8C" visible="false" />
+		<uint8 name="Padding1 1" offset="0x8D" visible="false" />
+		<uint8 name="Padding1 2" offset="0x8E" visible="false" />
+		<uint8 name="Padding1 3" offset="0x8F" visible="false" />
+		<uint8 name="Padding2 0" offset="0x90" visible="false" />
+		<uint8 name="Padding2 1" offset="0x91" visible="false" />
+		<uint8 name="Padding2 2" offset="0x92" visible="false" />
+		<uint8 name="Padding2 3" offset="0x93" visible="false" />
+		<uint8 name="Padding3 0" offset="0x94" visible="false" />
+		<uint8 name="Padding3 1" offset="0x95" visible="false" />
+		<uint8 name="Padding3 2" offset="0x96" visible="false" />
+		<uint8 name="Padding3 3" offset="0x97" visible="false" />
+	</tagblock>
+	<tagblock name="Background Plates" offset="0xC" visible="true" elementSize="0x3A8">
+		<tagref name="Texture0" offset="0x0" visible="true" />
+		<tagref name="Texture1" offset="0x10" visible="true" />
+		<tagref name="Texture2" offset="0x20" visible="true" />
+		<float32 name="Plate Positions0" offset="0x30" visible="true" />
+		<float32 name="Plate Positions1" offset="0x34" visible="true" />
+		<float32 name="Plate Positions2" offset="0x38" visible="true" />
+		<vector3 name="Move Speed0" offset="0x3C" visible="true" />
+		<vector3 name="Move Speed1" offset="0x48" visible="true" />
+		<vector3 name="Move Speed2" offset="0x54" visible="true" />
+		<float32 name="Texture Scale0" offset="0x60" visible="true" />
+		<float32 name="Texture Scale1" offset="0x64" visible="true" />
+		<float32 name="Texture Scale2" offset="0x68" visible="true" />
+		<vector3 name="Jitter0" offset="0x6C" visible="true" />
+		<vector3 name="Jitter1" offset="0x78" visible="true" />
+		<vector3 name="Jitter2" offset="0x84" visible="true" />
+		<float32 name="Plate Z Near" offset="0x90" visible="true" />
+		<float32 name="Plate Z Far" offset="0x94" visible="true" />
+		<float32 name="Depth Blend Z Near" offset="0x98" visible="true" />
+		<float32 name="Depth Blend Z Far" offset="0x9C" visible="true" />
+		<float32 name="Opacity0" offset="0xA0" visible="true" />
+		<float32 name="Opacity1" offset="0xA4" visible="true" />
+		<float32 name="Opacity2" offset="0xA8" visible="true" />
+		<flags32 name="Flags" offset="0xAC" visible="true">
+			<bit name="ForwardMotion" index="0" />
+			<bit name="AutoPositionPlanes" index="1" />
+			<bit name="AutoScalePlanesautoUpdateSpeed" index="2" />
+		</flags32>
+		<colorf name="Tint Color0" offset="0xB0" alpha="false" visible="true" />
+		<colorf name="Tint Color1" offset="0xBC" alpha="false" visible="true" />
+		<colorf name="Tint Color2" offset="0xC8" alpha="false" visible="true" />
+		<float32 name="Mass1" offset="0xD4" visible="true" />
+		<float32 name="Mass2" offset="0xD8" visible="true" />
+		<float32 name="Mass3" offset="0xDC" visible="true" />
+		<uint8 name="Padding 0" offset="0xE0" visible="false" />
+		<uint8 name="Padding 1" offset="0xE1" visible="false" />
+		<uint8 name="Padding 2" offset="0xE2" visible="false" />
+		<uint8 name="Padding 3" offset="0xE3" visible="false" />
+		<uint8 name="Padding 4" offset="0xE4" visible="false" />
+		<uint8 name="Padding 5" offset="0xE5" visible="false" />
+		<uint8 name="Padding 6" offset="0xE6" visible="false" />
+		<uint8 name="Padding 7" offset="0xE7" visible="false" />
+		<uint8 name="Padding 8" offset="0xE8" visible="false" />
+		<uint8 name="Padding 9" offset="0xE9" visible="false" />
+		<uint8 name="Padding 10" offset="0xEA" visible="false" />
+		<uint8 name="Padding 11" offset="0xEB" visible="false" />
+		<uint8 name="Padding 12" offset="0xEC" visible="false" />
+		<uint8 name="Padding 13" offset="0xED" visible="false" />
+		<uint8 name="Padding 14" offset="0xEE" visible="false" />
+		<uint8 name="Padding 15" offset="0xEF" visible="false" />
+		<uint8 name="Padding 16" offset="0xF0" visible="false" />
+		<uint8 name="Padding 17" offset="0xF1" visible="false" />
+		<uint8 name="Padding 18" offset="0xF2" visible="false" />
+		<uint8 name="Padding 19" offset="0xF3" visible="false" />
+		<uint8 name="Padding 20" offset="0xF4" visible="false" />
+		<uint8 name="Padding 21" offset="0xF5" visible="false" />
+		<uint8 name="Padding 22" offset="0xF6" visible="false" />
+		<uint8 name="Padding 23" offset="0xF7" visible="false" />
+		<uint8 name="Padding 24" offset="0xF8" visible="false" />
+		<uint8 name="Padding 25" offset="0xF9" visible="false" />
+		<uint8 name="Padding 26" offset="0xFA" visible="false" />
+		<uint8 name="Padding 27" offset="0xFB" visible="false" />
+		<uint8 name="Padding 28" offset="0xFC" visible="false" />
+		<uint8 name="Padding 29" offset="0xFD" visible="false" />
+		<uint8 name="Padding 30" offset="0xFE" visible="false" />
+		<uint8 name="Padding 31" offset="0xFF" visible="false" />
+		<uint8 name="Padding 32" offset="0x100" visible="false" />
+		<uint8 name="Padding 33" offset="0x101" visible="false" />
+		<uint8 name="Padding 34" offset="0x102" visible="false" />
+		<uint8 name="Padding 35" offset="0x103" visible="false" />
+		<uint8 name="Padding 36" offset="0x104" visible="false" />
+		<uint8 name="Padding 37" offset="0x105" visible="false" />
+		<uint8 name="Padding 38" offset="0x106" visible="false" />
+		<uint8 name="Padding 39" offset="0x107" visible="false" />
+		<uint8 name="Padding 40" offset="0x108" visible="false" />
+		<uint8 name="Padding 41" offset="0x109" visible="false" />
+		<uint8 name="Padding 42" offset="0x10A" visible="false" />
+		<uint8 name="Padding 43" offset="0x10B" visible="false" />
+		<uint8 name="Padding 44" offset="0x10C" visible="false" />
+		<uint8 name="Padding 45" offset="0x10D" visible="false" />
+		<uint8 name="Padding 46" offset="0x10E" visible="false" />
+		<uint8 name="Padding 47" offset="0x10F" visible="false" />
+		<uint8 name="Padding 48" offset="0x110" visible="false" />
+		<uint8 name="Padding 49" offset="0x111" visible="false" />
+		<uint8 name="Padding 50" offset="0x112" visible="false" />
+		<uint8 name="Padding 51" offset="0x113" visible="false" />
+		<uint8 name="Padding 52" offset="0x114" visible="false" />
+		<uint8 name="Padding 53" offset="0x115" visible="false" />
+		<uint8 name="Padding 54" offset="0x116" visible="false" />
+		<uint8 name="Padding 55" offset="0x117" visible="false" />
+		<uint8 name="Padding 56" offset="0x118" visible="false" />
+		<uint8 name="Padding 57" offset="0x119" visible="false" />
+		<uint8 name="Padding 58" offset="0x11A" visible="false" />
+		<uint8 name="Padding 59" offset="0x11B" visible="false" />
+		<uint8 name="Padding 60" offset="0x11C" visible="false" />
+		<uint8 name="Padding 61" offset="0x11D" visible="false" />
+		<uint8 name="Padding 62" offset="0x11E" visible="false" />
+		<uint8 name="Padding 63" offset="0x11F" visible="false" />
+		<uint8 name="Padding 64" offset="0x120" visible="false" />
+		<uint8 name="Padding 65" offset="0x121" visible="false" />
+		<uint8 name="Padding 66" offset="0x122" visible="false" />
+		<uint8 name="Padding 67" offset="0x123" visible="false" />
+		<uint8 name="Padding 68" offset="0x124" visible="false" />
+		<uint8 name="Padding 69" offset="0x125" visible="false" />
+		<uint8 name="Padding 70" offset="0x126" visible="false" />
+		<uint8 name="Padding 71" offset="0x127" visible="false" />
+		<uint8 name="Padding 72" offset="0x128" visible="false" />
+		<uint8 name="Padding 73" offset="0x129" visible="false" />
+		<uint8 name="Padding 74" offset="0x12A" visible="false" />
+		<uint8 name="Padding 75" offset="0x12B" visible="false" />
+		<uint8 name="Padding 76" offset="0x12C" visible="false" />
+		<uint8 name="Padding 77" offset="0x12D" visible="false" />
+		<uint8 name="Padding 78" offset="0x12E" visible="false" />
+		<uint8 name="Padding 79" offset="0x12F" visible="false" />
+		<uint8 name="Padding 80" offset="0x130" visible="false" />
+		<uint8 name="Padding 81" offset="0x131" visible="false" />
+		<uint8 name="Padding 82" offset="0x132" visible="false" />
+		<uint8 name="Padding 83" offset="0x133" visible="false" />
+		<uint8 name="Padding 84" offset="0x134" visible="false" />
+		<uint8 name="Padding 85" offset="0x135" visible="false" />
+		<uint8 name="Padding 86" offset="0x136" visible="false" />
+		<uint8 name="Padding 87" offset="0x137" visible="false" />
+		<uint8 name="Padding 88" offset="0x138" visible="false" />
+		<uint8 name="Padding 89" offset="0x139" visible="false" />
+		<uint8 name="Padding 90" offset="0x13A" visible="false" />
+		<uint8 name="Padding 91" offset="0x13B" visible="false" />
+		<uint8 name="Padding 92" offset="0x13C" visible="false" />
+		<uint8 name="Padding 93" offset="0x13D" visible="false" />
+		<uint8 name="Padding 94" offset="0x13E" visible="false" />
+		<uint8 name="Padding 95" offset="0x13F" visible="false" />
+		<uint8 name="Padding 96" offset="0x140" visible="false" />
+		<uint8 name="Padding 97" offset="0x141" visible="false" />
+		<uint8 name="Padding 98" offset="0x142" visible="false" />
+		<uint8 name="Padding 99" offset="0x143" visible="false" />
+		<uint8 name="Padding 100" offset="0x144" visible="false" />
+		<uint8 name="Padding 101" offset="0x145" visible="false" />
+		<uint8 name="Padding 102" offset="0x146" visible="false" />
+		<uint8 name="Padding 103" offset="0x147" visible="false" />
+		<uint8 name="Padding 104" offset="0x148" visible="false" />
+		<uint8 name="Padding 105" offset="0x149" visible="false" />
+		<uint8 name="Padding 106" offset="0x14A" visible="false" />
+		<uint8 name="Padding 107" offset="0x14B" visible="false" />
+		<uint8 name="Padding 108" offset="0x14C" visible="false" />
+		<uint8 name="Padding 109" offset="0x14D" visible="false" />
+		<uint8 name="Padding 110" offset="0x14E" visible="false" />
+		<uint8 name="Padding 111" offset="0x14F" visible="false" />
+		<uint8 name="Padding 112" offset="0x150" visible="false" />
+		<uint8 name="Padding 113" offset="0x151" visible="false" />
+		<uint8 name="Padding 114" offset="0x152" visible="false" />
+		<uint8 name="Padding 115" offset="0x153" visible="false" />
+		<uint8 name="Padding 116" offset="0x154" visible="false" />
+		<uint8 name="Padding 117" offset="0x155" visible="false" />
+		<uint8 name="Padding 118" offset="0x156" visible="false" />
+		<uint8 name="Padding 119" offset="0x157" visible="false" />
+		<uint8 name="Padding 120" offset="0x158" visible="false" />
+		<uint8 name="Padding 121" offset="0x159" visible="false" />
+		<uint8 name="Padding 122" offset="0x15A" visible="false" />
+		<uint8 name="Padding 123" offset="0x15B" visible="false" />
+		<uint8 name="Padding 124" offset="0x15C" visible="false" />
+		<uint8 name="Padding 125" offset="0x15D" visible="false" />
+		<uint8 name="Padding 126" offset="0x15E" visible="false" />
+		<uint8 name="Padding 127" offset="0x15F" visible="false" />
+		<uint8 name="Padding 128" offset="0x160" visible="false" />
+		<uint8 name="Padding 129" offset="0x161" visible="false" />
+		<uint8 name="Padding 130" offset="0x162" visible="false" />
+		<uint8 name="Padding 131" offset="0x163" visible="false" />
+		<uint8 name="Padding 132" offset="0x164" visible="false" />
+		<uint8 name="Padding 133" offset="0x165" visible="false" />
+		<uint8 name="Padding 134" offset="0x166" visible="false" />
+		<uint8 name="Padding 135" offset="0x167" visible="false" />
+		<uint8 name="Padding 136" offset="0x168" visible="false" />
+		<uint8 name="Padding 137" offset="0x169" visible="false" />
+		<uint8 name="Padding 138" offset="0x16A" visible="false" />
+		<uint8 name="Padding 139" offset="0x16B" visible="false" />
+		<uint8 name="Padding 140" offset="0x16C" visible="false" />
+		<uint8 name="Padding 141" offset="0x16D" visible="false" />
+		<uint8 name="Padding 142" offset="0x16E" visible="false" />
+		<uint8 name="Padding 143" offset="0x16F" visible="false" />
+		<uint8 name="Padding 144" offset="0x170" visible="false" />
+		<uint8 name="Padding 145" offset="0x171" visible="false" />
+		<uint8 name="Padding 146" offset="0x172" visible="false" />
+		<uint8 name="Padding 147" offset="0x173" visible="false" />
+		<uint8 name="Padding 148" offset="0x174" visible="false" />
+		<uint8 name="Padding 149" offset="0x175" visible="false" />
+		<uint8 name="Padding 150" offset="0x176" visible="false" />
+		<uint8 name="Padding 151" offset="0x177" visible="false" />
+		<uint8 name="Padding 152" offset="0x178" visible="false" />
+		<uint8 name="Padding 153" offset="0x179" visible="false" />
+		<uint8 name="Padding 154" offset="0x17A" visible="false" />
+		<uint8 name="Padding 155" offset="0x17B" visible="false" />
+		<uint8 name="Padding 156" offset="0x17C" visible="false" />
+		<uint8 name="Padding 157" offset="0x17D" visible="false" />
+		<uint8 name="Padding 158" offset="0x17E" visible="false" />
+		<uint8 name="Padding 159" offset="0x17F" visible="false" />
+		<uint8 name="Padding 160" offset="0x180" visible="false" />
+		<uint8 name="Padding 161" offset="0x181" visible="false" />
+		<uint8 name="Padding 162" offset="0x182" visible="false" />
+		<uint8 name="Padding 163" offset="0x183" visible="false" />
+		<uint8 name="Padding 164" offset="0x184" visible="false" />
+		<uint8 name="Padding 165" offset="0x185" visible="false" />
+		<uint8 name="Padding 166" offset="0x186" visible="false" />
+		<uint8 name="Padding 167" offset="0x187" visible="false" />
+		<uint8 name="Padding 168" offset="0x188" visible="false" />
+		<uint8 name="Padding 169" offset="0x189" visible="false" />
+		<uint8 name="Padding 170" offset="0x18A" visible="false" />
+		<uint8 name="Padding 171" offset="0x18B" visible="false" />
+		<uint8 name="Padding 172" offset="0x18C" visible="false" />
+		<uint8 name="Padding 173" offset="0x18D" visible="false" />
+		<uint8 name="Padding 174" offset="0x18E" visible="false" />
+		<uint8 name="Padding 175" offset="0x18F" visible="false" />
+		<uint8 name="Padding 176" offset="0x190" visible="false" />
+		<uint8 name="Padding 177" offset="0x191" visible="false" />
+		<uint8 name="Padding 178" offset="0x192" visible="false" />
+		<uint8 name="Padding 179" offset="0x193" visible="false" />
+		<uint8 name="Padding 180" offset="0x194" visible="false" />
+		<uint8 name="Padding 181" offset="0x195" visible="false" />
+		<uint8 name="Padding 182" offset="0x196" visible="false" />
+		<uint8 name="Padding 183" offset="0x197" visible="false" />
+		<uint8 name="Padding 184" offset="0x198" visible="false" />
+		<uint8 name="Padding 185" offset="0x199" visible="false" />
+		<uint8 name="Padding 186" offset="0x19A" visible="false" />
+		<uint8 name="Padding 187" offset="0x19B" visible="false" />
+		<uint8 name="Padding 188" offset="0x19C" visible="false" />
+		<uint8 name="Padding 189" offset="0x19D" visible="false" />
+		<uint8 name="Padding 190" offset="0x19E" visible="false" />
+		<uint8 name="Padding 191" offset="0x19F" visible="false" />
+		<uint8 name="Padding 192" offset="0x1A0" visible="false" />
+		<uint8 name="Padding 193" offset="0x1A1" visible="false" />
+		<uint8 name="Padding 194" offset="0x1A2" visible="false" />
+		<uint8 name="Padding 195" offset="0x1A3" visible="false" />
+		<uint8 name="Padding 196" offset="0x1A4" visible="false" />
+		<uint8 name="Padding 197" offset="0x1A5" visible="false" />
+		<uint8 name="Padding 198" offset="0x1A6" visible="false" />
+		<uint8 name="Padding 199" offset="0x1A7" visible="false" />
+		<uint8 name="Padding 200" offset="0x1A8" visible="false" />
+		<uint8 name="Padding 201" offset="0x1A9" visible="false" />
+		<uint8 name="Padding 202" offset="0x1AA" visible="false" />
+		<uint8 name="Padding 203" offset="0x1AB" visible="false" />
+		<uint8 name="Padding 204" offset="0x1AC" visible="false" />
+		<uint8 name="Padding 205" offset="0x1AD" visible="false" />
+		<uint8 name="Padding 206" offset="0x1AE" visible="false" />
+		<uint8 name="Padding 207" offset="0x1AF" visible="false" />
+		<uint8 name="Padding 208" offset="0x1B0" visible="false" />
+		<uint8 name="Padding 209" offset="0x1B1" visible="false" />
+		<uint8 name="Padding 210" offset="0x1B2" visible="false" />
+		<uint8 name="Padding 211" offset="0x1B3" visible="false" />
+		<uint8 name="Padding 212" offset="0x1B4" visible="false" />
+		<uint8 name="Padding 213" offset="0x1B5" visible="false" />
+		<uint8 name="Padding 214" offset="0x1B6" visible="false" />
+		<uint8 name="Padding 215" offset="0x1B7" visible="false" />
+		<uint8 name="Padding 216" offset="0x1B8" visible="false" />
+		<uint8 name="Padding 217" offset="0x1B9" visible="false" />
+		<uint8 name="Padding 218" offset="0x1BA" visible="false" />
+		<uint8 name="Padding 219" offset="0x1BB" visible="false" />
+		<uint8 name="Padding 220" offset="0x1BC" visible="false" />
+		<uint8 name="Padding 221" offset="0x1BD" visible="false" />
+		<uint8 name="Padding 222" offset="0x1BE" visible="false" />
+		<uint8 name="Padding 223" offset="0x1BF" visible="false" />
+		<uint8 name="Padding 224" offset="0x1C0" visible="false" />
+		<uint8 name="Padding 225" offset="0x1C1" visible="false" />
+		<uint8 name="Padding 226" offset="0x1C2" visible="false" />
+		<uint8 name="Padding 227" offset="0x1C3" visible="false" />
+		<uint8 name="Padding 228" offset="0x1C4" visible="false" />
+		<uint8 name="Padding 229" offset="0x1C5" visible="false" />
+		<uint8 name="Padding 230" offset="0x1C6" visible="false" />
+		<uint8 name="Padding 231" offset="0x1C7" visible="false" />
+		<uint8 name="Padding 232" offset="0x1C8" visible="false" />
+		<uint8 name="Padding 233" offset="0x1C9" visible="false" />
+		<uint8 name="Padding 234" offset="0x1CA" visible="false" />
+		<uint8 name="Padding 235" offset="0x1CB" visible="false" />
+		<uint8 name="Padding 236" offset="0x1CC" visible="false" />
+		<uint8 name="Padding 237" offset="0x1CD" visible="false" />
+		<uint8 name="Padding 238" offset="0x1CE" visible="false" />
+		<uint8 name="Padding 239" offset="0x1CF" visible="false" />
+		<uint8 name="Padding 240" offset="0x1D0" visible="false" />
+		<uint8 name="Padding 241" offset="0x1D1" visible="false" />
+		<uint8 name="Padding 242" offset="0x1D2" visible="false" />
+		<uint8 name="Padding 243" offset="0x1D3" visible="false" />
+		<uint8 name="Padding 244" offset="0x1D4" visible="false" />
+		<uint8 name="Padding 245" offset="0x1D5" visible="false" />
+		<uint8 name="Padding 246" offset="0x1D6" visible="false" />
+		<uint8 name="Padding 247" offset="0x1D7" visible="false" />
+		<uint8 name="Padding 248" offset="0x1D8" visible="false" />
+		<uint8 name="Padding 249" offset="0x1D9" visible="false" />
+		<uint8 name="Padding 250" offset="0x1DA" visible="false" />
+		<uint8 name="Padding 251" offset="0x1DB" visible="false" />
+		<uint8 name="Padding 252" offset="0x1DC" visible="false" />
+		<uint8 name="Padding 253" offset="0x1DD" visible="false" />
+		<uint8 name="Padding 254" offset="0x1DE" visible="false" />
+		<uint8 name="Padding 255" offset="0x1DF" visible="false" />
+		<uint8 name="Padding 256" offset="0x1E0" visible="false" />
+		<uint8 name="Padding 257" offset="0x1E1" visible="false" />
+		<uint8 name="Padding 258" offset="0x1E2" visible="false" />
+		<uint8 name="Padding 259" offset="0x1E3" visible="false" />
+		<uint8 name="Padding 260" offset="0x1E4" visible="false" />
+		<uint8 name="Padding 261" offset="0x1E5" visible="false" />
+		<uint8 name="Padding 262" offset="0x1E6" visible="false" />
+		<uint8 name="Padding 263" offset="0x1E7" visible="false" />
+		<uint8 name="Padding 264" offset="0x1E8" visible="false" />
+		<uint8 name="Padding 265" offset="0x1E9" visible="false" />
+		<uint8 name="Padding 266" offset="0x1EA" visible="false" />
+		<uint8 name="Padding 267" offset="0x1EB" visible="false" />
+		<uint8 name="Padding 268" offset="0x1EC" visible="false" />
+		<uint8 name="Padding 269" offset="0x1ED" visible="false" />
+		<uint8 name="Padding 270" offset="0x1EE" visible="false" />
+		<uint8 name="Padding 271" offset="0x1EF" visible="false" />
+		<uint8 name="Padding 272" offset="0x1F0" visible="false" />
+		<uint8 name="Padding 273" offset="0x1F1" visible="false" />
+		<uint8 name="Padding 274" offset="0x1F2" visible="false" />
+		<uint8 name="Padding 275" offset="0x1F3" visible="false" />
+		<uint8 name="Padding 276" offset="0x1F4" visible="false" />
+		<uint8 name="Padding 277" offset="0x1F5" visible="false" />
+		<uint8 name="Padding 278" offset="0x1F6" visible="false" />
+		<uint8 name="Padding 279" offset="0x1F7" visible="false" />
+		<uint8 name="Padding 280" offset="0x1F8" visible="false" />
+		<uint8 name="Padding 281" offset="0x1F9" visible="false" />
+		<uint8 name="Padding 282" offset="0x1FA" visible="false" />
+		<uint8 name="Padding 283" offset="0x1FB" visible="false" />
+		<uint8 name="Padding 284" offset="0x1FC" visible="false" />
+		<uint8 name="Padding 285" offset="0x1FD" visible="false" />
+		<uint8 name="Padding 286" offset="0x1FE" visible="false" />
+		<uint8 name="Padding 287" offset="0x1FF" visible="false" />
+		<uint8 name="Padding 288" offset="0x200" visible="false" />
+		<uint8 name="Padding 289" offset="0x201" visible="false" />
+		<uint8 name="Padding 290" offset="0x202" visible="false" />
+		<uint8 name="Padding 291" offset="0x203" visible="false" />
+		<uint8 name="Padding 292" offset="0x204" visible="false" />
+		<uint8 name="Padding 293" offset="0x205" visible="false" />
+		<uint8 name="Padding 294" offset="0x206" visible="false" />
+		<uint8 name="Padding 295" offset="0x207" visible="false" />
+		<uint8 name="Padding 296" offset="0x208" visible="false" />
+		<uint8 name="Padding 297" offset="0x209" visible="false" />
+		<uint8 name="Padding 298" offset="0x20A" visible="false" />
+		<uint8 name="Padding 299" offset="0x20B" visible="false" />
+		<uint8 name="Padding 300" offset="0x20C" visible="false" />
+		<uint8 name="Padding 301" offset="0x20D" visible="false" />
+		<uint8 name="Padding 302" offset="0x20E" visible="false" />
+		<uint8 name="Padding 303" offset="0x20F" visible="false" />
+		<uint8 name="Padding 304" offset="0x210" visible="false" />
+		<uint8 name="Padding 305" offset="0x211" visible="false" />
+		<uint8 name="Padding 306" offset="0x212" visible="false" />
+		<uint8 name="Padding 307" offset="0x213" visible="false" />
+		<uint8 name="Padding 308" offset="0x214" visible="false" />
+		<uint8 name="Padding 309" offset="0x215" visible="false" />
+		<uint8 name="Padding 310" offset="0x216" visible="false" />
+		<uint8 name="Padding 311" offset="0x217" visible="false" />
+		<uint8 name="Padding 312" offset="0x218" visible="false" />
+		<uint8 name="Padding 313" offset="0x219" visible="false" />
+		<uint8 name="Padding 314" offset="0x21A" visible="false" />
+		<uint8 name="Padding 315" offset="0x21B" visible="false" />
+		<uint8 name="Padding 316" offset="0x21C" visible="false" />
+		<uint8 name="Padding 317" offset="0x21D" visible="false" />
+		<uint8 name="Padding 318" offset="0x21E" visible="false" />
+		<uint8 name="Padding 319" offset="0x21F" visible="false" />
+		<uint8 name="Padding 320" offset="0x220" visible="false" />
+		<uint8 name="Padding 321" offset="0x221" visible="false" />
+		<uint8 name="Padding 322" offset="0x222" visible="false" />
+		<uint8 name="Padding 323" offset="0x223" visible="false" />
+		<uint8 name="Padding 324" offset="0x224" visible="false" />
+		<uint8 name="Padding 325" offset="0x225" visible="false" />
+		<uint8 name="Padding 326" offset="0x226" visible="false" />
+		<uint8 name="Padding 327" offset="0x227" visible="false" />
+		<uint8 name="Padding 328" offset="0x228" visible="false" />
+		<uint8 name="Padding 329" offset="0x229" visible="false" />
+		<uint8 name="Padding 330" offset="0x22A" visible="false" />
+		<uint8 name="Padding 331" offset="0x22B" visible="false" />
+		<uint8 name="Padding 332" offset="0x22C" visible="false" />
+		<uint8 name="Padding 333" offset="0x22D" visible="false" />
+		<uint8 name="Padding 334" offset="0x22E" visible="false" />
+		<uint8 name="Padding 335" offset="0x22F" visible="false" />
+		<uint8 name="Padding 336" offset="0x230" visible="false" />
+		<uint8 name="Padding 337" offset="0x231" visible="false" />
+		<uint8 name="Padding 338" offset="0x232" visible="false" />
+		<uint8 name="Padding 339" offset="0x233" visible="false" />
+		<uint8 name="Padding 340" offset="0x234" visible="false" />
+		<uint8 name="Padding 341" offset="0x235" visible="false" />
+		<uint8 name="Padding 342" offset="0x236" visible="false" />
+		<uint8 name="Padding 343" offset="0x237" visible="false" />
+		<uint8 name="Padding 344" offset="0x238" visible="false" />
+		<uint8 name="Padding 345" offset="0x239" visible="false" />
+		<uint8 name="Padding 346" offset="0x23A" visible="false" />
+		<uint8 name="Padding 347" offset="0x23B" visible="false" />
+		<uint8 name="Padding 348" offset="0x23C" visible="false" />
+		<uint8 name="Padding 349" offset="0x23D" visible="false" />
+		<uint8 name="Padding 350" offset="0x23E" visible="false" />
+		<uint8 name="Padding 351" offset="0x23F" visible="false" />
+		<uint8 name="Padding 352" offset="0x240" visible="false" />
+		<uint8 name="Padding 353" offset="0x241" visible="false" />
+		<uint8 name="Padding 354" offset="0x242" visible="false" />
+		<uint8 name="Padding 355" offset="0x243" visible="false" />
+		<uint8 name="Padding 356" offset="0x244" visible="false" />
+		<uint8 name="Padding 357" offset="0x245" visible="false" />
+		<uint8 name="Padding 358" offset="0x246" visible="false" />
+		<uint8 name="Padding 359" offset="0x247" visible="false" />
+		<uint8 name="Padding 360" offset="0x248" visible="false" />
+		<uint8 name="Padding 361" offset="0x249" visible="false" />
+		<uint8 name="Padding 362" offset="0x24A" visible="false" />
+		<uint8 name="Padding 363" offset="0x24B" visible="false" />
+		<uint8 name="Padding 364" offset="0x24C" visible="false" />
+		<uint8 name="Padding 365" offset="0x24D" visible="false" />
+		<uint8 name="Padding 366" offset="0x24E" visible="false" />
+		<uint8 name="Padding 367" offset="0x24F" visible="false" />
+		<uint8 name="Padding 368" offset="0x250" visible="false" />
+		<uint8 name="Padding 369" offset="0x251" visible="false" />
+		<uint8 name="Padding 370" offset="0x252" visible="false" />
+		<uint8 name="Padding 371" offset="0x253" visible="false" />
+		<uint8 name="Padding 372" offset="0x254" visible="false" />
+		<uint8 name="Padding 373" offset="0x255" visible="false" />
+		<uint8 name="Padding 374" offset="0x256" visible="false" />
+		<uint8 name="Padding 375" offset="0x257" visible="false" />
+		<uint8 name="Padding 376" offset="0x258" visible="false" />
+		<uint8 name="Padding 377" offset="0x259" visible="false" />
+		<uint8 name="Padding 378" offset="0x25A" visible="false" />
+		<uint8 name="Padding 379" offset="0x25B" visible="false" />
+		<uint8 name="Padding 380" offset="0x25C" visible="false" />
+		<uint8 name="Padding 381" offset="0x25D" visible="false" />
+		<uint8 name="Padding 382" offset="0x25E" visible="false" />
+		<uint8 name="Padding 383" offset="0x25F" visible="false" />
+		<uint8 name="Padding 384" offset="0x260" visible="false" />
+		<uint8 name="Padding 385" offset="0x261" visible="false" />
+		<uint8 name="Padding 386" offset="0x262" visible="false" />
+		<uint8 name="Padding 387" offset="0x263" visible="false" />
+		<uint8 name="Padding 388" offset="0x264" visible="false" />
+		<uint8 name="Padding 389" offset="0x265" visible="false" />
+		<uint8 name="Padding 390" offset="0x266" visible="false" />
+		<uint8 name="Padding 391" offset="0x267" visible="false" />
+		<uint8 name="Padding 392" offset="0x268" visible="false" />
+		<uint8 name="Padding 393" offset="0x269" visible="false" />
+		<uint8 name="Padding 394" offset="0x26A" visible="false" />
+		<uint8 name="Padding 395" offset="0x26B" visible="false" />
+		<uint8 name="Padding 396" offset="0x26C" visible="false" />
+		<uint8 name="Padding 397" offset="0x26D" visible="false" />
+		<uint8 name="Padding 398" offset="0x26E" visible="false" />
+		<uint8 name="Padding 399" offset="0x26F" visible="false" />
+		<uint8 name="Padding 400" offset="0x270" visible="false" />
+		<uint8 name="Padding 401" offset="0x271" visible="false" />
+		<uint8 name="Padding 402" offset="0x272" visible="false" />
+		<uint8 name="Padding 403" offset="0x273" visible="false" />
+		<uint8 name="Padding 404" offset="0x274" visible="false" />
+		<uint8 name="Padding 405" offset="0x275" visible="false" />
+		<uint8 name="Padding 406" offset="0x276" visible="false" />
+		<uint8 name="Padding 407" offset="0x277" visible="false" />
+		<uint8 name="Padding 408" offset="0x278" visible="false" />
+		<uint8 name="Padding 409" offset="0x279" visible="false" />
+		<uint8 name="Padding 410" offset="0x27A" visible="false" />
+		<uint8 name="Padding 411" offset="0x27B" visible="false" />
+		<uint8 name="Padding 412" offset="0x27C" visible="false" />
+		<uint8 name="Padding 413" offset="0x27D" visible="false" />
+		<uint8 name="Padding 414" offset="0x27E" visible="false" />
+		<uint8 name="Padding 415" offset="0x27F" visible="false" />
+		<uint8 name="Padding 416" offset="0x280" visible="false" />
+		<uint8 name="Padding 417" offset="0x281" visible="false" />
+		<uint8 name="Padding 418" offset="0x282" visible="false" />
+		<uint8 name="Padding 419" offset="0x283" visible="false" />
+		<uint8 name="Padding 420" offset="0x284" visible="false" />
+		<uint8 name="Padding 421" offset="0x285" visible="false" />
+		<uint8 name="Padding 422" offset="0x286" visible="false" />
+		<uint8 name="Padding 423" offset="0x287" visible="false" />
+		<uint8 name="Padding 424" offset="0x288" visible="false" />
+		<uint8 name="Padding 425" offset="0x289" visible="false" />
+		<uint8 name="Padding 426" offset="0x28A" visible="false" />
+		<uint8 name="Padding 427" offset="0x28B" visible="false" />
+		<uint8 name="Padding 428" offset="0x28C" visible="false" />
+		<uint8 name="Padding 429" offset="0x28D" visible="false" />
+		<uint8 name="Padding 430" offset="0x28E" visible="false" />
+		<uint8 name="Padding 431" offset="0x28F" visible="false" />
+		<uint8 name="Padding 432" offset="0x290" visible="false" />
+		<uint8 name="Padding 433" offset="0x291" visible="false" />
+		<uint8 name="Padding 434" offset="0x292" visible="false" />
+		<uint8 name="Padding 435" offset="0x293" visible="false" />
+		<uint8 name="Padding 436" offset="0x294" visible="false" />
+		<uint8 name="Padding 437" offset="0x295" visible="false" />
+		<uint8 name="Padding 438" offset="0x296" visible="false" />
+		<uint8 name="Padding 439" offset="0x297" visible="false" />
+		<uint8 name="Padding 440" offset="0x298" visible="false" />
+		<uint8 name="Padding 441" offset="0x299" visible="false" />
+		<uint8 name="Padding 442" offset="0x29A" visible="false" />
+		<uint8 name="Padding 443" offset="0x29B" visible="false" />
+		<uint8 name="Padding 444" offset="0x29C" visible="false" />
+		<uint8 name="Padding 445" offset="0x29D" visible="false" />
+		<uint8 name="Padding 446" offset="0x29E" visible="false" />
+		<uint8 name="Padding 447" offset="0x29F" visible="false" />
+		<uint8 name="Padding 448" offset="0x2A0" visible="false" />
+		<uint8 name="Padding 449" offset="0x2A1" visible="false" />
+		<uint8 name="Padding 450" offset="0x2A2" visible="false" />
+		<uint8 name="Padding 451" offset="0x2A3" visible="false" />
+		<uint8 name="Padding 452" offset="0x2A4" visible="false" />
+		<uint8 name="Padding 453" offset="0x2A5" visible="false" />
+		<uint8 name="Padding 454" offset="0x2A6" visible="false" />
+		<uint8 name="Padding 455" offset="0x2A7" visible="false" />
+		<uint8 name="Padding 456" offset="0x2A8" visible="false" />
+		<uint8 name="Padding 457" offset="0x2A9" visible="false" />
+		<uint8 name="Padding 458" offset="0x2AA" visible="false" />
+		<uint8 name="Padding 459" offset="0x2AB" visible="false" />
+		<uint8 name="Padding 460" offset="0x2AC" visible="false" />
+		<uint8 name="Padding 461" offset="0x2AD" visible="false" />
+		<uint8 name="Padding 462" offset="0x2AE" visible="false" />
+		<uint8 name="Padding 463" offset="0x2AF" visible="false" />
+		<uint8 name="Padding 464" offset="0x2B0" visible="false" />
+		<uint8 name="Padding 465" offset="0x2B1" visible="false" />
+		<uint8 name="Padding 466" offset="0x2B2" visible="false" />
+		<uint8 name="Padding 467" offset="0x2B3" visible="false" />
+		<uint8 name="Padding 468" offset="0x2B4" visible="false" />
+		<uint8 name="Padding 469" offset="0x2B5" visible="false" />
+		<uint8 name="Padding 470" offset="0x2B6" visible="false" />
+		<uint8 name="Padding 471" offset="0x2B7" visible="false" />
+		<uint8 name="Padding 472" offset="0x2B8" visible="false" />
+		<uint8 name="Padding 473" offset="0x2B9" visible="false" />
+		<uint8 name="Padding 474" offset="0x2BA" visible="false" />
+		<uint8 name="Padding 475" offset="0x2BB" visible="false" />
+		<uint8 name="Padding 476" offset="0x2BC" visible="false" />
+		<uint8 name="Padding 477" offset="0x2BD" visible="false" />
+		<uint8 name="Padding 478" offset="0x2BE" visible="false" />
+		<uint8 name="Padding 479" offset="0x2BF" visible="false" />
+		<uint8 name="Padding 480" offset="0x2C0" visible="false" />
+		<uint8 name="Padding 481" offset="0x2C1" visible="false" />
+		<uint8 name="Padding 482" offset="0x2C2" visible="false" />
+		<uint8 name="Padding 483" offset="0x2C3" visible="false" />
+		<uint8 name="Padding 484" offset="0x2C4" visible="false" />
+		<uint8 name="Padding 485" offset="0x2C5" visible="false" />
+		<uint8 name="Padding 486" offset="0x2C6" visible="false" />
+		<uint8 name="Padding 487" offset="0x2C7" visible="false" />
+		<uint8 name="Padding 488" offset="0x2C8" visible="false" />
+		<uint8 name="Padding 489" offset="0x2C9" visible="false" />
+		<uint8 name="Padding 490" offset="0x2CA" visible="false" />
+		<uint8 name="Padding 491" offset="0x2CB" visible="false" />
+		<uint8 name="Padding 492" offset="0x2CC" visible="false" />
+		<uint8 name="Padding 493" offset="0x2CD" visible="false" />
+		<uint8 name="Padding 494" offset="0x2CE" visible="false" />
+		<uint8 name="Padding 495" offset="0x2CF" visible="false" />
+		<uint8 name="Padding 496" offset="0x2D0" visible="false" />
+		<uint8 name="Padding 497" offset="0x2D1" visible="false" />
+		<uint8 name="Padding 498" offset="0x2D2" visible="false" />
+		<uint8 name="Padding 499" offset="0x2D3" visible="false" />
+		<uint8 name="Padding 500" offset="0x2D4" visible="false" />
+		<uint8 name="Padding 501" offset="0x2D5" visible="false" />
+		<uint8 name="Padding 502" offset="0x2D6" visible="false" />
+		<uint8 name="Padding 503" offset="0x2D7" visible="false" />
+		<uint8 name="Padding 504" offset="0x2D8" visible="false" />
+		<uint8 name="Padding 505" offset="0x2D9" visible="false" />
+		<uint8 name="Padding 506" offset="0x2DA" visible="false" />
+		<uint8 name="Padding 507" offset="0x2DB" visible="false" />
+		<uint8 name="Padding 508" offset="0x2DC" visible="false" />
+		<uint8 name="Padding 509" offset="0x2DD" visible="false" />
+		<uint8 name="Padding 510" offset="0x2DE" visible="false" />
+		<uint8 name="Padding 511" offset="0x2DF" visible="false" />
+		<uint8 name="Padding 512" offset="0x2E0" visible="false" />
+		<uint8 name="Padding 513" offset="0x2E1" visible="false" />
+		<uint8 name="Padding 514" offset="0x2E2" visible="false" />
+		<uint8 name="Padding 515" offset="0x2E3" visible="false" />
+		<uint8 name="Padding 516" offset="0x2E4" visible="false" />
+		<uint8 name="Padding 517" offset="0x2E5" visible="false" />
+		<uint8 name="Padding 518" offset="0x2E6" visible="false" />
+		<uint8 name="Padding 519" offset="0x2E7" visible="false" />
+		<uint8 name="Padding 520" offset="0x2E8" visible="false" />
+		<uint8 name="Padding 521" offset="0x2E9" visible="false" />
+		<uint8 name="Padding 522" offset="0x2EA" visible="false" />
+		<uint8 name="Padding 523" offset="0x2EB" visible="false" />
+		<uint8 name="Padding 524" offset="0x2EC" visible="false" />
+		<uint8 name="Padding 525" offset="0x2ED" visible="false" />
+		<uint8 name="Padding 526" offset="0x2EE" visible="false" />
+		<uint8 name="Padding 527" offset="0x2EF" visible="false" />
+		<uint8 name="Padding 528" offset="0x2F0" visible="false" />
+		<uint8 name="Padding 529" offset="0x2F1" visible="false" />
+		<uint8 name="Padding 530" offset="0x2F2" visible="false" />
+		<uint8 name="Padding 531" offset="0x2F3" visible="false" />
+		<uint8 name="Padding 532" offset="0x2F4" visible="false" />
+		<uint8 name="Padding 533" offset="0x2F5" visible="false" />
+		<uint8 name="Padding 534" offset="0x2F6" visible="false" />
+		<uint8 name="Padding 535" offset="0x2F7" visible="false" />
+		<uint8 name="Padding 536" offset="0x2F8" visible="false" />
+		<uint8 name="Padding 537" offset="0x2F9" visible="false" />
+		<uint8 name="Padding 538" offset="0x2FA" visible="false" />
+		<uint8 name="Padding 539" offset="0x2FB" visible="false" />
+		<uint8 name="Padding 540" offset="0x2FC" visible="false" />
+		<uint8 name="Padding 541" offset="0x2FD" visible="false" />
+		<uint8 name="Padding 542" offset="0x2FE" visible="false" />
+		<uint8 name="Padding 543" offset="0x2FF" visible="false" />
+		<uint8 name="Padding 544" offset="0x300" visible="false" />
+		<uint8 name="Padding 545" offset="0x301" visible="false" />
+		<uint8 name="Padding 546" offset="0x302" visible="false" />
+		<uint8 name="Padding 547" offset="0x303" visible="false" />
+		<uint8 name="Padding 548" offset="0x304" visible="false" />
+		<uint8 name="Padding 549" offset="0x305" visible="false" />
+		<uint8 name="Padding 550" offset="0x306" visible="false" />
+		<uint8 name="Padding 551" offset="0x307" visible="false" />
+		<uint8 name="Padding 552" offset="0x308" visible="false" />
+		<uint8 name="Padding 553" offset="0x309" visible="false" />
+		<uint8 name="Padding 554" offset="0x30A" visible="false" />
+		<uint8 name="Padding 555" offset="0x30B" visible="false" />
+		<uint8 name="Padding 556" offset="0x30C" visible="false" />
+		<uint8 name="Padding 557" offset="0x30D" visible="false" />
+		<uint8 name="Padding 558" offset="0x30E" visible="false" />
+		<uint8 name="Padding 559" offset="0x30F" visible="false" />
+		<uint8 name="Padding 560" offset="0x310" visible="false" />
+		<uint8 name="Padding 561" offset="0x311" visible="false" />
+		<uint8 name="Padding 562" offset="0x312" visible="false" />
+		<uint8 name="Padding 563" offset="0x313" visible="false" />
+		<uint8 name="Padding 564" offset="0x314" visible="false" />
+		<uint8 name="Padding 565" offset="0x315" visible="false" />
+		<uint8 name="Padding 566" offset="0x316" visible="false" />
+		<uint8 name="Padding 567" offset="0x317" visible="false" />
+		<uint8 name="Padding 568" offset="0x318" visible="false" />
+		<uint8 name="Padding 569" offset="0x319" visible="false" />
+		<uint8 name="Padding 570" offset="0x31A" visible="false" />
+		<uint8 name="Padding 571" offset="0x31B" visible="false" />
+		<uint8 name="Padding 572" offset="0x31C" visible="false" />
+		<uint8 name="Padding 573" offset="0x31D" visible="false" />
+		<uint8 name="Padding 574" offset="0x31E" visible="false" />
+		<uint8 name="Padding 575" offset="0x31F" visible="false" />
+		<uint8 name="Padding 576" offset="0x320" visible="false" />
+		<uint8 name="Padding 577" offset="0x321" visible="false" />
+		<uint8 name="Padding 578" offset="0x322" visible="false" />
+		<uint8 name="Padding 579" offset="0x323" visible="false" />
+		<uint8 name="Padding 580" offset="0x324" visible="false" />
+		<uint8 name="Padding 581" offset="0x325" visible="false" />
+		<uint8 name="Padding 582" offset="0x326" visible="false" />
+		<uint8 name="Padding 583" offset="0x327" visible="false" />
+		<uint8 name="Padding 584" offset="0x328" visible="false" />
+		<uint8 name="Padding 585" offset="0x329" visible="false" />
+		<uint8 name="Padding 586" offset="0x32A" visible="false" />
+		<uint8 name="Padding 587" offset="0x32B" visible="false" />
+		<uint8 name="Padding 588" offset="0x32C" visible="false" />
+		<uint8 name="Padding 589" offset="0x32D" visible="false" />
+		<uint8 name="Padding 590" offset="0x32E" visible="false" />
+		<uint8 name="Padding 591" offset="0x32F" visible="false" />
+		<uint8 name="Padding 592" offset="0x330" visible="false" />
+		<uint8 name="Padding 593" offset="0x331" visible="false" />
+		<uint8 name="Padding 594" offset="0x332" visible="false" />
+		<uint8 name="Padding 595" offset="0x333" visible="false" />
+		<uint8 name="Padding 596" offset="0x334" visible="false" />
+		<uint8 name="Padding 597" offset="0x335" visible="false" />
+		<uint8 name="Padding 598" offset="0x336" visible="false" />
+		<uint8 name="Padding 599" offset="0x337" visible="false" />
+		<uint8 name="Padding 600" offset="0x338" visible="false" />
+		<uint8 name="Padding 601" offset="0x339" visible="false" />
+		<uint8 name="Padding 602" offset="0x33A" visible="false" />
+		<uint8 name="Padding 603" offset="0x33B" visible="false" />
+		<uint8 name="Padding 604" offset="0x33C" visible="false" />
+		<uint8 name="Padding 605" offset="0x33D" visible="false" />
+		<uint8 name="Padding 606" offset="0x33E" visible="false" />
+		<uint8 name="Padding 607" offset="0x33F" visible="false" />
+		<uint8 name="Padding 608" offset="0x340" visible="false" />
+		<uint8 name="Padding 609" offset="0x341" visible="false" />
+		<uint8 name="Padding 610" offset="0x342" visible="false" />
+		<uint8 name="Padding 611" offset="0x343" visible="false" />
+		<uint8 name="Padding 612" offset="0x344" visible="false" />
+		<uint8 name="Padding 613" offset="0x345" visible="false" />
+		<uint8 name="Padding 614" offset="0x346" visible="false" />
+		<uint8 name="Padding 615" offset="0x347" visible="false" />
+		<uint8 name="Padding 616" offset="0x348" visible="false" />
+		<uint8 name="Padding 617" offset="0x349" visible="false" />
+		<uint8 name="Padding 618" offset="0x34A" visible="false" />
+		<uint8 name="Padding 619" offset="0x34B" visible="false" />
+		<uint8 name="Padding 620" offset="0x34C" visible="false" />
+		<uint8 name="Padding 621" offset="0x34D" visible="false" />
+		<uint8 name="Padding 622" offset="0x34E" visible="false" />
+		<uint8 name="Padding 623" offset="0x34F" visible="false" />
+		<uint8 name="Padding 624" offset="0x350" visible="false" />
+		<uint8 name="Padding 625" offset="0x351" visible="false" />
+		<uint8 name="Padding 626" offset="0x352" visible="false" />
+		<uint8 name="Padding 627" offset="0x353" visible="false" />
+		<uint8 name="Padding 628" offset="0x354" visible="false" />
+		<uint8 name="Padding 629" offset="0x355" visible="false" />
+		<uint8 name="Padding 630" offset="0x356" visible="false" />
+		<uint8 name="Padding 631" offset="0x357" visible="false" />
+		<uint8 name="Padding 632" offset="0x358" visible="false" />
+		<uint8 name="Padding 633" offset="0x359" visible="false" />
+		<uint8 name="Padding 634" offset="0x35A" visible="false" />
+		<uint8 name="Padding 635" offset="0x35B" visible="false" />
+		<uint8 name="Padding 636" offset="0x35C" visible="false" />
+		<uint8 name="Padding 637" offset="0x35D" visible="false" />
+		<uint8 name="Padding 638" offset="0x35E" visible="false" />
+		<uint8 name="Padding 639" offset="0x35F" visible="false" />
+		<uint8 name="Padding 640" offset="0x360" visible="false" />
+		<uint8 name="Padding 641" offset="0x361" visible="false" />
+		<uint8 name="Padding 642" offset="0x362" visible="false" />
+		<uint8 name="Padding 643" offset="0x363" visible="false" />
+		<uint8 name="Padding 644" offset="0x364" visible="false" />
+		<uint8 name="Padding 645" offset="0x365" visible="false" />
+		<uint8 name="Padding 646" offset="0x366" visible="false" />
+		<uint8 name="Padding 647" offset="0x367" visible="false" />
+		<uint8 name="Padding 648" offset="0x368" visible="false" />
+		<uint8 name="Padding 649" offset="0x369" visible="false" />
+		<uint8 name="Padding 650" offset="0x36A" visible="false" />
+		<uint8 name="Padding 651" offset="0x36B" visible="false" />
+		<uint8 name="Padding 652" offset="0x36C" visible="false" />
+		<uint8 name="Padding 653" offset="0x36D" visible="false" />
+		<uint8 name="Padding 654" offset="0x36E" visible="false" />
+		<uint8 name="Padding 655" offset="0x36F" visible="false" />
+		<uint8 name="Padding 656" offset="0x370" visible="false" />
+		<uint8 name="Padding 657" offset="0x371" visible="false" />
+		<uint8 name="Padding 658" offset="0x372" visible="false" />
+		<uint8 name="Padding 659" offset="0x373" visible="false" />
+		<uint8 name="Padding 660" offset="0x374" visible="false" />
+		<uint8 name="Padding 661" offset="0x375" visible="false" />
+		<uint8 name="Padding 662" offset="0x376" visible="false" />
+		<uint8 name="Padding 663" offset="0x377" visible="false" />
+		<uint8 name="Padding 664" offset="0x378" visible="false" />
+		<uint8 name="Padding 665" offset="0x379" visible="false" />
+		<uint8 name="Padding 666" offset="0x37A" visible="false" />
+		<uint8 name="Padding 667" offset="0x37B" visible="false" />
+		<uint8 name="Padding 668" offset="0x37C" visible="false" />
+		<uint8 name="Padding 669" offset="0x37D" visible="false" />
+		<uint8 name="Padding 670" offset="0x37E" visible="false" />
+		<uint8 name="Padding 671" offset="0x37F" visible="false" />
+		<uint8 name="Padding 672" offset="0x380" visible="false" />
+		<uint8 name="Padding 673" offset="0x381" visible="false" />
+		<uint8 name="Padding 674" offset="0x382" visible="false" />
+		<uint8 name="Padding 675" offset="0x383" visible="false" />
+		<uint8 name="Padding 676" offset="0x384" visible="false" />
+		<uint8 name="Padding 677" offset="0x385" visible="false" />
+		<uint8 name="Padding 678" offset="0x386" visible="false" />
+		<uint8 name="Padding 679" offset="0x387" visible="false" />
+		<uint8 name="Padding 680" offset="0x388" visible="false" />
+		<uint8 name="Padding 681" offset="0x389" visible="false" />
+		<uint8 name="Padding 682" offset="0x38A" visible="false" />
+		<uint8 name="Padding 683" offset="0x38B" visible="false" />
+		<uint8 name="Padding 684" offset="0x38C" visible="false" />
+		<uint8 name="Padding 685" offset="0x38D" visible="false" />
+		<uint8 name="Padding 686" offset="0x38E" visible="false" />
+		<uint8 name="Padding 687" offset="0x38F" visible="false" />
+		<uint8 name="Padding 688" offset="0x390" visible="false" />
+		<uint8 name="Padding 689" offset="0x391" visible="false" />
+		<uint8 name="Padding 690" offset="0x392" visible="false" />
+		<uint8 name="Padding 691" offset="0x393" visible="false" />
+		<uint8 name="Padding 692" offset="0x394" visible="false" />
+		<uint8 name="Padding 693" offset="0x395" visible="false" />
+		<uint8 name="Padding 694" offset="0x396" visible="false" />
+		<uint8 name="Padding 695" offset="0x397" visible="false" />
+		<uint8 name="Padding 696" offset="0x398" visible="false" />
+		<uint8 name="Padding 697" offset="0x399" visible="false" />
+		<uint8 name="Padding 698" offset="0x39A" visible="false" />
+		<uint8 name="Padding 699" offset="0x39B" visible="false" />
+		<uint8 name="Padding 700" offset="0x39C" visible="false" />
+		<uint8 name="Padding 701" offset="0x39D" visible="false" />
+		<uint8 name="Padding 702" offset="0x39E" visible="false" />
+		<uint8 name="Padding 703" offset="0x39F" visible="false" />
+		<uint8 name="Padding 704" offset="0x3A0" visible="false" />
+		<uint8 name="Padding 705" offset="0x3A1" visible="false" />
+		<uint8 name="Padding 706" offset="0x3A2" visible="false" />
+		<uint8 name="Padding 707" offset="0x3A3" visible="false" />
+		<uint8 name="Padding 708" offset="0x3A4" visible="false" />
+		<uint8 name="Padding 709" offset="0x3A5" visible="false" />
+		<uint8 name="Padding 710" offset="0x3A6" visible="false" />
+		<uint8 name="Padding 711" offset="0x3A7" visible="false" />
+		<uint8 name="Padding 712" offset="0x3A8" visible="false" />
+		<uint8 name="Padding 713" offset="0x3A9" visible="false" />
+		<uint8 name="Padding 714" offset="0x3AA" visible="false" />
+		<uint8 name="Padding 715" offset="0x3AB" visible="false" />
+		<uint8 name="Padding 716" offset="0x3AC" visible="false" />
+		<uint8 name="Padding 717" offset="0x3AD" visible="false" />
+		<uint8 name="Padding 718" offset="0x3AE" visible="false" />
+		<uint8 name="Padding 719" offset="0x3AF" visible="false" />
+		<uint8 name="Padding 720" offset="0x3B0" visible="false" />
+		<uint8 name="Padding 721" offset="0x3B1" visible="false" />
+		<uint8 name="Padding 722" offset="0x3B2" visible="false" />
+		<uint8 name="Padding 723" offset="0x3B3" visible="false" />
+		<uint8 name="Padding 724" offset="0x3B4" visible="false" />
+		<uint8 name="Padding 725" offset="0x3B5" visible="false" />
+		<uint8 name="Padding 726" offset="0x3B6" visible="false" />
+		<uint8 name="Padding 727" offset="0x3B7" visible="false" />
+		<uint8 name="Padding 728" offset="0x3B8" visible="false" />
+		<uint8 name="Padding 729" offset="0x3B9" visible="false" />
+		<uint8 name="Padding 730" offset="0x3BA" visible="false" />
+		<uint8 name="Padding 731" offset="0x3BB" visible="false" />
+		<uint8 name="Padding 732" offset="0x3BC" visible="false" />
+		<uint8 name="Padding 733" offset="0x3BD" visible="false" />
+		<uint8 name="Padding 734" offset="0x3BE" visible="false" />
+		<uint8 name="Padding 735" offset="0x3BF" visible="false" />
+	</tagblock>
+	<float32 name="Wind Model / Wind Tiling Scale" offset="0x18" visible="true" />
+	<vector3 name="Wind Model / Wind Primary Heading Pitch Strength" offset="0x1C" visible="true" />
+	<float32 name="Wind Model / Primary Rate Of Change" offset="0x28" visible="true" />
+	<float32 name="Wind Model / Primary Min Strength" offset="0x2C" visible="true" />
+	<uint8 name="Wind Model / Padding 0" offset="0x30" visible="false" />
+	<uint8 name="Wind Model / Padding 1" offset="0x31" visible="false" />
+	<uint8 name="Wind Model / Padding 2" offset="0x32" visible="false" />
+	<uint8 name="Wind Model / Padding 3" offset="0x33" visible="false" />
+	<uint8 name="Wind Model / Padding1 0" offset="0x34" visible="false" />
+	<uint8 name="Wind Model / Padding1 1" offset="0x35" visible="false" />
+	<uint8 name="Wind Model / Padding1 2" offset="0x36" visible="false" />
+	<uint8 name="Wind Model / Padding1 3" offset="0x37" visible="false" />
+	<uint8 name="Wind Model / Padding2 0" offset="0x38" visible="false" />
+	<uint8 name="Wind Model / Padding2 1" offset="0x39" visible="false" />
+	<uint8 name="Wind Model / Padding2 2" offset="0x3A" visible="false" />
+	<uint8 name="Wind Model / Padding2 3" offset="0x3B" visible="false" />
+	<uint8 name="Wind Model / Padding2 4" offset="0x3C" visible="false" />
+	<uint8 name="Wind Model / Padding2 5" offset="0x3D" visible="false" />
+	<uint8 name="Wind Model / Padding2 6" offset="0x3E" visible="false" />
+	<uint8 name="Wind Model / Padding2 7" offset="0x3F" visible="false" />
+	<uint8 name="Wind Model / Padding2 8" offset="0x40" visible="false" />
+	<uint8 name="Wind Model / Padding2 9" offset="0x41" visible="false" />
+	<uint8 name="Wind Model / Padding2 10" offset="0x42" visible="false" />
+	<uint8 name="Wind Model / Padding2 11" offset="0x43" visible="false" />
+	<vector3 name="Wind Model / Wind Gusting Heading Pitch Strength" offset="0x44" visible="true" />
+	<float32 name="Wind Model / Gust Diretional Rate Of Change" offset="0x50" visible="true" />
+	<float32 name="Wind Model / Gust Strength Rate Of Change" offset="0x54" visible="true" />
+	<float32 name="Wind Model / Gust Cone Angle" offset="0x58" visible="true" />
+	<uint8 name="Wind Model / Padding3 0" offset="0x5C" visible="false" />
+	<uint8 name="Wind Model / Padding3 1" offset="0x5D" visible="false" />
+	<uint8 name="Wind Model / Padding3 2" offset="0x5E" visible="false" />
+	<uint8 name="Wind Model / Padding3 3" offset="0x5F" visible="false" />
+	<uint8 name="Wind Model / Padding4 0" offset="0x60" visible="false" />
+	<uint8 name="Wind Model / Padding4 1" offset="0x61" visible="false" />
+	<uint8 name="Wind Model / Padding4 2" offset="0x62" visible="false" />
+	<uint8 name="Wind Model / Padding4 3" offset="0x63" visible="false" />
+	<uint8 name="Wind Model / Padding5 0" offset="0x64" visible="false" />
+	<uint8 name="Wind Model / Padding5 1" offset="0x65" visible="false" />
+	<uint8 name="Wind Model / Padding5 2" offset="0x66" visible="false" />
+	<uint8 name="Wind Model / Padding5 3" offset="0x67" visible="false" />
+	<uint8 name="Wind Model / Padding5 4" offset="0x68" visible="false" />
+	<uint8 name="Wind Model / Padding5 5" offset="0x69" visible="false" />
+	<uint8 name="Wind Model / Padding5 6" offset="0x6A" visible="false" />
+	<uint8 name="Wind Model / Padding5 7" offset="0x6B" visible="false" />
+	<uint8 name="Wind Model / Padding5 8" offset="0x6C" visible="false" />
+	<uint8 name="Wind Model / Padding5 9" offset="0x6D" visible="false" />
+	<uint8 name="Wind Model / Padding5 10" offset="0x6E" visible="false" />
+	<uint8 name="Wind Model / Padding5 11" offset="0x6F" visible="false" />
+	<uint8 name="Wind Model / Padding6 0" offset="0x70" visible="false" />
+	<uint8 name="Wind Model / Padding6 1" offset="0x71" visible="false" />
+	<uint8 name="Wind Model / Padding6 2" offset="0x72" visible="false" />
+	<uint8 name="Wind Model / Padding6 3" offset="0x73" visible="false" />
+	<uint8 name="Wind Model / Padding6 4" offset="0x74" visible="false" />
+	<uint8 name="Wind Model / Padding6 5" offset="0x75" visible="false" />
+	<uint8 name="Wind Model / Padding6 6" offset="0x76" visible="false" />
+	<uint8 name="Wind Model / Padding6 7" offset="0x77" visible="false" />
+	<uint8 name="Wind Model / Padding6 8" offset="0x78" visible="false" />
+	<uint8 name="Wind Model / Padding6 9" offset="0x79" visible="false" />
+	<uint8 name="Wind Model / Padding6 10" offset="0x7A" visible="false" />
+	<uint8 name="Wind Model / Padding6 11" offset="0x7B" visible="false" />
+	<uint8 name="Wind Model / Padding7 0" offset="0x7C" visible="false" />
+	<uint8 name="Wind Model / Padding7 1" offset="0x7D" visible="false" />
+	<uint8 name="Wind Model / Padding7 2" offset="0x7E" visible="false" />
+	<uint8 name="Wind Model / Padding7 3" offset="0x7F" visible="false" />
+	<uint8 name="Wind Model / Padding7 4" offset="0x80" visible="false" />
+	<uint8 name="Wind Model / Padding7 5" offset="0x81" visible="false" />
+	<uint8 name="Wind Model / Padding7 6" offset="0x82" visible="false" />
+	<uint8 name="Wind Model / Padding7 7" offset="0x83" visible="false" />
+	<uint8 name="Wind Model / Padding7 8" offset="0x84" visible="false" />
+	<uint8 name="Wind Model / Padding7 9" offset="0x85" visible="false" />
+	<uint8 name="Wind Model / Padding7 10" offset="0x86" visible="false" />
+	<uint8 name="Wind Model / Padding7 11" offset="0x87" visible="false" />
+	<uint8 name="Wind Model / Padding8 0" offset="0x88" visible="false" />
+	<uint8 name="Wind Model / Padding8 1" offset="0x89" visible="false" />
+	<uint8 name="Wind Model / Padding8 2" offset="0x8A" visible="false" />
+	<uint8 name="Wind Model / Padding8 3" offset="0x8B" visible="false" />
+	<uint8 name="Wind Model / Padding8 4" offset="0x8C" visible="false" />
+	<uint8 name="Wind Model / Padding8 5" offset="0x8D" visible="false" />
+	<uint8 name="Wind Model / Padding8 6" offset="0x8E" visible="false" />
+	<uint8 name="Wind Model / Padding8 7" offset="0x8F" visible="false" />
+	<uint8 name="Wind Model / Padding8 8" offset="0x90" visible="false" />
+	<uint8 name="Wind Model / Padding8 9" offset="0x91" visible="false" />
+	<uint8 name="Wind Model / Padding8 10" offset="0x92" visible="false" />
+	<uint8 name="Wind Model / Padding8 11" offset="0x93" visible="false" />
+	<float32 name="Wind Model / Turbulance Rate Of Change" offset="0x94" visible="true" />
+	<vector3 name="Wind Model / Turbulence Scale XYZ" offset="0x98" visible="true" />
+	<float32 name="Wind Model / Gravity Constant" offset="0xA4" visible="true" />
+	<tagblock name="Wind Model / Wind Pirmitives" offset="0xA8" visible="true" elementSize="0x18">
+		<vector3 name="Position" offset="0x0" visible="true" />
+		<float32 name="Radius" offset="0xC" visible="true" />
+		<float32 name="Strength" offset="0x10" visible="true" />
+		<enum16 name="Wind Primitive Type" offset="0x14" visible="true">
+			<option name="Vortex" value="0" />
+			<option name="Gust" value="1" />
+			<option name="Implosion" value="2" />
+			<option name="Explosion" value="3" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x16" visible="false" />
+		<uint8 name="Padding 1" offset="0x17" visible="false" />
+	</tagblock>
+	<uint8 name="Wind Model / Padding9 0" offset="0xB4" visible="false" />
+	<uint8 name="Wind Model / Padding9 1" offset="0xB5" visible="false" />
+	<uint8 name="Wind Model / Padding9 2" offset="0xB6" visible="false" />
+	<uint8 name="Wind Model / Padding9 3" offset="0xB7" visible="false" />
+	<float32 name="Fade Radius" offset="0xB4" visible="true" />
+</plugin>

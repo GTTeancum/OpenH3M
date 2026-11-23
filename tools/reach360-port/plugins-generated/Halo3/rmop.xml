@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.RenderMethodOption (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Parameters" offset="0x0" visible="true" elementSize="0x48">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<enum32 name="Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<enum32 name="Render Method Extern" offset="0x8" visible="true">
+			<option name="none" value="0" />
+			<option name="texture_global_target_texaccum" value="1" />
+			<option name="texture_global_target_normal" value="2" />
+			<option name="texture_global_target_z" value="3" />
+			<option name="texture_global_target_shadow_buffer1" value="4" />
+			<option name="texture_global_target_shadow_buffer2" value="5" />
+			<option name="texture_global_target_shadow_buffer3" value="6" />
+			<option name="texture_global_target_shadow_buffer4" value="7" />
+			<option name="texture_global_target_texture_camera" value="8" />
+			<option name="texture_global_target_reflection" value="9" />
+			<option name="texture_global_target_refraction" value="10" />
+			<option name="texture_lightprobe_texture" value="11" />
+			<option name="texture_dominant_light_intensity_map" value="12" />
+			<option name="texture_unused1" value="13" />
+			<option name="texture_unused2" value="14" />
+			<option name="object_change_color_primary" value="15" />
+			<option name="object_change_color_secondary" value="16" />
+			<option name="object_change_color_tertiary" value="17" />
+			<option name="object_change_color_quaternary" value="18" />
+			<option name="object_change_color_quinary" value="19" />
+			<option name="object_change_color_primary_anim" value="20" />
+			<option name="object_change_color_secondary_anim" value="21" />
+			<option name="texture_dynamic_environment_map_0" value="22" />
+			<option name="texture_dynamic_environment_map_1" value="23" />
+			<option name="texture_cook_torrance_cc0236" value="24" />
+			<option name="texture_cook_torrance_dd0236" value="25" />
+			<option name="texture_cook_torrance_c78d78" value="26" />
+			<option name="light_dir_0" value="27" />
+			<option name="light_color_0" value="28" />
+			<option name="light_dir_1" value="29" />
+			<option name="light_color_1" value="30" />
+			<option name="light_dir_2" value="31" />
+			<option name="light_color_2" value="32" />
+			<option name="light_dir_3" value="33" />
+			<option name="light_color_3" value="34" />
+			<option name="texture_unused_3" value="35" />
+			<option name="texture_unused_4" value="36" />
+			<option name="texture_unused_5" value="37" />
+			<option name="texture_dynamic_light_gel_0" value="38" />
+			<option name="flat_envmap_matrix_x" value="39" />
+			<option name="flat_envmap_matrix_y" value="40" />
+			<option name="flat_envmap_matrix_z" value="41" />
+			<option name="debug_tint" value="42" />
+			<option name="screen_constants" value="43" />
+			<option name="active_camo_distortion_texture" value="44" />
+			<option name="scene_ldr_texture" value="45" />
+			<option name="scene_hdr_texture" value="46" />
+			<option name="water_memory_export_address" value="47" />
+			<option name="tree_animation_timer" value="48" />
+			<option name="emblem_player_shoulder_texture" value="49" />
+			<option name="emblem_clan_chest_texture" value="50" />
+			<option name="global_depth_constants" value="51" />
+			<option name="global_camera_forward" value="52" />
+			<option name="z_camera_pixel_size" value="53" />
+			<option name="material_diffuse_power" value="54" />
+		</enum32>
+		<tagref name="Default Sampler Bitmap" offset="0xC" visible="true" />
+		<float32 name="Default Float Argument" offset="0x1C" visible="true" />
+		<uint32 name="Default Int Bool Argument" offset="0x20" visible="true" />
+		<int16 name="Flags" offset="0x24" visible="true" />
+		<enum16 name="Default Filter Mode" offset="0x26" visible="true">
+			<option name="Trilinear" value="0" />
+			<option name="Point" value="1" />
+			<option name="Bilinear" value="2" />
+			<option name="Anisotropic1" value="3" />
+			<option name="Anisotropic2Expensive" value="4" />
+			<option name="Anisotropic3Expensive" value="5" />
+			<option name="Anisotropic4EXPENSIVE" value="6" />
+			<option name="LightprobeTextureArray" value="7" />
+			<option name="ComparisonPoint" value="8" />
+			<option name="ComparisonBilinear" value="9" />
+		</enum16>
+		<enum16 name="Default Address Mode" offset="0x28" visible="true">
+			<option name="Wrap" value="0" />
+			<option name="Clamp" value="1" />
+			<option name="Mirror" value="2" />
+			<option name="BlackBorder" value="3" />
+			<option name="MirrorOnce" value="4" />
+			<option name="MirrorOnceBorder" value="5" />
+		</enum16>
+		<int16 name="Anisotropy Amount" offset="0x2A" visible="true" />
+		<color32 name="Default Color" offset="0x2C" alpha="true" visible="true" />
+		<float32 name="Default Bitmap Scale" offset="0x30" visible="true" />
+		<dataref name="Help Text" offset="0x34" visible="true" />
+	</tagblock>
+</plugin>

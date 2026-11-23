@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x3C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.Colony (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="Unused" index="0" />
+	</flags16>
+	<uint8 name="Padding 0" offset="0x2" visible="false" />
+	<uint8 name="Padding 1" offset="0x3" visible="false" />
+	<uint8 name="Padding1 0" offset="0x4" visible="false" />
+	<uint8 name="Padding1 1" offset="0x5" visible="false" />
+	<uint8 name="Padding1 2" offset="0x6" visible="false" />
+	<uint8 name="Padding1 3" offset="0x7" visible="false" />
+	<rangef name="Radius" offset="0x8" visible="true" />
+	<uint8 name="Padding2 0" offset="0x10" visible="false" />
+	<uint8 name="Padding2 1" offset="0x11" visible="false" />
+	<uint8 name="Padding2 2" offset="0x12" visible="false" />
+	<uint8 name="Padding2 3" offset="0x13" visible="false" />
+	<uint8 name="Padding2 4" offset="0x14" visible="false" />
+	<uint8 name="Padding2 5" offset="0x15" visible="false" />
+	<uint8 name="Padding2 6" offset="0x16" visible="false" />
+	<uint8 name="Padding2 7" offset="0x17" visible="false" />
+	<uint8 name="Padding2 8" offset="0x18" visible="false" />
+	<uint8 name="Padding2 9" offset="0x19" visible="false" />
+	<uint8 name="Padding2 10" offset="0x1A" visible="false" />
+	<uint8 name="Padding2 11" offset="0x1B" visible="false" />
+	<colorf name="Debug Color" offset="0x1C" alpha="true" visible="true" />
+	<tagref name="Base Map" offset="0x2C" visible="true" />
+	<tagref name="Detail Map" offset="0x3C" visible="true" />
+</plugin>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x20">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Soundbank (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DonTUseFpBankInSplitScreen" index="0" />
+		<bit name="Deterministic" index="1" />
+		<bit name="StreamOffDvdOnly" index="2" />
+		<bit name="CanDelayStart" index="3" />
+		<bit name="DonTLoadForPlayer" index="4" />
+		<bit name="GroundForcesSoundBank" index="5" />
+	</flags32>
+	<flags32 name="Import Flags" offset="0x4" visible="true">
+		<bit name="DuplicateDirectoryName" index="0" />
+		<bit name="CutToBlockSize" index="1" />
+		<bit name="UseMarkers" index="2" />
+		<bit name="UseLayerMarkers" index="3" />
+	</flags32>
+	<flags32 name="Xsync Flags" offset="0x8" visible="true">
+		<bit name="ProcessedLanguageTimes" index="0" />
+		<bit name="OptimizedFacialAnimation" index="1" />
+	</flags32>
+	<tagblock name="Sound Bank List" offset="0xC" visible="true" elementSize="0x4">
+		<uint32 name="Sound Bank Name" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Bank Priority" offset="0x18" visible="true" />
+	<int32 name="Bank Unique Id" offset="0x1C" visible="true" />
+</plugin>

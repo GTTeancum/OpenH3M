@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Resources.BitmapTextureInteropResource (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<dataref name="Texture / Definition / Primary Resource Data" offset="0x0" visible="true" />
+	<dataref name="Texture / Definition / Secondary Resource Data" offset="0x14" visible="true" />
+	<int16 name="Texture / Definition / Bitmap / Width" offset="0x28" visible="true" />
+	<int16 name="Texture / Definition / Bitmap / Height" offset="0x2A" visible="true" />
+	<uint8 name="Texture / Definition / Bitmap / Depth" offset="0x2C" visible="true" />
+	<int8 name="Texture / Definition / Bitmap / Mipmap Count" offset="0x2D" visible="true" />
+	<enum8 name="Texture / Definition / Bitmap / Bitmap Type" offset="0x2E" visible="true">
+		<option name="Texture2D" value="0" />
+		<option name="Texture3D" value="1" />
+		<option name="CubeMap" value="2" />
+		<option name="Array" value="3" />
+	</enum8>
+	<uint8 name="Texture / Definition / Bitmap / High Res In Secondary Resource" offset="0x2F" visible="true" />
+	<int32 name="Texture / Definition / Bitmap / D3D Format" offset="0x30" visible="true" />
+	<enum32 name="Texture / Address Type" offset="0x34" visible="true">
+		<option name="Memory" value="0" />
+		<option name="Definition" value="1" />
+		<option name="Data" value="2" />
+		<option name="SecondaryData" value="3" />
+		<option name="TertiaryData" value="4" />
+	</enum32>
+</plugin>

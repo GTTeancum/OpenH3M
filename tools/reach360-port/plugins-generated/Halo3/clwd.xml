@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x94">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Cloth (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="DoesNotUseWind" index="0" />
+		<bit name="UsesGridAttachTop" index="1" />
+	</flags32>
+	<stringid name="Marker Attachment Name" offset="0x4" visible="true" />
+	<stringid name="Secondary Axis Attachment Name" offset="0x8" visible="true" />
+	<tagref name="Shader" offset="0xC" visible="true" />
+	<int16 name="Grid X Dimension" offset="0x1C" visible="true" />
+	<int16 name="Grid Y Dimension" offset="0x1E" visible="true" />
+	<float32 name="Grid Spacing X" offset="0x20" visible="true" />
+	<float32 name="Grid Spacing Y" offset="0x24" visible="true" />
+	<tagblock name="Collision Spheres" offset="0x28" visible="true" elementSize="0x8">
+		<stringid name="Object Marker Name" offset="0x0" visible="true" />
+		<float32 name="Radius" offset="0x4" visible="true" />
+	</tagblock>
+	<enum16 name="Properties / Integration Type" offset="0x34" visible="true">
+		<option name="Verlet" value="0" />
+	</enum16>
+	<int16 name="Properties / Number Iterations" offset="0x36" visible="true" />
+	<float32 name="Properties / Weight" offset="0x38" visible="true" />
+	<float32 name="Properties / Drag" offset="0x3C" visible="true" />
+	<float32 name="Properties / Wind Scale" offset="0x40" visible="true" />
+	<float32 name="Properties / Wind Flappiness Scale" offset="0x44" visible="true" />
+	<float32 name="Properties / Longest Rod" offset="0x48" visible="true" />
+	<uint8 name="Properties / Padding 0" offset="0x4C" visible="false" />
+	<uint8 name="Properties / Padding 1" offset="0x4D" visible="false" />
+	<uint8 name="Properties / Padding 2" offset="0x4E" visible="false" />
+	<uint8 name="Properties / Padding 3" offset="0x4F" visible="false" />
+	<uint8 name="Properties / Padding 4" offset="0x50" visible="false" />
+	<uint8 name="Properties / Padding 5" offset="0x51" visible="false" />
+	<uint8 name="Properties / Padding 6" offset="0x52" visible="false" />
+	<uint8 name="Properties / Padding 7" offset="0x53" visible="false" />
+	<uint8 name="Properties / Padding 8" offset="0x54" visible="false" />
+	<uint8 name="Properties / Padding 9" offset="0x55" visible="false" />
+	<uint8 name="Properties / Padding 10" offset="0x56" visible="false" />
+	<uint8 name="Properties / Padding 11" offset="0x57" visible="false" />
+	<uint8 name="Properties / Padding 12" offset="0x58" visible="false" />
+	<uint8 name="Properties / Padding 13" offset="0x59" visible="false" />
+	<uint8 name="Properties / Padding 14" offset="0x5A" visible="false" />
+	<uint8 name="Properties / Padding 15" offset="0x5B" visible="false" />
+	<uint8 name="Properties / Padding 16" offset="0x5C" visible="false" />
+	<uint8 name="Properties / Padding 17" offset="0x5D" visible="false" />
+	<uint8 name="Properties / Padding 18" offset="0x5E" visible="false" />
+	<uint8 name="Properties / Padding 19" offset="0x5F" visible="false" />
+	<uint8 name="Properties / Padding 20" offset="0x60" visible="false" />
+	<uint8 name="Properties / Padding 21" offset="0x61" visible="false" />
+	<uint8 name="Properties / Padding 22" offset="0x62" visible="false" />
+	<uint8 name="Properties / Padding 23" offset="0x63" visible="false" />
+	<tagblock name="Vertices" offset="0x64" visible="true" elementSize="0x14">
+		<point3 name="Initial Position" offset="0x0" visible="true" />
+		<vector2 name="Uv" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Indices" offset="0x70" visible="true" elementSize="0x2">
+		<int16 name="Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Strip Indices" offset="0x7C" visible="true" elementSize="0x2">
+		<int16 name="Index" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Links" offset="0x88" visible="true" elementSize="0x8">
+		<int16 name="Index1" offset="0x0" visible="true" />
+		<int16 name="Index2" offset="0x2" visible="true" />
+		<float32 name="Default Distance" offset="0x4" visible="true" />
+	</tagblock>
+</plugin>

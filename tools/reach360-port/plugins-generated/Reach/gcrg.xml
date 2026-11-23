@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x28">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GameCompletionRewardsGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Campaign" offset="0x0" visible="true" elementSize="0x3C">
+		<tagblock name="Easy Matchmaking" offset="0x0" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Normal Matchmaking" offset="0xC" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Heroic Matchmaking" offset="0x18" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Legendary Matchmaking" offset="0x24" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Custom" offset="0x30" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Firefight" offset="0xC" visible="true" elementSize="0x3C">
+		<tagblock name="Easy Matchmaking" offset="0x0" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Normal Matchmaking" offset="0xC" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Heroic Matchmaking" offset="0x18" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Legendary Matchmaking" offset="0x24" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Custom" offset="0x30" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Multiplayer" offset="0x18" visible="true" elementSize="0x3C">
+		<tagblock name="Matchmaking" offset="0x0" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Custom" offset="0xC" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Unused0" offset="0x18" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Unused1" offset="0x24" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Unused2" offset="0x30" visible="true" elementSize="0x20">
+			<int32 name="Initial Amount Per Minute" offset="0x0" visible="true" />
+			<float32 name="Hopper Scaling Factor" offset="0x4" visible="true" />
+			<float32 name="Winner Scaling Factor" offset="0x8" visible="true" />
+			<float32 name="Performance Scaling Factor" offset="0xC" visible="true" />
+			<float32 name="Score Scaling Factor" offset="0x10" visible="true" />
+			<tagblock name="Apm Falloff Curve" offset="0x14" visible="true" elementSize="0x4">
+				<int16 name="Start Time" offset="0x0" visible="true" />
+				<int16 name="Amount Per Minute" offset="0x2" visible="true" />
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<float32 name="Fast Track Armor Modifier" offset="0x24" visible="true" />
+</plugin>

@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x11C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.ModGlobalsDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<int32 name="Version" offset="0x0" visible="true" />
+	<tagblock name="Player Character Sets" offset="0x4" visible="true" elementSize="0x84">
+		<ascii name="Display Name" offset="0x0" visible="true" size="0x20" />
+		<stringid name="Name" offset="0x20" visible="true" />
+		<float32 name="Random Chance" offset="0x24" visible="true" />
+		<tagblock name="Characters" offset="0x28" visible="true" elementSize="0x28">
+			<ascii name="Display Name" offset="0x0" visible="true" size="0x20" />
+			<stringid name="Name" offset="0x20" visible="true" />
+			<float32 name="Random Chance" offset="0x24" visible="true" />
+		</tagblock>
+		<uint8 name="Unused 0" offset="0x34" visible="false" />
+		<uint8 name="Unused 1" offset="0x35" visible="false" />
+		<uint8 name="Unused 2" offset="0x36" visible="false" />
+		<uint8 name="Unused 3" offset="0x37" visible="false" />
+		<uint8 name="Unused 4" offset="0x38" visible="false" />
+		<uint8 name="Unused 5" offset="0x39" visible="false" />
+		<uint8 name="Unused 6" offset="0x3A" visible="false" />
+		<uint8 name="Unused 7" offset="0x3B" visible="false" />
+		<uint8 name="Unused 8" offset="0x3C" visible="false" />
+		<uint8 name="Unused 9" offset="0x3D" visible="false" />
+		<uint8 name="Unused 10" offset="0x3E" visible="false" />
+		<uint8 name="Unused 11" offset="0x3F" visible="false" />
+		<uint8 name="Unused 12" offset="0x40" visible="false" />
+		<uint8 name="Unused 13" offset="0x41" visible="false" />
+		<uint8 name="Unused 14" offset="0x42" visible="false" />
+		<uint8 name="Unused 15" offset="0x43" visible="false" />
+		<uint8 name="Unused 16" offset="0x44" visible="false" />
+		<uint8 name="Unused 17" offset="0x45" visible="false" />
+		<uint8 name="Unused 18" offset="0x46" visible="false" />
+		<uint8 name="Unused 19" offset="0x47" visible="false" />
+		<uint8 name="Unused 20" offset="0x48" visible="false" />
+		<uint8 name="Unused 21" offset="0x49" visible="false" />
+		<uint8 name="Unused 22" offset="0x4A" visible="false" />
+		<uint8 name="Unused 23" offset="0x4B" visible="false" />
+		<uint8 name="Unused 24" offset="0x4C" visible="false" />
+		<uint8 name="Unused 25" offset="0x4D" visible="false" />
+		<uint8 name="Unused 26" offset="0x4E" visible="false" />
+		<uint8 name="Unused 27" offset="0x4F" visible="false" />
+		<uint8 name="Unused 28" offset="0x50" visible="false" />
+		<uint8 name="Unused 29" offset="0x51" visible="false" />
+		<uint8 name="Unused 30" offset="0x52" visible="false" />
+		<uint8 name="Unused 31" offset="0x53" visible="false" />
+		<uint8 name="Unused 32" offset="0x54" visible="false" />
+		<uint8 name="Unused 33" offset="0x55" visible="false" />
+		<uint8 name="Unused 34" offset="0x56" visible="false" />
+		<uint8 name="Unused 35" offset="0x57" visible="false" />
+		<uint8 name="Unused 36" offset="0x58" visible="false" />
+		<uint8 name="Unused 37" offset="0x59" visible="false" />
+		<uint8 name="Unused 38" offset="0x5A" visible="false" />
+		<uint8 name="Unused 39" offset="0x5B" visible="false" />
+		<uint8 name="Unused 40" offset="0x5C" visible="false" />
+		<uint8 name="Unused 41" offset="0x5D" visible="false" />
+		<uint8 name="Unused 42" offset="0x5E" visible="false" />
+		<uint8 name="Unused 43" offset="0x5F" visible="false" />
+		<uint8 name="Unused 44" offset="0x60" visible="false" />
+		<uint8 name="Unused 45" offset="0x61" visible="false" />
+		<uint8 name="Unused 46" offset="0x62" visible="false" />
+		<uint8 name="Unused 47" offset="0x63" visible="false" />
+		<uint8 name="Unused 48" offset="0x64" visible="false" />
+		<uint8 name="Unused 49" offset="0x65" visible="false" />
+		<uint8 name="Unused 50" offset="0x66" visible="false" />
+		<uint8 name="Unused 51" offset="0x67" visible="false" />
+		<uint8 name="Unused 52" offset="0x68" visible="false" />
+		<uint8 name="Unused 53" offset="0x69" visible="false" />
+		<uint8 name="Unused 54" offset="0x6A" visible="false" />
+		<uint8 name="Unused 55" offset="0x6B" visible="false" />
+		<uint8 name="Unused 56" offset="0x6C" visible="false" />
+		<uint8 name="Unused 57" offset="0x6D" visible="false" />
+		<uint8 name="Unused 58" offset="0x6E" visible="false" />
+		<uint8 name="Unused 59" offset="0x6F" visible="false" />
+		<uint8 name="Unused 60" offset="0x70" visible="false" />
+		<uint8 name="Unused 61" offset="0x71" visible="false" />
+		<uint8 name="Unused 62" offset="0x72" visible="false" />
+		<uint8 name="Unused 63" offset="0x73" visible="false" />
+		<uint8 name="Unused 64" offset="0x74" visible="false" />
+		<uint8 name="Unused 65" offset="0x75" visible="false" />
+		<uint8 name="Unused 66" offset="0x76" visible="false" />
+		<uint8 name="Unused 67" offset="0x77" visible="false" />
+		<uint8 name="Unused 68" offset="0x78" visible="false" />
+		<uint8 name="Unused 69" offset="0x79" visible="false" />
+		<uint8 name="Unused 70" offset="0x7A" visible="false" />
+		<uint8 name="Unused 71" offset="0x7B" visible="false" />
+		<uint8 name="Unused 72" offset="0x7C" visible="false" />
+		<uint8 name="Unused 73" offset="0x7D" visible="false" />
+		<uint8 name="Unused 74" offset="0x7E" visible="false" />
+		<uint8 name="Unused 75" offset="0x7F" visible="false" />
+		<uint8 name="Unused 76" offset="0x80" visible="false" />
+		<uint8 name="Unused 77" offset="0x81" visible="false" />
+		<uint8 name="Unused 78" offset="0x82" visible="false" />
+		<uint8 name="Unused 79" offset="0x83" visible="false" />
+	</tagblock>
+	<tagblock name="Player Character Customizations" offset="0x10" visible="true" elementSize="0x164">
+		<int32 name="Global Player Character Type Index" offset="0x0" visible="true" />
+		<stringid name="Character Name" offset="0x4" visible="true" />
+		<stringid name="Character Description" offset="0x8" visible="true" />
+		<tagref name="Hud Globals" offset="0xC" visible="true" />
+		<tagref name="Vision Globals" offset="0x1C" visible="true" />
+		<tagref name="Action Set" offset="0x2C" visible="true" />
+		<tagblock name="Region Camera Scripts" offset="0x3C" visible="true" elementSize="0xBC">
+			<uint8 name="Padding0 0" offset="0x0" visible="false" />
+			<uint8 name="Padding0 1" offset="0x1" visible="false" />
+			<uint8 name="Padding0 2" offset="0x2" visible="false" />
+			<uint8 name="Padding0 3" offset="0x3" visible="false" />
+			<ascii name="Region Name" offset="0x4" visible="true" size="0x20" />
+			<ascii name="Script Name Widescreen" offset="0x24" visible="true" size="0x20" />
+			<ascii name="Script Name Standard" offset="0x44" visible="true" size="0x20" />
+			<float32 name="Biped Rotation" offset="0x64" visible="true" />
+			<float32 name="Rotation Duration" offset="0x68" visible="true" />
+			<uint8 name="Unused 0" offset="0x6C" visible="false" />
+			<uint8 name="Unused 1" offset="0x6D" visible="false" />
+			<uint8 name="Unused 2" offset="0x6E" visible="false" />
+			<uint8 name="Unused 3" offset="0x6F" visible="false" />
+			<uint8 name="Unused 4" offset="0x70" visible="false" />
+			<uint8 name="Unused 5" offset="0x71" visible="false" />
+			<uint8 name="Unused 6" offset="0x72" visible="false" />
+			<uint8 name="Unused 7" offset="0x73" visible="false" />
+			<uint8 name="Unused 8" offset="0x74" visible="false" />
+			<uint8 name="Unused 9" offset="0x75" visible="false" />
+			<uint8 name="Unused 10" offset="0x76" visible="false" />
+			<uint8 name="Unused 11" offset="0x77" visible="false" />
+			<uint8 name="Unused 12" offset="0x78" visible="false" />
+			<uint8 name="Unused 13" offset="0x79" visible="false" />
+			<uint8 name="Unused 14" offset="0x7A" visible="false" />
+			<uint8 name="Unused 15" offset="0x7B" visible="false" />
+			<uint8 name="Unused 16" offset="0x7C" visible="false" />
+			<uint8 name="Unused 17" offset="0x7D" visible="false" />
+			<uint8 name="Unused 18" offset="0x7E" visible="false" />
+			<uint8 name="Unused 19" offset="0x7F" visible="false" />
+			<uint8 name="Unused 20" offset="0x80" visible="false" />
+			<uint8 name="Unused 21" offset="0x81" visible="false" />
+			<uint8 name="Unused 22" offset="0x82" visible="false" />
+			<uint8 name="Unused 23" offset="0x83" visible="false" />
+			<uint8 name="Unused 24" offset="0x84" visible="false" />
+			<uint8 name="Unused 25" offset="0x85" visible="false" />
+			<uint8 name="Unused 26" offset="0x86" visible="false" />
+			<uint8 name="Unused 27" offset="0x87" visible="false" />
+			<uint8 name="Unused 28" offset="0x88" visible="false" />
+			<uint8 name="Unused 29" offset="0x89" visible="false" />
+			<uint8 name="Unused 30" offset="0x8A" visible="false" />
+			<uint8 name="Unused 31" offset="0x8B" visible="false" />
+			<uint8 name="Unused 32" offset="0x8C" visible="false" />
+			<uint8 name="Unused 33" offset="0x8D" visible="false" />
+			<uint8 name="Unused 34" offset="0x8E" visible="false" />
+			<uint8 name="Unused 35" offset="0x8F" visible="false" />
+			<uint8 name="Unused 36" offset="0x90" visible="false" />
+			<uint8 name="Unused 37" offset="0x91" visible="false" />
+			<uint8 name="Unused 38" offset="0x92" visible="false" />
+			<uint8 name="Unused 39" offset="0x93" visible="false" />
+			<uint8 name="Unused 40" offset="0x94" visible="false" />
+			<uint8 name="Unused 41" offset="0x95" visible="false" />
+			<uint8 name="Unused 42" offset="0x96" visible="false" />
+			<uint8 name="Unused 43" offset="0x97" visible="false" />
+			<uint8 name="Unused 44" offset="0x98" visible="false" />
+			<uint8 name="Unused 45" offset="0x99" visible="false" />
+			<uint8 name="Unused 46" offset="0x9A" visible="false" />
+			<uint8 name="Unused 47" offset="0x9B" visible="false" />
+			<uint8 name="Unused 48" offset="0x9C" visible="false" />
+			<uint8 name="Unused 49" offset="0x9D" visible="false" />
+			<uint8 name="Unused 50" offset="0x9E" visible="false" />
+			<uint8 name="Unused 51" offset="0x9F" visible="false" />
+			<uint8 name="Unused 52" offset="0xA0" visible="false" />
+			<uint8 name="Unused 53" offset="0xA1" visible="false" />
+			<uint8 name="Unused 54" offset="0xA2" visible="false" />
+			<uint8 name="Unused 55" offset="0xA3" visible="false" />
+			<uint8 name="Unused 56" offset="0xA4" visible="false" />
+			<uint8 name="Unused 57" offset="0xA5" visible="false" />
+			<uint8 name="Unused 58" offset="0xA6" visible="false" />
+			<uint8 name="Unused 59" offset="0xA7" visible="false" />
+			<uint8 name="Unused 60" offset="0xA8" visible="false" />
+			<uint8 name="Unused 61" offset="0xA9" visible="false" />
+			<uint8 name="Unused 62" offset="0xAA" visible="false" />
+			<uint8 name="Unused 63" offset="0xAB" visible="false" />
+			<uint8 name="Unused 64" offset="0xAC" visible="false" />
+			<uint8 name="Unused 65" offset="0xAD" visible="false" />
+			<uint8 name="Unused 66" offset="0xAE" visible="false" />
+			<uint8 name="Unused 67" offset="0xAF" visible="false" />
+			<uint8 name="Unused 68" offset="0xB0" visible="false" />
+			<uint8 name="Unused 69" offset="0xB1" visible="false" />
+			<uint8 name="Unused 70" offset="0xB2" visible="false" />
+			<uint8 name="Unused 71" offset="0xB3" visible="false" />
+			<uint8 name="Unused 72" offset="0xB4" visible="false" />
+			<uint8 name="Unused 73" offset="0xB5" visible="false" />
+			<uint8 name="Unused 74" offset="0xB6" visible="false" />
+			<uint8 name="Unused 75" offset="0xB7" visible="false" />
+			<uint8 name="Unused 76" offset="0xB8" visible="false" />
+			<uint8 name="Unused 77" offset="0xB9" visible="false" />
+			<uint8 name="Unused 78" offset="0xBA" visible="false" />
+			<uint8 name="Unused 79" offset="0xBB" visible="false" />
+		</tagblock>
+		<flags32 name="Character Position Data / Flags" offset="0x48" visible="true">
+			<bit name="PlaceBipedRelativeToCamera" index="0" />
+			<bit name="CanRotateOnMainMenu" index="1" />
+			<bit name="HasPlatform" index="2" />
+			<bit name="RotateInCustomization" index="3" />
+		</flags32>
+		<int32 name="Character Position Data / Biped Name Index" offset="0x4C" visible="true" />
+		<int32 name="Character Position Data / Settings Camera Index" offset="0x50" visible="true" />
+		<int32 name="Character Position Data / Platform Name Index" offset="0x54" visible="true" />
+		<vector3 name="Character Position Data / Relative Biped Position" offset="0x58" visible="true" />
+		<float32 name="Character Position Data / Relative Biped Rotation" offset="0x64" visible="true" />
+		<point3 name="Character Position Data / Biped Position Widescreen" offset="0x68" visible="true" />
+		<point3 name="Character Position Data / Biped Position Standard" offset="0x74" visible="true" />
+		<float32 name="Character Position Data / Biped Rotation" offset="0x80" visible="true" />
+		<uint8 name="Character Position Data / Unused 0" offset="0x84" visible="false" />
+		<uint8 name="Character Position Data / Unused 1" offset="0x85" visible="false" />
+		<uint8 name="Character Position Data / Unused 2" offset="0x86" visible="false" />
+		<uint8 name="Character Position Data / Unused 3" offset="0x87" visible="false" />
+		<uint8 name="Character Position Data / Unused 4" offset="0x88" visible="false" />
+		<uint8 name="Character Position Data / Unused 5" offset="0x89" visible="false" />
+		<uint8 name="Character Position Data / Unused 6" offset="0x8A" visible="false" />
+		<uint8 name="Character Position Data / Unused 7" offset="0x8B" visible="false" />
+		<uint8 name="Character Position Data / Unused 8" offset="0x8C" visible="false" />
+		<uint8 name="Character Position Data / Unused 9" offset="0x8D" visible="false" />
+		<uint8 name="Character Position Data / Unused 10" offset="0x8E" visible="false" />
+		<uint8 name="Character Position Data / Unused 11" offset="0x8F" visible="false" />
+		<uint8 name="Character Position Data / Unused 12" offset="0x90" visible="false" />
+		<uint8 name="Character Position Data / Unused 13" offset="0x91" visible="false" />
+		<uint8 name="Character Position Data / Unused 14" offset="0x92" visible="false" />
+		<uint8 name="Character Position Data / Unused 15" offset="0x93" visible="false" />
+		<uint8 name="Character Position Data / Unused 16" offset="0x94" visible="false" />
+		<uint8 name="Character Position Data / Unused 17" offset="0x95" visible="false" />
+		<uint8 name="Character Position Data / Unused 18" offset="0x96" visible="false" />
+		<uint8 name="Character Position Data / Unused 19" offset="0x97" visible="false" />
+		<uint8 name="Character Position Data / Unused 20" offset="0x98" visible="false" />
+		<uint8 name="Character Position Data / Unused 21" offset="0x99" visible="false" />
+		<uint8 name="Character Position Data / Unused 22" offset="0x9A" visible="false" />
+		<uint8 name="Character Position Data / Unused 23" offset="0x9B" visible="false" />
+		<uint8 name="Character Position Data / Unused 24" offset="0x9C" visible="false" />
+		<uint8 name="Character Position Data / Unused 25" offset="0x9D" visible="false" />
+		<uint8 name="Character Position Data / Unused 26" offset="0x9E" visible="false" />
+		<uint8 name="Character Position Data / Unused 27" offset="0x9F" visible="false" />
+		<uint8 name="Character Position Data / Unused 28" offset="0xA0" visible="false" />
+		<uint8 name="Character Position Data / Unused 29" offset="0xA1" visible="false" />
+		<uint8 name="Character Position Data / Unused 30" offset="0xA2" visible="false" />
+		<uint8 name="Character Position Data / Unused 31" offset="0xA3" visible="false" />
+		<uint8 name="Character Position Data / Unused 32" offset="0xA4" visible="false" />
+		<uint8 name="Character Position Data / Unused 33" offset="0xA5" visible="false" />
+		<uint8 name="Character Position Data / Unused 34" offset="0xA6" visible="false" />
+		<uint8 name="Character Position Data / Unused 35" offset="0xA7" visible="false" />
+		<uint8 name="Character Position Data / Unused 36" offset="0xA8" visible="false" />
+		<uint8 name="Character Position Data / Unused 37" offset="0xA9" visible="false" />
+		<uint8 name="Character Position Data / Unused 38" offset="0xAA" visible="false" />
+		<uint8 name="Character Position Data / Unused 39" offset="0xAB" visible="false" />
+		<uint8 name="Character Position Data / Unused 40" offset="0xAC" visible="false" />
+		<uint8 name="Character Position Data / Unused 41" offset="0xAD" visible="false" />
+		<uint8 name="Character Position Data / Unused 42" offset="0xAE" visible="false" />
+		<uint8 name="Character Position Data / Unused 43" offset="0xAF" visible="false" />
+		<uint8 name="Character Position Data / Unused 44" offset="0xB0" visible="false" />
+		<uint8 name="Character Position Data / Unused 45" offset="0xB1" visible="false" />
+		<uint8 name="Character Position Data / Unused 46" offset="0xB2" visible="false" />
+		<uint8 name="Character Position Data / Unused 47" offset="0xB3" visible="false" />
+		<uint8 name="Character Position Data / Unused 48" offset="0xB4" visible="false" />
+		<uint8 name="Character Position Data / Unused 49" offset="0xB5" visible="false" />
+		<uint8 name="Character Position Data / Unused 50" offset="0xB6" visible="false" />
+		<uint8 name="Character Position Data / Unused 51" offset="0xB7" visible="false" />
+		<uint8 name="Character Position Data / Unused 52" offset="0xB8" visible="false" />
+		<uint8 name="Character Position Data / Unused 53" offset="0xB9" visible="false" />
+		<uint8 name="Character Position Data / Unused 54" offset="0xBA" visible="false" />
+		<uint8 name="Character Position Data / Unused 55" offset="0xBB" visible="false" />
+		<uint8 name="Character Position Data / Unused 56" offset="0xBC" visible="false" />
+		<uint8 name="Character Position Data / Unused 57" offset="0xBD" visible="false" />
+		<uint8 name="Character Position Data / Unused 58" offset="0xBE" visible="false" />
+		<uint8 name="Character Position Data / Unused 59" offset="0xBF" visible="false" />
+		<uint8 name="Character Position Data / Unused 60" offset="0xC0" visible="false" />
+		<uint8 name="Character Position Data / Unused 61" offset="0xC1" visible="false" />
+		<uint8 name="Character Position Data / Unused 62" offset="0xC2" visible="false" />
+		<uint8 name="Character Position Data / Unused 63" offset="0xC3" visible="false" />
+		<uint8 name="Character Position Data / Unused 64" offset="0xC4" visible="false" />
+		<uint8 name="Character Position Data / Unused 65" offset="0xC5" visible="false" />
+		<uint8 name="Character Position Data / Unused 66" offset="0xC6" visible="false" />
+		<uint8 name="Character Position Data / Unused 67" offset="0xC7" visible="false" />
+		<uint8 name="Character Position Data / Unused 68" offset="0xC8" visible="false" />
+		<uint8 name="Character Position Data / Unused 69" offset="0xC9" visible="false" />
+		<uint8 name="Character Position Data / Unused 70" offset="0xCA" visible="false" />
+		<uint8 name="Character Position Data / Unused 71" offset="0xCB" visible="false" />
+		<uint8 name="Character Position Data / Unused 72" offset="0xCC" visible="false" />
+		<uint8 name="Character Position Data / Unused 73" offset="0xCD" visible="false" />
+		<uint8 name="Character Position Data / Unused 74" offset="0xCE" visible="false" />
+		<uint8 name="Character Position Data / Unused 75" offset="0xCF" visible="false" />
+		<uint8 name="Character Position Data / Unused 76" offset="0xD0" visible="false" />
+		<uint8 name="Character Position Data / Unused 77" offset="0xD1" visible="false" />
+		<uint8 name="Character Position Data / Unused 78" offset="0xD2" visible="false" />
+		<uint8 name="Character Position Data / Unused 79" offset="0xD3" visible="false" />
+		<flags8 name="Character Colors / Valid Color Flags" offset="0xD4" visible="true">
+			<bit name="PrimaryColor" index="0" />
+			<bit name="SecondaryColor" index="1" />
+			<bit name="TertiaryColor" index="2" />
+			<bit name="QuaternaryColor" index="3" />
+			<bit name="QuinaryColor" index="4" />
+		</flags8>
+		<flags8 name="Character Colors / Team Override Flags" offset="0xD5" visible="true">
+			<bit name="PrimaryColor" index="0" />
+			<bit name="SecondaryColor" index="1" />
+			<bit name="TertiaryColor" index="2" />
+			<bit name="QuaternaryColor" index="3" />
+			<bit name="QuinaryColor" index="4" />
+		</flags8>
+		<uint8 name="Character Colors / Padding0 0" offset="0xD6" visible="false" />
+		<uint8 name="Character Colors / Padding0 1" offset="0xD7" visible="false" />
+		<stringid name="Character Colors / Colors 0 / Name" offset="0xD8" visible="true" />
+		<stringid name="Character Colors / Colors 0 / Description" offset="0xDC" visible="true" />
+		<color32 name="Character Colors / Colors 0 / Default" offset="0xE0" alpha="true" visible="true" />
+		<stringid name="Character Colors / Colors 1 / Name" offset="0xE4" visible="true" />
+		<stringid name="Character Colors / Colors 1 / Description" offset="0xE8" visible="true" />
+		<color32 name="Character Colors / Colors 1 / Default" offset="0xEC" alpha="true" visible="true" />
+		<stringid name="Character Colors / Colors 2 / Name" offset="0xF0" visible="true" />
+		<stringid name="Character Colors / Colors 2 / Description" offset="0xF4" visible="true" />
+		<color32 name="Character Colors / Colors 2 / Default" offset="0xF8" alpha="true" visible="true" />
+		<stringid name="Character Colors / Colors 3 / Name" offset="0xFC" visible="true" />
+		<stringid name="Character Colors / Colors 3 / Description" offset="0x100" visible="true" />
+		<color32 name="Character Colors / Colors 3 / Default" offset="0x104" alpha="true" visible="true" />
+		<stringid name="Character Colors / Colors 4 / Name" offset="0x108" visible="true" />
+		<stringid name="Character Colors / Colors 4 / Description" offset="0x10C" visible="true" />
+		<color32 name="Character Colors / Colors 4 / Default" offset="0x110" alpha="true" visible="true" />
+		<uint8 name="Unused 0" offset="0x114" visible="false" />
+		<uint8 name="Unused 1" offset="0x115" visible="false" />
+		<uint8 name="Unused 2" offset="0x116" visible="false" />
+		<uint8 name="Unused 3" offset="0x117" visible="false" />
+		<uint8 name="Unused 4" offset="0x118" visible="false" />
+		<uint8 name="Unused 5" offset="0x119" visible="false" />
+		<uint8 name="Unused 6" offset="0x11A" visible="false" />
+		<uint8 name="Unused 7" offset="0x11B" visible="false" />
+		<uint8 name="Unused 8" offset="0x11C" visible="false" />
+		<uint8 name="Unused 9" offset="0x11D" visible="false" />
+		<uint8 name="Unused 10" offset="0x11E" visible="false" />
+		<uint8 name="Unused 11" offset="0x11F" visible="false" />
+		<uint8 name="Unused 12" offset="0x120" visible="false" />
+		<uint8 name="Unused 13" offset="0x121" visible="false" />
+		<uint8 name="Unused 14" offset="0x122" visible="false" />
+		<uint8 name="Unused 15" offset="0x123" visible="false" />
+		<uint8 name="Unused 16" offset="0x124" visible="false" />
+		<uint8 name="Unused 17" offset="0x125" visible="false" />
+		<uint8 name="Unused 18" offset="0x126" visible="false" />
+		<uint8 name="Unused 19" offset="0x127" visible="false" />
+		<uint8 name="Unused 20" offset="0x128" visible="false" />
+		<uint8 name="Unused 21" offset="0x129" visible="false" />
+		<uint8 name="Unused 22" offset="0x12A" visible="false" />
+		<uint8 name="Unused 23" offset="0x12B" visible="false" />
+		<uint8 name="Unused 24" offset="0x12C" visible="false" />
+		<uint8 name="Unused 25" offset="0x12D" visible="false" />
+		<uint8 name="Unused 26" offset="0x12E" visible="false" />
+		<uint8 name="Unused 27" offset="0x12F" visible="false" />
+		<uint8 name="Unused 28" offset="0x130" visible="false" />
+		<uint8 name="Unused 29" offset="0x131" visible="false" />
+		<uint8 name="Unused 30" offset="0x132" visible="false" />
+		<uint8 name="Unused 31" offset="0x133" visible="false" />
+		<uint8 name="Unused 32" offset="0x134" visible="false" />
+		<uint8 name="Unused 33" offset="0x135" visible="false" />
+		<uint8 name="Unused 34" offset="0x136" visible="false" />
+		<uint8 name="Unused 35" offset="0x137" visible="false" />
+		<uint8 name="Unused 36" offset="0x138" visible="false" />
+		<uint8 name="Unused 37" offset="0x139" visible="false" />
+		<uint8 name="Unused 38" offset="0x13A" visible="false" />
+		<uint8 name="Unused 39" offset="0x13B" visible="false" />
+		<uint8 name="Unused 40" offset="0x13C" visible="false" />
+		<uint8 name="Unused 41" offset="0x13D" visible="false" />
+		<uint8 name="Unused 42" offset="0x13E" visible="false" />
+		<uint8 name="Unused 43" offset="0x13F" visible="false" />
+		<uint8 name="Unused 44" offset="0x140" visible="false" />
+		<uint8 name="Unused 45" offset="0x141" visible="false" />
+		<uint8 name="Unused 46" offset="0x142" visible="false" />
+		<uint8 name="Unused 47" offset="0x143" visible="false" />
+		<uint8 name="Unused 48" offset="0x144" visible="false" />
+		<uint8 name="Unused 49" offset="0x145" visible="false" />
+		<uint8 name="Unused 50" offset="0x146" visible="false" />
+		<uint8 name="Unused 51" offset="0x147" visible="false" />
+		<uint8 name="Unused 52" offset="0x148" visible="false" />
+		<uint8 name="Unused 53" offset="0x149" visible="false" />
+		<uint8 name="Unused 54" offset="0x14A" visible="false" />
+		<uint8 name="Unused 55" offset="0x14B" visible="false" />
+		<uint8 name="Unused 56" offset="0x14C" visible="false" />
+		<uint8 name="Unused 57" offset="0x14D" visible="false" />
+		<uint8 name="Unused 58" offset="0x14E" visible="false" />
+		<uint8 name="Unused 59" offset="0x14F" visible="false" />
+		<uint8 name="Unused 60" offset="0x150" visible="false" />
+		<uint8 name="Unused 61" offset="0x151" visible="false" />
+		<uint8 name="Unused 62" offset="0x152" visible="false" />
+		<uint8 name="Unused 63" offset="0x153" visible="false" />
+		<uint8 name="Unused 64" offset="0x154" visible="false" />
+		<uint8 name="Unused 65" offset="0x155" visible="false" />
+		<uint8 name="Unused 66" offset="0x156" visible="false" />
+		<uint8 name="Unused 67" offset="0x157" visible="false" />
+		<uint8 name="Unused 68" offset="0x158" visible="false" />
+		<uint8 name="Unused 69" offset="0x159" visible="false" />
+		<uint8 name="Unused 70" offset="0x15A" visible="false" />
+		<uint8 name="Unused 71" offset="0x15B" visible="false" />
+		<uint8 name="Unused 72" offset="0x15C" visible="false" />
+		<uint8 name="Unused 73" offset="0x15D" visible="false" />
+		<uint8 name="Unused 74" offset="0x15E" visible="false" />
+		<uint8 name="Unused 75" offset="0x15F" visible="false" />
+		<uint8 name="Unused 76" offset="0x160" visible="false" />
+		<uint8 name="Unused 77" offset="0x161" visible="false" />
+		<uint8 name="Unused 78" offset="0x162" visible="false" />
+		<uint8 name="Unused 79" offset="0x163" visible="false" />
+	</tagblock>
+	<uint8 name="Unused 0" offset="0x1C" visible="false" />
+	<uint8 name="Unused 1" offset="0x1D" visible="false" />
+	<uint8 name="Unused 2" offset="0x1E" visible="false" />
+	<uint8 name="Unused 3" offset="0x1F" visible="false" />
+	<uint8 name="Unused 4" offset="0x20" visible="false" />
+	<uint8 name="Unused 5" offset="0x21" visible="false" />
+	<uint8 name="Unused 6" offset="0x22" visible="false" />
+	<uint8 name="Unused 7" offset="0x23" visible="false" />
+	<uint8 name="Unused 8" offset="0x24" visible="false" />
+	<uint8 name="Unused 9" offset="0x25" visible="false" />
+	<uint8 name="Unused 10" offset="0x26" visible="false" />
+	<uint8 name="Unused 11" offset="0x27" visible="false" />
+	<uint8 name="Unused 12" offset="0x28" visible="false" />
+	<uint8 name="Unused 13" offset="0x29" visible="false" />
+	<uint8 name="Unused 14" offset="0x2A" visible="false" />
+	<uint8 name="Unused 15" offset="0x2B" visible="false" />
+	<uint8 name="Unused 16" offset="0x2C" visible="false" />
+	<uint8 name="Unused 17" offset="0x2D" visible="false" />
+	<uint8 name="Unused 18" offset="0x2E" visible="false" />
+	<uint8 name="Unused 19" offset="0x2F" visible="false" />
+	<uint8 name="Unused 20" offset="0x30" visible="false" />
+	<uint8 name="Unused 21" offset="0x31" visible="false" />
+	<uint8 name="Unused 22" offset="0x32" visible="false" />
+	<uint8 name="Unused 23" offset="0x33" visible="false" />
+	<uint8 name="Unused 24" offset="0x34" visible="false" />
+	<uint8 name="Unused 25" offset="0x35" visible="false" />
+	<uint8 name="Unused 26" offset="0x36" visible="false" />
+	<uint8 name="Unused 27" offset="0x37" visible="false" />
+	<uint8 name="Unused 28" offset="0x38" visible="false" />
+	<uint8 name="Unused 29" offset="0x39" visible="false" />
+	<uint8 name="Unused 30" offset="0x3A" visible="false" />
+	<uint8 name="Unused 31" offset="0x3B" visible="false" />
+	<uint8 name="Unused 32" offset="0x3C" visible="false" />
+	<uint8 name="Unused 33" offset="0x3D" visible="false" />
+	<uint8 name="Unused 34" offset="0x3E" visible="false" />
+	<uint8 name="Unused 35" offset="0x3F" visible="false" />
+	<uint8 name="Unused 36" offset="0x40" visible="false" />
+	<uint8 name="Unused 37" offset="0x41" visible="false" />
+	<uint8 name="Unused 38" offset="0x42" visible="false" />
+	<uint8 name="Unused 39" offset="0x43" visible="false" />
+	<uint8 name="Unused 40" offset="0x44" visible="false" />
+	<uint8 name="Unused 41" offset="0x45" visible="false" />
+	<uint8 name="Unused 42" offset="0x46" visible="false" />
+	<uint8 name="Unused 43" offset="0x47" visible="false" />
+	<uint8 name="Unused 44" offset="0x48" visible="false" />
+	<uint8 name="Unused 45" offset="0x49" visible="false" />
+	<uint8 name="Unused 46" offset="0x4A" visible="false" />
+	<uint8 name="Unused 47" offset="0x4B" visible="false" />
+	<uint8 name="Unused 48" offset="0x4C" visible="false" />
+	<uint8 name="Unused 49" offset="0x4D" visible="false" />
+	<uint8 name="Unused 50" offset="0x4E" visible="false" />
+	<uint8 name="Unused 51" offset="0x4F" visible="false" />
+	<uint8 name="Unused 52" offset="0x50" visible="false" />
+	<uint8 name="Unused 53" offset="0x51" visible="false" />
+	<uint8 name="Unused 54" offset="0x52" visible="false" />
+	<uint8 name="Unused 55" offset="0x53" visible="false" />
+	<uint8 name="Unused 56" offset="0x54" visible="false" />
+	<uint8 name="Unused 57" offset="0x55" visible="false" />
+	<uint8 name="Unused 58" offset="0x56" visible="false" />
+	<uint8 name="Unused 59" offset="0x57" visible="false" />
+	<uint8 name="Unused 60" offset="0x58" visible="false" />
+	<uint8 name="Unused 61" offset="0x59" visible="false" />
+	<uint8 name="Unused 62" offset="0x5A" visible="false" />
+	<uint8 name="Unused 63" offset="0x5B" visible="false" />
+	<uint8 name="Unused 64" offset="0x5C" visible="false" />
+	<uint8 name="Unused 65" offset="0x5D" visible="false" />
+	<uint8 name="Unused 66" offset="0x5E" visible="false" />
+	<uint8 name="Unused 67" offset="0x5F" visible="false" />
+	<uint8 name="Unused 68" offset="0x60" visible="false" />
+	<uint8 name="Unused 69" offset="0x61" visible="false" />
+	<uint8 name="Unused 70" offset="0x62" visible="false" />
+	<uint8 name="Unused 71" offset="0x63" visible="false" />
+	<uint8 name="Unused 72" offset="0x64" visible="false" />
+	<uint8 name="Unused 73" offset="0x65" visible="false" />
+	<uint8 name="Unused 74" offset="0x66" visible="false" />
+	<uint8 name="Unused 75" offset="0x67" visible="false" />
+	<uint8 name="Unused 76" offset="0x68" visible="false" />
+	<uint8 name="Unused 77" offset="0x69" visible="false" />
+	<uint8 name="Unused 78" offset="0x6A" visible="false" />
+	<uint8 name="Unused 79" offset="0x6B" visible="false" />
+	<uint8 name="Unused 80" offset="0x6C" visible="false" />
+	<uint8 name="Unused 81" offset="0x6D" visible="false" />
+	<uint8 name="Unused 82" offset="0x6E" visible="false" />
+	<uint8 name="Unused 83" offset="0x6F" visible="false" />
+	<uint8 name="Unused 84" offset="0x70" visible="false" />
+	<uint8 name="Unused 85" offset="0x71" visible="false" />
+	<uint8 name="Unused 86" offset="0x72" visible="false" />
+	<uint8 name="Unused 87" offset="0x73" visible="false" />
+	<uint8 name="Unused 88" offset="0x74" visible="false" />
+	<uint8 name="Unused 89" offset="0x75" visible="false" />
+	<uint8 name="Unused 90" offset="0x76" visible="false" />
+	<uint8 name="Unused 91" offset="0x77" visible="false" />
+	<uint8 name="Unused 92" offset="0x78" visible="false" />
+	<uint8 name="Unused 93" offset="0x79" visible="false" />
+	<uint8 name="Unused 94" offset="0x7A" visible="false" />
+	<uint8 name="Unused 95" offset="0x7B" visible="false" />
+	<uint8 name="Unused 96" offset="0x7C" visible="false" />
+	<uint8 name="Unused 97" offset="0x7D" visible="false" />
+	<uint8 name="Unused 98" offset="0x7E" visible="false" />
+	<uint8 name="Unused 99" offset="0x7F" visible="false" />
+	<uint8 name="Unused 100" offset="0x80" visible="false" />
+	<uint8 name="Unused 101" offset="0x81" visible="false" />
+	<uint8 name="Unused 102" offset="0x82" visible="false" />
+	<uint8 name="Unused 103" offset="0x83" visible="false" />
+	<uint8 name="Unused 104" offset="0x84" visible="false" />
+	<uint8 name="Unused 105" offset="0x85" visible="false" />
+	<uint8 name="Unused 106" offset="0x86" visible="false" />
+	<uint8 name="Unused 107" offset="0x87" visible="false" />
+	<uint8 name="Unused 108" offset="0x88" visible="false" />
+	<uint8 name="Unused 109" offset="0x89" visible="false" />
+	<uint8 name="Unused 110" offset="0x8A" visible="false" />
+	<uint8 name="Unused 111" offset="0x8B" visible="false" />
+	<uint8 name="Unused 112" offset="0x8C" visible="false" />
+	<uint8 name="Unused 113" offset="0x8D" visible="false" />
+	<uint8 name="Unused 114" offset="0x8E" visible="false" />
+	<uint8 name="Unused 115" offset="0x8F" visible="false" />
+	<uint8 name="Unused 116" offset="0x90" visible="false" />
+	<uint8 name="Unused 117" offset="0x91" visible="false" />
+	<uint8 name="Unused 118" offset="0x92" visible="false" />
+	<uint8 name="Unused 119" offset="0x93" visible="false" />
+	<uint8 name="Unused 120" offset="0x94" visible="false" />
+	<uint8 name="Unused 121" offset="0x95" visible="false" />
+	<uint8 name="Unused 122" offset="0x96" visible="false" />
+	<uint8 name="Unused 123" offset="0x97" visible="false" />
+	<uint8 name="Unused 124" offset="0x98" visible="false" />
+	<uint8 name="Unused 125" offset="0x99" visible="false" />
+	<uint8 name="Unused 126" offset="0x9A" visible="false" />
+	<uint8 name="Unused 127" offset="0x9B" visible="false" />
+	<uint8 name="Unused 128" offset="0x9C" visible="false" />
+	<uint8 name="Unused 129" offset="0x9D" visible="false" />
+	<uint8 name="Unused 130" offset="0x9E" visible="false" />
+	<uint8 name="Unused 131" offset="0x9F" visible="false" />
+	<uint8 name="Unused 132" offset="0xA0" visible="false" />
+	<uint8 name="Unused 133" offset="0xA1" visible="false" />
+	<uint8 name="Unused 134" offset="0xA2" visible="false" />
+	<uint8 name="Unused 135" offset="0xA3" visible="false" />
+	<uint8 name="Unused 136" offset="0xA4" visible="false" />
+	<uint8 name="Unused 137" offset="0xA5" visible="false" />
+	<uint8 name="Unused 138" offset="0xA6" visible="false" />
+	<uint8 name="Unused 139" offset="0xA7" visible="false" />
+	<uint8 name="Unused 140" offset="0xA8" visible="false" />
+	<uint8 name="Unused 141" offset="0xA9" visible="false" />
+	<uint8 name="Unused 142" offset="0xAA" visible="false" />
+	<uint8 name="Unused 143" offset="0xAB" visible="false" />
+	<uint8 name="Unused 144" offset="0xAC" visible="false" />
+	<uint8 name="Unused 145" offset="0xAD" visible="false" />
+	<uint8 name="Unused 146" offset="0xAE" visible="false" />
+	<uint8 name="Unused 147" offset="0xAF" visible="false" />
+	<uint8 name="Unused 148" offset="0xB0" visible="false" />
+	<uint8 name="Unused 149" offset="0xB1" visible="false" />
+	<uint8 name="Unused 150" offset="0xB2" visible="false" />
+	<uint8 name="Unused 151" offset="0xB3" visible="false" />
+	<uint8 name="Unused 152" offset="0xB4" visible="false" />
+	<uint8 name="Unused 153" offset="0xB5" visible="false" />
+	<uint8 name="Unused 154" offset="0xB6" visible="false" />
+	<uint8 name="Unused 155" offset="0xB7" visible="false" />
+	<uint8 name="Unused 156" offset="0xB8" visible="false" />
+	<uint8 name="Unused 157" offset="0xB9" visible="false" />
+	<uint8 name="Unused 158" offset="0xBA" visible="false" />
+	<uint8 name="Unused 159" offset="0xBB" visible="false" />
+	<uint8 name="Unused 160" offset="0xBC" visible="false" />
+	<uint8 name="Unused 161" offset="0xBD" visible="false" />
+	<uint8 name="Unused 162" offset="0xBE" visible="false" />
+	<uint8 name="Unused 163" offset="0xBF" visible="false" />
+	<uint8 name="Unused 164" offset="0xC0" visible="false" />
+	<uint8 name="Unused 165" offset="0xC1" visible="false" />
+	<uint8 name="Unused 166" offset="0xC2" visible="false" />
+	<uint8 name="Unused 167" offset="0xC3" visible="false" />
+	<uint8 name="Unused 168" offset="0xC4" visible="false" />
+	<uint8 name="Unused 169" offset="0xC5" visible="false" />
+	<uint8 name="Unused 170" offset="0xC6" visible="false" />
+	<uint8 name="Unused 171" offset="0xC7" visible="false" />
+	<uint8 name="Unused 172" offset="0xC8" visible="false" />
+	<uint8 name="Unused 173" offset="0xC9" visible="false" />
+	<uint8 name="Unused 174" offset="0xCA" visible="false" />
+	<uint8 name="Unused 175" offset="0xCB" visible="false" />
+	<uint8 name="Unused 176" offset="0xCC" visible="false" />
+	<uint8 name="Unused 177" offset="0xCD" visible="false" />
+	<uint8 name="Unused 178" offset="0xCE" visible="false" />
+	<uint8 name="Unused 179" offset="0xCF" visible="false" />
+	<uint8 name="Unused 180" offset="0xD0" visible="false" />
+	<uint8 name="Unused 181" offset="0xD1" visible="false" />
+	<uint8 name="Unused 182" offset="0xD2" visible="false" />
+	<uint8 name="Unused 183" offset="0xD3" visible="false" />
+	<uint8 name="Unused 184" offset="0xD4" visible="false" />
+	<uint8 name="Unused 185" offset="0xD5" visible="false" />
+	<uint8 name="Unused 186" offset="0xD6" visible="false" />
+	<uint8 name="Unused 187" offset="0xD7" visible="false" />
+	<uint8 name="Unused 188" offset="0xD8" visible="false" />
+	<uint8 name="Unused 189" offset="0xD9" visible="false" />
+	<uint8 name="Unused 190" offset="0xDA" visible="false" />
+	<uint8 name="Unused 191" offset="0xDB" visible="false" />
+	<uint8 name="Unused 192" offset="0xDC" visible="false" />
+	<uint8 name="Unused 193" offset="0xDD" visible="false" />
+	<uint8 name="Unused 194" offset="0xDE" visible="false" />
+	<uint8 name="Unused 195" offset="0xDF" visible="false" />
+	<uint8 name="Unused 196" offset="0xE0" visible="false" />
+	<uint8 name="Unused 197" offset="0xE1" visible="false" />
+	<uint8 name="Unused 198" offset="0xE2" visible="false" />
+	<uint8 name="Unused 199" offset="0xE3" visible="false" />
+	<uint8 name="Unused 200" offset="0xE4" visible="false" />
+	<uint8 name="Unused 201" offset="0xE5" visible="false" />
+	<uint8 name="Unused 202" offset="0xE6" visible="false" />
+	<uint8 name="Unused 203" offset="0xE7" visible="false" />
+	<uint8 name="Unused 204" offset="0xE8" visible="false" />
+	<uint8 name="Unused 205" offset="0xE9" visible="false" />
+	<uint8 name="Unused 206" offset="0xEA" visible="false" />
+	<uint8 name="Unused 207" offset="0xEB" visible="false" />
+	<uint8 name="Unused 208" offset="0xEC" visible="false" />
+	<uint8 name="Unused 209" offset="0xED" visible="false" />
+	<uint8 name="Unused 210" offset="0xEE" visible="false" />
+	<uint8 name="Unused 211" offset="0xEF" visible="false" />
+	<uint8 name="Unused 212" offset="0xF0" visible="false" />
+	<uint8 name="Unused 213" offset="0xF1" visible="false" />
+	<uint8 name="Unused 214" offset="0xF2" visible="false" />
+	<uint8 name="Unused 215" offset="0xF3" visible="false" />
+	<uint8 name="Unused 216" offset="0xF4" visible="false" />
+	<uint8 name="Unused 217" offset="0xF5" visible="false" />
+	<uint8 name="Unused 218" offset="0xF6" visible="false" />
+	<uint8 name="Unused 219" offset="0xF7" visible="false" />
+	<uint8 name="Unused 220" offset="0xF8" visible="false" />
+	<uint8 name="Unused 221" offset="0xF9" visible="false" />
+	<uint8 name="Unused 222" offset="0xFA" visible="false" />
+	<uint8 name="Unused 223" offset="0xFB" visible="false" />
+	<uint8 name="Unused 224" offset="0xFC" visible="false" />
+	<uint8 name="Unused 225" offset="0xFD" visible="false" />
+	<uint8 name="Unused 226" offset="0xFE" visible="false" />
+	<uint8 name="Unused 227" offset="0xFF" visible="false" />
+	<uint8 name="Unused 228" offset="0x100" visible="false" />
+	<uint8 name="Unused 229" offset="0x101" visible="false" />
+	<uint8 name="Unused 230" offset="0x102" visible="false" />
+	<uint8 name="Unused 231" offset="0x103" visible="false" />
+	<uint8 name="Unused 232" offset="0x104" visible="false" />
+	<uint8 name="Unused 233" offset="0x105" visible="false" />
+	<uint8 name="Unused 234" offset="0x106" visible="false" />
+	<uint8 name="Unused 235" offset="0x107" visible="false" />
+	<uint8 name="Unused 236" offset="0x108" visible="false" />
+	<uint8 name="Unused 237" offset="0x109" visible="false" />
+	<uint8 name="Unused 238" offset="0x10A" visible="false" />
+	<uint8 name="Unused 239" offset="0x10B" visible="false" />
+	<uint8 name="Unused 240" offset="0x10C" visible="false" />
+	<uint8 name="Unused 241" offset="0x10D" visible="false" />
+	<uint8 name="Unused 242" offset="0x10E" visible="false" />
+	<uint8 name="Unused 243" offset="0x10F" visible="false" />
+	<uint8 name="Unused 244" offset="0x110" visible="false" />
+	<uint8 name="Unused 245" offset="0x111" visible="false" />
+	<uint8 name="Unused 246" offset="0x112" visible="false" />
+	<uint8 name="Unused 247" offset="0x113" visible="false" />
+	<uint8 name="Unused 248" offset="0x114" visible="false" />
+	<uint8 name="Unused 249" offset="0x115" visible="false" />
+	<uint8 name="Unused 250" offset="0x116" visible="false" />
+	<uint8 name="Unused 251" offset="0x117" visible="false" />
+	<uint8 name="Unused 252" offset="0x118" visible="false" />
+	<uint8 name="Unused 253" offset="0x119" visible="false" />
+	<uint8 name="Unused 254" offset="0x11A" visible="false" />
+	<uint8 name="Unused 255" offset="0x11B" visible="false" />
+</plugin>

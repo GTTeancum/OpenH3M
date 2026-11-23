@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xE0">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SoundOld (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags32 name="Flags" offset="0x0" visible="true">
+		<bit name="FitToAdpcmBlocksize" index="0" />
+		<bit name="AlwaysSpatialize" index="1" />
+		<bit name="NeverObstruct" index="2" />
+		<bit name="InternalDonTTouch" index="3" />
+		<bit name="FacialAnimationDataStripped" index="4" />
+		<bit name="UseHugeSoundTransmission" index="5" />
+		<bit name="LinkCountToOwnerUnit" index="6" />
+		<bit name="PitchRangeIsLanguage" index="7" />
+		<bit name="DonTUseSoundClassSpeakerFlag" index="8" />
+		<bit name="DonTUseLipsyncData" index="9" />
+		<bit name="InstantSoundPropagation" index="10" />
+		<bit name="FakeSpatializationWithDistance" index="11" />
+		<bit name="PlayPermutationsInOrder" index="12" />
+	</flags32>
+	<flags32 name="Import Flags" offset="0x4" visible="true">
+		<bit name="DuplicateDirectoryName" index="0" />
+		<bit name="CutToBlockSize" index="1" />
+		<bit name="UseMarkers" index="2" />
+		<bit name="UseLayerMarkers" index="3" />
+	</flags32>
+	<flags32 name="Xsync Flags" offset="0x8" visible="true">
+		<bit name="ProcessedLanguageTimes" index="0" />
+		<bit name="OptimizedFacialAnimation" index="1" />
+	</flags32>
+	<enum8 name="Class" offset="0xC" visible="true">
+		<option name="ProjectileImpact" value="0" />
+		<option name="ProjectileDetonation" value="1" />
+		<option name="ProjectileFlyby" value="2" />
+		<option name="ProjectileDetonationLod" value="3" />
+		<option name="WeaponFire" value="4" />
+		<option name="WeaponReady" value="5" />
+		<option name="WeaponReload" value="6" />
+		<option name="WeaponEmpty" value="7" />
+		<option name="WeaponCharge" value="8" />
+		<option name="WeaponOverheat" value="9" />
+		<option name="WeaponIdle" value="10" />
+		<option name="WeaponMelee" value="11" />
+		<option name="WeaponAnimation" value="12" />
+		<option name="ObjectImpacts" value="13" />
+		<option name="ParticleImpacts" value="14" />
+		<option name="WeaponFireLod" value="15" />
+		<option name="WaterTransitions" value="16" />
+		<option name="LowpassEffects" value="17" />
+		<option name="UnitFootsteps" value="18" />
+		<option name="UnitDialog" value="19" />
+		<option name="UnitAnimation" value="20" />
+		<option name="UnitUnused" value="21" />
+		<option name="VehicleCollision" value="22" />
+		<option name="VehicleEngine" value="23" />
+		<option name="VehicleAnimation" value="24" />
+		<option name="VehicleEngineLod" value="25" />
+		<option name="DeviceDoor" value="26" />
+		<option name="DeviceUnused0" value="27" />
+		<option name="DeviceMachinery" value="28" />
+		<option name="DeviceStationary" value="29" />
+		<option name="DeviceUnused1" value="30" />
+		<option name="DeviceUnused2" value="31" />
+		<option name="Music" value="32" />
+		<option name="AmbientNature" value="33" />
+		<option name="AmbientMachinery" value="34" />
+		<option name="AmbientStationary" value="35" />
+		<option name="HugeAss" value="36" />
+		<option name="ObjectLooping" value="37" />
+		<option name="CinematicMusic" value="38" />
+		<option name="UnknownUnused0" value="39" />
+		<option name="UnknownUnused1" value="40" />
+		<option name="AmbientFlock" value="41" />
+		<option name="NoPad" value="42" />
+		<option name="NoPadStationary" value="43" />
+		<option name="EquipmentEffect" value="44" />
+		<option name="MissionDialog" value="45" />
+		<option name="CinematicDialog" value="46" />
+		<option name="ScriptedCinematicFoley" value="47" />
+		<option name="GameEvent" value="48" />
+		<option name="Ui" value="49" />
+		<option name="Test" value="50" />
+		<option name="MultiplayerDialog" value="51" />
+		<option name="AmbientNatureDetails" value="52" />
+		<option name="AmbientMachineryDetails" value="53" />
+		<option name="InsideSurroundTail" value="54" />
+		<option name="OutsideSurroundTail" value="55" />
+		<option name="VehicleDetonation" value="56" />
+		<option name="AmbientDetonation" value="57" />
+		<option name="FirstPersonInside" value="58" />
+		<option name="FirstPersonOutside" value="59" />
+		<option name="FirstPersonAnywhere" value="60" />
+		<option name="SpaceProjectileDetonation" value="61" />
+		<option name="SpaceProjectileFlyby" value="62" />
+		<option name="SpaceVehicleEngine" value="63" />
+		<option name="SpaceWeaponFire" value="64" />
+		<option name="PlayerVoiceTeam" value="65" />
+		<option name="PlayerVoiceProxy" value="66" />
+		<option name="ProjectileImpactPostpone" value="67" />
+		<option name="UnitFootstepsPostpone" value="68" />
+		<option name="WeaponReadyThirdPerson" value="69" />
+		<option name="UiMusic" value="70" />
+	</enum8>
+	<enum8 name="Sample Rate" offset="0xD" visible="true">
+		<option name="_22khz" value="0" />
+		<option name="_44khz" value="1" />
+		<option name="_32khz" value="2" />
+	</enum8>
+	<int8 name="Override Xma Compression" offset="0xE" visible="true" />
+	<enum8 name="Import Type" offset="0xF" visible="true">
+		<option name="Unknown" value="0" />
+		<option name="SingleShot" value="1" />
+		<option name="SingleLayer" value="2" />
+		<option name="MultiLayer" value="3" />
+	</enum8>
+	<int32 name="Playback / Internal Flags" offset="0x10" visible="true" />
+	<float32 name="Playback / Skip Fraction" offset="0x14" visible="true" />
+	<float32 name="Playback / Maximum Bend Per Second" offset="0x18" visible="true" />
+	<float32 name="Playback / Distance Parameters / Don T Obstruct Distance" offset="0x1C" visible="true" />
+	<float32 name="Playback / Distance Parameters / Don T Play Distance" offset="0x20" visible="true" />
+	<float32 name="Playback / Distance Parameters / Attack Distance" offset="0x24" visible="true" />
+	<float32 name="Playback / Distance Parameters / Minimum Distance" offset="0x28" visible="true" />
+	<float32 name="Playback / Distance Parameters / Sustain Begin Distance" offset="0x2C" visible="true" />
+	<float32 name="Playback / Distance Parameters / Sustain End Distance" offset="0x30" visible="true" />
+	<float32 name="Playback / Distance Parameters / Maximum Distance" offset="0x34" visible="true" />
+	<float32 name="Playback / Distance Parameters / Sustain Db" offset="0x38" visible="true" />
+	<float32 name="Playback / Gain Base" offset="0x3C" visible="true" />
+	<float32 name="Playback / Gain Variance" offset="0x40" visible="true" />
+	<range16 name="Playback / Random Pitch Bounds" offset="0x44" visible="true" />
+	<degree name="Playback / Inner Cone Angle" offset="0x48" visible="true" />
+	<degree name="Playback / Outer Cone Angle" offset="0x4C" visible="true" />
+	<float32 name="Playback / Outer Cone Gain" offset="0x50" visible="true" />
+	<flags32 name="Playback / Flags" offset="0x54" visible="true">
+		<bit name="OverrideAzimuth" index="0" />
+		<bit name="Override3dGain" index="1" />
+		<bit name="OverrideSpeakerGain" index="2" />
+	</flags32>
+	<degree name="Playback / Azimuth" offset="0x58" visible="true" />
+	<float32 name="Playback / Positional Gain" offset="0x5C" visible="true" />
+	<float32 name="Playback / First Person Gain" offset="0x60" visible="true" />
+	<rangef name="Scale / Gain Modifier" offset="0x64" visible="true" />
+	<range16 name="Scale / Pitch Modifier" offset="0x6C" visible="true" />
+	<rangef name="Scale / Skip Fraction Modifier" offset="0x70" visible="true" />
+	<float32 name="Sub Priority" offset="0x78" visible="true" />
+	<enum8 name="Encoding" offset="0x7C" visible="true">
+		<option name="Mono" value="0" />
+		<option name="Stereo" value="1" />
+		<option name="Quad" value="2" />
+		<option name="_51" value="3" />
+		<option name="Codec" value="4" />
+	</enum8>
+	<enum8 name="Compression" offset="0x7D" visible="true">
+		<option name="None" value="0" />
+		<option name="XboxAdpcm" value="1" />
+		<option name="ImaAdpcm" value="2" />
+		<option name="None1" value="3" />
+		<option name="Wma" value="4" />
+		<option name="None2" value="5" />
+		<option name="Xma" value="6" />
+		<option name="XmaV20" value="7" />
+	</enum8>
+	<uint8 name="Padding 0" offset="0x7E" visible="false" />
+	<uint8 name="Padding 1" offset="0x7F" visible="false" />
+	<tagblock name="Promotion / Promotion Rules" offset="0x80" visible="true" elementSize="0x10">
+		<int16 name="Pitch Range" offset="0x0" visible="true" />
+		<int16 name="Maximum Playing Count" offset="0x2" visible="true" />
+		<float32 name="Suppression Time" offset="0x4" visible="true" />
+		<int32 name="Runtime Rollover Time" offset="0x8" visible="true" />
+		<int32 name="Impulse Promotion Time" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Promotion / Runtime Timers" offset="0x8C" visible="true" elementSize="0x4">
+		<int32 name="Timer Storage" offset="0x0" visible="true" />
+	</tagblock>
+	<int32 name="Promotion / Runtime Active Promotion Index" offset="0x98" visible="true" />
+	<int32 name="Promotion / Runtime Last Promotion Time" offset="0x9C" visible="true" />
+	<int32 name="Promotion / Runtime Suppression Timeout" offset="0xA0" visible="true" />
+	<uint8 name="Padding1 0" offset="0xA4" visible="false" />
+	<uint8 name="Padding1 1" offset="0xA5" visible="false" />
+	<uint8 name="Padding1 2" offset="0xA6" visible="false" />
+	<uint8 name="Padding1 3" offset="0xA7" visible="false" />
+	<tagblock name="Pitch Ranges" offset="0xA8" visible="true" elementSize="0x48">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<int16 name="Natural Pitch" offset="0x4" visible="true" />
+		<uint8 name="Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Padding 1" offset="0x7" visible="false" />
+		<range16 name="Bend Bounds" offset="0x8" visible="true" />
+		<range16 name="Full Volume Bounds" offset="0xC" visible="true" />
+		<range16 name="Playback Bend Bounds" offset="0x10" visible="true" />
+		<float32 name="Distance Parameters / Don T Obstruct Distance" offset="0x14" visible="true" />
+		<float32 name="Distance Parameters / Don T Play Distance" offset="0x18" visible="true" />
+		<float32 name="Distance Parameters / Attack Distance" offset="0x1C" visible="true" />
+		<float32 name="Distance Parameters / Minimum Distance" offset="0x20" visible="true" />
+		<float32 name="Distance Parameters / Sustain Begin Distance" offset="0x24" visible="true" />
+		<float32 name="Distance Parameters / Sustain End Distance" offset="0x28" visible="true" />
+		<float32 name="Distance Parameters / Maximum Distance" offset="0x2C" visible="true" />
+		<float32 name="Distance Parameters / Sustain Db" offset="0x30" visible="true" />
+		<uint8 name="Padding1 0" offset="0x34" visible="false" />
+		<uint8 name="Padding1 1" offset="0x35" visible="false" />
+		<uint8 name="Padding1 2" offset="0x36" visible="false" />
+		<uint8 name="Padding1 3" offset="0x37" visible="false" />
+		<int8 name="Runtime Usable Permutation Count" offset="0x38" visible="true" />
+		<flags8 name="Xsync Flags" offset="0x39" visible="true">
+			<bit name="ProcessedLanguagePermutations" index="0" />
+		</flags8>
+		<uint8 name="Padding2 0" offset="0x3A" visible="false" />
+		<uint8 name="Padding2 1" offset="0x3B" visible="false" />
+		<tagblock name="Permutations" offset="0x3C" visible="true" elementSize="0x24">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<float32 name="Skip Fraction" offset="0x4" visible="true" />
+			<float32 name="Gain" offset="0x8" visible="true" />
+			<int16 name="Raw Info" offset="0xC" visible="true" />
+			<int16 name="Play Fraction Type" offset="0xE" visible="true" />
+			<range16 name="Mission Range" offset="0x10" visible="true" />
+			<flags16 name="Permutation Flags" offset="0x14" visible="true">
+				<bit name="DonTPlayInDvdBuild" index="0" />
+			</flags16>
+			<flags16 name="Flags" offset="0x16" visible="true" />
+			<tagblock name="Languages" offset="0x18" visible="true" elementSize="0x10">
+				<int32 name="Uncompressed Sample Count" offset="0x0" visible="true" />
+				<tagblock name="Chunks" offset="0x4" visible="true" elementSize="0x14">
+					<int32 name="File Offset" offset="0x0" visible="true" />
+					<int32 name="Encoded Size And Flags" offset="0x4" visible="true" />
+					<int32 name="Cache Index" offset="0x8" visible="true" />
+					<int32 name="Xma2 Source Buffer Sample Start" offset="0xC" visible="true" />
+					<int32 name="Xma2 Source Buffer Sample End" offset="0x10" visible="true" />
+				</tagblock>
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Platform Parameters" offset="0xB4" visible="true" elementSize="0x5C">
+		<flags32 name="Playback Definition / Flags" offset="0x0" visible="true">
+			<bit name="TurnOffInSplitscreen" index="0" />
+			<bit name="OnlyTurnOnInFirstPerson" index="1" />
+		</flags32>
+		<tagref name="Playback Definition / Radio Effect" offset="0x4" visible="true" />
+		<tagref name="Playback Definition / Start Event" offset="0x14" visible="true" />
+		<tagref name="Playback Definition / End Event" offset="0x24" visible="true" />
+		<tagref name="Playback Definition / Immediate Stop Event" offset="0x34" visible="true" />
+		<tagblock name="Playback Definition / Lowpass Effect" offset="0x44" visible="true" elementSize="0x10">
+			<float32 name="Attack" offset="0x0" visible="true" />
+			<float32 name="Release" offset="0x4" visible="true" />
+			<float32 name="Settings / Cutoff Frequency" offset="0x8" visible="true" />
+			<float32 name="Settings / Output Gain" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Playback Definition / Sound Components" offset="0x50" visible="true" elementSize="0x18">
+			<tagref name="Sound" offset="0x0" visible="true" />
+			<float32 name="Gain" offset="0x10" visible="true" />
+			<flags32 name="Flags" offset="0x14" visible="true">
+				<bit name="DonTPlayAtStart" index="0" />
+				<bit name="PlayOnStop" index="1" />
+				<bit name="PlayAlternate" index="2" />
+				<bit name="SyncWithOriginLoopingSound" index="3" />
+			</flags32>
+		</tagblock>
+	</tagblock>
+	<uint32 name="Sound Data Resource (resource datum)" offset="0xC0" visible="true" />
+	<uint32 name="Sound Data Resource (resource pad)" offset="0xC4" visible="true" />
+	<tagblock name="Extra Info" offset="0xC8" visible="true" elementSize="0x18">
+		<tagblock name="Language Permutation Info" offset="0x0" visible="true" elementSize="0xC">
+			<tagblock name="Raw Info Block" offset="0x0" visible="true" elementSize="0x4C">
+				<stringid name="Skip Fraction Name" offset="0x0" visible="true" />
+				<dataref name="Samples" offset="0x4" visible="true" />
+				<tagblock name="Markers" offset="0x18" visible="true" elementSize="0xC">
+					<int32 name="Marker Id" offset="0x0" visible="true" />
+					<stringid name="Name" offset="0x4" visible="true" />
+					<int32 name="Sample Offset" offset="0x8" visible="true" />
+				</tagblock>
+				<tagblock name="Layer Markers" offset="0x24" visible="true" elementSize="0xC">
+					<int32 name="Marker Id" offset="0x0" visible="true" />
+					<stringid name="Name" offset="0x4" visible="true" />
+					<int32 name="Sample Offset" offset="0x8" visible="true" />
+				</tagblock>
+				<tagblock name="Xma2 Seek Table" offset="0x30" visible="true" elementSize="0x18">
+					<int32 name="Block Relative Sample Start" offset="0x0" visible="true" />
+					<int32 name="Block Relative Sample End" offset="0x4" visible="true" />
+					<int32 name="Starting Sample Index" offset="0x8" visible="true" />
+					<int32 name="Ending Sample Index" offset="0xC" visible="true" />
+					<int32 name="Starting Xma2 Offset" offset="0x10" visible="true" />
+					<int32 name="Ending Xma2 Offset" offset="0x14" visible="true" />
+				</tagblock>
+				<enum16 name="Compression" offset="0x3C" visible="true">
+					<option name="None" value="0" />
+					<option name="XboxAdpcm" value="1" />
+					<option name="ImaAdpcm" value="2" />
+					<option name="None1" value="3" />
+					<option name="Wma" value="4" />
+					<option name="None2" value="5" />
+					<option name="Xma" value="6" />
+					<option name="XmaV20" value="7" />
+				</enum16>
+				<enum8 name="Language" offset="0x3E" visible="true">
+					<option name="English" value="0" />
+					<option name="Japanese" value="1" />
+					<option name="German" value="2" />
+					<option name="French" value="3" />
+					<option name="Spanish" value="4" />
+					<option name="MexicanSpanish" value="5" />
+					<option name="Italian" value="6" />
+					<option name="Korean" value="7" />
+					<option name="ChineseTraditional" value="8" />
+					<option name="ChineseSimplified" value="9" />
+					<option name="Portuguese" value="10" />
+					<option name="Polish" value="11" />
+					<option name="Russian" value="12" />
+					<option name="Danish" value="13" />
+					<option name="Finnish" value="14" />
+					<option name="Dutch" value="15" />
+					<option name="Norwegian" value="16" />
+				</enum8>
+				<uint8 name="Padding 0" offset="0x3F" visible="false" />
+				<int32 name="Sample Count" offset="0x40" visible="true" />
+				<int32 name="Resource Sample Offset" offset="0x44" visible="true" />
+				<int32 name="Resource Sample Size" offset="0x48" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Facial Animation Resource Languages" offset="0xC" visible="true" elementSize="0xC">
+			<uint32 name="Facial Animation Resource (resource datum)" offset="0x0" visible="true" />
+			<uint32 name="Facial Animation Resource (resource pad)" offset="0x4" visible="true" />
+			<enum32 name="Language" offset="0x8" visible="true">
+				<option name="English" value="0" />
+				<option name="Japanese" value="1" />
+				<option name="German" value="2" />
+				<option name="French" value="3" />
+				<option name="Spanish" value="4" />
+				<option name="MexicanSpanish" value="5" />
+				<option name="Italian" value="6" />
+				<option name="Korean" value="7" />
+				<option name="ChineseTraditional" value="8" />
+				<option name="ChineseSimplified" value="9" />
+				<option name="Portuguese" value="10" />
+				<option name="Polish" value="11" />
+				<option name="Russian" value="12" />
+				<option name="Danish" value="13" />
+				<option name="Finnish" value="14" />
+				<option name="Dutch" value="15" />
+				<option name="Norwegian" value="16" />
+			</enum32>
+		</tagblock>
+	</tagblock>
+	<tagblock name="Language Info" offset="0xD4" visible="true" elementSize="0x1C">
+		<enum32 name="Language" offset="0x0" visible="true">
+			<option name="English" value="0" />
+			<option name="Japanese" value="1" />
+			<option name="German" value="2" />
+			<option name="French" value="3" />
+			<option name="Spanish" value="4" />
+			<option name="MexicanSpanish" value="5" />
+			<option name="Italian" value="6" />
+			<option name="Korean" value="7" />
+			<option name="ChineseTraditional" value="8" />
+			<option name="ChineseSimplified" value="9" />
+			<option name="Portuguese" value="10" />
+			<option name="Polish" value="11" />
+			<option name="Russian" value="12" />
+			<option name="Danish" value="13" />
+			<option name="Finnish" value="14" />
+			<option name="Dutch" value="15" />
+			<option name="Norwegian" value="16" />
+		</enum32>
+		<tagblock name="Permutation Durations" offset="0x4" visible="true" elementSize="0x2">
+			<int16 name="Duration In Hs Ticks" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Pitch Range Durations" offset="0x10" visible="true" elementSize="0x4">
+			<int16 name="First Permutation Language Index" offset="0x0" visible="true" />
+			<int16 name="Permutation Count" offset="0x2" visible="true" />
+		</tagblock>
+	</tagblock>
+</plugin>

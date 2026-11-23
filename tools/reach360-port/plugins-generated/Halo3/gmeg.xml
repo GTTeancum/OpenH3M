@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x18">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.GameMedalGlobals (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Tiers" offset="0x0" visible="true" elementSize="0xC">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Description" offset="0x4" visible="true" />
+		<int16 name="Sequence Index" offset="0x8" visible="true" />
+		<int16 name="Point Value" offset="0xA" visible="true" />
+	</tagblock>
+	<tagblock name="Medals" offset="0xC" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<stringid name="Description" offset="0x4" visible="true" />
+		<int16 name="Sequence Index" offset="0x8" visible="true" />
+		<enum8 name="Medal Class" offset="0xA" visible="true">
+			<option name="Special" value="0" />
+			<option name="RoleSpree" value="1" />
+			<option name="Spree" value="2" />
+			<option name="Multikill" value="3" />
+			<option name="Objectives" value="4" />
+			<option name="Circumstance" value="5" />
+			<option name="Finesse" value="6" />
+		</enum8>
+		<uint8 name="Padding 0" offset="0xB" visible="false" />
+		<int32 name="Ordnance Points" offset="0xC" visible="true" />
+		<uint8 name="Ordnance Multiplier" offset="0x10" visible="true" />
+		<uint8 name="Tier Index" offset="0x11" visible="true" />
+		<int16 name="Override Point Value" offset="0x12" visible="true" />
+	</tagblock>
+</plugin>

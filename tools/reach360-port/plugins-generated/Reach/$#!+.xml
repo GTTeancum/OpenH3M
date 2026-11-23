@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x24">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CacheFileSound (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="FitToAdpcmBlocksize" index="0" />
+		<bit name="AlwaysSpatialize" index="1" />
+		<bit name="NeverObstruct" index="2" />
+		<bit name="InternalDonTTouch" index="3" />
+		<bit name="FacialAnimationDataStripped" index="4" />
+		<bit name="UseHugeSoundTransmission" index="5" />
+		<bit name="LinkCountToOwnerUnit" index="6" />
+		<bit name="PitchRangeIsLanguage" index="7" />
+		<bit name="DonTUseSoundClassSpeakerFlag" index="8" />
+		<bit name="DonTUseLipsyncData" index="9" />
+		<bit name="InstantSoundPropagation" index="10" />
+		<bit name="FakeSpatializationWithDistance" index="11" />
+		<bit name="PlayPermutationsInOrder" index="12" />
+	</flags16>
+	<enum8 name="Sound Class" offset="0x2" visible="true">
+		<option name="ProjectileImpact" value="0" />
+		<option name="ProjectileDetonation" value="1" />
+		<option name="ProjectileFlyby" value="2" />
+		<option name="ProjectileDetonationLod" value="3" />
+		<option name="WeaponFire" value="4" />
+		<option name="WeaponReady" value="5" />
+		<option name="WeaponReload" value="6" />
+		<option name="WeaponEmpty" value="7" />
+		<option name="WeaponCharge" value="8" />
+		<option name="WeaponOverheat" value="9" />
+		<option name="WeaponIdle" value="10" />
+		<option name="WeaponMelee" value="11" />
+		<option name="WeaponAnimation" value="12" />
+		<option name="ObjectImpacts" value="13" />
+		<option name="ParticleImpacts" value="14" />
+		<option name="WeaponFireLod" value="15" />
+		<option name="WaterTransitions" value="16" />
+		<option name="LowpassEffects" value="17" />
+		<option name="UnitFootsteps" value="18" />
+		<option name="UnitDialog" value="19" />
+		<option name="UnitAnimation" value="20" />
+		<option name="UnitUnused" value="21" />
+		<option name="VehicleCollision" value="22" />
+		<option name="VehicleEngine" value="23" />
+		<option name="VehicleAnimation" value="24" />
+		<option name="VehicleEngineLod" value="25" />
+		<option name="DeviceDoor" value="26" />
+		<option name="DeviceUnused0" value="27" />
+		<option name="DeviceMachinery" value="28" />
+		<option name="DeviceStationary" value="29" />
+		<option name="DeviceUnused1" value="30" />
+		<option name="DeviceUnused2" value="31" />
+		<option name="Music" value="32" />
+		<option name="AmbientNature" value="33" />
+		<option name="AmbientMachinery" value="34" />
+		<option name="AmbientStationary" value="35" />
+		<option name="HugeAss" value="36" />
+		<option name="ObjectLooping" value="37" />
+		<option name="CinematicMusic" value="38" />
+		<option name="UnknownUnused0" value="39" />
+		<option name="UnknownUnused1" value="40" />
+		<option name="AmbientFlock" value="41" />
+		<option name="NoPad" value="42" />
+		<option name="NoPadStationary" value="43" />
+		<option name="EquipmentEffect" value="44" />
+		<option name="MissionDialog" value="45" />
+		<option name="CinematicDialog" value="46" />
+		<option name="ScriptedCinematicFoley" value="47" />
+		<option name="GameEvent" value="48" />
+		<option name="Ui" value="49" />
+		<option name="Test" value="50" />
+		<option name="MultiplayerDialog" value="51" />
+		<option name="AmbientNatureDetails" value="52" />
+		<option name="AmbientMachineryDetails" value="53" />
+		<option name="InsideSurroundTail" value="54" />
+		<option name="OutsideSurroundTail" value="55" />
+		<option name="VehicleDetonation" value="56" />
+		<option name="AmbientDetonation" value="57" />
+		<option name="FirstPersonInside" value="58" />
+		<option name="FirstPersonOutside" value="59" />
+		<option name="FirstPersonAnywhere" value="60" />
+		<option name="SpaceProjectileDetonation" value="61" />
+		<option name="SpaceProjectileFlyby" value="62" />
+		<option name="SpaceVehicleEngine" value="63" />
+		<option name="SpaceWeaponFire" value="64" />
+		<option name="PlayerVoiceTeam" value="65" />
+		<option name="PlayerVoiceProxy" value="66" />
+		<option name="ProjectileImpactPostpone" value="67" />
+		<option name="UnitFootstepsPostpone" value="68" />
+		<option name="WeaponReadyThirdPerson" value="69" />
+		<option name="UiMusic" value="70" />
+	</enum8>
+	<int8 name="Pitch Range Count" offset="0x3" visible="true" />
+	<int16 name="Codec Index" offset="0x4" visible="true" />
+	<int16 name="First Pitch Range Index" offset="0x6" visible="true" />
+	<int16 name="First Language Duration Pitch Range Index" offset="0x8" visible="true" />
+	<int16 name="Runtime Gestalt Index Storage" offset="0xA" visible="true" />
+	<int16 name="Sub Priority" offset="0xC" visible="true" />
+	<int16 name="Playback Index" offset="0xE" visible="true" />
+	<int16 name="Scale Index" offset="0x10" visible="true" />
+	<int8 name="Promotion Index" offset="0x12" visible="true" />
+	<int8 name="Custom Playback Index" offset="0x13" visible="true" />
+	<int16 name="Extra Info Index" offset="0x14" visible="true" />
+	<uint8 name="Padding 0" offset="0x16" visible="false" />
+	<uint8 name="Padding 1" offset="0x17" visible="false" />
+	<int32 name="Maximum Play Time" offset="0x18" visible="true" />
+	<uint32 name="Sound Data Resource (resource datum)" offset="0x1C" visible="true" />
+	<uint32 name="Sound Data Resource (resource pad)" offset="0x20" visible="true" />
+</plugin>

@@ -1,6 +1,6 @@
 # Reach authoring to original Halo 3: process and evidence
 
-Updated 2026-11-04. This is a living process specification, not a claim that
+Updated 2026-11-21. This is a living process specification, not a claim that
 the pipeline or Battle Canyon is complete. Update it as evidence changes.
 
 ## Latest recorded build state
@@ -47,12 +47,11 @@ paths, counts and generated reports are implementation examples, not scope limit
   sprint in the original H3 core. Use native equipment references, behavior,
   menu labels, costs and limits; audit native donors rather than assuming MCC
   authoring palettes contain only shipping H3 entries.
-- **Health stations:** retain the visible Reach station as nonfunctional scenery.
-  Preserve its authored appearance and placement, but omit healing/control
-  activation and pickup behavior. Do not report it as working health equipment.
-  Battle Canyon has four such stations. This rule concerns Reach health stations;
-  it does not reverse the earlier removal of CE-style packs in Prisoner and
-  Boarding Action.
+- **Health stations (user 2026-11-22, supersedes keeping them as nonfunctional
+  scenery):** remove Reach health stations and their placements in every Reach-to-H3
+  conversion. Battle Canyon's four come out at its next rebuild. This rule concerns
+  Reach health stations; it does not change the earlier removal of CE-style packs in
+  Prisoner and Boarding Action.
 - **Gravity lifts:** start with the stock H3 equivalent. If its force or exit
   direction does not suit the authored passage, copying relevant Reach item
   values into supported H3 fields is authorized. Establish field meanings,
@@ -1607,3 +1606,71 @@ Do not assume a new sibling resource file in a LIVE package will load: native
 slots, and 821C1C60 requires that lookup before opening the resource source.
 No arbitrary companion-file registration route has been established. Original
 shared.map must remain unchanged.
+
+
+## Direct Reach 360 cache to Halo 3 360 cache (ReachPort, 2026-11-21)
+
+A second route alongside the authoring pipeline above: Reach retail Xbox 360 map files converted directly into
+original Halo 3 Xbox 360 caches by the ReachPort feature in Assembly (no MCC tools). Implementation, commands
+and Reflection's details: [tools/reach360-port/README.md](../reach360-port/README.md). The scope rules, the
+reusable user decisions and step 5 of this document apply to this route unchanged.
+
+**Documented baseline (user instruction 2026-11-21).** Follow the human-written documentation; where it has a
+gap, stop and report. Reading Reach: Reclaimer (Gravemind2401). Converting Reach into a Halo 3-family engine:
+TagTool (TheGuardians) - only TagTool, not values taken from its outputs. TagTool targets Halo Online
+(ElDewrito, with Reach compatibility patches), so its engine-specific steps (Reach compatibility flags,
+generated shader templates, per-mesh MOPPs, sky drawn regardless of cluster sky index) do not carry to 360 and
+are gaps to report. A finished TagTool conversion (ElDewrito "Reach Advanced Multiplayer") may be used to compare
+output, never as a source.
+
+**What is converted.** The map: structure, collision, culling data, lighting, materials, sky, scenery and
+placements. Gameplay is stock Halo 3: Reach weapons, equipment (armor abilities included), vehicles and bipeds
+are not converted; placements use the per-map table of verified stock assets; other references are cleared and
+listed in the build's unresolved report. Reach audio and animation are not converted until a stock-reuse audit or
+a documented conversion is in place; their references are listed, not silently dropped. Forge palettes are the
+basis map's stock Halo 3 sandbox blocks.
+
+**Reusable findings.**
+- Vertex formats (world, rigid, rigid compressed 0x1C/UDecN4), instance mesh and compression indices and index
+  ranges agree with Reclaimer; normals and tangents use the same packed encoding on both consoles.
+- Shader float constants: Reach names the four floats "Constant a/b/c/d", Halo 3 "Constant" + "Constant w"; a name
+  matcher drops them and every surface renders black. Carry the span as floats.
+- Static per-vertex lighting (Reach 6-byte VMF records) and instanced-geometry light probes need TagTool's VMF ->
+  SH conversion (VmfConversion); raw copies read as garbage. Halo 3's per-vertex entry links Reach's "Vertex
+  Buffer Index Reach"; cluster per-vertex links are kept alongside the lightmap image.
+- Shader animation routing follows TagTool's ShaderFunctionHelper: routing entry = register, template parameter
+  index, function index; one pass per valid entry point of the Halo 3 template. Copying a template's routing reads
+  past the shader's function list and faults the game.
+- A structure pairs with its lightmap BSP by index in the scenario lightmap's Per Pixel references, not by name
+  (Reflection's third structure pairs with an unnamed Lbsp). A lightmap BSP without render meshes leaves the
+  structure's own geometry in place.
+- Reach-only shader groups take TagTool's documented stock default (rmgl -> a stock glass rmsh); copying a stock
+  tag between Halo 3 maps carries its bitmap resources the way Assembly's "extract with resources" does.
+- Atmosphere (sky_atm_parameters) is generated from Reach's atmosphere globals and fog with TagTool's code and its
+  Postprocess step, not translated from Reach's tag.
+- Halo 3 never clears its colour targets; screen areas no geometry covers show stale frames. A missing sky shows
+  this way.
+- Culling can be checked with the debug wireframe switch of the separate probe build
+  (tools/reach360-port/debug): a camera outside every cluster draws the whole map, so a "no culling" view usually
+  means the camera is outside the level.
+- Props, invisible walls and spawn objects are stock Halo 3 objects (user 2026-11-22: "Stage 2 being Halo 3
+  props/objects/invisibles was always the mandate"): each Reach object is matched to a stock Halo 3 object of
+  the same object kind in the map's cfg (`object` lines); Reach props with no Halo 3 equivalent stay as still
+  scenery, so Reach physics models are not converted. Game-mode marker props are replaced by the Halo 3
+  game-mode objects the scenario rules create. Ambient fish are removed. A Halo 3 equivalent of another object
+  kind (Halo 3 sandbags are scenery, Reach's are crates) needs its placements moved between palettes.
+- Copying a stock tag between Halo 3 maps must take only its own resource bytes, never the donor's whole
+  resource page (stock pages hold many resources; one is 93 MB). Halo 3 loads a map's required resources in
+  index order within a fixed budget and silently skips the rest, which later shows up as a null read.
+- Each structure BSP needs its own BSP zone in the zone tag (BSP reference plus Default / Static / Dynamic
+  manifests); a basis slot such as Guardian has one.
+- Reach soft kill volumes ("don't kill immediately") are left out: Halo 3 has no soft kill and would kill on
+  contact. Hard kill volumes are kept; safe volumes are cleared as TagTool does.
+- Render method definitions the basis map lacks (Reach shader_custom -> Halo 3 "shaders\custom", foliage, water)
+  are copied from the stock map that has them, with their templates; otherwise those surfaces are silently skipped.
+- Halo 3 draws a cluster's instanced geometry only from the cluster mesh's instance buckets; build them with
+  TagTool's ConvertInstanceBucketsReach (cluster -> instance groups -> instances) plus overlapping instances, and
+  key cluster instanced-geometry MOPPs by instance index as stock Halo 3 does.
+- Halo 3 draws only the structure BSP the camera is in; Reach draws every active BSP. Reach maps that keep
+  their shell, roof or distant scenery in separate BSPs (Reflection's 000 and 001) need those BSPs folded into
+  the playable one. Open design item.

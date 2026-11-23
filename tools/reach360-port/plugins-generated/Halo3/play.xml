@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x44">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.CacheFileResourceLayoutTable (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Codec Identifiers" offset="0x0" visible="true" elementSize="0x10">
+		<int32 name="Identifier Part0" offset="0x0" visible="true" />
+		<int32 name="Identifier Part1" offset="0x4" visible="true" />
+		<int32 name="Identifier Part2" offset="0x8" visible="true" />
+		<int32 name="Identifier Part3" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Shared Files" offset="0xC" visible="true" elementSize="0x108">
+		<ascii name="Dvd Relative Path" offset="0x0" visible="true" size="0x100" />
+		<flags16 name="Flags" offset="0x100" visible="true">
+			<bit name="UseHeaderIoOffset" index="0" />
+			<bit name="NotRequired" index="1" />
+			<bit name="UseHeaderLocations" index="2" />
+		</flags16>
+		<int16 name="Global Shared Location Offset" offset="0x102" visible="true" />
+		<int32 name="Io Offset" offset="0x104" visible="true" />
+	</tagblock>
+	<tagblock name="File Pages" offset="0x18" visible="true" elementSize="0x58">
+		<int16 name="Header Salt At Runtime" offset="0x0" visible="true" />
+		<flags8 name="Flags" offset="0x2" visible="true">
+			<bit name="ValidChecksum" index="0" />
+			<bit name="SharedAndRequired" index="1" />
+			<bit name="DvdOnlySharedAndRequired" index="2" />
+			<bit name="DvdOnlyAndRequired" index="3" />
+			<bit name="ReferencedByCacheFileHeader" index="4" />
+			<bit name="OnlyFullValidChecksum" index="5" />
+		</flags8>
+		<int8 name="Codec" offset="0x3" visible="true" />
+		<int16 name="Shared File" offset="0x4" visible="true" />
+		<int16 name="Shared File Location Index" offset="0x6" visible="true" />
+		<int32 name="File Offset" offset="0x8" visible="true" />
+		<int32 name="Compressed Size" offset="0xC" visible="true" />
+		<int32 name="Uncompressed Size" offset="0x10" visible="true" />
+		<int32 name="Checksum / Checksum" offset="0x14" visible="true" />
+		<uint8 name="Checksum / Entire Hash 0 / Hash Byte" offset="0x18" visible="true" />
+		<uint8 name="Checksum / Entire Hash 1 / Hash Byte" offset="0x19" visible="true" />
+		<uint8 name="Checksum / Entire Hash 2 / Hash Byte" offset="0x1A" visible="true" />
+		<uint8 name="Checksum / Entire Hash 3 / Hash Byte" offset="0x1B" visible="true" />
+		<uint8 name="Checksum / Entire Hash 4 / Hash Byte" offset="0x1C" visible="true" />
+		<uint8 name="Checksum / Entire Hash 5 / Hash Byte" offset="0x1D" visible="true" />
+		<uint8 name="Checksum / Entire Hash 6 / Hash Byte" offset="0x1E" visible="true" />
+		<uint8 name="Checksum / Entire Hash 7 / Hash Byte" offset="0x1F" visible="true" />
+		<uint8 name="Checksum / Entire Hash 8 / Hash Byte" offset="0x20" visible="true" />
+		<uint8 name="Checksum / Entire Hash 9 / Hash Byte" offset="0x21" visible="true" />
+		<uint8 name="Checksum / Entire Hash 10 / Hash Byte" offset="0x22" visible="true" />
+		<uint8 name="Checksum / Entire Hash 11 / Hash Byte" offset="0x23" visible="true" />
+		<uint8 name="Checksum / Entire Hash 12 / Hash Byte" offset="0x24" visible="true" />
+		<uint8 name="Checksum / Entire Hash 13 / Hash Byte" offset="0x25" visible="true" />
+		<uint8 name="Checksum / Entire Hash 14 / Hash Byte" offset="0x26" visible="true" />
+		<uint8 name="Checksum / Entire Hash 15 / Hash Byte" offset="0x27" visible="true" />
+		<uint8 name="Checksum / Entire Hash 16 / Hash Byte" offset="0x28" visible="true" />
+		<uint8 name="Checksum / Entire Hash 17 / Hash Byte" offset="0x29" visible="true" />
+		<uint8 name="Checksum / Entire Hash 18 / Hash Byte" offset="0x2A" visible="true" />
+		<uint8 name="Checksum / Entire Hash 19 / Hash Byte" offset="0x2B" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 0 / Hash Byte" offset="0x2C" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 1 / Hash Byte" offset="0x2D" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 2 / Hash Byte" offset="0x2E" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 3 / Hash Byte" offset="0x2F" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 4 / Hash Byte" offset="0x30" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 5 / Hash Byte" offset="0x31" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 6 / Hash Byte" offset="0x32" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 7 / Hash Byte" offset="0x33" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 8 / Hash Byte" offset="0x34" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 9 / Hash Byte" offset="0x35" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 10 / Hash Byte" offset="0x36" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 11 / Hash Byte" offset="0x37" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 12 / Hash Byte" offset="0x38" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 13 / Hash Byte" offset="0x39" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 14 / Hash Byte" offset="0x3A" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 15 / Hash Byte" offset="0x3B" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 16 / Hash Byte" offset="0x3C" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 17 / Hash Byte" offset="0x3D" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 18 / Hash Byte" offset="0x3E" visible="true" />
+		<uint8 name="Checksum / First Chunk Hash 19 / Hash Byte" offset="0x3F" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 0 / Hash Byte" offset="0x40" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 1 / Hash Byte" offset="0x41" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 2 / Hash Byte" offset="0x42" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 3 / Hash Byte" offset="0x43" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 4 / Hash Byte" offset="0x44" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 5 / Hash Byte" offset="0x45" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 6 / Hash Byte" offset="0x46" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 7 / Hash Byte" offset="0x47" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 8 / Hash Byte" offset="0x48" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 9 / Hash Byte" offset="0x49" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 10 / Hash Byte" offset="0x4A" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 11 / Hash Byte" offset="0x4B" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 12 / Hash Byte" offset="0x4C" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 13 / Hash Byte" offset="0x4D" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 14 / Hash Byte" offset="0x4E" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 15 / Hash Byte" offset="0x4F" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 16 / Hash Byte" offset="0x50" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 17 / Hash Byte" offset="0x51" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 18 / Hash Byte" offset="0x52" visible="true" />
+		<uint8 name="Checksum / Last Chunk Hash 19 / Hash Byte" offset="0x53" visible="true" />
+		<int16 name="Resource Reference Count" offset="0x54" visible="true" />
+		<int16 name="Streaming Subpage Table" offset="0x56" visible="true" />
+	</tagblock>
+	<tagblock name="Streaming Subpage Tables" offset="0x24" visible="true" elementSize="0x10">
+		<int32 name="Total Memory Size" offset="0x0" visible="true" />
+		<tagblock name="Streaming Subpages" offset="0x4" visible="true" elementSize="0x8">
+			<int32 name="Memory Offset" offset="0x0" visible="true" />
+			<int32 name="Memory Size" offset="0x4" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Sections" offset="0x30" visible="true" elementSize="0x18">
+		<int32 name="Page Offsets 0 / Offset" offset="0x0" visible="true" />
+		<int32 name="Page Offsets 1 / Offset" offset="0x4" visible="true" />
+		<int32 name="Page Offsets 2 / Offset" offset="0x8" visible="true" />
+		<int16 name="File Page Indexes 0 / Page Index" offset="0xC" visible="true" />
+		<int16 name="File Page Indexes 1 / Page Index" offset="0xE" visible="true" />
+		<int16 name="File Page Indexes 2 / Page Index" offset="0x10" visible="true" />
+		<int16 name="Subpage Table Indexes 0 / Subpage Table Index" offset="0x12" visible="true" />
+		<int16 name="Subpage Table Indexes 1 / Subpage Table Index" offset="0x14" visible="true" />
+		<int16 name="Subpage Table Indexes 2 / Subpage Table Index" offset="0x16" visible="true" />
+	</tagblock>
+	<int32 name="Required Location Count" offset="0x3C" visible="true" />
+	<int32 name="Required Dvd Location Count" offset="0x40" visible="true" />
+</plugin>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.StyleSheetList (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Style Sheet Languages" offset="0x0" visible="true" elementSize="0x1C">
+		<enum32 name="Language" offset="0x0" visible="true">
+			<option name="English" value="0" />
+			<option name="Japanese" value="1" />
+			<option name="German" value="2" />
+			<option name="French" value="3" />
+			<option name="Spanish" value="4" />
+			<option name="MexicanSpanish" value="5" />
+			<option name="Italian" value="6" />
+			<option name="Korean" value="7" />
+			<option name="ChineseTraditional" value="8" />
+			<option name="ChineseSimplified" value="9" />
+			<option name="Portuguese" value="10" />
+			<option name="Polish" value="11" />
+			<option name="Russian" value="12" />
+			<option name="Danish" value="13" />
+			<option name="Finnish" value="14" />
+			<option name="Dutch" value="15" />
+			<option name="Norwegian" value="16" />
+		</enum32>
+		<tagblock name="Font Style Sheets" offset="0x4" visible="true" elementSize="0x4C">
+			<stringid name="Style Sheet Name" offset="0x0" visible="true" />
+			<tagblock name="Font Id" offset="0x4" visible="true" elementSize="0x4">
+				<enum32 name="Font Id" offset="0x0" visible="true">
+					<option name="TerminalFont" value="0" />
+					<option name="Baksheesh15Font" value="1" />
+					<option name="Baksheesh16Font" value="2" />
+					<option name="Baksheesh17Font" value="3" />
+					<option name="Baksheesh18Font" value="4" />
+					<option name="Baksheesh20Font" value="5" />
+					<option name="Baksheesh21Font" value="6" />
+					<option name="Baksheesh22Font" value="7" />
+					<option name="Baksheesh28Font" value="8" />
+					<option name="Baksheesh36Font" value="9" />
+					<option name="Baksheesh38Font" value="10" />
+					<option name="BaksheeshBold16Font" value="11" />
+					<option name="BaksheeshBold20Font" value="12" />
+					<option name="BaksheeshBold21Font" value="13" />
+					<option name="BaksheeshBold23Font" value="14" />
+					<option name="BaksheeshBold24Font" value="15" />
+					<option name="BaksheeshThin36" value="16" />
+					<option name="BaksheeshThin42" value="17" />
+					<option name="ArameRegular16" value="18" />
+					<option name="ArameRegular18" value="19" />
+					<option name="ArameRegular23" value="20" />
+					<option name="ArameStencil16" value="21" />
+					<option name="ArameStencil18" value="22" />
+					<option name="ArameStencil23" value="23" />
+					<option name="ArameThin14" value="24" />
+					<option name="ArameThin16" value="25" />
+					<option name="ArameThin18" value="26" />
+					<option name="ArameThin23" value="27" />
+					<option name="ArameExtra01" value="28" />
+					<option name="ArameExtra02" value="29" />
+					<option name="ArameExtra03" value="30" />
+				</enum32>
+			</tagblock>
+			<tagblock name="Text Case" offset="0x10" visible="true" elementSize="0x4">
+				<enum32 name="Text Case" offset="0x0" visible="true">
+					<option name="Normal" value="0" />
+					<option name="Uppercase" value="1" />
+					<option name="Lowercase" value="2" />
+				</enum32>
+			</tagblock>
+			<tagblock name="Justification" offset="0x1C" visible="true" elementSize="0x4">
+				<enum32 name="Justification" offset="0x0" visible="true">
+					<option name="Left" value="0" />
+					<option name="Right" value="1" />
+					<option name="Center" value="2" />
+				</enum32>
+			</tagblock>
+			<tagblock name="Alignment" offset="0x28" visible="true" elementSize="0x4">
+				<enum32 name="Alignment" offset="0x0" visible="true">
+					<option name="Top" value="0" />
+					<option name="Bottom" value="1" />
+					<option name="Center" value="2" />
+				</enum32>
+			</tagblock>
+			<tagblock name="Scale" offset="0x34" visible="true" elementSize="0x4">
+				<float32 name="Value" offset="0x0" visible="true" />
+			</tagblock>
+			<tagblock name="Fixed Height" offset="0x40" visible="true" elementSize="0x4">
+				<float32 name="Height" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Visual Style Sheets" offset="0x10" visible="true" elementSize="0x34">
+			<stringid name="Style Sheet Name" offset="0x0" visible="true" />
+			<tagblock name="Drop Shadow Style" offset="0x4" visible="true" elementSize="0x4">
+				<enum32 name="Drop Shadow Style" offset="0x0" visible="true">
+					<option name="None" value="0" />
+					<option name="Drop" value="1" />
+					<option name="Outline" value="2" />
+				</enum32>
+			</tagblock>
+			<tagblock name="Text Color" offset="0x10" visible="true" elementSize="0x10">
+				<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+			</tagblock>
+			<tagblock name="Drop Shadow Color" offset="0x1C" visible="true" elementSize="0x10">
+				<colorf name="Color" offset="0x0" alpha="true" visible="true" />
+			</tagblock>
+			<stringid name="Gradient Name" offset="0x28" visible="true" />
+			<stringid name="Dropshadow Name" offset="0x2C" visible="true" />
+			<stringid name="Outer Glow Name" offset="0x30" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Gradients" offset="0xC" visible="true" elementSize="0x5C">
+		<stringid name="Gradient Name" offset="0x0" visible="true" />
+		<colorf name="Color1" offset="0x4" alpha="true" visible="true" />
+		<colorf name="Color2" offset="0x14" alpha="true" visible="true" />
+		<colorf name="Color3" offset="0x24" alpha="true" visible="true" />
+		<colorf name="Color4" offset="0x34" alpha="true" visible="true" />
+		<float32 name="Angle" offset="0x44" visible="true" />
+		<float32 name="Scale" offset="0x48" visible="true" />
+		<vector2 name="Offset" offset="0x4C" visible="true" />
+		<int32 name="Number Of Colors" offset="0x54" visible="true" />
+		<enum32 name="Gradient Shape" offset="0x58" visible="true">
+			<option name="Linear" value="0" />
+			<option name="Circular" value="1" />
+			<option name="Diamond" value="2" />
+			<option name="Square" value="3" />
+		</enum32>
+	</tagblock>
+	<tagblock name="Dropshadows" offset="0x18" visible="true" elementSize="0x24">
+		<stringid name="Dropshadow Name" offset="0x0" visible="true" />
+		<colorf name="Color" offset="0x4" alpha="true" visible="true" />
+		<float32 name="Angle" offset="0x14" visible="true" />
+		<float32 name="Distance" offset="0x18" visible="true" />
+		<float32 name="Spread" offset="0x1C" visible="true" />
+		<float32 name="Size" offset="0x20" visible="true" />
+	</tagblock>
+	<tagblock name="Outer Glows" offset="0x24" visible="true" elementSize="0x1C">
+		<stringid name="Outer Glow Name" offset="0x0" visible="true" />
+		<colorf name="Color" offset="0x4" alpha="true" visible="true" />
+		<float32 name="Spread" offset="0x14" visible="true" />
+		<float32 name="Size" offset="0x18" visible="true" />
+	</tagblock>
+</plugin>

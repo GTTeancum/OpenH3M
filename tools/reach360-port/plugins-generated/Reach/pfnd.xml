@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x4C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.Pathfinding (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="Bsp Pathfinding Data" offset="0x0" visible="true" elementSize="0x50">
+		<int32 name="Runtimenav Mesh" offset="0x0" visible="true" />
+		<int32 name="Runtimenav Graph" offset="0x4" visible="true" />
+		<int32 name="Runtimenav Mediator" offset="0x8" visible="true" />
+		<uint8 name="Padding 0" offset="0xC" visible="false" />
+		<uint8 name="Padding 1" offset="0xD" visible="false" />
+		<uint8 name="Padding 2" offset="0xE" visible="false" />
+		<uint8 name="Padding 3" offset="0xF" visible="false" />
+		<dataref name="Navgraph Data" offset="0x10" visible="true" />
+		<dataref name="Navmediator Data" offset="0x24" visible="true" />
+		<tagblock name="Faceuser Data" offset="0x38" visible="true" elementSize="0xC">
+			<int16 name="M Flags" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<float32 name="Currentmin Path Distance" offset="0x4" visible="true" />
+			<float32 name="Currentmin Target Approach Distance" offset="0x8" visible="true" />
+		</tagblock>
+		<int32 name="Structure Checksum" offset="0x44" visible="true" />
+		<uint8 name="Padding1 0" offset="0x48" visible="false" />
+		<uint8 name="Padding1 1" offset="0x49" visible="false" />
+		<uint8 name="Padding1 2" offset="0x4A" visible="false" />
+		<uint8 name="Padding1 3" offset="0x4B" visible="false" />
+		<uint8 name="Padding1 4" offset="0x4C" visible="false" />
+		<uint8 name="Padding1 5" offset="0x4D" visible="false" />
+		<uint8 name="Padding1 6" offset="0x4E" visible="false" />
+		<uint8 name="Padding1 7" offset="0x4F" visible="false" />
+	</tagblock>
+	<tagblock name="Mobilenav Meshes" offset="0xC" visible="true" elementSize="0x50">
+		<int32 name="Runtimenav Mesh" offset="0x0" visible="true" />
+		<int32 name="Runtimenav Graph" offset="0x4" visible="true" />
+		<int32 name="Runtimenav Mediator" offset="0x8" visible="true" />
+		<uint8 name="Padding 0" offset="0xC" visible="false" />
+		<uint8 name="Padding 1" offset="0xD" visible="false" />
+		<uint8 name="Padding 2" offset="0xE" visible="false" />
+		<uint8 name="Padding 3" offset="0xF" visible="false" />
+		<dataref name="Navgraph Data" offset="0x10" visible="true" />
+		<dataref name="Navmediator Data" offset="0x24" visible="true" />
+		<tagblock name="Faceuser Data" offset="0x38" visible="true" elementSize="0xC">
+			<int16 name="M Flags" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<float32 name="Currentmin Path Distance" offset="0x4" visible="true" />
+			<float32 name="Currentmin Target Approach Distance" offset="0x8" visible="true" />
+		</tagblock>
+		<int32 name="Object Id / Unique Id" offset="0x44" visible="true" />
+		<int16 name="Object Id / Origin Bsp Index" offset="0x48" visible="true" />
+		<enum8 name="Object Id / Type" offset="0x4A" visible="true">
+			<option name="Biped" value="0" />
+			<option name="Vehicle" value="1" />
+			<option name="Weapon" value="2" />
+			<option name="Equipment" value="3" />
+			<option name="Terminal" value="4" />
+			<option name="Projectile" value="5" />
+			<option name="Scenery" value="6" />
+			<option name="Machine" value="7" />
+			<option name="Control" value="8" />
+			<option name="Dispenser" value="9" />
+			<option name="SoundScenery" value="10" />
+			<option name="Crate" value="11" />
+			<option name="Creature" value="12" />
+			<option name="Giant" value="13" />
+			<option name="EffectScenery" value="14" />
+			<option name="Spawner" value="15" />
+		</enum8>
+		<enum8 name="Object Id / Source" offset="0x4B" visible="true">
+			<option name="Structure" value="0" />
+			<option name="Editor" value="1" />
+			<option name="Dynamic" value="2" />
+			<option name="Legacy" value="3" />
+			<option name="Sky" value="4" />
+			<option name="Parent" value="5" />
+		</enum8>
+		<flags8 name="Flags" offset="0x4C" visible="true">
+			<bit name="AlwaysLoaded" index="0" />
+		</flags8>
+		<uint8 name="Padding1 0" offset="0x4D" visible="false" />
+		<uint8 name="Padding1 1" offset="0x4E" visible="false" />
+		<uint8 name="Padding1 2" offset="0x4F" visible="false" />
+	</tagblock>
+	<tagblock name="Navvolumes" offset="0x18" visible="true" elementSize="0x20">
+		<int16 name="Zoneindex" offset="0x0" visible="true" />
+		<int16 name="Areaindex" offset="0x2" visible="true" />
+		<int32 name="Runtimenav Volume" offset="0x4" visible="true" />
+		<int32 name="Runtimenav Mediator" offset="0x8" visible="true" />
+		<dataref name="Navmediator Data" offset="0xC" visible="true" />
+	</tagblock>
+	<tagblock name="Navclimbs" offset="0x24" visible="true" elementSize="0x50">
+		<int32 name="Runtimenav Mesh" offset="0x0" visible="true" />
+		<int32 name="Runtimenav Graph" offset="0x4" visible="true" />
+		<int32 name="Runtimenav Mediator" offset="0x8" visible="true" />
+		<uint8 name="Padding 0" offset="0xC" visible="false" />
+		<uint8 name="Padding 1" offset="0xD" visible="false" />
+		<uint8 name="Padding 2" offset="0xE" visible="false" />
+		<uint8 name="Padding 3" offset="0xF" visible="false" />
+		<dataref name="Navgraph Data" offset="0x10" visible="true" />
+		<dataref name="Navmediator Data" offset="0x24" visible="true" />
+		<tagblock name="Faceuser Data" offset="0x38" visible="true" elementSize="0xC">
+			<int16 name="M Flags" offset="0x0" visible="true" />
+			<uint8 name="Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Padding 1" offset="0x3" visible="false" />
+			<float32 name="Currentmin Path Distance" offset="0x4" visible="true" />
+			<float32 name="Currentmin Target Approach Distance" offset="0x8" visible="true" />
+		</tagblock>
+		<int16 name="Zoneindex" offset="0x44" visible="true" />
+		<int16 name="Areaindex" offset="0x46" visible="true" />
+		<uint8 name="Padding1 0" offset="0x48" visible="false" />
+		<uint8 name="Padding1 1" offset="0x49" visible="false" />
+		<uint8 name="Padding1 2" offset="0x4A" visible="false" />
+		<uint8 name="Padding1 3" offset="0x4B" visible="false" />
+		<uint8 name="Padding1 4" offset="0x4C" visible="false" />
+		<uint8 name="Padding1 5" offset="0x4D" visible="false" />
+		<uint8 name="Padding1 6" offset="0x4E" visible="false" />
+		<uint8 name="Padding1 7" offset="0x4F" visible="false" />
+	</tagblock>
+	<tagblock name="User Edges" offset="0x30" visible="true" elementSize="0x50">
+		<vector3 name="MX" offset="0x0" visible="true" />
+		<float32 name="Havok WMX" offset="0xC" visible="true" />
+		<vector3 name="MY" offset="0x10" visible="true" />
+		<float32 name="Havok WMY" offset="0x1C" visible="true" />
+		<vector3 name="MZ" offset="0x20" visible="true" />
+		<float32 name="Havok WMZ" offset="0x2C" visible="true" />
+		<int32 name="M Meshuid A" offset="0x30" visible="true" />
+		<int32 name="M Meshuid B" offset="0x34" visible="true" />
+		<int32 name="M Facea" offset="0x38" visible="true" />
+		<int32 name="M Faceb" offset="0x3C" visible="true" />
+		<int32 name="M Userdata A" offset="0x40" visible="true" />
+		<int32 name="M Userdata B" offset="0x44" visible="true" />
+		<int16 name="M Costato B" offset="0x48" visible="true" />
+		<int16 name="M Costbto A" offset="0x4A" visible="true" />
+		<int8 name="M Direction" offset="0x4C" visible="true" />
+		<uint8 name="Padding 0" offset="0x4D" visible="false" />
+		<uint8 name="Padding 1" offset="0x4E" visible="false" />
+		<uint8 name="Padding 2" offset="0x4F" visible="false" />
+	</tagblock>
+	<tagblock name="Hints" offset="0x3C" visible="true" elementSize="0x90">
+		<tagblock name="Line Segment Geometry" offset="0x0" visible="true" elementSize="0x2C">
+			<flags32 name="Flags" offset="0x0" visible="true">
+				<bit name="Bidirectional" index="0" />
+				<bit name="Closed" index="1" />
+			</flags32>
+			<point3 name="Point0" offset="0x4" visible="true" />
+			<int32 name="Packedkey Offaceref0" offset="0x10" visible="true" />
+			<int32 name="Navmesh Uidoffaceref0" offset="0x14" visible="true" />
+			<point3 name="Point1" offset="0x18" visible="true" />
+			<int32 name="Packedkey Offaceref1" offset="0x24" visible="true" />
+			<int32 name="Navmesh Uidoffaceref1" offset="0x28" visible="true" />
+		</tagblock>
+		<tagblock name="Parallelogram Geometry" offset="0xC" visible="true" elementSize="0x58">
+			<flags32 name="Flags" offset="0x0" visible="true">
+				<bit name="Bidirectional" index="0" />
+				<bit name="Closed" index="1" />
+			</flags32>
+			<point3 name="Point0" offset="0x4" visible="true" />
+			<int32 name="Packedkey Offaceref0" offset="0x10" visible="true" />
+			<int32 name="Navmesh Uidoffaceref0" offset="0x14" visible="true" />
+			<point3 name="Point1" offset="0x18" visible="true" />
+			<int32 name="Packedkey Offaceref1" offset="0x24" visible="true" />
+			<int32 name="Navmesh Uidoffaceref1" offset="0x28" visible="true" />
+			<point3 name="Point2" offset="0x2C" visible="true" />
+			<int32 name="Packedkey Offaceref2" offset="0x38" visible="true" />
+			<int32 name="Navmesh Uidoffaceref2" offset="0x3C" visible="true" />
+			<point3 name="Point3" offset="0x40" visible="true" />
+			<int32 name="Packedkey Offaceref3" offset="0x4C" visible="true" />
+			<int32 name="Navmesh Uidoffaceref3" offset="0x50" visible="true" />
+			<flags16 name="Invalid Points" offset="0x54" visible="true">
+				<bit name="_1" index="0" />
+				<bit name="_2" index="1" />
+				<bit name="_3" index="2" />
+				<bit name="_4" index="3" />
+			</flags16>
+			<uint8 name="Padding 0" offset="0x56" visible="false" />
+			<uint8 name="Padding 1" offset="0x57" visible="false" />
+		</tagblock>
+		<tagblock name="Jump Hints" offset="0x18" visible="true" elementSize="0x20">
+			<enum16 name="Hint Type" offset="0x0" visible="true">
+				<option name="JumpLink" value="0" />
+				<option name="ClimbLink" value="1" />
+				<option name="VaultLink" value="2" />
+				<option name="MountLink" value="3" />
+				<option name="HoistLink" value="4" />
+				<option name="WallJumpLink" value="5" />
+				<option name="TakeoffLink" value="6" />
+				<option name="JumpMandatoryApproach" value="7" />
+			</enum16>
+			<int16 name="Squad Group Filter" offset="0x2" visible="true" />
+			<tagblock name="Hint Vertices" offset="0x4" visible="true" elementSize="0xC">
+				<point3 name="Point" offset="0x0" visible="true" />
+			</tagblock>
+			<int32 name="Hint Data0" offset="0x10" visible="true" />
+			<int16 name="Hint Data1" offset="0x14" visible="true" />
+			<uint8 name="Hint Data2" offset="0x16" visible="true" />
+			<uint8 name="Pad1" offset="0x17" visible="true" />
+			<flags16 name="Flags" offset="0x18" visible="true">
+				<bit name="Bidirectional" index="0" />
+				<bit name="Closed" index="1" />
+			</flags16>
+			<int16 name="Geometry Index" offset="0x1A" visible="true" />
+			<enum16 name="Force Jump Height" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="Down" value="1" />
+				<option name="Step" value="2" />
+				<option name="Crouch" value="3" />
+				<option name="Stand" value="4" />
+				<option name="Storey" value="5" />
+				<option name="Tower" value="6" />
+				<option name="Infinite" value="7" />
+			</enum16>
+			<flags16 name="Control Flags" offset="0x1E" visible="true">
+				<bit name="MagicLift" index="0" />
+				<bit name="VehicleOnly" index="1" />
+				<bit name="Railing" index="2" />
+				<bit name="Vault" index="3" />
+				<bit name="Down" index="4" />
+				<bit name="Phase" index="5" />
+				<bit name="StopAutodown" index="6" />
+			</flags16>
+		</tagblock>
+		<tagblock name="Climb Hints" offset="0x24" visible="true" elementSize="0x20">
+			<enum16 name="Hint Type" offset="0x0" visible="true">
+				<option name="JumpLink" value="0" />
+				<option name="ClimbLink" value="1" />
+				<option name="VaultLink" value="2" />
+				<option name="MountLink" value="3" />
+				<option name="HoistLink" value="4" />
+				<option name="WallJumpLink" value="5" />
+				<option name="TakeoffLink" value="6" />
+				<option name="JumpMandatoryApproach" value="7" />
+			</enum16>
+			<int16 name="Squad Group Filter" offset="0x2" visible="true" />
+			<tagblock name="Hint Vertices" offset="0x4" visible="true" elementSize="0xC">
+				<point3 name="Point" offset="0x0" visible="true" />
+			</tagblock>
+			<int32 name="Hint Data0" offset="0x10" visible="true" />
+			<int16 name="Hint Data1" offset="0x14" visible="true" />
+			<uint8 name="Hint Data2" offset="0x16" visible="true" />
+			<uint8 name="Pad1" offset="0x17" visible="true" />
+			<flags16 name="Flags" offset="0x18" visible="true">
+				<bit name="Bidirectional" index="0" />
+				<bit name="Closed" index="1" />
+			</flags16>
+			<int16 name="Geometry Index" offset="0x1A" visible="true" />
+			<enum16 name="Force Hoist Height" offset="0x1C" visible="true">
+				<option name="None" value="0" />
+				<option name="Step" value="1" />
+				<option name="Crouch" value="2" />
+				<option name="Stand" value="3" />
+			</enum16>
+			<uint8 name="Padding 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding 1" offset="0x1F" visible="false" />
+		</tagblock>
+		<tagblock name="Well Hints" offset="0x30" visible="true" elementSize="0x10">
+			<flags32 name="Flags" offset="0x0" visible="true">
+				<bit name="Bidirectional" index="0" />
+			</flags32>
+			<tagblock name="Points" offset="0x4" visible="true" elementSize="0x20">
+				<enum16 name="Type" offset="0x0" visible="true">
+					<option name="Jump" value="0" />
+					<option name="Invalid" value="1" />
+					<option name="Hoist" value="2" />
+				</enum16>
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+				<point3 name="Point" offset="0x4" visible="true" />
+				<int32 name="Packedkey Offaceref" offset="0x10" visible="true" />
+				<int32 name="Navmesh Uidoffaceref" offset="0x14" visible="true" />
+				<degree2 name="Normal" offset="0x18" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Flight Hints" offset="0x3C" visible="true" elementSize="0xC">
+			<tagblock name="Points" offset="0x0" visible="true" elementSize="0xC">
+				<vector3 name="Point" offset="0x0" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Volume Avoidance Hints" offset="0x48" visible="true" elementSize="0x2C">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Sphere" value="0" />
+				<option name="Pill" value="1" />
+			</enum32>
+			<point3 name="Origin" offset="0x4" visible="true" />
+			<float32 name="Radius" offset="0x10" visible="true" />
+			<vector3 name="Facing Vector" offset="0x14" visible="true" />
+			<float32 name="Height" offset="0x20" visible="true" />
+			<int16 name="Bsp" offset="0x24" visible="true" />
+			<int16 name="Spline Count" offset="0x26" visible="true" />
+			<int16 name="Zone Index" offset="0x28" visible="true" />
+			<int16 name="Area Index" offset="0x2A" visible="true" />
+		</tagblock>
+		<tagblock name="Spline Hints" offset="0x54" visible="true" elementSize="0x28">
+			<stringid name="Name" offset="0x0" visible="true" />
+			<float32 name="Radius" offset="0x4" visible="true" />
+			<float32 name="Time Between Points" offset="0x8" visible="true" />
+			<tagblock name="Control Points" offset="0xC" visible="true" elementSize="0x20">
+				<flags16 name="Flags" offset="0x0" visible="true">
+					<bit name="NoAttachDetach" index="0" />
+				</flags16>
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+				<point3 name="Point" offset="0x4" visible="true" />
+				<vector3 name="Tangent" offset="0x10" visible="true" />
+				<float32 name="Segment Arc Length" offset="0x1C" visible="true" />
+			</tagblock>
+			<int16 name="Bsp" offset="0x18" visible="true" />
+			<uint8 name="Padding 0" offset="0x1A" visible="false" />
+			<uint8 name="Padding 1" offset="0x1B" visible="false" />
+			<tagblock name="Volume Intersect Points" offset="0x1C" visible="true" elementSize="0x1C">
+				<int16 name="Volume Index" offset="0x0" visible="true" />
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+				<point3 name="Point" offset="0x4" visible="true" />
+				<vector3 name="Tangent" offset="0x10" visible="true" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Cookie Cutters" offset="0x60" visible="true" elementSize="0x34">
+			<int32 name="Hkaivolume Vtable" offset="0x0" visible="true" />
+			<int16 name="Size" offset="0x4" visible="true" />
+			<int16 name="Count" offset="0x6" visible="true" />
+			<tagblock name="Points" offset="0x8" visible="true" elementSize="0x1C">
+				<point3 name="Point" offset="0x0" visible="true" />
+				<int32 name="Packedkey Offaceref" offset="0xC" visible="true" />
+				<int32 name="Navmesh Uidoffaceref" offset="0x10" visible="true" />
+				<degree2 name="Normal" offset="0x14" visible="true" />
+			</tagblock>
+			<tagblock name="Pointsobject Ids" offset="0x14" visible="true" elementSize="0x8">
+				<int32 name="Object Id / Unique Id" offset="0x0" visible="true" />
+				<int16 name="Object Id / Origin Bsp Index" offset="0x4" visible="true" />
+				<enum8 name="Object Id / Type" offset="0x6" visible="true">
+					<option name="Biped" value="0" />
+					<option name="Vehicle" value="1" />
+					<option name="Weapon" value="2" />
+					<option name="Equipment" value="3" />
+					<option name="Terminal" value="4" />
+					<option name="Projectile" value="5" />
+					<option name="Scenery" value="6" />
+					<option name="Machine" value="7" />
+					<option name="Control" value="8" />
+					<option name="Dispenser" value="9" />
+					<option name="SoundScenery" value="10" />
+					<option name="Crate" value="11" />
+					<option name="Creature" value="12" />
+					<option name="Giant" value="13" />
+					<option name="EffectScenery" value="14" />
+					<option name="Spawner" value="15" />
+				</enum8>
+				<enum8 name="Object Id / Source" offset="0x7" visible="true">
+					<option name="Structure" value="0" />
+					<option name="Editor" value="1" />
+					<option name="Dynamic" value="2" />
+					<option name="Legacy" value="3" />
+					<option name="Sky" value="4" />
+					<option name="Parent" value="5" />
+				</enum8>
+			</tagblock>
+			<float32 name="Z Height" offset="0x20" visible="true" />
+			<float32 name="Z Sink" offset="0x24" visible="true" />
+			<enum16 name="Type" offset="0x28" visible="true">
+				<option name="CarveOut" value="0" />
+				<option name="Preserve" value="1" />
+				<option name="CarveAirVolume" value="2" />
+			</enum16>
+			<int16 name="Pad" offset="0x2A" visible="true" />
+			<int32 name="Runtimeobject Transform Override Index" offset="0x2C" visible="true" />
+			<int8 name="Invalid" offset="0x30" visible="true" />
+			<int8 name="Pad2" offset="0x31" visible="true" />
+			<int8 name="Pad3" offset="0x32" visible="true" />
+			<int8 name="Pad4" offset="0x33" visible="true" />
+		</tagblock>
+		<tagblock name="Navmesh Areas" offset="0x6C" visible="true" elementSize="0x48">
+			<int32 name="Hkaivolume Vtable" offset="0x0" visible="true" />
+			<int16 name="Size" offset="0x4" visible="true" />
+			<int16 name="Count" offset="0x6" visible="true" />
+			<tagblock name="Points" offset="0x8" visible="true" elementSize="0x1C">
+				<point3 name="Point" offset="0x0" visible="true" />
+				<int32 name="Packedkey Offaceref" offset="0xC" visible="true" />
+				<int32 name="Navmesh Uidoffaceref" offset="0x10" visible="true" />
+				<degree2 name="Normal" offset="0x14" visible="true" />
+			</tagblock>
+			<float32 name="Z Height" offset="0x14" visible="true" />
+			<float32 name="Z Sink" offset="0x18" visible="true" />
+			<float32 name="Step Height" offset="0x1C" visible="true" />
+			<enum32 name="Type" offset="0x20" visible="true">
+				<option name="NavmeshLowRes" value="0" />
+				<option name="Navmesh2" value="1" />
+				<option name="Navmesh3" value="2" />
+				<option name="Navmesh4" value="3" />
+				<option name="Navmesh5" value="4" />
+				<option name="Navmesh6" value="5" />
+				<option name="Navmesh7" value="6" />
+				<option name="Navmesh8" value="7" />
+				<option name="NavmeshHighRes" value="8" />
+				<option name="Custom" value="9" />
+			</enum32>
+			<float32 name="Isvalid" offset="0x24" visible="true" />
+			<float32 name="Max Convex Border Simplify Area" offset="0x28" visible="true" />
+			<float32 name="Max Border Distance Error" offset="0x2C" visible="true" />
+			<float32 name="Max Concave Border Simplify Area" offset="0x30" visible="true" />
+			<float32 name="Max Walkable Slope" offset="0x34" visible="true" />
+			<float32 name="Cosine Angle Merge Control" offset="0x38" visible="true" />
+			<float32 name="Hole Replacement Area" offset="0x3C" visible="true" />
+			<int32 name="Partition Size" offset="0x40" visible="true" />
+			<float32 name="Loop Shrink Factor" offset="0x44" visible="true" />
+		</tagblock>
+		<tagblock name="Giant Hints" offset="0x78" visible="true" elementSize="0x18">
+			<tagblock name="Giant Sector Hints" offset="0x0" visible="true" elementSize="0xC">
+				<tagblock name="Points" offset="0x0" visible="true" elementSize="0x1C">
+					<point3 name="Point" offset="0x0" visible="true" />
+					<int32 name="Packedkey Offaceref" offset="0xC" visible="true" />
+					<int32 name="Navmesh Uidoffaceref" offset="0x10" visible="true" />
+					<degree2 name="Normal" offset="0x14" visible="true" />
+				</tagblock>
+			</tagblock>
+			<tagblock name="Giant Rail Hints" offset="0xC" visible="true" elementSize="0x4">
+				<int16 name="Geometry Index" offset="0x0" visible="true" />
+				<uint8 name="Padding 0" offset="0x2" visible="false" />
+				<uint8 name="Padding 1" offset="0x3" visible="false" />
+			</tagblock>
+		</tagblock>
+		<tagblock name="Flood Hints" offset="0x84" visible="true" elementSize="0xC">
+			<tagblock name="Flood Sector Hints" offset="0x0" visible="true" elementSize="0xC">
+				<tagblock name="Points" offset="0x0" visible="true" elementSize="0x1C">
+					<point3 name="Point" offset="0x0" visible="true" />
+					<int32 name="Packedkey Offaceref" offset="0xC" visible="true" />
+					<int32 name="Navmesh Uidoffaceref" offset="0x10" visible="true" />
+					<degree2 name="Normal" offset="0x14" visible="true" />
+				</tagblock>
+			</tagblock>
+		</tagblock>
+	</tagblock>
+	<uint8 name="Already Converted" offset="0x48" visible="true" />
+	<uint8 name="Padding 0" offset="0x49" visible="false" />
+	<uint8 name="Padding 1" offset="0x4A" visible="false" />
+	<uint8 name="Padding 2" offset="0x4B" visible="false" />
+</plugin>

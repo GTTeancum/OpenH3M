@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x60">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen2.PlanarFog (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="RenderOnlySubmergedGeometry" index="0" />
+		<bit name="ExtendInfinitelyWhileVisible" index="1" />
+		<bit name="DonTFloodfill" index="2" />
+		<bit name="AggressiveFloodfill" index="3" />
+		<bit name="DoNotRender" index="4" />
+		<bit name="DoNotRenderUnlessSubmerged" index="5" />
+	</flags16>
+	<int16 name="Priority" offset="0x2" visible="true" />
+	<stringid name="Global Material Name" offset="0x4" visible="true" />
+	<uint8 name="Padding 0" offset="0x8" visible="false" />
+	<uint8 name="Padding 1" offset="0x9" visible="false" />
+	<uint8 name="Padding1 0" offset="0xA" visible="false" />
+	<uint8 name="Padding1 1" offset="0xB" visible="false" />
+	<float32 name="Maximum Density" offset="0xC" visible="true" />
+	<float32 name="Opaque Distance" offset="0x10" visible="true" />
+	<float32 name="Opaque Depth" offset="0x14" visible="true" />
+	<rangef name="Atmospheric Planar Depth" offset="0x18" visible="true" />
+	<float32 name="Eye Offset Scale" offset="0x20" visible="true" />
+	<colorf name="Color" offset="0x24" alpha="false" visible="true" />
+	<tagblock name="Patchy Fog" offset="0x30" visible="true" elementSize="0x34">
+		<colorf name="Color" offset="0x0" alpha="false" visible="true" />
+		<uint8 name="Padding 0" offset="0xC" visible="false" />
+		<uint8 name="Padding 1" offset="0xD" visible="false" />
+		<uint8 name="Padding 2" offset="0xE" visible="false" />
+		<uint8 name="Padding 3" offset="0xF" visible="false" />
+		<uint8 name="Padding 4" offset="0x10" visible="false" />
+		<uint8 name="Padding 5" offset="0x11" visible="false" />
+		<uint8 name="Padding 6" offset="0x12" visible="false" />
+		<uint8 name="Padding 7" offset="0x13" visible="false" />
+		<uint8 name="Padding 8" offset="0x14" visible="false" />
+		<uint8 name="Padding 9" offset="0x15" visible="false" />
+		<uint8 name="Padding 10" offset="0x16" visible="false" />
+		<uint8 name="Padding 11" offset="0x17" visible="false" />
+		<rangef name="Density" offset="0x18" visible="true" />
+		<rangef name="Distance" offset="0x20" visible="true" />
+		<float32 name="Min Depth Fraction" offset="0x28" visible="true" />
+		<tagref name="Patchy Fog" offset="0x2C" visible="true" />
+	</tagblock>
+	<tagref name="Background Sound" offset="0x3C" visible="true" />
+	<tagref name="Sound Environment" offset="0x4C" visible="true" />
+	<float32 name="Environment Damping Factor" offset="0x5C" visible="true" />
+	<float32 name="Background Sound Gain" offset="0x60" visible="true" />
+	<tagref name="Enter Sound" offset="0x64" visible="true" />
+	<tagref name="Exit Sound" offset="0x74" visible="true" />
+</plugin>

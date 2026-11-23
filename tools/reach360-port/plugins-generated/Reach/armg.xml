@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x50">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ArmormodGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Projectile" offset="0x0" visible="true" />
+	<tagref name="Looping Sound Effect" offset="0x10" visible="true" />
+	<float32 name="Near Threshold" offset="0x20" visible="true" />
+	<float32 name="Attenuation Pct" offset="0x24" visible="true" />
+	<tagblock name="Near Audio Settings" offset="0x28" visible="true" elementSize="0x8">
+		<float32 name="Frequency" offset="0x0" visible="true" />
+		<float32 name="Duty Cycle Pct" offset="0x4" visible="true" />
+	</tagblock>
+	<tagblock name="Far Audio Settings" offset="0x34" visible="true" elementSize="0x8">
+		<float32 name="Frequency" offset="0x0" visible="true" />
+		<float32 name="Duty Cycle Pct" offset="0x4" visible="true" />
+	</tagblock>
+	<float32 name="Range" offset="0x40" visible="true" />
+	<flags8 name="Flags" offset="0x44" visible="true">
+		<bit name="IsInvisibleToXRay" index="0" />
+		<bit name="PingsInvisibleOnRadarEdgeOnFoot" index="1" />
+		<bit name="PingsInvisibleOnRadarEdgeIfDriving" index="2" />
+		<bit name="PingsInvisibleOnRadarEdgeIfInVehicle" index="3" />
+		<bit name="PingsInvisibleOnRadarEdgeOnlyForEnemyTeam" index="4" />
+		<bit name="IsInvisibleToTurretsWhenCamoIsActive" index="5" />
+		<bit name="UseModPingFrequencyAndDuration" index="6" />
+		<bit name="DisableFootstepAudio" index="7" />
+	</flags8>
+	<uint8 name="Padding 0" offset="0x45" visible="false" />
+	<uint8 name="Padding 1" offset="0x46" visible="false" />
+	<uint8 name="Padding 2" offset="0x47" visible="false" />
+	<float32 name="Stealth Ping Frequency" offset="0x48" visible="true" />
+	<float32 name="Stealth Ping Duration" offset="0x4C" visible="true" />
+</plugin>

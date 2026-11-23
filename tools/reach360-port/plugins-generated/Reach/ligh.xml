@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0xCC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Light (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<enum8 name="Light Method" offset="0x0" visible="true">
+		<option name="Screenspace" value="0" />
+		<option name="Inline" value="1" />
+		<option name="ReRender" value="2" />
+	</enum8>
+	<int8 name="Version" offset="0x1" visible="true" />
+	<flags16 name="Reach Flags" offset="0x2" visible="true">
+		<bit name="AllowShadowsAndGels" index="0" />
+		<bit name="ShadowCasting" index="1" />
+		<bit name="RenderFirstPersonOnly" index="2" />
+		<bit name="RenderThirdPersonOnly" index="3" />
+		<bit name="DontRenderSplitscreen" index="4" />
+		<bit name="RenderWhileActiveCamo" index="5" />
+		<bit name="RenderInMultiplayerOverride" index="6" />
+		<bit name="MoveToCameraInFirstPerson" index="7" />
+		<bit name="NeverPriorityCull" index="8" />
+		<bit name="AffectedByGameCanUseFlashlights" index="9" />
+		<bit name="ScreenspaceSpecularLighting" index="10" />
+		<bit name="AlwaysOnForWeapon" index="11" />
+	</flags16>
+	<enum16 name="Type" offset="0x4" visible="true">
+		<option name="Sphere" value="0" />
+		<option name="Frustum" value="1" />
+	</enum16>
+	<uint8 name="Padding 0" offset="0x6" visible="false" />
+	<uint8 name="Padding 1" offset="0x7" visible="false" />
+	<float32 name="Maximum Distance" offset="0x8" visible="true" />
+	<float32 name="Attenuation Start Distance" offset="0xC" visible="true" />
+	<float32 name="Light Rain Volume Range" offset="0x10" visible="true" />
+	<float32 name="Frustum Near Width" offset="0x14" visible="true" />
+	<float32 name="Frustum Height Scale" offset="0x18" visible="true" />
+	<float32 name="Frustum Field Of View" offset="0x1C" visible="true" />
+	<float32 name="Angular Hotspot" offset="0x20" visible="true" />
+	<float32 name="Angular Falloff Speed" offset="0x24" visible="true" />
+	<float32 name="Distance Diffusion Reach" offset="0x28" visible="true" />
+	<float32 name="Near Fading Distance" offset="0x2C" visible="true" />
+	<float32 name="Shadow Cutoff Distance" offset="0x30" visible="true" />
+	<enum16 name="Shadow Quality" offset="0x34" visible="true">
+		<option name="Shadow128x128" value="0" />
+		<option name="Shadow256x256" value="1" />
+		<option name="Shadow512x512" value="2" />
+		<option name="Shadow800x800" value="3" />
+	</enum16>
+	<int16 name="Padding Reach" offset="0x36" visible="true" />
+	<stringid name="Color / Input Variable" offset="0x38" visible="true" />
+	<stringid name="Color / Range Variable" offset="0x3C" visible="true" />
+	<enum16 name="Color / Output Modifier" offset="0x40" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Color / Padding 0" offset="0x42" visible="false" />
+	<uint8 name="Color / Padding 1" offset="0x43" visible="false" />
+	<stringid name="Color / Output Modifier Input" offset="0x44" visible="true" />
+	<dataref name="Color / Function / Data" offset="0x48" visible="true" />
+	<stringid name="Intensity / Input Variable" offset="0x5C" visible="true" />
+	<stringid name="Intensity / Range Variable" offset="0x60" visible="true" />
+	<enum16 name="Intensity / Output Modifier" offset="0x64" visible="true">
+		<option name="None" value="0" />
+		<option name="Plus" value="1" />
+		<option name="Times" value="2" />
+	</enum16>
+	<uint8 name="Intensity / Padding 0" offset="0x66" visible="false" />
+	<uint8 name="Intensity / Padding 1" offset="0x67" visible="false" />
+	<stringid name="Intensity / Output Modifier Input" offset="0x68" visible="true" />
+	<dataref name="Intensity / Function / Data" offset="0x6C" visible="true" />
+	<tagref name="Gel Bitmap" offset="0x80" visible="true" />
+	<float32 name="Rain Light Reduction" offset="0x90" visible="true" />
+	<float32 name="Destroy Light After" offset="0x94" visible="true" />
+	<enum8 name="Near Priority" offset="0x98" visible="true">
+		<option name="Default" value="0" />
+		<option name="InsanelyHigh" value="1" />
+		<option name="_1VeryHigh" value="2" />
+		<option name="_2" value="3" />
+		<option name="_3High" value="4" />
+		<option name="_4" value="5" />
+		<option name="_5Default" value="6" />
+		<option name="_6" value="7" />
+		<option name="_7Low" value="8" />
+		<option name="_8" value="9" />
+		<option name="_9VeryLow" value="10" />
+		<option name="NextToNothing" value="11" />
+	</enum8>
+	<enum8 name="Far Priority" offset="0x99" visible="true">
+		<option name="Default" value="0" />
+		<option name="InsanelyHigh" value="1" />
+		<option name="_1VeryHigh" value="2" />
+		<option name="_2" value="3" />
+		<option name="_3High" value="4" />
+		<option name="_4" value="5" />
+		<option name="_5Default" value="6" />
+		<option name="_6" value="7" />
+		<option name="_7Low" value="8" />
+		<option name="_8" value="9" />
+		<option name="_9VeryLow" value="10" />
+		<option name="NextToNothing" value="11" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x9A" visible="false" />
+	<uint8 name="Padding1 1" offset="0x9B" visible="false" />
+	<tagref name="Lens Flare" offset="0x9C" visible="true" />
+	<flags32 name="Clip Planes / Clip Flags" offset="0xAC" visible="true">
+		<bit name="ClipX" index="0" />
+		<bit name="ClipY" index="1" />
+		<bit name="ClipZ" index="2" />
+	</flags32>
+	<int32 name="Clip Planes / Unused Padding Dont Touch" offset="0xB0" visible="true" />
+	<rangef name="Clip Planes / Clip X" offset="0xB4" visible="true" />
+	<rangef name="Clip Planes / Clip Y" offset="0xBC" visible="true" />
+	<rangef name="Clip Planes / Clip Z" offset="0xC4" visible="true" />
+</plugin>

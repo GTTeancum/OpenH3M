@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x68">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.ShaderWaterfall (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Definition" offset="0x0" visible="true" />
+	<tagref name="Reference" offset="0x10" visible="true" />
+	<tagblock name="Options" offset="0x20" visible="true" elementSize="0x2">
+		<int16 name="Short" offset="0x0" visible="true" />
+	</tagblock>
+	<tagblock name="Parameters" offset="0x2C" visible="true" elementSize="0x3C">
+		<stringid name="Parameter Name" offset="0x0" visible="true" />
+		<enum32 name="Parameter Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<tagref name="Bitmap" offset="0x8" visible="true" />
+		<float32 name="Real" offset="0x18" visible="true" />
+		<int32 name="Int Bool" offset="0x1C" visible="true" />
+		<uint16 name="Bitmap Flags" offset="0x20" visible="true" />
+		<uint16 name="Bitmap Filter Mode" offset="0x22" visible="true" />
+		<uint16 name="Bitmap Address Mode" offset="0x24" visible="true" />
+		<uint16 name="Bitmap Address Mode X" offset="0x26" visible="true" />
+		<uint16 name="Bitmap Address Mode Y" offset="0x28" visible="true" />
+		<int16 name="Bitmap Anisotropy Amount" offset="0x2A" visible="true" />
+		<int16 name="Bitmap Extern Rtt Mode" offset="0x2C" visible="true" />
+		<uint16 name="Bitmap Sharpen Mode" offset="0x2E" visible="true" />
+		<tagblock name="Animated Parameters" offset="0x30" visible="true" elementSize="0x24">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Value" value="0" />
+				<option name="Color" value="1" />
+				<option name="ScaleUniform" value="2" />
+				<option name="ScaleX" value="3" />
+				<option name="ScaleY" value="4" />
+				<option name="TranslationX" value="5" />
+				<option name="TranslationY" value="6" />
+				<option name="FrameIndex" value="7" />
+				<option name="Alpha" value="8" />
+			</enum32>
+			<stringid name="Input Name" offset="0x4" visible="true" />
+			<stringid name="Range Name" offset="0x8" visible="true" />
+			<float32 name="Time Period" offset="0xC" visible="true" />
+			<dataref name="Function / Data" offset="0x10" visible="true" />
+		</tagblock>
+	</tagblock>
+	<tagblock name="Postprocess" offset="0x38" visible="true" elementSize="0xAC">
+		<tagref name="Shader Template" offset="0x0" visible="true" />
+		<tagblock name="Textures" offset="0x10" visible="true" elementSize="0x18">
+			<tagref name="Bitmap Reference" offset="0x0" visible="true" />
+			<int16 name="Bitmap Index" offset="0x10" visible="true" />
+			<uint8 name="Address Mode" offset="0x12" visible="true" />
+			<uint8 name="Filter Mode" offset="0x13" visible="true" />
+			<uint8 name="Extern Texture Mode" offset="0x14" visible="true" />
+			<int8 name="Texture Transform Constant Index" offset="0x15" visible="true" />
+			<uint16 name="Texture Transform Overlay Indices / Block Index Data" offset="0x16" visible="true" />
+		</tagblock>
+		<tagblock name="Real Vectors" offset="0x1C" visible="true" elementSize="0x10">
+			<vector3 name="Vector" offset="0x0" visible="true" />
+			<float32 name="Vector W" offset="0xC" visible="true" />
+		</tagblock>
+		<tagblock name="Int Constants" offset="0x28" visible="true" elementSize="0x4">
+			<int32 name="Int Value" offset="0x0" visible="true" />
+		</tagblock>
+		<int32 name="Bool Constants" offset="0x34" visible="true" />
+		<tagblock name="Entry Points" offset="0x38" visible="true" elementSize="0x2">
+			<uint16 name="Block Index / Block Index Data" offset="0x0" visible="true" />
+		</tagblock>
+		<tagblock name="Passes" offset="0x44" visible="true" elementSize="0x6">
+			<uint16 name="Bitmaps" offset="0x0" visible="true" />
+			<uint16 name="Vertex Real" offset="0x2" visible="true" />
+			<uint16 name="Pixel Real" offset="0x4" visible="true" />
+		</tagblock>
+		<tagblock name="Routing Info" offset="0x50" visible="true" elementSize="0x4">
+			<uint16 name="Destination Index" offset="0x0" visible="true" />
+			<uint8 name="Source Index" offset="0x2" visible="true" />
+			<uint8 name="Type Specific" offset="0x3" visible="true" />
+		</tagblock>
+		<tagblock name="Overlays" offset="0x5C" visible="true" elementSize="0x24">
+			<enum32 name="Type" offset="0x0" visible="true">
+				<option name="Value" value="0" />
+				<option name="Color" value="1" />
+				<option name="ScaleUniform" value="2" />
+				<option name="ScaleX" value="3" />
+				<option name="ScaleY" value="4" />
+				<option name="TranslationX" value="5" />
+				<option name="TranslationY" value="6" />
+				<option name="FrameIndex" value="7" />
+				<option name="Alpha" value="8" />
+			</enum32>
+			<stringid name="Input Name" offset="0x4" visible="true" />
+			<stringid name="Range Name" offset="0x8" visible="true" />
+			<float32 name="Time Period" offset="0xC" visible="true" />
+			<dataref name="Function / Data" offset="0x10" visible="true" />
+		</tagblock>
+		<int32 name="Blend Mode" offset="0x68" visible="true" />
+		<int32 name="Flags" offset="0x6C" visible="true" />
+		<int32 name="Im So Fired Pad" offset="0x70" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 0 / Index" offset="0x74" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 1 / Index" offset="0x76" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 2 / Index" offset="0x78" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 3 / Index" offset="0x7A" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 4 / Index" offset="0x7C" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 5 / Index" offset="0x7E" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 6 / Index" offset="0x80" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 7 / Index" offset="0x82" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 8 / Index" offset="0x84" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 9 / Index" offset="0x86" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 10 / Index" offset="0x88" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 11 / Index" offset="0x8A" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 12 / Index" offset="0x8C" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 13 / Index" offset="0x8E" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 14 / Index" offset="0x90" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 15 / Index" offset="0x92" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 16 / Index" offset="0x94" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 17 / Index" offset="0x96" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 18 / Index" offset="0x98" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 19 / Index" offset="0x9A" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 20 / Index" offset="0x9C" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 21 / Index" offset="0x9E" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 22 / Index" offset="0xA0" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 23 / Index" offset="0xA2" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 24 / Index" offset="0xA4" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 25 / Index" offset="0xA6" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 26 / Index" offset="0xA8" visible="true" />
+		<int16 name="Runtime Queryable Properties Table 27 / Index" offset="0xAA" visible="true" />
+	</tagblock>
+	<int32 name="Is Template" offset="0x44" visible="true" />
+	<flags32 name="Locked Options" offset="0x48" visible="true">
+		<bit name="Option0" index="0" />
+		<bit name="Option1" index="1" />
+		<bit name="Option2" index="2" />
+		<bit name="Option3" index="3" />
+		<bit name="Option4" index="4" />
+		<bit name="Option5" index="5" />
+		<bit name="Option6" index="6" />
+		<bit name="Option7" index="7" />
+		<bit name="Option8" index="8" />
+		<bit name="Option9" index="9" />
+		<bit name="Option10" index="10" />
+		<bit name="Option11" index="11" />
+		<bit name="Option12" index="12" />
+		<bit name="Option13" index="13" />
+		<bit name="Option14" index="14" />
+		<bit name="Option15" index="15" />
+		<bit name="Option16" index="16" />
+		<bit name="Option17" index="17" />
+		<bit name="Option18" index="18" />
+		<bit name="Option19" index="19" />
+		<bit name="Option20" index="20" />
+		<bit name="Option21" index="21" />
+		<bit name="Option22" index="22" />
+		<bit name="Option23" index="23" />
+		<bit name="Option24" index="24" />
+		<bit name="Option25" index="25" />
+		<bit name="Option26" index="26" />
+		<bit name="Option27" index="27" />
+		<bit name="Option28" index="28" />
+		<bit name="Option29" index="29" />
+		<bit name="Option30" index="30" />
+		<bit name="Option31" index="31" />
+	</flags32>
+	<tagblock name="Locked Parameters" offset="0x4C" visible="true" elementSize="0xC">
+		<stringid name="Parameter Name" offset="0x0" visible="true" />
+		<enum32 name="Parameter Type" offset="0x4" visible="true">
+			<option name="Bitmap" value="0" />
+			<option name="Color" value="1" />
+			<option name="Real" value="2" />
+			<option name="Int" value="3" />
+			<option name="Bool" value="4" />
+			<option name="ArgbColor" value="5" />
+		</enum32>
+		<uint32 name="Animated Parameter Flags" offset="0x8" visible="true" />
+	</tagblock>
+	<flags16 name="Shader Flags" offset="0x58" visible="true">
+		<bit name="DonTFogMe" index="0" />
+		<bit name="UseCustomSetting" index="1" />
+		<bit name="CalculateZCamera" index="2" />
+		<bit name="NeverRenderForShields" index="3" />
+		<bit name="OnlyRenderForShields" index="4" />
+	</flags16>
+	<enum8 name="Sort Layer" offset="0x5A" visible="true">
+		<option name="Invalid" value="0" />
+		<option name="PrePass" value="1" />
+		<option name="Normal" value="2" />
+		<option name="PostPass" value="3" />
+	</enum8>
+	<int8 name="Version" offset="0x5B" visible="true" />
+	<int32 name="Custom Fog Setting Index" offset="0x5C" visible="true" />
+	<int32 name="Prediction Atom Index" offset="0x60" visible="true" />
+	<stringid name="Material Name" offset="0x64" visible="true" />
+</plugin>

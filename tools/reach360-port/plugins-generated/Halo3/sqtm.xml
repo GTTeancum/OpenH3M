@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SquadTemplate (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Name" offset="0x0" visible="true" />
+	<tagblock name="Cell Templates" offset="0x4" visible="true" elementSize="0x58">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags16 name="Place On / Difficulty Flags" offset="0x4" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Normal" index="1" />
+			<bit name="Heroic" index="2" />
+			<bit name="Legendary" index="3" />
+		</flags16>
+		<uint8 name="Place On / Padding 0" offset="0x6" visible="false" />
+		<uint8 name="Place On / Padding 1" offset="0x7" visible="false" />
+		<int16 name="Normal Diff Count" offset="0x8" visible="true" />
+		<enum16 name="Major Upgrade" offset="0xA" visible="true">
+			<option name="Normal" value="0" />
+			<option name="Few" value="1" />
+			<option name="Many" value="2" />
+			<option name="None" value="3" />
+			<option name="All" value="4" />
+		</enum16>
+		<tagblock name="Character Type" offset="0xC" visible="true" elementSize="0x18">
+			<flags16 name="Place On / Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Place On / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Place On / Padding 1" offset="0x3" visible="false" />
+			<tagref name="Character Type" offset="0x4" visible="true" />
+			<int16 name="Chance" offset="0x14" visible="true" />
+			<uint8 name="Padding 0" offset="0x16" visible="false" />
+			<uint8 name="Padding 1" offset="0x17" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Weapon" offset="0x18" visible="true" elementSize="0x18">
+			<flags16 name="Place On / Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Place On / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Place On / Padding 1" offset="0x3" visible="false" />
+			<tagref name="Weapon Type" offset="0x4" visible="true" />
+			<int16 name="Chance" offset="0x14" visible="true" />
+			<uint8 name="Padding 0" offset="0x16" visible="false" />
+			<uint8 name="Padding 1" offset="0x17" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Secondary Weapon" offset="0x24" visible="true" elementSize="0x18">
+			<flags16 name="Place On / Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Place On / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Place On / Padding 1" offset="0x3" visible="false" />
+			<tagref name="Weapon Type" offset="0x4" visible="true" />
+			<int16 name="Chance" offset="0x14" visible="true" />
+			<uint8 name="Padding 0" offset="0x16" visible="false" />
+			<uint8 name="Padding 1" offset="0x17" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Equipment" offset="0x30" visible="true" elementSize="0x18">
+			<flags16 name="Place On / Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Place On / Padding 0" offset="0x2" visible="false" />
+			<uint8 name="Place On / Padding 1" offset="0x3" visible="false" />
+			<tagref name="Equipment Type" offset="0x4" visible="true" />
+			<int16 name="Chance" offset="0x14" visible="true" />
+			<uint8 name="Padding 0" offset="0x16" visible="false" />
+			<uint8 name="Padding 1" offset="0x17" visible="false" />
+		</tagblock>
+		<enum16 name="Grenade Type" offset="0x3C" visible="true">
+			<option name="None" value="0" />
+			<option name="HumanGrenade" value="1" />
+			<option name="CovenantPlasma" value="2" />
+			<option name="BruteClaymore" value="3" />
+			<option name="Firebomb" value="4" />
+		</enum16>
+		<uint8 name="Padding 0" offset="0x3E" visible="false" />
+		<uint8 name="Padding 1" offset="0x3F" visible="false" />
+		<tagref name="Vehicle Type" offset="0x40" visible="true" />
+		<stringid name="Vehicle Variant" offset="0x50" visible="true" />
+		<stringid name="Activity Name" offset="0x54" visible="true" />
+	</tagblock>
+</plugin>

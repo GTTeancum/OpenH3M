@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0x12C">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.AtmosphereDefinition (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<flags16 name="Flags" offset="0x0" visible="true">
+		<bit name="SkyFogEnabled" index="0" />
+		<bit name="GroundFogEnabled" index="1" />
+		<bit name="CeilingFogEnabled" index="2" />
+		<bit name="FogLightEnabled" index="3" />
+		<bit name="PatchyFogEnabled" index="4" />
+		<bit name="SkyFogHeightCameraRelative" index="5" />
+		<bit name="GroundFogHeightCameraRelative" index="6" />
+		<bit name="UseFloatingShadowForFogLight" index="7" />
+		<bit name="OnlyUseFogLightForLightShafts" index="8" />
+	</flags16>
+	<uint8 name="Version" offset="0x2" visible="true" />
+	<uint8 name="Padding 0" offset="0x3" visible="false" />
+	<float32 name="Distance Bias" offset="0x4" visible="true" />
+	<float32 name="Sky Fog / Base Height" offset="0x8" visible="true" />
+	<float32 name="Sky Fog / Fog Height" offset="0xC" visible="true" />
+	<float32 name="Sky Fog / Fog Thickness00 To10" offset="0x10" visible="true" />
+	<float32 name="Sky Fog / Fog Falloff End" offset="0x14" visible="true" />
+	<colorf name="Sky Fog / Fog Color" offset="0x18" alpha="false" visible="true" />
+	<float32 name="Sky Fog / Fog Color Intensity" offset="0x24" visible="true" />
+	<tagblock name="Sky Fog / Function" offset="0x28" visible="true" elementSize="0x14">
+		<dataref name="Mapping / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Ground Fog / Base Height" offset="0x34" visible="true" />
+	<float32 name="Ground Fog / Fog Height" offset="0x38" visible="true" />
+	<float32 name="Ground Fog / Fog Thickness00 To10" offset="0x3C" visible="true" />
+	<float32 name="Ground Fog / Fog Falloff End" offset="0x40" visible="true" />
+	<colorf name="Ground Fog / Fog Color" offset="0x44" alpha="false" visible="true" />
+	<float32 name="Ground Fog / Fog Color Intensity" offset="0x50" visible="true" />
+	<tagblock name="Ground Fog / Function" offset="0x54" visible="true" elementSize="0x14">
+		<dataref name="Mapping / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Ceiling Fog / Base Height" offset="0x60" visible="true" />
+	<float32 name="Ceiling Fog / Fog Height" offset="0x64" visible="true" />
+	<float32 name="Ceiling Fog / Fog Thickness00 To10" offset="0x68" visible="true" />
+	<float32 name="Ceiling Fog / Fog Falloff End" offset="0x6C" visible="true" />
+	<colorf name="Ceiling Fog / Fog Color" offset="0x70" alpha="false" visible="true" />
+	<float32 name="Ceiling Fog / Fog Color Intensity" offset="0x7C" visible="true" />
+	<tagblock name="Ceiling Fog / Function" offset="0x80" visible="true" elementSize="0x14">
+		<dataref name="Mapping / Data" offset="0x0" visible="true" />
+	</tagblock>
+	<float32 name="Fog Light / Pitch Angle90 To90" offset="0x8C" visible="true" />
+	<float32 name="Fog Light / Yaw Angle0 To360" offset="0x90" visible="true" />
+	<float32 name="Fog Light / Angular Radius0 To180" offset="0x94" visible="true" />
+	<colorf name="Fog Light / Tint Color" offset="0x98" alpha="false" visible="true" />
+	<float32 name="Fog Light / Tint Color Intensity" offset="0xA4" visible="true" />
+	<float32 name="Fog Light / Angular Falloff Steepness" offset="0xA8" visible="true" />
+	<float32 name="Fog Light / Distance Falloff Steepness" offset="0xAC" visible="true" />
+	<float32 name="Fog Light / Nearby Cutoff Percentage" offset="0xB0" visible="true" />
+	<float32 name="Sheet Density" offset="0xB4" visible="true" />
+	<colorf name="Color Tint" offset="0xB8" alpha="false" visible="true" />
+	<colorf name="Color Tint Inner" offset="0xC4" alpha="false" visible="true" />
+	<float32 name="Intensity" offset="0xD0" visible="true" />
+	<float32 name="Full Intensity Height" offset="0xD4" visible="true" />
+	<float32 name="Half Intensity Height" offset="0xD8" visible="true" />
+	<vector3 name="Wind Direction" offset="0xDC" visible="true" />
+	<float32 name="Reference Plane Height" offset="0xE8" visible="true" />
+	<colorf name="Volume Fog / Volume Fog Color" offset="0xEC" alpha="false" visible="true" />
+	<float32 name="Volume Fog / Volume Fog Color Intensity" offset="0xF8" visible="true" />
+	<colorf name="Light Shaft / Light Shaft Tint Color" offset="0xFC" alpha="false" visible="true" />
+	<float32 name="Light Shaft / Light Shaft Intensity" offset="0x108" visible="true" />
+	<float32 name="Light Shaft / Light Shaft Decay Rate" offset="0x10C" visible="true" />
+	<float32 name="Light Shaft / Maximum Screen Distance" offset="0x110" visible="true" />
+	<float32 name="Light Shaft / Sample Density" offset="0x114" visible="true" />
+	<float32 name="Light Shaft / Minimum Caster Distance" offset="0x118" visible="true" />
+	<tagref name="Weather Effect" offset="0x11C" visible="true" />
+</plugin>

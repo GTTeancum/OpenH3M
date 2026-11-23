@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x30">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.AtmosphereGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<tagref name="Fog Bitmap" offset="0x0" visible="true" />
+	<float32 name="Texture Repeat Rate" offset="0x10" visible="true" />
+	<float32 name="Distance Between Sheets" offset="0x14" visible="true" />
+	<float32 name="Depth Fade Factor" offset="0x18" visible="true" />
+	<float32 name="Transparent Sort Distance" offset="0x1C" visible="true" />
+	<enum8 name="Transparent Sort Layer" offset="0x20" visible="true">
+		<option name="Invalid" value="0" />
+		<option name="PrePass" value="1" />
+		<option name="Normal" value="2" />
+		<option name="PostPass" value="3" />
+	</enum8>
+	<uint8 name="Padding1 0" offset="0x21" visible="false" />
+	<uint8 name="Padding1 1" offset="0x22" visible="false" />
+	<uint8 name="Padding1 2" offset="0x23" visible="false" />
+	<tagblock name="Underwater Settings" offset="0x24" visible="true" elementSize="0x14">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<float32 name="Murkiness" offset="0x4" visible="true" />
+		<colorf name="Fog Color" offset="0x8" alpha="false" visible="true" />
+	</tagblock>
+</plugin>

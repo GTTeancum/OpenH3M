@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x48">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SurvivalModeGlobals (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<uint32 name="Unknown" offset="0x0" visible="true" />
+	<tagref name="Survival Mode Strings" offset="0x4" visible="true" />
+	<tagref name="Countdown Sound" offset="0x14" visible="true" />
+	<tagref name="Respawn Sound" offset="0x24" visible="true" />
+	<tagblock name="Survival Events" offset="0x34" visible="true" elementSize="0x10C">
+		<flags16 name="Flags" offset="0x0" visible="true">
+			<bit name="QuantityMessage" index="0" />
+			<bit name="SuppressText" index="1" />
+		</flags16>
+		<enum16 name="Type" offset="0x2" visible="true">
+			<option name="General" value="0" />
+			<option name="Flavor" value="1" />
+			<option name="Slayer" value="2" />
+			<option name="CaptureTheFlag" value="3" />
+			<option name="Oddball" value="4" />
+			<option name="Unused" value="5" />
+			<option name="KingOfTheHill" value="6" />
+			<option name="Vip" value="7" />
+			<option name="Juggernaut" value="8" />
+			<option name="Territories" value="9" />
+			<option name="Assault" value="10" />
+			<option name="Infection" value="11" />
+			<option name="Survival" value="12" />
+			<option name="Unknown" value="13" />
+		</enum16>
+		<stringid name="Event" offset="0x4" visible="true" />
+		<enum16 name="Audience" offset="0x8" visible="true">
+			<option name="CausePlayer" value="0" />
+			<option name="CauseTeam" value="1" />
+			<option name="EffectPlayer" value="2" />
+			<option name="EffectTeam" value="3" />
+			<option name="All" value="4" />
+		</enum16>
+		<int16 name="Display Priority" offset="0xA" visible="true" />
+		<int16 name="Sub Priority" offset="0xC" visible="true" />
+		<enum16 name="Team" offset="0xE" visible="true">
+			<option name="NonePlayerOnly" value="0" />
+			<option name="Cause" value="1" />
+			<option name="Effect" value="2" />
+			<option name="All" value="3" />
+		</enum16>
+		<stringid name="Display String" offset="0x10" visible="true" />
+		<stringid name="Display Medal" offset="0x14" visible="true" />
+		<uint32 name="Unknown HO" offset="0x18" visible="true" />
+		<float32 name="Display Time" offset="0x1C" visible="true" />
+		<enum16 name="Required Field" offset="0x20" visible="true">
+			<option name="None" value="0" />
+			<option name="CausePlayer" value="1" />
+			<option name="CauseTeam" value="2" />
+			<option name="EffectPlayer" value="3" />
+			<option name="EffectTeam" value="4" />
+		</enum16>
+		<enum16 name="Excluded Audience" offset="0x22" visible="true">
+			<option name="None" value="0" />
+			<option name="CausePlayer" value="1" />
+			<option name="CauseTeam" value="2" />
+			<option name="EffectPlayer" value="3" />
+			<option name="EffectTeam" value="4" />
+		</enum16>
+		<enum16 name="Splitscreen Suppression" offset="0x24" visible="true">
+			<option name="None" value="0" />
+			<option name="SuppressAudio" value="1" />
+			<option name="SuppressAudioIfOverlapping" value="2" />
+			<option name="SuppressText" value="3" />
+			<option name="SuppressAudioAndText" value="4" />
+		</enum16>
+		<uint8 name="Padding0 0" offset="0x26" visible="false" />
+		<uint8 name="Padding0 1" offset="0x27" visible="false" />
+		<stringid name="Primary String" offset="0x28" visible="true" />
+		<int32 name="Primary String Duration" offset="0x2C" visible="true" />
+		<stringid name="Plural Display String" offset="0x30" visible="true" />
+		<float32 name="Sound Delay Announcer Only" offset="0x34" visible="true" />
+		<flags16 name="Sound Flags" offset="0x38" visible="true">
+			<bit name="AnnouncerSound" index="0" />
+		</flags16>
+		<uint8 name="Padding1 0" offset="0x3A" visible="false" />
+		<uint8 name="Padding1 1" offset="0x3B" visible="false" />
+		<tagref name="English Sound" offset="0x3C" visible="true" />
+		<tagref name="Japanese Sound" offset="0x4C" visible="true" />
+		<tagref name="German Sound" offset="0x5C" visible="true" />
+		<tagref name="French Sound" offset="0x6C" visible="true" />
+		<tagref name="Spanish Sound" offset="0x7C" visible="true" />
+		<tagref name="Latin American Spanish Sound" offset="0x8C" visible="true" />
+		<tagref name="Italian Sound" offset="0x9C" visible="true" />
+		<tagref name="Korean Sound" offset="0xAC" visible="true" />
+		<tagref name="Chinese Traditional Sound" offset="0xBC" visible="true" />
+		<tagref name="Chinese Simplified Sound" offset="0xCC" visible="true" />
+		<tagref name="Portuguese Sound" offset="0xDC" visible="true" />
+		<tagref name="Polish Sound" offset="0xEC" visible="true" />
+		<tagref name="Probably Russian Sound" offset="0xFC" visible="true" />
+	</tagblock>
+	<uint32 name="Unknown HO" offset="0x40" visible="true" />
+	<uint32 name="Unknown HO_1" offset="0x44" visible="true" />
+</plugin>

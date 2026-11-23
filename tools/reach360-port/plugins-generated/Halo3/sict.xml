@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Halo3" baseSize="0xC">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.Gen4.SelfIllumination (Halo3Retail, Original) by tools/reach360-port/plugingen -->
+	<tagblock name="States" offset="0x0" visible="true" elementSize="0x4C">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags32 name="Flags" offset="0x4" visible="true">
+			<bit name="Looping" index="0" />
+			<bit name="TriggeredByAiState" index="1" />
+			<bit name="TriggeredByAnimState" index="2" />
+			<bit name="TriggeredByDialog" index="3" />
+		</flags32>
+		<float32 name="Length" offset="0x8" visible="true" />
+		<stringid name="Next State" offset="0xC" visible="true" />
+		<dataref name="Intensity / Function / Data" offset="0x10" visible="true" />
+		<dataref name="Color / Function / Data" offset="0x24" visible="true" />
+		<dataref name="Activation / Function / Data" offset="0x38" visible="true" />
+	</tagblock>
+</plugin>

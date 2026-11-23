@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin game="Reach" baseSize="0x10">
+	<!-- Generated from TagTool TagTool.Tags.Definitions.SquadTemplate (HaloReach, Original) by tools/reach360-port/plugingen -->
+	<stringid name="Name" offset="0x0" visible="true" />
+	<tagblock name="Cell Templates" offset="0x4" visible="true" elementSize="0x60">
+		<stringid name="Name" offset="0x0" visible="true" />
+		<flags16 name="Difficulty Flags" offset="0x4" visible="true">
+			<bit name="Easy" index="0" />
+			<bit name="Normal" index="1" />
+			<bit name="Heroic" index="2" />
+			<bit name="Legendary" index="3" />
+		</flags16>
+		<uint8 name="Padding1 0" offset="0x6" visible="false" />
+		<uint8 name="Padding1 1" offset="0x7" visible="false" />
+		<range16 name="Round Range" offset="0x8" visible="true" />
+		<range16 name="Set Range" offset="0xC" visible="true" />
+		<int16 name="Normal Diff Count" offset="0x10" visible="true" />
+		<enum16 name="Major Upgrade" offset="0x12" visible="true">
+			<option name="Normal" value="0" />
+			<option name="Few" value="1" />
+			<option name="Many" value="2" />
+			<option name="None" value="3" />
+			<option name="All" value="4" />
+		</enum16>
+		<tagblock name="Characters" offset="0x14" visible="true" elementSize="0x20">
+			<flags16 name="Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Padding1 0" offset="0x2" visible="false" />
+			<uint8 name="Padding1 1" offset="0x3" visible="false" />
+			<range16 name="Round Range" offset="0x4" visible="true" />
+			<range16 name="Set Range" offset="0x8" visible="true" />
+			<tagref name="Object" offset="0xC" visible="true" />
+			<int16 name="Probability" offset="0x1C" visible="true" />
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Weapons" offset="0x20" visible="true" elementSize="0x20">
+			<flags16 name="Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Padding1 0" offset="0x2" visible="false" />
+			<uint8 name="Padding1 1" offset="0x3" visible="false" />
+			<range16 name="Round Range" offset="0x4" visible="true" />
+			<range16 name="Set Range" offset="0x8" visible="true" />
+			<tagref name="Object" offset="0xC" visible="true" />
+			<int16 name="Probability" offset="0x1C" visible="true" />
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Secondary Weapons" offset="0x2C" visible="true" elementSize="0x20">
+			<flags16 name="Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Padding1 0" offset="0x2" visible="false" />
+			<uint8 name="Padding1 1" offset="0x3" visible="false" />
+			<range16 name="Round Range" offset="0x4" visible="true" />
+			<range16 name="Set Range" offset="0x8" visible="true" />
+			<tagref name="Object" offset="0xC" visible="true" />
+			<int16 name="Probability" offset="0x1C" visible="true" />
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+		</tagblock>
+		<tagblock name="Initial Equipment" offset="0x38" visible="true" elementSize="0x20">
+			<flags16 name="Difficulty Flags" offset="0x0" visible="true">
+				<bit name="Easy" index="0" />
+				<bit name="Normal" index="1" />
+				<bit name="Heroic" index="2" />
+				<bit name="Legendary" index="3" />
+			</flags16>
+			<uint8 name="Padding1 0" offset="0x2" visible="false" />
+			<uint8 name="Padding1 1" offset="0x3" visible="false" />
+			<range16 name="Round Range" offset="0x4" visible="true" />
+			<range16 name="Set Range" offset="0x8" visible="true" />
+			<tagref name="Object" offset="0xC" visible="true" />
+			<int16 name="Probability" offset="0x1C" visible="true" />
+			<uint8 name="Padding2 0" offset="0x1E" visible="false" />
+			<uint8 name="Padding2 1" offset="0x1F" visible="false" />
+		</tagblock>
+		<enum16 name="Grenade Type" offset="0x44" visible="true">
+			<option name="HumanFragmentation" value="0" />
+			<option name="CovenantPlasma" value="1" />
+			<option name="BruteClaymore" value="2" />
+			<option name="Firebomb" value="3" />
+		</enum16>
+		<uint8 name="Padding2 0" offset="0x46" visible="false" />
+		<uint8 name="Padding2 1" offset="0x47" visible="false" />
+		<tagref name="Vehicle" offset="0x48" visible="true" />
+		<stringid name="Vehicle Variant" offset="0x58" visible="true" />
+		<stringid name="Activity Name" offset="0x5C" visible="true" />
+	</tagblock>
+</plugin>
