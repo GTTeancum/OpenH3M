@@ -1,0 +1,58 @@
+# Spartan Advanced Forge (2026-11-27): world-size marker sprites (color.w = half size),
+# depth coverage from the frame's scene scissors when no clear was recorded, and a
+# repeated same-camera token keeps its depth snapshot. Applies after the scene-marker patches.
+--- a/src/graphics/d3d12/scene_markers.cpp
++++ b/src/graphics/d3d12/scene_markers.cpp
+@@ -52,10 +52,16 @@
+   for(float v:markers.camera) if(!std::isfinite(v)) return false;
+   for(float v:markers.world_to_clip) if(!std::isfinite(v)) return false;
+   std::lock_guard lock(mutex_);
++  // A repeated token for the same view and camera within a frame (a second
++  // pass with identical constants) keeps the depth snapshot already taken.
++  const bool sameCamera=!pending_.points.empty()&&!markers.points.empty()&&
++      pending_.local_view==markers.local_view&&pending_.world_to_clip==markers.world_to_clip&&
++      pending_.camera==markers.camera;
+   pending_=std::move(markers);
+   // A later camera token for this local view replaces its earlier capture,
+   // even if no subsequent world draw produces a new depth image.
+-  captured_={};observed_frame_=UINT64_MAX;frame_=UINT64_MAX;
++  if(!sameCamera){captured_={};observed_frame_=UINT64_MAX;frame_=UINT64_MAX;}
++  else captured_.points=pending_.points,captured_.time=pending_.time;
+   enabled_.store(!pending_.points.empty());
+   return true;
+ }
+@@ -181,6 +187,12 @@
+    for(const auto& a:*cleared)for(const auto& b:observed_scissors_)
+     AddMarkerCoverage(coverage,{std::max(a.left,b.left),std::max(a.top,b.top),
+                                std::min(a.right,b.right),std::min(a.bottom,b.bottom)});
++  // When this frame's depth clear was not recorded (some maps reach the scene
++  // depth through a path without a tracked clear), the scene's own draw
++  // scissors this frame are the coverage.
++  const auto* cleared=cache.GetSceneDepthClearCoverage();
++  if(coverage.empty()&&(!cleared||cleared->empty()))
++   for(const auto& b:observed_scissors_)AddMarkerCoverage(coverage,b);
+   // Allocation bounds alone cannot establish initialized scene pixels.
+   if(coverage.empty())return;
+   auto* device=cp_.GetD3D12Provider().GetDevice();
+@@ -350,6 +362,13 @@
+     static_assert(sizeof(c)==96);
+     c.center[0]=left+(nx+1)*viewWidth*.5f;c.center[1]=top+(1-ny)*viewHeight*.5f;
+     c.radius=5.f*viewWidth/1152.f;
++    // A positive color.w is a world-space half size: project it at this depth.
++    if(p.color[3]>0){
++      const float lateral=std::sqrt(matrix_[0]*matrix_[0]+matrix_[1]*matrix_[1]+matrix_[2]*matrix_[2]);
++      c.radius=p.color[3]*lateral/clip[3]*viewWidth*.5f;
++      if(!std::isfinite(c.radius)||c.radius<.5f)continue;
++      c.radius=std::min(c.radius,viewWidth);
++    }
+     // The material kernel covers a quad, not a single center point. Clip its
+     // footprint against this view; rejecting abs(NDC)>1 drops visible edge
+     // pixels before the shader can apply its existing per-pixel clipping.
+@@ -385,6 +404,6 @@
+   }
+   cp_.PushUAVBarrier(output);cp_.SubmitBarriers();
+   static bool logged=false;
+-  if(drawn&&!logged) {logged=true;REXGPU_INFO("Scene markers drawn with original material and scene depth: {} candidates",drawn);}
++  if(drawn&&!logged) {logged=true;REXGPU_INFO("Scene markers drawn with scene depth: {} candidates",drawn);}
+ }
+ }
