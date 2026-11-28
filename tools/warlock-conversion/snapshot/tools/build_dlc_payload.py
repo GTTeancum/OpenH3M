@@ -18,14 +18,28 @@ ADDITIONAL_MAPS = [('sandbox', 'forge_island', 'Force Cove', 1731),
                    ('zanzibar', 'rodentia', 'Rodentia', 1734),
                    ('zanzibar', 'boarding_action', 'Boarding Action', 1735),
                    ('zanzibar', 'lockout_classic', 'Lockout', 1738),
-                   ('zanzibar', 'elongation', '3longation', 1739),
+                   # Elongation: Halo 2 port replacing the 3longation MCC remake (user 2026-11-26); new ID so 3longation saves don't attach
+                   ('zanzibar', 'elongation', 'Elongation', 1759),
                    ('zanzibar', 'sanctuary', 'Sanctuary', 1742),
                    ('zanzibar', 'powerhouse', 'Powerhouse', 1746),
                    ('zanzibar', 'sky_bridge', 'Sky Bridge', 1747),
                    ('zanzibar', 'desolation', 'Desolation', 1748),
                    ('zanzibar', 'foundation', 'Foundation', 1749),
                    ('zanzibar', 'relic', 'Relic', 1750),
-                   ('zanzibar', 'tombstone', 'Tombstone', 1751)]
+                   ('zanzibar', 'tombstone', 'Tombstone', 1751),
+                   ('zanzibar', 'beavercreek', 'Beaver Creek', 1758),
+                   # ho2h3 (ElDewrito Reach mods / canvas), user 2026-11-24: deliver as DLC
+                   ('guardian', 'reflection', 'Reflection', 1756),
+                   ('isolation', 'sword_base', 'Sword Base', 1757),
+                   ('sandbox', 'void', 'Void', 1755)]
+
+
+# Map IDs already used by custom packages built outside this list (user's installed set, 2026-11-26): Reactor 1752,
+# Dead Calm 1753, Edge 1754. Duplicate IDs hide one of the two maps in the game's map list.
+RESERVED_IDS = {1752: 'Reactor', 1753: 'Dead Calm', 1754: 'Edge'}
+_ids = [row[3] for row in MAPS + ADDITIONAL_MAPS]
+if len(set(_ids)) != len(_ids) or set(_ids) & set(RESERVED_IDS):
+    raise SystemExit('Duplicate custom map ID in the DLC map list')
 
 
 def fixed(data, offset, length, text, encoding='ascii'):

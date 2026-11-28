@@ -9,6 +9,7 @@
 #include <bit>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -21,6 +22,8 @@ REXCVAR_DEFINE_STRING(halo3mp_benchmark_variant, "", "Halo3MP/Developer", "Expec
 REXCVAR_DEFINE_STRING(halo3mp_benchmark_points, "", "Halo3MP/Developer", "Repository-local authored spawn coordinate list");
 REXCVAR_DEFINE_UINT32(halo3mp_benchmark_seconds, 10, "Halo3MP/Developer", "Seconds measured at each spawn").range(5, 60);
 REXCVAR_DEFINE_BOOL(halo3mp_benchmark_uncapped, false, "Halo3MP/Developer", "Release the frame cap when the benchmark starts placing the player (menus stay capped)");
+REXCVAR_DEFINE_STRING(halo3mp_benchmark_track_box, "", "Halo3MP/Developer",
+    "minx,miny,minz,maxx,maxy,maxz: after placement, log the camera every 250 ms and every object inside this box every 250 ms (read only, until exit)");
 extern "C" void __imp__sub_8232E8B8(PPCContext&, uint8_t*);
 
 namespace {
@@ -206,7 +209,75 @@ void ApplyMapBenchmarkInput(PPCContext& ctx, uint8_t* base, uint32_t user, uint3
   const auto right_x = std::byteswap(uint16_t(benchmark_right_x.load()));
   std::memcpy(base + destination + 12, &right_x, 2);
 }
+namespace {
+// Read-only movement trace for map tests (conveyors, lifts): never writes guest memory.
+struct Tracker {
+  bool parsed = false, active = false;
+  std::array<float, 6> box{};
+  int position_offset = -1;
+  Clock::time_point camera_at{}, objects_at{}, start{};
+  void Frame(PPCContext& ctx, uint8_t* base, uint32_t players_offset, uint32_t handle) {
+    if (!parsed) {
+      parsed = true;
+      const auto text = REXCVAR_GET(halo3mp_benchmark_track_box);
+      if (text.empty()) return;
+      if (std::sscanf(text.c_str(), "%f,%f,%f,%f,%f,%f", &box[0], &box[1], &box[2], &box[3], &box[4], &box[5]) == 6)
+        active = true;
+      else REXLOG_ERROR("[map-track] invalid box '{}'", text);
+    }
+    if (!active || !players_offset || handle == 0xFFFFFFFFu) return;
+    const auto tls = Word(base, ctx.r13.u32);
+    const auto now = Clock::now();
+    if (start == Clock::time_point{}) start = now;
+    const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
+    const auto players = Word(base, tls + players_offset);
+    const auto unit = Word(base, Word(base, players + 0x44) + 0x28);
+    const auto body = Object(base, tls, unit);
+    const auto observer = Word(base, tls + 0x2CC) + 0x110;
+    const float cx = Float(base, observer), cy = Float(base, observer + 4), cz = Float(base, observer + 8);
+    if (body && position_offset < 0) {
+      // Find the object position field from the player's body: the float triple under the camera.
+      for (int o = 4; o + 12 <= 0x200; o += 4) {
+        const float x = Float(base, body + o), y = Float(base, body + o + 4), z = Float(base, body + o + 8);
+        if (std::abs(x - cx) < .05f && std::abs(y - cy) < .05f && cz - z > .2f && cz - z < 1.f) {
+          position_offset = o;
+          REXLOG_INFO("[map-track] object position offset {:#x}", o);
+          break;
+        }
+      }
+    }
+    if (now - camera_at >= std::chrono::milliseconds(250)) {
+      camera_at = now;
+      float bx = 0, by = 0, bz = 0;
+      if (body && position_offset >= 0) {
+        bx = Float(base, body + position_offset); by = Float(base, body + position_offset + 4);
+        bz = Float(base, body + position_offset + 8);
+      }
+      REXLOG_INFO("[map-track] t={} player unit={:#x} body={},{},{} camera={},{},{}", ms, unit, bx, by, bz, cx, cy, cz);
+    }
+    if (position_offset < 0 || now - objects_at < std::chrono::milliseconds(250)) return;
+    objects_at = now;
+    const auto table = Word(base, tls + 0xA8);
+    const auto count = std::min<uint32_t>(Word(base, table + 0x20), 4096);
+    const auto headers = Word(base, table + 0x44);
+    for (uint32_t i = 0; i < count; ++i) {
+      const auto header = headers + i * 16;
+      const auto salt = Word(base, header) >> 16;
+      if (!salt) continue;
+      const auto object = Word(base, header + 12);
+      if (!object || object == body) continue;
+      const float x = Float(base, object + position_offset), y = Float(base, object + position_offset + 4);
+      const float z = Float(base, object + position_offset + 8);
+      if (!(x >= box[0] && y >= box[1] && z >= box[2] && x <= box[3] && y <= box[4] && z <= box[5])) continue;
+      REXLOG_INFO("[map-track] t={} object handle={:#x} definition={:#x} pos={},{},{}", ms, (salt << 16) | i,
+          Word(base, object), x, y, z);
+    }
+  }
+};
+}
 void UpdateMapBenchmark(PPCContext& ctx, uint8_t* base) {
   static Benchmark benchmark;
+  static Tracker tracker;
   benchmark.Frame(ctx, base);
+  tracker.Frame(ctx, base, benchmark.players_offset, benchmark.handle);
 }

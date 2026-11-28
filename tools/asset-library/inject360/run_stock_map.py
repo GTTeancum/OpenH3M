@@ -22,6 +22,7 @@ p.add_argument('--seconds', type=int, default=170)
 p.add_argument('--captures', default='60000,71500,110000,130000,150000')
 p.add_argument('--extra-input', default='')
 p.add_argument('--extra-args', default='', help='extra game options, space separated')
+p.add_argument('--forge', action='store_true', help='start the map in Forge instead of Custom Games (one entry lower on the main menu)')
 p.add_argument('--build', type=Path, default=None, help='folder holding halo3mp.exe and its DLLs (default: the installed developer build)')
 a = p.parse_args()
 run = a.run.resolve(); game = a.game.resolve(strict=True)
@@ -35,6 +36,7 @@ for f in (a.build.resolve(strict=True) if a.build else BUILD).iterdir():
 exe = run / 'bin' / 'halo3mp.exe'
 direction, steps = menu_route(game / 'maps/info', (), None, a.map)
 inp = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+if a.forge: inp.insert(1, '45500:DOWN+220')   # same route as trace_loading.py's Forge checks
 inp += [f'{58000 + n * 700}:{direction}+250' for n in range(steps)]
 confirm = max(70000, 58000 + steps * 700 + 500); delay = confirm - 70000
 inp += [f'{confirm}:A+250', f'{72000 + delay}:A+250', f'{74000 + delay}:DOWN+220', f'{95000 + delay}:A+250']

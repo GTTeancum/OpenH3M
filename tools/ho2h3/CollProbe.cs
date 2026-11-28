@@ -65,6 +65,7 @@ namespace Ho2H3
                             if (c.Bsp3dNodes?.Count > 0) { var n = c.Bsp3dNodes[0]; Console.WriteLine($"  node0 {string.Join(" ", n.GetType().GetFields().Select(f => f.Name + "=" + f.GetValue(n)))}"); }
                             if (c.Planes?.Count > 0) { var p = c.Planes[0]; Console.WriteLine($"  plane0 {p.Value}"); }
                             if (c.Vertices?.Count > 0) { var v = c.Vertices[0]; Console.WriteLine($"  vertex0 {v.Point}"); }
+                            if (c.Vertices?.Count <= 16) foreach (var vv in c.Vertices) Console.WriteLine($"  vertex {vv.Point}");
                         }
                         if (r?.InstancedGeometry != null) Console.WriteLine($"  instances with surfaces {r.InstancedGeometry.Count(i => i.CollisionInfo?.Surfaces?.Count > 0)}, with MOPP {r.InstancedGeometry.Count(i => i.CollisionMoppCodes?.Count > 0)}, MOPP bytes {r.InstancedGeometry.Sum(i => i.CollisionMoppCodes?.Sum(m => m.Data?.Count ?? 0) ?? 0)}");
                         foreach (var f in bsp.GetType().GetFields()) { var v = f.GetValue(bsp); if (v is System.Collections.IList l && f.FieldType.IsGenericType && f.FieldType.GetGenericArguments()[0].Name.Contains("Mopp")) Console.WriteLine($"  sbsp {f.Name}: {l.Count}"); }

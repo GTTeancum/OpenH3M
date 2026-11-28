@@ -11,7 +11,10 @@ namespace Ho2H3
 {
     static class Program
     {
-        public static GameCache OpenPak(string path) => new GameCacheModPackage(null, new FileInfo(path), true);
+        // a TagTool mod package (.pak), or Halo Online's base game (tags.dat in its maps folder)
+        public static GameCache OpenPak(string path) => (path.EndsWith(".dat", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".map", StringComparison.OrdinalIgnoreCase)) ? GameCache.Open(new FileInfo(path)) : new GameCacheModPackage(null, new FileInfo(path), true);
+        public static Stream OpenStream(GameCache c) => c is GameCacheModPackage mp ? mp.OpenCacheRead(new MemoryStream()) : c.OpenCacheRead();
+        public static string SourcePath;
 
         static int Main(string[] args)
         {
@@ -29,6 +32,37 @@ namespace Ho2H3
                 case "objexport": return ObjExport.Run(args);
                 case "variant": return VariantProbe.Run(args);
                 case "physprobe": return PhysProbe.Run(args);
+                case "collcheck": return CollCheck.Run(args);
+                case "refcheck": return CollCheck.RefCheck(args);
+                case "sphere360": return CollCheck.Sphere360(args);
+                case "vector360": return CollCheck.Vector360(args);
+                case "solidstats": return CollCheck.SolidStats(args);
+                case "linecheck": return CollCheck.LineCheck(args);
+                case "renderbsp": return CollCheck.RenderBsp(args);
+                case "moppkeys": return CollCheck.MoppKeys(args);
+                case "mcvcheck": return VisRules.McvCheck(args);
+                case "pvscheck": return VisRules.PvsCheck(args);
+                case "fadecheck": return VisRules.FadeCheck(args);
+                case "spherecheck": return VisRules.SphereCheck(args);
+                case "bucketcheck": return VisRules.BucketCheck(args);
+                case "seamcheck": return VisRules.SeamCheck(args);
+                case "locate": return VisRules.Locate(args);
+                case "blankclustermopp": return PatchProbe.Run(args);
+                case "rawtag": return PatchProbe.RawTag(args);
+                case "rawinst": return PatchProbe.RawInst(args);
+                case "gapscan": return CollCheck.GapScan(args);
+                case "raycol": return CollCheck.Ray(args);
+                case "points": return CollCheck.Points(args);
+                case "viscompare": return VisCheck.Run(args);
+                case "decalcheck": return CollCheck.Decals(args);
+                case "decaloverlap": return CollCheck.DecalOverlap(args);
+                case "surftest": return SurfTest.Run(args);
+                case "addr": return AddrProbe.Run(args);
+                case "locale": return LocaleProbe.Run(args);
+                case "buckets": return BucketProbe.Run(args);
+                case "reachpal": return ReachPalette.Run(args);
+                case "addlocale": return AddLocale.Run(args);
+                case "tags": return ListTags.Run(args);
             }
             return 1;
         }
@@ -36,7 +70,7 @@ namespace Ho2H3
         // inventory <pak> <scenario name>: every tag the scenario depends on, by group: package-owned or base-cache only
         static int Inventory(string[] a)
         {
-            var cache = OpenPak(a[1]);
+            var cache = OpenPak(a[1]); SourcePath = a[1];
             var root = cache.TagCache.NonNull().First(t => t.Name.Equals(a[2], StringComparison.OrdinalIgnoreCase) && t.Group.ToString() == "scenario");
             var seen = new System.Collections.Generic.HashSet<int>(); var q = new System.Collections.Generic.Queue<CachedTag>(); q.Enqueue(root);
             var own = new System.Collections.Generic.Dictionary<string, int>(); var bas = new System.Collections.Generic.Dictionary<string, int>();
@@ -57,7 +91,7 @@ namespace Ho2H3
 
         static int Probe(string[] a)
         {
-            var cache = OpenPak(a[1]);
+            var cache = OpenPak(a[1]); SourcePath = a[1];
             var tag = cache.TagCache.NonNull().First(t => $"{t.Name}.{t.Group}".Equals(a[2], StringComparison.OrdinalIgnoreCase));
             object def; using (var s = ((GameCacheModPackage)cache).OpenCacheRead(new MemoryStream())) def = cache.Deserialize(s, tag);
             var ser = new TagSerializer(CacheVersion.Halo3Retail, CachePlatform.Original, TagTool.IO.EndianFormat.BigEndian);

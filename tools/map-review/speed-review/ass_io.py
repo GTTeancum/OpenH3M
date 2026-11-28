@@ -30,6 +30,13 @@ class Inst:
     __slots__ = ('obj', 'name', 'uid', 'parent', 'flag', 'local', 'pivot', 'bones')
 
 
+def tri(t):
+    # material and the three vertex indices: on one line ("m\t\ta\tb\tc", 3ds Max exporter) or on two lines (kit)
+    v = t.next().split()
+    while len(v) < 4: v += t.next().split()
+    return tuple(int(x) for x in v[:4])
+
+
 def read(path):
     t = Tokens(path)
     version = int(t.next()); assert version == 7, version
@@ -48,7 +55,7 @@ def read(path):
                 infl.append([(int(t.next()), t.next()) for _ in range(int(t.next()))])
                 uvs.append([t.next() for _ in range(int(t.next()))])
             o.pos, o.nrm, o.col, o.infl, o.uvs = pos, nrm, col, infl, uvs
-            o.tris = [tuple(int(t.next()) for _ in range(4)) for _ in range(int(t.next()))]
+            o.tris = [tri(t) for _ in range(int(t.next()))]
         else:
             # Non-mesh objects (lights, spheres, boxes, pills) are kept verbatim.
             fields = {'"SPHERE"': 2, '"BOX"': 2, '"PILL"': 3, '"GENERIC_LIGHT"': 13}[o.cls]
@@ -62,6 +69,18 @@ def read(path):
         n.bones = [t.next() for _ in range(nb)]
         insts.append(n)
     return dict(header=header, mats=mats, objs=objs, insts=insts)
+
+
+def renumber(insts):
+    """The kit reads an instance's parent as a position in the instance list (sources number them 0..n-1 in order),
+    so after inserting or removing instances, set every id to its position and point parents at the new positions.
+    Parents must come before their children."""
+    pos = {n.uid: k for k, n in enumerate(insts)}
+    for k, n in enumerate(insts):
+        assert n.parent == -1 or pos[n.parent] < k, n.name
+        n.parent = -1 if n.parent == -1 else pos[n.parent]
+    for k, n in enumerate(insts): n.uid = k
+    return insts
 
 
 def f(x):

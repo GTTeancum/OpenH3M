@@ -24,7 +24,7 @@ namespace Ho2H3
             {
                 MapFile mf; try { mf = Read(pak, i); } catch (Exception ex) { Console.WriteLine($"map {i} id {mp.MapIds[i]}: {ex.Message}"); continue; }
                 var v = mf.MapFileBlf?.MapVariant?.MapVariant; string name = mf.Header?.GetName() ?? "?";
-                Console.WriteLine($"map {i} id {mp.MapIds[i]} {name} scenario {mf.Header?.GetScenarioPath()} variant objects {v?.VariantObjectCount} scenario objects {v?.ScenarioObjectCount} quotas {v?.PlaceableQuotaCount}");
+                Console.WriteLine($"map {i} id {mp.MapIds[i]} {name} scenario {mf.Header?.GetScenarioPath()} budget {v?.MaximumBudget}/{v?.SpentBudget} variant objects {v?.VariantObjectCount} scenario objects {v?.ScenarioObjectCount} quotas {v?.PlaceableQuotaCount}");
                 if (v == null || (a.Length > 2 && mp.MapIds[i].ToString() != a[2])) continue;
                 var counts = new System.Collections.Generic.Dictionary<string, int>();
                 for (int k = 0; k < v.Objects.Length; k++)

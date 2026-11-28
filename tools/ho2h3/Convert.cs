@@ -52,7 +52,7 @@ namespace Ho2H3
 
         public static int Run(string[] a)
         {
-            string pak = a[1], scenario = a[2], basis = a[3], output = a[4], salt = null;
+            string pak = a[1], scenario = a[2], basis = a[3], output = a[4], salt = null, basisScenario = null;
             var subst = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase); var groupSubst = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase); var skip = new HashSet<string>(); var remove = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             for (int i = 5; i < a.Length; i++)
             {
@@ -60,10 +60,16 @@ namespace Ho2H3
                 else if (a[i] == "--skip") skip.Add(a[++i]);
                 else if (a[i] == "--remove") remove.Add(a[++i]);
                 else if (a[i] == "--salt") salt = a[++i];
+                else if (a[i] == "--place") { var w = a[++i].Split(' ', StringSplitOptions.RemoveEmptyEntries); var ic = System.Globalization.CultureInfo.InvariantCulture; Placements.Extra.Add((w[0], double.Parse(w[1], ic), double.Parse(w[2], ic), double.Parse(w[3], ic), w.Length > 4 ? double.Parse(w[4], ic) : 0)); }
+                else if (a[i] == "--ramp-zone") { var z = a[++i].Split(',').Select(x => double.Parse(x, System.Globalization.CultureInfo.InvariantCulture)).ToArray(); Ramps.Zones.Add((z[0], z[1], z[2], z[3], z.Length > 4 ? z[4] : double.MinValue, z.Length > 5 ? z[5] : double.MaxValue)); }
+                else if (a[i] == "--forge-palette") { var w = a[++i].Split(';'); ForgePalette.Specs.Add((w[0].Trim(), w[1].Trim(), w[2].Trim())); if (w.Length > 3 && w[3].Trim() == "keep_stock") ForgePalette.KeepStock = true; }
+                else if (a[i] == "--basis-scenario") basisScenario = a[++i];
+                else if (a[i] == "--forge-prices") ForgePalette.LoadPrices(a[++i]);
+                else if (a[i] == "--forge-budget") ForgePalette.Budget = float.Parse(a[++i], System.Globalization.CultureInfo.InvariantCulture);
                 else if (a[i] == "--group-substitute") { var v = a[++i]; int e = v.IndexOf('='); groupSubst[v.Substring(0, e)] = v.Substring(e + 1); }
             }
             var log = new List<string>(); var unresolved = new List<string>();
-            var cache = Program.OpenPak(pak);
+            var cache = Program.OpenPak(pak); Program.SourcePath = pak; bool baseMode = !(cache is GameCacheModPackage);
             var stockDir = Path.GetDirectoryName(Path.GetFullPath(basis));
 
             // stock Halo 3 names: basis first, then every stock map
@@ -72,6 +78,8 @@ namespace Ho2H3
             foreach (var m in Directory.GetFiles(stockDir, "*.map").OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
             {
                 var fn = Path.GetFileName(m).ToLowerInvariant();
+                // HO2H3_EXCLUDE_STOCK: comma-separated stock map files not to take tags from (e.g. one overwritten by a test build)
+                if ((Environment.GetEnvironmentVariable("HO2H3_EXCLUDE_STOCK") ?? "").Split(',').Contains(fn)) continue;
                 if (fn == "shared.map" || fn == "campaign.map" || fn == "mainmenu.map" || Path.GetFullPath(m).Equals(Path.GetFullPath(basis), StringComparison.OrdinalIgnoreCase)) continue;
                 try { using (var c = new Map(m)) { if (c.Engine.Name.Contains("Reach")) continue; foreach (var k in c.ByName.Keys) if (!owner.ContainsKey(k)) owner[k] = m; } } catch (Exception ex) { log.Add("stock map skipped " + m + ": " + ex.Message); }
             }
@@ -81,6 +89,8 @@ namespace Ho2H3
             var convert = new List<CachedTag>(); var byName = new Dictionary<int, string>();   // HO index -> stock "grp:name" referenced by name
             var grafts = new List<(string donor, string key)>(); var datum = new Dictionary<int, BDatum>();
             var seen = new HashSet<int>(); var q = new Queue<CachedTag>(); q.Enqueue(root); var lbspTags = new List<CachedTag>();
+            foreach (var r in Placements.Roots(cache, scenario, subst, owner, log)) q.Enqueue(r);
+            if (ForgePalette.Specs.Count > 0) using (var fs0 = Program.OpenStream(cache)) foreach (var r in ForgePalette.Roots(cache, fs0, log)) q.Enqueue(r);
             while (q.Count > 0)
             {
                 var t = q.Dequeue(); if (t == null || !seen.Add(t.Index)) continue;
@@ -96,6 +106,9 @@ namespace Ho2H3
                 if (subst.TryGetValue(key, out var stock)) { ByStockName(stock.Contains(":") ? stock : g + ":" + stock, "substitute"); continue; }
                 if (skip.Contains(g)) { unresolved.Add("skipped group: " + key); continue; }
                 if (ShaderStage.Contains(g)) continue;   // the shader stage picks stock Halo 3 templates and definitions
+                // Halo Online base game: its tags are Halo 3-derived and mostly share Halo 3's names; any tag that exists in stock
+                // Halo 3 is used from there (stock asset policy), only the rest is converted
+                if (baseMode && g != "scnr" && g != "sbsp" && g != "sLdT" && g != "Lbsp" && owner.ContainsKey(key)) { ByStockName(key, "stock Halo 3"); continue; }
                 if (!owned || NeverConvert.Contains(g)) { ByStockName(key, owned ? "shader program by name" : "base cache"); continue; }
                 if (g == "Lbsp") { lbspTags.Add(t); foreach (var d in h.Dependencies) q.Enqueue(cache.TagCache.GetTag(d)); continue; }   // merged into the scenario lightmap
                 // a whole group Halo 3 lacks mapped to one stock tag (map cfg "shadergroup", e.g. Reach glass -> stock glass shader)
@@ -111,9 +124,10 @@ namespace Ho2H3
             // 3. serialize
             var container = new TagContainer();
             foreach (var t in convert) datum[t.Index] = new BDatum(0xE000, (ushort)t.Index);
+            var convertedIdx = new HashSet<int>(convert.Select(t => t.Index)); Placements.IsConverted = i => convertedIdx.Contains(i);
             foreach (var kv in byName) { var d = new BDatum(0xD000, (ushort)kv.Key); datum[kv.Key] = d; int c = kv.Value.IndexOf(':'); container.AddTag(new ExtractedTag(d, 0, CharConstant.FromString(kv.Value.Substring(0, c)), kv.Value.Substring(c + 1))); }
             var preDefs = new Dictionary<int, object>();
-            using (var stream0 = ((GameCacheModPackage)cache).OpenCacheRead(new MemoryStream())) Lightmaps.Merge(cache, stream0, root, convert, preDefs, log);
+            using (var stream0 = Program.OpenStream(cache)) Lightmaps.Merge(cache, stream0, root, convert, preDefs, log);
             // stock Halo 3 tags met as TagTool Gen3 tags (shader stage): referenced by name, copied in when not in the basis
             var stockRefs = new Dictionary<CachedTag, BDatum>(ReferenceEqualityComparer.Instance); var stockKeys = new Dictionary<string, BDatum>(StringComparer.OrdinalIgnoreCase); ushort nextStock = 0;
             bool StockRef(CachedTag st)
@@ -134,9 +148,10 @@ namespace Ho2H3
             uint addrBase = 0x10000000; int failed = 0;
             TagFixups.SourceVersion = cache.Version; TagFixups.SourcePlatform = cache.Platform; TagFixups.SourceStrings = cache.StringTable;
             var resources = new Resources(cache, salt == null ? null : File.ReadAllBytes(salt), container, log);
-            using (var stream = ((GameCacheModPackage)cache).OpenCacheRead(new MemoryStream()))
+            using (var stream = Program.OpenStream(cache))
             {
                 var shaders = new Shaders(cache, stream, owner, basis, StockRef, log);
+                Dictionary<int, float> modelRadius = null; int modelObjectData = 0;
                 foreach (var t in convert)
                 {
                     string g = t.Group.Tag.ToString();
@@ -144,9 +159,29 @@ namespace Ho2H3
                     {
                         var def = preDefs.TryGetValue(t.Index, out var pd) ? pd : cache.Deserialize(stream, t);
                         shaders.ConvertAll(def, t);
-                        if (def is TagTool.Tags.Definitions.Scenario scn0 && t == root) Placements.Add(cache, scn0, root.Name, subst, owner, shaders.StockTag, StockRef, log, unresolved);
+                        if (def is TagTool.Tags.Definitions.Scenario scn0 && t == root) { Placements.Add(cache, scn0, root.Name, subst, owner, shaders.StockTag, StockRef, log, unresolved); ForgePalette.Apply(cache, scn0, shaders.H3, basis, basisScenario, shaders.StockTag, StockRef, log); SimTable.Build(cache, scn0, convert, shaders.H3, basis, basisScenario, shaders.StockTag, StockRef, t => tagDatum(t).Value, log); }
                         resources.Prepare(t, def, tagDatum);
                         TagFixups.Apply(t, def, log);
+                        // model object data (Forge's size and centre of an object): every stock Halo 3 Forge object's model has
+                        // one auto-generated entry (radius = the object's bounding radius, offset = centre of the render model's
+                        // bounds; Sandbox sand_wall 1.274 / (0.010, -0.007, 0.897)); Halo Online's models have none and Forge
+                        // could not create the object (Void: placing any Forge World item crashed, user play test 2026-11-23)
+                        if (def is TagTool.Tags.Definitions.Model mdl && (mdl.ModelObjectData == null || mdl.ModelObjectData.Count == 0))
+                        {
+                            if (modelRadius == null)
+                            {
+                                modelRadius = new Dictionary<int, float>();
+                                foreach (var ot in convert.Where(x => x.IsInGroup("obje")))
+                                    try { var go = (TagTool.Tags.Definitions.GameObject)(preDefs.TryGetValue(ot.Index, out var od) ? od : cache.Deserialize(stream, ot)); if (go.Model != null) modelRadius[go.Model.Index] = Math.Max(modelRadius.TryGetValue(go.Model.Index, out var r0) ? r0 : 0, go.BoundingRadius); } catch { }
+                            }
+                            if (modelRadius.TryGetValue(t.Index, out var rad) && rad > 0)
+                            {
+                                var off = new TagTool.Common.RealPoint3d(0, 0, 0);
+                                try { var rm = cache.Deserialize<TagTool.Tags.Definitions.RenderModel>(stream, mdl.RenderModel); var c0 = rm.Geometry.Compression[0]; off = new TagTool.Common.RealPoint3d((c0.X.Lower + c0.X.Upper) / 2, (c0.Y.Lower + c0.Y.Upper) / 2, (c0.Z.Lower + c0.Z.Upper) / 2); } catch { }
+                                mdl.ModelObjectData = new List<TagTool.Tags.Definitions.Model.ModelObjectDatum> { new TagTool.Tags.Definitions.Model.ModelObjectDatum { Type = TagTool.Tags.Definitions.Model.ModelObjectDatum.TypeValue.AutoGenerated, Padding0 = new byte[2], Offset = off, Radius = rad } };
+                                modelObjectData++; if (modelObjectData <= 3 || modelObjectData % 50 == 0) log.Add($"model object data: {t.Name}: radius {rad:0.000}, offset {off} (running count {modelObjectData})");
+                            }
+                        }
                         var ctx = new H3Context(cache, tagDatum, resources.Pre);
                         ser.Serialize(ctx, def);
                         // container addresses: each tag's blocks keep their TagTool stream offsets inside a window of their
@@ -163,6 +198,8 @@ namespace Ho2H3
                 }
                 foreach (var kv in TagFixups.Counts) log.Add($"per-game value {kv.Key}: {kv.Value}");
                 log.Add($"function curves byte-swapped: {TagFixups.FunctionsSwapped}");
+                if (ForgePalette.DisplayNames.Count > 0) File.WriteAllText(output + ".forge_names.json", System.Text.Json.JsonSerializer.Serialize(ForgePalette.DisplayNames));
+                log.Add($"physics model MOPP data converted to Halo 3 byte order: {TagFixups.PhysicsMoppData}");
                 log.Add($"MOPP codes re-keyed for Halo 3: {TagFixups.MoppsConverted} ({TagFixups.MoppsFailed} not convertible, left as is)");
                 Console.WriteLine($"shaders: {shaders.Converted} onto stock Halo 3 templates ({shaders.Exact} exact) | {shaders.Failed} failed");
             }

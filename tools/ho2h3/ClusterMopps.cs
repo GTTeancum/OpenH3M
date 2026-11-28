@@ -3,7 +3,7 @@
 // indices (stock Guardian: 454 of its 479 instances appear in cluster MOPPs). Halo Online leaves these empty for the
 // Reach ports, so a player stands on no instanced geometry. Each cluster gets a MOPP built with TagTool's MOPP tool over
 // every instance in index order: an instance whose world box (its mesh's compression bounds through the instance
-// transform) overlaps the cluster's bounds is a triangle spanning that box; any other instance is a degenerate triangle
+// transform) overlaps the cluster's bounds is one primitive through the box's eight corners; any other instance is a degenerate triangle
 // just outside the cluster (the tool keys primitives by input order), so a query inside the cluster never reaches it.
 // Same rule as the Reach route (ReachPort ClusterMopps.cs), on TagTool's typed definitions. Map-agnostic.
 using System;
@@ -76,9 +76,12 @@ namespace Ho2H3
                 for (int i = 0; i < ni; i++)
                 {
                     int v0 = verts.Count;
-                    if (set.Contains(i)) { verts.Add(lo[i]); verts.Add(hi[i]); verts.Add(new[] { lo[i][0], hi[i][1], lo[i][2] }); }
-                    else { verts.Add(outside); verts.Add(outside); verts.Add(outside); }
-                    polys.Add(new[] { v0, v0 + 1, v0 + 2 });
+                    // a member is one primitive through all eight corners of its box: a single triangle across the box
+                    // (lo, hi, one more corner) leaves parts of the box outside its extent along the MOPP's diagonal split
+                    // directions, so the cluster query never reached the instance there (Sword Base: the player fell
+                    // through four stacked walkway pieces at one spot, 2026-11-23)
+                    if (set.Contains(i)) { for (int k = 0; k < 8; k++) verts.Add(new[] { (k & 1) != 0 ? hi[i][0] : lo[i][0], (k & 2) != 0 ? hi[i][1] : lo[i][1], (k & 4) != 0 ? hi[i][2] : lo[i][2] }); polys.Add(new[] { v0, v0 + 1, v0 + 3, v0 + 2, v0 + 6, v0 + 7, v0 + 5, v0 + 4 }); }
+                    else { verts.Add(outside); verts.Add(outside); verts.Add(outside); polys.Add(new[] { v0, v0 + 1, v0 + 2 }); }
                 }
                 var g0 = Generate(verts, polys);
                 if (g0 == null) { log.Add($"cluster MOPP: {self.Name} cluster {c} generation failed"); continue; }
@@ -122,10 +125,39 @@ namespace Ho2H3
                 if (loop.Count < 3 || sf.Flags.HasFlag(TagTool.Geometry.BspCollisionGeometry.SurfaceFlags.Invalid)) { int v = loop.Count > 0 ? loop[0] : 0; polys.Add(new[] { v, v, v }); invalid++; }
                 else polys.Add(loop.ToArray());
             }
+            // placed pieces (Halo 3's tool, sapien 0x6A6240 / 0x6A6520 / 0x6A5EA0; COLLISION-360.md): after the structure
+            // surfaces, one primitive per instance whose definition has collision surfaces, keyed 0x40000000 | instance,
+            // over its child shape's box: the bsp physics box through the instance transform. Only instances with a bsp
+            // physics entry (the 360 contact path 0x82270F48 reads it). The player's contacts with placed pieces come only
+            // through these keys.
+            int nS = polys.Count; var pieceOf = new List<int>();
+            var inst = bsp.InstancedGeometryInstances;
+            for (int i = 0; inst != null && i < inst.Count; i++)
+            {
+                var x = inst[i]; int d = x.DefinitionIndex;
+                if (d < 0 || d >= (res.InstancedGeometry?.Count ?? 0) || !(res.InstancedGeometry[d].CollisionInfo?.Surfaces?.Count > 0)) continue;
+                var bp = x.BspPhysics?.FirstOrDefault(); if (bp == null) continue;
+                var gs = bp.GeometryShape; var ce = gs.AABB_Center; var he = gs.AABB_Half_Extents;
+                if (he.I <= 0 && he.J <= 0 && he.K <= 0) continue;
+                var m = x.Matrix; float[][] R = { new[] { m.m11, m.m12, m.m13 }, new[] { m.m21, m.m22, m.m23 }, new[] { m.m31, m.m32, m.m33 } }; float[] T = { m.m41, m.m42, m.m43 };
+                var lo = new[] { float.MaxValue, float.MaxValue, float.MaxValue }; var hi = new[] { float.MinValue, float.MinValue, float.MinValue };
+                for (int k = 0; k < 8; k++)
+                {
+                    float px = ce.I + ((k & 1) != 0 ? he.I : -he.I), py = ce.J + ((k & 2) != 0 ? he.J : -he.J), pz = ce.K + ((k & 4) != 0 ? he.K : -he.K);
+                    for (int a = 0; a < 3; a++) { float w = px * R[0][a] + py * R[1][a] + pz * R[2][a] + T[a]; lo[a] = Math.Min(lo[a], w); hi[a] = Math.Max(hi[a], w); }
+                }
+                int v0 = verts.Count;
+                for (int k = 0; k < 8; k++) verts.Add(new[] { (k & 1) != 0 ? hi[0] : lo[0], (k & 2) != 0 ? hi[1] : lo[1], (k & 4) != 0 ? hi[2] : lo[2] });
+                polys.Add(new[] { v0, v0 + 1, v0 + 3, v0 + 2, v0 + 6, v0 + 7, v0 + 5, v0 + 4 }); pieceOf.Add(i);
+            }
             var g = Generate(verts, polys);
             if (g == null) { log.Add($"structure MOPP: {self.Name} generation failed; source MOPP kept"); return; }
             var (info, code0) = g.Value;
-            var code = new byte[code0.Length + 5]; code[0] = 0x0B; code[1] = 0x20; code[2] = 0x05; code[3] = 0x00; code[4] = 0x00; Buffer.BlockCopy(code0, 0, code, 5, code0.Length);
+            byte[] code;
+            try { code = MoppRekey.Rekey(code0, k => k < nS ? 0x20050000 + k : 0x40000000 | pieceOf[k - nS]); }
+            catch (Exception ex) { log.Add($"structure MOPP: {self.Name}: re-key failed ({ex.Message}); source MOPP kept"); return; }
+            var kk = TagTool.Havok.HavokMoppUtil.GetAllKeys(code);
+            log.Add($"structure MOPP: {self.Name}: {kk.Count(k => ((uint)k >> 29) == 1)} structure keys, {kk.Count(k => ((uint)k >> 29) == 2)} placed-piece keys ({pieceOf.Count} pieces with collision and a physics entry)");
             bsp.Physics.CollisionMoppCodes = new List<TagHkpMoppCode> { new TagHkpMoppCode
             {
                 ReferencedObject = new HkpReferencedObject { ReferenceCount = 128 },
@@ -135,7 +167,7 @@ namespace Ho2H3
             } };
             bsp.Physics.MoppBoundsMin = new RealPoint3d(verts.Min(v => v[0]), verts.Min(v => v[1]), verts.Min(v => v[2]));
             bsp.Physics.MoppBoundsMax = new RealPoint3d(verts.Max(v => v[0]), verts.Max(v => v[1]), verts.Max(v => v[2]));
-            log.Add($"structure MOPP: {self.Name}: rebuilt over {polys.Count} surfaces ({invalid} invalid kept as zero-area), {code.Length} bytes, keys 0x20050000 + surface");
+            log.Add($"structure MOPP: {self.Name}: rebuilt over {nS} surfaces ({invalid} invalid kept as zero-area) and {pieceOf.Count} placed pieces, {code.Length} bytes, keys 0x20050000 + surface, 0x40000000 | instance");
         }
 
         // TagTool's MOPP tool, "generate-collision-mopp": vertices then surfaces as vertex loops; writes a Halo Online

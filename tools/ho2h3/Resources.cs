@@ -5,6 +5,7 @@
 //            BitmapConverter tiles it for the 360 (Xenos layout, byte order, DXN bias) and the 64-byte 360 texture
 //            control is written as Inject360 does for stock 360 textures.
 using System;
+using TagTool.Geometry.BspCollisionGeometry;
 using System.Collections.Generic;
 using System.Linq;
 using Blamite.Injection;
@@ -43,18 +44,54 @@ namespace Ho2H3
                         // Halo Online keeps level collision as large collision BSPs (32-bit indices), which Halo 3 retail
                         // does not have: shrink them back into ordinary collision BSPs (TagTool ResizeCollisionBSP) when
                         // the counts fit Halo 3's 16-bit limits
+                        LeafClusters.OrigTree = null; LeafClusters.OrigLeafCluster = null;
+                        if (rdef.LargeCollisionBsps?.Count > 0 && sbsp.Leaves != null && rdef.LargeCollisionBsps[0].Leaves?.Count == sbsp.Leaves.Count)
+                        { LeafClusters.OrigTree = rdef.LargeCollisionBsps[0]; LeafClusters.OrigLeafCluster = sbsp.Leaves.Select(l => l.ClusterNew).ToArray(); }
                         if (rdef.LargeCollisionBsps != null && rdef.LargeCollisionBsps.Count > 0)
                         {
                             var rz = new TagTool.Geometry.BspCollisionGeometry.Utils.ResizeCollisionBSP();
                             if (rdef.CollisionBsps == null) rdef.CollisionBsps = new TagBlock<TagTool.Geometry.BspCollisionGeometry.CollisionGeometry>(CacheAddressType.Definition);
-                            foreach (var lb in rdef.LargeCollisionBsps)
+                            foreach (var lb0 in rdef.LargeCollisionBsps)
                             {
-                                if (!rz.collision_bsp_check_counts(lb)) { _log.Add($"collision: large collision BSP of {tag.Name} exceeds Halo 3 limits (nodes {lb.Bsp3dNodes?.Count}, surfaces {lb.Surfaces?.Count}, edges {lb.Edges?.Count}, vertices {lb.Vertices?.Count})"); continue; }
-                                rdef.CollisionBsps.Add(rz.ShrinkCollisionBsp(lb));
+                                var lb = lb0;
+                                if (!Halo3Limits.Fits(lb, out string over)) _log.Add($"collision: {tag.Name}: large collision BSP over Halo 3's own limits ({over})");
+                                else if (!rz.collision_bsp_check_counts(lb)) _log.Add($"collision: {tag.Name}: large collision BSP kept as shipped (within Halo 3's own limits; nodes {lb.Bsp3dNodes.Count}, leaves {lb.Leaves.Count}); TagTool's lower caps not applied");
+                                if (!Halo3Limits.Fits(lb, out _))
+                                {
+                                    // the tree (not the surfaces) is usually what overflows: Halo Online's comes from TagTool's supernode
+                                    // conversion and is larger than one built directly. Rebuild it from the same surfaces with TagTool's
+                                    // builder and keep it if it fits.
+                                    int n0 = lb.Bsp3dNodes?.Count ?? 0; var rebuilt = lb;
+                                    bool ok = false;
+                                    try { ok = new TagTool.Geometry.BspCollisionGeometry.Utils.LargeCollisionBSPBuilder().generate_bsp(ref rebuilt, false) && rz.collision_bsp_check_counts(rebuilt); } catch (Exception ex) { _log.Add($"collision: rebuild of {tag.Name} failed: {ex.Message}"); }
+                                    _log.Add($"collision: large collision BSP of {tag.Name} exceeds Halo 3 limits (nodes {n0}, surfaces {lb.Surfaces?.Count}, edges {lb.Edges?.Count}, vertices {lb.Vertices?.Count}); rebuilt tree: nodes {rebuilt.Bsp3dNodes?.Count}, leaves {rebuilt.Leaves?.Count}, 2D nodes {rebuilt.Bsp2dNodes?.Count}, 2D refs {rebuilt.Bsp2dReferences?.Count} -> {(ok ? "fits" : "still too large")}");
+                                    if (!ok)
+                                    {
+                                        // still too large: simplify the collision mesh itself (CollisionSimplify.cs)
+                                        LargeCollisionBspBlock simp = null;
+                                        try { simp = CollisionSimplify.Run(_cache, lb, tag.Name, _log); } catch (Exception ex) { _log.Add($"collision simplify: {tag.Name} failed: {ex}"); }
+                                        if (simp == null) continue;
+                                        rebuilt = simp;
+                                    }
+                                    lb = rebuilt;
+                                }
+                                rdef.CollisionBsps.Add(Halo3Limits.Shrink(rz, lb));
                             }
                             _log.Add($"collision: {tag.Name}: {rdef.LargeCollisionBsps.Count} large collision BSP(s) -> {rdef.CollisionBsps.Count} Halo 3 collision BSP(s)");
                             rdef.LargeCollisionBsps.Clear();
                         }
+                        // Reach-style two-sided surface pairs -> one two-sided surface, as stock (TwoSided.cs)
+                        {
+                            int r0 = TwoSided.Removed, b0 = TwoSided.Rebuilt, f0 = TwoSided.Failed;
+                            // not the structure collision BSP: rebuilding its tree breaks the leaf -> cluster table the camera uses (hall of
+                            // mirrors in Sword Base and Breakneck, user play test 2026-11-23); the in-place removal (default) keeps the tree
+                            if (rdef.CollisionBsps != null && (Environment.GetEnvironmentVariable("HO2H3_TWOSIDED_REBUILD") != "1" || Environment.GetEnvironmentVariable("HO2H3_TWOSIDED_STRUCTURE") == "1")) for (int i = 0; i < rdef.CollisionBsps.Count; i++) rdef.CollisionBsps[i] = TwoSided.Fix(rdef.CollisionBsps[i]);
+                            if (rdef.InstancedGeometry != null) foreach (var ig in rdef.InstancedGeometry) if (ig.CollisionInfo != null) ig.CollisionInfo = TwoSided.Fix(ig.CollisionInfo);
+                            _log.Add($"two-sided: {tag.Name}: {TwoSided.Removed - r0} negated copies removed, {TwoSided.Rebuilt - b0} collision geometries rebuilt, {TwoSided.Failed - f0} left as they were (rebuild failed)");
+                        }
+                        if (rdef.InstancedGeometry != null) InstanceTrees.Rebuild(rdef.InstancedGeometry, tag.Name, _log);   // Halo 3 solid-space trees (InstanceTrees.cs)
+                        Ramps.Build(sbsp, rdef, tag.Name, _log);   // invisible ramps over bare steps (before MOPPs are generated)
+                        if (rdef.CollisionBsps != null && rdef.CollisionBsps.Count > 0) LeafClusters.Fix(sbsp, rdef.CollisionBsps[0], tag.Name, _log);   // leaf -> cluster table for the shipped tree
                         // instance collision with no Havok MOPP: Reach (and so Halo Online) gives most instance definitions
                         // decomposed polyhedra instead, which Halo 3 does not have; without a MOPP the player falls through.
                         // Generated with TagTool's own MOPP tool (CollisionMoppGenerator, TagTool\Tools\mopp.exe), as the
@@ -72,7 +109,72 @@ namespace Ho2H3
                             }
                             _log.Add($"collision: {tag.Name}: {made} instance MOPPs generated, {failed} failed");
                         }
+                        InstanceSpheres.Fix(sbsp, rdef, tag.Name, _log);
+                        InstancePhysics.Fix(sbsp, rdef, tag.Name, _log);   // stock instance physics shape values (player collision)   // definition / instance bounding spheres (before the cluster MOPPs)
                         ClusterMopps.Build(tag, sbsp, rdef, _log);
+                        if (Environment.GetEnvironmentVariable("HO2H3_EMPTY_CLUSTER_MOPP") == "1" && sbsp.Clusters != null)
+                        {
+                            // as Halo 3's own tools leave it (Beaver Creek via H3EK: every cluster's instanced geometry MOPP empty)
+                            foreach (var cl in sbsp.Clusters) if (cl.InstancedGeometryPhysics != null) { cl.InstancedGeometryPhysics.MoppCodes = new List<TagTool.Havok.TagHkpMoppCode>(); cl.InstancedGeometryPhysics.StructureBsp = null; }
+                            _log.Add($"cluster MOPP: {tag.Name}: left empty (HO2H3_EMPTY_CLUSTER_MOPP)");
+                        }
+                        // Halo Online instances flagged "not for render" (collision-only copies, merged duplicates) are skipped
+                        // when drawing; Halo 3 has no such flag (the same bit is another setting), so they were drawn on top
+                        // of the visible originals: z-fighting everywhere on Icebox (user play test 2026-11-23). They are
+                        // taken out of the draw lists (cluster mesh instance buckets) and the bit is cleared; collision stays.
+                        {
+                            const ushort NotForRender = 0x40;
+                            var hidden = new HashSet<int>(Enumerable.Range(0, sbsp.InstancedGeometryInstances?.Count ?? 0).Where(i => ((ushort)sbsp.InstancedGeometryInstances[i].Flags & NotForRender) != 0));
+                            // map cfg "nodraw <structure BSP name> <instance index,...>": drawn duplicates (a merged copy and the
+                            // separate pieces it repeats, coincident triangles) that fight in Halo 3 because each piece's
+                            // vertices are compressed against its own bounds, so the copies land at slightly different depths
+                            // (Icebox, measured with tools\map-review coplanar check). Taken out of the draw lists; collision stays.
+                            var noDraw = new HashSet<int>();
+                            foreach (var spec in (Environment.GetEnvironmentVariable("HO2H3_NODRAW") ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                var parts = spec.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                                if (parts.Length == 2 && string.Equals(parts[0], tag.Name, StringComparison.OrdinalIgnoreCase))
+                                    foreach (var x in parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries)) if (int.TryParse(x.Trim(), out int ii) && ii >= 0 && ii < (sbsp.InstancedGeometryInstances?.Count ?? 0)) noDraw.Add(ii);
+                            }
+                            int nd0 = hidden.Count; hidden.UnionWith(noDraw);
+                            int removed = 0;
+                            if (hidden.Count > 0 && sbsp.Geometry?.Meshes != null)
+                                foreach (var mesh in sbsp.Geometry.Meshes)
+                                {
+                                    if (mesh.InstanceBuckets == null) continue;
+                                    foreach (var bk in mesh.InstanceBuckets) { int n0 = bk.Instances.Count; bk.Instances.RemoveAll(x => hidden.Contains(x.InstanceIndex)); removed += n0 - bk.Instances.Count; }
+                                    mesh.InstanceBuckets.RemoveAll(bk => bk.Instances.Count == 0);
+                                }
+                            foreach (var i in hidden) sbsp.InstancedGeometryInstances[i].Flags = (TagTool.Geometry.BspCollisionGeometry.InstancedGeometryInstance.InstancedGeometryFlags)((ushort)sbsp.InstancedGeometryInstances[i].Flags & ~NotForRender);
+                            if (hidden.Count > 0) _log.Add($"not-for-render instances: {tag.Name}: {hidden.Count} instances taken out of the draw lists ({removed} bucket entries), collision kept");
+                            if (noDraw.Count > 0) _log.Add($"nodraw: {tag.Name}: {noDraw.Count} drawn duplicates named in the map cfg taken out of the draw lists ({hidden.Count - nd0} not already hidden), collision kept");
+                            // drawable instances in no cluster mesh's bucket are never drawn in Halo 3 (Breakneck: a bridge
+                            // floor under a spawn; user play test 2026-11-23). Each goes into the bucket list of the cluster
+                            // holding its centre (else the nearest cluster), joining a bucket of its definition if there is one.
+                            var inst2 = sbsp.InstancedGeometryInstances; var inBucket = new HashSet<int>();
+                            foreach (var m in sbsp.Geometry.Meshes) if (m.InstanceBuckets != null) foreach (var bk in m.InstanceBuckets) foreach (var x in bk.Instances) inBucket.Add(x.InstanceIndex);
+                            int added = 0;
+                            for (int i = 0; i < (inst2?.Count ?? 0); i++)
+                            {
+                                if (inBucket.Contains(i) || hidden.Contains(i)) continue;
+                                int d = inst2[i].DefinitionIndex; if (d < 0 || d >= rdef.InstancedGeometry.Count) continue;
+                                int mi = rdef.InstancedGeometry[d].MeshIndex; if (mi < 0 || mi >= sbsp.Geometry.Meshes.Count || sbsp.Geometry.Meshes[mi].Parts.Count == 0) continue;
+                                var c = inst2[i].WorldBoundingSphereCenter; int best = -1; double bestD = double.MaxValue;
+                                for (int k = 0; k < sbsp.Clusters.Count; k++)
+                                {
+                                    var cl = sbsp.Clusters[k]; if (cl.MeshIndex < 0 || cl.MeshIndex >= sbsp.Geometry.Meshes.Count) continue;
+                                    double dx = Math.Max(0, Math.Max(cl.BoundsX.Lower - c.X, c.X - cl.BoundsX.Upper)), dy = Math.Max(0, Math.Max(cl.BoundsY.Lower - c.Y, c.Y - cl.BoundsY.Upper)), dz = Math.Max(0, Math.Max(cl.BoundsZ.Lower - c.Z, c.Z - cl.BoundsZ.Upper));
+                                    double dd = dx * dx + dy * dy + dz * dz; if (dd < bestD) { bestD = dd; best = k; }
+                                }
+                                if (best < 0) continue;
+                                var mesh = sbsp.Geometry.Meshes[sbsp.Clusters[best].MeshIndex];
+                                if (mesh.InstanceBuckets == null) mesh.InstanceBuckets = new List<TagTool.Geometry.Mesh.InstancedBucketBlock>();
+                                var bucket = mesh.InstanceBuckets.FirstOrDefault(bk => bk.DefinitionIndex == d);
+                                if (bucket == null) { bucket = new TagTool.Geometry.Mesh.InstancedBucketBlock { MeshIndex = (short)mi, DefinitionIndex = (short)d, Instances = new List<TagTool.Geometry.Mesh.InstancedBucketBlock.InstanceIndexBlock>() }; mesh.InstanceBuckets.Add(bucket); }
+                                bucket.Instances.Add(new TagTool.Geometry.Mesh.InstancedBucketBlock.InstanceIndexBlock { InstanceIndex = (short)i }); added++;
+                            }
+                            if (added > 0) _log.Add($"draw lists: {tag.Name}: {added} drawable instances in no bucket added to their cluster's buckets");
+                        }
                         ClusterMopps.BuildStructure(tag, sbsp, rdef, _log);
                         // per-mesh cluster visibility, generated for every mesh (Halo Online's are empty or post-Halo 3)
                         var meshComp = new Dictionary<int, int>();
@@ -257,9 +359,115 @@ namespace Ho2H3
         public static readonly Dictionary<string, int> Counts = new Dictionary<string, int>();
         static readonly Dictionary<Type, System.Reflection.FieldInfo[]> _fields = new Dictionary<Type, System.Reflection.FieldInfo[]>();
 
+        public static int PhysicsMoppData;
+        // MOPP data = repeated [48-byte hkpMoppCode header][code, padded to 16]. Header: vtable u32 @0, size/flags u16 @4,
+        // ref count u16 @6, (pad to 16), code info offset float4 @16, array data u32 @32, size u32 @36, capacity u32 @40, pad.
+        // Source is little-endian (Halo Online PC); Halo 3 360 is big-endian. The code bytes are a byte stream (unchanged).
+        // (TagTool's ConvertHkpMoppData treats the Halo 3 original-platform target as little-endian too, so it is not used.)
+        static bool MoppDataToBigEndian(byte[] d)
+        {
+            int at = 0;
+            while (at + 48 <= d.Length)
+            {
+                void Sw(int o, int n) { System.Array.Reverse(d, at + o, n); }
+                uint size = System.BitConverter.ToUInt32(d, at + 36);
+                if (size > d.Length - at - 48) return false;
+                Sw(0, 4); Sw(4, 2); Sw(6, 2);
+                for (int o = 16; o < 32; o += 4) Sw(o, 4);
+                Sw(32, 4); Sw(36, 4); Sw(40, 4);
+                at += 48 + (int)((size + 15) & ~15u);
+            }
+            return at == d.Length;
+        }
         public static void Apply(CachedTag tag, object def, List<string> log)
         {
             Walk(def, 0);
+            // sky visibility: Reach (so Halo Online) leaves clusters it judges sky-less at visible sky -1; Halo 3 draws no sky
+            // from such a cluster and the open sky shows as hall of mirrors (stock maps mark every cluster: Guardian 26/26,
+            // High Ground 42/43). With a single sky, every cluster sees it.
+            if (def is TagTool.Tags.Definitions.Scenario sc && sc.SkyReferences?.Count == 1 && sc.ZoneSetPvs != null)
+            {
+                int fixedSky = 0;
+                foreach (var zp in sc.ZoneSetPvs) if (zp.StructureBspPvs != null) foreach (var bp in zp.StructureBspPvs) if (bp.VisibleSkyIndices != null)
+                    foreach (var si in bp.VisibleSkyIndices) if (si.SkyIndex < 0) { si.SkyIndex = 0; fixedSky++; }
+                log.Add($"sky: {fixedSky} cluster(s) without a visible sky given the scenario's sky");
+            }
+            // scenario decals: Halo Online leaves "editing bound to bsp" at 255 (none); stock Halo 3 binds each decal to its BSP
+            // (High Ground: 0). With one structure BSP every unbound decal is bound to it. (User play test 2026-11-23: decals
+            // flickering on Icebox objects.)
+            if (def is TagTool.Tags.Definitions.Scenario sc4 && sc4.Decals != null && sc4.StructureBsps?.Count == 1)
+            {
+                int bound = 0;
+                foreach (var d in sc4.Decals) if (d.EditingBoundToBsp == 255) { d.EditingBoundToBsp = 0; bound++; }
+                log.Add($"decals: {bound} of {sc4.Decals.Count} unbound decals bound to the single structure BSP");
+            }
+            // decals left out by map choice (cfg "nodecal <scenario> <source decal indices>", env HO2H3_NODECAL
+            // "<scenario>=<i,j,...>;..."): overlapping decals listed by ho2h3 decaloverlap (Icebox, user 2026-11-24)
+            // The structure BSP's clusters index the scenario decal block (runtime decal start/count, decals sorted by
+            // cluster), so their ranges are renumbered to the kept decals: BSPs whose name starts with the scenario's.
+            foreach (var spec in (Environment.GetEnvironmentVariable("HO2H3_NODECAL") ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
+            {
+                int eq = spec.LastIndexOf('='); if (eq < 0) continue;
+                string scnName = spec.Substring(0, eq).Trim();
+                var drop = spec.Substring(eq + 1).Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s.Trim())).ToHashSet();
+                if (def is TagTool.Tags.Definitions.Scenario sc5 && sc5.Decals != null && string.Equals(scnName, tag.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    int before = sc5.Decals.Count;
+                    if (drop.Any(i => i < 0 || i >= before)) throw new Exception($"nodecal: index outside {tag.Name}'s {before} decals");
+                    sc5.Decals = sc5.Decals.Where((d, i) => !drop.Contains(i)).ToList();
+                    log.Add($"decals: {before - sc5.Decals.Count} of {before} left out by map choice (nodecal)");
+                }
+                if (def is ScenarioStructureBsp sb5 && sb5.Clusters != null && tag.Name.StartsWith(scnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    int Kept(int upTo) => upTo - drop.Count(i => i < upTo);   // kept decals before source index upTo
+                    int changed = 0;
+                    foreach (var cl in sb5.Clusters)
+                    {
+                        if (cl.RuntimeDecalCount <= 0 || cl.RuntimeDecalStartIndex < 0) continue;
+                        int s0 = cl.RuntimeDecalStartIndex, e0 = s0 + cl.RuntimeDecalCount;
+                        int s1 = Kept(s0), n1 = Kept(e0) - s1;
+                        if (s1 != s0 || n1 != cl.RuntimeDecalCount) changed++;
+                        cl.RuntimeDecalStartIndex = (short)(n1 > 0 ? s1 : -1); cl.RuntimeDecalCount = (short)n1;
+                    }
+                    log.Add($"decals: {changed} cluster decal ranges of {tag.Name} renumbered for left-out decals (nodecal)");
+                }
+            }
+            // diagnostic: scale a render model's geometry through its compression bounds (HO2H3_SCALE_MODEL="<name regex>=<factor>")
+            if (def is TagTool.Tags.Definitions.RenderModel rmd && Environment.GetEnvironmentVariable("HO2H3_SCALE_MODEL") is string smv && smv.Contains('='))
+            {
+                var re = new System.Text.RegularExpressions.Regex(smv.Substring(0, smv.LastIndexOf('=')), System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                float f = float.Parse(smv.Substring(smv.LastIndexOf('=') + 1), System.Globalization.CultureInfo.InvariantCulture);
+                if (re.IsMatch(tag.Name) && rmd.Geometry?.Compression != null)
+                {
+                    foreach (var c in rmd.Geometry.Compression) { c.X = new Bounds<float>(c.X.Lower * f, c.X.Upper * f); c.Y = new Bounds<float>(c.Y.Lower * f, c.Y.Upper * f); c.Z = new Bounds<float>(c.Z.Lower * f, c.Z.Upper * f); }
+                    log.Add($"diagnostic: {tag.Name} geometry scaled by {f}");
+                }
+            }
+            // diagnostic: every cluster attached to sky 0 (HO2H3_SKY_ALL=1)
+            var skyAll = Environment.GetEnvironmentVariable("HO2H3_SKY_ALL") ?? "";
+            if (skyAll != "")
+            {
+                if (skyAll.Contains("c") && def is ScenarioStructureBsp sbx && sbx.Clusters != null) { foreach (var cl in sbx.Clusters) cl.ScenarioSkyIndex = 0; log.Add($"diagnostic: {sbx.Clusters.Count} clusters attached to sky 0"); }
+                if ((skyAll.Contains("a") || skyAll.Contains("n")) && def is TagTool.Tags.Definitions.Scenario sc3 && sc3.ZoneSetPvs != null)
+                    foreach (var zp in sc3.ZoneSetPvs) if (zp.StructureBspPvs != null) foreach (var bp in zp.StructureBspPvs) if (bp.AttachedSkyIndices != null) foreach (var si in bp.AttachedSkyIndices) si.SkyIndex = (sbyte)(skyAll.Contains("n") ? -1 : 0);
+            }
+            // diagnostic: every cluster sees every cluster (HO2H3_PVS_ALL=1)
+            if (def is TagTool.Tags.Definitions.Scenario sc2 && Environment.GetEnvironmentVariable("HO2H3_PVS_ALL") == "1" && sc2.ZoneSetPvs != null)
+            {
+                int set = 0;
+                foreach (var zp in sc2.ZoneSetPvs) if (zp.StructureBspPvs != null) foreach (var bp in zp.StructureBspPvs)
+                    foreach (var list in new[] { bp.ClusterPvs, bp.ClusterPvsDoorsClosed }) if (list != null)
+                        foreach (var cp in list) if (cp.ClusterPvsBitVectors != null) foreach (var bv in cp.ClusterPvsBitVectors) if (bv.Bits != null)
+                            foreach (var d in bv.Bits) { d.Bits = (TagTool.Tags.Definitions.Scenario.ZoneSetPvsBlock.BitVectorDword.DwordBits)unchecked((int)0xFFFFFFFF); set++; }
+                log.Add($"diagnostic: cluster visibility set to all ({set} words)");
+            }
+            // physics model MOPP data is a raw byte array of Havok MOPP code headers + code in the source byte order;
+            // TagTool's converter reads each header in the source order and writes it in Halo 3 360's (big-endian)
+            // (symptom when left little-endian: read fault in the physics model loader 0x821D00C8)
+            if (def is TagTool.Tags.Definitions.PhysicsModel pm && pm.MoppData != null && pm.MoppData.Length > 0)
+            {
+                if (MoppDataToBigEndian(pm.MoppData)) PhysicsMoppData++; else log.Add($"physics MOPP data not convertible: {tag.Name}");
+            }
             // per-mesh cluster visibility: Halo Online leaves most entries empty and the rest hold Havok MOPP code in the
             // post-Halo 3 encoding (TagTool converts only Halo 3 -> later, not back). Left out until generated for Halo 3;
             // the engine skips meshes beyond the table (the earlier Reach route booted without it).

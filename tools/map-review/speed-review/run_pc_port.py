@@ -28,16 +28,43 @@ p.add_argument('--fpsunlock', action='store_true')
 p.add_argument('--timing', action='store_true', help='log per-frame present/GPU timing')
 p.add_argument('--skip-install', action='store_true')
 p.add_argument('--no-mute', action='store_true')
+p.add_argument('--forge', action='store_true', help='start the map in Forge instead of Custom Games (one entry lower on the main menu)')
+p.add_argument('--installed', type=Path, help='run an installed portable copy in place (DIR/Spartan.exe) with no folder options: it must find DIR/game and DIR/content itself')
+p.add_argument('--user-data-root', type=Path, help='use this user-data folder (e.g. an installed content folder) instead of the run folder')
 a = p.parse_args()
 run = a.run.resolve(); assert run.is_relative_to(ROOT) and not run.exists()
 build = a.build.resolve(strict=True); game = a.game.resolve(strict=True); package = a.package.resolve(strict=True)
 (run / 'bin').mkdir(parents=True)
-for f in build.iterdir():
-    if f.suffix.lower() in ('.exe', '.dll') and (f.name.startswith(('halo3mp', 'rex')) or f.name.lower().startswith('sdl')):
-        shutil.copy2(f, run / 'bin' / f.name)
-exe = run / 'bin' / 'halo3mp.exe'; assert exe.is_file()
-direction, steps = menu_route(game / 'maps/info', (), package, a.map)
+if a.installed:
+    installed = a.installed.resolve(strict=True); exe = installed / 'Spartan.exe'; assert exe.is_file()
+    a.user_data_root = installed / 'content'   # only for the menu route; not passed to the game
+else:
+    for f in build.iterdir():
+        if f.suffix.lower() in ('.exe', '.dll') and (f.name.startswith(('halo3mp', 'rex')) or f.name.lower().startswith('sdl')):
+            shutil.copy2(f, run / 'bin' / f.name)
+    exe = run / 'bin' / 'halo3mp.exe'; assert exe.is_file()
+route_dirs = (a.user_data_root,) if a.user_data_root else ()
+if a.installed:
+    # installed LIVE containers hold their .mapinfo inside the container: copy each one out for the menu route
+    from verify_dlc_stfs import read_directory, data_block
+    infos = run / 'installed-mapinfo'; infos.mkdir()
+    content = installed / 'content' / '0000000000000000' / '4D5307E6' / '00000002'
+    for f in (content.iterdir() if content.is_dir() else ()):
+        if not f.is_file(): continue
+        with f.open('rb') as st:
+            try: cbase, cdir, _ = read_directory(st)
+            except Exception: continue
+            for off in range(0, len(cdir), 64):
+                row = cdir[off:off + 64]
+                if not row[:40].split(bytes(1))[0].endswith(b'.mapinfo'): continue
+                first = int.from_bytes(row[47:50], 'little'); size = int.from_bytes(row[52:56], 'big'); data = bytearray()
+                for k in range((size + 4095) // 4096):
+                    st.seek(cbase + data_block(first + k) * 4096); data += st.read(4096)
+                (infos / (f.name + '.mapinfo')).write_bytes(bytes(data[:size]))
+    route_dirs = (infos,)
+direction, steps = menu_route(game / 'maps/info', route_dirs, package, a.map)
 inp = ['45000:DOWN+220', '46000:A+250', '55000:UP+220', '56000:A+250']
+if a.forge: inp.insert(1, '45500:DOWN+220')   # same route as run_stock_map.py --forge
 inp += [f'{58000 + n * 700}:{direction}+250' for n in range(steps)]
 confirm = max(70000, 58000 + steps * 700 + 500); delay = confirm - 70000
 inp += [f'{confirm}:A+250', f'{72000 + delay}:A+250', f'{74000 + delay}:DOWN+220', f'{95000 + delay}:A+250']
@@ -45,7 +72,8 @@ if a.fpsunlock:
     # With the frame cap off, long menu presses repeat; keep them short.
     inp = [step.rsplit('+', 1)[0] + '+50' for step in inp]
 if a.extra_input: inp += a.extra_input.split(',')
-args = [str(exe), f'--game_data_root={game}', f'--user_data_root={run}', f'--cache_root={run / "cache"}',
+roots = [] if a.installed else [f'--game_data_root={game}', f'--user_data_root={a.user_data_root.resolve() if a.user_data_root else run}', f'--cache_root={run / "cache"}']
+args = [str(exe)] + roots + [
         f'--log_file={run / "runtime.log"}', '--keyboard_controller=false',
         '--input_script=' + ','.join(inp), '--input_script_button_state=true', '--input_script_keystrokes=false',
         '--log_level=debug', '--log_max_file_size_mb=5', '--log_max_files=4',

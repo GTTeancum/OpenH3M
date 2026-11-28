@@ -7,6 +7,11 @@ MAP=$1; LABEL=$2
 REPO=/c/Programming/GitHub/OpenH3M; KIT=$REPO/.local/h3ek-source
 PY=/c/Users/smmel/AppData/Local/Programs/Python/Python312/python.exe
 PACK=D:/SteamLibrary/steamapps/workshop/content/976730/3003239190
+MCC='D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3'
+# The Halo Online Workshop pack is no longer installed (2026-11-26). The kit-built map comes from this same
+# editing kit, so MCC's own Halo 3 shared map and sound bank serve (as for Beaver Creek / Tombstone kit builds).
+if [ -f "$PACK/halo3/maps/shared.map" ]; then SHARED="$PACK/halo3/maps/shared.map"; BANK="$PACK/halo3/fmod/pc/sfx.fsb"
+else SHARED="$MCC/maps/shared.map"; BANK="$MCC/fmod/pc/sfx.fsb"; fi
 case $MAP in
   sky-bridge) SCN='levels\multi\s3d_sky_bridgenew\s3d_sky_bridgenew'; FILE=s3d_sky_bridgenew.map ;;
   reactor)    SCN='levels\multi\s3d_reactor\s3d_reactor'; FILE=s3d_reactor.map ;;
@@ -31,10 +36,9 @@ fi
 echo "collision ok"
 S=$(date +%s)
 $PY -B tools/warlock-conversion/snapshot/tools/build_scenario_checkpoint.py --project C:/Programming/GitHub/OpenH3M \
-  --disc-maps C:/X360/ISOs/H3M/maps --slot zanzibar --stock-materials --mcc-shared "$PACK/halo3/maps/shared.map" --source "$SRC" \
+  --disc-maps C:/X360/ISOs/H3M/maps --slot zanzibar --stock-materials --mcc-shared "$SHARED" --source "$SRC" \
   --basis C:/X360/ISOs/H3M/maps/zanzibar.map --xex C:/Programming/GitHub/OpenH3M/.local/xenia-canary/game-local/default.xex \
-  --sound-bank "$PACK/halo3/fmod/pc/sfx.fsb" \
-  --additional-sound-bank 'D:/SteamLibrary/steamapps/common/Halo The Master Chief Collection/halo3/fmod/pc/sfx.fsb' \
+  --sound-bank "$BANK" \
   --decoder C:/X360/ISOs/H3M/.local/tools/vgmstream-r2117/vgmstream-cli.exe \
   --output ".local/$MAP-kit/zanzibar-$LABEL.map" --report ".local/$MAP-kit/build-$LABEL.json" > "$OUT/build-$LABEL.log" 2>&1
 RC=$?; echo "convert exit $RC after $(( $(date +%s) - S ))s"

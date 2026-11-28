@@ -24,7 +24,10 @@ def prepare_scripts(i, ss, ds, converter, root):
             and name != r'halo_2\levels\foundation\foundation'
             # Asset-library throwaway test map: a stock Zanzibar copy with its own scripts removed, so only the
             # kit's global_scripts remain (as in the kit-built Sky Bridge). The audit below still runs.
-            and name != r'levels\test\asset_library_test\asset_library_test'):
+            and name != r'levels\test\asset_library_test\asset_library_test'
+            # Elongation (Halo 2 port, 2026-11-27): Bungie's elongation_mission.hsc belt-crate spawner/eraser only
+            # (object_create, sleep, object_destroy, list_get, volume_return_objects); kit-compiled. Audit below runs.
+            and name != r'levels\test\elongation\elongation'):
         raise ValueError(f'Script scenario has not been audited: {name}')
     report = audit(s.file.name, version)
     if report['unsupported'] or report['opcode_name_mismatches'] or report['graph']['errors']:

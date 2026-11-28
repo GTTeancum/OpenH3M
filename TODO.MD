@@ -1,3 +1,64 @@
+## Shared construct.map overwritten (2026-11-23) - user will replace it; not agent work
+
+C:\X360\ISOs\H3M\maps\construct.map (one file hard-linked from 37 folders, including the release staging folder
+.local\releases\current-live-per-map\console-game and Xenia's game folder) was overwritten with the ho2h3 Sword Base
+build by a test copy that wrote through a hard link. No independent original 360 copy exists on C:. Restore it from the
+Halo 3 disc / original extraction or a Windows previous version; restoring the one file fixes every link. Test scripts now
+delete the link before copying. Sword Base moved to the Isolation slot in the private test folder.
+
+## Priorities (user 2026-11-24)
+
+- Beaver Creek moved up to priority (Halo 2 beavercreek through the Tombstone pipeline; see entry below).
+- Advanced Forge clean-room rewrite (user 2026-11-26): fresh implementation from tools/h4-forge/ADVANCED-FORGE.md
+  (spec in tools/h4-forge/spec), no Halo 4 code or data; saved layouts stay standard Halo 3 variants.
+  Magnets are defined in code. Now: Forge Gulch, Force Cove. Later: other maps incl. Void and Sandbox (stock Sandbox
+  items have never had magnets; anchors to author).
+- Icebox (ho2h3, s3d_turf) DROPPED (user 2026-11-24). Last build: overlapping decals left out (see below); not play-tested.
+- Breakneck (ho2h3, cex_headlong) DROPPED: the visibility fix worked in play, but frame rate is below what is needed;
+  dropped "in favor of headlong" (user wording; the exact replacement source is to be confirmed).
+- Sword Base: more passes needed later (odd collision spots remain).
+- Reflection: the placed-piece collision fix may also explain its stair/ramp collision issues; rebuilt with the fix.
+
+## ho2h3 converted maps - queued issues (user play test 2026-11-23)
+
+- Void Forge crash FIXED 2026-11-24: the converted scenarios' simulation definition table was empty (all converted maps);
+  rebuilt and sorted (tools\ho2h3\SimTable.cs). Verified by placing stock and converted items in a traced run.
+- Placed-piece collision (all ho2h3 maps) - root cause found and fixed in the converter 2026-11-24: the structure
+  physics MOPP had no placed-piece keys (tools\ho2h3\COLLISION-360.md). Sword Base rebuilt: the player now stands on
+  the glass atrium ramp where every earlier build fell through (drop test + look-down capture). Other maps not yet
+  rebuilt with the fix. User play test 2026-11-24: ramp/walkway collision works on Sword Base; a few odd spots remain (to revisit).
+- Reflection stairs: ramps hold at 2 of 3 tested points; Reach's own invisible walking surface (030_cover_walking_surface)
+  covers the stairs. Coverage of the step detector is low (Reflection _030: 299 ramps over 3435 step faces).
+- Icebox: merged window duplicate removed from draw lists; turf_build_part_28 partly duplicates cluster walls (open).
+- Icebox overlapping decals left out (user 2026-11-24): 186 of 615 scenario decals (the fewest that leave no two
+  decals overlapping on one plane; ho2h3 decaloverlap, cfg nodecal line). Note: stock maps also overlap decals
+  (Guardian 160 pairs, Deadlock 48), so overlap alone may not be the whole cause of the flicker; awaiting play test.
+- Breakneck: props lit brightly in dark rooms (user screenshot 2026-11-23); not investigated yet.
+
+- Battle Canyon (ho2h3, High Ground slot in .local\reflection360): PARKED 2026-11-23. Lots of hall of mirrors in play.
+  Collision now uses the native draft method (Blender planar dissolve 30 degrees, material delimit, positions unchanged;
+  46178 polygons -> 14382 triangles). Hall of mirrors not solved: not cluster visibility (all-visible test unchanged), not
+  sky size, not the per-cluster sky index; the "attached sky" list makes a cluster draw sky only. The existing native
+  Battle Canyon draft (tools\stock-h3-audit\NATIVE-DRAFT.md) already works on 360 with frame-rate issues; alternative
+  assessed for the user: port Halo 2 Beaver Creek from the local H2EK through the Tombstone pipeline. Owner decides.
+- Beaver Creek PACKAGED 2026-11-24: .local\pc-port\packages\BeaverCreek_20261124_v2 (final bake, fill lights, foliage,
+  Forge palette); installs and plays in the PC port; awaiting user play test. Details: tools\map-review\speed-review\H2-PORT-RECIPE.md.
+- Beaver Creek "HD-ish" (user 2026-11-23: Battle Canyon is out, Beaver Creek is in; queued after Icebox and Sword Base,
+  not ahead of them): port Halo 2 beavercreek from the local H2EK (\.local\h2ek-source\tags\scenarios\multi\halo\beavercreek)
+  through the Tombstone pipeline (H2EK tool extract-import-info / extract-render-data -> H3EK scenario, shader plan from
+  H2 bitmaps, sky, bake.py, tool build-cache-file, kit_to_360 / build_scenario_checkpoint; see .local\tombstone\rebuild.sh).
+- ho2h3 water (2026-11-23): converted Reach water draws as black patches (Sword Base, Reflection); stock Halo 3 water
+  on the same meshes tints the whole view as if underwater. Water is hidden for now (pools show as empty basins).
+  Real fix: produce Halo 3 water geometry (water surface part flag / water mesh data) in the converter.
+- Sword Base (ho2h3, Isolation slot): hall of mirrors / missing pieces FIXED 2026-11-23 (leaf -> cluster table rebuilt;
+  see tools\ho2h3\README.md). Earlier note: hall of mirrors / missing pieces at some
+  spawns (survey 2026-11-23: smearing and near-black views next to the gravity lift, whose glow is overblown and may
+  be driving the exposure dark). Two active BSPs with no seams between them; ruled out so far: spawns, mesh visibility
+  data, cross-BSP PVS, instance flags, bounding spheres.
+- Breakneck: the two-sided cleanup broke loading ("players failed to load content") when rebuilt trees needed the
+  empty-leaf fallback; such pieces are now left unchanged (fixed). 17 drawable pieces were in no draw list; added.
+  Missing-piece reports not yet reproduced.
+
 # Spartan TODO
 
 ## Xbox 360 conversion takeover — 2026-11-18

@@ -38,12 +38,14 @@ def inspect_quotas(cache):
     by_name={f.get('name'):f for f in schema}
     def rows(f):return cache.block(root+int(f.get('offset'),0),int(f.get('elementSize'),0))
     def valid(datum):
+        # An empty palette slot (null handle) is "no object": the game creates nothing for it and it uses no quota.
+        if datum==0xffffffff:return None
         tag=cache.tags.get(datum&65535)
         if tag is None or tag['salt']!=datum>>16:raise ValueError('Invalid Forge/placement quota identity')
         return datum
     palette=[]
     for cat in ('Vehicle','Weapon','Equipment','Scenery','Teleporter','Goal','Spawner'):
-        palette.extend(valid(cache.u(p+12)) for p in rows(by_name['Map Variant '+cat+' Palette']))
+        palette.extend(d for d in (valid(cache.u(p+12)) for p in rows(by_name['Map Variant '+cat+' Palette'])) if d is not None)
     placed=set()
     for f in schema:
         if f.tag!='tagblock':continue
@@ -61,9 +63,10 @@ def inspect_quotas(cache):
             index=cache.unpack('h',p+int(fs['Palette Index'].get('offset'),0))[0]
             if index==-1:continue
             if not 0<=index<len(definitions):raise ValueError('Invalid placed object palette index')
-            placed.add(valid(cache.u(definitions[index]+12)))
+            d=valid(cache.u(definitions[index]+12))
+            if d is not None:placed.add(d)
     if 'Budget References' in by_name:
-        placed.update(valid(cache.u(p+12)) for p in rows(by_name['Budget References']))
+        placed.update(d for d in (valid(cache.u(p+12)) for p in rows(by_name['Budget References'])) if d is not None)
     extras=placed-set(palette)
     upper=len(palette)+len(extras)
     return dict(palette_entries=len(palette),placed_extra_identities=len(extras),

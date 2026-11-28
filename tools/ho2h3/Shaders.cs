@@ -44,7 +44,7 @@ namespace Ho2H3
             }
         }
 
-        (GameCache c, Stream s) H3(string path)
+        public (GameCache c, Stream s) H3(string path)
         {
             if (!_h3.TryGetValue(path, out var v)) { var c = GameCache.Open(new FileInfo(path)); _h3[path] = v = (c, c.OpenCacheRead()); }
             return v;

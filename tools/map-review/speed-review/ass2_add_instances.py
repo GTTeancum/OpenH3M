@@ -3,7 +3,7 @@
 Each scenery type's mesh comes from its Halo 2 render-model source (tool extract-render-data JMS); every placement
 from the Halo 2 scenario becomes an instance of that mesh (name prefixed '%', instanced geometry), at the Halo 2
 position (x100 ASS units) and rotation (yaw about z, pitch, roll; Halo convention R = Rz(yaw) Ry(-pitch) Rx(roll)).
-Materials are matched to the ASS material list by shader name ('hang ' collection prefix and lighting suffix
+Halo 2 scenery and crate placements both count. Materials are matched to the ASS material list by shader name (collection prefix and lighting suffix
 symbols stripped); unknown ones are appended. '+seamsealer' triangles are dropped.
 Usage: ass2_add_instances.py <in.ass> <out.ass> <placements.json> <type=jms path>...
 """
@@ -23,12 +23,14 @@ def parse_jms(path):
     t = data_lines(path); i = 0
     def nxt():
         nonlocal i; i += 1; return t[i - 1]
-    assert nxt() == '8210'
+    ver = nxt(); assert ver in ('8207', '8209', '8210')   # 8209: older render-data export (bushes); 8207: one-field xref paths
     for _ in range(int(nxt())): nxt(); nxt(); nxt(); nxt()                 # nodes
     mats = []
     for _ in range(int(nxt())): mats.append(nxt()); nxt()                   # name, lighting/LOD line
     for _ in range(int(nxt())): nxt(); nxt(); nxt(); nxt(); nxt()           # markers
-    for _ in range(int(nxt())): nxt(); nxt()                                # xref paths
+    for _ in range(int(nxt())):                                              # xref paths
+        nxt()
+        if ver != '8207': nxt()
     for _ in range(int(nxt())): nxt(); nxt(); nxt(); nxt(); nxt()           # instance markers
     verts = []
     for _ in range(int(nxt())):
@@ -45,7 +47,7 @@ def parse_jms(path):
 
 def clean(name):
     n = name.strip('"')
-    if n.lower().startswith('hang '): n = n[5:]
+    if ' ' in n: n = n.split(' ', 1)[1]   # shader collection prefix ('hang ', 'bc ', ...)
     return n.rstrip('%!*@#=?^&-+<>| ').strip()
 
 
@@ -79,7 +81,7 @@ assert L[frame_i + 4].split() == ['0.0000000000', '0.0000000000', '0.0000000000'
 frame_index = int(L[frame_i - 2].split()[-1])
 frame_t = [float(v) for v in L[frame_i + 5].split()]
 for tname, jms in types.items():
-    rows = [r for r in placements['scenery'] if r['palette'] and r['palette'].split('\\')[-1] == tname]
+    rows = [r for blk in ('scenery', 'crates') for r in placements.get(blk, []) if r['palette'] and r['palette'].split(chr(92))[-1] == tname]
     if not rows: print('no placements for', tname); continue
     mats, verts, tris = parse_jms(jms)
     remap = {}
@@ -87,7 +89,9 @@ for tname, jms in types.items():
         c = clean(m)
         if c.startswith('+seamsealer'): remap[k] = None; continue
         if c.lower() not in mat_index:
-            mat_index[c.lower()] = len(mat_names) + len(new_mats); new_mats.append(c)
+            # new material keeps the source's symbol suffix (e.g. '!%' render-only two-sided foliage), prefix dropped
+            raw = m.strip('"'); raw = raw.split(' ', 1)[1] if ' ' in raw else raw
+            mat_index[c.lower()] = len(mat_names) + len(new_mats); new_mats.append(raw)
         remap[k] = mat_index[c.lower()]
     kept = [(remap[m], v) for m, v in tris if remap.get(m) is not None]
     obj = ['', f';OBJECT {n_obj + len(new_objs)}', '"MESH"', '""', '""', str(len(verts))]

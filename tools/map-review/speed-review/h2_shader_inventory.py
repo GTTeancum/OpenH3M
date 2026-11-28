@@ -36,6 +36,8 @@ for f in sorted(Path(sys.argv[1]).glob('*.xml')):
         for a in (anims if anims is not None else []):
             atype = a.find("field[@name='type']").text.split(',', 1)[1]
             p.setdefault('animation', {})[atype] = function_values(a)
+            tp = a.find("field[@name='time period']")
+            if tp is not None and float(tp.text): p.setdefault('animation_period', {})[atype] = float(tp.text)
         entry['parameters'][name] = p
     inv[tag] = entry
 Path(sys.argv[2]).write_text(json.dumps(inv, indent=1))

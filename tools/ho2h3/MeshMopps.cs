@@ -27,24 +27,26 @@ namespace Ho2H3
         public static int Build(GameCache cache, RenderGeometry geo, RenderGeometryApiResourceDefinition def, Dictionary<int, int> meshCompression, List<string> log, string where)
         {
             if (geo?.Meshes == null || def?.VertexBuffers == null) return 0;
-            var list = new List<RenderGeometry.PerMeshMoppBlock>(); int made = 0, empty = 0, failed = 0;
+            var list = new List<RenderGeometry.PerMeshMoppBlock>(); int made = 0, empty = 0, failed = 0; var reasons = new Dictionary<string, int>();
             for (int mi = 0; mi < geo.Meshes.Count; mi++)
             {
                 RenderGeometry.PerMeshMoppBlock block = null;
                 try { block = One(cache, geo, def, mi, meshCompression); } catch (Exception ex) { if (failed++ < 3) log.Add($"mesh MOPP: {where} mesh {mi}: {ex.GetType().Name} {ex.Message}"); }
-                if (block == null) { block = new RenderGeometry.PerMeshMoppBlock { MoppCode = new byte[0], MoppReorderTable = new List<short>() }; empty++; } else made++;
+                if (block == null) { block = new RenderGeometry.PerMeshMoppBlock { MoppCode = new byte[0], MoppReorderTable = new List<short>() }; empty++; reasons[Reason ?? "?"] = reasons.TryGetValue(Reason ?? "?", out var rn) ? rn + 1 : 1; Reason = null; } else made++;
                 list.Add(block);
             }
             geo.MeshClusterVisibility = list;
-            log.Add($"mesh MOPP: {where}: {made} of {geo.Meshes.Count} meshes generated ({empty} empty, {failed} failed)");
+            log.Add($"mesh MOPP: {where}: {made} of {geo.Meshes.Count} meshes generated ({empty} empty: {string.Join(", ", reasons.Select(kv => kv.Key + " " + kv.Value))}; {failed} failed)");
             return made;
         }
 
+        static string Reason;
         static RenderGeometry.PerMeshMoppBlock One(GameCache cache, RenderGeometry geo, RenderGeometryApiResourceDefinition def, int mi, Dictionary<int, int> meshCompression)
         {
             var mesh = geo.Meshes[mi];
             int vbi = mesh.VertexBufferIndices[0], ibi = mesh.IndexBufferIndices[0];
-            if (vbi == ushort.MaxValue || ibi == ushort.MaxValue || vbi >= def.VertexBuffers.Count || ibi >= def.IndexBuffers.Count || mesh.Parts.Count == 0) return null;
+            if (mesh.Parts.Count == 0) { Reason = "no parts"; return null; }
+            if (vbi == ushort.MaxValue || ibi == ushort.MaxValue || vbi >= def.VertexBuffers.Count || ibi >= def.IndexBuffers.Count) { Reason = "no vertex/index buffer"; return null; }
             var vb = def.VertexBuffers[vbi].Definition; var ib = def.IndexBuffers[ibi].Definition;
             // positions
             var r = VertexStreamFactory.Create(cache.Version, cache.Platform, new MemoryStream(vb.Data.Data));
@@ -64,7 +66,7 @@ namespace Ho2H3
                             verts.Add(p); break;
                         }
                     case VertexBufferFormat.Skinned: { var v = r.ReadSkinnedVertex(); var p = new[] { v.Position.I, v.Position.J, v.Position.K }; if (comp != null) p = new[] { comp.X.Lower + p[0] * (comp.X.Upper - comp.X.Lower), comp.Y.Lower + p[1] * (comp.Y.Upper - comp.Y.Lower), comp.Z.Lower + p[2] * (comp.Z.Upper - comp.Z.Lower) }; verts.Add(p); break; }
-                    default: return null;
+                    default: Reason = "vertex format " + vb.Format; return null;
                 }
             }
             // indices per part / subpart
@@ -87,7 +89,8 @@ namespace Ho2H3
                 else { var t = Read(part.FirstIndex, part.IndexCount); for (int j = 0; j + 2 < t.Length; j += 3) { idx.Add(t[j]); idx.Add(t[j + 1]); idx.Add(t[j + 2]); } }
                 parts.Add((ps, idx.Count - ps, pss, subs.Count - pss));
             }
-            if (idx.Count == 0 || idx.Any(i => i >= verts.Count)) return null;
+            if (idx.Count == 0) { Reason = "no indices"; return null; }
+            if (idx.Any(i => i >= verts.Count)) { Reason = "index beyond vertices"; return null; }
             var sb = new StringBuilder(); var ic = CultureInfo.InvariantCulture;
             sb.Append(";### vertices ###\n").Append(verts.Count).Append('\n');
             foreach (var v in verts) sb.Append(string.Format(ic, "{0:0.0000000000}\t{1:0.0000000000}\t{2:0.0000000000}\n", v[0], v[1], v[2]));
@@ -97,7 +100,7 @@ namespace Ho2H3
             foreach (var p in parts) sb.Append(p.s).Append('\t').Append(p.c).Append('\n').Append(p.ss).Append('\t').Append(p.sc).Append("\n\n");
             sb.Append("\n;### subparts ###\n").Append(subs.Count).Append('\n');
             foreach (var p in subs) sb.Append(p.s).Append('\t').Append(p.c).Append('\n');
-            var raw = Run(sb.ToString()); if (raw == null) return null;
+            var raw = Run(sb.ToString()); if (raw == null) { Reason = "MOPP tool failed"; return null; }
             var reorder = PerMeshMoppGenerator.BuildReorderTable(cache, raw);
             var data = HeadersToBigEndian(raw);
             return new RenderGeometry.PerMeshMoppBlock { MoppCode = data, MoppReorderTable = reorder.Select(x => (short)x).ToList() };

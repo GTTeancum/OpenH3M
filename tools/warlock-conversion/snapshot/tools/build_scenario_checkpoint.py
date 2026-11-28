@@ -109,6 +109,7 @@ def main():
     parser.add_argument('--chiron', action='store_true', help='Convert HGC Chiron with native H3 surface shaders over the Cold Storage basis')
     parser.add_argument('--desolation', action='store_true', help='Convert the identified 2022 Desolation source with the full stock H3 Forge palette')
     parser.add_argument('--haven-draft', action='store_true', help='Convert the official H3EK Haven preview using exact stock H3 shader permutations')
+    parser.add_argument('--stock-forge-palette', action='store_true', help='Give the map the slot (basis) map\'s own stock Halo 3 Forge palette, prices, limits and budget. For kit-built maps with no authored palette (Halo 2 ports).')
     parser.add_argument('--stock-materials', action='store_true', help='Convert level materials (under the levels folder) whose option combination exists on the original disc onto that stock H3 material (exact disc template, named parameters). Other materials keep the existing conversion. For maps whose materials were set to stock combinations in the H3 Editing Kit.')
     parser.add_argument('--stock-h3-draft', action='store_true', help='Convert the fresh Battle Canyon H3EK draft using exact stock H3 shaders, without legacy Battle Canyon repairs')
     parser.add_argument('--battle-canyon', action='store_true', help='Convert Remember Reach Battle Canyon using the Last Resort assembly basis')
@@ -290,6 +291,10 @@ def main():
         importer.materials.chiron_materials = args.chiron
         importer.materials.haven_draft = args.haven_draft or args.stock_h3_draft
         importer.materials.stock_materials = args.stock_materials
+        if args.stock_forge_palette:
+            # kit-built maps with no authored Forge palette (Halo 2 ports): the slot map's own stock Halo 3 palette,
+            # objects, prices, limits and budget (scenario_forge.stage_forge -> forge_world.stage_stock_palette)
+            importer.stock_forge_palette = True
         importer.stock_h3_draft = args.stock_h3_draft
         if args.haven_draft or args.stock_h3_draft:
             # Preserve authored 2D mip dimensions using the existing encoder's

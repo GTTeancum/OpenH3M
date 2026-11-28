@@ -8,7 +8,7 @@ $projectRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Pa
 $repoRoot = Split-Path -Parent $projectRoot
 $buildRoot = Join-Path $projectRoot "out\build\win-amd64-release"
 $releaseRoot = Join-Path $projectRoot "out\release"
-$packageName = "OpenH3M-$Version-win-x64"
+$packageName = "Spartan-$Version-win-x64"
 $stagingRoot = Join-Path $releaseRoot $packageName
 $archivePath = Join-Path $releaseRoot "$packageName.zip"
 
@@ -66,7 +66,7 @@ if (Test-Path -LiteralPath $archivePath) {
 
 $gameFolder = New-Item -ItemType Directory -Path (Join-Path $stagingRoot "game") -Force
 $imageFolder = New-Item -ItemType Directory -Path (Join-Path $stagingRoot "docs\images") -Force
-Copy-Item -LiteralPath (Join-Path $buildRoot "halo3mp.exe") -Destination (Join-Path $stagingRoot "OpenH3M.exe")
+Copy-Item -LiteralPath (Join-Path $buildRoot "halo3mp.exe") -Destination (Join-Path $stagingRoot "Spartan.exe")
 foreach ($file in $runtimeFiles) {
     Copy-Item -LiteralPath (Join-Path $buildRoot $file) -Destination $stagingRoot
 }

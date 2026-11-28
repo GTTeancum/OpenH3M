@@ -118,3 +118,12 @@ Same proven method and settings as the Reactor build. 570,261 -> 543,199 stored 
 (1,157 local pages), packager round trip against `9A23C8B4...` and STFS verification all pass.
 `preview.py` around zone 16: no holes, < 0.02% of pixels displaced by more than 15 cm.
 Never run in the game, an emulator or on a console.
+
+## Neighbourhood merge build, kit-15 (2026-11-26) — rejected
+All 961 placed pieces merged by material per 10-world-unit cell (`ass_merge.py --combine-cell 1000 --max-uses 100000
+--max-group-triangles 12000`; 20,000 overflowed the kit's 65,535-index mesh limit), kit import, draft bake, kit build,
+360 conversion (`kit_to_360.sh`, now falling back to MCC's own Halo 3 shared map and sound bank since the Halo Online
+Workshop pack is no longer installed). Pain views 35.2 / 32.6 / 32.4 FPS uncapped vs 37.0 / 32.7 / 31.4 for the
+installed build; draws per frame ~4,050 vs ~2,880 and indices ~4.9 M vs ~3.0 M. The merge increased the work. Cause not
+yet established (candidates: combined pieces drawn in addition to their emptied originals, or lost per-piece culling).
+Note: earlier kit-13's higher FPS came from a missing lightmap ("adding fake-o lightmap"), not from its geometry.

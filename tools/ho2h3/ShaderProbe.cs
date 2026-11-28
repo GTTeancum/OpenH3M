@@ -15,7 +15,11 @@ namespace Ho2H3
             Console.WriteLine($"{cache.GetType().Name} {cache.Version} {cache.Platform}");
             using (var s = cache.OpenCacheRead())
             {
-                var tags = cache.TagCache.NonNull().Where(t => a.Length < 3 ? t.IsInGroup("rmsh") : $"{t.Name}.{t.Group}".Equals(a[2], StringComparison.OrdinalIgnoreCase)).Take(a.Length < 3 ? 3 : 1);
+                // "tmpl:<template suffix>": the shaders using that template (up to 3)
+                bool byTemplate = a.Length > 2 && a[2].StartsWith("tmpl:");
+                var tags = byTemplate
+                    ? cache.TagCache.NonNull().Where(t => t.IsInGroup("rmsh")).Where(t => { try { var r = (RenderMethod)cache.Deserialize(s, t); return r.ShaderProperties.Count > 0 && (r.ShaderProperties[0].Template?.Name ?? "").EndsWith("\\" + a[2].Substring(5)); } catch { return false; } }).Take(3).ToList()
+                    : cache.TagCache.NonNull().Where(t => a.Length < 3 ? t.IsInGroup("rmsh") : $"{t.Name}.{t.Group}".Equals(a[2], StringComparison.OrdinalIgnoreCase)).Take(a.Length < 3 ? 3 : 1).ToList();
                 foreach (var tag in tags)
                 {
                     var rm = (RenderMethod)cache.Deserialize(s, tag);

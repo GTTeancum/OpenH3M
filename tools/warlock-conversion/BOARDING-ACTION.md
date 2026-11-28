@@ -1,5 +1,10 @@
 # Boarding Action conversion
 
+Status correction, user 2026-11-23: Boarding Action was NOT cancelled; it was re-added and is
+installed. The newest installed package seen is the 2026-11-15 "OpenH3M Custom Map Bundle -
+Test" container (C:/Users/smmel/Downloads/4D5307E6/00000002/7269FC75124A36F23973AEC27B8C1911BDE54B13).
+The cancellation paragraph below is historical and superseded.
+
 Canceled by the user on 2026-11-05 due to too many visual issues. Removed from
 the shared installed build, including map, menu metadata and five previews.
 Do not resume or reinstall without a new user instruction. Notes below are historical.
@@ -217,3 +222,58 @@ The generic encoder's NPOT limitation exists but does not establish a defect in
 these bindings, because stock asset reuse bypasses that encoder. Do not change
 this texture based on the rejected hypothesis. Continue with material constants,
 lighting and measured runtime work, retaining the authored source appearance.
+
+
+## Lighting colour investigation (2026-11-23, candidate cool-01, staged only)
+
+User request: remove the yellow cast, return the original's cooler colours. Input: the
+2026-11-15 package above (map SHA256 d0066723...), extracted to
+`.local/lighting-colour/boarding-action/source-payload` (map removed after use).
+
+Findings:
+- Baked lightmap is not warm: term-0 log-mean red/green 0.778, blue/green 1.094; dominant
+  light blue/green 1.14. Halo CE original lightmap (MCC halo1 boardingaction.map): red/green
+  0.90, blue/green 0.87. The port's bake is already bluer than CE; matching CE would make it
+  warmer, so it is unchanged.
+- No camera effect, global screen effect or placed lights in the scenario.
+- The scenario sky-atmosphere sun colour is orange (0.902, 0.655, 0.502; intensity 1.2).
+  Halo CE's own sky tag (HCEEK `levels/test/boardingaction/boardingaction space.sky`) has a
+  near-white sun (0.918, 0.922, 0.839, power 1.4) and a blue fill (0.196, 0.220, 0.396).
+
+User reference screenshots (Halo CE, 2026-11-23) show neutral grey hull and clean white
+panels; the port renders a green-olive cast (screen dark-area red/green 0.76-0.79 vs reference
+0.91-0.98). A CE-lightmap match (red x1.157, blue x0.795, candidate 02) fixed red but turned
+the spawn-room wall yellow (blue/green 0.66), so the balance was fitted to the reference
+screenshots instead.
+
+Candidate cool-03 (rejected 01: fog-only, no visible change; 02: too little blue):
+`lightmap_color_balance.py --gains 1.33 1 1.05 --atmosphere-chroma 0.9176 0.9216 0.8392
+--leave-vertex-lighting`. All five lightmap layer pairs rebalanced in place (pages fit their
+slots); 85 scenery probes scaled; fog sun set to Halo CE's sky-sun balance at the same luminance.
+20 per-vertex-lit mesh buffers keep their old colour (tool does not edit vertex lighting yet).
+Package `.local/lighting-colour/boarding-action/live-03/Boarding_Action_20261123` (content ID
+6819951E2B5FE806DBCDD88799BCE634907D0D6F). Health-pack removal untouched (same map). Not installed.
+
+PC-port hidden runs, same three views before (`run-before-c`) and after (`run-after-03`), all valid,
+~30 FPS; sheet with the user's references: `.local/lighting-colour/boarding-action/boarding-before-after.png`.
+Dark-area red/green after 0.92-0.98 (reference 0.91-0.98), blue/green 0.80-1.08 (reference
+0.88-0.95). Remaining differences: references are brighter overall; the spawn-room panel wall
+keeps a slight olive tint (blue/green 0.80). Not checked on a real Xbox 360.
+
+### Candidate cool-04: colour + brightness (supersedes cool-03)
+
+User request 2026-11-23: also match the references' brightness. Same command as cool-03 plus
+`--brightness 1.6`: the five lightmap ranges (SH 0-3, dominant) and the 85 scenery probes are
+multiplied by 1.6; the decode is linear in those ranges, so no texels are requantized.
+Package `.local/lighting-colour/boarding-action/live-04/Boarding_Action_20261123` (content ID
+9BCB498743057149CF6D5A49AB89E90B2060C9C0). Not installed. Run `run-after-04`, same views, valid,
+~29 FPS. Screen average level 21-32 (before 14-22; reference overviews 21-29). Sheet updated.
+Remaining: lit white panels on the upper deck show a faint pink tinge; the 20 per-vertex-lit
+mesh buffers keep their old colour and brightness; not checked on a real Xbox 360.
+
+Installed 2026-11-23 at the user's request into the console release set
+`C:/X360/ISOs/H3M/.local/OpenH3M-source/.local/releases/console-repair-candidate` (combined Content
+folder and a new per-map `maps/boarding_action` folder). Rollback: the unchanged 2026-11-15
+package in the user's Downloads folder. Copying to the console is the user's step.
+
+Accepted 2026-11-26: the user reports Boarding Action passes with candidate cool-04 (Boarding_Action_20261123).

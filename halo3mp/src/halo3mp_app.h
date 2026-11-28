@@ -101,7 +101,7 @@ class Halo3mpApp : public rex::ReXApp {
     SetDefaultFlag("anisotropic_override", "3");
     SetDefaultFlag("keyboard_controller", "true");
     SetDefaultFlag("keyboard_controller_log", "false");
-    return std::unique_ptr<Halo3mpApp>(new Halo3mpApp(ctx, "OpenH3M",
+    return std::unique_ptr<Halo3mpApp>(new Halo3mpApp(ctx, "Spartan",
         PPCImageConfig));
   }
 
@@ -109,6 +109,14 @@ class Halo3mpApp : public rex::ReXApp {
     pc_video_config_path_ = paths.config_path;
     if (paths.game_data_root.empty()) {
       paths.game_data_root = rex::filesystem::GetExecutableFolder() / "game";
+    }
+    // Portable install (user 2026-11-24): installed DLC, profiles, saves and the shader cache live in a "content"
+    // folder beside Spartan.exe, never in Documents. An explicit user_data_root / cache_root option still wins.
+    if (rex::cvar::GetFlagByName("user_data_root").empty()) {
+      paths.user_data_root = rex::filesystem::GetExecutableFolder() / "content";
+      if (rex::cvar::GetFlagByName("cache_root").empty()) {
+        paths.cache_root = paths.user_data_root / "cache";
+      }
     }
   }
 
@@ -493,7 +501,8 @@ class Halo3mpApp : public rex::ReXApp {
     app_context().CallInUIThread([app_window, title = title_prefix]() {
       ApplyHostWindowTitle(app_window, title);
     });
-    frame_stats_thread_ = std::thread([this, app_presenter, interval_ms]() {
+    frame_stats_thread_ = std::thread([this, app_window, app_presenter, interval_ms, title_prefix]() {
+      bool title_shows_fps = false;
       using Clock = std::chrono::steady_clock;
       auto last_time = Clock::now();
       uint64_t last_frame_count = app_presenter->guest_output_frame_count();
@@ -516,6 +525,22 @@ class Halo3mpApp : public rex::ReXApp {
         const double fps = elapsed > 0.0 ? double(frame_delta) / elapsed : 0.0;
         last_time = now;
         last_frame_count = frame_count;
+#ifdef OPENH3M_DEVELOPER_BUILD
+        // FPS in the window title only while the frame-rate unlock (--fpsunlock) is active (user 2026-11-26).
+        if (developer_uncapped_.load(std::memory_order_relaxed)) {
+          char text[32];
+          std::snprintf(text, sizeof(text), " | FPS: %.1f", fps);
+          app_context().CallInUIThread([app_window, title = title_prefix + text]() {
+            ApplyHostWindowTitle(app_window, title);
+          });
+          title_shows_fps = true;
+        } else if (title_shows_fps) {
+          app_context().CallInUIThread([app_window, title = title_prefix]() {
+            ApplyHostWindowTitle(app_window, title);
+          });
+          title_shows_fps = false;
+        }
+#endif
 
         const bool log_fps = REXCVAR_GET(halo3mp_log_fps);
         if (log_fps) {

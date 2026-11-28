@@ -279,6 +279,8 @@ class MetadataConverter:
                     'mach:objects\\levels\\multi\\s3d_sky_bridgenew\\sbr_lift_cabin_01\\sbr_lift_cabin_01': 1,
                     r'mach:objects\gear\human\residential\y_set_fan_small_a\y_set_fan_small_a': 2,
                     r'mach:objects\gear\human\industrial\elongation_conveyor\elongation_conveyor': 0,
+                    # Elongation (Halo 2 port) belt tread: gear like Last Resort's big_wheel (retail collision 0)
+                    r'mach:levels\test\elongation\objects\belt_tread\belt_tread': 2,
                     r'mach:objects\levels\solo\020_base\security_red_light\security_red_light': 2,
                 }
                 # Dune's U13 machines omit the same retail response/padding.

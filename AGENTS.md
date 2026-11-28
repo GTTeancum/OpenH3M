@@ -7,6 +7,18 @@
 - Preserve source files, original assets, the shared installed build, accepted corrections and the retained rollback. Verify exact repository-confined paths before cleanup; do not recreate material the user discarded unless it is necessary for current work.
 - All retained artifacts and temporary files remain inside this repository.
 
+# Map delivery and testing as DLC packages — user instruction, 2026-11-24
+
+- Every converted map is delivered as a new DLC package (its own map ID and name, installed alongside the stock
+  maps), not as a replacement of a stock map file.
+- Testing uses the package too, on the PC port and the console: install the LIVE package (PC port:
+  `--halo3mp_install_content`, e.g. tools/map-review/speed-review/run_pc_port.py). Do not copy a converted map
+  over a stock map file in any game folder, including private test copies.
+- The LIVE package file name is human-readable: `<MapName>_<YYYYMMDD>_v<N>`, map name in CamelCase without spaces
+  (e.g. `BeaverCreek_20261124_v3`). `N` counts that map's packages built that day and starts again at 1 on a new
+  date. Record the content ID in the map's notes.
+- Keep only the current package of each map in the packages folder; delete the older ones once the new one is built.
+
 # Git workflow
 
 - User instruction, 2026-10-28: always work on and push to `main`.
@@ -206,3 +218,9 @@
 - Tombstone lift effect, user 2026-11-21: use a stock H3 MP vertical boost effect
   (The Pit's airlift effect) on the ported Halo 2 lift instead of porting Halo 2's
   hvac_steam effect. The lift body, forces and placement remain Halo 2's.
+
+- Elongation belt treads, user 2026-11-27 (replaces the same day's push-zone exception; push zones did not move
+  a standing player): Halo 3 does not move players on Halo 2's level conveyor surfaces, so each Elongation belt
+  carries one custom invisible looping gear machine (belt_tread: slats moving along the belt at Halo 2's belt speed
+  and returning under the floor, like a tread). This stock-asset exception covers that one tread object only. Keep
+  original Xbox 360 Halo 3 compatibility (user 2026-11-27): no engine change for conveyors.

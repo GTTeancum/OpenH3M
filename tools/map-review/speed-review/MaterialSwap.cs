@@ -18,6 +18,8 @@ using Bungie.Tags;
 class MaterialSwap
 {
     static readonly string[] Allowed = {
+        @"levels\test\beavercreek\",
+        @"levels\test\elongation\",
         @"levels\multi\s3d_sky_bridgenew\",
         @"objects\levels\multi\s3d_sky_bridgenew\",
         @"levels\multi\s3d_reactor\",
@@ -325,7 +327,7 @@ class MaterialSwap
                 foreach (var e in plan)
                 {
                     var rel = (string)e["tag"]; var low = rel.ToLowerInvariant();
-                    if (low.Contains("..") || !low.StartsWith(@"levels\test\tombstone\")) throw new InvalidOperationException("refused: " + rel);
+                    if (low.Contains("..") || !low.StartsWith(@"levels\test\tombstone\") && !low.StartsWith(@"levels\test\beavercreek\") && !low.StartsWith(@"levels\test\elongation\")) throw new InvalidOperationException("refused: " + rel);
                     var t = new TagFile();
                     if (File.Exists(Path.Combine(kit, "tags", rel))) t.Load(TP(rel)); else t.New(TP(rel));
                     using (t)
@@ -364,6 +366,29 @@ class MaterialSwap
                                 {
                                     double sx = Convert.ToDouble(p["scale_x"]), sy = Convert.ToDouble(p.ContainsKey("scale_y") ? p["scale_y"] : p["scale_x"]);
                                     if (sx == sy) addAnim(2, constant(sx)); else { addAnim(3, constant(sx)); addAnim(4, constant(sy)); }
+                                }
+                                // anim_copy: {from: stock material tag, param, index, type, period}: copy that stock animated
+                                // parameter's function bytes exactly, with the given type (5 = translation x) and time period.
+                                if (p.ContainsKey("anim_copy"))
+                                {
+                                    var ac = (Dictionary<string, object>)p["anim_copy"];
+                                    byte[] src;
+                                    using (var st = new TagFile())
+                                    {
+                                        st.Load(TP((string)ac["from"]));
+                                        var srm = st.Fields.OfType<TagFieldStruct>().First(f => f.FieldName == "render_method").Elements[0].Fields;
+                                        var spars = (TagFieldBlock)srm.First(f => f is TagFieldBlock && f.FieldName == "parameters");
+                                        var sel = spars.Elements.First(x => ((TagFieldElement)x.Fields.First(y => y.FieldName == "parameter name")).GetStringData() == (string)ac["param"]);
+                                        var sanim = sel.Fields.OfType<TagFieldBlock>().First(b => b.FieldName == "animated parameters");
+                                        var sa = sanim.Elements[Convert.ToInt32(ac["index"])];
+                                        var sfn = sa.Fields.OfType<TagFieldStruct>().First(x => x.FieldName == "function").Elements[0].Fields;
+                                        src = ((TagFieldData)sfn.First(x => x is TagFieldData)).GetData();
+                                        Console.WriteLine("ANIM_COPY from " + ac["from"] + " " + ac["param"] + " type " + ((TagFieldEnum)sa.Fields.First(x => x.FieldName == "type")).Value
+                                            + " period " + ((TagFieldElement)sa.Fields.First(x => x.FieldName == "time period")).GetStringData() + " data " + BitConverter.ToString(src));
+                                    }
+                                    addAnim(Convert.ToInt32(ac["type"]), src);
+                                    var added = anim.Elements[anim.Elements.Count - 1];
+                                    ((TagFieldElement)added.Fields.First(x => x.FieldName == "time period")).SetStringData(Convert.ToDouble(ac["period"]).ToString(System.Globalization.CultureInfo.InvariantCulture));
                                 }
                             }
                             else if (p.ContainsKey("color"))
